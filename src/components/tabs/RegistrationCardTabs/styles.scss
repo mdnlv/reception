@@ -1,0 +1,23 @@
+.registration-card-tabs{
+  height: 100%;
+  .ant-tabs, .ant-tabs-content{
+    height: 100%;
+  }
+  .ant-tabs-content{
+    background: #fff;
+  }
+
+  .ant-tabs-tab{
+    background: rgba(48, 56, 65, 0.31) !important;
+    color: rgba(0, 0, 0, .5) !important;
+  }
+
+  .ant-tabs-tab-active{
+    background: #303841 !important;
+    color: #fff !important;
+  }
+
+  .ant-tabs-top-bar{
+    margin-bottom: 0 !important;
+  }
+}

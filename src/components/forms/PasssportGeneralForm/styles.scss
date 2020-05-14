@@ -1,0 +1,32 @@
+.passport-general-form{
+  span{
+    font-size: 10px !important;
+  }
+
+  .form-section{
+    padding: 5px 12px;
+
+    &__divider{
+      height: 100%;
+      width: 1px;
+      background: #dedede;
+    }
+  }
+
+  .form-row{
+    padding: 4px;
+  }
+
+  .ant-input{
+    background: #ECF1F8 !important;
+    font-size: 10px !important;
+  }
+
+  .ant-select-selector{
+    background: #ECF1F8 !important;
+  }
+
+  .polis-row{
+    display: flex;
+  }
+}

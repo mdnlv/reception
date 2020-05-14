@@ -1,0 +1,14 @@
+.side-menu{
+  height: 100%;
+
+  &__item{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  &__icon{
+    width: 18px;
+    height: 18px;
+  }
+}
