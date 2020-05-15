@@ -2,3 +2,10 @@
 @import './form';
 @import './buttons';
 
+
+.center-wrapper{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}

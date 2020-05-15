@@ -72,7 +72,7 @@ const UserGeneralInfo: FC = (props) => {
                         <FormField label='Время'>
                             <Controller
                                 as={(
-                                    <TimePicker/>
+                                    <TimePicker format={'HH:mm'}/>
                                 )}
                                 name='birthTime'
                                 control={control}
