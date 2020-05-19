@@ -11,7 +11,5 @@ export function useEditableList<T>(state: T[]) {
         setListState([...listState.slice(0,(listState.length - 1))])
     }
 
-
-
     return {listState, addNewItem, deleteLastItem}
 }

@@ -13,7 +13,7 @@ const PolicyDmc: FC = (props) => {
             <h2>Полис ДМС</h2>
             <Row className="form-row" align={'bottom'} gutter={16}>
                 <Col span={3}>
-                    <Button>
+                    <Button className={'policy-dmc__btn'}>
                         Искать
                     </Button>
                 </Col>

@@ -38,7 +38,7 @@ const PersonalContacts: FC = (props) => {
                 <Tooltip title={'Добавить еще одну'}>
                     <Button shape='circle' onClick={() => {
                         addNewField()
-                    }}  icon={<img src={PlusIcon}/>}></Button>
+                    }}  icon={<img src={PlusIcon}/>} className={'full-icon'}></Button>
                 </Tooltip>
                 <Tooltip title={'Удалить'} >
                     <Button disabled={fields.length > 0 ? false : true} shape='circle' onClick={() => {

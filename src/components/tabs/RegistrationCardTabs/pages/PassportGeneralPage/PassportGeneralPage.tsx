@@ -5,7 +5,7 @@ import './styles.scss'
 
 const PassportGeneralPage: FC = (props) => {
     return (
-        <div className='passport-general-page'>
+        <div className='passport-general-page card-page'>
             <PassportGeneralForm/>
         </div>
     )

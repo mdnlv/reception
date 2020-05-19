@@ -3,9 +3,11 @@ import {Avatar, Button, Col, Row, Space, Typography} from 'antd'
 import Logo from '../../../assets/icons/app-logo.svg'
 import ExitIcon from '../../../assets/icons/exit.svg'
 import './styles.scss'
+import { useHistory } from "react-router-dom"
 
 
 const AppHeaderBar: FC = (props) => {
+
     return (
         <Row align="stretch">
             <Col md={20} xs={24} >
@@ -27,7 +29,8 @@ const AppHeaderBar: FC = (props) => {
                             <Button className="header__button">
                                 Записать на прием
                             </Button>
-                            <Button className="header__button">
+                            <Button className="header__button" onClick={() => {
+                            }}>
                                 Регистрационная карточка
                             </Button>
                             <Button className="header__button">

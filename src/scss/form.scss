@@ -9,10 +9,25 @@
   background: #ECF1F8 !important;
 }
 
-.ant-input{
+.ant-input, .ant-input-number-input{
   background: #ECF1F8 !important;
 }
 
 .ant-picker{
   background: #ECF1F8 !important;
+}
+
+
+.form-section{
+  padding: 5px 12px;
+
+  &__divider{
+    height: 100%;
+    width: 1px;
+    background: #dedede;
+  }
+}
+
+.form-row{
+  padding: 4px;
 }

@@ -2,6 +2,8 @@ import React, {FC} from 'react'
 import {Tabs} from "antd"
 import PassportGeneralPage from "./pages/PassportGeneralPage/PassportGeneralPage"
 import './styles.scss'
+import SocialStatusPage from "./pages/SocialStatusPage/SocialStatusPage";
+import EmploymentPage from "./pages/EmploymentPage/EmploymentPage";
 
 const RegistrationCardTabs: FC = (props) => {
     return (
@@ -10,11 +12,11 @@ const RegistrationCardTabs: FC = (props) => {
                 <Tabs.TabPane key={'1'} tab='Паспортные данные'>
                     <PassportGeneralPage/>
                 </Tabs.TabPane>
-                <Tabs.TabPane key={'2'} tab='Паспортные данные'>
-                    <PassportGeneralPage/>
+                <Tabs.TabPane key={'2'} tab='Социальный статус'>
+                    <SocialStatusPage/>
                 </Tabs.TabPane>
-                <Tabs.TabPane key={'3'} tab='Паспортные данные'>
-                    <PassportGeneralPage/>
+                <Tabs.TabPane key={'3'} tab='Занятось'>
+                    <EmploymentPage/>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'4'} tab='Паспортные данные'>
                     <PassportGeneralPage/>

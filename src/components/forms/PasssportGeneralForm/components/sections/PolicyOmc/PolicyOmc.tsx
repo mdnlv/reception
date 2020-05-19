@@ -13,7 +13,7 @@ const PolicyOmc: FC = (props) => {
             <h2>Полис ОМС</h2>
             <Row className="form-row" align={'bottom'} gutter={16}>
                 <Col span={3}>
-                    <Button>
+                    <Button className={'policy-omc__btn'}>
                         Искать
                     </Button>
                 </Col>

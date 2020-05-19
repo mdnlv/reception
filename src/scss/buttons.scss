@@ -3,3 +3,18 @@
   color: #fff;
   border: none;
 }
+
+.dropdown-btn{
+  background: #727272;
+
+  &:hover, &:active, &:focus{
+    background: #727272;
+    opacity: .7;
+    border: 1px solid #727272;
+  }
+}
+
+.policy-omc__btn, .policy-dmc__btn{
+  background: #686868 !important;
+  color: #fff !important;
+}
