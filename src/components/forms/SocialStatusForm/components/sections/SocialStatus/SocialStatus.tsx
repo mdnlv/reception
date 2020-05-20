@@ -6,37 +6,18 @@ import {Controller, useFieldArray, useFormContext} from "react-hook-form";
 import {FormState} from "../../../types";
 import FormField from "../../../../components/FormField/FormField";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import ArrayField from "../../../../components/ArrayField/ArrayField";
 
 const SocialStatus: FC = (props) => {
 
     const {control} = useFormContext<FormState>()
-    const {fields, append} = useFieldArray({
-        control,
-        name: 'socialStatus',
-    })
-
-    useEffect(() => {
-        append({
-            name: 'socialStatus'
-        })
-    }, [])
 
     return (
         <div className={'form-section social-status'}>
             <DropDownContent title={'Соц.статус'}>
-                <Space>
-                    <Tooltip title={'Добавить еще одну'}>
-                        <Button shape='circle' onClick={() => {
-                        }}  icon={<img src={PlusIcon}/>} className={'full-icon'}/>
-                    </Tooltip>
-                    <Tooltip title={'Удалить'} >
-                        <Button disabled={fields.length <= 0} shape='circle' onClick={() => {
-                        }} icon={<img alt={'delete-icon'} src={TrashIcon}/>}/>
-                    </Tooltip>
-                </Space>
-                <Row>
-                    {fields.map((item, index) => (
-                        <Col span={24} key={item.id}>
+                <ArrayField fieldName={'socialStatus'} renderChild={
+                    (key, index) => (
+                        <div>
                             <Row gutter={16}>
                                 <Col span={6}>
                                     <FormField label='Класс'>
@@ -67,9 +48,9 @@ const SocialStatus: FC = (props) => {
                                 </Col>
                             </Row>
                             <Divider/>
-                        </Col>
-                    ))}
-                </Row>
+                        </div>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )

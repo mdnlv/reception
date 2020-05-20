@@ -5,8 +5,8 @@ export interface FormState {
         number: string
         note: string
     }]
-    trustedDoc: {
+    trustedDoc: [{
         date: Date
         givenBy: string
-    }
+    }]
 }

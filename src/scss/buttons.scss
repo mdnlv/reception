@@ -5,16 +5,24 @@
 }
 
 .dropdown-btn{
-  background: #727272;
+  border-color: #000 !important;
+
+  .anticon{
+    color: #000 !important;
+  }
 
   &:hover, &:active, &:focus{
-    background: #727272;
     opacity: .7;
-    border: 1px solid #727272;
   }
 }
 
 .policy-omc__btn, .policy-dmc__btn{
   background: #686868 !important;
   color: #fff !important;
+}
+
+.fields-btn{
+  &__icon{
+    font-size: 22px !important;
+  }
 }

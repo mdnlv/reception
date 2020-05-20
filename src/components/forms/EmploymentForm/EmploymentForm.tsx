@@ -5,7 +5,20 @@ import PersonEmployment from "./components/sections/PersonEmployment/PersonEmplo
 import PersonHazard from "./components/sections/PersonHazard/PersonHazard";
 
 const EmploymentForm: FC = (props) => {
-    const form = useForm()
+    const form = useForm({
+        defaultValues: {
+            hazardHistory: [
+                {
+                    hazardDescription: 'sadasd',
+                    exp: 2
+                },
+                {
+                    hazardDescription: 'sadasd1',
+                    exp: 2
+                }
+            ]
+        }
+    })
 
     return (
         <FormContext {...form}>

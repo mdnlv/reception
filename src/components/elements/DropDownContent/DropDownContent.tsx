@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react'
 import {Button} from "antd";
-import ChevronDownIcon from '../../../assets/icons/chevron-down.svg'
+import {DownOutlined, UpOutlined} from "@ant-design/icons/lib"
 import './styles.scss'
 
 type DropDownProps = {
@@ -15,13 +15,21 @@ const DropDownContent: FC<DropDownProps> = (props) => {
         setIsShown(!isShown)
     }
 
+    function getIcon() {
+        if(isShown){
+            return <DownOutlined style={{marginTop: '4px'}}/>
+        }else{
+            return <UpOutlined/>
+        }
+    }
+
     return (
         <div className={'drop-down__wrapper'}>
             <div className="drop-down__title">
                 <h2>{props.title}</h2>
-                <Button size={'small'} shape={'circle'} className={'dropdown-btn'} onClick={(e) => {
+                <Button size={'small'}  shape={'circle'} className={'dropdown-btn'} onClick={(e) => {
                     changeShown()
-                }} icon={<img alt={''} src={ChevronDownIcon}/>}/>
+                }} icon={getIcon()}/>
             </div>
             {isShown && <div className="drop-down__content">
                 {props.children}

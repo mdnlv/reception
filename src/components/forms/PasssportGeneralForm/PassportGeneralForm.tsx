@@ -36,7 +36,7 @@ const PassportGeneralForm: FC = (props) => {
         <FormContext {...form}>
             <form className='passport-general-form'>
                 <Row align={'stretch'}>
-                    <Col span={12}>
+                    <Col span={12} className={'col--border-right'}>
                         <AddressRegistration/>
                     </Col>
                     <Col span={12}>
@@ -45,7 +45,7 @@ const PassportGeneralForm: FC = (props) => {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col span={12}>
+                    <Col span={12} className={'col--border-right'}>
                         <PolicyOmc/>
                     </Col>
                     <Col span={12}>
@@ -54,7 +54,7 @@ const PassportGeneralForm: FC = (props) => {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col span={12}>
+                    <Col span={12} className={'col--border-right'}>
                         <PersonalDocument/>
                     </Col>
                     <Col span={12}>
