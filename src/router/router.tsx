@@ -15,7 +15,7 @@ const AppRouter: FC = (props) => {
                         status='404'
                         title='404'
                         subTitle='Страницы не сущесвует'
-                    ></Result>
+                    />
                 </Route>
             </Switch>
         </Router>

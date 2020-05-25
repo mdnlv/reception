@@ -9,6 +9,12 @@ import ViewTypesPage from "./pages/ViewTypesPage/ViewTypesPage";
 import FeaturesPage from "./pages/FeaturesPage/FeaturesPage";
 import PrivilegesPage from "./pages/PrivilegesPage/PrivilegesPage";
 import OffencesPage from "./pages/OffencesPage/OffencesPage";
+import PersonLinksPage from "./pages/PersonLinksPage/PersonLinksPage";
+import PersonDocumentsPage from "./pages/PersonDocumentsPage/PersonDocumentsPage";
+import EtcPage from './pages/EtcPage/EtcPage';
+import OutsideIndentificationPage from "./pages/OutsideIdentificationPage/OutsideIdentificationPage";
+import OutsideHospitalizationPage from "./pages/OutsideHospitalizationPage/OutsideHospitalizationPage";
+import QuotaPage from "./pages/QuotaPage/QuotaPage";
 
 const RegistrationCardTabs: FC = (props) => {
     return (
@@ -38,11 +44,26 @@ const RegistrationCardTabs: FC = (props) => {
                 <Tabs.TabPane key={'8'} tab='Правонарушения'>
                     <OffencesPage/>
                 </Tabs.TabPane>
-                <Tabs.TabPane key={'9'} tab='Паспортные данные'>
-                    <PassportGeneralPage/>
+                <Tabs.TabPane key={'9'} tab='Связи'>
+                    <PersonLinksPage/>
                 </Tabs.TabPane>
-                <Tabs.TabPane key={'10'} tab='Паспортные данные'>
-                    <PassportGeneralPage/>
+                <Tabs.TabPane key={'10'} tab='Документы'>
+                    <PersonDocumentsPage/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'11'} tab={'Идентификаторы во внешних учетных системах'}>
+                    <OutsideIndentificationPage/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'12'} tab={'Госпитализация в другие ЛПУ'}>
+                    <OutsideHospitalizationPage/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'13'} tab={'Дополнительная диспансеризация'}>
+                    <OutsideHospitalizationPage/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'14'} tab='Прочее'>
+                    <EtcPage/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'15'} tab='Квоты'>
+                    <QuotaPage/>
                 </Tabs.TabPane>
             </Tabs>
         </div>
