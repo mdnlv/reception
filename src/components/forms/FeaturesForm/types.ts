@@ -13,12 +13,12 @@ export default interface FormState {
         fromDate: Date
         note: string
     }
-    medIntolerance: {
+    medIntolerance?: [{
         name: string
         degree: string
         fromDate: Date
-    }
-    inspections: [{
+    }]
+    inspections?: [{
         class: string
         type: string
         startDate: Date

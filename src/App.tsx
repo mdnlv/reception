@@ -2,8 +2,6 @@ import React from 'react';
 import { Col, Layout, Menu, Row } from 'antd';
 import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
 import AppRouter from './router/router';
-import BoxIcon from './assets/icons/box.svg';
-import TableIcon from './assets/icons/table-up.svg';
 import SideMenu from './components/elements/SideMenu/SideMenu';
 
 function App() {

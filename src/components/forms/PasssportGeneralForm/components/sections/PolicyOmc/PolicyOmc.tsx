@@ -2,7 +2,7 @@ import React, {FC} from 'react'
 import {Button, Col, Input, Row, Select, Space, DatePicker} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
-import {FormState} from "../../../types";
+import FormState from "../../../types";
 
 const PolicyOmc: FC = (props) => {
 
@@ -19,12 +19,12 @@ const PolicyOmc: FC = (props) => {
                 </Col>
                 <Col span={4}>
                     <FormField>
-                        <Controller name='f' as={<Select/>} control={control}/>
+                        <Controller name='' as={<Select/>} control={control}/>
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'С'}>
-                        <Controller name='f' as={<DatePicker/>} control={control}/>
+                        <Controller name='' as={<DatePicker/>} control={control}/>
                     </FormField>
                 </Col>
                 <Col span={5}>
@@ -69,8 +69,8 @@ const PolicyOmc: FC = (props) => {
                     </FormField>
                 </Col>
             </Row>
-            <Row className='form-row'>
-                <Col span={8} offset={16}>
+            <Row className='form-row' justify={'end'}>
+                <Col>
                     <Space>
                         <Button type={'link'} danger>
                             Закрыть полис

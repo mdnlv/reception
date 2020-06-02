@@ -2,7 +2,7 @@ import React, {FC} from 'react'
 import {Col, Row, Select, Input, Space, DatePicker} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
-import {FormState} from "../../../types";
+import FormState from "../../../types";
 
 const PersonalDocument: FC = (props) => {
 

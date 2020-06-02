@@ -11,21 +11,45 @@ import FormState from "./types";
 
 const QuotaForm: FC = (props) => {
 
-    const form = useForm<FormState>()
+    const form = useForm<FormState>({
+        mode: 'onChange',
+        defaultValues: {
+            quotas: [
+                {
+                    id: '1',
+                    step: 1
+                },
+                {
+                    id: '2',
+                    step: 2
+                },
+                {
+                    id: '3',
+                    step: 3
+                },
+            ]
+        }
+    })
+
+    const submitFunc = (values: any) => {
+        console.log(values)
+    }
 
     return (
         <FormContext {...form}>
-            <Row>
-                <Col span={24}>
-                    <QuotaSection/>
-                </Col>
-            </Row>
-            <Divider/>
-            <Row>
-                <Col span={24}>
-                    <SurgerySection/>
-                </Col>
-            </Row>
+            <form className={'quota-form'} onSubmit={submitFunc}>
+                <Row>
+                    <Col span={24}>
+                        <QuotaSection/>
+                    </Col>
+                </Row>
+                <Divider/>
+                <Row>
+                    <Col span={24}>
+                        <SurgerySection/>
+                    </Col>
+                </Row>
+            </form>
         </FormContext>
     )
 }

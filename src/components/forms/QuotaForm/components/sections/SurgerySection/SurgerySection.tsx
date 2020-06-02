@@ -74,7 +74,7 @@ const SurgerySection: FC = (props) => {
                             <Col span={3}>
                                 <FormField label={'ФИО'}>
                                     <Controller
-                                        as={<Select/>}
+                                        as={<Input/>}
                                         name={`surgery[${index}].fullName`}
                                         control={form.control}
                                     />

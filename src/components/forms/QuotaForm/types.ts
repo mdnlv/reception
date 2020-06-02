@@ -9,7 +9,10 @@ export default interface FormState {
         lpu: string
         registrationDate: Date
         endDate: Date
-
+        note: string
+        division: string
+        mkb: string
+        appeal: string
     }]
     surgery: [{
         date: Date

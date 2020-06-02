@@ -3,7 +3,7 @@ import {useFieldArray, useFormContext} from "react-hook-form";
 import FormState from "../../EmploymentForm/types";
 import {Button, Space, Tooltip} from "antd";
 import { PlusOutlined, MinusOutlined, PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
-import {DownOutlined, UpOutlined} from "@ant-design/icons/lib";
+
 
 type FieldProps<T> = {
     fieldName: string
@@ -12,15 +12,14 @@ type FieldProps<T> = {
 
 function ArrayField<T>(props: FieldProps<T>) {
 
-    const [isShown, setIsShown] = useState(false)
-    const {control} = useFormContext<FormState>()
+    const {control} = useFormContext<T>()
     const {fields, append, remove} = useFieldArray({
         control,
         name: props.fieldName
     })
 
     function addItem() {
-        append({})
+        append({name: 'item'})
     }
 
     function removeLast() {
@@ -38,7 +37,7 @@ function ArrayField<T>(props: FieldProps<T>) {
     return (
         <>
             <Space>
-                <Tooltip title={'Добавить еще одну'}>
+                <Tooltip title={'Добавить'}>
                     <Button type={'link'} size={'small'} shape='circle' onClick={() => {
                         addItem()
                     }}  icon={<PlusCircleTwoTone className={'fields-btn__icon'}/>} className={'full-icon'}/>

@@ -1,16 +1,18 @@
-export interface FormState {
+import moment from "moment";
+
+export default interface FormState {
     passportInfo: {
         addressRegistration: {
             city: string
             area: string
             street: string
-            houseNumber: number
-            houseCharacter: number
-            flatNumber: number
+            houseNumber?: number
+            houseCharacter?: number
+            flatNumber?: number
             isDocumentedAddress: boolean
         },
     },
-    contacts: [{
+    contacts?: [{
         isMain: boolean
         number: string
         type: string
@@ -18,8 +20,8 @@ export interface FormState {
     }],
     policyOms: {
         timeType: string
-        from: Date
-        to: Date
+        from: moment.Moment
+        to: moment.Moment
         serial: string
         number: string
         cmo: string
@@ -29,8 +31,8 @@ export interface FormState {
     },
     policyDms: {
         timeType: string
-        from: Date
-        to: Date
+        from: moment.Moment
+        to: moment.Moment
         serial: string
         number: string
         cmo: string

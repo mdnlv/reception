@@ -3,7 +3,7 @@ import {Controller, useFieldArray, useFormContext} from "react-hook-form";
 import {Space, Button, Tooltip, Row, Col, Radio, Input, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import ArrayField from "../../../../components/ArrayField/ArrayField";
-import {FormState} from "../../../types";
+import FormState from "../../../types";
 
 const PersonalContacts: FC = (props) => {
 

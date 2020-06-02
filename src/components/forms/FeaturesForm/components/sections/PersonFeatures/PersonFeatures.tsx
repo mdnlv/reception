@@ -1,12 +1,15 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import {Row, Col, Select, Input, InputNumber} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from 'react-hook-form';
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormState from "../../../types";
+import {useSelector} from "react-redux";
+import {RegistrationCardState} from "../../../../../../store/registrationCard/types";
 
 const PersonFeatures: FC = (props) => {
 
-    const {control} = useFormContext()
+    const {control, getValues} = useFormContext<FormState>()
 
     return (
         <div className={'form-section'}>
@@ -16,7 +19,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField label={'Группа крови'}>
                             <Controller
                                 as={<Select/>}
-                                name={'bloodGroup'}
+                                name={'features.bloodGroup'}
                                 control={control}
                             />
                         </FormField>
@@ -25,7 +28,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField label={'Примечание'}>
                             <Controller
                                 as={<Input/>}
-                                name={'bloodGroup'}
+                                name={'features.note'}
                                 control={control}
                             />
                         </FormField>
@@ -36,7 +39,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField label={'Диагноз'}>
                             <Controller
                                 as={<Input/>}
-                                name={'bloodGroup'}
+                                name={'features.diagnose'}
                                 control={control}
                             />
                         </FormField>
@@ -45,7 +48,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField labelPosition={'left'} label={'Рост при рождении'}>
                             <Controller
                                 as={<InputNumber/>}
-                                name={'bloodGroup'}
+                                name={'features.birthHeight'}
                                 control={control}
                             />
                         </FormField>
@@ -54,7 +57,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField labelPosition={'left'} label={'Вес при рождении'}>
                             <Controller
                                 as={<InputNumber/>}
-                                name={'bloodGroup'}
+                                name={'features.birthWeight'}
                                 control={control}
                             />
                         </FormField>
@@ -63,7 +66,7 @@ const PersonFeatures: FC = (props) => {
                         <FormField labelPosition={'left'} label={'Неделя эмбрионального периода'}>
                             <Controller
                                 as={<InputNumber/>}
-                                name={'bloodGroup'}
+                                name={'features.weekEmbryonic'}
                                 control={control}
                             />
                         </FormField>

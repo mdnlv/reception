@@ -9,6 +9,8 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import { ConfigProvider } from 'antd';
 import ruRu from 'antd/lib/locale-provider/ru_RU';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 //set locale language for moment.js shared libs
 moment.locale('ru');
@@ -16,7 +18,9 @@ moment.locale('ru');
 ReactDOM.render(
   <React.StrictMode>
     <ConfigProvider locale={ruRu}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ConfigProvider>
   </React.StrictMode>,
   document.getElementById('root'),

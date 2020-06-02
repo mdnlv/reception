@@ -1,7 +1,7 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import {Button, Col, Divider, Input, Radio, Row, Select, Space} from "antd";
 import {Controller, FormContext, useForm, useFormContext} from "react-hook-form";
-import {FormState} from "./types";
+import FormState from "./types";
 import FormField from "../components/FormField/FormField";
 import './styles.scss'
 import AddressRegistration from "./components/sections/AddressRegistration/AddressRegistration";
@@ -11,26 +11,18 @@ import AddressDocumentedRegistration
 import PolicyDmc from "./components/sections/PolicyDmc/PolicyDmc";
 import PersonalDocument from "./components/sections/PersonalDocuments/PersonalDocuments";
 import PersonalContacts from "./components/sections/PersonalContacts/PersonalContacts";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
+import moment from "moment";
 
 
 const PassportGeneralForm: FC = (props) => {
 
+    const store = useSelector((state: RootState) => state.registrationCard)
+    const dispatch = useDispatch()
     const form = useForm<FormState>({
-        defaultValues: {
-            contacts: [
-                {
-                    number: '234324'
-                },
-                {
-                    number: '234324'
-                },
-                {
-                    number: '234324'
-                }
-            ]
-        }
+        defaultValues: store.passportGeneral
     })
-    const control = form.control
 
     return (
         <FormContext {...form}>
