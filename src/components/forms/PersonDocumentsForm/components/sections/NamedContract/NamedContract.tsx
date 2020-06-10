@@ -4,74 +4,62 @@ import {Col, DatePicker, Input, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useForm, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import {useFormikContext} from "formik";
+import FormState from "../../../types";
+import moment from "moment";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
 const NamedContract: FC = (props) => {
 
-    const form = useFormContext()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
             <DropDownContent title={'Именной договор'}>
-                <ArrayField
-                    fieldName={'ide'}
-                    renderChild={() => (
-                        <Row gutter={16}>
+                <FormArrayField values={form.values.namedDoc} name={'namedDoc'} renderChild={
+                    (key, index) => (
+                        <Row gutter={16} key={key}>
                             <Col>
                                 <FormField label={'Отображается с'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].fromDate`, date)
+                                    }}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Отображается по'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].toDate`, date)
+                                    }}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Тип схемы оплаты'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Номер схемы оплаты'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Нач. дата'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].startDate`, date)
+                                    }}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Конеч. дата'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].endDate`, date)
+                                    }}/>
                                 </FormField>
                             </Col>
                         </Row>
-                    )}/>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )

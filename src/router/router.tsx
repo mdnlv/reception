@@ -5,20 +5,19 @@ import {Button, Result} from "antd";
 
 const AppRouter: FC = (props) => {
     return (
-        <Router>
-            <Switch>
-                <Route exact path='/card'>
-                    <RegistrationCard/>
-                </Route>
-                <Route path='*'>
-                    <Result
-                        status='404'
-                        title='404'
-                        subTitle='Страницы не сущесвует'
-                    />
-                </Route>
-            </Switch>
-        </Router>
+        <Switch>
+            <Route exact path='/card'>
+                <RegistrationCard/>
+            </Route>
+            <Route path='*'>
+                <Result
+                    status='404'
+                    title='404'
+                    subTitle='Страницы не сущесвует'
+                    className={'not-found-page'}
+                />
+            </Route>
+        </Switch>
     )
 }
 

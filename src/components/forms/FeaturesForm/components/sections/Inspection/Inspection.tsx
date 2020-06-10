@@ -6,60 +6,46 @@ import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import FormState from "../../../types";
 import moment from "moment";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
 const Inspection: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section person-inspection'}>
             <DropDownContent title={'Обследования'}>
-                <ArrayField fieldName={'inspections'} renderChild={
+                <FormArrayField values={form.values.inspections} name={'inspections'} renderChild={
                     (key, index) => (
                         <Row gutter={16} key={key}>
                             <Col span={6}>
                                 <FormField label={'Класс'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={`inspections[${index}].class`}
-                                        control={control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col span={6}>
                                 <FormField label={'Тип'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={`inspections[${index}].class`}
-                                        control={control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col span={3}>
                                 <FormField label={'Дата начала'}>
-                                    <Controller
-                                        as={<DatePicker defaultValue={moment()}/>}
-                                        name={`inspections[${index}].class`}
-                                        control={control}
-                                    />
+                                    <DatePicker value={moment(form.values.inspections[index]?.startDate)} onChange={(_, date)=>{
+                                        form.setFieldValue(`inspections[${index}].startDate`, date)
+                                    }} />
                                 </FormField>
                             </Col>
                             <Col span={3}>
                                 <FormField label={'Дата окончания'}>
-                                    <Controller
-                                        as={<DatePicker defaultValue={moment()}/>}
-                                        name={`inspections[${index}].class`}
-                                        control={control}
-                                    />
+                                    <DatePicker value={moment(form.values.inspections[index]?.endDate)} onChange={(_, date)=>{
+                                        form.setFieldValue(`inspections[${index}].endDate`, date)
+                                    }} />
                                 </FormField>
                             </Col>
                             <Col span={6}>
                                 <FormField label={'Примечание'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={`inspections[${index}].note`}
-                                        control={control}
-                                    />
+                                    <Input name={`inspections[${index}].note`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                         </Row>

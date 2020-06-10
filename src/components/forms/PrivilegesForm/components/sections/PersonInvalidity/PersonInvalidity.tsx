@@ -1,69 +1,76 @@
 import React, {FC} from 'react'
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import ArrayField from "../../../../components/ArrayField/ArrayField";
-import {Row, Col, Radio, Select, DatePicker, Input} from "antd";
+import {Row, Col, Radio, Select, DatePicker, Input, Checkbox} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import FormState from "../../../types";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import moment from "moment";
 
 const PersonInvalidity: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
             <DropDownContent title={'Инвалидность'}>
-                <ArrayField fieldName={'invalidity'} renderChild={
+                <FormArrayField values={form.values.invalidity} name={'invalidity'} renderChild={
                     (key, index) => (
                         <Row key={key} gutter={16}>
                             <Col>
                                <FormField label={'Сомат'}>
-                                   <Controller name={''} as={<Radio/>}/>
+                                   <Checkbox name={`invalidity[${index}].isSomat`} onChange={form.handleChange} />
                                </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата установления'}>
-                                    <Controller name={''} as={<DatePicker/>}/>
+                                    <DatePicker value={moment(form.values.invalidity[index]?.fromDate)} onChange={(_,date) => {
+                                        form.setFieldValue('invalidity[${index}].fromDate', date)
+                                    }} />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Бессрочно'}>
-                                    <Controller name={''} as={<Radio/>}/>
+                                    <Checkbox name={`invalidity[${index}].unlimited`}  onChange={form.handleChange} />
                                 </FormField>
                             </Col>
                             <Col span={3}>
                                 <FormField label={'Группа'}>
-                                    <Controller name={''} as={<Select/>}/>
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Очередное переосв.'}>
-                                    <Controller name={''} as={<DatePicker/>}/>
+                                    <DatePicker value={moment(form.values.invalidity[index]?.nextDate)} onChange={(_, date) => {
+                                        form.setFieldValue(`invalidity[${index}].nextDate`, date)
+                                    }} />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Место работы'}>
-                                    <Controller name={''} as={<Select/>}/>
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Степень утраты трудосп.'}>
-                                    <Controller name={''} as={<Select/>}/>
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Перв.'}>
-                                    <Controller name={''} as={<Radio/>}/>
+                                    <Checkbox name={`invalidity[${index}].firstly`} onChange={form.handleChange} />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Стационар'}>
-                                    <Controller name={''} as={<Radio/>}/>
+                                    <Checkbox name={`invalidity[${index}].isHospital`} onChange={form.handleChange} />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Примечание'}>
-                                    <Controller name={''} as={<Input/>}/>
+                                    <Input name={`invalidity[${index}].note`} onChange={form.handleChange} />
                                 </FormField>
                             </Col>
                         </Row>

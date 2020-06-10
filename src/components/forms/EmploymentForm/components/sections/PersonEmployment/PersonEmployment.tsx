@@ -5,38 +5,40 @@ import {Controller, useFieldArray, useForm, useFormContext} from "react-hook-for
 import FormField from "../../../../components/FormField/FormField";
 import ArrayField from "../../../../components/ArrayField/ArrayField";
 import FormState from "../../../types";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
 const PersonEmployment: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
 
             <DropDownContent title={'Занятось'}>
-                <ArrayField fieldName={'employements'} renderChild={
+                <FormArrayField values={form.values.employments} name={'employements'} renderChild={
                     (key, index) => (
                         <div key={key}>
                             <Row gutter={16}>
                                 <Col span={8} className={'col--border-right'} >
                                     <FormField label={'Организация'}>
-                                        <Controller name={`employements[${index}]`} as={<Select/>} control={control}/>
+                                        <Select/>
                                     </FormField>
                                 </Col>
                                 <Col span={8} className={'col--border-right'}>
                                     <FormField label={'Должность'}>
-                                        <Controller name={`employements[${index}]`} as={<Input/>} control={control}/>
+                                        <Input name={`employments[${index}].position`} onChange={form.handleChange} />
                                     </FormField>
                                     <FormField label={'Стаж'}>
-                                        <Controller name={`employements[${index}]`} as={<InputNumber/>} control={control}/>
+                                        <Input name={`employments[${index}].experience`} onChange={form.handleChange} />
                                     </FormField>
                                 </Col>
                                 <Col span={8}>
                                     <FormField label={'ИНН'}>
-                                        <Controller name={`employements[${index}]`} as={<Input/>} control={control}/>
+                                        <Input name={`employments[${index}].inn`} onChange={form.handleChange} />
                                     </FormField>
                                     <FormField label={'ОГРН'}>
-                                        <Controller name={`employements[${index}]`} as={<Input/>} control={control}/>
+                                        <Input name={`employments[${index}].ogrn`} onChange={form.handleChange} />
                                     </FormField>
                                 </Col>
                             </Row>

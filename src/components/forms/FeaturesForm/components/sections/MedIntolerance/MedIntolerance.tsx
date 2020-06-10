@@ -1,45 +1,38 @@
 import React, {FC} from 'react'
 import ArrayField from "../../../../components/ArrayField/ArrayField";
-import {Col, Row, Select} from 'antd';
-import {Controller, useFormContext} from "react-hook-form";
+import {Col, DatePicker, Row, Select} from 'antd';
 import FormField from "../../../../components/FormField/FormField";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormState from "../../../types";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import moment from "moment";
 
 const MedIntolerance: FC = (props) => {
 
-    const {control} = useFormContext()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
             <DropDownContent title={'Медикаментозная непереносимость'}>
-                <ArrayField fieldName={'medIntolerances'} renderChild={
+                <FormArrayField values={form.values.medIntolerance} name={'medIntolerances'} renderChild={
                     (key, index) => (
                         <Row gutter={16} key={key}>
                             <Col>
                                 <FormField label={'Наименование вещества'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={`medIntolerances[${index}].name`}
-                                        control={control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Степень'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={`medIntolerances[${index}].degree`}
-                                        control={control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата установления'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={`medIntolerances[${index}].fromDate`}
-                                        control={control}
-                                    />
+                                    <DatePicker value={moment(form.values.medIntolerance[index]?.fromDate)} onChange={(_,date)=>{
+                                        form.setFieldValue(`medIntolerance[${index}].fromDate`, date)
+                                    }} />
                                 </FormField>
                             </Col>
                         </Row>

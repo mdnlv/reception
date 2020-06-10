@@ -1,17 +1,24 @@
 import React, {FC} from 'react'
-import {Controller, FormContext, useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import {Row, Col, Select, Divider} from 'antd';
 import PersonalIdent from "./components/sections/PersonalIdent/PersonalIdent";
 import PersonPolicy from "./components/sections/PersonPolicy/PersonPolicy";
 import SocialStatus from "./components/sections/SocialStatus/SocialStatus";
 import NamedContract from "./components/sections/NamedContract/NamedContract";
+import {Formik} from "formik";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const PersonDocumentsForm: FC = (props) => {
 
-    const form = useForm()
+    const store = useSelector((state: RootState) => state.registrationCard)
+
 
     return (
-        <FormContext {...form}>
+        <Formik
+            initialValues={store.personDocs}
+            onSubmit={() => {}}
+        >
             <form className={'person-documents-form'}>
                 <Row>
                     <Col span={24}>
@@ -37,7 +44,7 @@ const PersonDocumentsForm: FC = (props) => {
                     </Col>
                 </Row>
             </form>
-        </FormContext>
+        </Formik>
     )
 }
 

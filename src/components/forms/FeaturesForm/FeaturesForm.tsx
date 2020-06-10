@@ -11,46 +11,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {RegistrationCardState} from "../../../store/registrationCard/types";
 import {RootState} from "../../../store/store";
 import {setFormSection} from "../../../store/registrationCard/actions";
+import {Formik} from "formik";
 
 const FeaturesForm: FC = (props) => {
 
     const store = useSelector((state: RootState) => state.registrationCard)
-    const dispatch = useDispatch()
-    const form = useForm<FormState>({
-        defaultValues: {...store.features}
-    })
-
-    useEffect(() => {
-        const payload = {
-            ...store,
-            features: {
-                ...store.features,
-                ...form.getValues({nest: true})
-            }
-        }
-
-        dispatch(setFormSection(
-            payload
-        ))
-    }, [form.formState])
-
-    useEffect(() => {
-
-        const payload = {
-            ...store,
-            features: {
-                ...store.features,
-                ...form.getValues({nest: true})
-            }
-        }
-
-        dispatch(setFormSection(
-            payload
-        ))
-    }, [form, form.formState.dirtyFields])
 
     return (
-        <FormContext {...form}>
+        <Formik
+            initialValues={store.features}
+            onSubmit={() => {}}
+        >
             <form className={'features-form'}>
                 <Row>
                     <Col span={24}>
@@ -82,7 +53,7 @@ const FeaturesForm: FC = (props) => {
                     </Col>
                 </Row>
             </form>
-        </FormContext>
+        </Formik>
     )
 }
 

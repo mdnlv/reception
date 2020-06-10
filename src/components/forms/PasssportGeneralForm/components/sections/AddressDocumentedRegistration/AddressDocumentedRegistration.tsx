@@ -1,12 +1,14 @@
 import React, {FC} from 'react'
-import {Button, Col, Input, Radio, Row, Select, Space} from "antd";
+import {Button, Checkbox, Col, Input, Radio, Row, Select, Space} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import FormState from "../../../types";
+import {FormikProps, useFormikContext} from "formik";
+
 
 const AddressDocumentedRegistration: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className="form-section address-documented-registration">
@@ -26,66 +28,47 @@ const AddressDocumentedRegistration: FC = (props) => {
             <Row gutter={16} className='form-row'>
                 <Col span={8}>
                     <FormField>
-                        <Controller
-                            as={<Select/>}
-                            name={'passportInfo.addressRegistration.city'}
-                            control={control}
-                            placeholder={'Город'}
-                        />
+                        <Select placeholder={'Город'}/>
                     </FormField>
                 </Col>
                 <Col span={8}>
                     <FormField>
-                        <Controller
-                            as={<Select/>}
-                            name={'passportInfo.addressRegistration.area'}
-                            control={control}
-                            placeholder={'Область'}
-
-                        />
+                        <Select placeholder={'Область'}/>
                     </FormField>
                 </Col>
             </Row>
             <Row gutter={16} className='form-row'>
                 <Col span={8}>
                     <FormField>
-                        <Controller
-                            name={'passportInfo.addressRegistration.street'}
-                            as={<Select/>}
-                            control={control}
-                            placeholder='Улица'
-                        />
+                        <Select placeholder={'Улица'}/>
                     </FormField>
                 </Col>
                 <Col span={8}>
                     <Row gutter={16}>
                         <Col span={8}>
                             <FormField>
-                                <Controller
-                                    name={'passportInfo.addressRegistration.houseNumber'}
-                                    as={<Input/>}
-                                    control={control}
-                                    placeholder={'Дом'}
+                                <Input name={'passportInfo.addressRegistration.houseNumber'}
+                                       placeholder={'Номер дома'}
+                                       value={form.values.passportInfo.documentedAddress.houseNumber}
+                                       onChange={form.handleChange}
                                 />
                             </FormField>
                         </Col>
                         <Col span={8}>
                             <FormField>
-                                <Controller
-                                    name={'passportInfo.addressRegistration.houseCharacter'}
-                                    as={<Input/>}
-                                    control={control}
-                                    placeholder={'Корпус'}
+                                <Input name={'passportInfo.addressRegistration.houseNumber'}
+                                       placeholder={'Дом'}
+                                       value={form.values.passportInfo.documentedAddress.flatNumber}
+                                       onChange={form.handleChange}
                                 />
                             </FormField>
                         </Col>
                         <Col span={8}>
                             <FormField>
-                                <Controller
-                                    name={'passportInfo.addressRegistration.flatNumber'}
-                                    as={<Input/>}
-                                    control={control}
-                                    placeholder={'Кв'}
+                                <Input name={'passportInfo.addressRegistration.flatNumber'}
+                                       placeholder={'Кв'}
+                                       value={form.values.passportInfo.documentedAddress.flatNumber}
+                                       onChange={form.handleChange}
                                 />
                             </FormField>
                         </Col>
@@ -93,9 +76,11 @@ const AddressDocumentedRegistration: FC = (props) => {
                 </Col>
                 <Col span={8}>
                     <FormField>
-                        <Radio>
+                        <Checkbox checked={form.values.passportInfo.addressRegistration.isDocumentedAddress}
+                                  name={'passportInfo.addressRegistration.isDocumentedAddress'}
+                                  onChange={form.handleChange}>
                             Соответствует адресу прописки
-                        </Radio>
+                        </Checkbox>
                     </FormField>
                 </Col>
             </Row>

@@ -4,14 +4,21 @@ import FormState from "./types";
 import { Row, Col } from 'antd';
 import PersonInvalidity from "./components/sections/PersonInvalidity/PersonInvalidity";
 import PersonPrivileges from "./components/sections/PersonPrivileges/PersonPrivileges";
+import {Formik} from "formik";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 
 const PrivilegesForm: FC = (props) => {
 
-    const form = useForm<FormState>()
+    const store = useSelector((state: RootState) => state.registrationCard)
+
 
     return (
-        <FormContext {...form}>
+        <Formik
+            initialValues={store.privileges}
+            onSubmit={() => {}}
+        >
             <form className={'privileges-form'}>
                 <Row>
                     <Col span={24}>
@@ -24,7 +31,7 @@ const PrivilegesForm: FC = (props) => {
                     </Col>
                 </Row>
             </form>
-        </FormContext>
+        </Formik>
     )
 }
 

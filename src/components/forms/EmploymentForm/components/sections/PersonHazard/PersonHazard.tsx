@@ -5,25 +5,27 @@ import {Controller, useForm, useFormContext} from "react-hook-form";
 import FormField from "../../../../components/FormField/FormField";
 import FormState from "../../../types";
 import ArrayField from "../../../../components/ArrayField/ArrayField";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
 const PersonHazard: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section person-hazard'}>
             <DropDownContent title={'Вредность'}>
-                <ArrayField fieldName={'hazardHistory'} renderChild={
+                <FormArrayField values={form.values.hazardHistory} name={'hazardHistory'} renderChild={
                     (key: string, index) => (
                        <Row gutter={16} key={key}>
                            <Col span={16}>
                                <FormField label={'Вредность'}>
-                                   <Controller name={`hazardHistory[${index}].description`} as={<Select/>} control={control}/>
+                                   <Select/>
                                </FormField>
                            </Col>
                            <Col span={4}>
                                <FormField label={'Стаж'}>
-                                   <Controller name={`hazardHistory[${index}].exp`} as={<InputNumber/>} control={control}/>
+                                   <InputNumber name={`hazardHistory[${index}].exp`} onChange={form.handleChange} />
                                </FormField>
                            </Col>
                        </Row>
@@ -33,25 +35,25 @@ const PersonHazard: FC = (props) => {
                 <Row>
                     <Col span={12}>
                         <FormField label={'Фактор'}>
-                            <Controller name={`employements`} as={<Select/>} control={control}/>
+                            <Select/>
                         </FormField>
                     </Col>
                 </Row>
                 <Divider/>
                 <Row gutter={16} align={'bottom'}>
                     <Col span={8}>
-                        <FormField label={'Адрес'}>
-                            <Controller name={`employements`} as={<Select/>} control={control}/>
+                        <FormField label={'Организация'}>
+                            <Select/>
                         </FormField>
                     </Col>
                     <Col span={8}>
-                        <FormField label={'Адрес'}>
-                            <Controller name={`employements`} as={<Select/>} control={control}/>
+                        <FormField label={'Должность'}>
+                            <Select/>
                         </FormField>
                     </Col>
                     <Col>
                         <FormField label={'Стаж'}>
-                            <Controller name={`employements`} as={<InputNumber/>} control={control}/>
+                            <InputNumber name={'hazard.exp'} onChange={form.handleChange}/>
                         </FormField>
                     </Col>
                 </Row>

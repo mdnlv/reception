@@ -16,6 +16,8 @@
     "@types/react-router-dom": "^5.1.5",
     "antd": "^4.2.2",
     "date-fns": "^2.14.0",
+    "formik": "^2.1.4",
+    "formik-persist": "^1.1.0",
     "moment": "^2.25.3",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

@@ -8,11 +8,17 @@ import { useHistory } from "react-router-dom"
 
 const AppHeaderBar: FC = (props) => {
 
+    const navigation = useHistory()
+
+    const logoClickHandler = (e: React.SyntheticEvent<EventTarget>) => {
+        navigation.push("/")
+    }
+
     return (
         <Row align="stretch">
             <Col md={20} xs={24} >
                 <Row>
-                    <Col className="header__logo">
+                    <Col className="header__logo" onClick={logoClickHandler}>
                         <img src={Logo} className='app-logo'/>
                     </Col>
                     <Col>
@@ -30,6 +36,7 @@ const AppHeaderBar: FC = (props) => {
                                 Записать на прием
                             </Button>
                             <Button className="header__button" onClick={() => {
+                                navigation.push('/card')
                             }}>
                                 Регистрационная карточка
                             </Button>

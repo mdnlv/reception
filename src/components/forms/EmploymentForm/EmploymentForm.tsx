@@ -3,25 +3,19 @@ import {FormContext, useForm} from "react-hook-form";
 import {Col, Row} from 'antd';
 import PersonEmployment from "./components/sections/PersonEmployment/PersonEmployment";
 import PersonHazard from "./components/sections/PersonHazard/PersonHazard";
+import {Formik} from "formik";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const EmploymentForm: FC = (props) => {
-    const form = useForm({
-        defaultValues: {
-            hazardHistory: [
-                {
-                    hazardDescription: 'sadasd',
-                    exp: 2
-                },
-                {
-                    hazardDescription: 'sadasd1',
-                    exp: 2
-                }
-            ]
-        }
-    })
+
+    const store = useSelector((state: RootState) => state.registrationCard)
 
     return (
-        <FormContext {...form}>
+        <Formik
+            initialValues={store.employment}
+            onSubmit={() => {}}
+        >
             <form className={'employment-form'}>
                 <Row>
                     <Col span={24}>
@@ -34,7 +28,7 @@ const EmploymentForm: FC = (props) => {
                     </Col>
                 </Row>
             </form>
-        </FormContext>
+        </Formik>
     )
 }
 

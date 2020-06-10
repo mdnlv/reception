@@ -1,40 +1,42 @@
 import React, {FC, useEffect} from 'react'
-import {Controller, useFieldArray, useFormContext} from "react-hook-form";
-import {Space, Button, Tooltip, Row, Col, Radio, Input, Select} from "antd";
+import {Col, Input, Radio, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
-import FormState from "../../../types";
+import {FieldArray, useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import FormState, {PassportContactType} from "../../../types";
+
 
 const PersonalContacts: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
+
 
     return (
         <div className={'form-section personal-contacts'}>
             <h2>Контакты</h2>
-            <ArrayField fieldName={'contacts'} renderChild={
+            <FormArrayField<PassportContactType> values={form.values.contacts} name={'contacts'} renderChild={
                 (key, index) => (
-                    <Row gutter={16} key={key}>
+                    <Row gutter={16} key={index.toString()}>
                         <Col span={3}>
                             <FormField label='Основной'>
                                 <div className='center-wrapper'>
-                                    <Controller name={`contacts[${index}].isMain`} as={<Radio/>} control={control}/>
+                                    <Radio name={`contacts[${index}].isMain`} value={form.values.contacts[index]?.isMain || ""} onChange={form.handleChange} />
                                 </div>
                             </FormField>
                         </Col>
                         <Col span={6}>
                             <FormField label='Номер'>
-                                <Controller name={`contacts[${index}].number`} as={<Input/>} control={control}/>
+                                <Input name={`contacts[${index}].number`} value={form.values.contacts[index]?.number || ""} onChange={form.handleChange}/>
                             </FormField>
                         </Col>
                         <Col span={5}>
                             <FormField label='Тип'>
-                                <Controller name={`contacts[${index}].type`} as={<Select/>} control={control}/>
+                                <Select/>
                             </FormField>
                         </Col>
                         <Col span={10}>
                             <FormField label='Примечания'>
-                                <Controller name={`contacts[${index}].note`} as={<Input/>} control={control}/>
+                                <Input name={`contacts[${index}].note`} value={form.values.contacts[index]?.note || ""} onChange={form.handleChange}/>
                             </FormField>
                         </Col>
                     </Row>

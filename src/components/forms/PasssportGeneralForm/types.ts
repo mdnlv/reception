@@ -1,7 +1,20 @@
 import moment from "moment";
 
+export interface PassportContactType {
+    isMain: boolean
+    number: string
+    type: string
+    note: string
+}
+
 export default interface FormState {
     passportInfo: {
+        passport: string
+        serial: string
+        number: string
+        fromDate: Date
+        givenBy: string
+
         addressRegistration: {
             city: string
             area: string
@@ -11,13 +24,18 @@ export default interface FormState {
             flatNumber?: number
             isDocumentedAddress: boolean
         },
+
+        documentedAddress: {
+            city: string
+            area: string
+            street: string
+            houseNumber?: number
+            houseCharacter?: number
+            flatNumber?: number
+            isDocumentedAddress: boolean
+        }
     },
-    contacts?: [{
-        isMain: boolean
-        number: string
-        type: string
-        note: string
-    }],
+    contacts: PassportContactType[],
     policyOms: {
         timeType: string
         from: moment.Moment
@@ -31,7 +49,7 @@ export default interface FormState {
     },
     policyDms: {
         timeType: string
-        from: moment.Moment
+        from: Date
         to: moment.Moment
         serial: string
         number: string
@@ -39,5 +57,6 @@ export default interface FormState {
         type: string
         name: string
         note: string
-    }
+    },
+
 }

@@ -4,41 +4,40 @@ import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import FormState from "../../../types";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import moment from "moment";
 
 
 
 const PersonAllergy: FC = (props) => {
 
-    const {control, watch, getValues, formState} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section person-allergy'}>
             <DropDownContent title={'Аллергия'}>
-                <Row gutter={16}>
-                    <Col span={5}>
-                        <FormField label={'Наименование вещества'}>
-                            <Controller
-                                as={<Select/>}
-                                name={'allergy.name'}
-                                control={control}
-                            />
-                        </FormField>
-                    </Col>
-                    <Col span={5}>
-                        <FormField label={'Степень'}>
-                            <Controller
-                                as={<Select/>}
-                                name={'allergy.degree'}
-                                control={control}
-                            />
-                        </FormField>
-                    </Col>
-                    <Col span={5}>
-                        <FormField label={'Дата установления'}>
-
-                        </FormField>
-                    </Col>
-                </Row>
+                <FormArrayField values={form.values.allergy} name={'allergy'} renderChild={
+                    (key, index) => (
+                        <Row gutter={16}>
+                            <Col span={5}>
+                                <FormField label={'Наименование вещества'}>
+                                    <Select/>
+                                </FormField>
+                            </Col>
+                            <Col span={5}>
+                                <FormField label={'Степень'}>
+                                    <Select/>
+                                </FormField>
+                            </Col>
+                            <Col span={5}>
+                                <FormField label={'Дата установления'}>
+                                    <DatePicker value={moment(form.values.allergy[index]?.fromDate)} onChange={form.handleChange} />
+                                </FormField>
+                            </Col>
+                        </Row>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )

@@ -4,15 +4,12 @@ import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import FormState from "../../../types";
 import moment from "moment";
+import {FormikProps, useFormikContext} from "formik";
+
 
 const PolicyDmc: FC = (props) => {
 
-    const {control, watch, setValue, getValues} = useFormContext<FormState>()
-    const allFormFields = watch()
-
-    useEffect(() => {
-        console.log(allFormFields)
-    }, [allFormFields])
+    const form = useFormikContext<FormState>()
 
     return (
         <div className="form-section policy-dmc">
@@ -25,53 +22,57 @@ const PolicyDmc: FC = (props) => {
                 </Col>
                 <Col span={4}>
                     <FormField>
-                        <Controller name='f' as={<Select/>} control={control}/>
+                        <Select/>
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'С'}>
-                        <Controller name='policyDmc.from' as={<DatePicker/>} control={control}/>
+                        <DatePicker value={moment(form.values.policyDms.from)} onChange={(date, dateString) => {
+                            form.setFieldValue('policyDms.from', dateString)
+                        }}/>
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'До'}>
-                        <Controller name='policyDmc.to' as={<DatePicker/>} control={control}/>
+                        <DatePicker value={moment(form.values.policyDms.to)} onChange={(date, dateString) => {
+                            form.setFieldValue('policyDms.to', dateString)
+                        }}/>
                     </FormField>
                 </Col>
                 <Col span={2}>
                     <FormField label={'Серия'}>
-                        <Controller name='policyDms.serial' as={<Input/>} control={control}/>
+                        <Input name={"policyDms.serial"} value={form.values.policyDms.serial} onChange={form.handleChange}/>
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'Номер'}>
-                        <Controller name='policyDmc.number' as={<Input/>} control={control}/>
+                        <Input name={"policyDms.number"} value={form.values.policyDms.number} onChange={form.handleChange}/>
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row' gutter={16}>
                 <Col span={14}>
                     <FormField label='СМО' labelPosition='left'>
-                        <Controller name={'policyDms.cmo'} as={<Select/>} control={control}/>
+                        <Select />
                     </FormField>
                 </Col>
                 <Col span={10}>
                     <FormField>
-                        <Controller name={'policyDms.type'} as={<Select/>} control={control}/>
+                        <Select/>
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row'>
                 <Col span={24}>
                     <FormField labelPosition='left' label='Название'>
-                        <Controller name={'policyDmc.name'} as={<Input/>} control={control}/>
+                        <Input name={"policyDmc.name"} onChange={form.handleChange}/>
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row'>
                 <Col span={24}>
                     <FormField labelPosition='left' label='Примечание'>
-                        <Controller name={'policyDmc.note'} as={<Input.TextArea/>} control={control}/>
+                        <Input.TextArea name={"policyDmc.note"} onChange={form.handleChange}/>
                     </FormField>
                 </Col>
             </Row>

@@ -15,6 +15,7 @@ import EtcPage from './pages/EtcPage/EtcPage';
 import OutsideIndentificationPage from "./pages/OutsideIdentificationPage/OutsideIdentificationPage";
 import OutsideHospitalizationPage from "./pages/OutsideHospitalizationPage/OutsideHospitalizationPage";
 import QuotaPage from "./pages/QuotaPage/QuotaPage";
+import AdditionalHospitalizationPage from "./pages/AdditionalHospitalizationPage/AdditionalHospitalizationPage";
 
 const RegistrationCardTabs: FC = (props) => {
     return (
@@ -57,7 +58,7 @@ const RegistrationCardTabs: FC = (props) => {
                     <OutsideHospitalizationPage/>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'13'} tab={'Дополнительная диспансеризация'}>
-                    <OutsideHospitalizationPage/>
+                    <AdditionalHospitalizationPage/>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'14'} tab='Прочее'>
                     <EtcPage/>

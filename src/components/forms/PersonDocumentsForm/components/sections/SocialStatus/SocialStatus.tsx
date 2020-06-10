@@ -4,74 +4,58 @@ import {Col, DatePicker, Input, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import {useFormikContext} from "formik";
+import moment from "moment";
+import FormState from "../../../types";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
 const SocialStatus: FC = (props) => {
 
-    const form = useFormContext()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section social-status'}>
             <DropDownContent title={'Социльный статус'}>
-                <ArrayField
-                    fieldName={'ide'}
-                    renderChild={() => (
-                        <Row gutter={16}>
+                <FormArrayField values={form.values.socialStatus} name={'socialStatus'} renderChild={
+                    (key, index) => (
+                        <Row gutter={16} key={key}>
                             <Col>
                                 <FormField label={'Тип'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Серия'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`socialStatus[${index}].serial`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Номер'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`socialStatus[${index}].number`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата начала'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`socialStatus[${index}].fromDate`, date)
+                                    }}/>>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата оканчания'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment()} onChange={(_, date) => {
+                                        form.setFieldValue(`socialStatus[${index}].endDate`, date)
+                                    }}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Кем выдан'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`socialStatus[${index}].givenBy`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                         </Row>
-                    )}/>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )

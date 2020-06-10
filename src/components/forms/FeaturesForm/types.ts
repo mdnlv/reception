@@ -1,28 +1,49 @@
+
+export interface PersonFeatureItem {
+    bloodGroup: string
+    note: string
+    diagnose: string
+    birthHeight: number
+    birthWeight: number
+    weekEmbryonic: number
+}
+
+export interface PersonAllergyItem {
+    name: string
+    degree: string
+    fromDate: Date
+    note: string
+}
+
+export interface MedIntoleranceItem {
+    name: string
+    degree: string
+    fromDate: Date
+}
+
+export interface InspectionItem {
+    class: string
+    type: string
+    startDate: Date
+    endDate: Date
+    note: string
+}
+
+export interface AnthropometricDataItem {
+    setDate: Date
+    height: number
+    weight: number
+    chestGirth: number
+    waistGirth: number
+    dailySendVolume: number
+    bodyType: number
+}
+
+
 export default interface FormState {
-    features: {
-        bloodGroup: string
-        note: string
-        diagnose: string
-        birthHeight: number
-        birthWeight: number
-        weekEmbryonic: number
-    }
-    allergy: {
-        name: string
-        degree: string
-        fromDate: Date
-        note: string
-    }
-    medIntolerance?: [{
-        name: string
-        degree: string
-        fromDate: Date
-    }]
-    inspections?: [{
-        class: string
-        type: string
-        startDate: Date
-        endDate: Date
-        note: string
-    }]
+    features: PersonFeatureItem[]
+    allergy: PersonAllergyItem[]
+    medIntolerance: MedIntoleranceItem[]
+    inspections: InspectionItem[]
+    anthropometricDate: AnthropometricDataItem[]
 }

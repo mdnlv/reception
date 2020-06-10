@@ -1,63 +1,54 @@
 import React, {FC} from 'react'
-import {Controller, FormContext, useForm} from 'react-hook-form'
+import {Formik} from "formik";
 import DropDownContent from "../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../components/ArrayField/ArrayField";
-import {Row, Col, Input, DatePicker} from 'antd';
+import FormArrayField from "../components/FormArrayField/FormArrayField";
+import {Col, DatePicker, Input, Row} from "antd";
 import FormField from "../components/FormField/FormField";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const AdditionalHospitalizationForm: FC = (props) => {
 
-    const form = useForm()
+    const store = useSelector((state: RootState) => state.registrationCard)
 
     return (
-        <FormContext {...form}>
-            <div className={'form-section'}>
-                <DropDownContent title={'Дополнительная диспансеризация'}>
-                    <ArrayField
-                        fieldName={''}
-                        renderChild={() => (
-                            <Row gutter={16}>
-                                <Col>
-                                    <FormField label={'Код'}>
-                                        <Controller
-                                            as={<Input/>}
-                                            name={''}
-                                            control={form.control}
-                                        />
-                                    </FormField>
-                                </Col>
-                                <Col>
-                                    <FormField label={'Дата начала'}>
-                                        <Controller
-                                            as={<DatePicker/>}
-                                            name={''}
-                                            control={form.control}
-                                        />
-                                    </FormField>
-                                </Col>
-                                <Col>
-                                    <FormField label={'Дата окончания'}>
-                                        <Controller
-                                            as={<DatePicker/>}
-                                            name={''}
-                                            control={form.control}
-                                        />
-                                    </FormField>
-                                </Col>
-                                <Col>
-                                    <FormField label={'Код МО'}>
-                                        <Controller
-                                            as={<Input/>}
-                                            name={''}
-                                            control={form.control}
-                                        />
-                                    </FormField>
-                                </Col>
-                            </Row>
-                        )}/>
-                </DropDownContent>
-            </div>
-        </FormContext>
+        <Formik
+            initialValues={store.additionalHospitalization}
+            onSubmit={() => {}}
+        >
+            {formProps => (
+                <div className={'form-section'}>
+                    <DropDownContent title={'Дополнительная диспансеризация'}>
+                        <FormArrayField values={formProps.values.hospitalizations} name={'hospitalizations'} renderChild={
+                            (key, index) => (
+                                <Row gutter={16}>
+                                    <Col>
+                                        <FormField label={'Код'}>
+                                            <Input name={`hospitalizations[${index}].code`} onChange={formProps.handleChange}/>
+                                        </FormField>
+                                    </Col>
+                                    <Col>
+                                        <FormField label={'Дата начала'}>
+                                            <DatePicker/>
+                                        </FormField>
+                                    </Col>
+                                    <Col>
+                                        <FormField label={'Дата окончания'}>
+                                            <DatePicker/>
+                                        </FormField>
+                                    </Col>
+                                    <Col>
+                                        <FormField label={'Код МО'}>
+                                            <Input name={`hospitalizations[${index}].codeMo`} onChange={formProps.handleChange}/>
+                                        </FormField>
+                                    </Col>
+                                </Row>
+                            )
+                        }/>
+                    </DropDownContent>
+                </div>
+            )}
+        </Formik>
     )
 }
 

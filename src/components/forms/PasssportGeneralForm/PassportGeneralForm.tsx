@@ -1,8 +1,5 @@
 import React, {FC, useEffect} from 'react'
 import {Button, Col, Divider, Input, Radio, Row, Select, Space} from "antd";
-import {Controller, FormContext, useForm, useFormContext} from "react-hook-form";
-import FormState from "./types";
-import FormField from "../components/FormField/FormField";
 import './styles.scss'
 import AddressRegistration from "./components/sections/AddressRegistration/AddressRegistration";
 import PolicyOmc from "./components/sections/PolicyOmc/PolicyOmc";
@@ -13,49 +10,68 @@ import PersonalDocument from "./components/sections/PersonalDocuments/PersonalDo
 import PersonalContacts from "./components/sections/PersonalContacts/PersonalContacts";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
-import moment from "moment";
+import {Formik, useFormik} from 'formik'
+import {setFormSection} from "../../../store/registrationCard/actions";
 
 
 const PassportGeneralForm: FC = (props) => {
 
     const store = useSelector((state: RootState) => state.registrationCard)
     const dispatch = useDispatch()
-    const form = useForm<FormState>({
-        defaultValues: store.passportGeneral
+    const formik = useFormik({
+        initialValues: store.passportGeneral,
+        onSubmit: (values) => {}
     })
 
+    useEffect(() => {
+        dispatch(setFormSection({
+            ...store,
+        }))
+    }, [formik.values])
+
+
     return (
-        <FormContext {...form}>
-            <form className='passport-general-form'>
-                <Row align={'stretch'}>
-                    <Col span={12} className={'col--border-right'}>
-                        <AddressRegistration/>
-                    </Col>
-                    <Col span={12}>
-                        <AddressDocumentedRegistration/>
-                    </Col>
-                </Row>
-                <Divider/>
-                <Row>
-                    <Col span={12} className={'col--border-right'}>
-                        <PolicyOmc/>
-                    </Col>
-                    <Col span={12}>
-                        <PolicyDmc/>
-                    </Col>
-                </Row>
-                <Divider/>
-                <Row>
-                    <Col span={12} className={'col--border-right'}>
-                        <PersonalDocument/>
-                    </Col>
-                    <Col span={12}>
-                        <PersonalContacts/>
-                    </Col>
-                </Row>
-                <Divider/>
-            </form>
-        </FormContext>
+        <Formik
+            initialValues={store.passportGeneral}
+            onSubmit={() => {
+
+            }}
+        >
+            {
+                props => (
+                    <form className='passport-general-form'>
+                        <Row align={'stretch'}>
+                            <Col span={12} className={'col--border-right'}>
+                                <AddressRegistration/>
+                            </Col>
+                            <Col span={12}>
+                                <AddressDocumentedRegistration />
+                            </Col>
+                        </Row>
+                        <Divider/>
+                        <Row>
+                            <Col span={12} className={'col--border-right'}>
+                                <PolicyOmc />
+                            </Col>
+                            <Col span={12}>
+                                <PolicyDmc />
+                            </Col>
+                        </Row>
+                        <Divider/>
+                        <Row>
+                            <Col span={12} className={'col--border-right'}>
+                                <PersonalDocument/>
+                            </Col>
+                            <Col span={12}>
+                                <PersonalContacts/>
+                            </Col>
+                        </Row>
+                        <Divider/>
+
+                    </form>
+                )
+            }
+        </Formik>
     )
 }
 

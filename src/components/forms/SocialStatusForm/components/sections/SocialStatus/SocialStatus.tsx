@@ -1,49 +1,52 @@
 import React, {FC, useEffect} from 'react'
 import {Button, Col, Input, Radio, Row, Select, Space, Tooltip, DatePicker, Divider} from "antd";
-import PlusIcon from "../../../../../../assets/icons/plus.svg";
-import TrashIcon from "../../../../../../assets/icons/trash.svg";
-import {Controller, useFieldArray, useFormContext} from "react-hook-form";
-import {FormState} from "../../../types";
+import {FormState, SocialStatus as SocialStatusType} from "../../../types";
 import FormField from "../../../../components/FormField/FormField";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
+import {useFormikContext} from "formik";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import moment from "moment";
 
 const SocialStatus: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section social-status'}>
             <DropDownContent title={'Соц.статус'}>
-                <ArrayField fieldName={'socialStatus'} renderChild={
+                <FormArrayField<SocialStatusType> values={form.values.socialStatus} name={'socialStatus'} renderChild={
                     (key, index) => (
-                        <div>
+                        <div key={key}>
                             <Row gutter={16}>
                                 <Col span={6}>
                                     <FormField label='Класс'>
                                         <div className='center-wrapper'>
-                                            <Controller name={`contacts[${index}].isMain`} as={<Select/>} control={control}/>
+                                            <Select />
                                         </div>
                                     </FormField>
                                 </Col>
                                 <Col span={6}>
                                     <FormField label='Тип'>
-                                        <Controller name={`contacts[${index}].number`} as={<Select/>} control={control}/>
+                                        <Select/>
                                     </FormField>
                                 </Col>
                                 <Col span={3}>
                                     <FormField label='Дата начала'>
-                                        <Controller name={`contacts[${index}].type`} as={<DatePicker/>} control={control}/>
+                                        <DatePicker value={moment(form.values.socialStatus[index]?.fromDate)} onChange={(_, date) => {
+                                            form.setFieldValue(`socialStatus[${index}].fromDate`, date)
+                                        }}/>
                                     </FormField>
                                 </Col>
                                 <Col span={3}>
                                     <FormField label='Дата окончания'>
-                                        <Controller name={`contacts[${index}].note`} as={<DatePicker/>} control={control}/>
+                                        <DatePicker value={moment(form.values.socialStatus[index]?.endDate)} onChange={(_, date) => {
+                                            form.setFieldValue(`socialStatus[${index}].endDate`, date)
+                                        }}/>
                                     </FormField>
                                 </Col>
                                 <Col span={6}>
                                     <FormField label='Примечания'>
-                                        <Controller name={`contacts[${index}].note`} as={<Input/>} control={control}/>
+                                        <Input name={`socialStatus[${index}].note`} onChange={form.handleChange} />
                                     </FormField>
                                 </Col>
                             </Row>

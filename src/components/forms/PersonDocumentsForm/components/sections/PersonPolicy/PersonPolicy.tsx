@@ -4,128 +4,88 @@ import {Col, DatePicker, Input, InputNumber, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import {useFormikContext} from "formik";
+import FormState from "../../../types";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import moment from "moment";
 
 const PersonPolicy: FC = (props) => {
 
-    const form = useFormContext()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section person-policy'}>
             <DropDownContent title={'Полис'}>
-                <ArrayField
-                    fieldName={'ide'}
-                    renderChild={() => (
-                        <Row gutter={16}>
+                <FormArrayField values={form.values.policy} name={'policy'} renderChild={
+                    (key, index) => (
+                        <Row gutter={16} key={key}>
                             <Col>
                                 <FormField label={'Тип'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Тип'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Номер'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Серия'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].serial`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Номер'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].number`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата начала'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment(form.values.policy[index]?.fromDate)} onChange={(_, date) => {
+                                        form.setFieldValue(`policy[${index}].fromDate`, date)
+                                    } }/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата окончания'}>
-                                    <Controller
-                                        as={<DatePicker/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment(form.values.policy[index]?.endDate)} onChange={(_, date) => {
+                                        form.setFieldValue(`policy[${index}].endDate`, date)
+                                    } }/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'СМО'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].CMO`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Наименование'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].name`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Примечание'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].note`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Искать'}>
-                                    <Controller
-                                        as={<InputNumber/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <InputNumber name={`policy[${index}].find`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Привязано обращений'}>
-                                    <Controller
-                                        as={<Input/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`policy[${index}].acceptedOffers`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                         </Row>
-                    )}/>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )

@@ -16,13 +16,11 @@ import store from './store/store';
 moment.locale('ru');
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ConfigProvider locale={ruRu}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ConfigProvider>
-  </React.StrictMode>,
+  <ConfigProvider locale={ruRu}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ConfigProvider>,
   document.getElementById('root'),
 );
 

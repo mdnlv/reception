@@ -1,9 +1,12 @@
+export interface PersonViewType {
+    type: string
+    lpu: string
+    fromDate: Date
+    toDate: Date
+    note: string
+}
+
+
 export default interface FormState {
-    viewTypes: [{
-        type: string
-        lpu: string
-        fromDate: Date
-        toDate: Date
-        note: string
-    }]
+    viewTypes: PersonViewType[]
 }

@@ -1,12 +1,13 @@
 import React, {FC} from 'react'
 import {Button, Col, Input, Row, Select, Space, DatePicker} from "antd";
 import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
+import {FormikProps, useFormikContext} from "formik";
+import moment from "moment";
 import FormState from "../../../types";
 
 const PolicyOmc: FC = (props) => {
 
-    const {control} = useFormContext<FormState>()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className="form-section policy-omc">
@@ -19,53 +20,53 @@ const PolicyOmc: FC = (props) => {
                 </Col>
                 <Col span={4}>
                     <FormField>
-                        <Controller name='' as={<Select/>} control={control}/>
+                        <Select/>
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'С'}>
-                        <Controller name='' as={<DatePicker/>} control={control}/>
+                        <DatePicker value={moment(form.values.policyOms.from)} onChange={form.handleChange} />
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'До'}>
-                        <Controller name='f' as={<DatePicker/>} control={control}/>
+                        <DatePicker value={moment(form.values.policyOms.to)} onChange={form.handleChange} />
                     </FormField>
                 </Col>
                 <Col span={2}>
                     <FormField label={'Серия'}>
-                        <Controller name='f' as={<Input/>} control={control}/>
+                        <Input name={'policyOms.serial'} value={form.values.policyOms.serial} onChange={form.handleChange} />
                     </FormField>
                 </Col>
                 <Col span={5}>
                     <FormField label={'Номер'}>
-                        <Controller name='f' as={<Input/>} control={control}/>
+                        <Input name={'policyOms.number'} value={form.values.policyOms.number} onChange={form.handleChange} />
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row' gutter={16}>
                 <Col span={14}>
                     <FormField label='СМО' labelPosition='left'>
-                        <Controller name={'policyOms.cmo'} as={<Select/>} control={control}/>
+                        <Select/>
                     </FormField>
                 </Col>
                 <Col span={10}>
                     <FormField>
-                        <Controller name={'policyOms.type'} as={<Select/>} control={control}/>
+                        <Select/>
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row'>
                 <Col span={24}>
                     <FormField labelPosition='left' label='Название'>
-                        <Controller name={'fd'} as={<Input/>} control={control}/>
+                        <Input name={'policyOms.name'} value={form.values.policyOms.name} onChange={form.handleChange} />
                     </FormField>
                 </Col>
             </Row>
             <Row className='form-row'>
                 <Col span={24}>
                     <FormField labelPosition='left' label='Примечание'>
-                        <Controller name={'fd'} as={<Input.TextArea/>} control={control}/>
+                        <Input.TextArea name={'policyOms.note'} value={form.values.policyOms.note} onChange={form.handleChange} />
                     </FormField>
                 </Col>
             </Row>

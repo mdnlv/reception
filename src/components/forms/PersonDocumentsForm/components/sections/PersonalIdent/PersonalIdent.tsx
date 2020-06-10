@@ -1,78 +1,62 @@
 import React, {FC} from 'react'
 import ArrayField from "../../../../components/ArrayField/ArrayField";
-import {Col, Row, Select} from "antd";
+import {Col, DatePicker, Input, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+import {useFormikContext} from "formik";
+import FormState from "../../../types";
+import moment from "moment";
 
 
 const PersonalIdent: FC = (props) => {
 
-    const form = useFormContext()
+    const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
             <DropDownContent title={'Идентификация'}>
-                <ArrayField
-                    fieldName={'ide'}
-                    renderChild={() => (
-                        <Row gutter={16}>
-                            <Col>
+                <FormArrayField values={form.values.idDoc} name={'idDoc'} renderChild={
+                    (key, index) => (
+                        <Row gutter={16} key={key}>
+                            <Col span={4}>
                                 <FormField label={'Паспорт'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
-                            <Col>
+                            <Col span={2}>
                                 <FormField label={'Серия'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
-                            <Col>
+                            <Col span={3}>
                                 <FormField label={'Номер'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Select/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата начала'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment(form.values.idDoc[index]?.fromDate)} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].fromDate`, date)
+                                    } }/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата окончания'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <DatePicker value={moment(form.values.idDoc[index]?.endDate)} onChange={(_, date) => {
+                                        form.setFieldValue(`namedDoc[${index}].endDate`, date)
+                                    } }/>
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Кем выдан'}>
-                                    <Controller
-                                        as={<Select/>}
-                                        name={''}
-                                        control={form.control}
-                                    />
+                                    <Input name={`namedDoc[${index}].givenBy`} onChange={form.handleChange}/>
                                 </FormField>
                             </Col>
                         </Row>
-                    )}/>
+                    )
+                }/>
             </DropDownContent>
         </div>
     )
