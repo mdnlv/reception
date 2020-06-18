@@ -1,6 +1,5 @@
 import React, {FC} from 'react'
-import {FormContext, useForm} from 'react-hook-form'
-import FormState from "./types";
+
 import { Row, Col } from 'antd';
 import PersonInvalidity from "./components/sections/PersonInvalidity/PersonInvalidity";
 import PersonPrivileges from "./components/sections/PersonPrivileges/PersonPrivileges";

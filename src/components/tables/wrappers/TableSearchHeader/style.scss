@@ -1,0 +1,18 @@
+.table-top__logo{
+  max-width: 100px;
+  display: flex;
+  padding: 0 5px;
+  align-items: center;
+  justify-content: center;
+  background: #4C86C8;
+  border-radius: 2px 0px 0px 0px;
+  text-transform: capitalize;
+  color: #fff;
+}
+
+.table__top-search-wrapper{
+  max-height: 24px;
+  .ant-input{
+    height: 100%;
+  }
+}
