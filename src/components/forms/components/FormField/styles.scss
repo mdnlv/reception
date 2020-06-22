@@ -11,6 +11,15 @@
     align-items: center;
   }
 
+  &__body--right{
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    .form-field__content{
+      flex: 0;
+    }
+  }
+
   &__body--top{
     flex-direction: column;
     justify-content: stretch;

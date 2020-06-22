@@ -31,6 +31,8 @@ const FormField: FC<FieldProps> = (props) => {
             className = 'form-field__body--top'
         }else if(props.labelPosition === 'left'){
             className = 'form-field__body--left'
+        }else if(props.labelPosition === 'right'){
+            className = 'form-field__body--right'
         }
 
         return <div className={`form-field__body ${className}`}>

@@ -1,17 +1,23 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import {Avatar, Button, Col, Row, Space, Typography} from 'antd'
 import Logo from '../../../assets/icons/app-logo.svg'
 import ExitIcon from '../../../assets/icons/exit.svg'
 import './styles.scss'
 import { useHistory } from "react-router-dom"
+import NewAppointment from "../../modals/NewAppointment/NewAppointment";
 
 
 const AppHeaderBar: FC = (props) => {
 
     const navigation = useHistory()
+    const [showNewAppointment, setShowAppointment] = useState(false)
 
     const logoClickHandler = (e: React.SyntheticEvent<EventTarget>) => {
         navigation.push("/")
+    }
+
+    const showAppointment = (e?: React.SyntheticEvent<EventTarget>) => {
+        setShowAppointment(!showNewAppointment)
     }
 
     return (
@@ -32,7 +38,7 @@ const AppHeaderBar: FC = (props) => {
                             <Button className="header__button">
                                 ЖОС
                             </Button>
-                            <Button className="header__button">
+                            <Button className="header__button" onClick={showAppointment}>
                                 Записать на прием
                             </Button>
                             <Button className="header__button" onClick={() => {
@@ -72,6 +78,7 @@ const AppHeaderBar: FC = (props) => {
                     </Col>
                 </Row>
             </Col>
+            <NewAppointment isVisible={showNewAppointment} onClose={showAppointment}/>
         </Row>
     )
 }

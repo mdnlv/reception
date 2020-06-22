@@ -21,7 +21,7 @@ import {
     PersonFeatureItem
 } from "../../components/forms/FeaturesForm/types";
 
-export const initialState = {
+export const initialState: RegistrationCardState = {
     additionalHospitalization: {
         hospitalizations: [] as PersonAddHospitalization[]
     },

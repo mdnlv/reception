@@ -1,26 +1,54 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import {Col, Row} from "antd";
 import PatientsTable from "../../components/tables/PatientsTable/PatientsTable";
 import PatientInfoCard from "../../components/cards/PatientInfoCard/PatientInfoCard";
 import './styles.scss'
 import TableSearchHeader from "../../components/tables/wrappers/TableSearchHeader/TableSearchHeader";
+import moment from "moment";
 
 const MainPage: FC = (props) => {
 
+    const [showUserInfo, setShowInfo] = useState(false)
     const handlePatientsQuery = (query: string) => {
         console.log(query)
     }
 
+    const dataSource = [
+        {
+            id: 1,
+            fullName: 'Test test test',
+            birthDate: moment(new Date()).toDate(),
+            sex: 'М',
+            snils: '213-312321-312',
+            cNumber: '132123123123',
+            kNumber: '213e123123,',
+            address: 'Санкт-Петербург,\n' +
+                'Революции ш.д.18 кв.1',
+            viewType: 'амбуларно',
+            code: '213',
+            quotes: [],
+            medicalAttachment: 'asdas34',
+            regAddress: '',
+            livingAddress: '',
+            doc: '',
+            policyOMC: '',
+            medExamination: moment(new Date()).toDate()
+
+        },
+    ]
+
     return (
         <Row className={'main-page'}>
-            <Col span={17} className={'main-page__tables'}>
-                <TableSearchHeader onChangeQuery={handlePatientsQuery}>
-                    <PatientsTable/>
+            <Col span={showUserInfo ? 17 : 24} className={'main-page__tables'}>
+                <TableSearchHeader onOpenSearch={() => {
+                    setShowInfo(!showUserInfo)
+                }} onChangeQuery={handlePatientsQuery}>
+                    <PatientsTable patients={dataSource}/>
                 </TableSearchHeader>
             </Col>
-            <Col  span={7}>
+            {showUserInfo && <Col span={7}>
                 <PatientInfoCard/>
-            </Col>
+            </Col>}
         </Row>
     )
 }

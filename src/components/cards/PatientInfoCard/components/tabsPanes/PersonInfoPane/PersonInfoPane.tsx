@@ -37,7 +37,7 @@ const PersonInfoPane: React.FC<PaneProps> = (props) => {
     const renderListBody = () => {
         if(labelArr && valuesArr){
             return labelArr.map((item, index) => (
-                <Descriptions.Item key={index} label={item}>
+                <Descriptions.Item className={'person-info-item'} key={index} label={item}>
                     {valuesArr[index] || '-'}
                 </Descriptions.Item>
             ))

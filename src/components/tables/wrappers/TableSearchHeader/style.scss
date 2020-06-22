@@ -1,5 +1,4 @@
 .table-top__logo{
-  max-width: 100px;
   display: flex;
   padding: 0 5px;
   align-items: center;
@@ -10,9 +9,22 @@
   color: #fff;
 }
 
+.table-top__search{
+  color: #000000;
+  background: #A9D1FF;
+}
+
 .table__top-search-wrapper{
   max-height: 24px;
   .ant-input{
     height: 100%;
+  }
+}
+
+.find-filters__wrapper{
+  padding: 0 4px;
+  &:hover{
+    cursor: pointer;
+    opacity: .7;
   }
 }
