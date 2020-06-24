@@ -25,19 +25,19 @@ const PatientSearchFilterForm: React.FC = (props) => {
             {(formProps) => (
                 <form className={'patient-search-filter-form'}>
                     <Row>
-                        <Col span={10}>
+                        <Col span={10} className={'col--border-right'}>
                             <PersonDisabilities/>
                         </Col>
                     </Row>
                     <Divider/>
                     <Row>
-                        <Col span={7}>
+                        <Col span={7} className={'col--border-right'}>
                             <AuthorDateChange/>
                         </Col>
-                        <Col span={6}>
+                        <Col span={6} className={'col--border-right'}>
                             <PersonalData/>
                         </Col>
-                        <Col span={5}>
+                        <Col span={5} className={'col--border-right'}>
                             <div className={'form-section'}>
                                 <h2>По участку</h2>
                                 <Row>
@@ -56,7 +56,7 @@ const PatientSearchFilterForm: React.FC = (props) => {
                                 </Row>
                             </div>
                         </Col>
-                        <Col span={3}>
+                        <Col span={3} className={'col--border-right'}>
                             <div className={'form-section'}>
                                 <h2>По койкам</h2>
                                 <Row>
@@ -96,14 +96,14 @@ const PatientSearchFilterForm: React.FC = (props) => {
                         </Col>
                     </Row>
                     <Divider/>
-                    <Row>
-                        <Col span={6}>
+                    <Row align={'stretch'}>
+                        <Col span={6} className={'col--border-right'}>
                             <LpuAttachment/>
                         </Col>
-                        <Col span={4}>
+                        <Col span={4} className={'col--border-right'}>
                             <RpfAcceptPeriod/>
                         </Col>
-                        <Col span={6}>
+                        <Col span={6} className={'col--border-right'}>
                             <PreventiveMeasures/>
                         </Col>
                         <Col span={7}>

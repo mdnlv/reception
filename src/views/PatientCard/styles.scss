@@ -1,0 +1,12 @@
+.patient-card-page{
+  padding: 3px;
+  min-height: 100vh !important;
+
+  &__info{
+    padding-right: 3px;
+  }
+
+  &__happenings{
+    padding-left: 3px;
+  }
+}

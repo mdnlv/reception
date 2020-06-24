@@ -3,12 +3,16 @@ import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom
 import RegistrationCard from "../views/RegistrationCard/RegistrationCard";
 import {Button, Result} from "antd";
 import MainPage from "../views/MainPage/MainPage";
+import PatientCard from "../views/PatientCard/PatientCard";
 
 const AppRouter: FC = (props) => {
     return (
         <Switch>
-            <Route exact path='/card'>
+            <Route exact path='/regcard'>
                 <RegistrationCard/>
+            </Route>
+            <Route path='/card'>
+                <PatientCard/>
             </Route>
             <Route path={'/'}>
                 <MainPage/>

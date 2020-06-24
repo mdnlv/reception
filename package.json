@@ -15,6 +15,7 @@
     "@types/react-router": "^5.1.7",
     "@types/react-router-dom": "^5.1.5",
     "antd": "^4.2.2",
+    "antd-mask-input": "^0.1.13",
     "date-fns": "^2.14.0",
     "formik": "^2.1.4",
     "formik-persist": "^1.1.0",

@@ -5,6 +5,7 @@ import {Card, Input, Row} from "antd";
 import PatientSearchFilterForm from "../../../forms/PatientSearchFilterForm/PatientSearchFilterForm";
 
 type SearchHeaderProps = {
+
     onChangeQuery: (query: string) => void
     onOpenSearch?(): void
 }
@@ -37,10 +38,10 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
         if(showSearchForm){
             return <div className={'table-top__logo table-top__search'}>
                 Расширенный поиск
-                <div className="find-filters__wrapper">
-                    <CloseOutlined onClick={() => {
-                        setShowForm(!showSearchForm)
-                    }}/>
+                <div onClick={() => {
+                    setShowForm(!showSearchForm)
+                }} className="find-filters__wrapper">
+                    <CloseOutlined/>
                 </div>
             </div>
         }else{

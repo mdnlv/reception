@@ -42,7 +42,7 @@ const AppHeaderBar: FC = (props) => {
                                 Записать на прием
                             </Button>
                             <Button className="header__button" onClick={() => {
-                                navigation.push('/card')
+                                navigation.push('/regcard')
                             }}>
                                 Регистрационная карточка
                             </Button>

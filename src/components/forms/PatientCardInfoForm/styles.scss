@@ -1,0 +1,14 @@
+.patient-card-info-form{
+  .form-section{
+    &__item{
+      margin-top: 10px;
+      &:last-child{
+        margin-bottom: 10px;
+      }
+    }
+
+    .ant-divider{
+      margin: 12px 0;
+    }
+  }
+}

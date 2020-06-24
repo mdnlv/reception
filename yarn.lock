@@ -2068,6 +2068,11 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
+antd-mask-input@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/antd-mask-input/-/antd-mask-input-0.1.13.tgz#471e7012aeddfd4a71181bc9809766724eaad4cd"
+  integrity sha512-Ox/fKrZsuGzXUiQDzgYRC7LjQ8eSo2Erh0Te1Y4vwnngnLQ1/EOhkC8fGOfSfJRCffxjMRIk5jazlhopqNGnuQ==
+
 antd@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/antd/-/antd-4.2.2.tgz#223ea6b3b3b5ce1a47d390f271c1b145ea9c5c15"

@@ -8,6 +8,7 @@ import Column from "antd/es/table/Column";
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import PatientRowTooltip from "../../tooltips/PatientRowTooltip/PatientRowTooltip";
 import Patient from "../../../types/data/Patient";
+import {useHistory} from "react-router";
 
 type TableProps = {
     patients: Patient[]
@@ -21,6 +22,7 @@ type ToolTipInfo = {
 
 const PatientsTable: FC<TableProps> = (props) => {
 
+    const navigation = useHistory()
     const [isShowTooltip, setIsShowTooltip] = useState(false)
     const [tooltipInfo, setTooltipInfo] = useState<ToolTipInfo>({
         fullName: '',
@@ -85,6 +87,9 @@ const PatientsTable: FC<TableProps> = (props) => {
         <>
             <Table dataSource={getFormattedProps} columns={columns}   onRow={(record) => {
                 return {
+                    onClick: event => {
+                        navigation.push(`/card/${record.key}`)
+                    },
                     onMouseEnter: event => {
                         event.persist()
                         setIsShowTooltip(true)
