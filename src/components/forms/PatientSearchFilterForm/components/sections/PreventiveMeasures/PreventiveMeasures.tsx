@@ -7,21 +7,21 @@ const PreventiveMeasures: React.FC = (props) => {
         <div className={'form-section'}>
             <h2>В списке профилактических мероприятий</h2>
             <Row>
-                <Col span={24}>
+                <Col span={14}>
                     <FormField label={'Тип'}>
-                        <Select/>
+                        <Select size={'small'}/>
                     </FormField>
                 </Col>
             </Row>
-            <Row>
+            <Row gutter={8}>
                 <Col>
                     <FormField label={'Год'}>
-                        <InputNumber>Год</InputNumber>
+                        <InputNumber size={'small'}>Год</InputNumber>
                     </FormField>
                 </Col>
                 <Col>
                     <FormField label={'Квартал'}>
-                        <InputNumber>Квартал</InputNumber>
+                        <InputNumber size={'small'}>Квартал</InputNumber>
                     </FormField>
                 </Col>
             </Row>

@@ -12,8 +12,8 @@ const AuthorDateChange: React.FC = (props) => {
 
     return (
         <div className={'form-section'}>
-            <h2>Нетрудоспособность</h2>
-            <Row align={'stretch'} gutter={16}>
+            <h2>По автору и дате изменения</h2>
+            <Row align={'stretch'} gutter={8}>
                 <Col span={12}>
                     <FormField label={'автор создания'} labelPosition={'right'}>
                         <Checkbox name={'authorAndDate.isAuthor'} onChange={form.handleChange} />
@@ -26,19 +26,21 @@ const AuthorDateChange: React.FC = (props) => {
                 </Col>
             </Row>
             <Row gutter={16}>
-                <FormField>
-                    <Select/>
-                </FormField>
-            </Row>
-            <Row gutter={16}>
-                <Col span={10}>
-                    <FormField label={'Тип документа'}>
-                        <DatePicker onChange={form.handleChange} value={moment(form.values.authorAndDate?.createdDate)}/>
+                <Col span={18}>
+                    <FormField>
+                        <Select size={'small'}/>
                     </FormField>
                 </Col>
-                <Col span={10}>
+            </Row>
+            <Row gutter={8}>
+                <Col span={6}>
+                    <FormField label={'Тип документа'}>
+                        <DatePicker size={'small'} onChange={form.handleChange} value={moment(form.values.authorAndDate?.createdDate)}/>
+                    </FormField>
+                </Col>
+                <Col span={6}>
                     <FormField label={'Дата создания'}>
-                        <DatePicker onChange={form.handleChange} value={moment(form.values.authorAndDate?.createdDate)}/>
+                        <DatePicker size={'small'} onChange={form.handleChange} value={moment(form.values.authorAndDate?.createdDate)}/>
                     </FormField>
                 </Col>
             </Row>

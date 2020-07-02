@@ -4,12 +4,17 @@ import RegistrationCard from "../views/RegistrationCard/RegistrationCard";
 import {Button, Result} from "antd";
 import MainPage from "../views/MainPage/MainPage";
 import PatientCard from "../views/PatientCard/PatientCard";
+import InfoPageTabs from "../components/tabs/InfoPageTabs/InfoPageTabs";
+import InfoPage from "../views/InfoPage/InfoPage";
 
 const AppRouter: FC = (props) => {
     return (
         <Switch>
             <Route exact path='/regcard'>
                 <RegistrationCard/>
+            </Route>
+            <Route exact path='/info'>
+                <InfoPage/>
             </Route>
             <Route path='/card'>
                 <PatientCard/>

@@ -5,6 +5,7 @@ import PatientInfoCard from "../../components/cards/PatientInfoCard/PatientInfoC
 import './styles.scss'
 import TableSearchHeader from "../../components/tables/wrappers/TableSearchHeader/TableSearchHeader";
 import moment from "moment";
+import TimeTable from "../../components/elements/TimeTable/TimeTable";
 
 const MainPage: FC = (props) => {
 
@@ -40,11 +41,24 @@ const MainPage: FC = (props) => {
     return (
         <Row className={'main-page'}>
             <Col span={showUserInfo ? 17 : 24} className={'main-page__tables'}>
-                <TableSearchHeader onOpenSearch={() => {
-                    setShowInfo(!showUserInfo)
-                }} onChangeQuery={handlePatientsQuery}>
-                    <PatientsTable patients={dataSource}/>
-                </TableSearchHeader>
+                <Row>
+                    <Col span={24}>
+                        <TableSearchHeader title={'Пациенты'} type={'filter'} onOpenSearch={() => {
+                            setShowInfo(!showUserInfo)
+                        }} onChangeQuery={handlePatientsQuery}>
+                            <PatientsTable patients={dataSource}/>
+                        </TableSearchHeader>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24} >
+                        <TableSearchHeader className={'docs-search-table'} title={'Врачи'} type={'filter'} onOpenSearch={() => {
+                            setShowInfo(!showUserInfo)
+                        }} onChangeQuery={() => {}}>
+                            <TimeTable/>
+                        </TableSearchHeader>
+                    </Col>
+                </Row>
             </Col>
             {showUserInfo && <Col span={7}>
                 <PatientInfoCard/>

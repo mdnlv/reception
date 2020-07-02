@@ -5,11 +5,11 @@ import FormField from "../../../../components/FormField/FormField";
 const RpfAcceptPeriod: React.FC = (props) => {
     return (
         <div className={'form-section'}>
-            <h2>Прикрепление к ЛПУ</h2>
+            <h2>Период подтверждения РПФ</h2>
             <Row>
                 <Col span={24}>
                     <FormField>
-                        <DatePicker/>
+                        <DatePicker size={'small'}/>
                     </FormField>
                 </Col>
             </Row>

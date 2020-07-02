@@ -12,6 +12,7 @@ import RpfAcceptPeriod from "./components/sections/RpfAcceptPeriod/RpfAcceptPeri
 import PreventiveMeasures from "./components/sections/PreventiveMeasures/PreventiveMeasures";
 import OutsideIdn from "./components/sections/OutsideIdn/OutsideIdn";
 import MedIntolerance from "../FeaturesForm/components/sections/MedIntolerance/MedIntolerance";
+import './styles.scss'
 
 const PatientSearchFilterForm: React.FC = (props) => {
     const store = useSelector((state: RootState) => state.searchPatientFilters)
@@ -43,14 +44,14 @@ const PatientSearchFilterForm: React.FC = (props) => {
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
@@ -62,14 +63,14 @@ const PatientSearchFilterForm: React.FC = (props) => {
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
@@ -81,14 +82,14 @@ const PatientSearchFilterForm: React.FC = (props) => {
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
                                         <FormField>
-                                            <Select/>
+                                            <Select size={'small'}/>
                                         </FormField>
                                     </Col>
                                 </Row>
@@ -100,13 +101,13 @@ const PatientSearchFilterForm: React.FC = (props) => {
                         <Col span={6} className={'col--border-right'}>
                             <LpuAttachment/>
                         </Col>
-                        <Col span={4} className={'col--border-right'}>
+                        <Col span={5} className={'col--border-right'}>
                             <RpfAcceptPeriod/>
                         </Col>
-                        <Col span={6} className={'col--border-right'}>
+                        <Col span={7} className={'col--border-right'}>
                             <PreventiveMeasures/>
                         </Col>
-                        <Col span={7}>
+                        <Col span={6}>
                             <OutsideIdn/>
                         </Col>
                     </Row>

@@ -9,14 +9,14 @@ const OutsideIdn: React.FC = (props) => {
             <Row>
                 <Col span={24}>
                     <FormField label={'Тип'}>
-                        <Select/>
+                        <Select size={'small'}/>
                     </FormField>
                 </Col>
             </Row>
             <Row>
                 <Col>
                     <FormField label={'Идентификатор'}>
-                        <Input/>
+                        <Input size={'small'}/>
                     </FormField>
                 </Col>
             </Row>

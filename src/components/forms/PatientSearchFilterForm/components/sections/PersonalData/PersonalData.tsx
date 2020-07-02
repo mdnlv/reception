@@ -11,27 +11,27 @@ const PersonalData: React.FC = (props) => {
     return (
         <div className={'form-section'}>
             <h2>По персональным данным</h2>
-            <Row>
+            <Row gutter={8}>
                <Col>
                    <FormField label={'Возраст с'}>
-                       <InputNumber name={'personalData.ageFrom'} onChange={form.handleChange} />
+                       <InputNumber size={'small'} name={'personalData.ageFrom'} onChange={form.handleChange} />
                    </FormField>
                </Col>
                 <Col>
                     <FormField label={'Возраст до'}>
-                        <InputNumber name={'personalData.ageTo'} onChange={form.handleChange} />
+                        <InputNumber size={'small'} name={'personalData.ageTo'} onChange={form.handleChange} />
                     </FormField>
                 </Col>
             </Row>
-            <Row>
+            <Row gutter={8} align={'bottom'}>
                 <Col>
                     <FormField label={'Год рождения'}>
-                        <InputNumber name={'personalData.birthYear'} onChange={form.handleChange} />
+                        <InputNumber size={'small'} name={'personalData.birthYear'} onChange={form.handleChange} />
                     </FormField>
                 </Col>
                 <Col>
                     <FormField label={'Месяц рождения'}>
-                        <InputNumber name={'personalData.birthMonth'} onChange={form.handleChange} />
+                        <InputNumber size={'small'} name={'personalData.birthMonth'} onChange={form.handleChange} />
                     </FormField>
                 </Col>
                 <Col>

@@ -1,6 +1,16 @@
 .happenings-list__item{
   padding: 12px 8px;
   border: 1px solid #ddd;
+  margin-top: 14px;
+  border-radius: 2px;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  &:first-child{
+    margin-top: 6px;
+  }
 
   h2{
     margin: 0 !important;
@@ -11,8 +21,12 @@
     align-items: center;
     height: 100%;
   }
+
+  &--selected{
+    background: #CAE2FF;
+  }
 }
 
-.happening-list__item-info{
+.happenings-list__info{
   padding: 0 10px;
 }

@@ -29,25 +29,30 @@ const AppHeaderBar: FC = (props) => {
                     </Col>
                     <Col>
                         <Space>
-                            <Button className="header__button">
+                            <Button size={'small'} className="header__button">
                                 Печать
                             </Button>
-                            <Button className="header__button">
+                            <Button size={'small'} className="header__button">
                                 КЭР
                             </Button>
-                            <Button className="header__button">
+                            <Button size={'small'} className="header__button">
                                 ЖОС
                             </Button>
-                            <Button className="header__button" onClick={showAppointment}>
+                            <Button size={'small'} className="header__button" onClick={showAppointment}>
                                 Записать на прием
                             </Button>
-                            <Button className="header__button" onClick={() => {
+                            <Button size={'small'} className="header__button" onClick={() => {
                                 navigation.push('/regcard')
                             }}>
                                 Регистрационная карточка
                             </Button>
-                            <Button className="header__button">
+                            <Button size={'small'} className="header__button">
                                 Новый пациент
+                            </Button>
+                            <Button size={'small'} className="header__button" onClick={() => {
+                                navigation.push('/info')
+                            }}>
+                                Справка
                             </Button>
                         </Space>
                     </Col>
