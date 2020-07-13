@@ -1,0 +1,28 @@
+.table-row{
+  max-width: 1001px;
+  overflow: hidden;
+
+  &__content{
+    position: relative;
+    display: flex;
+  }
+
+  .row-item-card__wrapper{
+    &::before{
+      height: 100%;
+      content: '';
+      width: 1px;
+      background: #e7e7e7;
+    }
+
+    &:last-child{
+      &::after{
+        height: 100%;
+        content: '';
+        width: 1px;
+        background: #e7e7e7;
+      }
+    }
+  }
+}
+

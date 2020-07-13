@@ -1,0 +1,32 @@
+.app-timetable__header{
+  padding-bottom: 15px;
+}
+
+
+.timetable-date-title__wrapper{
+  flex: 1;
+  text-align: center;
+}
+
+.timetable-date-picker{
+  flex: 1;
+
+  &__action{
+    padding: 0 6px;
+    color: #000;
+
+    &:hover{
+      cursor: pointer;
+      opacity: .7;
+    }
+  }
+
+  &__date{
+    font-size: 18px;
+    font-weight: bold;
+
+    h2{
+      margin: 0;
+    }
+  }
+}
