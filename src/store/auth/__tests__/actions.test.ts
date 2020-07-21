@@ -1,5 +1,5 @@
-import {INIT_AUTH} from "./types";
-import {initAuth} from "./actions";
+import {INIT_AUTH} from "../types";
+import {initAuth} from "../actions";
 
 describe('actions', () => {
     it('should create correct action', () => {

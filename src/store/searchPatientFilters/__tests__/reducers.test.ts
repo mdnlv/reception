@@ -1,5 +1,5 @@
-import {initialState, SearchPatientFiltersReducer} from "./reducers";
-import {setFormFilter} from "./actions";
+import {initialState, SearchPatientFiltersReducer} from "../reducers";
+import {setFormFilter} from "../actions";
 
 
 describe('search patient filters reducer', () => {

@@ -1,7 +1,6 @@
 import {
     AuthState,
     AuthStateType,
-    INIT_AUTH
 } from "./types";
 
 export const initialState: AuthState = {

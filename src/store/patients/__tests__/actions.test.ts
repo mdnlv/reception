@@ -1,5 +1,5 @@
-import {SET_CURRENT_PATIENT} from "./types";
-import {setCurrentPatient} from "./actions";
+import {SET_CURRENT_PATIENT} from "../types";
+import {setCurrentPatient} from "../actions";
 
 describe('actions', () => {
     it('should create correct action', () => {

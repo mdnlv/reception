@@ -17,6 +17,7 @@ const FeaturesForm: FC = (props) => {
 
     const store = useSelector((state: RootState) => state.registrationCard)
 
+
     return (
         <Formik
             initialValues={store.features}

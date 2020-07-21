@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from "enzyme";
+import {mount, shallow} from "enzyme";
 import TableRow from "./TableRow";
 
 
@@ -13,7 +13,7 @@ describe('TableRow', () => {
     })
 
     it('correct num of table row items', () => {
-        const wrapper = shallow(<TableRow {...tableRowProps}/>)
-        expect(wrapper.children().length).toEqual(40)
+        const wrapper = mount(<TableRow {...tableRowProps}/>)
+        expect(wrapper.find('.table-row__content').children().length).toEqual(40)
     })
 })

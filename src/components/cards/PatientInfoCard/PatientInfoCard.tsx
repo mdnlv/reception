@@ -3,6 +3,12 @@ import {Card, Descriptions, Tabs} from "antd";
 import PersonInfoPane from "./components/tabsPanes/PersonInfoPane/PersonInfoPane";
 import './styles.scss'
 import PersonAppointmentsPane from "./components/tabsPanes/PersonAppointmentsPane/PersonAppointmentsPane";
+import moment from "moment";
+
+type CardProps = {
+    patient?: any
+}
+
 
 const PatientInfoCard: React.FC = (props) => {
 
@@ -13,7 +19,16 @@ const PatientInfoCard: React.FC = (props) => {
                     <PersonInfoPane patient={{}}/>
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Прошедшие приемы" key="2">
-                    <PersonAppointmentsPane />
+                    <PersonAppointmentsPane appointmentsList={[
+                        {
+                            id: '1',
+                            date: moment(0).toDate(),
+                            type: 'test',
+                            specialization: 'test',
+                            doctor: 'test',
+                            unit: 'test'
+                        }
+                    ]} />
                 </Tabs.TabPane>
             </Tabs>
         </Card>

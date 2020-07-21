@@ -1,5 +1,5 @@
-import {initialPatientsState, PatientsReducer} from "./reducers";
-import {setCurrentPatient} from "./actions";
+import {initialPatientsState, PatientsReducer} from "../reducers";
+import {setCurrentPatient} from "../actions";
 
 
 describe('patients reducer', () => {

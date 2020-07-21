@@ -33,7 +33,7 @@ function PaginationSearchList<T>(props: PropsWithChildren<ListProps<T>>) {
                 }
             })
             if(colArr){
-                bodyRows.push(<Row className={'list-content__row'} gutter={8}>
+                bodyRows.push(<Row key={i} className={'list-content__row'} gutter={8}>
                     {colArr}
                 </Row>)
             }

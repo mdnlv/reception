@@ -1,5 +1,5 @@
-import {INIT_AUTH} from "./types";
-import {AuthReducer} from "./reducers";
+import {INIT_AUTH} from "../types";
+import {AuthReducer} from "../reducers";
 
 describe('auth reducer', () => {
     it('get init auth state', () => {

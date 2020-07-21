@@ -1,5 +1,5 @@
-import {initialState, RegistrationCardReducer} from "./reducers";
-import {setFormSection} from "./actions";
+import {initialState, RegistrationCardReducer} from "../reducers";
+import {setFormSection} from "../actions";
 
 
 describe('registration card reducer', () => {

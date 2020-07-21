@@ -1,6 +1,6 @@
-import {initialState} from "./reducers";
-import {SET_FORM_SECTION} from "./types";
-import {setFormSection} from "./actions";
+import {initialState} from "../reducers";
+import {SET_FORM_SECTION} from "../types";
+import {setFormSection} from "../actions";
 
 
 describe('registration actions', () => {

@@ -1,18 +1,25 @@
 import React, {FC, useState} from 'react'
-import {Col, Row} from "antd";
+import {Col, Row, Select} from "antd";
 import PatientsTable from "../../components/tables/PatientsTable/PatientsTable";
 import PatientInfoCard from "../../components/cards/PatientInfoCard/PatientInfoCard";
 import './styles.scss'
 import TableSearchHeader from "../../components/tables/wrappers/TableSearchHeader/TableSearchHeader";
 import moment from "moment";
 import TimeTable from "../../components/elements/TimeTable/TimeTable";
+import {useSelector, useStore} from "react-redux";
+import {RootState} from "../../store/store";
+import PatientReceptions from "../../components/modals/PatientReceptions/PatientReceptions";
+
 
 const MainPage: FC = (props) => {
 
+    const infoBooks = useSelector((state: RootState) => state.infoBooks)
     const [showUserInfo, setShowInfo] = useState(false)
+
     const handlePatientsQuery = (query: string) => {
         console.log(query)
     }
+
     const treeProps = {
         'asdasd123123': {
             title: 'asdad',

@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from "enzyme";
+import {mount, shallow} from "enzyme";
 import PaginationSearchList from "./PaginationSearchList";
 
 type testDataType = {
@@ -26,11 +26,11 @@ describe('PaginationSearchList', () => {
 
     it('renders correct list', () => {
 
-        const wrapper = shallow(<PaginationSearchList<testDataType> data={data} />).dive()
+        const wrapper = mount(<PaginationSearchList<testDataType> data={data} />)
         expect(wrapper.find('.list-content').children()).toHaveLength(2)
         //empty data
-        const emptyWrapper = shallow(<PaginationSearchList/>).dive()
-        expect(emptyWrapper.find('.list-content').children()).toHaveLength(0)
+        const emptyWrapper = mount(<PaginationSearchList/>)
+        expect(emptyWrapper.find('.list-content').children()).toHaveLength(1)
     })
 
 })

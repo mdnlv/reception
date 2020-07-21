@@ -19,8 +19,8 @@ import AdditionalHospitalizationPage from "./pages/AdditionalHospitalizationPage
 
 const RegistrationCardTabs: FC = (props) => {
     return (
-        <div  className='registration-card-tabs'>
-            <Tabs defaultActiveKey={'1'} animated={true}>
+        <div className='registration-card-tabs'>
+            <Tabs defaultActiveKey={'1'} size={'small'}>
                 <Tabs.TabPane key={'1'} tab='Паспортные данные'>
                     <PassportGeneralPage/>
                 </Tabs.TabPane>

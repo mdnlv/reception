@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useMemo, useState} from 'react'
 import {Button} from "antd";
 import {DownOutlined, UpOutlined} from "@ant-design/icons/lib"
 import './styles.scss'
@@ -15,21 +15,21 @@ const DropDownContent: FC<DropDownProps> = (props) => {
         setIsShown(!isShown)
     }
 
-    function getIcon() {
+    const iconBody = useMemo(() => {
         if(isShown){
             return <DownOutlined style={{marginTop: '4px'}}/>
         }else{
             return <UpOutlined/>
         }
-    }
+    }, [isShown])
 
     return (
         <div className={'drop-down__wrapper'}>
             <div className="drop-down__title">
                 <h2>{props.title}</h2>
-                <Button size={'small'}  shape={'circle'} className={'dropdown-btn'} onClick={(e) => {
+                <Button size={'small'}  shape={'circle'} className={'drop-down-btn'} onClick={(e) => {
                     changeShown()
-                }} icon={getIcon()}/>
+                }} icon={iconBody}/>
             </div>
             {isShown && <div className="drop-down__content">
                 {props.children}
