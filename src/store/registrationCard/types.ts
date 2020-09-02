@@ -14,13 +14,28 @@ import EmploymentFormState from "../../components/forms/EmploymentForm/types"
 import PersonPrivilegesFormState from "../../components/forms/PrivilegesForm/types"
 
 
-
+export const FETCH_REG_CARD = 'FETCH_INFO_BOOKS'
+export const FETCH_REG_CARD_SUCCESS = 'FETCH_INFO_BOOKS_SUCCESS'
+export const FETCH_REG_CARD_ERROR = 'FETCH_INFO_BOOKS_ERROR'
 export const SET_FORM_SECTION = 'SET_FORM_SECTION'
 
 export interface SetFormAction {
     type: typeof SET_FORM_SECTION
     payload: RegistrationCardState
 }
+
+export interface FETCH_REG_CARD {
+    type: typeof FETCH_REG_CARD
+}
+
+export interface FETCH_REG_CARD_SUCCESS {
+    type: typeof FETCH_REG_CARD_SUCCESS
+}
+
+export interface FETCH_REG_CARD_ERROR {
+    type: typeof  FETCH_REG_CARD_ERROR
+}
+
 
 export interface RegistrationCardState {
     additionalHospitalization: AdditionalHospitalizationFormState
@@ -41,3 +56,4 @@ export interface RegistrationCardState {
 }
 
 export type RegistrationCardStateType = SetFormAction
+export type RegCardActionsType = FETCH_REG_CARD | FETCH_REG_CARD_SUCCESS | FETCH_REG_CARD_ERROR

@@ -1,5 +1,5 @@
 import Patient from "../../types/data/Patient";
-import {PatientsStateType} from "./types";
+import {PatientsActionsType} from "./types";
 
 
 export const initialPatientsState = {
@@ -9,7 +9,7 @@ export const initialPatientsState = {
 
 export function PatientsReducer(
     state = initialPatientsState,
-    action: PatientsStateType
+    action: PatientsActionsType
 ) {
     switch (action.type) {
         case "SET_CURRENT_PATIENT":

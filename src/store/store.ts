@@ -8,6 +8,7 @@ import {InfoBookReducer} from "./infoBook/reducers";
 import createSagaMiddleware from 'redux-saga'
 import { all, fork } from "redux-saga/effects";
 import {infoBookSaga} from "./infoBook/sagas";
+import {patientsSaga} from "./patients/sagas";
 
 
 export const rootReducer = combineReducers({
@@ -22,7 +23,8 @@ export type RootState = ReturnType<typeof rootReducer>
 
 function* rootSaga() {
     yield all([
-        fork(infoBookSaga)
+        fork(infoBookSaga),
+        fork(patientsSaga)
     ])
 }
 

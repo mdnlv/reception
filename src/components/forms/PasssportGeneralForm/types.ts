@@ -9,7 +9,7 @@ export interface PassportContactType {
 
 export default interface FormState {
     passportInfo: {
-        passport: string
+        passportType: string
         serial: string
         number: string
         fromDate: Date
