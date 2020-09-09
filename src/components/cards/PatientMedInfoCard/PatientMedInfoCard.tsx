@@ -1,35 +1,47 @@
-import React from 'react'
-import {Button, Card, Row} from "antd";
-import PatientCardInfoForm from "../../forms/PatientCardInfoForm/PatientCardInfoForm";
-import './styles.scss'
-import {useHistory} from "react-router";
+import React from 'react';
+import { Button, Row } from 'antd';
+import PatientCardInfoForm from '../../forms/PatientCardInfoForm/PatientCardInfoForm';
+import './styles.scss';
+import { useHistory } from 'react-router';
+import Patient from '../../../types/data/Patient';
 
-const PatientMedInfoCard: React.FC = (props) => {
-
-    const navigation = useHistory()
-
-    const navigateBack = () => {
-        navigation.goBack()
-    }
-
-    return (
-        <div className={'patient-card'}>
-            <Row justify={'space-between'} align={'middle'} className="patient-card__header">
-                <h3 className={'header-title'}>Пациент</h3>
-                <div className="patient-card__header-actions header-actions">
-                    <Button size={'small'} className={'header-actions__logout'} onClick={navigateBack}>
-                        Выйти из мед карты
-                    </Button>
-                    <Button size={'small'} className={'header-actions__save save-btn'}>
-                        Сохранить
-                    </Button>
-                </div>
-            </Row>
-            <div className="patient-card__content">
-                <PatientCardInfoForm/>
-            </div>
-        </div>
-    )
+interface InfoCardProps {
+  currentPatient: Patient;
 }
 
-export default PatientMedInfoCard
+const PatientMedInfoCard: React.FC<InfoCardProps> = (props) => {
+  const navigation = useHistory();
+
+  const navigateBack = () => {
+    navigation.goBack();
+  };
+
+  return (
+    <div className={'patient-card'}>
+      <Row
+        justify={'space-between'}
+        align={'middle'}
+        className="patient-card__header">
+        <h3 className={'header-title'}>Пациент</h3>
+        <div className="patient-card__header-actions header-actions">
+          <Button
+            size={'small'}
+            className={'header-actions__logout'}
+            onClick={navigateBack}>
+            Выйти из мед карты
+          </Button>
+          <Button size={'small'} className={'header-actions__save save-btn'}>
+            Сохранить
+          </Button>
+        </div>
+      </Row>
+      <div className="patient-card__content">
+        {props.currentPatient && (
+          <PatientCardInfoForm patient={props.currentPatient} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PatientMedInfoCard;

@@ -1,127 +1,152 @@
-import React, {FC, useState} from 'react'
-import {Col, Row, Select} from "antd";
-import PatientsTable from "../../components/tables/PatientsTable/PatientsTable";
-import PatientInfoCard from "../../components/cards/PatientInfoCard/PatientInfoCard";
-import './styles.scss'
-import TableSearchHeader from "../../components/tables/wrappers/TableSearchHeader/TableSearchHeader";
-import moment from "moment";
-import TimeTable from "../../components/elements/TimeTable/TimeTable";
-import {useSelector, useStore} from "react-redux";
-import {RootState} from "../../store/store";
-import PatientReceptions from "../../components/modals/PatientReceptions/PatientReceptions";
-
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { Col, Row } from 'antd';
+import PatientsTable from '../../components/tables/PatientsTable/PatientsTable';
+import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
+import './styles.scss';
+import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
+import TimeTable from '../../components/elements/TimeTable/TimeTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { fetchPatients } from '../../store/patients/actions';
 
 const MainPage: FC = (props) => {
+  const dispatch = useDispatch();
+  const infoBooks = useSelector((state: RootState) => state.infoBooks);
+  const { patients, isLoading } = useSelector(
+    (state: RootState) => state.patients,
+  );
+  const [currentPatient, setCurrentPatient] = useState<number | undefined>(
+    undefined,
+  );
+  const [showUserInfo, setShowInfo] = useState(false);
 
-    const infoBooks = useSelector((state: RootState) => state.infoBooks)
-    const [showUserInfo, setShowInfo] = useState(false)
+  const currentPatientMemo = useMemo(() => {
+    return patients.find((item) => item.code === currentPatient);
+  }, [currentPatient]);
 
-    const handlePatientsQuery = (query: string) => {
-        console.log(query)
+  useEffect(() => {
+    dispatch(
+      fetchPatients({
+        limit: 300,
+        offset: 0,
+      }),
+    );
+  }, []);
+
+  function onTableRowClick(id: number) {
+    if (id === currentPatient) {
+      setCurrentPatient(undefined);
+    } else {
+      setCurrentPatient(id);
     }
+  }
 
-    const treeProps = {
-        'asdasd123123': {
-            title: 'asdad',
-            unit: 'sadas',
-            doc: 'dsadas',
-            children: {
-                'sadasd': {
-                    title: 'sad34',
-                    unit: 'asd34',
-                    doc: '324d',
-                    children: {
-                        'asd34322': {
-                            title: '432999fsd',
-                            unit: 'das',
-                            doc: '34242'
-                        },
-                        '2342423fdsfsd': {
-                            title: '342424',
-                            unit: 'dsa233',
-                            doc: '324',
-                        }
-                    }
-                }
-            }
-        },
-        '234eew3': {
-            title: 'asdad',
-            unit: 'sadas',
-            doc: 'dsadas',
-            children: {
-                'fds3fds24': {
-                    title: 'sad34',
-                    unit: 'asd34',
-                    doc: '324d',
-                    children: {
-                        '342423432fdsf': {
-                            title: '432999fsd',
-                            unit: 'das',
-                            doc: '34242'
-                        },
-                        'dsccc3244332': {
-                            title: '342424',
-                            unit: 'dsa233',
-                            doc: '324',
-                        }
-                    }
-                }
-            }
-        }
+  const handlePatientsQuery = (query: string) => {
+    console.log(query);
+  };
+
+  const getInfoCard = useMemo(() => {
+    if (showUserInfo) {
+      return !!currentPatient;
+    } else {
+      return false;
     }
+  }, [showUserInfo, currentPatient]);
 
-    const dataSource = [
-        {
-            id: 1,
-            fullName: 'Test test test',
-            birthDate: moment(new Date()).toDate(),
-            sex: 'М',
-            snils: '213-312321-312',
-            cNumber: '132123123123',
-            kNumber: '213e123123,',
-            address: 'Санкт-Петербург,\n' +
-                'Революции ш.д.18 кв.1',
-            viewType: 'амбуларно',
-            code: '213',
-            quotes: [],
-            medicalAttachment: 'asdas34',
-            regAddress: '',
-            livingAddress: '',
-            doc: '',
-            policyOMC: '',
-            medExamination: moment(new Date()).toDate()
-
+  const treeProps = {
+    asdasd123123: {
+      title: 'asdad',
+      unit: 'sadas',
+      doc: 'dsadas',
+      children: {
+        sadasd: {
+          title: 'sad34',
+          unit: 'asd34',
+          doc: '324d',
+          children: {
+            asd34322: {
+              title: '432999fsd',
+              unit: 'das',
+              doc: '34242',
+            },
+            '2342423fdsfsd': {
+              title: '342424',
+              unit: 'dsa233',
+              doc: '324',
+            },
+          },
         },
-    ]
+      },
+    },
+    '234eew3': {
+      title: 'asdad',
+      unit: 'sadas',
+      doc: 'dsadas',
+      children: {
+        fds3fds24: {
+          title: 'sad34',
+          unit: 'asd34',
+          doc: '324d',
+          children: {
+            '342423432fdsf': {
+              title: '432999fsd',
+              unit: 'das',
+              doc: '34242',
+            },
+            dsccc3244332: {
+              title: '342424',
+              unit: 'dsa233',
+              doc: '324',
+            },
+          },
+        },
+      },
+    },
+  };
 
-    return (
-        <Row className={'main-page'}>
-            <Col span={showUserInfo ? 17 : 24} className={'main-page__tables'}>
-                <Row>
-                    <Col span={24}>
-                        <TableSearchHeader title={'Пациенты'} type={'filter'} onOpenSearch={() => {
-                            setShowInfo(!showUserInfo)
-                        }} onChangeQuery={handlePatientsQuery}>
-                            <PatientsTable patients={dataSource}/>
-                        </TableSearchHeader>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24} >
-                        <TableSearchHeader className={'docs-search-table'} title={'Врачи'} type={'filter'} onOpenSearch={() => {
-                            setShowInfo(!showUserInfo)
-                        }} onChangeQuery={() => {}}>
-                            <TimeTable data={treeProps}/>
-                        </TableSearchHeader>
-                    </Col>
-                </Row>
-            </Col>
-            {showUserInfo && <Col span={7}>
-                <PatientInfoCard/>
-            </Col>}
+  return (
+    <Row className={'main-page'}>
+      <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
+        <Row>
+          <Col span={24}>
+            <TableSearchHeader
+              title={'Пациенты'}
+              type={'filter'}
+              onOpenSearch={() => {
+                setShowInfo(!showUserInfo);
+              }}
+              onChangeQuery={handlePatientsQuery}>
+              <PatientsTable
+                onPatientClick={onTableRowClick}
+                isLoading={isLoading}
+                patients={patients}
+                currentPatient={currentPatient}
+              />
+            </TableSearchHeader>
+          </Col>
         </Row>
-    )
-}
+        <Row>
+          <Col span={24}>
+            <TableSearchHeader
+              className={'docs-search-table'}
+              title={'Врачи'}
+              type={'filter'}
+              onOpenSearch={() => {
+                setShowInfo(!showUserInfo);
+              }}
+              onChangeQuery={() => {}}>
+              <TimeTable data={treeProps} />
+            </TableSearchHeader>
+          </Col>
+        </Row>
+      </Col>
+      {getInfoCard && (
+        <Col span={7}>
+          <PatientInfoCard isLoading={isLoading} patient={currentPatientMemo} />
+        </Col>
+      )}
+    </Row>
+  );
+};
 
-export default MainPage
+export default MainPage;
