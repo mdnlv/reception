@@ -10,16 +10,14 @@ import 'moment/locale/ru';
 import { ConfigProvider } from 'antd';
 import ruRu from 'antd/lib/locale-provider/ru_RU';
 import { Provider } from 'react-redux';
-import configureStore from './store/store';
+import AppStore from './store/store';
 
 //set locale language for moment.js shared libs
 moment.locale('ru');
 
-const store = configureStore();
-
 ReactDOM.render(
   <ConfigProvider locale={ruRu}>
-    <Provider store={store}>
+    <Provider store={AppStore}>
       <App />
     </Provider>
   </ConfigProvider>,

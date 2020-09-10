@@ -2,21 +2,30 @@ import React, { useEffect } from 'react';
 import './styles.scss';
 import { Col, Row, Spin } from 'antd';
 import PatientMedInfoCard from '../../components/cards/PatientMedInfoCard/PatientMedInfoCard';
-import PatientHappenings from '../../components/cards/PatientHappenings/PatientHappenings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { fetchIdPatient } from '../../store/patientCard/actions';
+import {
+  fetchIdPatient,
+  fetchPatientEvents,
+} from '../../store/patientCard/actions';
 import { RootState } from '../../store/store';
+import { fetchEventTypes, fetchPersons } from '../../store/rb/actions';
 
 const PatientCard: React.FC = (props) => {
   const dispatch = useDispatch();
-  const { isLoading, currentPatient } = useSelector(
+  const { isLoading, currentPatient, events } = useSelector(
     (state: RootState) => state.patientCard,
   );
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
+    dispatch(fetchPersons());
+    dispatch(fetchEventTypes());
+  }, []);
+
+  useEffect(() => {
     dispatch(fetchIdPatient(parseInt(id)));
+    dispatch(fetchPatientEvents(parseInt(id)));
   }, []);
 
   return (
@@ -32,9 +41,7 @@ const PatientCard: React.FC = (props) => {
               <PatientMedInfoCard currentPatient={currentPatient} />
             )}
           </Col>
-          <Col span={16} className={'patient-card-page__happenings'}>
-            <PatientHappenings />
-          </Col>
+          <Col span={16} className={'patient-card-page__happenings'}></Col>
         </Row>
       )}
     </>

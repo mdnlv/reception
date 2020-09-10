@@ -7,9 +7,9 @@ export interface AuthState {
     }
 }
 
-export interface InitAuthAction{
+export interface INIT_AUTH_ACTION{
     type: typeof INIT_AUTH
     payload: AuthState
 }
 
-export type AuthStateType = InitAuthAction
+export type AuthActionsType = INIT_AUTH_ACTION

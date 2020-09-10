@@ -21,6 +21,6 @@ export function InfoBookReducer(
                 error: 'FETCH_INFO_BOOKS_ERROR'
             }
         default:
-            return initialState
+            return state
     }
 }

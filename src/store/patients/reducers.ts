@@ -15,10 +15,11 @@ export function PatientsReducer(
     case 'SET_CURRENT_PATIENT':
       console.log(action.type);
       return {
-        ...initialPatientsState,
+        ...state,
         currentPatient: action.payload.patientId.toString(),
       };
     case 'SET_PATIENTS':
+      console.log(state)
       return {
         ...state,
         patients: action.payload,
@@ -29,6 +30,6 @@ export function PatientsReducer(
         isLoading: action.payload,
       };
     default:
-      return { ...initialPatientsState };
+      return state;
   }
 }

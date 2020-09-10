@@ -143,6 +143,6 @@ export function RegistrationCardReducer(
         ...action.payload,
       };
     default:
-      return { ...initialState };
+      return state;
   }
 }

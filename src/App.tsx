@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Layout, Menu, Row } from 'antd';
 import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
 import AppRouter from './router/router';
 import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { initAuth } from './store/auth/actions';
 
 function App() {
   return (

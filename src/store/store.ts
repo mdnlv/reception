@@ -11,6 +11,8 @@ import { infoBookSaga } from './infoBook/sagas';
 import { patientsSaga } from './patients/sagas';
 import { PatientCardReducer } from './patientCard/reducers';
 import { patientCardSaga } from './patientCard/sagas';
+import rbSaga from './rb/sagas';
+import RbReducer from './rb/reducers';
 
 export const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -19,22 +21,29 @@ export const rootReducer = combineReducers({
   searchPatientFilters: SearchPatientFiltersReducer,
   infoBooks: InfoBookReducer,
   patientCard: PatientCardReducer,
+  rb: RbReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 function* rootSaga() {
-  yield all([fork(infoBookSaga), fork(patientsSaga), fork(patientCardSaga)]);
+  yield all([
+    fork(infoBookSaga),
+    fork(patientsSaga),
+    fork(patientCardSaga),
+    fork(rbSaga),
+  ]);
 }
 
-export default function configureStore() {
+export function configureStore() {
   const composeEnchancers = composeWithDevTools({});
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(
     rootReducer,
-    {},
     composeEnchancers(applyMiddleware(sagaMiddleware)),
   );
   sagaMiddleware.run(rootSaga);
   return store;
 }
+
+export default configureStore();

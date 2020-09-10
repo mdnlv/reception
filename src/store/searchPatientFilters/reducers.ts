@@ -11,6 +11,6 @@ export function SearchPatientFiltersReducer(
         case SET_SEARCH_FILTER:
             return {...action.payload}
         default:
-            return initialState
+            return state
     }
 }

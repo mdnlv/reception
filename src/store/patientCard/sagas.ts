@@ -1,4 +1,4 @@
-import { FETCH_ID_PATIENT } from './types';
+import { FETCH_ID_PATIENT, FETCH_PATIENT_EVENTS } from './types';
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import PatientsService from '../../services/PatientsService';
 import { AxiosResponse } from 'axios';
@@ -7,8 +7,11 @@ import {
   fetchIdPatientError,
   setPatient,
   setPatientCardLoading,
+  setPatientEvents,
 } from './actions';
 import transformPatientResponse from '../utils/transformPatientResponse';
+import EventService from '../../services/EventService';
+import PatientEventResponse from '../../interfaces/responses/events/patientEvent';
 
 function* asyncFetchPatient(param: FETCH_ID_PATIENT) {
   try {
@@ -29,8 +32,32 @@ function* asyncFetchPatient(param: FETCH_ID_PATIENT) {
   }
 }
 
+function* asyncFetchPatientEvents(action: FETCH_PATIENT_EVENTS) {
+  try {
+    const events: AxiosResponse<PatientEventResponse[]> = yield call(
+      EventService.fetchPersonEvents,
+      action.payload,
+    );
+    if (events.data) {
+      const formattedData = events.data.map((item) => ({
+        id: item.id,
+        createDatetime: item.createDatetime,
+        createPersonId: item.createPerson_id,
+        eventTypeId: item.eventType_id,
+        setDate: item.setDate,
+        setPersonId: item.setPerson_id,
+        note: item.note,
+      }));
+      yield put(setPatientEvents(formattedData));
+    }
+  } catch (e) {
+  } finally {
+  }
+}
+
 function* watchAsync() {
   yield takeEvery(FETCH_ID_PATIENT, asyncFetchPatient);
+  yield takeEvery(FETCH_PATIENT_EVENTS, asyncFetchPatientEvents);
 }
 
 export function* patientCardSaga() {

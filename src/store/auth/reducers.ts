@@ -1,6 +1,6 @@
 import {
+    AuthActionsType,
     AuthState,
-    AuthStateType,
 } from "./types";
 
 export const initialState: AuthState = {
@@ -12,14 +12,16 @@ export const initialState: AuthState = {
 
 export function AuthReducer(
     state = initialState,
-    action: AuthStateType
+    action: AuthActionsType
 ): AuthState {
     switch (action.type) {
         case "INIT_AUTH":
+            console.log(state)
             return {
+                ...state,
                 ...action.payload
             }
         default:
-            return initialState
+            return state
     }
 }
