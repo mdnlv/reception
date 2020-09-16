@@ -1,27 +1,35 @@
-import React from 'react'
-import {Button, Checkbox, Col, DatePicker, Input, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
+import React from 'react';
+import { Col, Input, Row, Select } from 'antd';
+import FormField from '../../../../components/FormField/FormField';
+import { useFormikContext } from 'formik';
+import PartialFormState from '../../../types';
 
 const OutsideIdn: React.FC = (props) => {
-    return (
-        <div className={'form-section'}>
-            <h2>По внешнему идентификатору</h2>
-            <Row>
-                <Col span={24}>
-                    <FormField label={'Тип'}>
-                        <Select size={'small'}/>
-                    </FormField>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <FormField label={'Идентификатор'}>
-                        <Input size={'small'}/>
-                    </FormField>
-                </Col>
-            </Row>
-        </div>
-    )
-}
+  const form = useFormikContext<PartialFormState>();
 
-export default OutsideIdn
+  return (
+    <div className={'form-section'}>
+      <h2>По внешнему идентификатору</h2>
+      <Row>
+        <Col span={24}>
+          <FormField label={'Тип'}>
+            <Select size={'small'} />
+          </FormField>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <FormField label={'Идентификатор'}>
+            <Input
+              size={'small'}
+              name={'identifier'}
+              onChange={form.handleChange}
+            />
+          </FormField>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default OutsideIdn;

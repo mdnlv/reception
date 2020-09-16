@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PatientHappeningsHeader from './components/PatientHappeningsHeader/PatientHappeningsHeader';
 import './styles.scss';
 import { Col, Row } from 'antd';
 import PatientHappeningsList from './components/PatienHappeningsList/PatientHappeningsList';
 import UploadDoc from '../../modals/UploadDoc/UploadDoc';
+import DetailedPatientEvent from '../../../types/data/DetailedPatientEvent';
 
 interface HappeningsProps {
-  events: [
-    {
-      id: number;
-      type: string;
-      assignDoc: string;
-      executedDoc: string;
-      state: string;
-      startDate: Date;
-    },
-  ];
+  events: DetailedPatientEvent[];
 }
 
 const PatientHappenings: React.FC<HappeningsProps> = (props) => {
@@ -23,6 +15,7 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
     number | undefined
   >(1);
   const [isVisibleModal, setVisibleModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const selectHappening = (index: number) => {
     if (selectedHappening !== index) {
@@ -31,6 +24,27 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
       setSelectedHappening(undefined);
     }
   };
+
+  function onQueryChange(query: string) {
+    setSearchQuery(query);
+  }
+
+  const getQueryEvents = useMemo(() => {
+    if (searchQuery) {
+      return props.events.filter((item) => {
+        return (
+          item.assignDoc.toLowerCase().indexOf(searchQuery.toLowerCase()) !==
+            -1 ||
+          item.executedDoc.toLowerCase().indexOf(searchQuery.toLowerCase()) !==
+            -1 ||
+          item.state.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 ||
+          item.type.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        );
+      });
+    } else {
+      return props.events;
+    }
+  }, [searchQuery, props.events]);
 
   const showUploadModal = () => {
     setVisibleModal(true);
@@ -43,13 +57,15 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
       </div>
       <div className="patient-happenings-card__content">
         <PatientHappeningsHeader
+          searchQuery={searchQuery}
+          onInputChange={onQueryChange}
           uploadDoc={showUploadModal}
           selectedHappening={selectedHappening}
         />
         <Row>
           <Col span={24}>
             <PatientHappeningsList
-              data={props.events}
+              data={getQueryEvents}
               onSelect={selectHappening}
               selectedItem={selectedHappening}
             />

@@ -1,13 +1,29 @@
 import React, { useEffect } from 'react';
-import { Col, Layout, Menu, Row } from 'antd';
+import { Col, Layout, Row } from 'antd';
 import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
 import AppRouter from './router/router';
 import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { initAuth } from './store/auth/actions';
+import {
+  fetchEventTypes,
+  fetchInvalidDocuments,
+  fetchInvalidReasons,
+  fetchOrganisations,
+  fetchPersons,
+} from './store/rb/actions';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPersons());
+    dispatch(fetchEventTypes());
+    dispatch(fetchInvalidDocuments());
+    dispatch(fetchOrganisations());
+    dispatch(fetchInvalidReasons());
+  }, []);
+
   return (
     <Router>
       <Layout>

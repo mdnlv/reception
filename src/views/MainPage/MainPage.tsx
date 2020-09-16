@@ -8,6 +8,10 @@ import TimeTable from '../../components/elements/TimeTable/TimeTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { fetchPatients } from '../../store/patients/actions';
+import exampleTree from './exampleTree';
+import { fetchPatientEvents } from '../../store/patientCard/actions';
+import getDetailedEvent from '../../store/utils/getDetailedEvent';
+import { detailedInvalidReasonsSelector } from '../../store/rb/selectors';
 
 const MainPage: FC = (props) => {
   const dispatch = useDispatch();
@@ -15,14 +19,22 @@ const MainPage: FC = (props) => {
   const { patients, isLoading } = useSelector(
     (state: RootState) => state.patients,
   );
+  const { events } = useSelector((state: RootState) => state.patientCard);
+  const { rbPersons, rbEventTypes } = useSelector(
+    (state: RootState) => state.rb,
+  );
   const [currentPatient, setCurrentPatient] = useState<number | undefined>(
     undefined,
   );
   const [showUserInfo, setShowInfo] = useState(false);
-
   const currentPatientMemo = useMemo(() => {
     return patients.find((item) => item.code === currentPatient);
   }, [currentPatient]);
+  const selectorData = useSelector(detailedInvalidReasonsSelector);
+
+  useEffect(() => {
+    console.log('sD', selectorData);
+  }, [selectorData]);
 
   useEffect(() => {
     dispatch(
@@ -32,6 +44,24 @@ const MainPage: FC = (props) => {
       }),
     );
   }, []);
+
+  useEffect(() => {
+    if (currentPatient) {
+      dispatch(fetchPatientEvents(currentPatient));
+    }
+  }, [currentPatient, rbPersons, rbEventTypes]);
+
+  const detailedAppointments = useMemo(() => {
+    const appointments = getDetailedEvent(events, rbEventTypes, rbPersons);
+    return appointments.map((item) => ({
+      id: item.id,
+      doctor: item.executedDoc,
+      type: item.type,
+      specialization: '',
+      unit: '',
+      date: item.startDate,
+    }));
+  }, [rbEventTypes, rbPersons, events]);
 
   function onTableRowClick(id: number) {
     if (id === currentPatient) {
@@ -52,57 +82,6 @@ const MainPage: FC = (props) => {
       return false;
     }
   }, [showUserInfo, currentPatient]);
-
-  const treeProps = {
-    asdasd123123: {
-      title: 'asdad',
-      unit: 'sadas',
-      doc: 'dsadas',
-      children: {
-        sadasd: {
-          title: 'sad34',
-          unit: 'asd34',
-          doc: '324d',
-          children: {
-            asd34322: {
-              title: '432999fsd',
-              unit: 'das',
-              doc: '34242',
-            },
-            '2342423fdsfsd': {
-              title: '342424',
-              unit: 'dsa233',
-              doc: '324',
-            },
-          },
-        },
-      },
-    },
-    '234eew3': {
-      title: 'asdad',
-      unit: 'sadas',
-      doc: 'dsadas',
-      children: {
-        fds3fds24: {
-          title: 'sad34',
-          unit: 'asd34',
-          doc: '324d',
-          children: {
-            '342423432fdsf': {
-              title: '432999fsd',
-              unit: 'das',
-              doc: '34242',
-            },
-            dsccc3244332: {
-              title: '342424',
-              unit: 'dsa233',
-              doc: '324',
-            },
-          },
-        },
-      },
-    },
-  };
 
   return (
     <Row className={'main-page'}>
@@ -135,14 +114,18 @@ const MainPage: FC = (props) => {
                 setShowInfo(!showUserInfo);
               }}
               onChangeQuery={() => {}}>
-              <TimeTable data={treeProps} />
+              <TimeTable data={exampleTree} />
             </TableSearchHeader>
           </Col>
         </Row>
       </Col>
       {getInfoCard && (
         <Col span={7}>
-          <PatientInfoCard isLoading={isLoading} patient={currentPatientMemo} />
+          <PatientInfoCard
+            isLoading={isLoading}
+            patient={currentPatientMemo}
+            appointments={detailedAppointments}
+          />
         </Col>
       )}
     </Row>

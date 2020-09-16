@@ -3,6 +3,10 @@ import {
   FETCH_PATIENTS,
   FETCH_PATIENTS_ERROR,
   PatientsActionsType,
+  QUERY_PATIENTS,
+  QUERY_PATIENTS_ERROR,
+  QUERY_PATIENTS_SUCCESS,
+  QueryPatientsFilters,
   SET_CURRENT_PATIENT,
   SET_LOADING,
   SET_PATIENTS,
@@ -42,5 +46,31 @@ export function setLoading(loading: boolean) {
   return {
     type: SET_LOADING,
     payload: loading,
+  };
+}
+
+export function setFoundPatients(patients: Patient[]) {
+  return {
+    type: SET_PATIENTS,
+    payload: patients,
+  };
+}
+
+export function queryPatients(queryFilters: QueryPatientsFilters) {
+  return {
+    type: QUERY_PATIENTS,
+    payload: queryFilters,
+  };
+}
+
+export function queryPatientsError() {
+  return {
+    type: QUERY_PATIENTS_ERROR,
+  };
+}
+
+export function queryPatientsSuccess() {
+  return {
+    type: QUERY_PATIENTS_SUCCESS,
   };
 }

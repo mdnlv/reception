@@ -3,13 +3,14 @@ import { Card, Spin, Tabs } from 'antd';
 import PersonInfoPane from './components/tabsPanes/PersonInfoPane/PersonInfoPane';
 import './styles.scss';
 import PersonAppointmentsPane from './components/tabsPanes/PersonAppointmentsPane/PersonAppointmentsPane';
-import moment from 'moment';
 import Patient from '../../../types/data/Patient';
+import PersonAppointment from '../../../types/data/PersonAppointment';
 
 type CardProps = {
   patient?: Patient;
   policyTitle?: string;
   isLoading: boolean;
+  appointments?: PersonAppointment[];
 };
 
 const PatientInfoCard: React.FC<CardProps> = (props) => {
@@ -29,18 +30,7 @@ const PatientInfoCard: React.FC<CardProps> = (props) => {
               />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Прошедшие приемы" key="2">
-              <PersonAppointmentsPane
-                appointmentsList={[
-                  {
-                    id: '1',
-                    date: moment(0).toDate(),
-                    type: 'test',
-                    specialization: 'test',
-                    doctor: 'test',
-                    unit: 'test',
-                  },
-                ]}
-              />
+              <PersonAppointmentsPane appointmentsList={props.appointments} />
             </Tabs.TabPane>
           </Tabs>
         )}

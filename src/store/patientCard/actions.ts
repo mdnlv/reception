@@ -6,6 +6,7 @@ import {
   FETCH_PATIENT_EVENTS_SUCCESS,
   SET_ID_PATIENT,
   SET_PATIENT_CARD_LOADING,
+  SET_PATIENT_EVENTS,
 } from './types';
 import Patient from '../../types/data/Patient';
 import PatientEvent from '../../types/data/PatientEvent';
@@ -58,7 +59,7 @@ export function fetchPatientEventsSuccess(id: number) {
 
 export function setPatientEvents(events: PatientEvent[]) {
   return {
-    type: FETCH_PATIENT_EVENTS,
+    type: SET_PATIENT_EVENTS,
     payload: events,
   };
 }

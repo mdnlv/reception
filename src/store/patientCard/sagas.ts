@@ -38,6 +38,7 @@ function* asyncFetchPatientEvents(action: FETCH_PATIENT_EVENTS) {
       EventService.fetchPersonEvents,
       action.payload,
     );
+    console.log(events.data);
     if (events.data) {
       const formattedData = events.data.map((item) => ({
         id: item.id,
