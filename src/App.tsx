@@ -6,6 +6,8 @@ import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
+  fetchAccountingSystem,
+  fetchAttachTypes,
   fetchEventTypes,
   fetchInvalidDocuments,
   fetchInvalidReasons,
@@ -22,6 +24,8 @@ function App() {
     dispatch(fetchInvalidDocuments());
     dispatch(fetchOrganisations());
     dispatch(fetchInvalidReasons());
+    dispatch(fetchAccountingSystem());
+    dispatch(fetchAttachTypes());
   }, []);
 
   return (

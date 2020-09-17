@@ -1,4 +1,6 @@
 import {
+  FETCH_ACCOUNTING_SYSTEM,
+  FETCH_ATTACH_TYPES,
   FETCH_EVENT_TYPES,
   FETCH_INVALID_DOCUMENTS,
   FETCH_INVALID_REASONS,
@@ -11,9 +13,13 @@ import { fetchPatientsError } from '../patients/actions';
 import { AxiosResponse } from 'axios';
 import RbPersonResponse from '../../interfaces/responses/rb/rbPerson';
 import {
+  fetchAccountingSystemError,
+  fetchAttachTypesError,
   fetchEventTypesError,
   fetchInvalidDocumentsError,
   fetchOrganisationsError,
+  setRbAccountingSystem,
+  setRbAttachTypes,
   setRbEventTypes,
   setRbInvalidDocuments,
   setRbInvalidReasons,
@@ -26,6 +32,8 @@ import Person from '../../types/data/Person';
 import RbOrganisationResponse from '../../interfaces/responses/rb/rbOrganisation';
 import RbInvalidReasonResponse from '../../interfaces/responses/rb/rbInvalidReason';
 import RbInvalidDocumentTypeResponse from '../../interfaces/responses/rb/rbInvalidDocumentType';
+import RbAccountingSystemResponse from '../../interfaces/responses/rb/rbAccountingSystem';
+import RbAttachTypeResponse from '../../interfaces/responses/rb/rbAttachType';
 
 function* asyncFetchPersons() {
   try {
@@ -104,7 +112,9 @@ function* asyncFetchInvalidReasons(action: FETCH_INVALID_REASONS) {
       }));
       yield put(setRbInvalidReasons(formattedData));
     }
-  } catch (e) {}
+  } catch (e) {
+    yield put(fetchInvalidDocumentsError());
+  }
 }
 
 function* asyncFetchInvalidDocuments(actions: FETCH_INVALID_DOCUMENTS) {
@@ -125,12 +135,48 @@ function* asyncFetchInvalidDocuments(actions: FETCH_INVALID_DOCUMENTS) {
   }
 }
 
+function* asyncFetchAccountingSystem(actions: FETCH_INVALID_DOCUMENTS) {
+  try {
+    const accounts: AxiosResponse<RbAccountingSystemResponse[]> = yield call(
+      RbService.fetchAccountingSystem,
+    );
+    if (accounts.data) {
+      const formattedData = accounts.data.map((item) => ({
+        id: item.id,
+        name: item.name,
+      }));
+      yield put(setRbAccountingSystem(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchAccountingSystemError());
+  }
+}
+
+function* asyncFetchAttachTypes() {
+  try {
+    const attachTypes: AxiosResponse<RbAttachTypeResponse[]> = yield call(
+      RbService.fetchAttachTypes,
+    );
+    if (attachTypes.data) {
+      const formattedData = attachTypes.data.map((item) => ({
+        id: item.id,
+        name: item.name,
+      }));
+      yield put(setRbAttachTypes(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchAttachTypesError());
+  }
+}
+
 function* watchAsync() {
   yield takeEvery(FETCH_PERSONS, asyncFetchPersons);
   yield takeEvery(FETCH_EVENT_TYPES, asyncFetchEventTypes);
   yield takeEvery(FETCH_ORGANISATIONS, asyncFetchOrganisations);
   yield takeEvery(FETCH_INVALID_REASONS, asyncFetchInvalidReasons);
   yield takeEvery(FETCH_INVALID_DOCUMENTS, asyncFetchInvalidDocuments);
+  yield takeEvery(FETCH_ACCOUNTING_SYSTEM, asyncFetchAccountingSystem);
+  yield takeEvery(FETCH_ATTACH_TYPES, asyncFetchAttachTypes);
 }
 
 export default function* rbSaga() {

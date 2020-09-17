@@ -52,6 +52,7 @@ const PreventiveMeasures: React.FC = (props) => {
             <InputNumber
               size={'small'}
               name={'clientExamPlanYear'}
+              min={1900}
               onChange={(val) => {
                 if (val) {
                   form.setFieldValue('clientExamPlanYear', val);

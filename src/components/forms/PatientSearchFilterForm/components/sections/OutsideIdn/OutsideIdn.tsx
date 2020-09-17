@@ -4,8 +4,18 @@ import FormField from '../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
 import PartialFormState from '../../../types';
 
-const OutsideIdn: React.FC = (props) => {
+interface SectionProps {
+  accountTypes: { id: number; name: string }[];
+}
+
+const OutsideIdn: React.FC<SectionProps> = (props) => {
   const form = useFormikContext<PartialFormState>();
+
+  const accountTypesOptions = props.accountTypes.map((item) => (
+    <Select.Option key={item.id} name={item.name} value={item.id}>
+      {item.name}
+    </Select.Option>
+  ));
 
   return (
     <div className={'form-section'}>
@@ -13,7 +23,18 @@ const OutsideIdn: React.FC = (props) => {
       <Row>
         <Col span={24}>
           <FormField label={'Тип'}>
-            <Select size={'small'} />
+            <Select
+              showSearch
+              filterOption
+              optionFilterProp={'name'}
+              allowClear
+              value={form.values.identifierSystemId}
+              onChange={(val) => {
+                form.setFieldValue('identifierSystemId', val);
+              }}
+              size={'small'}>
+              {accountTypesOptions}
+            </Select>
           </FormField>
         </Col>
       </Row>

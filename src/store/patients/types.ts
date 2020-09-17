@@ -29,7 +29,7 @@ export interface QueryPatientsFilters {
   endBirthDate: string;
   isEmptyAddress: 0 | 1;
   areaTypeId: number;
-  areaOrgStructure_id: number;
+  areaOrgStructureId: number;
   bedProfileTypeId: 0 | 1 | 2 | 3 | 4;
   bedProfileOrgStructureId: number;
   isAttachment: 0 | 1;

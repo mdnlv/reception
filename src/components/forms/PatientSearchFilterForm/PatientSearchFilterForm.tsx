@@ -1,10 +1,9 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Button, Col, Divider, Row, Select } from 'antd';
+import { Button, Col, Divider, Row } from 'antd';
 import PersonDisabilities from './components/sections/PersonDisabilities/PersonDisabilities';
 import AuthorDateChange from './components/sections/AuthorDateChange/AuthorDateChange';
 import PersonalData from './components/sections/PersonalData/PersonalData';
-import FormField from '../components/FormField/FormField';
 import LpuAttachment from './components/sections/LpuAttachment/LpuAttachment';
 import RpfAcceptPeriod from './components/sections/RpfAcceptPeriod/RpfAcceptPeriod';
 import PreventiveMeasures from './components/sections/PreventiveMeasures/PreventiveMeasures';
@@ -13,15 +12,22 @@ import './styles.scss';
 import PartialFormState from './types';
 import { useSelector } from 'react-redux';
 import {
+  detailedAccountingSystemSelector,
   detailedInvalidDocuments,
   detailedInvalidReasonsSelector,
+  detailedOrganisationsSelector,
   detailedPersonsSelector,
 } from '../../../store/rb/selectors';
+import PersonArea from './components/sections/PersonArea/PersonArea';
+import PersonBed from './components/sections/PersonBed/PersonBed';
+import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
 
 const PatientSearchFilterForm: React.FC = (props) => {
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
   const rbPersons = useSelector(detailedPersonsSelector);
   const rbInvalidDocs = useSelector(detailedInvalidDocuments);
+  const rbOrgs = useSelector(detailedOrganisationsSelector);
+  const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
   const initialStore: PartialFormState = {
     tempInvalidDocumentBegDate: '',
@@ -67,67 +73,19 @@ const PatientSearchFilterForm: React.FC = (props) => {
               <PersonalData />
             </Col>
             <Col span={5} className={'col--border-right'}>
-              <div className={'form-section'}>
-                <h2>По участку</h2>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-              </div>
+              <PersonArea orgs={rbOrgs} />
             </Col>
             <Col span={3} className={'col--border-right'}>
-              <div className={'form-section'}>
-                <h2>По койкам</h2>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-              </div>
+              <PersonBed orgs={rbOrgs} />
             </Col>
             <Col span={3}>
-              <div className={'form-section'}>
-                <h2>Прикрепление</h2>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <FormField>
-                      <Select size={'small'} />
-                    </FormField>
-                  </Col>
-                </Row>
-              </div>
+              <PersonAttachment />
             </Col>
           </Row>
           <Divider />
           <Row align={'stretch'}>
             <Col span={6} className={'col--border-right'}>
-              <LpuAttachment />
+              <LpuAttachment orgs={rbOrgs} />
             </Col>
             <Col span={5} className={'col--border-right'}>
               <RpfAcceptPeriod />
@@ -136,7 +94,7 @@ const PatientSearchFilterForm: React.FC = (props) => {
               <PreventiveMeasures />
             </Col>
             <Col span={6}>
-              <OutsideIdn />
+              <OutsideIdn accountTypes={rbAccountTypes} />
             </Col>
           </Row>
           <Row gutter={8} justify={'end'}>

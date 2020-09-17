@@ -4,6 +4,7 @@ import Organisation from '../../types/data/Organisation';
 import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountinSystemItem from '../../types/data/AccountinSystemItem';
+import AttachType from '../../types/data/AttachType';
 
 export const FETCH_PERSONS = 'FETCH_PERSONS';
 export const FETCH_PERSONS_ERROR = 'FETCH_PERSONS_ERROR';
@@ -36,6 +37,11 @@ export const FETCH_ACCOUNTING_SYSTEM_ERROR = 'FETCH_ACCOUNTING_SYSTEM_ERROR';
 export const FETCH_ACCOUNTING_SYSTEM_SUCCESS =
   'FETCH_ACCOUNTING_SYSTEM_SUCCESS';
 export const SET_RB_ACCOUNTING_SYSTEM = 'SET_RB_ACCOUNTING_SYSTEM';
+
+export const FETCH_ATTACH_TYPES = 'FETCH_ATTACH_TYPES';
+export const FETCH_ATTACH_TYPES_ERROR = 'FETCH_ATTACH_TYPES_ERROR';
+export const FETCH_ATTACH_TYPES_SUCCESS = 'FETCH_ATTACH_TYPES_SUCCESS';
+export const SET_RB_ATTACH_TYPES = 'SET_RB_ATTACH_TYPES';
 
 export interface FETCH_PERSONS {
   type: typeof FETCH_PERSONS;
@@ -139,6 +145,23 @@ export interface SET_RB_ACCOUNTING_SYSTEM {
   payload: AccountinSystemItem[];
 }
 
+export interface FETCH_ATTACH_TYPES {
+  type: typeof FETCH_ATTACH_TYPES;
+}
+
+export interface FETCH_ATTACH_TYPES_ERROR {
+  type: typeof FETCH_ATTACH_TYPES_ERROR;
+}
+
+export interface FETCH_ATTACH_TYPES_SUCCESS {
+  type: typeof FETCH_ATTACH_TYPES_SUCCESS;
+}
+
+export interface SET_RB_ATTACH_TYPES {
+  type: typeof SET_RB_ATTACH_TYPES;
+  payload: AttachType[];
+}
+
 export type RbActionsType =
   | FETCH_PERSONS
   | FETCH_PERSONS_ERROR
@@ -163,4 +186,8 @@ export type RbActionsType =
   | FETCH_ACCOUNTING_SYSTEM
   | FETCH_ACCOUNTING_SYSTEM_ERROR
   | FETCH_ACCOUNTING_SYSTEM_SUCCESS
-  | SET_RB_ACCOUNTING_SYSTEM;
+  | SET_RB_ACCOUNTING_SYSTEM
+  | FETCH_ATTACH_TYPES
+  | FETCH_ATTACH_TYPES_ERROR
+  | FETCH_ATTACH_TYPES_SUCCESS
+  | SET_RB_ATTACH_TYPES;

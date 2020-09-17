@@ -16,6 +16,7 @@ const PersonalData: React.FC = (props) => {
             <InputNumber
               size={'small'}
               name={'personAgeFrom'}
+              min={0}
               onChange={(val) => {
                 if (val) {
                   form.setFieldValue('personAgeFrom', val);
@@ -29,6 +30,7 @@ const PersonalData: React.FC = (props) => {
             <InputNumber
               size={'small'}
               name={'personAgeTo'}
+              min={form.values.personAgeFrom || 0}
               onChange={(val) => {
                 if (val) {
                   form.setFieldValue('yearNumberFrom', val);
@@ -44,6 +46,7 @@ const PersonalData: React.FC = (props) => {
             <InputNumber
               size={'small'}
               name={'yearNumberTo'}
+              min={0}
               onChange={(val) => {
                 if (val) {
                   form.setFieldValue('yearNumberTo', val);

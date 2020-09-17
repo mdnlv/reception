@@ -12,7 +12,11 @@ export const detailedInvalidReasonsSelector = createSelector(
 
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
-  (orgs) => orgs,
+  (orgs) =>
+    orgs.map((item) => ({
+      id: item.id,
+      name: item.shortName,
+    })),
 );
 
 export const detailedPersonsSelector = createSelector(
@@ -28,6 +32,15 @@ export const detailedInvalidDocuments = createSelector(
   (state: RootState) => state.rb.rbInvalidDocuments,
   (docs) =>
     docs.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedAccountingSystemSelector = createSelector(
+  (state: RootState) => state.rb.rbAccountingSystem,
+  (accounts) =>
+    accounts.map((item) => ({
       id: item.id,
       name: item.name,
     })),

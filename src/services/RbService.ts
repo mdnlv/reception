@@ -6,6 +6,7 @@ import RbOrganisationResponse from '../interfaces/responses/rb/rbOrganisation';
 import RbInvalidReasonResponse from '../interfaces/responses/rb/rbInvalidReason';
 import RbInvalidDocumentTypeResponse from '../interfaces/responses/rb/rbInvalidDocumentType';
 import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingSystem';
+import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 
 export default {
   fetchPersons(): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -29,5 +30,8 @@ export default {
     AxiosResponse<RbAccountingSystemResponse[]>
   > {
     return apiInstance.get('/refBooks/rbAcountingSystem');
+  },
+  fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbAttachType');
   },
 };

@@ -1,6 +1,7 @@
 import {
   RbActionsType,
   SET_RB_ACCOUNTING_SYSTEM,
+  SET_RB_ATTACH_TYPES,
   SET_RB_EVENT_TYPES,
   SET_RB_INVALID_DOCUMENTS,
   SET_RB_INVALID_REASONS,
@@ -13,6 +14,7 @@ import Organisation from '../../types/data/Organisation';
 import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../types/data/AccountinSystemItem';
+import AttachType from '../../types/data/AttachType';
 
 const initialState = {
   rbPersons: [] as Person[],
@@ -20,7 +22,8 @@ const initialState = {
   rbOrganisations: [] as Organisation[],
   rbInvalidReasons: [] as InvalidReason[],
   rbInvalidDocuments: [] as InvalidDocument[],
-  rbAccointingSystem: [] as AccountingSystemItem[],
+  rbAccountingSystem: [] as AccountingSystemItem[],
+  rbAttachTypes: [] as AttachType[],
 };
 
 export default function RbReducer(state = initialState, action: RbActionsType) {
@@ -53,7 +56,12 @@ export default function RbReducer(state = initialState, action: RbActionsType) {
     case SET_RB_ACCOUNTING_SYSTEM:
       return {
         ...state,
-        rbAccointingSystem: action.payload,
+        rbAccountingSystem: action.payload,
+      };
+    case SET_RB_ATTACH_TYPES:
+      return {
+        ...state,
+        rbAttachTypes: action.payload,
       };
     default:
       return state;

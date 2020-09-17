@@ -1,4 +1,10 @@
 import {
+  FETCH_ACCOUNTING_SYSTEM,
+  FETCH_ACCOUNTING_SYSTEM_ERROR,
+  FETCH_ACCOUNTING_SYSTEM_SUCCESS,
+  FETCH_ATTACH_TYPES,
+  FETCH_ATTACH_TYPES_ERROR,
+  FETCH_ATTACH_TYPES_SUCCESS,
   FETCH_EVENT_TYPES,
   FETCH_EVENT_TYPES_ERROR,
   FETCH_EVENT_TYPES_SUCCESS,
@@ -14,6 +20,8 @@ import {
   FETCH_PERSONS,
   FETCH_PERSONS_ERROR,
   FETCH_PERSONS_SUCCESS,
+  SET_RB_ACCOUNTING_SYSTEM,
+  SET_RB_ATTACH_TYPES,
   SET_RB_EVENT_TYPES,
   SET_RB_INVALID_DOCUMENTS,
   SET_RB_INVALID_REASONS,
@@ -25,6 +33,7 @@ import EventType from '../../types/data/EventType';
 import Organisation from '../../types/data/Organisation';
 import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
+import AccountingSystemItem from '../../types/data/AccountinSystemItem';
 
 export function fetchPersons() {
   return {
@@ -148,5 +157,55 @@ export function setRbInvalidDocuments(docs: InvalidDocument[]) {
   return {
     type: SET_RB_INVALID_DOCUMENTS,
     payload: docs,
+  };
+}
+
+export function fetchAccountingSystem() {
+  return {
+    type: FETCH_ACCOUNTING_SYSTEM,
+  };
+}
+
+export function fetchAccountingSystemError() {
+  return {
+    type: FETCH_ACCOUNTING_SYSTEM_ERROR,
+  };
+}
+
+export function fetchAccountingSystemSuccess() {
+  return {
+    type: FETCH_ACCOUNTING_SYSTEM_SUCCESS,
+  };
+}
+
+export function setRbAccountingSystem(accountItems: AccountingSystemItem[]) {
+  return {
+    type: SET_RB_ACCOUNTING_SYSTEM,
+    payload: accountItems,
+  };
+}
+
+export function fetchAttachTypes() {
+  return {
+    type: FETCH_ATTACH_TYPES,
+  };
+}
+
+export function fetchAttachTypesError() {
+  return {
+    type: FETCH_ATTACH_TYPES_ERROR,
+  };
+}
+
+export function fetchAttachTypesSuccess() {
+  return {
+    type: FETCH_ATTACH_TYPES_SUCCESS,
+  };
+}
+
+export function setRbAttachTypes(accountItems: AccountingSystemItem[]) {
+  return {
+    type: SET_RB_ATTACH_TYPES,
+    payload: accountItems,
   };
 }
