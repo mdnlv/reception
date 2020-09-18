@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../store';
-import { getPersonName } from '../utils/getDetailedEvent';
+import { getPersonName } from '../utils/eventsUtils';
 
 const eventsSelector = (state: RootState) => state.patientCard.events;
 const rbEventTypes = (state: RootState) => state.rb.rbEventTypes;
@@ -23,5 +23,18 @@ export const detailedEventsSelector = createSelector(
       startDate: item.createDatetime
         ? new Date(item.createDatetime)
         : new Date(),
+    })),
+);
+
+export const eventsAppointments = createSelector(
+  detailedEventsSelector,
+  (events) =>
+    events.map((item) => ({
+      id: item.id,
+      doctor: item.executedDoc,
+      type: item.type,
+      specialization: '',
+      unit: '',
+      date: item.startDate,
     })),
 );

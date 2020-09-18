@@ -9,7 +9,7 @@ import {
 
 export const initialPatientsState = {
   patients: [] as Patient[],
-  currentPatient: '',
+  currentPatient: 0,
   isLoading: false,
   foundPatients: [] as Patient[],
 };
@@ -20,13 +20,11 @@ export function PatientsReducer(
 ) {
   switch (action.type) {
     case SET_CURRENT_PATIENT:
-      console.log(action.type);
       return {
         ...state,
-        currentPatient: action.payload.patientId.toString(),
+        currentPatient: action.payload,
       };
     case SET_PATIENTS:
-      console.log(state);
       return {
         ...state,
         patients: action.payload,

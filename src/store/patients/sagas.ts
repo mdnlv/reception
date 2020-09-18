@@ -1,8 +1,14 @@
-import { FETCH_PATIENTS, QUERY_PATIENTS } from './types';
+import {
+  DETAILED_QUERY_PATIENTS,
+  FETCH_PATIENTS,
+  QUERY_PATIENTS,
+} from './types';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import PatientsService from '../../services/PatientsService';
 import {
+  detailedQueryPatientsError,
   fetchPatientsError,
+  queryPatientsError,
   setFoundPatients,
   setLoading,
   setPatients,
@@ -34,12 +40,12 @@ function* asyncGetPatients(action: FETCH_PATIENTS) {
   }
 }
 
-function* asyncQueryPatients(action: QUERY_PATIENTS) {
+function* asyncDetailedQueryPatients(action: QUERY_PATIENTS) {
   try {
     yield put(setLoading(true));
     const queryFilters = action.payload;
     const foundPatients: AxiosResponse<PatientResponse[]> = yield call(
-      PatientsService.queryPatients,
+      PatientsService.detailedQueryPatients,
       queryFilters,
     );
     if (foundPatients.data) {
@@ -49,13 +55,38 @@ function* asyncQueryPatients(action: QUERY_PATIENTS) {
       yield put(setFoundPatients(formattedData));
     }
   } catch (e) {
+    yield put(detailedQueryPatientsError());
   } finally {
+  }
+}
+
+function* asyncQueryPatients(action: DETAILED_QUERY_PATIENTS) {
+  try {
+    yield put(setLoading(true));
+    const query = action.payload;
+    const founded: AxiosResponse<PatientResponse[]> = yield call(
+      PatientsService.queryPatients,
+      query,
+    );
+    console.log(founded);
+    if (founded.data) {
+      const formattedData = founded.data.map((item) =>
+        transformPatientResponse(item),
+      );
+      yield put(setFoundPatients(formattedData));
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(queryPatientsError());
+  } finally {
+    yield put(setLoading(false));
   }
 }
 
 function* watchAsync() {
   yield takeEvery(FETCH_PATIENTS, asyncGetPatients);
   yield takeEvery(QUERY_PATIENTS, asyncQueryPatients);
+  yield takeEvery(DETAILED_QUERY_PATIENTS, asyncDetailedQueryPatients);
 }
 
 export function* patientsSaga() {

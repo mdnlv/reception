@@ -1,5 +1,7 @@
 import {
-  CurrentPatientPayload,
+  DETAILED_QUERY_PATIENTS,
+  DETAILED_QUERY_PATIENTS_ERROR,
+  DETAILED_QUERY_PATIENTS_SUCCESS,
   FETCH_PATIENTS,
   FETCH_PATIENTS_ERROR,
   PatientsActionsType,
@@ -13,9 +15,7 @@ import {
 } from './types';
 import Patient from '../../types/data/Patient';
 
-export function setCurrentPatient(
-  patientPayload: CurrentPatientPayload,
-): PatientsActionsType {
+export function setCurrentPatient(patientPayload: number): PatientsActionsType {
   return {
     type: SET_CURRENT_PATIENT,
     payload: patientPayload,
@@ -56,10 +56,29 @@ export function setFoundPatients(patients: Patient[]) {
   };
 }
 
-export function queryPatients(queryFilters: QueryPatientsFilters) {
+export function detailedQueryPatients(queryFilters: QueryPatientsFilters) {
+  return {
+    type: DETAILED_QUERY_PATIENTS,
+    payload: queryFilters,
+  };
+}
+
+export function detailedQueryPatientsError() {
+  return {
+    type: DETAILED_QUERY_PATIENTS_ERROR,
+  };
+}
+
+export function detailedQueryPatientsSuccess() {
+  return {
+    type: DETAILED_QUERY_PATIENTS_SUCCESS,
+  };
+}
+
+export function queryPatients(query: string) {
   return {
     type: QUERY_PATIENTS,
-    payload: queryFilters,
+    payload: query,
   };
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import './styles.scss';
 import { Col, Row, Spin } from 'antd';
 import PatientMedInfoCard from '../../components/cards/PatientMedInfoCard/PatientMedInfoCard';
@@ -11,16 +11,14 @@ import {
 import { RootState } from '../../store/store';
 import { fetchEventTypes, fetchPersons } from '../../store/rb/actions';
 import PatientHappenings from '../../components/cards/PatientHappenings/PatientHappenings';
-import Person from '../../types/data/Person';
+import { detailedEventsSelector } from '../../store/patientCard/selectors';
 
 const PatientCard: React.FC = (props) => {
   const dispatch = useDispatch();
   const { isLoading, currentPatient, events } = useSelector(
     (state: RootState) => state.patientCard,
   );
-  const { rbEventTypes, rbPersons } = useSelector(
-    (state: RootState) => state.rb,
-  );
+  const detailedEvents = useSelector(detailedEventsSelector);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -32,30 +30,6 @@ const PatientCard: React.FC = (props) => {
     dispatch(fetchIdPatient(parseInt(id)));
     dispatch(fetchPatientEvents(parseInt(id)));
   }, []);
-
-  const getPersonName = (person?: Person) => {
-    return person
-      ? `${person?.lastName} ${person?.firstName} ${person?.patrName}`
-      : '';
-  };
-
-  const detailedEvents = useMemo(() => {
-    return events.map((item) => ({
-      id: item.id,
-      type:
-        (item.eventTypeId &&
-          rbEventTypes.find((eItem) => item.eventTypeId === eItem.id)?.name) ||
-        '',
-      assignDoc: getPersonName(
-        rbPersons.find((pItem) => item.createPersonId === pItem.id),
-      ),
-      executedDoc: '',
-      state: '',
-      startDate: item.createDatetime
-        ? new Date(item.createDatetime)
-        : new Date(),
-    }));
-  }, [events, rbPersons, rbEventTypes]);
 
   return (
     <>

@@ -29,7 +29,7 @@ export default {
   fetchAccountingSystem(): Promise<
     AxiosResponse<RbAccountingSystemResponse[]>
   > {
-    return apiInstance.get('/refBooks/rbAcountingSystem');
+    return apiInstance.get('/refBooks/rbAccountingSystem');
   },
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbAttachType');

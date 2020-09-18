@@ -10,6 +10,11 @@ export const FETCH_PATIENTS_ERROR = 'FETCH_PATIENTS_ERROR';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_FOUND_PATIENTS = 'SET_FOUND_PATIENTS';
 
+export const DETAILED_QUERY_PATIENTS = 'DETAILED_QUERY_PATIENTS';
+export const DETAILED_QUERY_PATIENTS_ERROR = 'DETAILED_QUERY_PATIENTS_ERROR';
+export const DETAILED_QUERY_PATIENTS_SUCCESS =
+  'DETAILED_QUERY_PATIENTS_SUCCESS';
+
 export const QUERY_PATIENTS = 'SET_QUERY_PATIENTS';
 export const QUERY_PATIENTS_SUCCESS = 'QUERY_PATIENTS_SUCCESS';
 export const QUERY_PATIENTS_ERROR = 'QUERY_PATIENTS_ERROR';
@@ -49,13 +54,9 @@ export interface QueryPatientsFilters {
   identifier: string;
 }
 
-export interface CurrentPatientPayload {
-  patientId: number | string;
-}
-
-export interface SetCurrentPatient {
+export interface SET_CURRENT_PATIENT {
   type: typeof SET_CURRENT_PATIENT;
-  payload: CurrentPatientPayload;
+  payload: number;
 }
 
 export interface SET_PATIENTS {
@@ -89,6 +90,19 @@ export interface SET_FOUND_PATIENTS {
   payload: Patient[];
 }
 
+export interface DETAILED_QUERY_PATIENTS {
+  type: typeof DETAILED_QUERY_PATIENTS;
+  payload: string;
+}
+
+export interface DETAILED_QUERY_PATIENTS_ERROR {
+  type: typeof DETAILED_QUERY_PATIENTS_ERROR;
+}
+
+export interface DETAILED_QUERY_PATIENTS_SUCCESS {
+  type: typeof DETAILED_QUERY_PATIENTS_SUCCESS;
+}
+
 export interface QUERY_PATIENTS {
   type: typeof QUERY_PATIENTS;
   payload: QueryPatientsFilters;
@@ -98,18 +112,21 @@ export interface QUERY_PATIENTS_ERROR {
   type: typeof QUERY_PATIENTS_ERROR;
 }
 
-export interface QUERY_PATIENS_SUCCESS {
+export interface QUERY_PATIENTS_SUCCESS {
   type: typeof QUERY_PATIENTS_SUCCESS;
 }
 
 export type PatientsActionsType =
   | SET_PATIENTS
-  | SetCurrentPatient
+  | SET_CURRENT_PATIENT
   | FETCH_PATIENTS
   | FETCH_PATIENTS_ERROR
   | FETCH_PATIENTS_SUCCESS
   | SET_LOADING
   | SET_FOUND_PATIENTS
+  | DETAILED_QUERY_PATIENTS
+  | DETAILED_QUERY_PATIENTS_ERROR
+  | DETAILED_QUERY_PATIENTS_SUCCESS
   | QUERY_PATIENTS
   | QUERY_PATIENTS_ERROR
-  | QUERY_PATIENS_SUCCESS;
+  | QUERY_PATIENTS_SUCCESS;

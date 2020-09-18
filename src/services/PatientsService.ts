@@ -24,9 +24,15 @@ export default {
     return apiInstance.get(`/client/save?id=${id}`);
   },
 
-  queryPatients(
+  detailedQueryPatients(
     query: QueryPatientsFilters,
   ): Promise<AxiosResponse<PatientResponse[]>> {
     return apiInstance.post(`/client/extFind`, query);
+  },
+
+  queryPatients(query: string): Promise<AxiosResponse<PatientResponse[]>> {
+    return apiInstance.post(`/client/find`, {
+      value: query,
+    });
   },
 };
