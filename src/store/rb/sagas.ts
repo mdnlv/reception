@@ -4,6 +4,9 @@ import {
   FETCH_EVENT_TYPES,
   FETCH_INVALID_DOCUMENTS,
   FETCH_INVALID_REASONS,
+  FETCH_KLADR,
+  FETCH_KLADR_NESTED,
+  FETCH_KLADR_STREETS,
   FETCH_ORGANISATIONS,
   FETCH_PERSONS,
 } from './types';
@@ -17,6 +20,13 @@ import {
   fetchAttachTypesError,
   fetchEventTypesError,
   fetchInvalidDocumentsError,
+  fetchKladr,
+  fetchKladrError,
+  fetchKladrNestedError,
+  fetchKladrNestedSuccess,
+  fetchKladrStreetsError,
+  fetchKladrStreetsSuccess,
+  fetchKladrSuccess,
   fetchOrganisationsError,
   setRbAccountingSystem,
   setRbAttachTypes,
@@ -34,6 +44,7 @@ import RbInvalidReasonResponse from '../../interfaces/responses/rb/rbInvalidReas
 import RbInvalidDocumentTypeResponse from '../../interfaces/responses/rb/rbInvalidDocumentType';
 import RbAccountingSystemResponse from '../../interfaces/responses/rb/rbAccountingSystem';
 import RbAttachTypeResponse from '../../interfaces/responses/rb/rbAttachType';
+import RbKladrResponse from '../../interfaces/responses/rb/rbKladr';
 
 function* asyncFetchPersons() {
   try {
@@ -169,6 +180,67 @@ function* asyncFetchAttachTypes() {
   }
 }
 
+function* asyncFetchKladrNested(action: FETCH_KLADR) {
+  try {
+    let nestedKladr: AxiosResponse<RbKladrResponse[]> = yield call(
+      RbService.getRegionList,
+      action.payload,
+    );
+    if (nestedKladr.data) {
+      const formattedData = nestedKladr.data.map((item) => ({
+        id: item.CODE,
+        name: item.NAME,
+        prefix: item.prefix,
+        socr: item.SOCR,
+        infis: item.infis,
+      }));
+      yield put(fetchKladrNestedSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchKladrNestedError());
+  }
+}
+
+function* asyncFetchKladr(action: FETCH_KLADR) {
+  try {
+    let kladr: AxiosResponse<RbKladrResponse[]> = yield call(
+      RbService.getRegionList,
+    );
+    if (kladr.data) {
+      const formattedData = kladr.data.map((item) => ({
+        id: item.CODE,
+        name: item.NAME,
+        prefix: item.prefix,
+        socr: item.SOCR,
+        infis: item.infis,
+      }));
+      yield put(fetchKladrSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchKladrError());
+  }
+}
+
+function* asyncFetchKladrStreets(action: FETCH_KLADR_STREETS) {
+  try {
+    let streets: AxiosResponse<RbKladrResponse[]> = yield call(
+      RbService.getRegionStreets,
+      action.payload,
+    );
+    if (streets.data) {
+      const formattedData = streets.data.map((item) => ({
+        id: item.CODE,
+        name: item.NAME,
+        socr: item.SOCR,
+        infis: item.infis,
+      }));
+      yield put(fetchKladrStreetsSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchKladrStreetsError());
+  }
+}
+
 function* watchAsync() {
   yield takeEvery(FETCH_PERSONS, asyncFetchPersons);
   yield takeEvery(FETCH_EVENT_TYPES, asyncFetchEventTypes);
@@ -177,6 +249,8 @@ function* watchAsync() {
   yield takeEvery(FETCH_INVALID_DOCUMENTS, asyncFetchInvalidDocuments);
   yield takeEvery(FETCH_ACCOUNTING_SYSTEM, asyncFetchAccountingSystem);
   yield takeEvery(FETCH_ATTACH_TYPES, asyncFetchAttachTypes);
+  yield takeEvery(FETCH_KLADR, asyncFetchKladr);
+  yield takeEvery(FETCH_KLADR_NESTED, asyncFetchKladrNested);
 }
 
 export default function* rbSaga() {

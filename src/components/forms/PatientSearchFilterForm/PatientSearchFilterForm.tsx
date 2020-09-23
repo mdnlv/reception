@@ -110,7 +110,7 @@ const PatientSearchFilterForm: React.FC = (props) => {
                   formProps.handleSubmit();
                 }}
                 className={'save-btn'}>
-                Прмиенить фильтры
+                Применить фильтры
               </Button>
             </Col>
           </Row>

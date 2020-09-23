@@ -14,6 +14,15 @@ import {
   FETCH_INVALID_REASONS,
   FETCH_INVALID_REASONS_ERROR,
   FETCH_INVALID_REASONS_SUCCESS,
+  FETCH_KLADR,
+  FETCH_KLADR_ERROR,
+  FETCH_KLADR_NESTED,
+  FETCH_KLADR_NESTED_ERROR,
+  FETCH_KLADR_NESTED_SUCCESS,
+  FETCH_KLADR_STREETS,
+  FETCH_KLADR_STREETS_ERROR,
+  FETCH_KLADR_STREETS_SUCCESS,
+  FETCH_KLADR_SUCCESS,
   FETCH_ORGANISATIONS,
   FETCH_ORGANISATIONS_ERROR,
   FETCH_ORGANISATIONS_SUCCESS,
@@ -34,6 +43,8 @@ import Organisation from '../../types/data/Organisation';
 import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../types/data/AccountinSystemItem';
+import KladrItem from '../../types/data/KladrItem';
+import KladrStreet from '../../types/data/KladrStreet';
 
 export function fetchPersons() {
   return {
@@ -207,5 +218,65 @@ export function setRbAttachTypes(accountItems: AccountingSystemItem[]) {
   return {
     type: SET_RB_ATTACH_TYPES,
     payload: accountItems,
+  };
+}
+
+export function fetchKladr(parent = '') {
+  return {
+    type: FETCH_KLADR,
+    payload: parent,
+  };
+}
+
+export function fetchKladrError() {
+  return {
+    type: FETCH_KLADR_ERROR,
+  };
+}
+
+export function fetchKladrSuccess(kladrItems: KladrItem[]) {
+  return {
+    type: FETCH_KLADR_SUCCESS,
+    payload: kladrItems,
+  };
+}
+
+export function fetchKladrNested(parent: string) {
+  return {
+    type: FETCH_KLADR_NESTED,
+    payload: parent,
+  };
+}
+
+export function fetchKladrNestedError() {
+  return {
+    type: FETCH_KLADR_NESTED_ERROR,
+  };
+}
+
+export function fetchKladrNestedSuccess(kladrItems: KladrItem[]) {
+  return {
+    type: FETCH_KLADR_NESTED_SUCCESS,
+    payload: kladrItems,
+  };
+}
+
+export function fetchKladrStreets(parent: string) {
+  return {
+    type: FETCH_KLADR_STREETS,
+    payload: parent,
+  };
+}
+
+export function fetchKladrStreetsError() {
+  return {
+    type: FETCH_KLADR_STREETS_ERROR,
+  };
+}
+
+export function fetchKladrStreetsSuccess(kladrItems: KladrStreet[]) {
+  return {
+    type: FETCH_KLADR_STREETS_SUCCESS,
+    payload: kladrItems,
   };
 }

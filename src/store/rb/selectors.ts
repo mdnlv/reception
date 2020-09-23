@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../store';
+import KladrItem from '../../types/data/KladrItem';
 
 export const detailedInvalidReasonsSelector = createSelector(
   (state: RootState) => state.rb.rbInvalidReasons,
@@ -44,4 +45,27 @@ export const detailedAccountingSystemSelector = createSelector(
       id: item.id,
       name: item.name,
     })),
+);
+
+function getDetailedKladr(item: KladrItem) {
+  return {
+    id: item.id,
+    name: item.name,
+    prefix: item.prefix,
+    socr: item.socr,
+  };
+}
+
+export const detailedKladrSelector = createSelector(
+  (state: RootState) => state.rb,
+  (kladr) => ({
+    rbKladr: kladr.rbKladr.map((item) => getDetailedKladr(item)),
+    rbKladrNested: kladr.rbKladrNested.map((item) => getDetailedKladr(item)),
+    rbDistrcits: kladr.rbDistricts,
+    rbKladrStreets: kladr.rbKladrNested.map((item) => ({
+      id: item.id,
+      name: item.name,
+      socr: item.socr,
+    })),
+  }),
 );

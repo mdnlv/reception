@@ -68,7 +68,6 @@ function* asyncQueryPatients(action: DETAILED_QUERY_PATIENTS) {
       PatientsService.queryPatients,
       query,
     );
-    console.log(founded);
     if (founded.data) {
       const formattedData = founded.data.map((item) =>
         transformPatientResponse(item),

@@ -9,11 +9,11 @@ import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingS
 import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 
 export default {
-  fetchPersons(): Promise<AxiosResponse<RbPersonResponse[]>> {
-    return apiInstance.get('/person?deleted=0&limit=1000');
+  fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
+    return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
-  fetchEventTypes(): Promise<AxiosResponse<RbEventTypeResponse[]>> {
-    return apiInstance.get('/eventType?deleted=0&limit=1000');
+  fetchEventTypes(limit = 1000): Promise<AxiosResponse<RbEventTypeResponse[]>> {
+    return apiInstance.get(`/eventType?deleted=0&limit=${limit}`);
   },
   fetchOrganisation(): Promise<AxiosResponse<RbOrganisationResponse[]>> {
     return apiInstance.get(`/refBooks/Organisation`);
@@ -33,5 +33,18 @@ export default {
   },
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbAttachType');
+  },
+  fetchCityDisctricts(): Promise<AxiosResponse<any>> {
+    return apiInstance.get('/refBooks/rbDistrict');
+  },
+  getRegionList(parent?: string) {
+    if (parent) {
+      return apiInstance.get(`/kladr?parent=${parent}`);
+    } else {
+      return apiInstance.get(`/kladr`);
+    }
+  },
+  getRegionStreets(id: string) {
+    return apiInstance.get(`/kladr/?code=${id}`);
   },
 };

@@ -73,6 +73,7 @@ export const initialState: RegistrationCardState = {
       fromDate: new Date(),
       givenBy: '',
       addressRegistration: {
+        isKLADR: true,
         city: '',
         area: '',
         street: '',
