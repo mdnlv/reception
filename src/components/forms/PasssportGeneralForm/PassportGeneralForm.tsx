@@ -10,19 +10,40 @@ import PersonalContacts from './components/sections/PersonalContacts/PersonalCon
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { Formik, useFormik } from 'formik';
-import { setFormSection } from '../../../store/registrationCard/actions';
-import { detailedKladrSelector } from '../../../store/rb/selectors';
-import { fetchKladrNested } from '../../../store/rb/actions';
-import rbKladrStreet from '../../../interfaces/responses/rb/rbKladrStreet';
+import {
+  fetchKladrNested,
+  fetchKladrStreets,
+  setFormSection,
+} from '../../../store/registrationCard/actions';
+
+import { KladrDocType } from '../../../store/registrationCard/types';
+import {
+  kladrLoadingsSelector,
+  kladrSelector,
+} from '../../../store/registrationCard/selectors';
+import KladrItem from '../../../types/data/KladrItem';
 
 interface FormProps {}
 
 const PassportGeneralForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
-  const { rbKladr, rbKladrNested, rbKladrStreets } = useSelector(
-    detailedKladrSelector,
-  );
+  const {
+    rbKladrDocumented,
+    rbKladrNestedDocumented,
+    rbKladrNestedRegistration,
+    rbKladrRegistration,
+    rbKladrStreetsDocumented,
+    rbKladrStreetsRegistration,
+  } = useSelector(kladrSelector);
+  const {
+    isLoadingKladrDocumented,
+    isLoadingKladrNestedDocumented,
+    isLoadingKladrNestedRegistration,
+    isLoadingKladrRegistration,
+    isLoadingKladrStreetsDocumented,
+    isLoadingKladrStreetsRegistration,
+  } = useSelector(kladrLoadingsSelector);
 
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -30,11 +51,27 @@ const PassportGeneralForm: FC = (props) => {
     onSubmit: (values) => {},
   });
 
-  function fetchNestedKladr(id: string) {
-    const rbKladrItem = rbKladr.find((item) => item.id === id);
-    if (rbKladrItem) {
-      dispatch(fetchKladrNested(rbKladrItem.prefix));
+  function fetchNestedKladr(id: string, type: KladrDocType) {
+    let rbKladrItem: KladrItem | undefined;
+
+    console.log(id, type);
+
+    switch (type) {
+      case 'documented':
+        rbKladrItem = rbKladrDocumented.find((item) => item.id === id);
+        break;
+      case 'registration':
+        rbKladrItem = rbKladrRegistration.find((item) => item.id === id);
+        break;
     }
+
+    if (rbKladrItem) {
+      dispatch(fetchKladrNested({ id: rbKladrItem.prefix, type }));
+    }
+  }
+
+  function fetchKladrStreetsItems(id: string, type: KladrDocType) {
+    dispatch(fetchKladrStreets({ id, type }));
   }
 
   useEffect(() => {
@@ -52,14 +89,27 @@ const PassportGeneralForm: FC = (props) => {
           <Row align={'stretch'}>
             <Col span={12} className={'col--border-right'}>
               <AddressRegistration
+                isLoadingKladr={isLoadingKladrRegistration}
+                isLoadingKladrNested={isLoadingKladrNestedRegistration}
+                isLoadingKladrStreets={isLoadingKladrStreetsRegistration}
                 getKladrNested={fetchNestedKladr}
-                kladr={rbKladr}
-                nestedKladr={rbKladrNested}
-                kladrStreets={rbKladrStreets}
+                getKladrStreets={fetchKladrStreetsItems}
+                kladr={rbKladrRegistration}
+                nestedKladr={rbKladrNestedRegistration}
+                kladrStreets={rbKladrStreetsRegistration}
               />
             </Col>
             <Col span={12}>
-              <AddressDocumentedRegistration />
+              <AddressDocumentedRegistration
+                isLoadingKladr={isLoadingKladrDocumented}
+                isLoadingKladrNested={isLoadingKladrNestedDocumented}
+                isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
+                getKladrNested={fetchNestedKladr}
+                getKladrStreets={fetchKladrStreetsItems}
+                kladr={rbKladrDocumented}
+                nestedKladr={rbKladrNestedDocumented}
+                kladrStreets={rbKladrStreetsDocumented}
+              />
             </Col>
           </Row>
           <Divider />

@@ -7,6 +7,8 @@ import RbInvalidReasonResponse from '../interfaces/responses/rb/rbInvalidReason'
 import RbInvalidDocumentTypeResponse from '../interfaces/responses/rb/rbInvalidDocumentType';
 import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingSystem';
 import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
+import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
+import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
 
 export default {
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -37,14 +39,16 @@ export default {
   fetchCityDisctricts(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbDistrict');
   },
-  getRegionList(parent?: string) {
+  getRegionList(parent?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
     if (parent) {
       return apiInstance.get(`/kladr?parent=${parent}`);
     } else {
       return apiInstance.get(`/kladr`);
     }
   },
-  getRegionStreets(id: string) {
-    return apiInstance.get(`/kladr/?code=${id}`);
+  getRegionStreets(
+    id: string,
+  ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
+    return apiInstance.get(`/kladr/street?code=${id}`);
   },
 };

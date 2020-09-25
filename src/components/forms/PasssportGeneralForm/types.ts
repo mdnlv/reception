@@ -24,9 +24,11 @@ export default interface FormState {
       houseCharacter?: number;
       flatNumber?: number;
       isDocumentedAddress: boolean;
+      freeInput: string;
     };
 
     documentedAddress: {
+      isKLADR: boolean;
       city: string;
       area: string;
       street: string;
@@ -34,6 +36,7 @@ export default interface FormState {
       houseCharacter?: number;
       flatNumber?: number;
       isDocumentedAddress: boolean;
+      freeInput: string;
     };
   };
   contacts: PassportContactType[];

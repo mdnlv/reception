@@ -13,6 +13,7 @@ import { PatientCardReducer } from './patientCard/reducers';
 import { patientCardSaga } from './patientCard/sagas';
 import rbSaga from './rb/sagas';
 import RbReducer from './rb/reducers';
+import registrationCardSaga from './registrationCard/sagas';
 
 export const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -31,6 +32,7 @@ function* rootSaga() {
     fork(infoBookSaga),
     fork(patientsSaga),
     fork(patientCardSaga),
+    fork(registrationCardSaga),
     fork(rbSaga),
   ]);
 }

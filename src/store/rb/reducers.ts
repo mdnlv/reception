@@ -1,8 +1,4 @@
 import {
-  FETCH_KLADR_NESTED,
-  FETCH_KLADR_NESTED_SUCCESS,
-  FETCH_KLADR_STREETS_SUCCESS,
-  FETCH_KLADR_SUCCESS,
   RbActionsType,
   SET_RB_ACCOUNTING_SYSTEM,
   SET_RB_ATTACH_TYPES,
@@ -32,6 +28,9 @@ const initialState = {
   rbAccountingSystem: [] as AccountingSystemItem[],
   rbAttachTypes: [] as AttachType[],
   rbKladr: [] as KladrItem[],
+  isLoadingKladr: false,
+  isLoadingKladrNested: false,
+  isLoadingKladrStreets: false,
   rbDistricts: [] as KladrDistrict[],
   rbKladrNested: [] as KladrItem[],
   rbKladrStreets: [] as KladrStreet[],
@@ -73,21 +72,6 @@ export default function RbReducer(state = initialState, action: RbActionsType) {
       return {
         ...state,
         rbAttachTypes: action.payload,
-      };
-    case FETCH_KLADR_SUCCESS:
-      return {
-        ...state,
-        rbKladr: action.payload,
-      };
-    case FETCH_KLADR_NESTED_SUCCESS:
-      return {
-        ...state,
-        rbKladrNested: action.payload,
-      };
-    case FETCH_KLADR_STREETS_SUCCESS:
-      return {
-        ...state,
-        rbKladrStreets: action.payload,
       };
     default:
       return state;

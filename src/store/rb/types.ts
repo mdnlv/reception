@@ -45,18 +45,6 @@ export const FETCH_ATTACH_TYPES_ERROR = 'FETCH_ATTACH_TYPES_ERROR';
 export const FETCH_ATTACH_TYPES_SUCCESS = 'FETCH_ATTACH_TYPES_SUCCESS';
 export const SET_RB_ATTACH_TYPES = 'SET_RB_ATTACH_TYPES';
 
-export const FETCH_KLADR = 'FETCH_KLADR_STREET';
-export const FETCH_KLADR_ERROR = 'FETCH_KLADR_ERROR';
-export const FETCH_KLADR_SUCCESS = 'FETCH_KLADR_SUCCESS';
-
-export const FETCH_KLADR_STREETS = 'FETCH_KLADR_STREETS';
-export const FETCH_KLADR_STREETS_ERROR = 'FETCH_KLADR_STREETS_ERROR';
-export const FETCH_KLADR_STREETS_SUCCESS = 'FETCH_KLADR_STREETS_SUCCESS';
-
-export const FETCH_KLADR_NESTED = 'FETCH_KLADR_NESTED';
-export const FETCH_KLADR_NESTED_ERROR = 'FETCH_KLADR_NESTED_ERROR';
-export const FETCH_KLADR_NESTED_SUCCESS = 'FETCH_KLADR_NESTED_SUCCESS';
-
 export interface FETCH_PERSONS {
   type: typeof FETCH_PERSONS;
 }
@@ -176,48 +164,6 @@ export interface SET_RB_ATTACH_TYPES {
   payload: AttachType[];
 }
 
-export interface FETCH_KLADR {
-  type: typeof FETCH_KLADR;
-  payload?: string;
-}
-
-export interface FETCH_KLADR_ERROR {
-  type: typeof FETCH_KLADR_ERROR;
-}
-
-export interface FETCH_KLADR_SUCCESS {
-  type: typeof FETCH_KLADR_SUCCESS;
-  payload: KladrItem[];
-}
-
-export interface FETCH_KLADR_NESTED {
-  type: typeof FETCH_KLADR_NESTED;
-  payload: string;
-}
-
-export interface FETCH_KLADR_NESTED_ERROR {
-  type: typeof FETCH_KLADR_NESTED_ERROR;
-}
-
-export interface FETCH_KLADR_NESTED_SUCCESS {
-  type: typeof FETCH_KLADR_NESTED_SUCCESS;
-  payload: KladrItem[];
-}
-
-export interface FETCH_KLADR_STREETS {
-  type: typeof FETCH_KLADR_STREETS;
-  payload: string;
-}
-
-export interface FETCH_KLADR_STREETS_ERROR {
-  type: typeof FETCH_KLADR_STREETS_ERROR;
-}
-
-export interface FETCH_KLADR_STREETS_SUCCESS {
-  type: typeof FETCH_KLADR_STREETS_SUCCESS;
-  payload: KladrStreet[];
-}
-
 export type RbActionsType =
   | FETCH_PERSONS
   | FETCH_PERSONS_ERROR
@@ -246,13 +192,4 @@ export type RbActionsType =
   | FETCH_ATTACH_TYPES
   | FETCH_ATTACH_TYPES_ERROR
   | FETCH_ATTACH_TYPES_SUCCESS
-  | SET_RB_ATTACH_TYPES
-  | FETCH_KLADR
-  | FETCH_KLADR_ERROR
-  | FETCH_KLADR_SUCCESS
-  | FETCH_KLADR_STREETS
-  | FETCH_KLADR_STREETS_ERROR
-  | FETCH_KLADR_STREETS_SUCCESS
-  | FETCH_KLADR_NESTED
-  | FETCH_KLADR_NESTED_ERROR
-  | FETCH_KLADR_NESTED_SUCCESS;
+  | SET_RB_ATTACH_TYPES;

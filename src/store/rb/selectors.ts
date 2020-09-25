@@ -46,26 +46,3 @@ export const detailedAccountingSystemSelector = createSelector(
       name: item.name,
     })),
 );
-
-function getDetailedKladr(item: KladrItem) {
-  return {
-    id: item.id,
-    name: item.name,
-    prefix: item.prefix,
-    socr: item.socr,
-  };
-}
-
-export const detailedKladrSelector = createSelector(
-  (state: RootState) => state.rb,
-  (kladr) => ({
-    rbKladr: kladr.rbKladr.map((item) => getDetailedKladr(item)),
-    rbKladrNested: kladr.rbKladrNested.map((item) => getDetailedKladr(item)),
-    rbDistrcits: kladr.rbDistricts,
-    rbKladrStreets: kladr.rbKladrNested.map((item) => ({
-      id: item.id,
-      name: item.name,
-      socr: item.socr,
-    })),
-  }),
-);
