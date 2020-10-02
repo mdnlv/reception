@@ -8,11 +8,15 @@ import { useDispatch } from 'react-redux';
 import {
   fetchAccountingSystem,
   fetchAttachTypes,
+  fetchContactTypes,
   fetchEventTypes,
   fetchInvalidDocuments,
   fetchInvalidReasons,
   fetchOrganisations,
+  fetchPatientDocumentTypes,
   fetchPersons,
+  fetchPolicyKinds,
+  fetchPolicyTypes,
 } from './store/rb/actions';
 
 function App() {
@@ -26,6 +30,10 @@ function App() {
     dispatch(fetchInvalidReasons());
     dispatch(fetchAccountingSystem());
     dispatch(fetchAttachTypes());
+    dispatch(fetchPolicyTypes());
+    dispatch(fetchPolicyKinds());
+    dispatch(fetchContactTypes());
+    dispatch(fetchPatientDocumentTypes());
   }, []);
 
   return (

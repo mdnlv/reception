@@ -160,6 +160,7 @@ export interface RegistrationCardState {
     birthPlace: string;
     hasCard: boolean;
     onlyTempRegistration: boolean;
+    docId: string | number;
   };
   data: {
     passportGeneral: {

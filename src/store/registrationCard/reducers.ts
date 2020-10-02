@@ -64,6 +64,7 @@ export const initialState: RegistrationCardState = {
     startCardDate: '',
     hasCard: false,
     onlyTempRegistration: false,
+    docId: '',
   },
   additionalHospitalization: {
     hospitalizations: [] as PersonAddHospitalization[],

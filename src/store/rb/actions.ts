@@ -5,6 +5,9 @@ import {
   FETCH_ATTACH_TYPES,
   FETCH_ATTACH_TYPES_ERROR,
   FETCH_ATTACH_TYPES_SUCCESS,
+  FETCH_CONTACT_TYPES,
+  FETCH_CONTACT_TYPES_ERROR,
+  FETCH_CONTACT_TYPES_SUCCESS,
   FETCH_EVENT_TYPES,
   FETCH_EVENT_TYPES_ERROR,
   FETCH_EVENT_TYPES_SUCCESS,
@@ -17,9 +20,18 @@ import {
   FETCH_ORGANISATIONS,
   FETCH_ORGANISATIONS_ERROR,
   FETCH_ORGANISATIONS_SUCCESS,
+  FETCH_PATIENT_DOCUMENT_TYPES,
+  FETCH_PATIENT_DOCUMENT_TYPES_ERROR,
+  FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS,
   FETCH_PERSONS,
   FETCH_PERSONS_ERROR,
   FETCH_PERSONS_SUCCESS,
+  FETCH_POLICY_KINDS,
+  FETCH_POLICY_KINDS_ERROR,
+  FETCH_POLICY_KINDS_SUCCESS,
+  FETCH_POLICY_TYPES,
+  FETCH_POLICY_TYPES_ERROR,
+  FETCH_POLICY_TYPES_SUCCESS,
   SET_RB_ACCOUNTING_SYSTEM,
   SET_RB_ATTACH_TYPES,
   SET_RB_EVENT_TYPES,
@@ -34,6 +46,10 @@ import Organisation from '../../types/data/Organisation';
 import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../types/data/AccountinSystemItem';
+import PatientContactType from '../../types/data/PatientContactType';
+import PolicyKind from '../../types/data/PolicyKind';
+import PolicyType from '../../types/data/PolicyType';
+import PatientDocumentType from '../../types/data/PatientDocumentType';
 
 export function fetchPersons() {
   return {
@@ -207,5 +223,81 @@ export function setRbAttachTypes(accountItems: AccountingSystemItem[]) {
   return {
     type: SET_RB_ATTACH_TYPES,
     payload: accountItems,
+  };
+}
+
+export function fetchPolicyTypes() {
+  return {
+    type: FETCH_POLICY_TYPES,
+  };
+}
+
+export function fetchPolicyTypesError() {
+  return {
+    type: FETCH_POLICY_TYPES_ERROR,
+  };
+}
+
+export function fetchPolicyTypesSuccess(types: PolicyType[]) {
+  return {
+    type: FETCH_POLICY_TYPES_SUCCESS,
+    payload: types,
+  };
+}
+
+export function fetchPolicyKinds() {
+  return {
+    type: FETCH_POLICY_KINDS,
+  };
+}
+
+export function fetchPolicyKindsError() {
+  return {
+    type: FETCH_POLICY_KINDS_ERROR,
+  };
+}
+
+export function fetchPolicyKindsSuccess(types: PolicyKind[]) {
+  return {
+    type: FETCH_POLICY_KINDS_SUCCESS,
+    payload: types,
+  };
+}
+
+export function fetchContactTypes() {
+  return {
+    type: FETCH_CONTACT_TYPES,
+  };
+}
+
+export function fetchContactTypesError() {
+  return {
+    type: FETCH_CONTACT_TYPES_ERROR,
+  };
+}
+
+export function fetchContactTypesSuccess(types: PatientContactType[]) {
+  return {
+    type: FETCH_CONTACT_TYPES_SUCCESS,
+    payload: types,
+  };
+}
+
+export function fetchPatientDocumentTypes() {
+  return {
+    type: FETCH_PATIENT_DOCUMENT_TYPES,
+  };
+}
+
+export function fetchPatientDocumentTypesError() {
+  return {
+    type: FETCH_PATIENT_DOCUMENT_TYPES_ERROR,
+  };
+}
+
+export function fetchPatientDocumentTypesSuccess(types: PatientDocumentType[]) {
+  return {
+    type: FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS,
+    payload: types,
   };
 }

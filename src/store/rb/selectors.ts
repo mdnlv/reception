@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../store';
-import KladrItem from '../../types/data/KladrItem';
 
 export const detailedInvalidReasonsSelector = createSelector(
   (state: RootState) => state.rb.rbInvalidReasons,
@@ -42,6 +41,43 @@ export const detailedAccountingSystemSelector = createSelector(
   (state: RootState) => state.rb.rbAccountingSystem,
   (accounts) =>
     accounts.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedPolicyTypes = createSelector(
+  (state: RootState) => state.rb.rbPolicyTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedPolicyKinds = createSelector(
+  (state: RootState) => state.rb.rbPolicyKinds,
+  (policyKinds) =>
+    policyKinds.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedContactTypes = createSelector(
+  (state: RootState) => state.rb.rbContactTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+      mask: item.mask,
+    })),
+);
+
+export const detailedPatientDocumentsTypes = createSelector(
+  (state: RootState) => state.rb.rbPatientDocumentsTypes,
+  (types) =>
+    types.map((item) => ({
       id: item.id,
       name: item.name,
     })),

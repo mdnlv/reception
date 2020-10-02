@@ -6,6 +6,7 @@ import {
   RegistrationCardState,
 } from '../../../../../../../../store/registrationCard/types';
 import FormField from '../../../../../../components/FormField/FormField';
+import optionsListMapper from '../../../../../../../../utils/mappers/optionsListMapper';
 
 interface KladrItem {
   id: string;
@@ -35,15 +36,13 @@ const Address: FC<SectionProps> = (props) => {
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;
 
-  function getKladrDetailed(kladrArr: KladrItem[]) {
-    return kladrArr.map((item) => (
-      <Select.Option
-        key={item.id}
-        name={`${item.socr}. ${item.name}`}
-        value={item.id}>
-        {`${item.socr}. ${item.name}`}
+  function renderKladrOption(item: KladrItem | PrefixKladrItem) {
+    const name = `${item.socr}. ${item.name}`;
+    return (
+      <Select.Option key={item.id} name={name} value={item.id}>
+        {name}
       </Select.Option>
-    ));
+    );
   }
 
   function getTitle() {
@@ -67,7 +66,6 @@ const Address: FC<SectionProps> = (props) => {
     }
     return type;
   }
-
   //clear select fields after top-level select changed
   useEffect(() => {
     const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
@@ -112,7 +110,7 @@ const Address: FC<SectionProps> = (props) => {
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.kladr)}
+                  {optionsListMapper(props.kladr, renderKladrOption)}
                 </Select>
               </FormField>
             </Col>
@@ -138,7 +136,7 @@ const Address: FC<SectionProps> = (props) => {
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.nestedKladr)}
+                  {optionsListMapper(props.nestedKladr, renderKladrOption)}
                 </Select>
               </FormField>
             </Col>
@@ -163,7 +161,7 @@ const Address: FC<SectionProps> = (props) => {
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.kladrStreets)}
+                  {optionsListMapper(props.kladrStreets, renderKladrOption)}
                 </Select>
               </FormField>
             </Col>

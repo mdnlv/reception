@@ -9,6 +9,10 @@ import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingS
 import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
 import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
+import RbPatientDocumentTypeResponse from '../interfaces/responses/rb/rbPatientDocumentType';
+import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
+import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
+import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 
 export default {
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -36,7 +40,7 @@ export default {
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbAttachType');
   },
-  fetchCityDisctricts(): Promise<AxiosResponse<any>> {
+  fetchCityDistricts(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbDistrict');
   },
   getRegionList(parent?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
@@ -50,5 +54,19 @@ export default {
     id: string,
   ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
     return apiInstance.get(`/kladr/street?code=${id}`);
+  },
+  fetchPolicyTypes(): Promise<AxiosResponse<RbPolicyTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/rbPolicyType`);
+  },
+  fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
+    return apiInstance.get(`/refBooks/rbPolicyKind`);
+  },
+  fetchContactType(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/rbContactType`);
+  },
+  fetchPatientDocumentTypes(): Promise<
+    AxiosResponse<RbPatientDocumentTypeResponse[]>
+  > {
+    return apiInstance.get(`/refBooks/rbDocumentType`);
   },
 };

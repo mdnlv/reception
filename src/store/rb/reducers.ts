@@ -1,4 +1,8 @@
 import {
+  FETCH_CONTACT_TYPES_SUCCESS,
+  FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS,
+  FETCH_POLICY_KINDS_SUCCESS,
+  FETCH_POLICY_TYPES_SUCCESS,
   RbActionsType,
   SET_RB_ACCOUNTING_SYSTEM,
   SET_RB_ATTACH_TYPES,
@@ -15,9 +19,10 @@ import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../types/data/AccountinSystemItem';
 import AttachType from '../../types/data/AttachType';
-import KladrItem from '../../types/data/KladrItem';
-import KladrDistrict from '../../types/data/KladrDistrict';
-import KladrStreet from '../../types/data/KladrStreet';
+import PolicyType from '../../types/data/PolicyType';
+import PolicyKind from '../../types/data/PolicyKind';
+import PatientContactType from '../../types/data/PatientContactType';
+import PatientDocumentType from '../../types/data/PatientDocumentType';
 
 const initialState = {
   rbPersons: [] as Person[],
@@ -27,13 +32,10 @@ const initialState = {
   rbInvalidDocuments: [] as InvalidDocument[],
   rbAccountingSystem: [] as AccountingSystemItem[],
   rbAttachTypes: [] as AttachType[],
-  rbKladr: [] as KladrItem[],
-  isLoadingKladr: false,
-  isLoadingKladrNested: false,
-  isLoadingKladrStreets: false,
-  rbDistricts: [] as KladrDistrict[],
-  rbKladrNested: [] as KladrItem[],
-  rbKladrStreets: [] as KladrStreet[],
+  rbPolicyTypes: [] as PolicyType[],
+  rbPolicyKinds: [] as PolicyKind[],
+  rbContactTypes: [] as PatientContactType[],
+  rbPatientDocumentsTypes: [] as PatientDocumentType[],
 };
 
 export default function RbReducer(state = initialState, action: RbActionsType) {
@@ -73,6 +75,28 @@ export default function RbReducer(state = initialState, action: RbActionsType) {
         ...state,
         rbAttachTypes: action.payload,
       };
+    case FETCH_POLICY_KINDS_SUCCESS:
+      return {
+        ...state,
+        rbPolicyKinds: action.payload,
+      };
+    case FETCH_POLICY_TYPES_SUCCESS:
+      return {
+        ...state,
+        rbPolicyTypes: action.payload,
+      };
+    case FETCH_CONTACT_TYPES_SUCCESS:
+      return {
+        ...state,
+        rbContactTypes: action.payload,
+      };
+
+    case FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS:
+      return {
+        ...state,
+        rbPatientDocumentsTypes: action.payload,
+      };
+
     default:
       return state;
   }

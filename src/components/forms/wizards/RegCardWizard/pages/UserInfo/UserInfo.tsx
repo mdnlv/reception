@@ -19,20 +19,14 @@ import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
 import { detailedPersonsSelector } from '../../../../../../store/rb/selectors';
+import optionsListMapper from '../../../../../../utils/mappers/optionsListMapper';
 
 const UserInfo: React.FC = (props) => {
   const formProps = useFormikContext<RegistrationCardState>();
   const persons = useSelector(detailedPersonsSelector);
 
   const sectionValuePath = `personal`;
-
-  const getPersonsOptions = () => {
-    return persons.map((item) => (
-      <Select.Option name={item.name} value={item.id}>
-        {item.name}
-      </Select.Option>
-    ));
-  };
+  const personsOptions = optionsListMapper(persons);
 
   return (
     <form className="wizard-step registration-form">
@@ -153,7 +147,16 @@ const UserInfo: React.FC = (props) => {
           />
         </FormField>
         <FormField label="Лечащий врач">
-          <Select>{detailedPersonsSelector}</Select>
+          <Select
+            value={formProps.values.personal.docId}
+            onChange={(val) => {
+              formProps.setFieldValue(`${sectionValuePath}.docId`, val);
+            }}
+            showSearch
+            filterOption
+            optionFilterProp={'name'}>
+            {personsOptions}
+          </Select>
         </FormField>
         <Row>
           <Col>

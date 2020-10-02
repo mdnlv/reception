@@ -6,3 +6,4 @@ export const policyOmsTimeTypes = [
   'ДМС',
 ];
 export const policyOmsTypes = ['не задано', 'ОМС Территориальный', 'ОМС/ДМС'];
+export const docTypes = ['Паспорт РФ', 'Вид на жительство', 'Инпаспорт'];

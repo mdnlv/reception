@@ -4,11 +4,20 @@ import { useFormikContext } from 'formik';
 import moment from 'moment';
 import { RegistrationCardState } from '../../../../../../../../store/registrationCard/types';
 import FormField from '../../../../../../components/FormField/FormField';
+import optionsListMapper, {
+  ListItem,
+} from '../../../../../../../../utils/mappers/optionsListMapper';
 
-const PersonalDocument: FC = (props) => {
+interface SectionProps {
+  docTypes: ListItem[];
+}
+
+const PersonalDocument: FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardState>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
+
+  const docTypesOptions = optionsListMapper(props.docTypes);
 
   return (
     <div className="form-section personal-document">
@@ -16,7 +25,7 @@ const PersonalDocument: FC = (props) => {
       <Row gutter={16}>
         <Col span={5}>
           <FormField label="Паспорт">
-            <Select />
+            <Select>{docTypesOptions}</Select>
           </FormField>
         </Col>
         <Col span={5}>

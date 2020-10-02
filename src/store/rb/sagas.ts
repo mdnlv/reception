@@ -1,11 +1,15 @@
 import {
   FETCH_ACCOUNTING_SYSTEM,
   FETCH_ATTACH_TYPES,
+  FETCH_CONTACT_TYPES,
   FETCH_EVENT_TYPES,
   FETCH_INVALID_DOCUMENTS,
   FETCH_INVALID_REASONS,
   FETCH_ORGANISATIONS,
+  FETCH_PATIENT_DOCUMENT_TYPES,
   FETCH_PERSONS,
+  FETCH_POLICY_KINDS,
+  FETCH_POLICY_TYPES,
 } from './types';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import RbService from '../../services/RbService';
@@ -15,9 +19,17 @@ import RbPersonResponse from '../../interfaces/responses/rb/rbPerson';
 import {
   fetchAccountingSystemError,
   fetchAttachTypesError,
+  fetchContactTypesError,
+  fetchContactTypesSuccess,
   fetchEventTypesError,
   fetchInvalidDocumentsError,
   fetchOrganisationsError,
+  fetchPatientDocumentTypesError,
+  fetchPatientDocumentTypesSuccess,
+  fetchPolicyKindsError,
+  fetchPolicyKindsSuccess,
+  fetchPolicyTypesError,
+  fetchPolicyTypesSuccess,
   setRbAccountingSystem,
   setRbAttachTypes,
   setRbEventTypes,
@@ -36,6 +48,10 @@ import RbAccountingSystemResponse from '../../interfaces/responses/rb/rbAccounti
 import RbAttachTypeResponse from '../../interfaces/responses/rb/rbAttachType';
 import RbKladrResponse from '../../interfaces/responses/rb/rbKladr';
 import KladrStreet from '../../types/data/KladrStreet';
+import RbPolicyTypeResponse from '../../interfaces/responses/rb/rbPolicyType';
+import RbPolicyKindResponse from '../../interfaces/responses/rb/rbPolicyKind';
+import RbContactTypeResponse from '../../interfaces/responses/rb/rbContactType';
+import RbPatientDocumentTypeResponse from '../../interfaces/responses/rb/rbPatientDocumentType';
 
 function* asyncFetchPersons() {
   try {
@@ -171,6 +187,70 @@ function* asyncFetchAttachTypes() {
   }
 }
 
+function* asyncFetchPolicyTypes() {
+  try {
+    const policyTypes: AxiosResponse<RbPolicyTypeResponse[]> = yield call(
+      RbService.fetchPolicyTypes,
+    );
+    if (policyTypes.data) {
+      const formattedData = policyTypes.data.map((item) => ({
+        ...item,
+      }));
+      yield put(fetchPolicyTypesSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchPolicyTypesError());
+  }
+}
+
+function* asyncFetchPolicyKinds() {
+  try {
+    const policyKinds: AxiosResponse<RbPolicyKindResponse[]> = yield call(
+      RbService.fetchPolicyKind,
+    );
+    if (policyKinds.data) {
+      const formattedData = policyKinds.data.map((item) => ({
+        ...item,
+      }));
+      yield put(fetchPolicyKindsSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchPolicyKindsError());
+  }
+}
+
+function* asyncFetchContactTypes() {
+  try {
+    const contactTypes: AxiosResponse<RbContactTypeResponse[]> = yield call(
+      RbService.fetchContactType,
+    );
+    if (contactTypes.data) {
+      const formattedData = contactTypes.data.map((item) => ({
+        ...item,
+      }));
+      yield put(fetchContactTypesSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchContactTypesError());
+  }
+}
+
+function* asyncFetchDocumentTypes() {
+  try {
+    const documentTypes: AxiosResponse<
+      RbPatientDocumentTypeResponse[]
+    > = yield call(RbService.fetchPatientDocumentTypes);
+    if (documentTypes.data) {
+      const formattedData = documentTypes.data.map((item) => ({
+        ...item,
+      }));
+      yield put(fetchPatientDocumentTypesSuccess(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchPatientDocumentTypesError());
+  }
+}
+
 function* watchAsync() {
   yield takeEvery(FETCH_PERSONS, asyncFetchPersons);
   yield takeEvery(FETCH_EVENT_TYPES, asyncFetchEventTypes);
@@ -179,6 +259,10 @@ function* watchAsync() {
   yield takeEvery(FETCH_INVALID_DOCUMENTS, asyncFetchInvalidDocuments);
   yield takeEvery(FETCH_ACCOUNTING_SYSTEM, asyncFetchAccountingSystem);
   yield takeEvery(FETCH_ATTACH_TYPES, asyncFetchAttachTypes);
+  yield takeEvery(FETCH_POLICY_KINDS, asyncFetchPolicyKinds);
+  yield takeEvery(FETCH_POLICY_TYPES, asyncFetchPolicyTypes);
+  yield takeEvery(FETCH_CONTACT_TYPES, asyncFetchContactTypes);
+  yield takeEvery(FETCH_PATIENT_DOCUMENT_TYPES, asyncFetchDocumentTypes);
 }
 
 export default function* rbSaga() {

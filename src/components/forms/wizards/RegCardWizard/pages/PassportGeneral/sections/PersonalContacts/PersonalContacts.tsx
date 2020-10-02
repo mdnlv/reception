@@ -5,13 +5,65 @@ import { RegistrationCardState } from '../../../../../../../../store/registratio
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 import { PassportContactType } from '../../types';
 import FormField from '../../../../../../components/FormField/FormField';
+import PatientContactType from '../../../../../../../../types/data/PatientContactType';
+import optionsListMapper from '../../../../../../../../utils/mappers/optionsListMapper';
+import MaskedInput from 'antd-mask-input';
 
-const PersonalContacts: FC = (props) => {
+interface SectionProps {
+  contactTypes: PatientContactType[];
+}
+
+const PersonalContacts: FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardState>();
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
+  };
+
+  const contactTypesOptions = optionsListMapper(props.contactTypes);
+
+  const formatMask = (mask: string) =>
+    mask
+      .split('')
+      .map((item) => {
+        if (item === '9') {
+          return '1';
+        }
+        return item;
+      })
+      .join('');
+
+  const getInputByType = (mask: string, index: number) => {
+    let node: React.ReactNode;
+    if (mask) {
+      node = (
+        <MaskedInput
+          mask={formatMask(mask)}
+          name={getSelectionItem(index, 'number')}
+          value={formProps[index]?.number}
+          onChange={form.handleChange}
+        />
+      );
+    } else {
+      node = (
+        <Input
+          name={getSelectionItem(index, 'number')}
+          value={formProps[index]?.number}
+          onChange={form.handleChange}
+        />
+      );
+    }
+    return node;
+  };
+
+  const getMaskByType = (id: number) => {
+    const type = props.contactTypes.find((item) => item.id === id);
+    if (type && type.mask) {
+      return type.mask;
+    } else {
+      return '';
+    }
   };
 
   return (
@@ -35,16 +87,27 @@ const PersonalContacts: FC = (props) => {
             </Col>
             <Col span={6}>
               <FormField label="Номер">
-                <Input
-                  name={getSelectionItem(index, 'number')}
-                  value={formProps[index]?.number || ''}
-                  onChange={form.handleChange}
-                />
+                {getInputByType(
+                  getMaskByType(parseInt(formProps[index]?.type)),
+                  index,
+                )}
               </FormField>
             </Col>
             <Col span={5}>
               <FormField label="Тип">
-                <Select />
+                <Select
+                  value={formProps[index]?.type}
+                  showSearch
+                  filterOption
+                  optionFilterProp={'name'}
+                  onChange={(val) => {
+                    if (val !== formProps[index]?.type) {
+                      form.setFieldValue(getSelectionItem(index, 'number'), '');
+                    }
+                    form.setFieldValue(getSelectionItem(index, 'type'), val);
+                  }}>
+                  {contactTypesOptions}
+                </Select>
               </FormField>
             </Col>
             <Col span={10}>

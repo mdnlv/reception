@@ -17,17 +17,18 @@ import Address from './sections/Address/Address';
 import Policy from './sections/Policy/Policy';
 import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
-import { policyOmsTimeTypes, policyOmsTypes } from './data';
+import {
+  detailedContactTypes,
+  detailedPatientDocumentsTypes,
+  detailedPolicyKinds,
+  detailedPolicyTypes,
+} from '../../../../../../store/rb/selectors';
 
 const PassportGeneral: React.FC = (props) => {
-  const policyOmsTimeTypesList = policyOmsTimeTypes.map((item, index) => ({
-    id: index.toString(),
-    title: item,
-  }));
-  const policyOmsTypesList = policyOmsTypes.map((item, index) => ({
-    id: index.toString(),
-    title: item,
-  }));
+  const policyOmsTimeTypesList = useSelector(detailedPolicyKinds);
+  const policyOmsTypesList = useSelector(detailedPolicyTypes);
+  const docTypesList = useSelector(detailedPatientDocumentsTypes);
+  const contactTypes = useSelector(detailedContactTypes);
 
   const store = useSelector((state: RootState) => state.registrationCard);
 
@@ -125,10 +126,10 @@ const PassportGeneral: React.FC = (props) => {
       <Divider />
       <Row>
         <Col span={12} className={'col--border-right'}>
-          <PersonalDocument />
+          <PersonalDocument docTypes={docTypesList} />
         </Col>
         <Col span={12}>
-          <PersonalContacts />
+          <PersonalContacts contactTypes={contactTypes} />
         </Col>
       </Row>
       <Divider />

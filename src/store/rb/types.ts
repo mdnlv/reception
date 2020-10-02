@@ -5,8 +5,10 @@ import InvalidReason from '../../types/data/InvalidReason';
 import InvalidDocument from '../../types/data/InvalidDocument';
 import AccountinSystemItem from '../../types/data/AccountinSystemItem';
 import AttachType from '../../types/data/AttachType';
-import KladrItem from '../../types/data/KladrItem';
-import KladrStreet from '../../types/data/KladrStreet';
+import PolicyType from '../../types/data/PolicyType';
+import PolicyKind from '../../types/data/PolicyKind';
+import PatientContactType from '../../types/data/PatientContactType';
+import PatientDocumentType from '../../types/data/PatientDocumentType';
 
 export const FETCH_PERSONS = 'FETCH_PERSONS';
 export const FETCH_PERSONS_ERROR = 'FETCH_PERSONS_ERROR';
@@ -44,6 +46,24 @@ export const FETCH_ATTACH_TYPES = 'FETCH_ATTACH_TYPES';
 export const FETCH_ATTACH_TYPES_ERROR = 'FETCH_ATTACH_TYPES_ERROR';
 export const FETCH_ATTACH_TYPES_SUCCESS = 'FETCH_ATTACH_TYPES_SUCCESS';
 export const SET_RB_ATTACH_TYPES = 'SET_RB_ATTACH_TYPES';
+
+export const FETCH_POLICY_TYPES = 'FETCH_POLICY_TYPES';
+export const FETCH_POLICY_TYPES_ERROR = 'FETCH_POLICY_TYPES_ERROR';
+export const FETCH_POLICY_TYPES_SUCCESS = 'FETCH_POLICY_TYPES_SUCCESS';
+
+export const FETCH_POLICY_KINDS = 'FETCH_POLICY_TYPES';
+export const FETCH_POLICY_KINDS_ERROR = 'FETCH_POLICY_KINDS_ERROR';
+export const FETCH_POLICY_KINDS_SUCCESS = 'FETCH_POLICY_KINDS_SUCCESS';
+
+export const FETCH_CONTACT_TYPES = 'FETCH_CONTACT_TYPES_TYPES';
+export const FETCH_CONTACT_TYPES_ERROR = 'FETCH_CONTACT_TYPES_ERROR';
+export const FETCH_CONTACT_TYPES_SUCCESS = 'FETCH_CONTACT_TYPES_SUCCESS';
+
+export const FETCH_PATIENT_DOCUMENT_TYPES = 'FETCH_PATIENT_DOCUMENT_TYPES';
+export const FETCH_PATIENT_DOCUMENT_TYPES_ERROR =
+  'FETCH_PATIENT_DOCUMENT_TYPES_ERROR';
+export const FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS =
+  'FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS';
 
 export interface FETCH_PERSONS {
   type: typeof FETCH_PERSONS;
@@ -164,6 +184,58 @@ export interface SET_RB_ATTACH_TYPES {
   payload: AttachType[];
 }
 
+export interface FETCH_POLICY_TYPES {
+  type: typeof FETCH_POLICY_TYPES;
+}
+
+export interface FETCH_POLICY_TYPES_ERROR {
+  type: typeof FETCH_POLICY_TYPES_ERROR;
+}
+
+export interface FETCH_POLICY_TYPES_SUCCESS {
+  type: typeof FETCH_POLICY_TYPES_SUCCESS;
+  payload: PolicyType[];
+}
+
+export interface FETCH_POLICY_KINDS {
+  type: typeof FETCH_POLICY_KINDS;
+}
+
+export interface FETCH_POLICY_KINDS_ERROR {
+  type: typeof FETCH_POLICY_KINDS_ERROR;
+}
+
+export interface FETCH_POLICY_KINDS_SUCCESS {
+  type: typeof FETCH_POLICY_KINDS_SUCCESS;
+  payload: PolicyKind[];
+}
+
+export interface FETCH_CONTACT_TYPES {
+  type: typeof FETCH_CONTACT_TYPES;
+}
+
+export interface FETCH_CONTACT_TYPES_ERROR {
+  type: typeof FETCH_CONTACT_TYPES_ERROR;
+}
+
+export interface FETCH_CONTACT_TYPES_SUCCESS {
+  type: typeof FETCH_CONTACT_TYPES_SUCCESS;
+  payload: PatientContactType[];
+}
+
+export interface FETCH_PATIENT_DOCUMENT_TYPES {
+  type: typeof FETCH_PATIENT_DOCUMENT_TYPES;
+}
+
+export interface FETCH_PATIENT_DOCUMENT_TYPES_ERROR {
+  type: typeof FETCH_PATIENT_DOCUMENT_TYPES_ERROR;
+}
+
+export interface FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS {
+  type: typeof FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS;
+  payload: PatientDocumentType[];
+}
+
 export type RbActionsType =
   | FETCH_PERSONS
   | FETCH_PERSONS_ERROR
@@ -192,4 +264,16 @@ export type RbActionsType =
   | FETCH_ATTACH_TYPES
   | FETCH_ATTACH_TYPES_ERROR
   | FETCH_ATTACH_TYPES_SUCCESS
-  | SET_RB_ATTACH_TYPES;
+  | SET_RB_ATTACH_TYPES
+  | FETCH_POLICY_TYPES
+  | FETCH_POLICY_TYPES_ERROR
+  | FETCH_POLICY_TYPES_SUCCESS
+  | FETCH_POLICY_KINDS
+  | FETCH_POLICY_KINDS_ERROR
+  | FETCH_POLICY_KINDS_SUCCESS
+  | FETCH_CONTACT_TYPES
+  | FETCH_CONTACT_TYPES_ERROR
+  | FETCH_CONTACT_TYPES_SUCCESS
+  | FETCH_PATIENT_DOCUMENT_TYPES
+  | FETCH_PATIENT_DOCUMENT_TYPES_ERROR
+  | FETCH_PATIENT_DOCUMENT_TYPES_SUCCESS;
