@@ -13,7 +13,7 @@ import {
   SocialStatus,
   TrustedDoc,
 } from '../../components/forms/SocialStatusForm/types';
-import { PassportContactType } from '../../components/forms/PasssportGeneralForm/types';
+import { PassportContactType } from '../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import { PersonAttachment } from '../../components/forms/AttachmentsForm/types';
 import { PersonViewType } from '../../components/forms/PersonViewTypeForm/types';
 import { PersonLink } from '../../components/forms/PersonLinksForm/types';
@@ -47,6 +47,24 @@ import KladrItem from '../../types/data/KladrItem';
 import KladrStreet from '../../types/data/KladrStreet';
 
 export const initialState: RegistrationCardState = {
+  personal: {
+    firstName: '',
+    lastName: '',
+    patrName: '',
+    code: '',
+    birthPlace: '',
+    birthDate: '',
+    birthTime: '',
+    height: 0,
+    weight: 0,
+    snils: '',
+    hasImplants: false,
+    hasProsthesis: false,
+    sex: 0,
+    startCardDate: '',
+    hasCard: false,
+    onlyTempRegistration: false,
+  },
   additionalHospitalization: {
     hospitalizations: [] as PersonAddHospitalization[],
   },
@@ -103,8 +121,8 @@ export const initialState: RegistrationCardState = {
     contacts: [] as PassportContactType[],
     policyOms: {
       timeType: '',
-      from: moment(),
-      to: moment(),
+      from: new Date(),
+      to: new Date(),
       serial: '',
       number: '',
       cmo: '',
@@ -115,7 +133,7 @@ export const initialState: RegistrationCardState = {
     policyDms: {
       timeType: '',
       from: new Date(),
-      to: moment(),
+      to: new Date(),
       serial: '234234',
       number: '',
       cmo: '',

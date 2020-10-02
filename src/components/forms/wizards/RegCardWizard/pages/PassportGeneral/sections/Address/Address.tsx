@@ -1,9 +1,11 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Checkbox, Col, Input, Radio, Row, Select } from 'antd';
-import FormField from '../../../../components/FormField/FormField';
-import FormState from '../../../types';
 import { useFormikContext } from 'formik';
-import { KladrDocType } from '../../../../../../store/registrationCard/types';
+import {
+  KladrDocType,
+  RegistrationCardState,
+} from '../../../../../../../../store/registrationCard/types';
+import FormField from '../../../../../../components/FormField/FormField';
 
 interface KladrItem {
   id: string;
@@ -16,6 +18,7 @@ interface PrefixKladrItem extends KladrItem {
 }
 
 interface SectionProps {
+  passportType: 'addressRegistration' | 'documentedAddress';
   kladr: PrefixKladrItem[];
   nestedKladr: PrefixKladrItem[];
   kladrStreets: KladrItem[];
@@ -26,8 +29,11 @@ interface SectionProps {
   getKladrStreets(id: string, type: KladrDocType): void;
 }
 
-const AddressRegistration: FC<SectionProps> = (props) => {
-  const form = useFormikContext<FormState>();
+const Address: FC<SectionProps> = (props) => {
+  const form = useFormikContext<RegistrationCardState>();
+
+  const formValues = form.values.passportGeneral;
+  const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;
 
   function getKladrDetailed(kladrArr: KladrItem[]) {
     return kladrArr.map((item) => (
@@ -40,48 +46,67 @@ const AddressRegistration: FC<SectionProps> = (props) => {
     ));
   }
 
+  function getTitle() {
+    switch (props.passportType) {
+      case 'documentedAddress':
+        return 'Адрес регистрация';
+      case 'addressRegistration':
+        return 'Адрес проживания';
+    }
+  }
+
+  function getType() {
+    let type: KladrDocType;
+    switch (props.passportType) {
+      case 'addressRegistration':
+        type = 'registration';
+        break;
+      case 'documentedAddress':
+        type = 'documented';
+        break;
+    }
+    return type;
+  }
+
   //clear select fields after top-level select changed
   useEffect(() => {
     const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
     toEmptyFields.map((item) => {
-      form.setFieldValue(`passportInfo.addressRegistration.${item}`, '');
+      form.setFieldValue(`${sectionValuePath}.${item}`, '');
     });
-  }, [form.values.passportInfo.addressRegistration.street]);
+  }, [formValues.passportInfo[props.passportType].street]);
 
   useEffect(() => {
-    form.setFieldValue('passportInfo.addressRegistration.street', '');
-  }, [form.values.passportInfo.addressRegistration.city]);
+    form.setFieldValue(`${sectionValuePath}.street`, '');
+  }, [formValues.passportInfo[props.passportType].city]);
 
   useEffect(() => {
-    form.setFieldValue('passportInfo.addressRegistration.city', '');
-  }, [form.values.passportInfo.addressRegistration.area]);
+    form.setFieldValue(`${sectionValuePath}.city`, '');
+  }, [formValues.passportInfo[props.passportType].area]);
 
   return (
     <div className="form-section address-registration">
-      <h2>Адрес регистрации</h2>
+      <h2>{getTitle()}</h2>
       <Row gutter={16} className="form-row">
         <Col span={8}>
           <Radio.Group
-            value={form.values.passportInfo.addressRegistration.isKLADR}
-            name={'passportInfo.addressRegistration.isKLADR'}
+            value={formValues.passportInfo[props.passportType].isKLADR}
+            name={`${sectionValuePath}.isKLADR`}
             onChange={form.handleChange}>
             <Radio value={true}>КЛАДР</Radio>
             <Radio value={false}>Сельский житель</Radio>
           </Radio.Group>
         </Col>
       </Row>
-      {form.values.passportInfo.addressRegistration.isKLADR && (
+      {formValues.passportInfo[props.passportType].isKLADR && (
         <>
           <Row gutter={16} className="form-row">
             <Col span={8}>
               <FormField>
                 <Select
-                  value={form.values.passportInfo.addressRegistration.area}
+                  value={formValues.passportInfo[props.passportType].area}
                   onChange={(val) => {
-                    form.setFieldValue(
-                      'passportInfo.addressRegistration.area',
-                      val,
-                    );
+                    form.setFieldValue(`${sectionValuePath}.area`, val);
                   }}
                   placeholder={'Область'}
                   showSearch
@@ -95,25 +120,19 @@ const AddressRegistration: FC<SectionProps> = (props) => {
               <FormField>
                 <Select
                   loading={props.isLoadingKladrNested}
-                  disabled={!form.values.passportInfo.addressRegistration.area}
+                  disabled={!formValues.passportInfo[props.passportType].area}
                   onFocus={() => {
                     props.getKladrNested(
-                      form.values.passportInfo.addressRegistration.area,
-                      'registration',
+                      formValues.passportInfo[props.passportType].area,
+                      getType(),
                     );
                   }}
-                  value={form.values.passportInfo.addressRegistration.city}
+                  value={formValues.passportInfo[props.passportType].city}
                   onChange={(val) => {
-                    if (form.values.passportInfo.addressRegistration.street) {
-                      form.setFieldValue(
-                        'passportInfo.addressRegistration.street',
-                        '',
-                      );
+                    if (formValues.passportInfo[props.passportType].street) {
+                      form.setFieldValue(`${sectionValuePath}.street`, '');
                     }
-                    form.setFieldValue(
-                      'passportInfo.addressRegistration.city',
-                      val,
-                    );
+                    form.setFieldValue(`${sectionValuePath}.city`, val);
                   }}
                   placeholder={'Город'}
                   showSearch
@@ -129,19 +148,16 @@ const AddressRegistration: FC<SectionProps> = (props) => {
               <FormField>
                 <Select
                   loading={props.isLoadingKladrStreets}
-                  disabled={!form.values.passportInfo.addressRegistration.city}
+                  disabled={!formValues.passportInfo[props.passportType].city}
                   onFocus={() => {
                     props.getKladrStreets(
-                      form.values.passportInfo.addressRegistration.city,
-                      'registration',
+                      formValues.passportInfo[props.passportType].city,
+                      getType(),
                     );
                   }}
-                  value={form.values.passportInfo.addressRegistration.street}
+                  value={formValues.passportInfo[props.passportType].street}
                   onChange={(val) => {
-                    form.setFieldValue(
-                      'passportInfo.addressRegistration.street',
-                      val,
-                    );
+                    form.setFieldValue(`${sectionValuePath}.street`, val);
                   }}
                   placeholder={'Улица'}
                   showSearch
@@ -156,9 +172,9 @@ const AddressRegistration: FC<SectionProps> = (props) => {
                 <Col span={8}>
                   <FormField>
                     <Input
-                      name={'passportInfo.addressRegistration.houseNumber'}
+                      name={`${sectionValuePath}.houseNumber`}
                       value={
-                        form.values.passportInfo.addressRegistration.houseNumber
+                        formValues.passportInfo[props.passportType].houseNumber
                       }
                       placeholder={'Дом'}
                       onChange={form.handleChange}
@@ -168,9 +184,9 @@ const AddressRegistration: FC<SectionProps> = (props) => {
                 <Col span={8}>
                   <FormField>
                     <Input
-                      name={'passportInfo.addressRegistration.houseCharacter'}
+                      name={`${sectionValuePath}.houseCharacter`}
                       value={
-                        form.values.passportInfo.addressRegistration
+                        formValues.passportInfo[props.passportType]
                           .houseCharacter
                       }
                       placeholder={'Корпус'}
@@ -181,9 +197,9 @@ const AddressRegistration: FC<SectionProps> = (props) => {
                 <Col span={8}>
                   <FormField>
                     <Input
-                      name={'passportInfo.addressRegistration.flatNumber'}
+                      name={`${sectionValuePath}.flatNumber`}
                       value={
-                        form.values.passportInfo.addressRegistration.flatNumber
+                        formValues.passportInfo[props.passportType].flatNumber
                       }
                       placeholder={'Литера'}
                       onChange={form.handleChange}
@@ -195,43 +211,41 @@ const AddressRegistration: FC<SectionProps> = (props) => {
           </Row>
         </>
       )}
-      {!form.values.passportInfo.addressRegistration.isKLADR && (
+      {!formValues.passportInfo[props.passportType].isKLADR && (
         <>
           <Row gutter={8}>
             <Col span={16}>
               <FormField>
                 <Input
-                  name={'passportInfo.addressRegistration.freeInput'}
-                  value={form.values.passportInfo.addressRegistration.freeInput}
+                  name={`${sectionValuePath}.freeInput`}
+                  value={formValues.passportInfo[props.passportType].freeInput}
                   placeholder={'Адрес'}
-                  onChange={(val) =>
-                    form.setFieldValue(
-                      'passportInfo.addressRegistration.freeInput',
-                      val.target.value,
-                    )
-                  }
+                  onChange={form.handleChange}
                 />
               </FormField>
             </Col>
           </Row>
         </>
       )}
-      <Row gutter={8}>
-        <Col span={16}>
-          <FormField>
-            <Checkbox
-              checked={
-                form.values.passportInfo.documentedAddress.isDocumentedAddress
-              }
-              name={'passportInfo.documentedAddress.isDocumentedAddress'}
-              onChange={form.handleChange}>
-              Соответствует адресу прописки
-            </Checkbox>
-          </FormField>
-        </Col>
-      </Row>
+      {props.passportType === 'addressRegistration' && (
+        <Row gutter={8}>
+          <Col span={16}>
+            <FormField>
+              <Checkbox
+                checked={
+                  formValues.passportInfo[props.passportType]
+                    .isDocumentedAddress
+                }
+                name={`${sectionValuePath}.isDocumentedAddress`}
+                onChange={form.handleChange}>
+                Соответствует адресу прописки
+              </Checkbox>
+            </FormField>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };
 
-export default AddressRegistration;
+export default Address;

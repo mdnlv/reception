@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export interface PassportContactType {
   isMain: boolean;
   number: string;
@@ -42,8 +40,8 @@ export default interface FormState {
   contacts: PassportContactType[];
   policyOms: {
     timeType: string;
-    from: moment.Moment;
-    to: moment.Moment;
+    from: Date;
+    to: Date;
     serial: string;
     number: string;
     cmo: string;
@@ -54,7 +52,7 @@ export default interface FormState {
   policyDms: {
     timeType: string;
     from: Date;
-    to: moment.Moment;
+    to: Date;
     serial: string;
     number: string;
     cmo: string;

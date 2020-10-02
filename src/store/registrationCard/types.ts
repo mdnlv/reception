@@ -1,5 +1,5 @@
 import FeaturesFormState from '../../components/forms/FeaturesForm/types';
-import PassportGeneralFormState from '../../components/forms/PasssportGeneralForm/types';
+import PassportGeneralFormState from '../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import { FormState as SocialStatusFormState } from '../../components/forms/SocialStatusForm/types';
 import AttachmentsFormState from '../../components/forms/AttachmentsForm/types';
 import PersonViewTypeFormState from '../../components/forms/PersonViewTypeForm/types';
@@ -143,6 +143,24 @@ export interface RegistrationCardState {
   quotas: {};
   socialStatus: SocialStatusFormState;
   viewTypes: PersonViewTypeFormState;
+  personal: {
+    firstName: string;
+    lastName: string;
+    patrName: string;
+    code: string;
+    birthDate: string;
+    birthTime: string;
+    height: number;
+    weight: number;
+    snils: string;
+    startCardDate: string;
+    sex: 0 | 1;
+    hasImplants: boolean;
+    hasProsthesis: boolean;
+    birthPlace: string;
+    hasCard: boolean;
+    onlyTempRegistration: boolean;
+  };
   data: {
     passportGeneral: {
       documentedAddress: {
