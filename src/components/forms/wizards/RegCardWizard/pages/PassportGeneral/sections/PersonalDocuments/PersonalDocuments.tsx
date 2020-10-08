@@ -2,21 +2,37 @@ import React, { FC } from 'react';
 import { Col, DatePicker, Input, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
-import { RegistrationCardState } from '../../../../../../../../store/registrationCard/types';
 import FormField from '../../../../../../components/FormField/FormField';
+import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 
-const PersonalDocument: FC = (props) => {
-  const form = useFormikContext<RegistrationCardState>();
+interface SectionProps {
+  documentTypes: { id: number; name: string }[];
+}
+
+const PersonalDocument: FC<SectionProps> = (props) => {
+  const form = useFormikContext<RegistrationCardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
+
+  const documentTypeOptions = props.documentTypes.map((item) => (
+    <Select.Option key={item.id} name={item.name} value={item.id}>
+      {item.name}
+    </Select.Option>
+  ));
 
   return (
     <div className="form-section personal-document">
       <h2>Документ</h2>
       <Row gutter={16}>
-        <Col span={5}>
+        <Col span={8}>
           <FormField label="Паспорт">
-            <Select />
+            <Select
+              value={formProps.passportType}
+              onChange={(val) => {
+                form.setFieldValue(`${selectionValuePath}.passportType`, val);
+              }}>
+              {documentTypeOptions}
+            </Select>
           </FormField>
         </Col>
         <Col span={5}>

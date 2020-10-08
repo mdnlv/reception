@@ -29,6 +29,11 @@
     flex: 1;
   }
 
+  &__error{
+    color: #D64040;
+    font-size: 12px;
+  }
+
 
   //for inner antd select
   .ant-select{

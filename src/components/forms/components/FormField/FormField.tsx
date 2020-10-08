@@ -4,6 +4,7 @@ import './styles.scss';
 type FieldProps = {
   label?: string;
   labelPosition?: string;
+  error?: string;
 };
 
 const FormField: FC<FieldProps> = (props) => {
@@ -30,8 +31,15 @@ const FormField: FC<FieldProps> = (props) => {
         className={`form-field__body form-field__body--${props.labelPosition}`}>
         {getFieldLabel()}
         <div className="form-field__content">{props.children}</div>
+        {getFormError()}
       </div>
     );
+  }
+
+  function getFormError() {
+    if (props.error) {
+      return <div className={'form-field__error'}>{props.error}</div>;
+    } else return null;
   }
 
   return <div className="form-field">{getFormBody()}</div>;

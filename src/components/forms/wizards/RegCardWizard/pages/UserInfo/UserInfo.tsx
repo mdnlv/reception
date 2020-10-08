@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormikContext } from 'formik';
-import { RegistrationCardState } from '../../../../../../store/registrationCard/types';
 import FormField from '../../../../components/FormField/FormField';
 import {
   Button,
@@ -18,21 +17,20 @@ import {
 import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
-import { detailedPersonsSelector } from '../../../../../../store/rb/selectors';
+import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
+import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 
 const UserInfo: React.FC = (props) => {
-  const formProps = useFormikContext<RegistrationCardState>();
+  const formProps = useFormikContext<RegistrationCardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
   const sectionValuePath = `personal`;
 
-  const getPersonsOptions = () => {
-    return persons.map((item) => (
-      <Select.Option name={item.name} value={item.id}>
-        {item.name}
-      </Select.Option>
-    ));
-  };
+  const personsOptions = persons.map((item) => (
+    <Select.Option key={item.id} name={item.name} value={item.id}>
+      {item.name}
+    </Select.Option>
+  ));
 
   return (
     <form className="wizard-step registration-form">
@@ -68,7 +66,7 @@ const UserInfo: React.FC = (props) => {
       <div className="registration-form__dates">
         <Row gutter={16}>
           <Col span={12}>
-            <FormField label="Дата">
+            <FormField label="Дата рождения">
               <DatePicker
                 value={
                   formProps.values.personal.birthDate
@@ -85,7 +83,7 @@ const UserInfo: React.FC = (props) => {
             </FormField>
           </Col>
           <Col span={12}>
-            <FormField label="Время">
+            <FormField label="Время рождения">
               <TimePicker
                 format={'HH:mm'}
                 value={
@@ -153,7 +151,9 @@ const UserInfo: React.FC = (props) => {
           />
         </FormField>
         <FormField label="Лечащий врач">
-          <Select>{detailedPersonsSelector}</Select>
+          <Select showSearch filterOption optionFilterProp={'name'}>
+            {personsOptions}
+          </Select>
         </FormField>
         <Row>
           <Col>

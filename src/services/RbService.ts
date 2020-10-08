@@ -9,6 +9,10 @@ import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingS
 import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
 import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
+import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
+import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
+import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
+import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 
 export default {
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -22,6 +26,9 @@ export default {
   },
   fetchInvalidReasons(): Promise<AxiosResponse<RbInvalidReasonResponse[]>> {
     return apiInstance.get(`/refBooks/rbTempInvalidReason`);
+  },
+  fetchDocumentTypes(): Promise<AxiosResponse<RbDocumentTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbDocumentType');
   },
   fetchInvalidDocumentTypes(): Promise<
     AxiosResponse<RbInvalidDocumentTypeResponse[]>
@@ -50,5 +57,14 @@ export default {
     id: string,
   ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
     return apiInstance.get(`/kladr/street?code=${id}`);
+  },
+  fetchContactTypes(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbContactType');
+  },
+  fetchPolicyTypes(): Promise<AxiosResponse<RbPolicyTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbPolicyType');
+  },
+  fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
+    return apiInstance.get('/refBooks/rbPolicyKind');
   },
 };

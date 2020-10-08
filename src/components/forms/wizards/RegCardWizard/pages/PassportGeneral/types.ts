@@ -1,7 +1,7 @@
 export interface PassportContactType {
   isMain: boolean;
   number: string;
-  type: string;
+  type: number;
   note: string;
 }
 
@@ -10,7 +10,7 @@ export default interface FormState {
     passportType: string;
     serial: string;
     number: string;
-    fromDate: Date;
+    fromDate: string;
     givenBy: string;
 
     addressRegistration: {
@@ -40,8 +40,8 @@ export default interface FormState {
   contacts: PassportContactType[];
   policyOms: {
     timeType: string;
-    from: Date;
-    to: Date;
+    from: string;
+    to: string;
     serial: string;
     number: string;
     cmo: string;
@@ -51,8 +51,8 @@ export default interface FormState {
   };
   policyDms: {
     timeType: string;
-    from: Date;
-    to: Date;
+    from: string;
+    to: string;
     serial: string;
     number: string;
     cmo: string;

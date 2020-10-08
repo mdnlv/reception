@@ -10,19 +10,22 @@ import PreventiveMeasures from './components/sections/PreventiveMeasures/Prevent
 import OutsideIdn from './components/sections/OutsideIdn/OutsideIdn';
 import './styles.scss';
 import PartialFormState from './types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PersonArea from './components/sections/PersonArea/PersonArea';
+import PersonBed from './components/sections/PersonBed/PersonBed';
+import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
+import validation from './validation';
+import { fetchFiltersPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 import {
   detailedAccountingSystemSelector,
   detailedInvalidDocuments,
   detailedInvalidReasonsSelector,
   detailedOrganisationsSelector,
   detailedPersonsSelector,
-} from '../../../store/rb/selectors';
-import PersonArea from './components/sections/PersonArea/PersonArea';
-import PersonBed from './components/sections/PersonBed/PersonBed';
-import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
+} from '../../../reduxStore/slices/rb/selectors';
 
 const PatientSearchFilterForm: React.FC = (props) => {
+  const dispatch = useDispatch();
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
   const rbPersons = useSelector(detailedPersonsSelector);
   const rbInvalidDocs = useSelector(detailedInvalidDocuments);
@@ -51,8 +54,10 @@ const PatientSearchFilterForm: React.FC = (props) => {
   return (
     <Formik
       initialValues={{ ...initialStore }}
-      onSubmit={(values) => {
+      validationSchema={validation}
+      onSubmit={async (values, formikHelpers) => {
         console.log(values);
+        dispatch(fetchFiltersPatients(values));
       }}>
       {(formProps) => (
         <form className={'patient-search-filter-form'}>

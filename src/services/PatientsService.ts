@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import apiInstance from './api';
 import PatientResponse from '../interfaces/responses/patients/patient';
-import { QueryPatientsFilters } from '../store/patients/types';
+import PatientFiltersQueryPayload from '../interfaces/payloads/patients/patientFiltersQuery';
 
 type FetchPatientsFilter = {
   id: string;
@@ -25,9 +25,13 @@ export default {
   },
 
   detailedQueryPatients(
-    query: QueryPatientsFilters,
+    query: Partial<PatientFiltersQueryPayload> | string,
   ): Promise<AxiosResponse<PatientResponse[]>> {
-    return apiInstance.post(`/client/extFind`, query);
+    if (typeof query === 'string') {
+      return apiInstance.post(`/client/find`, query);
+    } else {
+      return apiInstance.post(`/client/extFind`, query);
+    }
   },
 
   queryPatients(query: string): Promise<AxiosResponse<PatientResponse[]>> {

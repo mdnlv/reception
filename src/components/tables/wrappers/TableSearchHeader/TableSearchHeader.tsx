@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  CloseOutlined,
-  SearchOutlined,
-  SlidersOutlined,
-} from '@ant-design/icons/lib';
+import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import './style.scss';
 import { Button, Card, Input, Row } from 'antd';
 import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
+import { useSpring, animated, useTransition } from 'react-spring';
 
 type SearchHeaderProps = {
   onChangeQuery(query: string): void;
@@ -21,6 +18,20 @@ type SearchHeaderProps = {
 const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
   const [showSearchForm, setShowForm] = useState(false);
   const [query, setQuery] = useState('');
+  const animationProps = useTransition(props.type, null, {
+    from: {
+      height: '100%',
+      opacity: 0,
+    },
+    enter: {
+      height: '0',
+      opacity: 1,
+    },
+    leave: {
+      height: '100%',
+      opacity: 0,
+    },
+  });
 
   useEffect(() => {
     if (props.onOpenSearch) {
@@ -36,10 +47,15 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
 
   const renderTableBody = () => {
     if (showSearchForm) {
-      return (
-        <Card>
-          <PatientSearchFilterForm />
-        </Card>
+      return animationProps.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div key={key} style={props}>
+              <Card>
+                <PatientSearchFilterForm />
+              </Card>
+            </animated.div>
+          ),
       );
     } else if (props.children) {
       return props.children;

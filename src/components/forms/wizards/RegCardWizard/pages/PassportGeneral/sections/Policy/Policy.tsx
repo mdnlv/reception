@@ -2,12 +2,12 @@ import { Button, Col, DatePicker, Input, Row, Select, Space } from 'antd';
 import moment from 'moment';
 import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
-import { RegistrationCardState } from '../../../../../../../../store/registrationCard/types';
 import FormField from '../../../../../../components/FormField/FormField';
+import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 
 interface ListOptionItem {
-  id: string;
-  title: string;
+  id: number;
+  name: string;
 }
 
 interface SectionProps {
@@ -17,7 +17,7 @@ interface SectionProps {
 }
 
 const Policy: React.FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardState>();
+  const form = useFormikContext<RegistrationCardStateType>();
 
   const formValues = form.values.passportGeneral[props.policyKey];
   const sectionValuePath = `passportGeneral.${props.policyKey}`;
@@ -26,7 +26,7 @@ const Policy: React.FC<SectionProps> = (props) => {
     (props: ListOptionItem[]) =>
       props.map((item) => (
         <Select.Option key={item.id} value={item.id}>
-          {item.title}
+          {item.name}
         </Select.Option>
       )),
     [props.policyTimeType, props.policyType],
@@ -48,9 +48,6 @@ const Policy: React.FC<SectionProps> = (props) => {
       }`}>
       <h2>{sectionTitle()}</h2>
       <Row className="form-row" align={'bottom'} gutter={16}>
-        <Col span={3}>
-          <Button>Искать</Button>
-        </Col>
         <Col span={4}>
           <FormField>
             <Select

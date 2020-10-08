@@ -4,7 +4,7 @@ import PatientContact from './PatientContact';
 
 export default interface Patient {
   fullName: string;
-  birthDate: Date;
+  birthDate: string;
   code: number;
   quotes?: string[];
   medicalAttachment?: string;
@@ -18,9 +18,9 @@ export default interface Patient {
   phone?: Map<string, string>[];
   birthPlace?: string;
   note?: string;
-  eisAcceptDate?: Date;
-  misRegDate?: Date;
-  medExamination?: Date;
+  eisAcceptDate?: string;
+  misRegDate?: string;
+  medExamination?: string;
 
   address: PatientAddress[];
   policy: PatientPolicy[];

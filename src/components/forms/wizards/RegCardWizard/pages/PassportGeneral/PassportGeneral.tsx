@@ -1,38 +1,34 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../store/store';
-import {
-  kladrLoadingsSelector,
-  kladrSelector,
-} from '../../../../../../store/registrationCard/selectors';
-import { KladrDocType } from '../../../../../../store/registrationCard/types';
 import KladrItem from '../../../../../../types/data/KladrItem';
-import {
-  fetchKladr,
-  fetchKladrNested,
-  fetchKladrStreets,
-} from '../../../../../../store/registrationCard/actions';
 import { Col, Divider, Row } from 'antd';
 import Address from './sections/Address/Address';
 import Policy from './sections/Policy/Policy';
 import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
-import { policyOmsTimeTypes, policyOmsTypes } from './data';
+import {
+  fetchKladr,
+  fetchKladrNested,
+  fetchKladrStreets,
+  KladrDocType,
+} from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {
+  kladrLoadingsSelector,
+  kladrSelector,
+} from '../../../../../../reduxStore/slices/registrationCard/selectors';
+import { RootState } from '../../../../../../reduxStore/store';
+import {
+  detailedContactTypesSelector,
+  detailedDocumentTypesSelector,
+  detailedPolicyKindsSelector,
+  detailedPolicyTypesSelector,
+} from '../../../../../../reduxStore/slices/rb/selectors';
 
 const PassportGeneral: React.FC = (props) => {
-  const policyOmsTimeTypesList = policyOmsTimeTypes.map((item, index) => ({
-    id: index.toString(),
-    title: item,
-  }));
-  const policyOmsTypesList = policyOmsTypes.map((item, index) => ({
-    id: index.toString(),
-    title: item,
-  }));
-
   const store = useSelector((state: RootState) => state.registrationCard);
 
   useEffect(() => {
-    dispatch(fetchKladr());
+    dispatch(fetchKladr({}));
   }, []);
 
   const {
@@ -51,6 +47,11 @@ const PassportGeneral: React.FC = (props) => {
     isLoadingKladrStreetsDocumented,
     isLoadingKladrStreetsRegistration,
   } = useSelector(kladrLoadingsSelector);
+
+  const policyTypesList = useSelector(detailedPolicyTypesSelector);
+  const policyKindsList = useSelector(detailedPolicyKindsSelector);
+  const documentTypesList = useSelector(detailedDocumentTypesSelector);
+  const contactTypesList = useSelector(detailedContactTypesSelector);
 
   const dispatch = useDispatch();
 
@@ -110,25 +111,25 @@ const PassportGeneral: React.FC = (props) => {
         <Col span={12} className={'col--border-right'}>
           <Policy
             policyKey="policyOms"
-            policyTimeType={policyOmsTimeTypesList}
-            policyType={policyOmsTypesList}
+            policyTimeType={policyTypesList}
+            policyType={policyKindsList}
           />
         </Col>
         <Col span={12}>
           <Policy
             policyKey="policyDms"
-            policyTimeType={policyOmsTimeTypesList}
-            policyType={policyOmsTypesList}
+            policyTimeType={policyTypesList}
+            policyType={policyKindsList}
           />
         </Col>
       </Row>
       <Divider />
       <Row>
         <Col span={12} className={'col--border-right'}>
-          <PersonalDocument />
+          <PersonalDocument documentTypes={documentTypesList} />
         </Col>
         <Col span={12}>
-          <PersonalContacts />
+          <PersonalContacts contactTypes={contactTypesList} />
         </Col>
       </Row>
       <Divider />

@@ -1,0 +1,34 @@
+export default interface PatientFiltersQueryPayload {
+  tempInvalid_DocumentBegDate: string;
+  tempInvalid_DocumentEndDate: string;
+  tempInvalid_DocumentSerial: string;
+  tempInvalid_DocumentNumber: string;
+  tempInvalid_DocumentType_id: number;
+  tempInvalid_Reason_id: number;
+  createPerson_id: number;
+  modifyPerson_id: number;
+  begModifyDatetime: string;
+  endModifyDatetime: string;
+  begBirthDate: string;
+  endBirthDate: string;
+  isEmptyAddress: 0 | 1;
+  areaType_id: number;
+  areaOrgStructure_id: number;
+  bedProfileType_id: 0 | 1 | 2 | 3 | 4;
+  bedProfileOrgStructure_id: number;
+  isAttachment: 0 | 1;
+  attachmentCategory_id: 0 | 1 | 2 | 3;
+  attachmentType_id: number;
+  isAttachNonBase: 0 | 1;
+  attachmentOrganisation_id: number;
+  begDateRPFConfirmed: string;
+  endDateRPFConfirmed: string;
+  isRPFUnconfirmed: 0 | 1;
+  isOncologyForm90: 0 | 1;
+  isClientExamPlan: 0 | 1;
+  clientExamPlanKind_id: 0 | 1 | 2;
+  clientExamPlanYear: number;
+  clientExamPlanQuarter: number;
+  identifierSystemId: number;
+  identifier: string;
+}

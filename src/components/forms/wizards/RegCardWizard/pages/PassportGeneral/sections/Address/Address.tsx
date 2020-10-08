@@ -1,11 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { Checkbox, Col, Input, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import {
-  KladrDocType,
-  RegistrationCardState,
-} from '../../../../../../../../store/registrationCard/types';
 import FormField from '../../../../../../components/FormField/FormField';
+import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 
 interface KladrItem {
   id: string;
@@ -30,7 +28,7 @@ interface SectionProps {
 }
 
 const Address: FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardState>();
+  const form = useFormikContext<RegistrationCardStateType>();
 
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;

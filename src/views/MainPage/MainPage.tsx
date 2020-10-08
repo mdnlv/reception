@@ -5,13 +5,13 @@ import './styles.scss';
 import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
 import TimeTable from '../../components/elements/TimeTable/TimeTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { fetchPatients } from '../../store/patients/actions';
+import { fetchPatients } from '../../reduxStore/slices/patients/patientsSlice';
 import exampleTree from './exampleTree';
-import { fetchPatientEvents } from '../../store/patientCard/actions';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
-import { currentPatientInfoSelector } from '../../store/patients/selectors';
-import { eventsAppointments } from '../../store/patientCard/selectors';
+import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
+import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
+import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
+import { RootState } from '../../reduxStore/store';
 
 const MainPage: FC = (props) => {
   const dispatch = useDispatch();
@@ -28,12 +28,7 @@ const MainPage: FC = (props) => {
   );
 
   useEffect(() => {
-    dispatch(
-      fetchPatients({
-        limit: 300,
-        offset: 0,
-      }),
-    );
+    dispatch(fetchPatients({ limit: 300, offset: 0 }));
   }, []);
 
   useEffect(() => {

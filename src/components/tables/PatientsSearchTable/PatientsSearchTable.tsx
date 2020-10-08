@@ -2,11 +2,8 @@ import React, { useCallback, useState } from 'react';
 import PatientsTable from '../PatientsTable/PatientsTable';
 import TableSearchHeader from '../wrappers/TableSearchHeader/TableSearchHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import {
-  queryPatients,
-  setCurrentPatient,
-} from '../../../store/patients/actions';
+import { setCurrentPatient } from '../../../reduxStore/slices/patients/patientsSlice';
+import { RootState } from '../../../reduxStore/store';
 
 interface TableProps {
   onOpenSearch: () => void;
@@ -20,9 +17,7 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
     (state: RootState) => state.patients,
   );
 
-  function onSearchButtonClick(query: string) {
-    dispatch(queryPatients(query));
-  }
+  function onSearchButtonClick(query: string) {}
 
   function onTableRowClick(id: number) {
     if (id !== currentPatient && id) {

@@ -3,11 +3,11 @@ import { Formik } from 'formik';
 import { Card, Col, Row, Tabs } from 'antd';
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
 import UserInfo from './pages/UserInfo/UserInfo';
 import './styles.scss';
-import { setFormSection } from '../../../../store/registrationCard/actions';
-import { RegistrationCardState } from '../../../../store/registrationCard/types';
+import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
+import { setFormSection } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import { RootState } from '../../../../reduxStore/store';
 
 interface WizardProps {}
 
@@ -15,12 +15,12 @@ const RegCardWizard: React.FC<WizardProps> = (props) => {
   const dispatch = useDispatch();
   const store = useSelector((state: RootState) => state.registrationCard);
 
-  function submitForm(values: RegistrationCardState) {
-    dispatch(setFormSection(values));
-  }
-
   return (
-    <Formik initialValues={store} onSubmit={submitForm}>
+    <Formik
+      initialValues={store}
+      onSubmit={(values) => {
+        dispatch(setFormSection(values));
+      }}>
       {(formProps) => (
         <Row>
           <Col span={5}>

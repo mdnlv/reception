@@ -111,7 +111,9 @@ const PersonDisabilities: React.FC<SectionProps> = (props) => {
       </Row>
       <Row>
         <Col span={12}>
-          <FormField label={'Причина нетрудоспособности'}>
+          <FormField
+            error={form.errors.tempInvalidReasonId}
+            label={'Причина нетрудоспособности'}>
             <Select
               showSearch
               filterOption

@@ -6,26 +6,34 @@ import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
-  fetchAccountingSystem,
-  fetchAttachTypes,
-  fetchEventTypes,
-  fetchInvalidDocuments,
-  fetchInvalidReasons,
-  fetchOrganisations,
-  fetchPersons,
-} from './store/rb/actions';
+  fetchRbAccountingSystem,
+  fetchRbAttachTypes,
+  fetchRbContactTypes,
+  fetchRbDocumentTypes,
+  fetchRbEventTypes,
+  fetchRbInvalidDocumentsTypes,
+  fetchRbInvalidReasons,
+  fetchRbOrganisations,
+  fetchRbPersons,
+  fetchRbPolicyKind,
+  fetchRbPolicyTypes,
+} from './reduxStore/slices/rb/rbSlice';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPersons());
-    dispatch(fetchEventTypes());
-    dispatch(fetchInvalidDocuments());
-    dispatch(fetchOrganisations());
-    dispatch(fetchInvalidReasons());
-    dispatch(fetchAccountingSystem());
-    dispatch(fetchAttachTypes());
+    dispatch(fetchRbPersons());
+    dispatch(fetchRbEventTypes());
+    dispatch(fetchRbInvalidReasons());
+    dispatch(fetchRbOrganisations());
+    dispatch(fetchRbInvalidDocumentsTypes());
+    dispatch(fetchRbAccountingSystem());
+    dispatch(fetchRbAttachTypes());
+    dispatch(fetchRbContactTypes());
+    dispatch(fetchRbDocumentTypes());
+    dispatch(fetchRbPolicyKind());
+    dispatch(fetchRbPolicyTypes());
   }, []);
 
   return (

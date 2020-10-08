@@ -4,14 +4,17 @@ import { Col, Row, Spin } from 'antd';
 import PatientMedInfoCard from '../../components/cards/PatientMedInfoCard/PatientMedInfoCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import {
-  fetchIdPatient,
-  fetchPatientEvents,
-} from '../../store/patientCard/actions';
-import { RootState } from '../../store/store';
-import { fetchEventTypes, fetchPersons } from '../../store/rb/actions';
 import PatientHappenings from '../../components/cards/PatientHappenings/PatientHappenings';
-import { detailedEventsSelector } from '../../store/patientCard/selectors';
+import {
+  fetchCurrentPatient,
+  fetchPatientEvents,
+} from '../../reduxStore/slices/patientCard/patientCardSlice';
+import {
+  fetchRbEventTypes,
+  fetchRbPersons,
+} from '../../reduxStore/slices/rb/rbSlice';
+import { detailedEventsSelector } from '../../reduxStore/slices/patientCard/selectors';
+import { RootState } from '../../reduxStore/store';
 
 const PatientCard: React.FC = (props) => {
   const dispatch = useDispatch();
@@ -22,12 +25,12 @@ const PatientCard: React.FC = (props) => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    dispatch(fetchPersons());
-    dispatch(fetchEventTypes());
+    dispatch(fetchRbPersons());
+    dispatch(fetchRbEventTypes());
   }, []);
 
   useEffect(() => {
-    dispatch(fetchIdPatient(parseInt(id)));
+    dispatch(fetchCurrentPatient(parseInt(id)));
     dispatch(fetchPatientEvents(parseInt(id)));
   }, []);
 

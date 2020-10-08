@@ -105,6 +105,7 @@ const PatientsTable: FC<TableProps> = (props) => {
         onRow={(record) => {
           return {
             onClick: (event) => {
+              console.log(record);
               props.onPatientClick(record.key);
             },
             onMouseEnter: (event) => {

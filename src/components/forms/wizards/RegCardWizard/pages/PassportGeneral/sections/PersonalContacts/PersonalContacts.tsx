@@ -1,18 +1,61 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Checkbox, Col, Input, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import { RegistrationCardState } from '../../../../../../../../store/registrationCard/types';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 import { PassportContactType } from '../../types';
 import FormField from '../../../../../../components/FormField/FormField';
+import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import PatientContactType from '../../../../../../../../types/data/PatientContactType';
+import MaskedInput from 'antd-mask-input';
 
-const PersonalContacts: FC = (props) => {
-  const form = useFormikContext<RegistrationCardState>();
+interface SectionProps {
+  contactTypes: PatientContactType[];
+}
+
+const PersonalContacts: FC<SectionProps> = (props) => {
+  const form = useFormikContext<RegistrationCardStateType>();
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
+
+  const typesOptions = props.contactTypes.map((item) => (
+    <Select.Option key={item.id} name={item.name} value={item.id}>
+      {item.name}
+    </Select.Option>
+  ));
+
+  function getTypeInput(index: number, mask: string) {
+    if (mask) {
+      return (
+        <MaskedInput
+          mask={mask}
+          placeholder={mask}
+          name={getSelectionItem(index, 'number')}
+          onChange={form.handleChange}
+        />
+      );
+    } else {
+      return (
+        <Input
+          name={getSelectionItem(index, 'number')}
+          value={formProps[index]?.number || ''}
+          onChange={form.handleChange}
+        />
+      );
+    }
+  }
+
+  function findMaskByType(typeId: number) {
+    if (typeId) {
+      const type = props.contactTypes.find((item) => item.id === typeId);
+      if (type) return type.mask;
+      return '';
+    } else {
+      return '';
+    }
+  }
 
   return (
     <div className={'form-section personal-contacts'}>
@@ -35,16 +78,18 @@ const PersonalContacts: FC = (props) => {
             </Col>
             <Col span={6}>
               <FormField label="Номер">
-                <Input
-                  name={getSelectionItem(index, 'number')}
-                  value={formProps[index]?.number || ''}
-                  onChange={form.handleChange}
-                />
+                {getTypeInput(index, findMaskByType(formProps[index]?.type))}
               </FormField>
             </Col>
             <Col span={5}>
               <FormField label="Тип">
-                <Select />
+                <Select
+                  value={formProps[index]?.type}
+                  onChange={(val) => {
+                    form.setFieldValue(getSelectionItem(index, 'type'), val);
+                  }}>
+                  {typesOptions}
+                </Select>
               </FormField>
             </Col>
             <Col span={10}>

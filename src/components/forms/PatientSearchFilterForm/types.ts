@@ -1,6 +1,6 @@
-import { QueryPatientsFilters } from '../../../store/patients/types';
+import { PatientsSearchFiltersType } from '../../../reduxStore/slices/patients/patientsSlice';
 
-interface FormState extends QueryPatientsFilters {
+interface FormState extends PatientsSearchFiltersType {
   personAgeFrom: undefined;
   personAgeTo: undefined;
   birthMonth: undefined;
