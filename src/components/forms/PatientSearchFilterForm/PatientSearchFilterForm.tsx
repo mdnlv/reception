@@ -24,7 +24,13 @@ import {
   detailedPersonsSelector,
 } from '../../../reduxStore/slices/rb/selectors';
 
-const PatientSearchFilterForm: React.FC = (props) => {
+interface FormProps {
+  onClose?(): void;
+  onClearForm?(): void;
+  onSubmit?(): void;
+}
+
+const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
   const dispatch = useDispatch();
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
   const rbPersons = useSelector(detailedPersonsSelector);
@@ -56,8 +62,20 @@ const PatientSearchFilterForm: React.FC = (props) => {
       initialValues={{ ...initialStore }}
       validationSchema={validation}
       onSubmit={async (values, formikHelpers) => {
-        console.log(values);
-        dispatch(fetchFiltersPatients(values));
+        if (props.onSubmit) {
+          props.onSubmit();
+        }
+        await dispatch(
+          fetchFiltersPatients({
+            ...values,
+            tempInvalidReasonId: 1,
+            tempInvalidDocumentTypeId: 1,
+            begBirthDate: '2000-01-01',
+          }),
+        );
+        if (props.onClose) {
+          props.onClose();
+        }
       }}>
       {(formProps) => (
         <form className={'patient-search-filter-form'}>
@@ -104,7 +122,14 @@ const PatientSearchFilterForm: React.FC = (props) => {
           </Row>
           <Row gutter={8} justify={'end'}>
             <Col>
-              <Button type={'primary'} danger>
+              <Button
+                type={'primary'}
+                onClick={() => {
+                  if (props.onClearForm) {
+                    props.onClearForm();
+                  }
+                }}
+                danger>
                 Сбросить
               </Button>
             </Col>

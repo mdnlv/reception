@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import KladrItem from '../../../../../../types/data/KladrItem';
 import { Col, Divider, Row } from 'antd';
 import Address from './sections/Address/Address';
-import Policy from './sections/Policy/Policy';
 import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import {
@@ -23,9 +22,14 @@ import {
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
+import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
+import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
+import { PassportPolicyType } from './types';
+import { useFormikContext } from 'formik';
 
 const PassportGeneral: React.FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
+  const form = useFormikContext<RegistrationCardStateType>();
 
   useEffect(() => {
     dispatch(fetchKladr({}));
@@ -76,6 +80,21 @@ const PassportGeneral: React.FC = (props) => {
     dispatch(fetchKladrStreets({ id, type }));
   }
 
+  function onAddPolicy(policy: PassportPolicyType, type: 'oms' | 'dms') {
+    let policyItems: PassportPolicyType[] = [] as PassportPolicyType[];
+    switch (type) {
+      case 'dms':
+        policyItems = form.values.passportGeneral.policyDms;
+        break;
+      case 'oms':
+        policyItems = form.values.passportGeneral.policyOms;
+        break;
+    }
+    const pathName = type === 'oms' ? 'Oms' : 'Dms';
+    policyItems = [...policyItems, policy];
+    form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
+  }
+
   return (
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
@@ -109,17 +128,19 @@ const PassportGeneral: React.FC = (props) => {
       <Divider />
       <Row>
         <Col span={12} className={'col--border-right'}>
-          <Policy
-            policyKey="policyOms"
-            policyTimeType={policyTypesList}
-            policyType={policyKindsList}
+          <PolicyAddForm
+            policyKey={'policyOms'}
+            policyTimeType={policyKindsList}
+            policyType={policyTypesList}
+            onAddPolicy={onAddPolicy}
           />
         </Col>
         <Col span={12}>
-          <Policy
-            policyKey="policyDms"
-            policyTimeType={policyTypesList}
-            policyType={policyKindsList}
+          <PolicyAddForm
+            policyKey={'policyDms'}
+            policyTimeType={policyKindsList}
+            policyType={policyTypesList}
+            onAddPolicy={onAddPolicy}
           />
         </Col>
       </Row>

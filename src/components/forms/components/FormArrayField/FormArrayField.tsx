@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Space, Tooltip } from 'antd';
 import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
@@ -17,6 +17,16 @@ function FormArrayField<T>(props: FieldProps<T>) {
         })
       : [],
   );
+
+  useEffect(() => {
+    if (Array.isArray(props.values)) {
+      setFieldsArr(
+        Array.of(props.values.length).map((item, index) => {
+          return `${props.name}[${index}]`;
+        }),
+      );
+    }
+  }, [props.values]);
 
   function addItem() {
     let index = 0;
@@ -40,6 +50,13 @@ function FormArrayField<T>(props: FieldProps<T>) {
       return props.renderChild(item, index);
     });
   }
+
+  const arrayContentMemo = useMemo(() => {
+    return fieldsArr.map((item, index) => {
+      return props.renderChild(item, index);
+    });
+  }, [fieldsArr.length]);
+
   return (
     <>
       <Space>
@@ -69,7 +86,7 @@ function FormArrayField<T>(props: FieldProps<T>) {
         </Tooltip>
       </Space>
 
-      {arrayContent()}
+      {arrayContentMemo}
     </>
   );
 }

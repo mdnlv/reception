@@ -1,7 +1,19 @@
 export interface PassportContactType {
   isMain: boolean;
   number: string;
-  type: number;
+  type: string;
+  note: string;
+}
+
+export interface PassportPolicyType {
+  timeType: string;
+  from: string;
+  to: string;
+  serial: string;
+  number: string;
+  cmo: string;
+  type: string;
+  name: string;
   note: string;
 }
 
@@ -38,26 +50,6 @@ export default interface FormState {
     };
   };
   contacts: PassportContactType[];
-  policyOms: {
-    timeType: string;
-    from: string;
-    to: string;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name: string;
-    note: string;
-  };
-  policyDms: {
-    timeType: string;
-    from: string;
-    to: string;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name: string;
-    note: string;
-  };
+  policyOms: PassportPolicyType[];
+  policyDms: PassportPolicyType[];
 }

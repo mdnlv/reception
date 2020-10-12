@@ -2,16 +2,14 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'antd';
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import './styles.scss';
-import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
-import TimeTable from '../../components/elements/TimeTable/TimeTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPatients } from '../../reduxStore/slices/patients/patientsSlice';
-import exampleTree from './exampleTree';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
+import TimeTable from '../../components/elements/TimeTable/TimeTable';
+import exampleTree from './exampleTree';
 
 const MainPage: FC = (props) => {
   const dispatch = useDispatch();
@@ -26,10 +24,6 @@ const MainPage: FC = (props) => {
   const { rbPersons, rbEventTypes } = useSelector(
     (state: RootState) => state.rb,
   );
-
-  useEffect(() => {
-    dispatch(fetchPatients({ limit: 300, offset: 0 }));
-  }, []);
 
   useEffect(() => {
     if (currentPatient) {
@@ -59,16 +53,7 @@ const MainPage: FC = (props) => {
         </Row>
         <Row>
           <Col span={24}>
-            <TableSearchHeader
-              className={'docs-search-table'}
-              title={'Врачи'}
-              type={'filter'}
-              onOpenSearch={() => {
-                setShowInfo(!showUserInfo);
-              }}
-              onChangeQuery={() => {}}>
-              <TimeTable data={exampleTree} />
-            </TableSearchHeader>
+            <TimeTable data={exampleTree} />
           </Col>
         </Row>
       </Col>

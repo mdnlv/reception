@@ -85,6 +85,7 @@ export interface RegistrationCardStateType {
     birthPlace: string;
     hasCard: boolean;
     onlyTempRegistration: boolean;
+    docPersonId: string;
   };
   data: {
     passportGeneral: {
@@ -126,6 +127,7 @@ const initialState: RegistrationCardStateType = {
     startCardDate: '',
     hasCard: false,
     onlyTempRegistration: false,
+    docPersonId: '',
   },
   additionalHospitalization: {
     hospitalizations: [] as PersonAddHospitalization[],
@@ -181,28 +183,8 @@ const initialState: RegistrationCardStateType = {
       },
     },
     contacts: [] as PassportContactType[],
-    policyOms: {
-      timeType: '',
-      from: '',
-      to: '',
-      serial: '',
-      number: '',
-      cmo: '',
-      type: '',
-      name: '',
-      note: '',
-    },
-    policyDms: {
-      timeType: '',
-      from: '',
-      to: '',
-      serial: '234234',
-      number: '',
-      cmo: '',
-      type: '',
-      name: '',
-      note: '',
-    },
+    policyOms: [],
+    policyDms: [],
   },
   personDocs: {
     idDoc: [] as PassportDoc[],

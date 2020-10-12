@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import apiInstance from './api';
 import PatientResponse from '../interfaces/responses/patients/patient';
 import PatientFiltersQueryPayload from '../interfaces/payloads/patients/patientFiltersQuery';
+import FilterSearchPatientResponse from '../interfaces/responses/patients/filterSearchPatient';
 
 type FetchPatientsFilter = {
   id: string;
@@ -26,7 +27,7 @@ export default {
 
   detailedQueryPatients(
     query: Partial<PatientFiltersQueryPayload> | string,
-  ): Promise<AxiosResponse<PatientResponse[]>> {
+  ): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
     if (typeof query === 'string') {
       return apiInstance.post(`/client/find`, query);
     } else {

@@ -5,9 +5,9 @@ import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import { useDispatch, useSelector } from 'react-redux';
 import UserInfo from './pages/UserInfo/UserInfo';
 import './styles.scss';
-import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 import { setFormSection } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import { RootState } from '../../../../reduxStore/store';
+import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 
 interface WizardProps {}
 
@@ -32,6 +32,9 @@ const RegCardWizard: React.FC<WizardProps> = (props) => {
             <Tabs defaultActiveKey={'1'}>
               <Tabs.TabPane key={'1'} tab={'Паспортные данные'}>
                 <PassportGeneral />
+              </Tabs.TabPane>
+              <Tabs.TabPane key={'2'} tab={'Прикрепленные документы'}>
+                <PersonDocuments />
               </Tabs.TabPane>
             </Tabs>
           </Col>

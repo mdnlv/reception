@@ -1,123 +1,108 @@
 import React, { FC } from 'react';
-import { Col, DatePicker, Input, InputNumber, Row, Select } from 'antd';
+import { Col, Divider, Input, Row } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import { useFormikContext } from 'formik';
-import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-import moment from 'moment';
 import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
+import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
+import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
+import moment from 'moment';
 
-const PersonPolicy: FC = (props) => {
+interface SectionProps {
+  getPolicyKindId: (id: string) => string;
+  getPolicyTypeId: (id: string) => string;
+}
+
+const PersonPolicy: FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
-  const formValues = form.values.personDocs.policy;
+  const formValues = form.values.passportGeneral;
   const getPolicyItem = (index: number, fieldChain: string) => {
-    return `personDocs.policy[${index}].${fieldChain}`;
+    return `passportGeneral.policyOms[${index}].${fieldChain}`;
   };
 
   return (
     <div className={'form-section person-policy'}>
       <DropDownContent title={'Полис'}>
-        <FormArrayField
-          values={formValues}
-          name={'policy'}
-          renderChild={(key, index) => (
-            <Row gutter={16} key={key}>
-              <Col>
-                <FormField label={'Тип'}>
-                  <Select />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Тип'}>
-                  <Select />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Номер'}>
-                  <Select />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Серия'}>
-                  <Input
-                    name={getPolicyItem(index, 'serial')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Номер'}>
-                  <Input
-                    name={getPolicyItem(index, 'number')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Дата начала'}>
-                  <DatePicker
-                    value={moment(formValues[index]?.fromDate)}
-                    onChange={(_, date) => {
-                      form.setFieldValue(
-                        getPolicyItem(index, 'fromDate'),
-                        date,
-                      );
-                    }}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Дата окончания'}>
-                  <DatePicker
-                    value={moment(formValues[index]?.endDate)}
-                    onChange={(_, date) => {
-                      form.setFieldValue(getPolicyItem(index, 'endDate'), date);
-                    }}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'СМО'}>
-                  <Input
-                    name={getPolicyItem(index, 'СМО')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Наименование'}>
-                  <Input
-                    name={getPolicyItem(index, 'name')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Примечание'}>
-                  <Input
-                    name={getPolicyItem(index, 'note')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Искать'}>
-                  <InputNumber
-                    name={getPolicyItem(index, 'find')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-              <Col>
-                <FormField label={'Привязано обращений'}>
-                  <Input
-                    name={getPolicyItem(index, 'acceptedOffers')}
-                    onChange={form.handleChange}
-                  />
-                </FormField>
-              </Col>
-            </Row>
+        <ArrayFieldWrapper<PassportPolicyType>
+          name={'passportGeneral'}
+          values={[...formValues.policyOms, ...formValues.policyDms]}
+          onAddItem={() => {
+            const newPolicy: PassportPolicyType = {
+              timeType: '',
+              from: '',
+              to: '',
+              serial: '',
+              number: '',
+              cmo: '',
+              type: '',
+              name: '',
+              note: '',
+            };
+          }}
+          onRemoveItem={() => {}}
+          renderChild={(values, index) => (
+            <>
+              <Row key={index} gutter={16}>
+                <Col>
+                  <FormField label={'Тип'}>
+                    <Input
+                      value={props.getPolicyTypeId(values.type)}
+                      disabled
+                    />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Тип'}>
+                    <Input
+                      value={props.getPolicyKindId(values.timeType)}
+                      disabled
+                    />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Номер'}>
+                    <Input value={values.number} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Серия'}>
+                    <Input value={values.serial} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Номер'}>
+                    <Input value={values.serial} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Дата начала'}>
+                    <Input value={moment(values.from).format('L')} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Дата окончания'}>
+                    <Input value={moment(values.to).format('L')} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'СМО'}>
+                    <Input value={values.cmo} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Наименование'}>
+                    <Input value={values.name} disabled />
+                  </FormField>
+                </Col>
+                <Col>
+                  <FormField label={'Примечание'}>
+                    <Input value={values.note} disabled />
+                  </FormField>
+                </Col>
+              </Row>
+              <Divider />
+            </>
           )}
         />
       </DropDownContent>

@@ -1,8 +1,4 @@
-import AddressResponse from './patientAddress';
-import PatientContactResponse from './patientContact';
-import PatientPolicyResponse from './patientPolicy';
-
-export default interface PatientResponse {
+export default interface FilterSearchPatientResponse {
   id: number;
   createDatetime: Date | null;
   createPerson_id: number | null;
@@ -35,21 +31,4 @@ export default interface PatientResponse {
   filial: number;
   dataTransferConfirmationDate: Date | null;
   uuid_id: number;
-  version: number;
-
-  client_address_info: AddressResponse[];
-
-  client_document_info: {
-    documentType_id: string;
-    serial: string;
-    number: string;
-    date: string;
-    endDate: string;
-    origin: string;
-  };
-
-  client_policy_info: PatientPolicyResponse[];
-  client_contact_info: PatientContactResponse[];
-
-  client_work_info?: [];
 }

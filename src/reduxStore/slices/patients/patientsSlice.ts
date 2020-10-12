@@ -3,6 +3,7 @@ import Patient from '../../../types/data/Patient';
 import PatientsService from '../../../services/PatientsService';
 import transformPatientsFilters from '../../utils/transform/transformPatientsFilters';
 import transformPatientResponse from '../../utils/transform/transformPatientResponse';
+import transformFilterPatientResponse from '../../utils/transform/transformFilterPatientResponse';
 
 export const fetchPatients = createAsyncThunk(
   'patients/fetchPatients',
@@ -62,18 +63,17 @@ export interface PatientsSearchFiltersType {
 export const fetchFiltersPatients = createAsyncThunk(
   'patients/fetchFiltersPatients',
   async (filters: Partial<PatientsSearchFiltersType>, thunkAPI) => {
-    thunkAPI.dispatch(setLoading(true));
+    thunkAPI.dispatch(setLoadingFound(true));
     try {
-      console.log(transformPatientsFilters(filters));
       const response = await PatientsService.detailedQueryPatients(
         transformPatientsFilters(filters),
       );
       if (response.data) {
-        console.log(response);
+        return response.data;
       }
     } catch (e) {
     } finally {
-      thunkAPI.dispatch(setLoading(false));
+      thunkAPI.dispatch(setLoadingFound(false));
     }
   },
 );
@@ -83,7 +83,9 @@ const patientSlice = createSlice({
   initialState: {
     patients: [] as Patient[],
     currentPatient: 0,
+    isSearching: false,
     isLoading: false,
+    isLoadingFound: false,
     foundPatients: [] as Patient[],
   },
   reducers: {
@@ -92,6 +94,16 @@ const patientSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setLoadingFound: (state, action: PayloadAction<boolean>) => {
+      state.isLoadingFound = action.payload;
+    },
+    clearFoundPatients: (state, action) => {
+      state.foundPatients = [];
+    },
+    setIsSearchingPatients: (state, action: PayloadAction<boolean>) => {
+      state.isSearching = action.payload;
+      state.currentPatient = 0;
     },
   },
   extraReducers: (builder) => {
@@ -102,8 +114,19 @@ const patientSlice = createSlice({
           code: index,
         })) || [];
     });
+    builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
+      state.foundPatients =
+        action.payload?.map((item) => transformFilterPatientResponse(item)) ||
+        [];
+    });
   },
 });
 
-export const { setLoading, setCurrentPatient } = patientSlice.actions;
+export const {
+  setLoading,
+  setLoadingFound,
+  setCurrentPatient,
+  clearFoundPatients,
+  setIsSearchingPatients,
+} = patientSlice.actions;
 export default patientSlice;

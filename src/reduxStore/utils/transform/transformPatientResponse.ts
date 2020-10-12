@@ -5,7 +5,7 @@ export default function transformPatientResponse(item: PatientResponse) {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,
     sex: item.sex,
-    birthDate: item.birthDate ? item.birthDate.toDateString() : '',
+    birthDate: item.birthDate ? item.birthDate : '',
     birthPlace: item.birthPlace,
     code: item.id,
     regAddress: '',

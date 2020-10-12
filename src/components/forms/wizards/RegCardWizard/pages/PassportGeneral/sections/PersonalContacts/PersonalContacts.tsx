@@ -1,12 +1,12 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Checkbox, Col, Input, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 import { PassportContactType } from '../../types';
 import FormField from '../../../../../../components/FormField/FormField';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import PatientContactType from '../../../../../../../../types/data/PatientContactType';
 import MaskedInput from 'antd-mask-input';
+import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 
 interface SectionProps {
   contactTypes: PatientContactType[];
@@ -57,14 +57,43 @@ const PersonalContacts: FC<SectionProps> = (props) => {
     }
   }
 
+  const onAddContact = useCallback(() => {
+    const item: PassportContactType = {
+      isMain: false,
+      number: '',
+      type: '',
+      note: '',
+    };
+    const newArr = [...form.values.passportGeneral.contacts, item];
+    form.setFieldValue('passportGeneral.contacts', newArr);
+  }, [form.values.passportGeneral.contacts]);
+
+  const onRemoveContact = useCallback(() => {
+    if (
+      form.values.passportGeneral.contacts &&
+      form.values.passportGeneral.contacts.length > 0
+    ) {
+      form.setFieldValue(
+        'passportGeneral.contacts',
+        form.values.passportGeneral.contacts.slice(
+          0,
+          form.values.passportGeneral.contacts.length - 1,
+        ),
+      );
+    }
+  }, [form.values.passportGeneral.contacts]);
+
   return (
     <div className={'form-section personal-contacts'}>
       <h2>Контакты</h2>
-      <FormArrayField<PassportContactType>
+      <ArrayFieldWrapper<PassportContactType>
         values={formProps}
         name={'contacts'}
+        onAddItem={onAddContact}
+        onRemoveItem={onRemoveContact}
+        showActions={true}
         renderChild={(key, index) => (
-          <Row gutter={16} key={index.toString()}>
+          <Row gutter={16} key={index}>
             <Col span={3}>
               <FormField label="Основной">
                 <div className="center-wrapper">
@@ -78,7 +107,10 @@ const PersonalContacts: FC<SectionProps> = (props) => {
             </Col>
             <Col span={6}>
               <FormField label="Номер">
-                {getTypeInput(index, findMaskByType(formProps[index]?.type))}
+                {getTypeInput(
+                  index,
+                  findMaskByType(parseInt(formProps[index]?.type)),
+                )}
               </FormField>
             </Col>
             <Col span={5}>

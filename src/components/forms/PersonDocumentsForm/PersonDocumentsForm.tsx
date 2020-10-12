@@ -1,13 +1,42 @@
-import React, { FC } from 'react';
-import { useFormContext } from 'react-hook-form';
+import React, { FC, useCallback } from 'react';
 import { Col, Divider, Row } from 'antd';
 import PersonalIdent from './components/sections/PersonalIdent/PersonalIdent';
 import PersonPolicy from './components/sections/PersonPolicy/PersonPolicy';
 import SocialStatus from './components/sections/SocialStatus/SocialStatus';
 import NamedContract from './components/sections/NamedContract/NamedContract';
+import { useSelector } from 'react-redux';
+import {
+  detailedPolicyKindsSelector,
+  detailedPolicyTypesSelector,
+} from '../../../reduxStore/slices/rb/selectors';
 
 const PersonDocumentsForm: FC = (props) => {
-  const store = useFormContext();
+  const policyTypes = useSelector(detailedPolicyTypesSelector);
+  const policyKinds = useSelector(detailedPolicyKindsSelector);
+
+  const getPolicyIdType = useCallback(
+    (id: string) => {
+      const type = policyTypes.find((item) => item.id === parseInt(id));
+      if (type) {
+        return type.name;
+      } else {
+        return '';
+      }
+    },
+    [policyTypes],
+  );
+
+  const getPolicyIdKind = useCallback(
+    (id: string) => {
+      const kind = policyKinds.find((item) => item.id === parseInt(id));
+      if (kind) {
+        return kind.name;
+      } else {
+        return '';
+      }
+    },
+    [policyKinds],
+  );
 
   return (
     <div>
@@ -20,7 +49,10 @@ const PersonDocumentsForm: FC = (props) => {
         <Divider />
         <Row>
           <Col span={24}>
-            <PersonPolicy />
+            <PersonPolicy
+              getPolicyKindId={getPolicyIdKind}
+              getPolicyTypeId={getPolicyIdType}
+            />
           </Col>
         </Row>
         <Divider />

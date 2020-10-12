@@ -51,7 +51,7 @@ const Policy: React.FC<SectionProps> = (props) => {
         <Col span={4}>
           <FormField>
             <Select
-              value={formValues.timeType}
+              value={formValues[0].timeType}
               onChange={(val) => {
                 form.setFieldValue(`${sectionValuePath}.timeType`, val);
               }}>
@@ -62,7 +62,9 @@ const Policy: React.FC<SectionProps> = (props) => {
         <Col span={5}>
           <FormField label={'С'}>
             <DatePicker
-              value={formValues.from ? moment(formValues.from) : undefined}
+              value={
+                formValues[0].from ? moment(formValues[0].from) : undefined
+              }
               onChange={(date, dateString) => {
                 form.setFieldValue(`${sectionValuePath}.from`, dateString);
               }}
@@ -72,7 +74,7 @@ const Policy: React.FC<SectionProps> = (props) => {
         <Col span={5}>
           <FormField label={'До'}>
             <DatePicker
-              value={formValues.to ? moment(formValues.to) : undefined}
+              value={formValues[0].to ? moment(formValues[0].to) : undefined}
               onChange={(date, dateString) => {
                 form.setFieldValue(`${sectionValuePath}.to`, dateString);
               }}
@@ -85,7 +87,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           <FormField label={'Серия'}>
             <Input
               name={`${sectionValuePath}.serial`}
-              value={formValues.serial}
+              value={formValues[0].serial}
               onChange={form.handleChange}
             />
           </FormField>
@@ -94,7 +96,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           <FormField label={'Номер'}>
             <Input
               name={`${sectionValuePath}.number`}
-              value={formValues.number}
+              value={formValues[0].number}
               onChange={form.handleChange}
             />
           </FormField>
@@ -109,7 +111,7 @@ const Policy: React.FC<SectionProps> = (props) => {
         <Col span={10}>
           <FormField>
             <Select
-              value={formValues.type}
+              value={formValues[0].type}
               onChange={(val) => {
                 form.setFieldValue(`${sectionValuePath}.type`, val);
               }}>
@@ -123,7 +125,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           <FormField labelPosition="left" label="Название">
             <Input
               name={`${sectionValuePath}.name`}
-              value={formValues.name}
+              value={formValues[0].name}
               onChange={form.handleChange}
             />
           </FormField>
@@ -134,7 +136,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           <FormField labelPosition="left" label="Примечание">
             <Input
               name={`${sectionValuePath}.note`}
-              value={formValues.note}
+              value={formValues[0].note}
               onChange={form.handleChange}
             />
           </FormField>

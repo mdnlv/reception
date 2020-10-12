@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import { Col, Row } from 'antd';
 import InfoPageTabs from '../../components/tabs/InfoPageTabs/InfoPageTabs';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 const InfoPage: React.FC = (props) => {
   const navigation = useHistory();
   const dispatch = useDispatch();
+  const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
 
   const goToMain = () => {
     navigation.push('/');
@@ -20,7 +21,11 @@ const InfoPage: React.FC = (props) => {
         <TableSearchHeader
           title={'Справочная информация'}
           onCloseClick={goToMain}
-          onChangeQuery={() => {}}>
+          onChangeQuery={() => {}}
+          mode={tableMode}
+          onTableModeChange={(mode) => {
+            setTableMode(mode);
+          }}>
           <InfoPageTabs />
         </TableSearchHeader>
       </Col>
