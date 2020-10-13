@@ -98,7 +98,7 @@ const patientSlice = createSlice({
     setLoadingFound: (state, action: PayloadAction<boolean>) => {
       state.isLoadingFound = action.payload;
     },
-    clearFoundPatients: (state, action) => {
+    clearFoundPatients: (state, _) => {
       state.foundPatients = [];
     },
     setIsSearchingPatients: (state, action: PayloadAction<boolean>) => {

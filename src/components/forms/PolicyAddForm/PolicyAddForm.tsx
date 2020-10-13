@@ -52,7 +52,7 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
   return (
     <Formik
       initialValues={initialState}
-      onSubmit={(values, formikHelpers) => {
+      onSubmit={(values) => {
         const pathName = props.policyKey === 'policyDms' ? 'dms' : 'oms';
         props.onAddPolicy(values, pathName);
       }}>

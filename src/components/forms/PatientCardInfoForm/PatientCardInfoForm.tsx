@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Formik } from 'formik';
 import { Col, DatePicker, Divider, Input, Row, Select } from 'antd';
 import FormField from '../components/FormField/FormField';
@@ -60,7 +60,11 @@ const PatientCardInfoForm: React.FC<FormProps> = (props) => {
               <Col>
                 <FormField label={'Дата рождения'} labelPosition={'left'}>
                   <DatePicker
-                    value={moment(formProps.values.birthDate)}
+                    value={
+                      formProps.values.birthDate
+                        ? moment(formProps.values.birthDate)
+                        : undefined
+                    }
                     onChange={(date) => {
                       if (date) {
                         formProps.setFieldValue('birthDate', date.toDate());

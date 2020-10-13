@@ -27,8 +27,9 @@ import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/r
 import { PassportPolicyType } from './types';
 import { useFormikContext } from 'formik';
 
-const PassportGeneral: React.FC = (props) => {
-  const store = useSelector((state: RootState) => state.registrationCard);
+interface SectionProps {}
+
+const PassportGeneral: React.FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
   useEffect(() => {

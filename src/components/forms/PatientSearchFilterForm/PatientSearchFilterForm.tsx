@@ -61,7 +61,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
     <Formik
       initialValues={{ ...initialStore }}
       validationSchema={validation}
-      onSubmit={async (values, formikHelpers) => {
+      onSubmit={async (values) => {
         if (props.onSubmit) {
           props.onSubmit();
         }
@@ -136,7 +136,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
             <Col>
               <Button
                 type={'primary'}
-                onClick={(e) => {
+                onClick={() => {
                   formProps.handleSubmit();
                 }}
                 className={'save-btn'}>

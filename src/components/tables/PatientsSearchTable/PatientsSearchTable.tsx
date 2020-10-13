@@ -85,17 +85,12 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
   }, [isSearching, foundPatients]);
 
   const tableLoading = useMemo(() => {
-    if ((isSearching && isLoadingFound) || (!isSearching && isLoading)) {
-      return true;
-    } else {
-      return false;
-    }
+    return (isSearching && isLoadingFound) || (!isSearching && isLoading);
   }, [isSearching, isLoading, isLoadingFound]);
 
   return (
     <TableSearchHeader
       title={'Пациенты'}
-      onSearchButtonClick={onSearchButtonClick}
       onOpenSearch={props.onOpenSearch}
       onChangeQuery={onQueryChange}
       mode={tableMode}
