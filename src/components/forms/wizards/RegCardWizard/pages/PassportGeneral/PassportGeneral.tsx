@@ -15,7 +15,6 @@ import {
   kladrLoadingsSelector,
   kladrSelector,
 } from '../../../../../../reduxStore/slices/registrationCard/selectors';
-import { RootState } from '../../../../../../reduxStore/store';
 import {
   detailedContactTypesSelector,
   detailedDocumentTypesSelector,

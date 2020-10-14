@@ -4,6 +4,7 @@ import { useFormikContext } from 'formik';
 import moment from 'moment';
 import FormField from '../../../../../../components/FormField/FormField';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
 interface SectionProps {
   documentTypes: { id: number; name: string }[];
@@ -37,20 +38,12 @@ const PersonalDocument: FC<SectionProps> = (props) => {
         </Col>
         <Col span={5}>
           <FormField label="Серия">
-            <Input
-              name={`${selectionValuePath}.serial`}
-              value={formProps.serial}
-              onChange={form.handleChange}
-            />
+            <FastInput name={`${selectionValuePath}.serial`} />
           </FormField>
         </Col>
         <Col span={7}>
           <FormField label="Номер">
-            <Input
-              name={`${selectionValuePath}.number`}
-              value={formProps.number}
-              onChange={form.handleChange}
-            />
+            <FastInput name={`${selectionValuePath}.number`} />
           </FormField>
         </Col>
         <Col span={4}>
@@ -72,11 +65,7 @@ const PersonalDocument: FC<SectionProps> = (props) => {
       <Row gutter={16}>
         <Col span={12}>
           <FormField label="Кем выдан">
-            <Input
-              name={`${selectionValuePath}.givenBy`}
-              value={formProps.givenBy}
-              onChange={form.handleChange}
-            />
+            <FastInput name={`${selectionValuePath}.givenBy`} />
           </FormField>
         </Col>
       </Row>

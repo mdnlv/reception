@@ -1,12 +1,13 @@
 import React, { FC, useCallback } from 'react';
-import { Checkbox, Col, Input, Row, Select } from 'antd';
+import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { PassportContactType } from '../../types';
 import FormField from '../../../../../../components/FormField/FormField';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import PatientContactType from '../../../../../../../../types/data/PatientContactType';
-import MaskedInput from 'antd-mask-input';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
+import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
+import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
 interface SectionProps {
   contactTypes: PatientContactType[];
@@ -29,21 +30,10 @@ const PersonalContacts: FC<SectionProps> = (props) => {
   function getTypeInput(index: number, mask: string) {
     if (mask) {
       return (
-        <MaskedInput
-          mask={mask}
-          placeholder={mask}
-          name={getSelectionItem(index, 'number')}
-          onChange={form.handleChange}
-        />
+        <FastMaskedInput mask={mask} name={getSelectionItem(index, 'number')} />
       );
     } else {
-      return (
-        <Input
-          name={getSelectionItem(index, 'number')}
-          value={formProps[index]?.number || ''}
-          onChange={form.handleChange}
-        />
-      );
+      return <FastInput name={getSelectionItem(index, 'number')} />;
     }
   }
 
@@ -126,11 +116,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
             </Col>
             <Col span={10}>
               <FormField label="Примечания">
-                <Input
-                  name={getSelectionItem(index, 'note')}
-                  value={formProps[index]?.note || ''}
-                  onChange={form.handleChange}
-                />
+                <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>
             </Col>
           </Row>

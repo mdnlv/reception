@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDebounce, useDebouncedCallback } from 'use-debounce';
-import { Input } from 'antd';
+import { MaskedInputProps } from 'antd-mask-input/build/main/lib/MaskedInput';
+import { MaskedInput } from 'antd-mask-input';
+import { useDebouncedCallback } from 'use-debounce';
 
-interface FieldProps {
+interface FieldProps extends MaskedInputProps {
   name: string;
-  value?: string;
-  onChange?(event: React.ChangeEvent<HTMLInputElement>): unknown;
-  placeholder?: string;
 }
 
-const TextFastField: React.FC<FieldProps> = (props) => {
+const MaskedInputFastField: React.FC<FieldProps> = (props) => {
   const [innerValue, setInnerValue] = useState('');
 
   useEffect(() => {
@@ -40,14 +38,7 @@ const TextFastField: React.FC<FieldProps> = (props) => {
     [],
   );
 
-  return (
-    <Input
-      {...props}
-      value={innerValue}
-      name={props.name}
-      onChange={handleOnChange}
-    />
-  );
+  return <MaskedInput {...props} onChange={handleOnChange} mask={props.mask} />;
 };
 
-export default TextFastField;
+export default MaskedInputFastField;

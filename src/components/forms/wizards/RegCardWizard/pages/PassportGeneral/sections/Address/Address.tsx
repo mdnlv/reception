@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react';
-import { Checkbox, Col, Input, Radio, Row, Select } from 'antd';
+import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import FormField from '../../../../../../components/FormField/FormField';
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
 interface KladrItem {
   id: string;
@@ -169,39 +170,17 @@ const Address: FC<SectionProps> = (props) => {
               <Row gutter={16}>
                 <Col span={8}>
                   <FormField>
-                    <Input
-                      name={`${sectionValuePath}.houseNumber`}
-                      value={
-                        formValues.passportInfo[props.passportType].houseNumber
-                      }
-                      placeholder={'Дом'}
-                      onChange={form.handleChange}
-                    />
+                    <FastInput name={`${sectionValuePath}.houseNumber`} />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
-                    <Input
-                      name={`${sectionValuePath}.houseCharacter`}
-                      value={
-                        formValues.passportInfo[props.passportType]
-                          .houseCharacter
-                      }
-                      placeholder={'Корпус'}
-                      onChange={form.handleChange}
-                    />
+                    <FastInput name={`${sectionValuePath}.houseCharacter`} />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
-                    <Input
-                      name={`${sectionValuePath}.flatNumber`}
-                      value={
-                        formValues.passportInfo[props.passportType].flatNumber
-                      }
-                      placeholder={'Литера'}
-                      onChange={form.handleChange}
-                    />
+                    <FastInput name={`${sectionValuePath}.flatNumber`} />
                   </FormField>
                 </Col>
               </Row>
@@ -214,12 +193,7 @@ const Address: FC<SectionProps> = (props) => {
           <Row gutter={8}>
             <Col span={16}>
               <FormField>
-                <Input
-                  name={`${sectionValuePath}.freeInput`}
-                  value={formValues.passportInfo[props.passportType].freeInput}
-                  placeholder={'Адрес'}
-                  onChange={form.handleChange}
-                />
+                <FastInput name={`${sectionValuePath}.freeInput`} />
               </FormField>
             </Col>
           </Row>

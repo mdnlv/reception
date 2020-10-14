@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
-import { Button, Col, DatePicker, Input, Row, Select, Space } from 'antd';
+import { Button, Col, DatePicker, Row, Select, Space } from 'antd';
 import FormField from '../components/FormField/FormField';
 import moment from 'moment';
 import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import FastInput from '../components/fields/FastInput/FastInput';
 
 interface ListOptionItem {
   id: number;
@@ -106,20 +107,12 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row" gutter={16}>
             <Col span={6}>
               <FormField label={'Серия'}>
-                <Input
-                  name={`serial`}
-                  value={formProps.values.serial}
-                  onChange={formProps.handleChange}
-                />
+                <FastInput name={'serial'} />
               </FormField>
             </Col>
             <Col span={18}>
               <FormField label={'Номер'}>
-                <Input
-                  name={`number`}
-                  value={formProps.values.number}
-                  onChange={formProps.handleChange}
-                />
+                <FastInput name={'number'} />
               </FormField>
             </Col>
           </Row>
@@ -144,22 +137,14 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row">
             <Col span={24}>
               <FormField labelPosition="left" label="Название">
-                <Input
-                  name={`name`}
-                  value={formProps.values.name}
-                  onChange={formProps.handleChange}
-                />
+                <FastInput name={'name'} />
               </FormField>
             </Col>
           </Row>
           <Row className="form-row">
             <Col span={24}>
               <FormField labelPosition="left" label="Примечание">
-                <Input
-                  name={`note`}
-                  value={formProps.values.note}
-                  onChange={formProps.handleChange}
-                />
+                <FastInput name={'note'} />
               </FormField>
             </Col>
           </Row>
