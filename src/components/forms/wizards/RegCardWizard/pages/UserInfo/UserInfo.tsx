@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormikContext } from 'formik';
 import FormField from '../../../../components/FormField/FormField';
 import {
@@ -7,8 +7,6 @@ import {
   Col,
   DatePicker,
   Divider,
-  Input,
-  InputNumber,
   Radio,
   Row,
   Select,
@@ -19,6 +17,8 @@ import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
 import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+import FastInput from '../../../../components/fields/FastInput/FastInput';
+import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 
 const UserInfo: React.FC = (props) => {
   const formProps = useFormikContext<RegistrationCardStateType>();
@@ -35,32 +35,16 @@ const UserInfo: React.FC = (props) => {
   return (
     <form className="wizard-step registration-form">
       <FormField label="Код">
-        <Input
-          name={`${sectionValuePath}.code`}
-          value={formProps.values.personal.code}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.code'} />
       </FormField>
       <FormField label="Фамилия">
-        <Input
-          name={`${sectionValuePath}.lastName`}
-          value={formProps.values.personal.lastName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.lastName'} />
       </FormField>
       <FormField label="Имя">
-        <Input
-          name={`${sectionValuePath}.firstName`}
-          value={formProps.values.personal.firstName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.firstName'} />
       </FormField>
       <FormField label="Отчество">
-        <Input
-          name={`${sectionValuePath}.patrName`}
-          value={formProps.values.personal.patrName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.patrName'} />
       </FormField>
       <Divider />
       <div className="registration-form__dates">
@@ -106,26 +90,12 @@ const UserInfo: React.FC = (props) => {
         <Row gutter={16}>
           <Col>
             <FormField label="Рост">
-              <InputNumber
-                min={0}
-                name={`${sectionValuePath}.height`}
-                value={formProps.values.personal.height}
-                onChange={(val) => {
-                  formProps.setFieldValue(`${sectionValuePath}.height`, val);
-                }}
-              />
+              <FastInputNumber min={0} name={'personal.height'} />
             </FormField>
           </Col>
           <Col>
             <FormField label="Вес">
-              <InputNumber
-                min={0}
-                name={`${sectionValuePath}.weight`}
-                value={formProps.values.personal.weight}
-                onChange={(val) => {
-                  formProps.setFieldValue(`${sectionValuePath}.weight`, val);
-                }}
-              />
+              <FastInputNumber min={0} name={'personal.weight'} />
             </FormField>
           </Col>
           <Col>
@@ -144,11 +114,7 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <Input
-            name={`${sectionValuePath}.snils`}
-            value={formProps.values.personal.snils}
-            onChange={formProps.handleChange}
-          />
+          <FastInput name={'personal.snils'} />
         </FormField>
         <FormField label="Лечащий врач">
           <Select showSearch filterOption optionFilterProp={'name'}>
@@ -211,11 +177,7 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="Место рождения">
-          <Input
-            name={`${sectionValuePath}.birthPlace`}
-            value={formProps.values.personal.birthPlace}
-            onChange={formProps.handleChange}
-          />
+          <FastInput name={'personal.birthPlace'} />
         </FormField>
       </div>
       <div className="registration-form__filter-action">

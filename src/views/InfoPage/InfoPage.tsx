@@ -21,7 +21,6 @@ const InfoPage: React.FC = (props) => {
         <TableSearchHeader
           title={'Справочная информация'}
           onCloseClick={goToMain}
-          onChangeQuery={() => {}}
           mode={tableMode}
           onTableModeChange={(mode) => {
             setTableMode(mode);

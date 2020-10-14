@@ -78,6 +78,23 @@ export const fetchFiltersPatients = createAsyncThunk(
   },
 );
 
+export const fetchQueryPatients = createAsyncThunk(
+  'patients/fetchQueryPatients',
+  async (query: string, thunkAPI) => {
+    thunkAPI.dispatch(setLoadingFound(true));
+    try {
+      const response = await PatientsService.queryPatients(query);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      thunkAPI.dispatch(setLoadingFound(false));
+    }
+  },
+);
+
 const patientSlice = createSlice({
   name: 'patients',
   initialState: {
@@ -115,6 +132,11 @@ const patientSlice = createSlice({
         })) || [];
     });
     builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
+      state.foundPatients =
+        action.payload?.map((item) => transformFilterPatientResponse(item)) ||
+        [];
+    });
+    builder.addCase(fetchQueryPatients.fulfilled, (state, action) => {
       state.foundPatients =
         action.payload?.map((item) => transformFilterPatientResponse(item)) ||
         [];

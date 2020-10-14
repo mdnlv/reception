@@ -3,10 +3,8 @@ import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import './style.scss';
 import { Button, Card, Input, Row } from 'antd';
 import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
-import { useSpring, animated, useTransition } from 'react-spring';
 
 type SearchHeaderProps = {
-  onChangeQuery(query: string): void;
   onOpenSearch?(): void;
   title?: string;
   onCloseClick?(): void;
@@ -21,7 +19,7 @@ type SearchHeaderProps = {
 
 const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
   const [showSearchForm, setShowForm] = useState(false);
-  const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (props.onOpenSearch) {
@@ -29,13 +27,13 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
     }
   }, [showSearchForm]);
 
-  const submitQuery = useCallback(() => {
+  function submitQuery() {
     if (props.onSearchButtonClick) {
-      props.onSearchButtonClick(query);
+      props.onSearchButtonClick(searchQuery);
     }
-  }, [query]);
+  }
 
-  const renderTableBody = () => {
+  const renderTableBody = useCallback(() => {
     if (props.mode === 'search') {
       return (
         <Card>
@@ -50,88 +48,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
     } else {
       return null;
     }
-  };
-  const renderSearchHeader = () => {
-    if (props.mode === 'search') {
-      return (
-        <div className={'table-top__logo table-top__search'}>
-          Расширенный поиск
-          <div
-            onClick={() => {
-              props.onTableModeChange('default');
-            }}
-            className="find-filters__wrapper">
-            <CloseOutlined />
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <>
-          <div className={'table-top__logo'}>
-            {props.title ? props.title : null}
-            <div className="find-filters__wrapper">
-              <SlidersOutlined
-                onClick={() => {
-                  props.onTableModeChange('search');
-                }}
-              />
-            </div>
-          </div>
-          <div className={'table__top-search-wrapper'}>
-            <Input
-              placeholder="Поиск"
-              type={'small'}
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-            />
-            <Button onClick={submitQuery} size="small">
-              Поиск
-            </Button>
-          </div>
-        </>
-      );
-    }
-  };
-
-  const renderDefaultHeader = () => {
-    return (
-      <>
-        <div
-          className={`table-top__logo table-top__search ${
-            props.className ? props.className : ''
-          }`}>
-          {props.title ? props.title : null}
-          <div
-            className="find-filters__wrapper"
-            onClick={() => {
-              if (props.onCloseClick) {
-                props.onCloseClick();
-              }
-            }}>
-            <CloseOutlined />
-          </div>
-        </div>
-        <div className={'table__top-search-wrapper'}>
-          <Input
-            placeholder="Поиск"
-            type={'small'}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-          />
-        </div>
-        {props.searchCount !== undefined ? (
-          <div className={'table__top-search-results'}>
-            {`Найдено: (${props.searchCount})`}
-            <CloseOutlined />
-          </div>
-        ) : null}
-      </>
-    );
-  };
+  }, [props.mode, props.onCloseClick, props.onSubmitForm, props.children]);
 
   const getHeaderByType = useMemo(() => {
     switch (props.mode) {
@@ -165,8 +82,9 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
               <Input
                 placeholder="Поиск"
                 type={'small'}
+                value={searchQuery}
                 onChange={(e) => {
-                  setQuery(e.target.value);
+                  setSearchQuery(e.target.value);
                 }}
               />
               <Button onClick={submitQuery} size="small">
@@ -192,7 +110,13 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
           </>
         );
     }
-  }, [props.mode, props.searchCount]);
+  }, [
+    props.mode,
+    props.searchCount,
+    props.onClearSearch,
+    props.onTableModeChange,
+    searchQuery,
+  ]);
 
   return (
     <div>

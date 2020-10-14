@@ -41,6 +41,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "typescript": "~3.7.2",
+    "use-debounce": "^5.0.1",
     "yup": "^0.29.3"
   },
   "husky": {

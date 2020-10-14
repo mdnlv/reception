@@ -65,7 +65,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
         if (props.onSubmit) {
           props.onSubmit();
         }
-        await dispatch(
+        dispatch(
           fetchFiltersPatients({
             ...values,
             tempInvalidReasonId: 1,

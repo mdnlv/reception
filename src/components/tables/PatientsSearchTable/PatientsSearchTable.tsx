@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   clearFoundPatients,
   fetchPatients,
+  fetchQueryPatients,
   setCurrentPatient,
   setIsSearchingPatients,
 } from '../../../reduxStore/slices/patients/patientsSlice';
@@ -16,7 +17,6 @@ interface TableProps {
 
 const PatientsSearchTable: React.FC<TableProps> = (props) => {
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
-  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
   //selectors
   const {
@@ -30,26 +30,20 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
 
   useEffect(() => {
     if (patients.length === 0 || !patients) {
-      dispatch(fetchPatients({ limit: 300, offset: 0 }));
+      dispatch(fetchPatients({ limit: 50, offset: 0 }));
     }
   }, []);
 
-  function onSearchButtonClick(query: string) {}
+  function onSearchButtonClick(query: string) {
+    dispatch(setIsSearchingPatients(true));
+    dispatch(fetchQueryPatients(query));
+  }
 
   function onTableRowClick(id: number) {
     if (id !== currentPatient && id) {
       dispatch(setCurrentPatient(id));
     }
   }
-
-  const onQueryChange = useCallback(
-    (query: string) => {
-      if (query !== searchQuery) {
-        setSearchQuery(query);
-      }
-    },
-    [searchQuery],
-  );
 
   const getTypePatients = useMemo(() => {
     if (!isSearching) {
@@ -92,10 +86,11 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
     <TableSearchHeader
       title={'Пациенты'}
       onOpenSearch={props.onOpenSearch}
-      onChangeQuery={onQueryChange}
       mode={tableMode}
       searchCount={tablePatientsCount}
-      onCloseClick={onSubmitForm}
+      onSubmitForm={onSubmitForm}
+      onCloseClick={onCloseForm}
+      onSearchButtonClick={onSearchButtonClick}
       onTableModeChange={onTableModeChange}
       onClearSearch={onClearSearch}>
       <PatientsTable
