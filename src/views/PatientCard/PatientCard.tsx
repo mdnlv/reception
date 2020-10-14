@@ -18,7 +18,7 @@ import { RootState } from '../../reduxStore/store';
 
 const PatientCard: React.FC = (props) => {
   const dispatch = useDispatch();
-  const { isLoading, currentPatient, events } = useSelector(
+  const { loading, currentPatient, events } = useSelector(
     (state: RootState) => state.patientCard,
   );
   const detailedEvents = useSelector(detailedEventsSelector);
@@ -35,24 +35,16 @@ const PatientCard: React.FC = (props) => {
   }, []);
 
   return (
-    <>
-      {isLoading ? (
-        <div className={'spinner-wrapper'}>
-          <Spin size="large" />
-        </div>
-      ) : (
-        <Row className={'patient-card-page'}>
-          <Col span={8} className={'patient-card-page__info'}>
-            {currentPatient && (
-              <PatientMedInfoCard currentPatient={currentPatient} />
-            )}
-          </Col>
-          <Col span={16} className={'patient-card-page__happenings'}>
-            <PatientHappenings events={detailedEvents} />
-          </Col>
-        </Row>
-      )}
-    </>
+    <Row className={'patient-card-page'}>
+      <Col span={8} className={'patient-card-page__info'}>
+        {currentPatient && (
+          <PatientMedInfoCard currentPatient={currentPatient} />
+        )}
+      </Col>
+      <Col span={16} className={'patient-card-page__happenings'}>
+        <PatientHappenings isLoading={loading.events} events={detailedEvents} />
+      </Col>
+    </Row>
   );
 };
 

@@ -8,6 +8,7 @@ import DetailedPatientEvent from '../../../types/data/DetailedPatientEvent';
 
 interface HappeningsProps {
   events: DetailedPatientEvent[];
+  isLoading?: boolean;
 }
 
 const PatientHappenings: React.FC<HappeningsProps> = (props) => {
@@ -68,6 +69,7 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
               data={getQueryEvents}
               onSelect={selectHappening}
               selectedItem={selectedHappening}
+              isLoading={props.isLoading}
             />
           </Col>
         </Row>

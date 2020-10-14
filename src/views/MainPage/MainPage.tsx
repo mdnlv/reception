@@ -24,6 +24,7 @@ const MainPage: FC = (props) => {
   const { rbPersons, rbEventTypes } = useSelector(
     (state: RootState) => state.rb,
   );
+  const { loading } = useSelector((state: RootState) => state.patientCard);
 
   useEffect(() => {
     if (currentPatient) {
@@ -60,7 +61,7 @@ const MainPage: FC = (props) => {
       {getInfoCard && (
         <Col span={7}>
           <PatientInfoCard
-            isLoading={isLoading}
+            isLoading={loading.events}
             patient={currentPatientMemo}
             appointments={currentPatientAppointments}
           />

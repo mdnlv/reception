@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PatientHappening from '../../../../../types/data/PatientHappening';
 import { Col, Descriptions, Row } from 'antd';
 import './styles.scss';
 import DetailedPatientEvent from '../../../../../types/data/DetailedPatientEvent';
 import PaginationList from '../../../../lists/PaginationList/PaginationList';
+import EmptyLoadList from '../../../../lists/EmptyLoadList/EmptyLoadList';
 
 type ListProps = {
   data: DetailedPatientEvent[];
   onSelect?(id: number): void;
   selectedItem?: number;
+  isLoading?: boolean;
 };
 
 const PatientHappeningsList: React.FC<ListProps> = (props) => {
@@ -59,16 +61,22 @@ const PatientHappeningsList: React.FC<ListProps> = (props) => {
     );
   }
 
-  return (
-    <div className={'happenings-list'}>
-      <PaginationList<DetailedPatientEvent>
-        len={props.data.length}
-        numberPerPage={10}
-        data={props.data}
-        renderBody={renderListItem}
-      />
-    </div>
-  );
+  const listBody = useMemo(() => {
+    if (props.isLoading) {
+      return <EmptyLoadList />;
+    } else {
+      return (
+        <PaginationList<DetailedPatientEvent>
+          len={props.data.length}
+          numberPerPage={10}
+          data={props.data}
+          renderBody={renderListItem}
+        />
+      );
+    }
+  }, [props.isLoading, props.data]);
+
+  return <div className={'happenings-list'}>{listBody}</div>;
 };
 
 export default PatientHappeningsList;

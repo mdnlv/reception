@@ -8,7 +8,12 @@ import transformPatientResponse from '../../utils/transform/transformPatientResp
 export const fetchCurrentPatient = createAsyncThunk(
   'patientCard/fetchCurrentPatient',
   async (id: number, thunkAPI) => {
-    thunkAPI.dispatch(setLoading(true));
+    thunkAPI.dispatch(
+      setLoading({
+        value: true,
+        type: 'patient',
+      }),
+    );
     try {
       const response = await PatientsService.fetchIdPatient(id);
       if (response.data && response.data[0]) {
@@ -16,7 +21,12 @@ export const fetchCurrentPatient = createAsyncThunk(
       }
     } catch (e) {
     } finally {
-      thunkAPI.dispatch(setLoading(false));
+      thunkAPI.dispatch(
+        setLoading({
+          value: false,
+          type: 'patient',
+        }),
+      );
     }
   },
 );
@@ -24,7 +34,12 @@ export const fetchCurrentPatient = createAsyncThunk(
 export const fetchPatientEvents = createAsyncThunk(
   'patientCard/fetchPatientEvents',
   async (id: number, thunkAPI) => {
-    thunkAPI.dispatch(setLoading(true));
+    thunkAPI.dispatch(
+      setLoading({
+        value: true,
+        type: 'events',
+      }),
+    );
     try {
       const response = await EventService.fetchPersonEvents(id);
       if (response.data) {
@@ -41,20 +56,31 @@ export const fetchPatientEvents = createAsyncThunk(
       }
     } catch (e) {
     } finally {
-      thunkAPI.dispatch(setLoading(false));
+      thunkAPI.dispatch(
+        setLoading({
+          value: false,
+          type: 'events',
+        }),
+      );
     }
   },
 );
 
 interface StateType {
   currentPatient?: Patient;
-  isLoading: boolean;
+  loading: {
+    patient: boolean;
+    events: boolean;
+  };
   events: PatientEvent[];
 }
 
 const initialState: StateType = {
   currentPatient: undefined,
-  isLoading: false,
+  loading: {
+    patient: false,
+    events: false,
+  },
   events: [] as PatientEvent[],
 };
 
@@ -62,8 +88,14 @@ const patientCardSlice = createSlice({
   name: 'patientCard',
   initialState: initialState,
   reducers: {
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    setLoading: (
+      state,
+      action: PayloadAction<{
+        type: keyof StateType['loading'];
+        value: boolean;
+      }>,
+    ) => {
+      state.loading[action.payload.type] = action.payload.value;
     },
   },
   extraReducers: (builder) => {
