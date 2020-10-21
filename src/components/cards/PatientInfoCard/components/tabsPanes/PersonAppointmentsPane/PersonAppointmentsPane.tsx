@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PersonAppointment from '../../../../../../types/data/PersonAppointment';
 import './styles.scss';
 import PatientReceptionCard from '../../../../PatientReceptionCard/PatientReceptionCard';
@@ -10,29 +10,36 @@ type PaneProps = {
   isLoading?: boolean;
 };
 
-const PersonAppointmentsPane: React.FC<PaneProps> = (props) => {
+const PersonAppointmentsPane: React.FC<PaneProps> = ({
+  appointmentsList,
+  isLoading,
+}) => {
+  const renderListItem = useCallback((item: PersonAppointment) => {
+    return (
+      <div key={item.id} className={'person-appointments-list__item'}>
+        <PatientReceptionCard {...item} />
+      </div>
+    );
+  }, []);
+
   const listBody = useMemo(() => {
-    if (props.isLoading) {
+    if (isLoading) {
       return <EmptyLoadList />;
     } else {
       return (
         <PaginationList
-          len={props.appointmentsList?.length || 0}
+          len={appointmentsList?.length || 0}
           numberPerPage={3}
-          data={props.appointmentsList || []}
-          renderBody={(item) => (
-            <div key={item.id} className={'person-appointments-list__item'}>
-              <PatientReceptionCard {...item} />
-            </div>
-          )}
+          data={appointmentsList || []}
+          renderBody={renderListItem}
         />
       );
     }
-  }, [props.isLoading, props.appointmentsList]);
+  }, [isLoading, appointmentsList, renderListItem]);
 
   return (
     <div className={'person-info-tabs__pane'}>
-      {props.appointmentsList && listBody}
+      {appointmentsList && listBody}
     </div>
   );
 };

@@ -123,7 +123,6 @@ const registrationCardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchKladr.fulfilled, (state, action) => {
-      console.log(action);
       if (action.payload?.type === 'documented' && action.payload.items) {
         state.data.passportGeneral.documentedAddress = {
           ...state.data.passportGeneral.documentedAddress,

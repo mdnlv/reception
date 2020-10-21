@@ -33,7 +33,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
     }
   }
 
-  const renderTableBody = useCallback(() => {
+  const tableBody = useMemo(() => {
     if (props.mode === 'search') {
       return (
         <Card>
@@ -121,7 +121,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
   return (
     <div>
       <Row align={'stretch'}>{getHeaderByType}</Row>
-      <div>{renderTableBody()}</div>
+      <div>{tableBody}</div>
     </div>
   );
 };

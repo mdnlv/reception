@@ -34,7 +34,7 @@ function App() {
     dispatch(fetchRbDocumentTypes());
     dispatch(fetchRbPolicyKind());
     dispatch(fetchRbPolicyTypes());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

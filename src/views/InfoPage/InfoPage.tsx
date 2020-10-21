@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styles.scss';
 import { Col, Row } from 'antd';
 import InfoPageTabs from '../../components/tabs/InfoPageTabs/InfoPageTabs';
@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 
 const InfoPage: React.FC = (props) => {
   const navigation = useHistory();
-  const dispatch = useDispatch();
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
 
   const goToMain = () => {

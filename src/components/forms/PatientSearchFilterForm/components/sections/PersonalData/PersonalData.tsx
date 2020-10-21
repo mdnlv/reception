@@ -1,11 +1,24 @@
-import React from 'react';
-import { Checkbox, Col, InputNumber, Row } from 'antd';
+import React, { useCallback } from 'react';
+import { Checkbox, Col, Row } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
 import PartialFormState from '../../../types';
+import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-const PersonalData: React.FC = (props) => {
-  const form = useFormikContext<PartialFormState>();
+const PersonalData: React.FC = () => {
+  const { values, setFieldValue } = useFormikContext<PartialFormState>();
+
+  const onCheckboxChange = useCallback(
+    (e: CheckboxChangeEvent) => {
+      if (e.target.checked) {
+        setFieldValue('isEmptyAddress', 1);
+      } else {
+        setFieldValue('isEmptyAddress', 0);
+      }
+    },
+    [setFieldValue],
+  );
 
   return (
     <div className={'form-section'}>
@@ -13,29 +26,15 @@ const PersonalData: React.FC = (props) => {
       <Row gutter={8}>
         <Col>
           <FormField label={'Возраст с'}>
-            <InputNumber
-              size={'small'}
-              name={'personAgeFrom'}
-              min={0}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('personAgeFrom', val);
-                }
-              }}
-            />
+            <FastInputNumber min={0} size={'small'} name={'personAgeFrom'} />
           </FormField>
         </Col>
         <Col>
           <FormField label={'Возраст до'}>
-            <InputNumber
+            <FastInputNumber
               size={'small'}
+              min={values.personAgeFrom || 0}
               name={'personAgeTo'}
-              min={form.values.personAgeFrom || 0}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('yearNumberFrom', val);
-                }
-              }}
             />
           </FormField>
         </Col>
@@ -43,45 +42,27 @@ const PersonalData: React.FC = (props) => {
       <Row gutter={8} align={'bottom'}>
         <Col>
           <FormField label={'Год рождения'}>
-            <InputNumber
+            <FastInputNumber
               size={'small'}
+              min={1900}
+              max={new Date().getFullYear()}
               name={'yearNumberTo'}
-              min={0}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('yearNumberTo', val);
-                }
-              }}
             />
           </FormField>
         </Col>
         <Col>
           <FormField label={'Месяц рождения'}>
-            <InputNumber
-              size={'small'}
-              name={'birthMonth'}
+            <FastInputNumber
               max={12}
               min={1}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('birthMonth', val);
-                }
-              }}
+              size={'small'}
+              name={'birthMonth'}
             />
           </FormField>
         </Col>
         <Col>
           <FormField label={'не указан адрес'} labelPosition={'right'}>
-            <Checkbox
-              name={'isEmptyAddress'}
-              onChange={(event) => {
-                if (event.target.checked) {
-                  form.setFieldValue('isEmptyAddress', 1);
-                } else {
-                  form.setFieldValue('isEmptyAddress', 0);
-                }
-              }}
-            />
+            <Checkbox name={'isEmptyAddress'} onChange={onCheckboxChange} />
           </FormField>
         </Col>
       </Row>

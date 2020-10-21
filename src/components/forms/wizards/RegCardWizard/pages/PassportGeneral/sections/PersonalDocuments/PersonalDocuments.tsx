@@ -1,25 +1,29 @@
-import React, { FC } from 'react';
-import { Col, DatePicker, Input, Row, Select } from 'antd';
+import React, { FC, useCallback } from 'react';
+import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
 import FormField from '../../../../../../components/FormField/FormField';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface SectionProps {
   documentTypes: { id: number; name: string }[];
 }
 
-const PersonalDocument: FC<SectionProps> = (props) => {
+const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
   const form = useFormikContext<RegistrationCardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
 
-  const documentTypeOptions = props.documentTypes.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+  const documentTypeOptions = useCallback(() => {
+    return documentTypes.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+        {item.name}
+      </Select.Option>
+    ));
+  }, []);
 
   return (
     <div className="form-section personal-document">
@@ -27,13 +31,9 @@ const PersonalDocument: FC<SectionProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
           <FormField label="Паспорт">
-            <Select
-              value={formProps.passportType}
-              onChange={(val) => {
-                form.setFieldValue(`${selectionValuePath}.passportType`, val);
-              }}>
+            <FastSearchSelect name={`${selectionValuePath}.passportType`}>
               {documentTypeOptions}
-            </Select>
+            </FastSearchSelect>
           </FormField>
         </Col>
         <Col span={5}>
@@ -48,16 +48,11 @@ const PersonalDocument: FC<SectionProps> = (props) => {
         </Col>
         <Col span={4}>
           <FormField label="Дата выдачи">
-            <DatePicker
+            <FastDatePicker
+              name={`${selectionValuePath}.fromDate`}
               value={
                 formProps.fromDate ? moment(formProps.fromDate) : undefined
               }
-              onChange={(date, dateString) => {
-                form.setFieldValue(
-                  `${selectionValuePath}.fromDate`,
-                  dateString,
-                );
-              }}
             />
           </FormField>
         </Col>

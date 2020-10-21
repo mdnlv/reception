@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-import { useFormikContext } from 'formik';
-import PartialFormState from '../../../types';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const PersonAttachment: React.FC = (props) => {
-  const form = useFormikContext<PartialFormState>();
-
+const PersonAttachment: React.FC = () => {
   const attachmentCategoryList = ['-', 'Постоянное', 'Временное', 'Выбыл'];
 
-  const attachmentCategoryOptionsList = attachmentCategoryList.map(
-    (item, index) => (
-      <Select.Option key={index} value={index}>
+  const attachmentCategoryOptionsList = useCallback(() => {
+    return attachmentCategoryList.map((item, index) => (
+      <Select.Option key={index} name={item} value={index}>
         {item}
       </Select.Option>
-    ),
-  );
+    ));
+  }, []);
 
   return (
     <div className={'form-section'}>
@@ -23,18 +20,15 @@ const PersonAttachment: React.FC = (props) => {
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
               allowClear
-              value={form.values.attachmentCategoryId}
-              onChange={(val) => {
-                form.setFieldValue('attachmentCategoryId', val);
-              }}
-              size={'small'}>
-              {attachmentCategoryOptionsList}
-            </Select>
+              size={'small'}
+              name={'attachmentCategoryId'}>
+              {attachmentCategoryOptionsList()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>

@@ -11,6 +11,7 @@ const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
       {({ field, meta, form }: FastFieldProps) => (
         <MaskedInputFastField
           {...props}
+          value={field.value}
           name={props.name || ''}
           onChange={form.handleChange}
         />

@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-import { useFormikContext } from 'formik';
-import PartialFormState from '../../../types';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface SectionProps {
   orgs: { id: number; name: string }[];
 }
 
-const PersonBed: React.FC<SectionProps> = (props) => {
-  const form = useFormikContext<PartialFormState>();
-
+const PersonBed: React.FC<SectionProps> = ({ orgs }) => {
   const bedTypeList = ['не задано', 'на лечении', 'на выписке', 'в очереди'];
 
-  const betTypeOptionsList = bedTypeList.map((item, index) => (
-    <Select.Option key={index} name={item} value={index}>
-      {item}
-    </Select.Option>
-  ));
+  const betTypeOptionsList = useCallback(() => {
+    return bedTypeList.map((item, index) => (
+      <Select.Option key={index} name={item} value={index}>
+        {item}
+      </Select.Option>
+    ));
+  }, []);
 
-  const orgsOptionsList = props.orgs.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+  const orgsOptionsList = useCallback(() => {
+    return orgs.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+        {item.name}
+      </Select.Option>
+    ));
+  }, [orgs]);
 
   return (
     <div className={'form-section'}>
@@ -31,36 +32,30 @@ const PersonBed: React.FC<SectionProps> = (props) => {
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
               allowClear
-              value={form.values.bedProfileTypeId}
-              onChange={(val) => {
-                form.setFieldValue('bedProfileTypeId', val);
-              }}
-              size={'small'}>
-              {betTypeOptionsList}
-            </Select>
+              size={'small'}
+              name={'bedProfileTypeId'}>
+              {betTypeOptionsList()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
               allowClear
-              value={form.values.bedProfileOrgStructureId}
-              onChange={(val) => {
-                form.setFieldValue('bedProfileOrgStructureId', val);
-              }}
-              size={'small'}>
-              {orgsOptionsList}
-            </Select>
+              size="small"
+              name={'bedProfileOrgStructureId'}>
+              {orgsOptionsList()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>

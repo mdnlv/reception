@@ -1,27 +1,27 @@
 import React from 'react';
 import { FastField, FastFieldProps } from 'formik';
-import InputNumberFastField from '../InputNumberFastField/InputNumberFastField';
-import { InputNumberProps } from 'antd/es/input-number';
+import { Select } from 'antd';
+import { SelectProps, SelectValue } from 'antd/es/select';
 
-interface InputProps extends InputNumberProps {
+interface SearchSelectProps extends SelectProps<SelectValue> {
   name: string;
 }
 
-const FastInputNumber: React.FC<InputProps> = (props) => {
+const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
   return (
     <FastField name={props.name}>
       {({ field, meta, form }: FastFieldProps) => (
-        <InputNumberFastField
+        <Select
           {...props}
-          name={props.name}
           value={field.value}
           onChange={(val) => {
             form.setFieldValue(props.name, val);
-          }}
-        />
+          }}>
+          {props.children}
+        </Select>
       )}
     </FastField>
   );
 };
 
-export default FastInputNumber;
+export default FastSearchSelect;

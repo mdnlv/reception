@@ -30,6 +30,25 @@ interface FormProps {
   onSubmit?(): void;
 }
 
+const initialStore: PartialFormState = {
+  tempInvalidDocumentBegDate: '',
+  tempInvalidDocumentEndDate: '',
+  tempInvalidDocumentSerial: '',
+  tempInvalidDocumentNumber: '',
+  tempInvalidReasonId: undefined,
+  clientExamPlanKindId: undefined,
+  clientExamPlanYear: undefined,
+  clientExamPlanQuarter: undefined,
+  begDateRPFConfirmed: undefined,
+  isRPFUnconfirmed: undefined,
+  isOncologyForm90: undefined,
+  identifier: '',
+  personAgeFrom: undefined,
+  personAgeTo: undefined,
+  birthYear: undefined,
+  birthMonth: undefined,
+};
+
 const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
   const dispatch = useDispatch();
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
@@ -38,45 +57,29 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
   const rbOrgs = useSelector(detailedOrganisationsSelector);
   const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
-  const initialStore: PartialFormState = {
-    tempInvalidDocumentBegDate: '',
-    tempInvalidDocumentEndDate: '',
-    tempInvalidDocumentSerial: '',
-    tempInvalidDocumentNumber: '',
-    tempInvalidReasonId: undefined,
-    clientExamPlanKindId: undefined,
-    clientExamPlanYear: undefined,
-    clientExamPlanQuarter: undefined,
-    begDateRPFConfirmed: undefined,
-    isRPFUnconfirmed: undefined,
-    isOncologyForm90: undefined,
-    identifier: '',
-    personAgeFrom: undefined,
-    personAgeTo: undefined,
-    birthYear: undefined,
-    birthMonth: undefined,
+  const onSubmit = (values: PartialFormState) => {
+    if (props.onSubmit) {
+      props.onSubmit();
+    }
+    //todo clear func props
+    dispatch(
+      fetchFiltersPatients({
+        ...values,
+        tempInvalidReasonId: 1,
+        tempInvalidDocumentTypeId: 1,
+        begBirthDate: '2000-01-01',
+      }),
+    );
+    if (props.onClose) {
+      props.onClose();
+    }
   };
 
   return (
     <Formik
       initialValues={{ ...initialStore }}
       validationSchema={validation}
-      onSubmit={async (values) => {
-        if (props.onSubmit) {
-          props.onSubmit();
-        }
-        dispatch(
-          fetchFiltersPatients({
-            ...values,
-            tempInvalidReasonId: 1,
-            tempInvalidDocumentTypeId: 1,
-            begBirthDate: '2000-01-01',
-          }),
-        );
-        if (props.onClose) {
-          props.onClose();
-        }
-      }}>
+      onSubmit={onSubmit}>
       {(formProps) => (
         <form className={'patient-search-filter-form'}>
           <Row>

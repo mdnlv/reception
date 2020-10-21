@@ -4,6 +4,8 @@ import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
 import FormField from '../../../../../../components/FormField/FormField';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface ListOptionItem {
   id: number;
@@ -29,7 +31,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           {item.name}
         </Select.Option>
       )),
-    [props.policyTimeType, props.policyType],
+    [],
   );
 
   const sectionTitle = () => {
@@ -50,35 +52,27 @@ const Policy: React.FC<SectionProps> = (props) => {
       <Row className="form-row" align={'bottom'} gutter={16}>
         <Col span={4}>
           <FormField>
-            <Select
-              value={formValues[0].timeType}
-              onChange={(val) => {
-                form.setFieldValue(`${sectionValuePath}.timeType`, val);
-              }}>
+            <FastSearchSelect name={`${sectionValuePath}.timeType`}>
               {getPropsOptions(props.policyTimeType)}
-            </Select>
+            </FastSearchSelect>
           </FormField>
         </Col>
         <Col span={5}>
           <FormField label={'С'}>
-            <DatePicker
+            <FastDatePicker
               value={
                 formValues[0].from ? moment(formValues[0].from) : undefined
               }
-              onChange={(date, dateString) => {
-                form.setFieldValue(`${sectionValuePath}.from`, dateString);
-              }}
+              name={`${sectionValuePath}.from`}
             />
           </FormField>
         </Col>
         <Col span={5}>
           <FormField label={'До'}>
-            <DatePicker
+            <FastDatePicker
               value={formValues[0].to ? moment(formValues[0].to) : undefined}
-              onChange={(date, dateString) => {
-                form.setFieldValue(`${sectionValuePath}.to`, dateString);
-              }}
-            />{' '}
+              name={`${sectionValuePath}.to`}
+            />
           </FormField>
         </Col>
       </Row>

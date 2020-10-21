@@ -17,9 +17,6 @@ const PersonPolicy: FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
   const formValues = form.values.passportGeneral;
-  const getPolicyItem = (index: number, fieldChain: string) => {
-    return `passportGeneral.policyOms[${index}].${fieldChain}`;
-  };
 
   return (
     <div className={'form-section person-policy'}>
@@ -27,20 +24,6 @@ const PersonPolicy: FC<SectionProps> = (props) => {
         <ArrayFieldWrapper<PassportPolicyType>
           name={'passportGeneral'}
           values={[...formValues.policyOms, ...formValues.policyDms]}
-          onAddItem={() => {
-            const newPolicy: PassportPolicyType = {
-              timeType: '',
-              from: '',
-              to: '',
-              serial: '',
-              number: '',
-              cmo: '',
-              type: '',
-              name: '',
-              note: '',
-            };
-          }}
-          onRemoveItem={() => {}}
           renderChild={(values, index) => (
             <>
               <Row key={index} gutter={16}>

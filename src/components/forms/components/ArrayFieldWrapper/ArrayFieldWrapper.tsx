@@ -6,28 +6,34 @@ interface WrapperProps<T> {
   name: string;
   values: T[];
   renderChild: (item: T, index: number) => React.ReactNode;
-  onAddItem(): void;
-  onRemoveItem(): void;
+  onAddItem?(): void;
+  onRemoveItem?(): void;
   showActions?: boolean;
 }
 
-function ArrayFieldWrapper<T>(props: WrapperProps<T>) {
+function ArrayFieldWrapper<T>({
+  onAddItem,
+  onRemoveItem,
+  showActions,
+  values,
+  renderChild,
+}: WrapperProps<T>) {
   const onAddHandler = useCallback(() => {
-    props.onAddItem();
-  }, [props.onAddItem]);
+    if (onAddItem) onAddItem();
+  }, [onAddItem]);
 
   const onRemoveHandler = useCallback(() => {
-    props.onRemoveItem();
-  }, [props.onRemoveItem]);
+    if (onRemoveItem) onRemoveItem();
+  }, [onRemoveItem]);
 
   const renderFunc = useCallback(() => {
-    if (Array.isArray(props.values)) {
-      return props.values?.map((item, index) => props.renderChild(item, index));
+    if (Array.isArray(values)) {
+      return values?.map((item, index) => renderChild(item, index));
     }
-  }, [props.values]);
+  }, [values]);
   return (
     <div>
-      {props.showActions && (
+      {showActions && (
         <Space>
           <Tooltip title={'Добавить'}>
             <Button
@@ -43,7 +49,7 @@ function ArrayFieldWrapper<T>(props: WrapperProps<T>) {
             <Button
               type={'link'}
               size={'small'}
-              disabled={props.values.length <= 0}
+              disabled={values.length <= 0}
               shape="circle"
               onClick={onRemoveHandler}
               icon={<MinusCircleTwoTone className={'fields-btn__icon'} />}

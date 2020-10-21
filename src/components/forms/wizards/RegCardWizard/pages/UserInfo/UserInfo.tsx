@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox,
   Col,
-  DatePicker,
   Divider,
   Radio,
   Row,
@@ -19,8 +18,10 @@ import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/r
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
+import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const UserInfo: React.FC = (props) => {
+const UserInfo: React.FC = () => {
   const formProps = useFormikContext<RegistrationCardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
@@ -51,18 +52,13 @@ const UserInfo: React.FC = (props) => {
         <Row gutter={16}>
           <Col span={12}>
             <FormField label="Дата рождения">
-              <DatePicker
+              <FastDatePicker
+                name={`${sectionValuePath}.birthDate`}
                 value={
                   formProps.values.personal.birthDate
                     ? moment(formProps.values.personal.birthDate)
                     : undefined
                 }
-                onChange={(date, dateString) => {
-                  formProps.setFieldValue(
-                    `${sectionValuePath}.birthDate`,
-                    dateString,
-                  );
-                }}
               />
             </FormField>
           </Col>
@@ -75,10 +71,10 @@ const UserInfo: React.FC = (props) => {
                     ? moment(formProps.values.personal.birthDate)
                     : undefined
                 }
-                onChange={(date, dateString) => {
+                onChange={(_, dateString) => {
                   formProps.setFieldValue(
                     `${sectionValuePath}.birthDate`,
-                    date?.toISOString(),
+                    dateString,
                   );
                 }}
               />
@@ -117,9 +113,9 @@ const UserInfo: React.FC = (props) => {
           <FastInput name={'personal.snils'} />
         </FormField>
         <FormField label="Лечащий врач">
-          <Select showSearch filterOption optionFilterProp={'name'}>
+          <FastSearchSelect showSearch filterOption name={'name'}>
             {personsOptions}
-          </Select>
+          </FastSearchSelect>
         </FormField>
         <Row>
           <Col>
@@ -143,18 +139,13 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="Дата начала карты">
-          <DatePicker
+          <FastDatePicker
+            name={`${sectionValuePath}.startCardDate`}
             value={
               formProps.values.personal.startCardDate
                 ? moment(formProps.values.personal.startCardDate)
                 : undefined
             }
-            onChange={(date, dateTime) => {
-              formProps.setFieldValue(
-                `${sectionValuePath}.startCardDate`,
-                dateTime,
-              );
-            }}
           />
         </FormField>
         <div>

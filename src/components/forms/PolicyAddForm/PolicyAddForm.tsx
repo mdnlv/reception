@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
-import { Button, Col, DatePicker, Row, Select, Space } from 'antd';
+import { Button, Col, Row, Select, Space } from 'antd';
 import FormField from '../components/FormField/FormField';
 import moment from 'moment';
 import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FastInput from '../components/fields/FastInput/FastInput';
+import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
+import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface ListOptionItem {
   id: number;
@@ -66,41 +68,33 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row" align={'bottom'} gutter={16}>
             <Col span={4}>
               <FormField>
-                <Select
-                  value={formProps.values.timeType}
-                  onChange={(val) => {
-                    formProps.setFieldValue(`timeType`, val);
-                  }}>
+                <FastSearchSelect name={'timeType'}>
                   {getPropsOptions(props.policyTimeType)}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={5}>
               <FormField label={'С'}>
-                <DatePicker
+                <FastDatePicker
                   value={
                     formProps.values.from
                       ? moment(formProps.values.from)
                       : undefined
                   }
-                  onChange={(date, dateString) => {
-                    formProps.setFieldValue(`from`, dateString);
-                  }}
+                  name={'from'}
                 />
               </FormField>
             </Col>
             <Col span={5}>
               <FormField label={'До'}>
-                <DatePicker
+                <FastDatePicker
                   value={
                     formProps.values.to
                       ? moment(formProps.values.to)
                       : undefined
                   }
-                  onChange={(date, dateString) => {
-                    formProps.setFieldValue(`to`, dateString);
-                  }}
-                />{' '}
+                  name={'to'}
+                />
               </FormField>
             </Col>
           </Row>
@@ -119,18 +113,14 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row" gutter={16}>
             <Col span={14}>
               <FormField label="СМО" labelPosition="left">
-                <Select />
+                <FastSearchSelect name={'cmo'} />
               </FormField>
             </Col>
             <Col span={10}>
               <FormField>
-                <Select
-                  value={formProps.values.type}
-                  onChange={(val) => {
-                    formProps.setFieldValue(`type`, val);
-                  }}>
+                <FastSearchSelect name={'type'}>
                   {getPropsOptions(props.policyType)}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
           </Row>

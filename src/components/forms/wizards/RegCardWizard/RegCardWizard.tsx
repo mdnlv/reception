@@ -11,7 +11,7 @@ import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 
 interface WizardProps {}
 
-const RegCardWizard: React.FC<WizardProps> = (props) => {
+const RegCardWizard: React.FC<WizardProps> = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: RootState) => state.registrationCard);
 
@@ -21,7 +21,7 @@ const RegCardWizard: React.FC<WizardProps> = (props) => {
       onSubmit={(values) => {
         dispatch(setFormSection(values));
       }}>
-      {(formProps) => (
+      {() => (
         <Row>
           <Col span={5}>
             <Card>

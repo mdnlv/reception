@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { Table } from 'antd';
 import './styles.scss';
 import moment from 'moment';
@@ -20,7 +20,6 @@ type ToolTipInfo = {
 
 const PatientsTable: FC<TableProps> = (props) => {
   const navigation = useHistory();
-  const [isShowTooltip, setIsShowTooltip] = useState(false);
 
   const columns = [
     {
@@ -87,40 +86,31 @@ const PatientsTable: FC<TableProps> = (props) => {
     });
   }, [props.patients]);
 
+  const onRowChange = useCallback(() => {}, [props.onPatientClick]);
+
   return (
-    <>
-      <Table
-        loading={props.isLoading}
-        dataSource={getFormattedProps}
-        columns={columns}
-        rowSelection={{
-          type: 'radio',
-          selectedRowKeys: props.currentPatient ? [props.currentPatient] : [],
-          onChange: (selectedRowKeys, selectedRows) => {
-            if (typeof selectedRowKeys[0] === 'number') {
-              props.onPatientClick(selectedRowKeys[0]);
-            }
+    <Table
+      loading={props.isLoading}
+      dataSource={getFormattedProps}
+      columns={columns}
+      rowSelection={{
+        type: 'radio',
+        selectedRowKeys: props.currentPatient ? [props.currentPatient] : [],
+        onChange: (selectedRowKeys, selectedRows) => {
+          if (typeof selectedRowKeys[0] === 'number') {
+            props.onPatientClick(selectedRowKeys[0]);
+          }
+        },
+      }}
+      onRow={(record) => {
+        return {
+          onClick: (event) => {
+            props.onPatientClick(record.key);
           },
-        }}
-        onRow={(record) => {
-          return {
-            onClick: (event) => {
-              console.log(record);
-              props.onPatientClick(record.key);
-            },
-            onMouseEnter: (event) => {
-              event.persist();
-              setIsShowTooltip(true);
-            },
-            onMouseLeave: (event) => {
-              event.persist();
-              setIsShowTooltip(false);
-            },
-          };
-        }}
-      />
-    </>
+        };
+      }}
+    />
   );
 };
 
-export default PatientsTable;
+export default React.memo(PatientsTable);

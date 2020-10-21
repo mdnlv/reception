@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Spin, Tabs } from 'antd';
+import { Card, Tabs } from 'antd';
 import PersonInfoPane from './components/tabsPanes/PersonInfoPane/PersonInfoPane';
 import './styles.scss';
 import PersonAppointmentsPane from './components/tabsPanes/PersonAppointmentsPane/PersonAppointmentsPane';
@@ -15,25 +15,23 @@ type CardProps = {
 
 const PatientInfoCard: React.FC<CardProps> = (props) => {
   return (
-    <>
-      <Card className={'patient-info-card'}>
-        <Tabs defaultActiveKey="1" size={'small'}>
-          <Tabs.TabPane tab="Инфо о пациенте" key="1">
-            <PersonInfoPane
-              policyTitle={props.policyTitle}
-              patient={props.patient}
-            />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Прошедшие приемы" key="2">
-            <PersonAppointmentsPane
-              isLoading={props.isLoading}
-              appointmentsList={props.appointments}
-            />
-          </Tabs.TabPane>
-        </Tabs>
-      </Card>
-    </>
+    <Card className={'patient-info-card'}>
+      <Tabs defaultActiveKey="info" size={'small'}>
+        <Tabs.TabPane tab="Инфо о пациенте" key="info">
+          <PersonInfoPane
+            policyTitle={props.policyTitle}
+            patient={props.patient}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Прошедшие приемы" key="appointments">
+          <PersonAppointmentsPane
+            isLoading={props.isLoading}
+            appointmentsList={props.appointments}
+          />
+        </Tabs.TabPane>
+      </Tabs>
+    </Card>
   );
 };
 
-export default PatientInfoCard;
+export default React.memo(PatientInfoCard);

@@ -8,41 +8,35 @@ import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/sel
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
-import TimeTable from '../../components/elements/TimeTable/TimeTable';
-import exampleTree from './exampleTree';
 
-const MainPage: FC = (props) => {
+const MainPage: FC = () => {
   const dispatch = useDispatch();
   const [showUserInfo, setShowInfo] = useState(false);
 
   //selectors
-  const { isLoading, currentPatient } = useSelector(
-    (state: RootState) => state.patients,
-  );
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
-  const { rbPersons, rbEventTypes } = useSelector(
-    (state: RootState) => state.rb,
-  );
   const { loading } = useSelector((state: RootState) => state.patientCard);
 
   useEffect(() => {
-    if (currentPatient) {
-      dispatch(fetchPatientEvents(currentPatient));
+    if (currentPatientMemo) {
+      dispatch(fetchPatientEvents(currentPatientMemo.code));
     }
-  }, [currentPatient, rbPersons, rbEventTypes]);
+  }, [currentPatientMemo]);
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
-      return !!currentPatient;
+      return !!currentPatientMemo;
     } else {
       return false;
     }
-  }, [showUserInfo, currentPatient]);
+  }, [showUserInfo, currentPatientMemo]);
 
   const openSearchQuery = useCallback(() => {
-    setShowInfo(!showUserInfo);
-  }, [showUserInfo]);
+    setShowInfo((prevState) => {
+      return !prevState;
+    });
+  }, []);
 
   return (
     <Row className={'main-page'}>
@@ -50,11 +44,6 @@ const MainPage: FC = (props) => {
         <Row>
           <Col span={24}>
             <PatientsSearchTable onOpenSearch={openSearchQuery} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <TimeTable data={exampleTree} />
           </Col>
         </Row>
       </Col>

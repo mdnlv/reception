@@ -68,6 +68,7 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
 
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
+    props.onOpenSearch();
   }, []);
 
   const tablePatientsCount = useMemo(() => {

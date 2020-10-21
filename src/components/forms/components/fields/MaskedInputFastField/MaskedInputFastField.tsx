@@ -35,10 +35,17 @@ const MaskedInputFastField: React.FC<FieldProps> = (props) => {
       setInnerValue(newVal);
       debouncedCallback.callback(event);
     },
-    [],
+    [debouncedCallback],
   );
 
-  return <MaskedInput {...props} onChange={handleOnChange} mask={props.mask} />;
+  return (
+    <MaskedInput
+      {...props}
+      value={innerValue}
+      onChange={handleOnChange}
+      mask={props.mask}
+    />
+  );
 };
 
 export default MaskedInputFastField;

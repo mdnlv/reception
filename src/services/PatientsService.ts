@@ -35,8 +35,10 @@ export default {
     }
   },
 
-  queryPatients(query: string): Promise<AxiosResponse<PatientResponse[]>> {
-    return apiInstance.post(`/client/find`, {
+  queryPatients(
+    query: string,
+  ): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
+    return apiInstance.post(`/client/find?limit=20&deleted=0`, {
       value: query,
     });
   },

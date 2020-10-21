@@ -16,28 +16,26 @@ import PatientContactType from '../../../types/data/PatientContactType';
 import PatientDocumentType from '../../../types/data/PatientDocumentType';
 
 export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
-  {
-    try {
-      const response = await RbService.fetchPersons();
-      if (response.data) {
-        const formattedData = response.data.map((item) => ({
-          id: item.id,
-          createDatetime: item.createDatetime,
-          createPersonId: item.createPerson_id,
-          modifyDatetime: item.modifyDatetime,
-          modifyPersonId: item.modifyPerson_id,
-          code: item.code,
-          lastName: item.lastName,
-          firstName: item.firstName,
-          patrName: item.patrName,
-          postId: item.post_id,
-          specialityId: item.speciality_id,
-        }));
-        return formattedData;
-      }
-    } catch (e) {
-    } finally {
+  try {
+    const response = await RbService.fetchPersons();
+    if (response.data) {
+      const formattedData = response.data.map((item) => ({
+        id: item.id,
+        createDatetime: item.createDatetime,
+        createPersonId: item.createPerson_id,
+        modifyDatetime: item.modifyDatetime,
+        modifyPersonId: item.modifyPerson_id,
+        code: item.code,
+        lastName: item.lastName,
+        firstName: item.firstName,
+        patrName: item.patrName,
+        postId: item.post_id,
+        specialityId: item.speciality_id,
+      }));
+      return formattedData;
     }
+  } catch (e) {
+  } finally {
   }
 });
 
@@ -132,7 +130,7 @@ export const fetchRbAccountingSystem = createAsyncThunk(
           id: item.id,
           name: item.name,
         }));
-        return response.data;
+        return formattedData;
       }
     } catch (e) {}
   },

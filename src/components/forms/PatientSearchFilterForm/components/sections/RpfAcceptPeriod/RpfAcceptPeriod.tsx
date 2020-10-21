@@ -1,12 +1,20 @@
-import React from 'react';
-import { Checkbox, Col, DatePicker, Row } from 'antd';
+import React, { useCallback } from 'react';
+import { Checkbox, Col, Row } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 import PartialFormState from '../../../types';
 import { useFormikContext } from 'formik';
-import moment from 'moment';
+import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-const RpfAcceptPeriod: React.FC = (props) => {
-  const form = useFormikContext<PartialFormState>();
+const RpfAcceptPeriod: React.FC = () => {
+  const { setFieldValue } = useFormikContext<PartialFormState>();
+
+  const onCheckboxChange = useCallback(
+    (e: CheckboxChangeEvent) => {
+      setFieldValue(e.target.name || '', e.target.checked ? 1 : 0);
+    },
+    [setFieldValue],
+  );
 
   return (
     <div className={'form-section'}>
@@ -14,34 +22,14 @@ const RpfAcceptPeriod: React.FC = (props) => {
       <Row>
         <Col span={24}>
           <FormField>
-            <DatePicker
-              size={'small'}
-              value={
-                form.values.begDateRPFConfirmed
-                  ? moment(new Date(form.values.begDateRPFConfirmed))
-                  : undefined
-              }
-              onChange={(date) => {
-                if (date) {
-                  form.setFieldValue('begDateRPFConfirmed', date.toISOString());
-                }
-              }}
-            />
+            <FastDatePicker size={'small'} name={'begDateRPFConfirmed'} />
           </FormField>
         </Col>
       </Row>
       <Row justify={'space-between'}>
         <Col>
           <FormField>
-            <Checkbox
-              name={'isRPFUnconfirmed'}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  form.setFieldValue('isRPFUnconfirmed', 1);
-                } else {
-                  form.setFieldValue('isRPFUnconfirmed', 0);
-                }
-              }}>
+            <Checkbox name={'isRPFUnconfirmed'} onChange={onCheckboxChange}>
               неподтвержденные РПФ
             </Checkbox>
           </FormField>
@@ -50,15 +38,7 @@ const RpfAcceptPeriod: React.FC = (props) => {
       <Row justify={'space-between'}>
         <Col>
           <FormField>
-            <Checkbox
-              name={'isOncologyForm90'}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  form.setFieldValue('isOncologyForm90', 1);
-                } else {
-                  form.setFieldValue('isOncologyForm90', 0);
-                }
-              }}>
+            <Checkbox name={'isOncologyForm90'} onChange={onCheckboxChange}>
               онкологическая форма 90
             </Checkbox>
           </FormField>

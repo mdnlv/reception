@@ -1,37 +1,35 @@
-import React from 'react';
-import { Col, DatePicker, Input } from 'antd';
+import React, { useCallback } from 'react';
+import { Col, Row, Select } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-import moment from 'moment';
 import { useFormikContext } from 'formik';
 import FormState from '../../../types';
-import { Row, Select } from 'antd';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
+import FastInput from '../../../../components/fields/FastInput/FastInput';
 
-interface SectionProps {
-  invalidReasons: {
-    id: number;
-    name: string;
-  }[];
-  invalidDocs: { id: number; name: string }[];
+interface InvalidArrayType {
+  id: number;
+  name: string;
 }
 
-const PersonDisabilities: React.FC<SectionProps> = (props) => {
+interface SectionProps {
+  invalidReasons: InvalidArrayType[];
+  invalidDocs: InvalidArrayType[];
+}
+
+const PersonDisabilities: React.FC<SectionProps> = ({
+  invalidDocs,
+  invalidReasons,
+}) => {
   const form = useFormikContext<FormState>();
 
-  const getInvalidDocsOptions = () => {
-    return props.invalidDocs.map((item) => (
+  const getInvalidPropsOptions = useCallback((props: InvalidArrayType[]) => {
+    return props.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id}>
         {item.name}
       </Select.Option>
     ));
-  };
-
-  const getInvalidReasonsOptions = () => {
-    return props.invalidReasons.map((item) => (
-      <Select.Option key={item.id} name={item.name} value={item.id}>
-        {item.name}
-      </Select.Option>
-    ));
-  };
+  }, []);
 
   return (
     <div className={'form-section'}>
@@ -39,52 +37,30 @@ const PersonDisabilities: React.FC<SectionProps> = (props) => {
       <Row gutter={16}>
         <Col span={14}>
           <FormField label={'Тип документа'}>
-            <Select
+            <FastSearchSelect
               showSearch
               allowClear
               filterOption
               optionFilterProp={'name'}
               size={'small'}
-              onChange={(val) => {
-                form.setFieldValue('tempInvalidDocumentTypeId', val);
-              }}>
-              >{getInvalidDocsOptions()}
-            </Select>
+              name={'tempInvalidDocumentTypeId'}>
+              {getInvalidPropsOptions(invalidDocs)}
+            </FastSearchSelect>
           </FormField>
         </Col>
         <Col span={5}>
           <FormField label={'Дата начала'}>
-            <DatePicker
+            <FastDatePicker
               size={'small'}
-              value={
-                form.values.tempInvalidDocumentBegDate
-                  ? moment(new Date(form.values.tempInvalidDocumentBegDate))
-                  : undefined
-              }
-              onChange={(date) => {
-                form.setFieldValue(
-                  'tempInvalidDocumentBegDate',
-                  date ? date.toISOString() : '',
-                );
-              }}
+              name={'tempInvalidDocumentBegDate'}
             />
           </FormField>
         </Col>
         <Col span={5}>
           <FormField label={'Дата окончания'}>
-            <DatePicker
+            <FastDatePicker
               size={'small'}
-              onChange={(date) => {
-                form.setFieldValue(
-                  'tempInvalidDocumentEndDate',
-                  date ? date.toISOString() : '',
-                );
-              }}
-              value={
-                form.values.tempInvalidDocumentEndDate
-                  ? moment(new Date(form.values.tempInvalidDocumentEndDate))
-                  : undefined
-              }
+              name={'tempInvalidDocumentEndDate'}
             />
           </FormField>
         </Col>
@@ -92,20 +68,12 @@ const PersonDisabilities: React.FC<SectionProps> = (props) => {
       <Row gutter={16}>
         <Col span={3}>
           <FormField label={'Серия'}>
-            <Input
-              size={'small'}
-              name={'tempInvalidDocumentSerial'}
-              onChange={form.handleChange}
-            />
+            <FastInput size={'small'} name={'tempInvalidDocumentSerial'} />
           </FormField>
         </Col>
         <Col span={5}>
           <FormField label={'Номер'}>
-            <Input
-              size={'small'}
-              name={'tempInvalidDocumentNumber'}
-              onChange={form.handleChange}
-            />
+            <FastInput size={'small'} name={'tempInvalidDocumentNumber'} />
           </FormField>
         </Col>
       </Row>
@@ -114,17 +82,15 @@ const PersonDisabilities: React.FC<SectionProps> = (props) => {
           <FormField
             error={form.errors.tempInvalidReasonId}
             label={'Причина нетрудоспособности'}>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               allowClear
               optionFilterProp={'name'}
               size={'small'}
-              onChange={(val) => {
-                form.setFieldValue('tempInvalidReasonId', val);
-              }}>
-              {getInvalidReasonsOptions()}
-            </Select>
+              name={'tempInvalidReasonId'}>
+              {getInvalidPropsOptions(invalidReasons)}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>

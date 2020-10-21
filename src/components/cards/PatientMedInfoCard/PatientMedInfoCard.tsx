@@ -36,9 +36,7 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = (props) => {
         </div>
       </Row>
       <div className="patient-card__content">
-        {props.currentPatient && (
-          <PatientCardInfoForm patient={props.currentPatient} />
-        )}
+        <PatientCardInfoForm patient={props.currentPatient} />
       </div>
     </div>
   );

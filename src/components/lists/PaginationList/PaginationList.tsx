@@ -1,4 +1,9 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { usePaginationList } from '../../../hooks/paginationList';
 import { Pagination } from 'antd';
 import './styles.scss';
@@ -30,6 +35,10 @@ function PaginationList<T>(props: PropsWithChildren<ListProps<T>>) {
       .map((item) => props.renderBody(item));
   }, [currentPage, props.data, props.renderBody]);
 
+  const onPaginationChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   return (
     <>
       {listBody}
@@ -37,9 +46,7 @@ function PaginationList<T>(props: PropsWithChildren<ListProps<T>>) {
         <div className="pagination-list__pagination-wrapper">
           <Pagination
             disabled={totalPages <= 1}
-            onChange={(page) => {
-              setCurrentPage(page);
-            }}
+            onChange={onPaginationChange}
             current={currentPage}
             pageSize={props.numberPerPage}
             total={props.len - 1}

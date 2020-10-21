@@ -5,6 +5,7 @@ import FormField from '../../../../../../components/FormField/FormField';
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface KladrItem {
   id: string;
@@ -102,22 +103,21 @@ const Address: FC<SectionProps> = (props) => {
           <Row gutter={16} className="form-row">
             <Col span={8}>
               <FormField>
-                <Select
+                <FastSearchSelect
+                  loading={props.isLoadingKladr}
+                  name={`${sectionValuePath}.area`}
                   value={formValues.passportInfo[props.passportType].area}
-                  onChange={(val) => {
-                    form.setFieldValue(`${sectionValuePath}.area`, val);
-                  }}
                   placeholder={'Область'}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
                   {getKladrDetailed(props.kladr)}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={8}>
               <FormField>
-                <Select
+                <FastSearchSelect
                   loading={props.isLoadingKladrNested}
                   disabled={!formValues.passportInfo[props.passportType].area}
                   onFocus={() => {
@@ -127,25 +127,20 @@ const Address: FC<SectionProps> = (props) => {
                     );
                   }}
                   value={formValues.passportInfo[props.passportType].city}
-                  onChange={(val) => {
-                    if (formValues.passportInfo[props.passportType].street) {
-                      form.setFieldValue(`${sectionValuePath}.street`, '');
-                    }
-                    form.setFieldValue(`${sectionValuePath}.city`, val);
-                  }}
                   placeholder={'Город'}
+                  name={`${sectionValuePath}.city`}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
                   {getKladrDetailed(props.nestedKladr)}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
           </Row>
           <Row gutter={16} className="form-row">
             <Col span={8}>
               <FormField>
-                <Select
+                <FastSearchSelect
                   loading={props.isLoadingKladrStreets}
                   disabled={!formValues.passportInfo[props.passportType].city}
                   onFocus={() => {
@@ -155,15 +150,13 @@ const Address: FC<SectionProps> = (props) => {
                     );
                   }}
                   value={formValues.passportInfo[props.passportType].street}
-                  onChange={(val) => {
-                    form.setFieldValue(`${sectionValuePath}.street`, val);
-                  }}
                   placeholder={'Улица'}
+                  name={'`${sectionValuePath}.street`'}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
                   {getKladrDetailed(props.kladrStreets)}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={8}>

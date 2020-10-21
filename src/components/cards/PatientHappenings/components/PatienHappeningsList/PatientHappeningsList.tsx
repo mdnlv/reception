@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import PatientHappening from '../../../../../types/data/PatientHappening';
 import { Col, Descriptions, Row } from 'antd';
 import './styles.scss';
 import DetailedPatientEvent from '../../../../../types/data/DetailedPatientEvent';

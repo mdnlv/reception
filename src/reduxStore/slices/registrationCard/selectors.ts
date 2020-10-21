@@ -2,15 +2,6 @@ import { createSelector } from 'reselect';
 import KladrItem from '../../../types/data/KladrItem';
 import { RootState } from '../../store';
 
-function getDetailedKladr(item: KladrItem) {
-  return {
-    id: item.id,
-    name: item.name,
-    prefix: item.prefix,
-    socr: item.socr,
-  };
-}
-
 export const kladrSelector = createSelector(
   (state: RootState) => state.registrationCard.data.passportGeneral,
   (data) => ({
