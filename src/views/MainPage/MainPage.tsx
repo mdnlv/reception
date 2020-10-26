@@ -8,6 +8,8 @@ import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/sel
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
+import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
+import data from '../../components/elements/ScheduleTable/data';
 
 const MainPage: FC = () => {
   const dispatch = useDispatch();
@@ -39,24 +41,31 @@ const MainPage: FC = () => {
   }, []);
 
   return (
-    <Row className={'main-page'}>
-      <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
-        <Row>
-          <Col span={24}>
-            <PatientsSearchTable onOpenSearch={openSearchQuery} />
-          </Col>
-        </Row>
-      </Col>
-      {getInfoCard && (
-        <Col span={7}>
-          <PatientInfoCard
-            isLoading={loading.events}
-            patient={currentPatientMemo}
-            appointments={currentPatientAppointments}
-          />
+    <div className={'main-page'}>
+      <Row>
+        <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
+          <Row>
+            <Col span={24}>
+              <PatientsSearchTable onOpenSearch={openSearchQuery} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <ScheduleTable />
+            </Col>
+          </Row>
         </Col>
-      )}
-    </Row>
+        {getInfoCard && (
+          <Col span={7}>
+            <PatientInfoCard
+              isLoading={loading.events}
+              patient={currentPatientMemo}
+              appointments={currentPatientAppointments}
+            />
+          </Col>
+        )}
+      </Row>
+    </div>
   );
 };
 

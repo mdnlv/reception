@@ -1,0 +1,17 @@
+.schedule-timeline{
+  width: 100%;
+
+  &__list{
+    display: flex;
+    list-style-type: none;
+
+    .timeline-list__item{
+      width: 40px;
+    }
+
+    .timeline-list__item--week{
+      width: 65px;
+    }
+
+  }
+}

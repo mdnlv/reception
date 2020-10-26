@@ -1,0 +1,21 @@
+.schedule-action-item{
+  height: 50px;
+  border-right: 1px solid #E7E7E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #E7E7E7;
+
+  &:first-child{
+    border-left: 1px solid #E7E7E7;
+  }
+
+
+  &:hover{
+    box-shadow: 0 0 4px 2px #E7E7E7;
+  }
+}
+
+.action-description{
+  max-width: 300px;
+}

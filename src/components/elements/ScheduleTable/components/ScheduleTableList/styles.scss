@@ -1,0 +1,16 @@
+.schedule-list{
+  flex: 1;
+
+  &__item{
+    .item-title{
+      font-size: 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+
+
