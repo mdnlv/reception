@@ -1,6 +1,10 @@
 .schedule-list{
   flex: 1;
 
+  &__wrapper{
+    width: 100%;
+  }
+
   &__item{
     .item-title{
       font-size: 16px;

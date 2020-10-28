@@ -9,6 +9,7 @@ interface ListProps {
   onToggleRow(id: number): void;
   selected: number[];
   mode: ScheduleTableModeType;
+  rangeWeekNum: number;
 }
 
 const ScheduleTableList: React.FC<ListProps> = (props) => {
@@ -17,6 +18,7 @@ const ScheduleTableList: React.FC<ListProps> = (props) => {
       const toggle = props.selected.find((sitem) => sitem === item.id);
       return (
         <ListItem
+          rangeWeekNum={props.rangeWeekNum}
           mode={props.mode}
           toggle={!!toggle}
           id={item.id}
@@ -29,7 +31,7 @@ const ScheduleTableList: React.FC<ListProps> = (props) => {
         />
       );
     });
-  }, [props.list, props.selected, props.mode]);
+  }, [props.list, props.selected, props.mode, props.rangeWeekNum]);
 
   return <div className={'schedule-list'}>{listContent}</div>;
 };

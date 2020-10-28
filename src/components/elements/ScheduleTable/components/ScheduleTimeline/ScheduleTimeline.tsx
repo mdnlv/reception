@@ -2,12 +2,13 @@ import React from 'react';
 import './styles.scss';
 import { ScheduleTableModeType } from '../../ScheduleTable';
 import ScheduleTimelineItem from './components/ScheduleTimilineItem/ScheduleTimelineItem';
-import { addDays, addWeeks } from 'date-fns';
+import { addDays } from 'date-fns';
 import format from '../../../../../utils/date/format';
 
 interface TimeLineProps {
   mode: ScheduleTableModeType;
   currentDate: Date;
+  rangeWeekNum: number;
 }
 
 const ScheduleTimeline: React.FC<TimeLineProps> = (props) => {
@@ -39,7 +40,7 @@ const ScheduleTimeline: React.FC<TimeLineProps> = (props) => {
 
       case 'week':
         const dayItems = [];
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < props.rangeWeekNum; i++) {
           const dateString = format(addDays(props.currentDate, i), 'MM.dd');
           const dayName = format(addDays(props.currentDate, i), 'EEEEEE');
           dayItems.push(

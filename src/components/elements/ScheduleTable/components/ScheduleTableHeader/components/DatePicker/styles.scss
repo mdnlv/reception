@@ -1,8 +1,18 @@
 .picker-action__wrapper{
-  padding: 4px;
+  padding: 4px 8px;
 
   &:hover{
     cursor: pointer;
     opacity: .7;
+  }
+}
+
+.schedule-date-picker__picker{
+  font-size: 16px;
+  padding: 0 4px;
+  text-transform: capitalize;
+
+  &:hover{
+    cursor: pointer;
   }
 }

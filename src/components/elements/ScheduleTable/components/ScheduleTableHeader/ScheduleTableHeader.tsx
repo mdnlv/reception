@@ -9,7 +9,9 @@ interface HeaderProps {
   currentDate: Date;
   onDateChange(date: Date): void;
   onModeChange(mode: ScheduleTableModeType): void;
+  onRangeWeekChange(date: Date): void;
   mode: ScheduleTableModeType;
+  rangeWeekDate: Date;
 }
 
 const ScheduleTableHeader: React.FC<HeaderProps> = (props) => {
@@ -25,8 +27,10 @@ const ScheduleTableHeader: React.FC<HeaderProps> = (props) => {
       className={'schedule-table__header'}
       justify={'space-between'}
       align={'middle'}>
-      <div className={'header-date-picker'}>
+      <div className={'schedule-date-picker'}>
         <DatePicker
+          onRangeWeekChange={props.onRangeWeekChange}
+          rangeWeekDate={props.rangeWeekDate}
           mode={props.mode}
           current={props.currentDate}
           onDateChange={props.onDateChange}

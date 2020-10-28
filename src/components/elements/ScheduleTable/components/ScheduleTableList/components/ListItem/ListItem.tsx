@@ -13,6 +13,7 @@ interface ItemProps {
   toggle: boolean;
   onToggle(id: number): void;
   mode: ScheduleTableModeType;
+  rangeWeekNum: number;
 }
 
 const ListItem: React.FC<ItemProps> = ({
@@ -24,6 +25,7 @@ const ListItem: React.FC<ItemProps> = ({
   planned,
   id,
   mode,
+  rangeWeekNum,
 }) => {
   const onToggleHandler = useCallback(() => {
     onToggle(id);
@@ -43,6 +45,7 @@ const ListItem: React.FC<ItemProps> = ({
         <Col span={20}>
           <ScheduleActionsRow
             mode={mode}
+            rangeWeekNum={rangeWeekNum}
             onNewScheduleItem={onNewScheduleItem}
             planned={planned}
             items={items}
