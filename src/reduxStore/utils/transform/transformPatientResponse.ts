@@ -1,4 +1,5 @@
 import PatientResponse from '../../../interfaces/responses/patients/patient';
+import transformPolicyResponse from './transformPolicyResponse';
 
 export default function transformPatientResponse(item: PatientResponse) {
   return {
@@ -11,18 +12,9 @@ export default function transformPatientResponse(item: PatientResponse) {
     regAddress: '',
     livingAddress: '',
 
-    policy: item.client_policy_info.map((item) => ({
-      id: item.id,
-      begDate: item.begDate,
-      endDate: item.endDate,
-      name: item.name,
-      serial: item.serial,
-      number: item.number,
-      policyTypeId: item.policyType_id,
-      policyKindId: item.policyKind_id,
-      insurerId: item.insurer_id,
-      clientId: item.client_id,
-    })),
+    policy: item.client_policy_info.map((item) =>
+      transformPolicyResponse(item),
+    ),
 
     contacts: item.client_contact_info
       .filter((item) => item.deleted === 0)

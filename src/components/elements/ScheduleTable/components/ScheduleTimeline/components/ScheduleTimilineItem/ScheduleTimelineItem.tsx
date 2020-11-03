@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScheduleTableModeType } from '../../../../ScheduleTable';
 import './styles.scss';
+import { ScheduleTableModeType } from '../../../../types';
 
 interface ItemProps {
   mode: ScheduleTableModeType;

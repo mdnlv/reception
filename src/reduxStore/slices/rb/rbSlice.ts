@@ -7,8 +7,6 @@ import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
 import KladrItem from '../../../types/data/KladrItem';
-import KladrDistrict from '../../../types/data/KladrDistrict';
-import KladrStreet from '../../../types/data/KladrStreet';
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';
@@ -216,9 +214,6 @@ const rbSlice = createSlice({
     isLoadingKladr: false,
     isLoadingKladrNested: false,
     isLoadingKladrStreets: false,
-    rbDistricts: [] as KladrDistrict[],
-    rbKladrNested: [] as KladrItem[],
-    rbKladrStreets: [] as KladrStreet[],
   },
   reducers: {},
   extraReducers: (builder) => {

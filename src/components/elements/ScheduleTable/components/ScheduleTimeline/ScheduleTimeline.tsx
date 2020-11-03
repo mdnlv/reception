@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles.scss';
-import { ScheduleTableModeType } from '../../ScheduleTable';
 import ScheduleTimelineItem from './components/ScheduleTimilineItem/ScheduleTimelineItem';
 import { addDays } from 'date-fns';
 import format from '../../../../../utils/date/format';
+import { ScheduleTableModeType } from '../../types';
 
 interface TimeLineProps {
   mode: ScheduleTableModeType;

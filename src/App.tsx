@@ -1,40 +1,17 @@
 import React, { useEffect } from 'react';
-import { Col, Layout, Row } from 'antd';
+import { Col, Layout, Row } from 'antd/lib';
 import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
 import AppRouter from './router/router';
 import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import {
-  fetchRbAccountingSystem,
-  fetchRbAttachTypes,
-  fetchRbContactTypes,
-  fetchRbDocumentTypes,
-  fetchRbEventTypes,
-  fetchRbInvalidDocumentsTypes,
-  fetchRbInvalidReasons,
-  fetchRbOrganisations,
-  fetchRbPersons,
-  fetchRbPolicyKind,
-  fetchRbPolicyTypes,
-} from './reduxStore/slices/rb/rbSlice';
+import useInitialFetch from './reduxStore/hooks/initialFetch';
 
 function App() {
-  const dispatch = useDispatch();
+  const initialFetch = useInitialFetch();
 
   useEffect(() => {
-    dispatch(fetchRbPersons());
-    dispatch(fetchRbEventTypes());
-    dispatch(fetchRbInvalidReasons());
-    dispatch(fetchRbOrganisations());
-    dispatch(fetchRbInvalidDocumentsTypes());
-    dispatch(fetchRbAccountingSystem());
-    dispatch(fetchRbAttachTypes());
-    dispatch(fetchRbContactTypes());
-    dispatch(fetchRbDocumentTypes());
-    dispatch(fetchRbPolicyKind());
-    dispatch(fetchRbPolicyTypes());
-  }, [dispatch]);
+    initialFetch();
+  }, []);
 
   return (
     <Router>

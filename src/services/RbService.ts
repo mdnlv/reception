@@ -13,6 +13,7 @@ import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
 import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
+import PatientPolicyResponse from '../interfaces/responses/patients/patientPolicy';
 
 export default {
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -65,6 +66,9 @@ export default {
     return apiInstance.get('/refBooks/rbPolicyType');
   },
   fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
+    return apiInstance.get('/refBooks/rbPolicyKind');
+  },
+  fetchCMO(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbPolicyKind');
   },
 };

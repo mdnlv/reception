@@ -9,6 +9,7 @@ import {
   fetchKladr,
   fetchKladrNested,
   fetchKladrStreets,
+  findPatientPolicy,
   KladrDocType,
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
@@ -25,15 +26,21 @@ import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import { PassportPolicyType } from './types';
 import { useFormikContext } from 'formik';
+import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
+import { RootState } from '../../../../../../reduxStore/store';
 
 interface SectionProps {}
 
 const PassportGeneral: React.FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
+  const { dms, oms } = useSelector(
+    (state: RootState) => state.registrationCard.foundPolicies,
+  );
 
   const {
     rbKladrDocumented,
@@ -56,8 +63,6 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   const policyKindsList = useSelector(detailedPolicyKindsSelector);
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
-
-  const dispatch = useDispatch();
 
   function fetchNestedKladr(id: string, type: KladrDocType) {
     let rbKladrItem: KladrItem | undefined;
@@ -95,6 +100,10 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
     form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
   }
 
+  function onFindPatientPolicy(payload: FindPolicyParams, type: 'oms' | 'dms') {
+    dispatch(findPatientPolicy({ params: payload, type }));
+  }
+
   return (
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
@@ -129,18 +138,24 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
       <Row>
         <Col span={12} className={'col--border-right'}>
           <PolicyAddForm
+            isLoading={oms.isLoading}
+            foundPolicy={oms.items[0]}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onAddPolicy={onAddPolicy}
+            onFindPolicy={onFindPatientPolicy}
           />
         </Col>
         <Col span={12}>
           <PolicyAddForm
+            foundPolicy={dms.items[0]}
+            isLoading={dms.isLoading}
             policyKey={'policyDms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onAddPolicy={onAddPolicy}
+            onFindPolicy={onFindPatientPolicy}
           />
         </Col>
       </Row>

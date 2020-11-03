@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDebounce, useDebouncedCallback } from 'use-debounce';
 import { Input } from 'antd';
+import { InputProps } from 'antd/es/input';
 
-interface FieldProps {
+interface FieldProps extends InputProps {
   name: string;
   value?: string;
   onChange?(event: React.ChangeEvent<HTMLInputElement>): unknown;
@@ -43,6 +44,7 @@ const TextFastField: React.FC<FieldProps> = (props) => {
   return (
     <Input
       {...props}
+      disabled={props.disabled}
       value={innerValue}
       name={props.name}
       onChange={handleOnChange}

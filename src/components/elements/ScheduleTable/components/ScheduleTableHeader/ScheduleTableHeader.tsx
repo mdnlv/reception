@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Row, Radio } from 'antd';
 import DatePicker from './components/DatePicker/DatePicker';
 import './styles.scss';
-import { ScheduleTableModeType } from '../../ScheduleTable';
-import { RadioChangeEvent } from 'antd/es/radio';
+import Radio, { RadioChangeEvent } from 'antd/lib/radio';
+import Row from 'antd/lib/row';
+import { ScheduleTableModeType } from '../../types';
 
 interface HeaderProps {
   currentDate: Date;

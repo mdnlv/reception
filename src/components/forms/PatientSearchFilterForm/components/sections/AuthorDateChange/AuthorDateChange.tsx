@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Checkbox, Col, DatePicker, Row, Select } from 'antd';
+import { Checkbox, Col, DatePicker, Row, Select } from 'antd/lib';
 import FormField from '../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
 import FormState from '../../../types';

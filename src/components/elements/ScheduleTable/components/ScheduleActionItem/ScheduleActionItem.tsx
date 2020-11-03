@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import './styles.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Descriptions, Popover } from 'antd';
+import Popover from 'antd/lib/popover';
+import Descriptions from 'antd/lib/descriptions';
 
 interface ItemProps {
   type: 'default' | 'closed' | 'empty';
@@ -53,7 +54,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
             <Popover
               placement={'bottom'}
               content={
-                <Descriptions className={'action-description'}>
+                <Descriptions column={2} className={'action-description'}>
                   <Descriptions.Item label={'Имя'}>
                     {info.name}
                   </Descriptions.Item>

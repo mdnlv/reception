@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import { Table } from 'antd';
+import React, { FC, useCallback, useMemo } from 'react';
+import Table from 'antd/lib/table';
 import './styles.scss';
 import moment from 'moment';
 import Patient from '../../../types/data/Patient';

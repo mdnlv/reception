@@ -1,5 +1,6 @@
 .schedule-action-item{
   height: 50px;
+  min-width: 30px;
   border-right: 1px solid #E7E7E7;
   display: flex;
   align-items: center;
@@ -17,5 +18,5 @@
 }
 
 .action-description{
-  max-width: 300px;
+  max-width: 500px;
 }

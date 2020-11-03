@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
-import { Col, Row } from 'antd';
 import ScheduleActionsRow from '../../../ScheduleActionsRow/ScheduleActionsRow';
-import { ActionItems, ScheduleTableModeType } from '../../../../ScheduleTable';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import ScheduleScrollContainer from '../../../ScheduleScrollContainer/ScheduleScrollContainer';
+import Col from 'antd/lib/col';
+import Row from 'antd/lib/row';
+import { ActionItems, ScheduleTableModeType } from '../../../../types';
 
 interface ItemProps {
   id: number;
@@ -43,13 +45,15 @@ const ListItem: React.FC<ItemProps> = ({
       </Col>
       {toggle && (
         <Col span={20}>
-          <ScheduleActionsRow
-            mode={mode}
-            rangeWeekNum={rangeWeekNum}
-            onNewScheduleItem={onNewScheduleItem}
-            planned={planned}
-            items={items}
-          />
+          <ScheduleScrollContainer>
+            <ScheduleActionsRow
+              mode={mode}
+              rangeWeekNum={rangeWeekNum}
+              onNewScheduleItem={onNewScheduleItem}
+              planned={planned}
+              items={items}
+            />
+          </ScheduleScrollContainer>
         </Col>
       )}
     </Row>

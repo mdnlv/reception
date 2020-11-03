@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Col, Row } from 'antd';
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +8,8 @@ import { eventsAppointments } from '../../reduxStore/slices/patientCard/selector
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
-import data from '../../components/elements/ScheduleTable/data';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 
 const MainPage: FC = () => {
   const dispatch = useDispatch();

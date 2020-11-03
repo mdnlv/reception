@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import KladrItem from '../../../types/data/KladrItem';
 import { RootState } from '../../store';
+import { setFindPolicyLoading } from './registrationCardSlice';
 
 export const kladrSelector = createSelector(
   (state: RootState) => state.registrationCard.data.passportGeneral,

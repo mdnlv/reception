@@ -1,5 +1,5 @@
 import React from 'react';
-import { FastField, FastFieldProps } from 'formik';
+import { useField } from 'formik';
 import TextFastField from '../TextFastField/TextFastField';
 import { InputProps } from 'antd/es/input';
 
@@ -8,17 +8,18 @@ interface FastInputProps extends InputProps {
 }
 
 const FastInput: React.FC<FastInputProps> = (props) => {
+  const [field, , form] = useField<string>(props.name);
+
   return (
-    <FastField name={props.name}>
-      {({ field, meta, form }: FastFieldProps) => (
-        <TextFastField
-          {...props}
-          name={field.name}
-          value={field.value}
-          onChange={form.handleChange}
-        />
-      )}
-    </FastField>
+    <TextFastField
+      {...props}
+      disabled={props.disabled}
+      name={field.name}
+      value={field.value}
+      onChange={(event) => {
+        form.setValue(event.target.value);
+      }}
+    />
   );
 };
 

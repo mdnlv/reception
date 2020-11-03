@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Descriptions, Row, Space } from 'antd';
+import { Button, Descriptions, Row, Space } from 'antd/lib';
 import format from '../../../utils/date/format';
 import PersonAppointment from '../../../types/data/PersonAppointment';
 

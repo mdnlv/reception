@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Button, Col, Divider, Row } from 'antd';
+import { Button, Col, Divider, Row } from 'antd/lib';
 import PersonDisabilities from './components/sections/PersonDisabilities/PersonDisabilities';
 import AuthorDateChange from './components/sections/AuthorDateChange/AuthorDateChange';
 import PersonalData from './components/sections/PersonalData/PersonalData';

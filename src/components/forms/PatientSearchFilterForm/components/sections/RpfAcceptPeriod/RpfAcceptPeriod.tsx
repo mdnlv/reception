@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
-import { Checkbox, Col, Row } from 'antd';
+import { Checkbox, Col, Row } from 'antd/lib';
 import FormField from '../../../../components/FormField/FormField';
 import PartialFormState from '../../../types';
 import { useFormikContext } from 'formik';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 const RpfAcceptPeriod: React.FC = () => {
   const { setFieldValue } = useFormikContext<PartialFormState>();

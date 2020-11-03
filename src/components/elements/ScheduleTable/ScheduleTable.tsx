@@ -1,29 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Col, Row } from 'antd';
+import React, { useCallback, useMemo, useState } from 'react';
 import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
 import data from './data';
 import './styles.scss';
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 import { addDays, eachDayOfInterval } from 'date-fns';
-
-export type ScheduleTableModeType = 'day' | 'week';
-
-export interface ActionItems {
-  [k: string]:
-    | {
-        name: string;
-        clientId: number;
-      }
-    | undefined;
-}
-
-export interface ScheduleListItem {
-  planned: number;
-  id: number;
-  personName: string;
-  items: ActionItems;
-}
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import { ScheduleTableModeType } from './types';
 
 interface ScheduleTableProps {}
 

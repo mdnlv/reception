@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Tabs } from 'antd';
+import { Card, Tabs } from 'antd/lib';
 import PersonInfoPane from './components/tabsPanes/PersonInfoPane/PersonInfoPane';
 import './styles.scss';
 import PersonAppointmentsPane from './components/tabsPanes/PersonAppointmentsPane/PersonAppointmentsPane';

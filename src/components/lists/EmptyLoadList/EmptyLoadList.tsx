@@ -1,4 +1,4 @@
-import { List, Skeleton } from 'antd';
+import { List, Skeleton } from 'antd/lib';
 import React from 'react';
 
 interface ListProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FastField, FastFieldProps } from 'formik';
+import { FastField, FastFieldProps, useField } from 'formik';
 import { Select } from 'antd';
 import { SelectProps, SelectValue } from 'antd/es/select';
 
@@ -8,19 +8,17 @@ interface SearchSelectProps extends SelectProps<SelectValue> {
 }
 
 const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
+  const [field, meta, form] = useField(props.name);
+
   return (
-    <FastField name={props.name}>
-      {({ field, meta, form }: FastFieldProps) => (
-        <Select
-          {...props}
-          value={field.value}
-          onChange={(val) => {
-            form.setFieldValue(props.name, val);
-          }}>
-          {props.children}
-        </Select>
-      )}
-    </FastField>
+    <Select
+      {...props}
+      value={field.value}
+      onChange={(val) => {
+        form.setValue(val);
+      }}>
+      {props.children}
+    </Select>
   );
 };
 

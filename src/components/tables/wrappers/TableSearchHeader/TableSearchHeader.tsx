@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import './style.scss';
-import { Button, Card, Input, Row } from 'antd';
+import { Button, Card, Input, Row } from 'antd/lib';
 import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
 
 type SearchHeaderProps = {

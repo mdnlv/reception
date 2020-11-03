@@ -51,6 +51,8 @@ import PersonViewTypeFormState, {
 } from '../../../components/forms/PersonViewTypeForm/types';
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
+import Policy from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/sections/Policy/Policy';
+import PatientPolicy from '../../../types/data/PatientPolicy';
 
 export interface RegistrationCardStateType {
   additionalHospitalization: AdditionalHospitalizationFormState;
@@ -106,6 +108,10 @@ export interface RegistrationCardStateType {
         isKladrStreetsLoading: boolean;
       };
     };
+  };
+  foundPolicies: {
+    dms: { items: PatientPolicy[]; isLoading: boolean };
+    oms: { items: PatientPolicy[]; isLoading: boolean };
   };
 }
 
@@ -227,6 +233,10 @@ const initialState: RegistrationCardStateType = {
         isKladrStreetsLoading: false,
       },
     },
+  },
+  foundPolicies: {
+    dms: { items: [] as PatientPolicy[], isLoading: false },
+    oms: { items: [] as PatientPolicy[], isLoading: false },
   },
 };
 

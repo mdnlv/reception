@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { ScheduleListItem, ScheduleTableModeType } from '../../ScheduleTable';
 import ListItem from './components/ListItem/ListItem';
 import './styles.scss';
+import { ScheduleListItem, ScheduleTableModeType } from '../../types';
 
 interface ListProps {
   list: ScheduleListItem[];

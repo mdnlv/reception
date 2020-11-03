@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Row } from 'antd';
-import { ActionItems, ScheduleTableModeType } from '../../ScheduleTable';
 import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
 import './styles.scss';
+import { ActionItems, ScheduleTableModeType } from '../../types';
 
 interface RowProps {
   planned: number;
@@ -68,6 +67,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
           if (Object.keys(items).length === planned) {
             return (
               <ScheduleActionItem
+                key={index}
                 onNewScheduleItem={onNewScheduleItem}
                 type={'closed'}
                 width={getWeekWidth}
@@ -76,6 +76,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
           } else if (Object.keys(items).length > 0) {
             return (
               <ScheduleActionItem
+                key={index}
                 onNewScheduleItem={onNewScheduleItem}
                 type={'default'}
                 width={getWeekWidth}
@@ -112,7 +113,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
     }
   }, [items, planned, mode, itemWidth, rangeWeekNum]);
 
-  return <Row className={'schedule-action-row'}>{rowContent}</Row>;
+  return <div className={'schedule-action-row'}>{rowContent}</div>;
 };
 
 export default ScheduleActionsRow;

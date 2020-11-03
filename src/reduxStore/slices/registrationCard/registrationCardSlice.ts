@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import initialState from './initialState';
-import { RegistrationCardStateType } from './initialState';
+import initialState, { RegistrationCardStateType } from './initialState';
 import RbService from '../../../services/RbService';
+import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
+import PatientsService from '../../../services/PatientsService';
+import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
 
 export type KladrDocType = 'documented' | 'registration';
 
@@ -73,6 +75,28 @@ export const fetchKladrStreets = createAsyncThunk(
   },
 );
 
+export const findPatientPolicy = createAsyncThunk(
+  'registrationCard/findPatientPolicy',
+  async (
+    payload: { params: FindPolicyParams; type: 'oms' | 'dms' },
+    thunkAPI,
+  ) => {
+    thunkAPI.dispatch(
+      setFindPolicyLoading({ value: true, type: payload.type }),
+    );
+    try {
+      const response = await PatientsService.findPatientPolicy(payload.params);
+      thunkAPI.dispatch(
+        setFindPolicyLoading({ value: false, type: payload.type }),
+      );
+      return {
+        data: response,
+        type: payload.type,
+      };
+    } catch (e) {}
+  },
+);
+
 const registrationCardSlice = createSlice({
   name: 'registrationCard',
   initialState: initialState,
@@ -81,8 +105,13 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<RegistrationCardStateType>,
     ) => {
-      console.log(action.payload);
       state = { ...action.payload };
+    },
+    setFindPolicyLoading: (
+      state,
+      action: PayloadAction<{ value: boolean; type: 'oms' | 'dms' }>,
+    ) => {
+      state.foundPolicies[action.payload.type].isLoading = action.payload.value;
     },
     setKladrLoading: (
       state,
@@ -181,6 +210,17 @@ const registrationCardSlice = createSlice({
         };
       }
     });
+    builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
+      if (action.payload && action.payload.type === 'oms') {
+        state.foundPolicies.oms.items = [
+          transformPolicyResponse(action.payload.data),
+        ];
+      } else if (action.payload?.type === 'dms') {
+        state.foundPolicies.dms.items = [
+          transformPolicyResponse(action.payload.data),
+        ];
+      }
+    });
   },
 });
 
@@ -189,6 +229,7 @@ export const {
   setKladrLoading,
   setKladrNestedLoading,
   setKladrStreetsLodaing,
+  setFindPolicyLoading,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;

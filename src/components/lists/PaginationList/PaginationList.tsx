@@ -5,7 +5,7 @@ import React, {
   useMemo,
 } from 'react';
 import { usePaginationList } from '../../../hooks/paginationList';
-import { Pagination } from 'antd';
+import { Pagination } from 'antd/lib';
 import './styles.scss';
 
 interface ListProps<T> {

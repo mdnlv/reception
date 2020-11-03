@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { DatePicker, Popover, Row } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { ScheduleTableModeType } from '../../../../ScheduleTable';
 import {
   addDays,
   eachDayOfInterval,
@@ -13,6 +11,10 @@ import {
 import './styles.scss';
 import moment from 'moment';
 import { ru } from 'date-fns/locale';
+import { ScheduleTableModeType } from '../../../../types';
+import DatePicker from 'antd/lib/date-picker';
+import Popover from 'antd/lib/popover';
+import Row from 'antd/lib/row';
 
 interface PickerProps {
   current: Date;
