@@ -45,7 +45,7 @@ const ListItem: React.FC<ItemProps> = ({
       </Col>
       {toggle && (
         <Col span={20}>
-          <ScheduleScrollContainer>
+          <ScheduleScrollContainer left={0}>
             <ScheduleActionsRow
               mode={mode}
               rangeWeekNum={rangeWeekNum}

@@ -49,11 +49,6 @@ const MainPage: FC = () => {
               <PatientsSearchTable onOpenSearch={openSearchQuery} />
             </Col>
           </Row>
-          <Row>
-            <Col span={24}>
-              <ScheduleTable />
-            </Col>
-          </Row>
         </Col>
         {getInfoCard && (
           <Col span={7}>
@@ -64,6 +59,11 @@ const MainPage: FC = () => {
             />
           </Col>
         )}
+      </Row>
+      <Row>
+        <Col span={24}>
+          <ScheduleTable />
+        </Col>
       </Row>
     </div>
   );
