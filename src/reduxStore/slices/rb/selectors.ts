@@ -19,6 +19,11 @@ export const detailedOrganisationsSelector = createSelector(
     })),
 );
 
+export const detailedCMOSelector = createSelector(
+  (state: RootState) => state.rb.rbOrganisations,
+  (orgs) => orgs.map((item) => ({ id: item.id, name: item.shortName })),
+);
+
 export const detailedPersonsSelector = createSelector(
   (state: RootState) => state.rb.rbPersons,
   (persons) =>

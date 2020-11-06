@@ -17,6 +17,7 @@ import {
   kladrSelector,
 } from '../../../../../../reduxStore/slices/registrationCard/selectors';
 import {
+  detailedCMOSelector,
   detailedContactTypesSelector,
   detailedDocumentTypesSelector,
   detailedPolicyKindsSelector,
@@ -63,6 +64,8 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   const policyKindsList = useSelector(detailedPolicyKindsSelector);
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
+  const cmoTypeList = useSelector(detailedCMOSelector);
+  const { organisations } = useSelector((state: RootState) => state.rb.loading);
 
   function fetchNestedKladr(id: string, type: KladrDocType) {
     let rbKladrItem: KladrItem | undefined;
@@ -138,7 +141,9 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
       <Row>
         <Col span={12} className={'col--border-right'}>
           <PolicyAddForm
+            cmoType={cmoTypeList}
             isLoading={oms.isLoading}
+            isCmoLoading={organisations}
             foundPolicy={oms.items[0]}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
@@ -149,8 +154,10 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
         </Col>
         <Col span={12}>
           <PolicyAddForm
+            cmoType={cmoTypeList}
             foundPolicy={dms.items[0]}
             isLoading={dms.isLoading}
+            isCmoLoading={organisations}
             policyKey={'policyDms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}

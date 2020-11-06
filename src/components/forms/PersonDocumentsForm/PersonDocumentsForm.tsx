@@ -6,6 +6,7 @@ import SocialStatus from './components/sections/SocialStatus/SocialStatus';
 import NamedContract from './components/sections/NamedContract/NamedContract';
 import { useSelector } from 'react-redux';
 import {
+  detailedCMOSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../reduxStore/slices/rb/selectors';
@@ -13,6 +14,7 @@ import {
 const PersonDocumentsForm: FC = (props) => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
   const policyKinds = useSelector(detailedPolicyKindsSelector);
+  const cmoTypes = useSelector(detailedCMOSelector);
 
   const getPolicyIdType = useCallback(
     (id: string) => {
@@ -38,6 +40,18 @@ const PersonDocumentsForm: FC = (props) => {
     [policyKinds],
   );
 
+  const getCmoType = useCallback(
+    (id: string) => {
+      const type = cmoTypes.find((item) => item.id === parseInt(id));
+      if (type) {
+        return type.name;
+      } else {
+        return '';
+      }
+    },
+    [cmoTypes],
+  );
+
   return (
     <div>
       <form className={'person-documents-form'}>
@@ -50,6 +64,7 @@ const PersonDocumentsForm: FC = (props) => {
         <Row>
           <Col span={24}>
             <PersonPolicy
+              getCmoTypeId={getCmoType}
               getPolicyKindId={getPolicyIdKind}
               getPolicyTypeId={getPolicyIdType}
             />

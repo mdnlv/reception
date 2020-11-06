@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd/lib';
 import Logo from '../../../assets/icons/app-logo.svg';
 import ExitIcon from '../../../assets/icons/exit.svg';
@@ -10,13 +10,25 @@ const AppHeaderBar: FC = (props) => {
   const navigation = useHistory();
   const [showNewAppointment, setShowAppointment] = useState(false);
 
-  const logoClickHandler = (e: React.SyntheticEvent<EventTarget>) => {
+  const logoClickHandler = useCallback(() => {
     navigation.push('/');
+  }, []);
+
+  const showAppointment = useCallback(() => {
+    setShowAppointment(!showNewAppointment);
+  }, []);
+
+  const goPath = (path: string) => {
+    navigation.push('/' + path);
   };
 
-  const showAppointment = (e?: React.SyntheticEvent<EventTarget>) => {
-    setShowAppointment(!showNewAppointment);
-  };
+  const onNewPatientClick = useCallback(() => {
+    goPath('regCard');
+  }, []);
+
+  const onInfoClick = useCallback(() => {
+    goPath('info');
+  }, []);
 
   return (
     <Row align="stretch">
@@ -45,20 +57,19 @@ const AppHeaderBar: FC = (props) => {
               <Button
                 size={'small'}
                 className="header__button"
-                onClick={() => {
-                  navigation.push('/regcard');
-                }}>
+                onClick={onNewPatientClick}>
                 Регистрационная карточка
               </Button>
-              <Button size={'small'} className="header__button">
+              <Button
+                onClick={onNewPatientClick}
+                size={'small'}
+                className="header__button">
                 Новый пациент
               </Button>
               <Button
                 size={'small'}
                 className="header__button"
-                onClick={() => {
-                  navigation.push('/info');
-                }}>
+                onClick={onInfoClick}>
                 Справка
               </Button>
             </Space>

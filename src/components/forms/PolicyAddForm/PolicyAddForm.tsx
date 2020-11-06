@@ -19,9 +19,11 @@ interface FormProps {
   policyKey: 'policyOms' | 'policyDms';
   policyTimeType: ListOptionItem[];
   policyType: ListOptionItem[];
+  cmoType: ListOptionItem[];
   onAddPolicy(policy: PassportPolicyType, type: 'oms' | 'dms'): void;
   onFindPolicy(policy: FindPolicyParams, type: 'oms' | 'dms'): void;
   isLoading: boolean;
+  isCmoLoading: boolean;
   foundPolicy?: PatientPolicy;
 }
 
@@ -173,7 +175,12 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row" gutter={16}>
             <Col span={14}>
               <FormField label="СМО" labelPosition="left">
-                <FastSearchSelect disabled={props.isLoading} name={'cmo'} />
+                <FastSearchSelect
+                  loading={props.isLoading || props.isCmoLoading}
+                  disabled={props.isLoading}
+                  name={'cmo'}>
+                  {getPropsOptions(props.cmoType)}
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={10}>

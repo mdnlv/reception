@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import { useSelector } from 'react-redux';
 import {
+  detailedCMOSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
@@ -17,6 +18,7 @@ const PersonDocuments: React.FC = (props) => {
 
   const policyTypes = useSelector(detailedPolicyTypesSelector);
   const policyKinds = useSelector(detailedPolicyKindsSelector);
+  const cmoTypes = useSelector(detailedCMOSelector);
 
   const getPolicyIdType = useCallback(
     (id: string) => {
@@ -28,6 +30,18 @@ const PersonDocuments: React.FC = (props) => {
       }
     },
     [policyTypes],
+  );
+
+  const getCmoType = useCallback(
+    (id: string) => {
+      const type = cmoTypes.find((item) => item.id === parseInt(id));
+      if (type) {
+        return type.name;
+      } else {
+        return '';
+      }
+    },
+    [cmoTypes],
   );
 
   const getPolicyIdKind = useCallback(
@@ -55,6 +69,7 @@ const PersonDocuments: React.FC = (props) => {
           <PersonPolicy
             getPolicyTypeId={getPolicyIdType}
             getPolicyKindId={getPolicyIdKind}
+            getCmoTypeId={getCmoType}
           />
         </Col>
       </Row>

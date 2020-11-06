@@ -11,6 +11,7 @@ import moment from 'moment';
 interface SectionProps {
   getPolicyKindId: (id: string) => string;
   getPolicyTypeId: (id: string) => string;
+  getCmoTypeId: (id: string) => string;
 }
 
 const PersonPolicy: FC<SectionProps> = (props) => {
@@ -70,7 +71,7 @@ const PersonPolicy: FC<SectionProps> = (props) => {
                 </Col>
                 <Col>
                   <FormField label={'СМО'}>
-                    <Input value={values.cmo} disabled />
+                    <Input value={props.getCmoTypeId(values.cmo)} disabled />
                   </FormField>
                 </Col>
                 <Col>

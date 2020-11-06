@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Person from '../../../types/data/Person';
 import EventType from '../../../types/data/EventType';
 import Organisation from '../../../types/data/Organisation';
@@ -62,6 +62,7 @@ export const fetchRbEventTypes = createAsyncThunk(
 export const fetchRbOrganisations = createAsyncThunk(
   'rb/fetchOrganisations',
   async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'organisations', value: true }));
     try {
       const response = await RbService.fetchOrganisation();
       if (response.data) {
@@ -70,6 +71,8 @@ export const fetchRbOrganisations = createAsyncThunk(
       }
     } catch (e) {
       thunkAPI.rejectWithValue(e);
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'organisations', value: false }));
     }
   },
 );
@@ -206,16 +209,22 @@ const rbSlice = createSlice({
     rbInvalidDocuments: [] as InvalidDocument[],
     rbAccountingSystem: [] as AccountingSystemItem[],
     rbAttachTypes: [] as AttachType[],
-    rbKladr: [] as KladrItem[],
     rbPolicyTypes: [] as PolicyType[],
     rbPolicyKinds: [] as PolicyKind[],
     rbContactTypes: [] as PatientContactType[],
     rbDocumentTypes: [] as PatientDocumentType[],
-    isLoadingKladr: false,
-    isLoadingKladrNested: false,
-    isLoadingKladrStreets: false,
+    loading: {
+      organisations: false,
+    },
   },
-  reducers: {},
+  reducers: {
+    setLoading: (
+      state,
+      action: PayloadAction<{ type: 'organisations'; value: boolean }>,
+    ) => {
+      state.loading[action.payload.type] = action.payload.value;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchRbPersons.fulfilled, (state, action) => {
       if (action.payload) {
@@ -275,4 +284,5 @@ const rbSlice = createSlice({
   },
 });
 
+export const { setLoading } = rbSlice.actions;
 export default rbSlice;
