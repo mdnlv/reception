@@ -19,13 +19,13 @@ const AttachmentsForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.attachments} onSubmit={() => {}}>
+    <Formik initialValues={store.form.attachments} onSubmit={() => {}}>
       {(formProps) => (
         <form className={'attachments-form'}>
           <div className="form-section">
             <DropDownContent title={'Прикреплениe'}>
               <FormArrayField
-                values={store.attachments.attachments}
+                values={store.form.attachments.attachments}
                 name={'attachments'}
                 renderChild={(key, index) => (
                   <Row gutter={16} key={key}>

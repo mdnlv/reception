@@ -14,7 +14,9 @@ const OutsideIdentificationForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.outsideIdentification} onSubmit={() => {}}>
+    <Formik
+      initialValues={store.form.outsideIdentification}
+      onSubmit={() => {}}>
       {(formProps) => (
         <div className={'form-section'}>
           <DropDownContent title={'Идентификаторы во внешних учетных системах'}>

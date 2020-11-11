@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Input, Row, Select, Space } from 'antd';
+import { Button, Col, Input, Row, Select, Space } from 'antd';
 import moment from 'moment';
 import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
@@ -21,7 +21,7 @@ interface SectionProps {
 const Policy: React.FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
-  const formValues = form.values.passportGeneral[props.policyKey];
+  const formValues = form.values.form.passportGeneral[props.policyKey];
   const sectionValuePath = `passportGeneral.${props.policyKey}`;
 
   const getPropsOptions = useCallback(

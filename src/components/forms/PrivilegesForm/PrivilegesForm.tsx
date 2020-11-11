@@ -11,7 +11,7 @@ const PrivilegesForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.privileges} onSubmit={() => {}}>
+    <Formik initialValues={store.form.privileges} onSubmit={() => {}}>
       <form className={'privileges-form'}>
         <Row>
           <Col span={24}>

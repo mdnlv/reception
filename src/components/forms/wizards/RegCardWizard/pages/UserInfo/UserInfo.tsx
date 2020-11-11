@@ -14,15 +14,15 @@ import {
 import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
-import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import { WizardStateType } from '../../types';
 
 const UserInfo: React.FC = () => {
-  const formProps = useFormikContext<RegistrationCardStateType>();
+  const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
   const sectionValuePath = `personal`;

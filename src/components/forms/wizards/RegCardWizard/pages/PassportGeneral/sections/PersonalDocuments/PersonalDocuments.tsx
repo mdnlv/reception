@@ -3,17 +3,17 @@ import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
 import FormField from '../../../../../../components/FormField/FormField';
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import { WizardStateType } from '../../../../types';
 
 interface SectionProps {
   documentTypes: { id: number; name: string }[];
 }
 
 const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
-  const form = useFormikContext<RegistrationCardStateType>();
+  const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
 

@@ -11,7 +11,7 @@ const EmploymentForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.employment} onSubmit={() => {}}>
+    <Formik initialValues={store.form.employment} onSubmit={() => {}}>
       <form className={'employment-form'}>
         <Row>
           <Col span={24}>

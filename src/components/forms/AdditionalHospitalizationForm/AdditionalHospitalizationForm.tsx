@@ -11,7 +11,9 @@ const AdditionalHospitalizationForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.additionalHospitalization} onSubmit={() => {}}>
+    <Formik
+      initialValues={store.form.additionalHospitalization}
+      onSubmit={() => {}}>
       {(formProps) => (
         <div className={'form-section'}>
           <DropDownContent title={'Дополнительная диспансеризация'}>

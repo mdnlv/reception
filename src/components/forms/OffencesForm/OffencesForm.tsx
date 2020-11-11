@@ -12,7 +12,7 @@ const OffencesForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.offences} onSubmit={() => {}}>
+    <Formik initialValues={store.form.offences} onSubmit={() => {}}>
       {(formProps) => (
         <form className={'offences-form'}>
           <div className={'form-section'}>

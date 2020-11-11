@@ -6,6 +6,7 @@ import FilterSearchPatientResponse from '../interfaces/responses/patients/filter
 import PatientPolicyResponse from '../interfaces/responses/patients/patientPolicy';
 import FindPolicyParams from '../interfaces/payloads/patients/findPatientPolicy';
 import moment from 'moment';
+import NewPatientPayload from '../interfaces/payloads/patients/newPatient';
 
 type FetchPatientsFilter = {
   id: string;
@@ -22,6 +23,10 @@ export default {
     return apiInstance.get(
       `/client/save?deleted=0&limit=${limit}&offset=${offset}`,
     );
+  },
+
+  savePatient(patient: NewPatientPayload) {
+    return apiInstance.post(`/client/save`, patient);
   },
 
   fetchIdPatient(id: number): Promise<AxiosResponse<PatientResponse[]>> {

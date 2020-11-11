@@ -66,8 +66,7 @@ export const fetchRbOrganisations = createAsyncThunk(
     try {
       const response = await RbService.fetchOrganisation();
       if (response.data) {
-        const formattedData = response.data;
-        return formattedData;
+        return response.data;
       }
     } catch (e) {
       thunkAPI.rejectWithValue(e);
@@ -238,7 +237,12 @@ const rbSlice = createSlice({
     });
     builder.addCase(fetchRbOrganisations.fulfilled, (state, action) => {
       if (action.payload) {
-        state.rbOrganisations = action.payload;
+        state.rbOrganisations = action.payload.map((item) => ({
+          id: item.id,
+          fullName: item.fullName,
+          shortName: item.shortName,
+          isInsurer: !!item.isInsurer,
+        }));
       }
     });
     builder.addCase(fetchRbInvalidReasons.fulfilled, (state, action) => {

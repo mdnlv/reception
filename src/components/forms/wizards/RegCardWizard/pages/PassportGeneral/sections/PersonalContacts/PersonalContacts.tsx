@@ -3,18 +3,18 @@ import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { PassportContactType } from '../../types';
 import FormField from '../../../../../../components/FormField/FormField';
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import PatientContactType from '../../../../../../../../types/data/PatientContactType';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import { WizardStateType } from '../../../../types';
 
 interface SectionProps {
   contactTypes: PatientContactType[];
 }
 
 const PersonalContacts: FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardStateType>();
+  const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
@@ -59,19 +59,13 @@ const PersonalContacts: FC<SectionProps> = (props) => {
   }, [form.values.passportGeneral.contacts]);
 
   const onRemoveContact = useCallback(() => {
-    if (
-      form.values.passportGeneral.contacts &&
-      form.values.passportGeneral.contacts.length > 0
-    ) {
+    if (formProps && formProps.length > 0) {
       form.setFieldValue(
         'passportGeneral.contacts',
-        form.values.passportGeneral.contacts.slice(
-          0,
-          form.values.passportGeneral.contacts.length - 1,
-        ),
+        formProps.slice(0, formProps.length - 1),
       );
     }
-  }, [form.values.passportGeneral.contacts]);
+  }, [formProps]);
 
   return (
     <div className={'form-section personal-contacts'}>

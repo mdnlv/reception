@@ -5,21 +5,25 @@ import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import { useDispatch, useSelector } from 'react-redux';
 import UserInfo from './pages/UserInfo/UserInfo';
 import './styles.scss';
-import { setFormSection } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import { RootState } from '../../../../reduxStore/store';
 import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
+import {
+  saveCardPatient,
+  setFormSection,
+} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 
 interface WizardProps {}
 
 const RegCardWizard: React.FC<WizardProps> = () => {
   const dispatch = useDispatch();
-  const store = useSelector((state: RootState) => state.registrationCard);
+  const store = useSelector((state: RootState) => state.registrationCard.form);
 
   return (
     <Formik
       initialValues={store}
       onSubmit={(values) => {
         dispatch(setFormSection(values));
+        dispatch(saveCardPatient());
       }}>
       {() => (
         <Row>

@@ -24,23 +24,23 @@ import {
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
-import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import { PassportPolicyType } from './types';
 import { useFormikContext } from 'formik';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
+import { WizardStateType } from '../../types';
 
 interface SectionProps {}
 
 const PassportGeneral: React.FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardStateType>();
+  const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
   const { dms, oms } = useSelector(
-    (state: RootState) => state.registrationCard.foundPolicies,
+    (state: RootState) => state.registrationCard.form.foundPolicies,
   );
 
   const {

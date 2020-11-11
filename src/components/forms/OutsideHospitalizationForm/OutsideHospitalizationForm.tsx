@@ -11,7 +11,9 @@ const OutsideHospitalizationForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.outsideHospitalization} onSubmit={() => {}}>
+    <Formik
+      initialValues={store.form.outsideHospitalization}
+      onSubmit={() => {}}>
       {(formProps) => (
         <form className={'outside-hospitalization-form'}>
           <div className={'form-section'}>

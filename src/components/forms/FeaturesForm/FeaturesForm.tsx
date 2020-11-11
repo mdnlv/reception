@@ -13,7 +13,7 @@ const FeaturesForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.features} onSubmit={() => {}}>
+    <Formik initialValues={store.form.features} onSubmit={() => {}}>
       <form className={'features-form'}>
         <Row>
           <Col span={24}>

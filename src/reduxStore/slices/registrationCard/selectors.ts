@@ -4,7 +4,7 @@ import { RootState } from '../../store';
 import { setFindPolicyLoading } from './registrationCardSlice';
 
 export const kladrSelector = createSelector(
-  (state: RootState) => state.registrationCard.data.passportGeneral,
+  (state: RootState) => state.registrationCard.form.data.passportGeneral,
   (data) => ({
     rbKladrDocumented: data.documentedAddress.kladr,
     rbKladrNestedDocumented: data.documentedAddress.kladrNested,
@@ -16,7 +16,7 @@ export const kladrSelector = createSelector(
 );
 
 export const kladrLoadingsSelector = createSelector(
-  (state: RootState) => state.registrationCard.data.passportGeneral,
+  (state: RootState) => state.registrationCard.form.data.passportGeneral,
   (data) => ({
     isLoadingKladrDocumented: data.documentedAddress.isKladrLoading,
     isLoadingKladrNestedDocumented: data.documentedAddress.isKladrNestedLoading,

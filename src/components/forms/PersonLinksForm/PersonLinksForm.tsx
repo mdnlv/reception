@@ -11,7 +11,7 @@ const PersonLinksForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.links} onSubmit={() => {}}>
+    <Formik initialValues={store.form.links} onSubmit={() => {}}>
       {(formProps) => (
         <form>
           <div className="form-section">

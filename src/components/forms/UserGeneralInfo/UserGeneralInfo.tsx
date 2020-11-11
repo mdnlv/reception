@@ -16,12 +16,12 @@ import FormField from '../components/FormField/FormField';
 import RadioGroup from 'antd/es/radio/group';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
-import { RegistrationCardStateType } from '../../../reduxStore/slices/registrationCard/initialState';
 import { useSelector } from 'react-redux';
 import { detailedPersonsSelector } from '../../../reduxStore/slices/rb/selectors';
+import { WizardStateType } from '../wizards/RegCardWizard/types';
 
 const UserGeneralInfo: FC = (props) => {
-  const formProps = useFormikContext<RegistrationCardStateType>();
+  const formProps = useFormikContext<WizardStateType>();
   const personsList = useSelector(detailedPersonsSelector);
 
   const personsOptions = personsList.map((item) => (

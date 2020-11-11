@@ -13,7 +13,7 @@ const SocialStatusForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.socialStatus} onSubmit={() => {}}>
+    <Formik initialValues={store.form.socialStatus} onSubmit={() => {}}>
       {() => (
         <form className={'social-status-form'}>
           <Row>

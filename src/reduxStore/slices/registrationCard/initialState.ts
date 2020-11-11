@@ -51,192 +51,201 @@ import PersonViewTypeFormState, {
 } from '../../../components/forms/PersonViewTypeForm/types';
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
-import Policy from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/sections/Policy/Policy';
 import PatientPolicy from '../../../types/data/PatientPolicy';
 
 export interface RegistrationCardStateType {
-  additionalHospitalization: AdditionalHospitalizationFormState;
-  attachments: AttachmentsFormState;
-  employment: EmploymentFormState;
-  etc: EtcFormState;
-  features: FeaturesFormState;
-  offences: OffencesFormState;
-  outsideHospitalization: OutsideHospitalizationFormState;
-  outsideIdentification: OutsideIdsFormState;
-  passportGeneral: PassportGeneralFormState;
-  personDocs: PersonDocsState;
-  links: LinksFormState;
-  privileges: PersonPrivilegesFormState;
-  quotas: {};
-  socialStatus: SocialStatusFormState;
-  viewTypes: PersonViewTypeFormState;
-  personal: {
-    firstName: string;
-    lastName: string;
-    patrName: string;
-    code: string;
-    birthDate: string;
-    birthTime: string;
-    height: number;
-    weight: number;
-    snils: string;
-    startCardDate: string;
-    sex: 0 | 1;
-    hasImplants: boolean;
-    hasProsthesis: boolean;
-    birthPlace: string;
-    hasCard: boolean;
-    onlyTempRegistration: boolean;
-    docPersonId: string;
+  loading: {
+    saveNewPatient: boolean;
   };
-  data: {
-    passportGeneral: {
-      documentedAddress: {
-        kladr: KladrItem[];
-        kladrNested: KladrItem[];
-        kladrStreets: KladrStreet[];
-        isKladrLoading: boolean;
-        isKladrNestedLoading: boolean;
-        isKladrStreetsLoading: boolean;
-      };
-      addressRegistration: {
-        kladr: KladrItem[];
-        kladrNested: KladrItem[];
-        kladrStreets: KladrStreet[];
-        isKladrLoading: boolean;
-        isKladrNestedLoading: boolean;
-        isKladrStreetsLoading: boolean;
+  form: {
+    additionalHospitalization: AdditionalHospitalizationFormState;
+    attachments: AttachmentsFormState;
+    employment: EmploymentFormState;
+    etc: EtcFormState;
+    features: FeaturesFormState;
+    offences: OffencesFormState;
+    outsideHospitalization: OutsideHospitalizationFormState;
+    outsideIdentification: OutsideIdsFormState;
+    passportGeneral: PassportGeneralFormState;
+    personDocs: PersonDocsState;
+    links: LinksFormState;
+    privileges: PersonPrivilegesFormState;
+    quotas: {};
+    socialStatus: SocialStatusFormState;
+    viewTypes: PersonViewTypeFormState;
+    personal: {
+      firstName: string;
+      lastName: string;
+      patrName: string;
+      code: string;
+      birthDate: string;
+      birthTime: string;
+      height: number;
+      weight: number;
+      snils: string;
+      startCardDate: string;
+      sex: 0 | 1;
+      hasImplants: boolean;
+      hasProsthesis: boolean;
+      birthPlace: string;
+      hasCard: boolean;
+      onlyTempRegistration: boolean;
+      docPersonId: string;
+    };
+    data: {
+      passportGeneral: {
+        documentedAddress: {
+          kladr: KladrItem[];
+          kladrNested: KladrItem[];
+          kladrStreets: KladrStreet[];
+          isKladrLoading: boolean;
+          isKladrNestedLoading: boolean;
+          isKladrStreetsLoading: boolean;
+        };
+        addressRegistration: {
+          kladr: KladrItem[];
+          kladrNested: KladrItem[];
+          kladrStreets: KladrStreet[];
+          isKladrLoading: boolean;
+          isKladrNestedLoading: boolean;
+          isKladrStreetsLoading: boolean;
+        };
       };
     };
-  };
-  foundPolicies: {
-    dms: { items: PatientPolicy[]; isLoading: boolean };
-    oms: { items: PatientPolicy[]; isLoading: boolean };
+    foundPolicies: {
+      dms: { items: PatientPolicy[]; isLoading: boolean };
+      oms: { items: PatientPolicy[]; isLoading: boolean };
+    };
   };
 }
 
 const initialState: RegistrationCardStateType = {
-  personal: {
-    firstName: '',
-    lastName: '',
-    patrName: '',
-    code: '',
-    birthPlace: '',
-    birthDate: '',
-    birthTime: '',
-    height: 0,
-    weight: 0,
-    snils: '',
-    hasImplants: false,
-    hasProsthesis: false,
-    sex: 0,
-    startCardDate: '',
-    hasCard: false,
-    onlyTempRegistration: false,
-    docPersonId: '',
+  loading: {
+    saveNewPatient: false,
   },
-  additionalHospitalization: {
-    hospitalizations: [] as PersonAddHospitalization[],
-  },
-  attachments: {
-    attachments: [] as PersonAttachment[],
-  },
-  employment: {
-    employments: [] as EmploymentItem[],
-    hazardHistory: [] as EmploymentHazardItem[],
-  },
-  etc: {
-    items: [] as EtcItem[],
-  },
-  features: {
-    features: [] as PersonFeatureItem[],
-    allergy: [] as PersonAllergyItem[],
-    medIntolerance: [] as MedIntoleranceItem[],
-    inspections: [] as InspectionItem[],
-    anthropometricDate: [] as AnthropometricDataItem[],
-  },
-  offences: {
-    offences: [] as PersonOffence[],
-  },
-  outsideHospitalization: {
-    outsideHospitalization: [] as PersonHospitalization[],
-  },
-  outsideIdentification: {
-    outsideIds: [] as PersonOutsideId[],
-  },
-  passportGeneral: {
-    passportInfo: {
-      passportType: '',
-      serial: '',
-      number: '',
-      fromDate: '',
-      givenBy: '',
-      addressRegistration: {
-        isKLADR: true,
-        city: '',
-        area: '',
-        street: '',
-        isDocumentedAddress: false,
-        freeInput: '',
-      },
-      documentedAddress: {
-        isKLADR: true,
-        city: '',
-        area: '',
-        street: '',
-        isDocumentedAddress: false,
-        freeInput: '',
-      },
+  form: {
+    personal: {
+      firstName: '',
+      lastName: '',
+      patrName: '',
+      code: '',
+      birthPlace: '',
+      birthDate: '',
+      birthTime: '',
+      height: 0,
+      weight: 0,
+      snils: '',
+      hasImplants: false,
+      hasProsthesis: false,
+      sex: 0,
+      startCardDate: '',
+      hasCard: false,
+      onlyTempRegistration: false,
+      docPersonId: '',
     },
-    contacts: [] as PassportContactType[],
-    policyOms: [],
-    policyDms: [],
-  },
-  personDocs: {
-    idDoc: [] as PassportDoc[],
-    policy: [] as PolicyDoc[],
-    socialStatus: [] as DocsSocialStatus[],
-    namedDoc: [] as NamedDoc[],
-  },
-  links: {
-    directLinks: [] as PersonLink[],
-    backLinks: [] as PersonLink[],
-  },
-  privileges: {
-    invalidity: [] as PrivilegeInvalidity[],
-    privileges: [] as PrivilegeItem[],
-  },
-  quotas: {},
-  socialStatus: {
-    socialStatus: [] as SocialStatus[],
-    trustedDoc: [] as TrustedDoc[],
-  },
-  viewTypes: {
-    viewTypes: [] as PersonViewType[],
-  },
-  data: {
+    additionalHospitalization: {
+      hospitalizations: [] as PersonAddHospitalization[],
+    },
+    attachments: {
+      attachments: [] as PersonAttachment[],
+    },
+    employment: {
+      employments: [] as EmploymentItem[],
+      hazardHistory: [] as EmploymentHazardItem[],
+    },
+    etc: {
+      items: [] as EtcItem[],
+    },
+    features: {
+      features: [] as PersonFeatureItem[],
+      allergy: [] as PersonAllergyItem[],
+      medIntolerance: [] as MedIntoleranceItem[],
+      inspections: [] as InspectionItem[],
+      anthropometricDate: [] as AnthropometricDataItem[],
+    },
+    offences: {
+      offences: [] as PersonOffence[],
+    },
+    outsideHospitalization: {
+      outsideHospitalization: [] as PersonHospitalization[],
+    },
+    outsideIdentification: {
+      outsideIds: [] as PersonOutsideId[],
+    },
     passportGeneral: {
-      documentedAddress: {
-        kladr: [] as KladrItem[],
-        kladrNested: [] as KladrItem[],
-        kladrStreets: [] as KladrStreet[],
-        isKladrLoading: false,
-        isKladrNestedLoading: false,
-        isKladrStreetsLoading: false,
+      passportInfo: {
+        passportType: '',
+        serial: '',
+        number: '',
+        fromDate: '',
+        givenBy: '',
+        addressRegistration: {
+          isKLADR: true,
+          city: '',
+          area: '',
+          street: '',
+          isDocumentedAddress: false,
+          freeInput: '',
+        },
+        documentedAddress: {
+          isKLADR: true,
+          city: '',
+          area: '',
+          street: '',
+          isDocumentedAddress: false,
+          freeInput: '',
+        },
       },
-      addressRegistration: {
-        kladr: [] as KladrItem[],
-        kladrNested: [] as KladrItem[],
-        kladrStreets: [] as KladrStreet[],
-        isKladrLoading: false,
-        isKladrNestedLoading: false,
-        isKladrStreetsLoading: false,
+      contacts: [] as PassportContactType[],
+      policyOms: [],
+      policyDms: [],
+    },
+    personDocs: {
+      idDoc: [] as PassportDoc[],
+      policy: [] as PolicyDoc[],
+      socialStatus: [] as DocsSocialStatus[],
+      namedDoc: [] as NamedDoc[],
+    },
+    links: {
+      directLinks: [] as PersonLink[],
+      backLinks: [] as PersonLink[],
+    },
+    privileges: {
+      invalidity: [] as PrivilegeInvalidity[],
+      privileges: [] as PrivilegeItem[],
+    },
+    quotas: {},
+    socialStatus: {
+      socialStatus: [] as SocialStatus[],
+      trustedDoc: [] as TrustedDoc[],
+    },
+    viewTypes: {
+      viewTypes: [] as PersonViewType[],
+    },
+    data: {
+      passportGeneral: {
+        documentedAddress: {
+          kladr: [] as KladrItem[],
+          kladrNested: [] as KladrItem[],
+          kladrStreets: [] as KladrStreet[],
+          isKladrLoading: false,
+          isKladrNestedLoading: false,
+          isKladrStreetsLoading: false,
+        },
+        addressRegistration: {
+          kladr: [] as KladrItem[],
+          kladrNested: [] as KladrItem[],
+          kladrStreets: [] as KladrStreet[],
+          isKladrLoading: false,
+          isKladrNestedLoading: false,
+          isKladrStreetsLoading: false,
+        },
       },
     },
-  },
-  foundPolicies: {
-    dms: { items: [] as PatientPolicy[], isLoading: false },
-    oms: { items: [] as PatientPolicy[], isLoading: false },
+    foundPolicies: {
+      dms: { items: [] as PatientPolicy[], isLoading: false },
+      oms: { items: [] as PatientPolicy[], isLoading: false },
+    },
   },
 };
 

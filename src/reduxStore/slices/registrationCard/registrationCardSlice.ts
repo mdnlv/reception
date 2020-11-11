@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import initialState, { RegistrationCardStateType } from './initialState';
+import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import PatientsService from '../../../services/PatientsService';
 import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
+import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
+import { RootState } from '../../store';
+import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
 
 export type KladrDocType = 'documented' | 'registration';
 
@@ -97,31 +100,114 @@ export const findPatientPolicy = createAsyncThunk(
   },
 );
 
+export const saveCardPatient = createAsyncThunk(
+  'registrationCard/saveCardPatient',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const {
+        passportType,
+        serial,
+        number,
+        fromDate,
+        givenBy,
+        documentedAddress,
+        addressRegistration,
+      } = state.registrationCard.form.passportGeneral.passportInfo;
+      const {
+        firstName,
+        lastName,
+        patrName,
+        birthPlace,
+        birthDate,
+        birthTime,
+        sex,
+        snils,
+        weight,
+        height,
+      } = state.registrationCard.form.personal;
+      const payload: NewPatientPayload = {
+        firstName,
+        lastName,
+        patrName,
+        birthPlace,
+        birthDate,
+        birthTime,
+        sex: sex === 0 ? 1 : 2,
+        SNILS: snils,
+        weight: weight.toString(),
+        growth: height.toString(),
+
+        client_document_info: {
+          documentType_id: passportType,
+          serial,
+          number,
+          date: fromDate,
+          origin: givenBy,
+          endDate: '',
+        },
+
+        client_address_info: [
+          {
+            address: {
+              KLADRCode: addressRegistration.city,
+              KLADRStreetCode: addressRegistration.street,
+              number: addressRegistration.houseNumber?.toString() || '',
+              corpus: '',
+              litera: addressRegistration.houseCharacter?.toString() || '',
+            },
+            type: 0,
+          },
+          {
+            address: {
+              KLADRCode: addressRegistration.city,
+              KLADRStreetCode: addressRegistration.street,
+              number: addressRegistration.houseNumber?.toString() || '',
+              corpus: '',
+              litera: addressRegistration.houseCharacter?.toString() || '',
+            },
+            type: 1,
+          },
+        ],
+      };
+      await PatientsService.savePatient(payload);
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: false }));
+    }
+  },
+);
+
 const registrationCardSlice = createSlice({
   name: 'registrationCard',
   initialState: initialState,
   reducers: {
-    setFormSection: (
+    setFormSection: (state, action: PayloadAction<WizardStateType>) => {
+      state.form = action.payload;
+    },
+    setLoading: (
       state,
-      action: PayloadAction<RegistrationCardStateType>,
+      action: PayloadAction<{ value: boolean; type: 'saveNewPatient' }>,
     ) => {
-      state = { ...action.payload };
+      state.loading[action.payload.type] = action.payload.value;
     },
     setFindPolicyLoading: (
       state,
       action: PayloadAction<{ value: boolean; type: 'oms' | 'dms' }>,
     ) => {
-      state.foundPolicies[action.payload.type].isLoading = action.payload.value;
+      state.form.foundPolicies[action.payload.type].isLoading =
+        action.payload.value;
     },
     setKladrLoading: (
       state,
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
       if (action.payload.type === 'documented') {
-        state.data.passportGeneral.documentedAddress.isKladrLoading =
+        state.form.data.passportGeneral.documentedAddress.isKladrLoading =
           action.payload.value;
       } else {
-        state.data.passportGeneral.addressRegistration.isKladrLoading =
+        state.form.data.passportGeneral.addressRegistration.isKladrLoading =
           action.payload.value;
       }
     },
@@ -130,10 +216,10 @@ const registrationCardSlice = createSlice({
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
       if (action.type === 'documented') {
-        state.data.passportGeneral.documentedAddress.isKladrNestedLoading =
+        state.form.data.passportGeneral.documentedAddress.isKladrNestedLoading =
           action.payload.value;
       } else {
-        state.data.passportGeneral.addressRegistration.isKladrNestedLoading =
+        state.form.data.passportGeneral.addressRegistration.isKladrNestedLoading =
           action.payload.value;
       }
     },
@@ -142,10 +228,10 @@ const registrationCardSlice = createSlice({
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
       if (action.type === 'documented') {
-        state.data.passportGeneral.documentedAddress.isKladrStreetsLoading =
+        state.form.data.passportGeneral.documentedAddress.isKladrStreetsLoading =
           action.payload.value;
       } else {
-        state.data.passportGeneral.addressRegistration.isKladrStreetsLoading =
+        state.form.data.passportGeneral.addressRegistration.isKladrStreetsLoading =
           action.payload.value;
       }
     },
@@ -153,8 +239,8 @@ const registrationCardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchKladr.fulfilled, (state, action) => {
       if (action.payload?.type === 'documented' && action.payload.items) {
-        state.data.passportGeneral.documentedAddress = {
-          ...state.data.passportGeneral.documentedAddress,
+        state.form.data.passportGeneral.documentedAddress = {
+          ...state.form.data.passportGeneral.documentedAddress,
           kladr: action.payload.items,
           kladrNested: [],
           kladrStreets: [],
@@ -163,39 +249,39 @@ const registrationCardSlice = createSlice({
         action.payload?.type === 'registration' &&
         action.payload.items
       ) {
-        state.data.passportGeneral.addressRegistration = {
-          ...state.data.passportGeneral.addressRegistration,
+        state.form.data.passportGeneral.addressRegistration = {
+          ...state.form.data.passportGeneral.addressRegistration,
           kladr: action.payload.items,
           kladrNested: [],
           kladrStreets: [],
         };
       } else if (action.payload?.items) {
-        state.data.passportGeneral.documentedAddress = {
-          ...state.data.passportGeneral.documentedAddress,
+        state.form.data.passportGeneral.documentedAddress = {
+          ...state.form.data.passportGeneral.documentedAddress,
           kladr: action.payload.items,
         };
-        state.data.passportGeneral.addressRegistration = {
-          ...state.data.passportGeneral.addressRegistration,
+        state.form.data.passportGeneral.addressRegistration = {
+          ...state.form.data.passportGeneral.addressRegistration,
           kladr: action.payload.items,
         };
       }
     });
     builder.addCase(fetchKladrStreets.fulfilled, (state, action) => {
       if (action.payload?.type === 'documented' && action.payload.items) {
-        state.data.passportGeneral.documentedAddress.kladrStreets =
+        state.form.data.passportGeneral.documentedAddress.kladrStreets =
           action.payload.items;
       } else if (
         action.payload?.type === 'registration' &&
         action.payload.items
       ) {
-        state.data.passportGeneral.addressRegistration.kladrStreets =
+        state.form.data.passportGeneral.addressRegistration.kladrStreets =
           action.payload.items;
       }
     });
     builder.addCase(fetchKladrNested.fulfilled, (state, action) => {
       if (action.payload?.type === 'documented' && action.payload.items) {
-        state.data.passportGeneral.documentedAddress = {
-          ...state.data.passportGeneral.documentedAddress,
+        state.form.data.passportGeneral.documentedAddress = {
+          ...state.form.data.passportGeneral.documentedAddress,
           kladrNested: action.payload.items,
           kladrStreets: [],
         };
@@ -203,8 +289,8 @@ const registrationCardSlice = createSlice({
         action.payload?.type === 'registration' &&
         action.payload.items
       ) {
-        state.data.passportGeneral.addressRegistration = {
-          ...state.data.passportGeneral.addressRegistration,
+        state.form.data.passportGeneral.addressRegistration = {
+          ...state.form.data.passportGeneral.addressRegistration,
           kladrNested: action.payload.items,
           kladrStreets: [],
         };
@@ -212,11 +298,11 @@ const registrationCardSlice = createSlice({
     });
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload && action.payload.type === 'oms') {
-        state.foundPolicies.oms.items = [
+        state.form.foundPolicies.oms.items = [
           transformPolicyResponse(action.payload.data),
         ];
       } else if (action.payload?.type === 'dms') {
-        state.foundPolicies.dms.items = [
+        state.form.foundPolicies.dms.items = [
           transformPolicyResponse(action.payload.data),
         ];
       }
@@ -230,6 +316,7 @@ export const {
   setKladrNestedLoading,
   setKladrStreetsLodaing,
   setFindPolicyLoading,
+  setLoading,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;

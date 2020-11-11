@@ -14,7 +14,7 @@ const EtcForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (
-    <Formik initialValues={store.etc} onSubmit={() => {}}>
+    <Formik initialValues={store.form.etc} onSubmit={() => {}}>
       {(formProps) => (
         <form className={'etc-form'}>
           <div className="form-section">

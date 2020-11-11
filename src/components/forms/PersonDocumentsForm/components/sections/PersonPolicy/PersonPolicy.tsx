@@ -3,10 +3,10 @@ import { Col, Divider, Input, Row } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import { useFormikContext } from 'formik';
-import { RegistrationCardStateType } from '../../../../../../reduxStore/slices/registrationCard/initialState';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 import moment from 'moment';
+import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
 
 interface SectionProps {
   getPolicyKindId: (id: string) => string;
@@ -15,7 +15,7 @@ interface SectionProps {
 }
 
 const PersonPolicy: FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardStateType>();
+  const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
 
@@ -26,8 +26,8 @@ const PersonPolicy: FC<SectionProps> = (props) => {
           name={'passportGeneral'}
           values={[...formValues.policyOms, ...formValues.policyDms]}
           renderChild={(values, index) => (
-            <>
-              <Row key={index} gutter={16}>
+            <Row key={index}>
+              <Row gutter={16}>
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
@@ -86,7 +86,7 @@ const PersonPolicy: FC<SectionProps> = (props) => {
                 </Col>
               </Row>
               <Divider />
-            </>
+            </Row>
           )}
         />
       </DropDownContent>

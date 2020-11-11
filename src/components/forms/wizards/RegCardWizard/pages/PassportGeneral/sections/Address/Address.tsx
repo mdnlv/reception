@@ -6,6 +6,7 @@ import { KladrDocType } from '../../../../../../../../reduxStore/slices/registra
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import { WizardStateType } from '../../../../types';
 
 interface KladrItem {
   id: string;
@@ -30,7 +31,7 @@ interface SectionProps {
 }
 
 const Address: FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardStateType>();
+  const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;
