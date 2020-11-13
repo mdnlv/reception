@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import ScheduleService from '../../../services/ScheduleService';
 import Schedule from '../../../types/data/Schedule';
+import exampleData from './exampleData';
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
@@ -47,7 +48,7 @@ export const fetchPersonsSchedule = createAsyncThunk(
 const scheduleSlice = createSlice({
   name: 'schedule',
   initialState: {
-    schedules: [],
+    schedules: exampleData,
     isLoading: false,
   },
   reducers: {

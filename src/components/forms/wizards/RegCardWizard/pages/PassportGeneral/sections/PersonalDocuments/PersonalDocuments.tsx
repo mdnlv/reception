@@ -12,6 +12,14 @@ interface SectionProps {
   documentTypes: { id: number; name: string }[];
 }
 
+enum LABELS {
+  PASSPORT = 'Паспорт',
+  SERIAL = 'Серия',
+  NUMBER = 'Номер',
+  GIVEN_DATE = 'Дата выдачи',
+  GIVEN_BY = 'Кем выдан',
+}
+
 const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
@@ -30,24 +38,24 @@ const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
       <h2>Документ</h2>
       <Row gutter={16}>
         <Col span={8}>
-          <FormField label="Паспорт">
+          <FormField label={LABELS.PASSPORT}>
             <FastSearchSelect name={`${selectionValuePath}.passportType`}>
               {documentTypeOptions}
             </FastSearchSelect>
           </FormField>
         </Col>
         <Col span={5}>
-          <FormField label="Серия">
+          <FormField label={LABELS.SERIAL}>
             <FastInput name={`${selectionValuePath}.serial`} />
           </FormField>
         </Col>
         <Col span={7}>
-          <FormField label="Номер">
+          <FormField label={LABELS.NUMBER}>
             <FastInput name={`${selectionValuePath}.number`} />
           </FormField>
         </Col>
         <Col span={4}>
-          <FormField label="Дата выдачи">
+          <FormField label={LABELS.GIVEN_DATE}>
             <FastDatePicker
               name={`${selectionValuePath}.fromDate`}
               value={
@@ -59,7 +67,7 @@ const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <FormField label="Кем выдан">
+          <FormField label={LABELS.GIVEN_BY}>
             <FastInput name={`${selectionValuePath}.givenBy`} />
           </FormField>
         </Col>

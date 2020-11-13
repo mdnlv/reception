@@ -1,0 +1,49 @@
+import React from 'react';
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
+import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
+import { Col, DatePicker, Row, Select } from 'antd';
+import FormField from '../../../../components/FormField/FormField';
+
+const DROPDOWN_TITLE = 'Идентификаторы во внешних учетных системах';
+
+enum LABELS {
+  OUTSIDE_IDENTS = 'Идентификаторы во внешних учетных системах',
+  IDENTS = 'Идентификаторы',
+  DATE = 'Дата подтверждения',
+}
+
+const OutsideIdent: React.FC = () => {
+  return (
+    <form className={'wizard-step outside-ident-form'}>
+      <div className={'form-section'}>
+        <DropDownContent title={DROPDOWN_TITLE}>
+          <FormArrayField
+            values={[]}
+            name={'outsideIds'}
+            renderChild={(key, index) => (
+              <Row key={index} align={'bottom'} gutter={16}>
+                <Col span={5}>
+                  <FormField label={LABELS.OUTSIDE_IDENTS}>
+                    <Select />
+                  </FormField>
+                </Col>
+                <Col span={5}>
+                  <FormField label={LABELS.IDENTS}>
+                    <Select />
+                  </FormField>
+                </Col>
+                <Col span={3}>
+                  <FormField label={LABELS.DATE}>
+                    <DatePicker />
+                  </FormField>
+                </Col>
+              </Row>
+            )}
+          />
+        </DropDownContent>
+      </div>
+    </form>
+  );
+};
+
+export default OutsideIdent;

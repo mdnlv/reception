@@ -13,6 +13,13 @@ interface SectionProps {
   contactTypes: PatientContactType[];
 }
 
+enum LABELS {
+  MAIN = 'Основной',
+  TYPE = 'Тип',
+  NUMBER = 'Номер',
+  NOTE = 'Примечание',
+}
+
 const PersonalContacts: FC<SectionProps> = (props) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
@@ -79,7 +86,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
         renderChild={(key, index) => (
           <Row gutter={16} key={index}>
             <Col span={3}>
-              <FormField label="Основной">
+              <FormField label={LABELS.MAIN}>
                 <div className="center-wrapper">
                   <Checkbox
                     name={getSelectionItem(index, 'isMain')}
@@ -90,7 +97,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
               </FormField>
             </Col>
             <Col span={6}>
-              <FormField label="Номер">
+              <FormField label={LABELS.NUMBER}>
                 {getTypeInput(
                   index,
                   findMaskByType(parseInt(formProps[index]?.type)),
@@ -98,7 +105,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
               </FormField>
             </Col>
             <Col span={5}>
-              <FormField label="Тип">
+              <FormField label={LABELS.TYPE}>
                 <Select
                   value={formProps[index]?.type}
                   onChange={(val) => {
@@ -109,7 +116,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
               </FormField>
             </Col>
             <Col span={10}>
-              <FormField label="Примечания">
+              <FormField label={LABELS.NOTE}>
                 <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>
             </Col>

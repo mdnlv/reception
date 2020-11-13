@@ -10,12 +10,14 @@ import { RootState } from '../../reduxStore/store';
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
 
 const MainPage: FC = () => {
   const dispatch = useDispatch();
   const [showUserInfo, setShowInfo] = useState(false);
 
   //selectors
+  const schedules = useSelector(detailedSchedules);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
@@ -62,7 +64,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ScheduleTable />
+          <ScheduleTable schedules={schedules} />
         </Col>
       </Row>
     </div>

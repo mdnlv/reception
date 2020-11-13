@@ -18,6 +18,16 @@ interface SectionProps {
   policyType: ListOptionItem[];
 }
 
+enum LABELS {
+  FROM = 'С',
+  TO = 'До',
+  SERIAL = 'Серия',
+  NUMBER = 'Номер',
+  CMO = 'СМО',
+  NAME = 'Название',
+  NOTE = 'Примечание',
+}
+
 const Policy: React.FC<SectionProps> = (props) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
@@ -58,7 +68,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           </FormField>
         </Col>
         <Col span={5}>
-          <FormField label={'С'}>
+          <FormField label={LABELS.FROM}>
             <FastDatePicker
               value={
                 formValues[0].from ? moment(formValues[0].from) : undefined
@@ -68,7 +78,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           </FormField>
         </Col>
         <Col span={5}>
-          <FormField label={'До'}>
+          <FormField label={LABELS.TO}>
             <FastDatePicker
               value={formValues[0].to ? moment(formValues[0].to) : undefined}
               name={`${sectionValuePath}.to`}
@@ -78,7 +88,7 @@ const Policy: React.FC<SectionProps> = (props) => {
       </Row>
       <Row className="form-row" gutter={16}>
         <Col span={6}>
-          <FormField label={'Серия'}>
+          <FormField label={LABELS.SERIAL}>
             <Input
               name={`${sectionValuePath}.serial`}
               value={formValues[0].serial}
@@ -87,7 +97,7 @@ const Policy: React.FC<SectionProps> = (props) => {
           </FormField>
         </Col>
         <Col span={18}>
-          <FormField label={'Номер'}>
+          <FormField label={LABELS.NUMBER}>
             <Input
               name={`${sectionValuePath}.number`}
               value={formValues[0].number}
@@ -98,7 +108,7 @@ const Policy: React.FC<SectionProps> = (props) => {
       </Row>
       <Row className="form-row" gutter={16}>
         <Col span={14}>
-          <FormField label="СМО" labelPosition="left">
+          <FormField label={LABELS.CMO} labelPosition="left">
             <Select />
           </FormField>
         </Col>
@@ -116,7 +126,7 @@ const Policy: React.FC<SectionProps> = (props) => {
       </Row>
       <Row className="form-row">
         <Col span={24}>
-          <FormField labelPosition="left" label="Название">
+          <FormField labelPosition="left" label={LABELS.NAME}>
             <Input
               name={`${sectionValuePath}.name`}
               value={formValues[0].name}
@@ -127,7 +137,7 @@ const Policy: React.FC<SectionProps> = (props) => {
       </Row>
       <Row className="form-row">
         <Col span={24}>
-          <FormField labelPosition="left" label="Примечание">
+          <FormField labelPosition="left" label={LABELS.NOTE}>
             <Input
               name={`${sectionValuePath}.note`}
               value={formValues[0].note}

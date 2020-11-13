@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
 import data from './data';
 import './styles.scss';
@@ -8,14 +8,33 @@ import { addDays, eachDayOfInterval } from 'date-fns';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import { ScheduleTableModeType } from './types';
+import Schedule from '../../../types/data/Schedule';
 
-interface ScheduleTableProps {}
+interface ScheduleTableSchedule {
+  id: number;
+  personName: string;
+  planned: number;
+  items: {
+    [k: string]: {
+      clientId: number;
+      name: string;
+    };
+  };
+}
+
+interface ScheduleTableProps {
+  schedules: ScheduleTableSchedule[];
+}
 
 const ScheduleTable: React.FC<ScheduleTableProps> = (props) => {
   const [mode, setMode] = useState<ScheduleTableModeType>('day');
   const [selected, setSelected] = useState<number[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(new Date(), 14));
+
+  useEffect(() => {
+    console.log(props.schedules);
+  }, [props.schedules]);
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -86,7 +105,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = (props) => {
           rangeWeekNum={rangeWeekNum}
           onToggleRow={onToggleScheduleRow}
           onNewScheduleItem={onNewScheduleItem}
-          list={data}
+          list={props.schedules}
           mode={mode}
         />
       </Row>
