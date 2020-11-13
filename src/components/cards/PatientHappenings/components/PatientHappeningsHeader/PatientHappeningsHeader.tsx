@@ -5,16 +5,11 @@ import {
   DownloadOutlined,
   PlusOutlined,
 } from '@ant-design/icons/lib';
+
 import './styles.scss';
+import {HeaderProps} from "./types";
 
-type HeaderProps = {
-  selectedHappening?: number;
-  uploadDoc(): void;
-  onInputChange(query: string): void;
-  searchQuery: string;
-};
-
-const PatientHappeningsHeader: React.FC<HeaderProps> = (props) => {
+const PatientHappeningsHeader: React.FC<HeaderProps> = ({selectedHappening, uploadDoc, onInputChange, searchQuery}) => {
   return (
     <Row
       justify={'space-between'}
@@ -23,19 +18,19 @@ const PatientHappeningsHeader: React.FC<HeaderProps> = (props) => {
       <Col span={8}>
         <Input
           size={'small'}
-          value={props.searchQuery}
+          value={searchQuery}
           onChange={(event) => {
-            props.onInputChange(event.target.value);
+            onInputChange(event.target.value);
           }}
         />
       </Col>
-      {props.selectedHappening && (
+      {selectedHappening && (
         <Col span={10}>
           <Row justify={'end'}>
             <Button
               type={'primary'}
               onClick={() => {
-                props.uploadDoc();
+                uploadDoc();
               }}
               className={'save-btn header-actions__item'}
               icon={<PlusOutlined />}>

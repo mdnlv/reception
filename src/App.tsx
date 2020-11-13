@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Col, Layout, Row } from 'antd/lib';
-import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
-import AppRouter from './router/router';
-import SideMenu from './components/elements/SideMenu/SideMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import useInitialFetch from './reduxStore/hooks/initialFetch';
 
-function App() {
+import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
+import AppRouter from './router/AppRouter';
+import SideMenu from './components/elements/SideMenu/SideMenu';
+
+const App = () => {
   const initialFetch = useInitialFetch();
 
   useEffect(() => {
@@ -32,6 +34,6 @@ function App() {
       </Layout>
     </Router>
   );
-}
+};
 
 export default App;

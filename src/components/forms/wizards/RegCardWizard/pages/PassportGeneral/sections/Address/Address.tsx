@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from 'react';
 import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import FormField from '../../../../../../components/FormField/FormField';
+
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import { WizardStateType } from '../../../../types';
+
+import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import { WizardStateType } from '../../../../types';
 
 interface KladrItem {
   id: string;
@@ -30,7 +31,17 @@ interface SectionProps {
   getKladrStreets(id: string, type: KladrDocType): void;
 }
 
-const Address: FC<SectionProps> = (props) => {
+const Address: FC<SectionProps> = ({
+  passportType,
+  kladr,
+  nestedKladr,
+  kladrStreets,
+  isLoadingKladr,
+  isLoadingKladrNested,
+  isLoadingKladrStreets,
+  getKladrNested,
+  getKladrStreets
+}) => {
   const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;

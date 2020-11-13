@@ -1,5 +1,6 @@
 import React from 'react'
 import {Button, Modal, Row} from "antd";
+
 import NewAppointmentForm from "../../forms/NewAppointmentForm/NewAppoinmentForm";
 
 type AppointmentProps = {
@@ -8,19 +9,19 @@ type AppointmentProps = {
     onSubmit?(): void
 }
 
-const NewAppointment: React.FC<AppointmentProps> = (props) => {
+const NewAppointment: React.FC<AppointmentProps> = ({isVisible, onClose, onSubmit}) => {
     return (
         <Modal
             wrapClassName={'app-modal'}
-            onCancel={props.onClose}
-            onOk={props.onClose}
-            visible={props.isVisible}
+            onCancel={onClose}
+            onOk={onClose}
+            visible={isVisible}
             title={'Записать на прием'}
             footer={<Row justify={'end'}>
-                <Button type="primary" onClick={props.onClose} danger>
+                <Button type="primary" onClick={onClose} danger>
                     Отмена
                 </Button>
-                <Button type="primary" onClick={props.onClose} className={'save-btn'}>
+                <Button type="primary" onClick={onClose} className={'save-btn'}>
                     Записать
                 </Button>
             </Row>}

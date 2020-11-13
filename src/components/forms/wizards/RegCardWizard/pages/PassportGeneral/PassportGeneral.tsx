@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import KladrItem from '../../../../../../types/data/KladrItem';
 import { Col, Divider, Row } from 'antd';
-import Address from './sections/Address/Address';
-import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
-import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
+import { useFormikContext } from 'formik';
+
 import {
   fetchKladr,
   fetchKladrNested,
@@ -23,16 +21,20 @@ import {
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
-import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
+import KladrItem from '../../../../../../types/data/KladrItem';
 import { PassportPolicyType } from './types';
-import { useFormikContext } from 'formik';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { WizardStateType } from '../../types';
 
+import Address from './sections/Address/Address';
+import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
+import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
+import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
+
 interface SectionProps {}
 
-const PassportGeneral: React.FC<SectionProps> = (props) => {
+const PassportGeneral: React.FC<SectionProps> = () => {
   const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
 
@@ -67,7 +69,7 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   const cmoTypeList = useSelector(detailedCMOSelector);
   const { organisations } = useSelector((state: RootState) => state.rb.loading);
 
-  function fetchNestedKladr(id: string, type: KladrDocType) {
+  const fetchNestedKladr = (id: string, type: KladrDocType) => {
     let rbKladrItem: KladrItem | undefined;
 
     switch (type) {
@@ -84,11 +86,11 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
     }
   }
 
-  function fetchKladrStreetsItems(id: string, type: KladrDocType) {
+  const fetchKladrStreetsItems = (id: string, type: KladrDocType) => {
     dispatch(fetchKladrStreets({ id, type }));
   }
 
-  function onAddPolicy(policy: PassportPolicyType, type: 'oms' | 'dms') {
+  const onAddPolicy = (policy: PassportPolicyType, type: 'oms' | 'dms') => {
     let policyItems: PassportPolicyType[] = [] as PassportPolicyType[];
     switch (type) {
       case 'dms':
@@ -103,7 +105,7 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
     form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
   }
 
-  function onFindPatientPolicy(payload: FindPolicyParams, type: 'oms' | 'dms') {
+  const onFindPatientPolicy = (payload: FindPolicyParams, type: 'oms' | 'dms') => {
     dispatch(findPatientPolicy({ params: payload, type }));
   }
 

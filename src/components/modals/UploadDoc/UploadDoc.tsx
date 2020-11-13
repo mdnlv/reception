@@ -1,18 +1,14 @@
 import React from 'react'
 import {Modal, Upload, } from "antd";
 import {InboxOutlined} from "@ant-design/icons/lib";
-import './styles.scss'
 import {UploadChangeParam} from "antd/es/upload";
+
+import './styles.scss'
+import {ModalProps} from "./types";
 
 const { Dragger } = Upload;
 
-type ModalProps = {
-    isVisible: boolean
-    onClose(): void
-}
-
-const UploadDoc: React.FC<ModalProps> = (props) => {    
-
+const UploadDoc: React.FC<ModalProps> = ({isVisible, onClose}) => {
     const onUploadChange = (info: UploadChangeParam) => {
         console.log(info.file)
     }
@@ -20,8 +16,8 @@ const UploadDoc: React.FC<ModalProps> = (props) => {
     return (
         <Modal
             className={'upload-doc-modal'}
-            visible={props.isVisible}
-            onCancel={props.onClose}
+            visible={isVisible}
+            onCancel={onClose}
             footer={null}
             closable={false}
         >

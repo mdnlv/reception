@@ -1,9 +1,11 @@
 import React, { FC, useCallback, useState } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd/lib';
+import { useHistory } from 'react-router-dom';
+
 import Logo from '../../../assets/icons/app-logo.svg';
 import ExitIcon from '../../../assets/icons/exit.svg';
 import './styles.scss';
-import { useHistory } from 'react-router-dom';
+
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 
 const AppHeaderBar: FC = (props) => {

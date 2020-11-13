@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import './styles.scss';
 
 type FieldProps = {
@@ -7,38 +8,38 @@ type FieldProps = {
   error?: string;
 };
 
-const FormField: FC<FieldProps> = (props) => {
-  function getFieldLabel() {
-    if (!props.label) {
+const FormField: FC<FieldProps> = ({label, labelPosition, error, children}) => {
+  const getFieldLabel = () => {
+    if (!label) {
       return null;
     } else {
       let className = '';
-      if (props.labelPosition === 'left') {
+      if (labelPosition === 'left') {
         className = 'form-field__label--left';
       }
 
       return (
         <label className={`form-field__label ${className}`}>
-          {props.label}
+          {label}
         </label>
       );
     }
   }
 
-  function getFormBody() {
+  const getFormBody = () => {
     return (
       <div
-        className={`form-field__body form-field__body--${props.labelPosition}`}>
+        className={`form-field__body form-field__body--${labelPosition}`}>
         {getFieldLabel()}
-        <div className="form-field__content">{props.children}</div>
+        <div className="form-field__content">{children}</div>
         {getFormError()}
       </div>
     );
   }
 
-  function getFormError() {
-    if (props.error) {
-      return <div className={'form-field__error'}>{props.error}</div>;
+  const getFormError = () => {
+    if (error) {
+      return <div className={'form-field__error'}>{error}</div>;
     } else return null;
   }
 
