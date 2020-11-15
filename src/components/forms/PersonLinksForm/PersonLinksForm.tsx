@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
-import DropDownContent from '../../elements/DropDownContent/DropDownContent';
 import { Col, Divider, Row, Select } from 'antd';
-import FormField from '../components/FormField/FormField';
-import FormArrayField from '../components/FormArrayField/FormArrayField';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '../../../reduxStore/store';
 
-const PersonLinksForm: FC = (props) => {
+import DropDownContent from '../../elements/DropDownContent/DropDownContent';
+import FormField from '../components/FormField/FormField';
+import FormArrayField from '../components/FormArrayField/FormArrayField';
+
+const PersonLinksForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

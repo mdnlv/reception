@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd/lib';
+
+import {SectionProps} from "./types";
+
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-
-interface SectionProps {
-  accountTypes: { id: number; name: string }[];
-}
 
 const OutsideIdn: React.FC<SectionProps> = ({ accountTypes }) => {
   const accountTypesOptions = useCallback(() => {

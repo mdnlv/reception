@@ -1,20 +1,18 @@
 import React, { useCallback } from 'react';
 import { Checkbox, Col, DatePicker, Row, Select } from 'antd/lib';
-import FormField from '../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
+
 import FormState from '../../../types';
+import {SectionProps} from "./types";
+
+import FormField from '../../../../components/FormField/FormField';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 
-interface SectionProps {
-  persons: { id: number; name: string }[];
-}
-
-const AuthorDateChange: React.FC<SectionProps> = (props) => {
+const AuthorDateChange: React.FC<SectionProps> = ({persons}) => {
   const form = useFormikContext<FormState>();
 
   const getPersonsOptions = useCallback(() => {
-    return props.persons.map((item) => (
+    return persons.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id}>
         {item.name}
       </Select.Option>

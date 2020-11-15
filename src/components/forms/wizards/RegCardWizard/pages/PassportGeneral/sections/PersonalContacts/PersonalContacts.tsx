@@ -1,26 +1,17 @@
 import React, { FC, useCallback } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
+
 import { PassportContactType } from '../../types';
+import { WizardStateType } from '../../../../types';
+import {SectionProps, LABELS} from "./types";
+
 import FormField from '../../../../../../components/FormField/FormField';
-import PatientContactType from '../../../../../../../../types/data/PatientContactType';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
-import { WizardStateType } from '../../../../types';
 
-interface SectionProps {
-  contactTypes: PatientContactType[];
-}
-
-enum LABELS {
-  MAIN = 'Основной',
-  TYPE = 'Тип',
-  NUMBER = 'Номер',
-  NOTE = 'Примечание',
-}
-
-const PersonalContacts: FC<SectionProps> = (props) => {
+const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
 
@@ -28,7 +19,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
 
-  const typesOptions = props.contactTypes.map((item) => (
+  const typesOptions = contactTypes.map((item) => (
     <Select.Option key={item.id} name={item.name} value={item.id}>
       {item.name}
     </Select.Option>
@@ -46,7 +37,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
 
   function findMaskByType(typeId: number) {
     if (typeId) {
-      const type = props.contactTypes.find((item) => item.id === typeId);
+      const type = contactTypes.find((item) => item.id === typeId);
       if (type) return type.mask;
       return '';
     } else {

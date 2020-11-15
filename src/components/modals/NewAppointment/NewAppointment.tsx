@@ -1,15 +1,15 @@
 import React from 'react'
 import {Button, Modal, Row} from "antd";
 
+import {AppointmentProps} from "./types";
+
 import NewAppointmentForm from "../../forms/NewAppointmentForm/NewAppoinmentForm";
 
-type AppointmentProps = {
-    isVisible: boolean
-    onClose?(): void
-    onSubmit?(): void
-}
-
-const NewAppointment: React.FC<AppointmentProps> = ({isVisible, onClose, onSubmit}) => {
+const NewAppointment: React.FC<AppointmentProps> = ({
+    isVisible,
+    onClose,
+    onSubmit
+}) => {
     return (
         <Modal
             wrapClassName={'app-modal'}

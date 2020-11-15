@@ -1,15 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Col, DatePicker, Row, Select } from 'antd';
+
+import {LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-enum LABELS {
-  TYPE = 'Тип',
-  START_DATE = 'Дата начала',
-  END_DATE = 'Дата окончания',
-  REASON = 'Причина прекращения наблюдения',
-}
 
 const PersonPrivileges: React.FC = () => {
   return (

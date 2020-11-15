@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
 import { Col, Divider, Row } from 'antd';
+import { useSelector } from 'react-redux';
+
+import { Formik } from 'formik';
+import { RootState } from '../../../reduxStore/store';
+
 import PersonFeatures from './components/sections/PersonFeatures/PersonFeatures';
 import PersonAllergy from './components/sections/PersonAllergy/PersonAllergy';
 import MedIntolerance from './components/sections/MedIntolerance/MedIntolerance';
 import AnthropometricData from './components/sections/AnthropometricData/AnthropometricData';
 import Inspection from './components/sections/Inspection/Inspection';
-import { useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import { RootState } from '../../../reduxStore/store';
 
-const FeaturesForm: FC = (props) => {
+const FeaturesForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

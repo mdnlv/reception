@@ -1,7 +1,8 @@
 import React, {FC} from 'react'
+
 import EtcForm from "../../../../forms/EtcForm/EtcForm";
 
-const EtcPage: FC = (props) => {
+const EtcPage: FC = () => {
     return (
         <div className={'card-page'}>
             <EtcForm/>

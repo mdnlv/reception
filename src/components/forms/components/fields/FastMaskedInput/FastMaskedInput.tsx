@@ -1,18 +1,18 @@
 import React from 'react';
 import { FastField, FastFieldProps } from 'formik';
+
 import MaskedInputFastField from '../MaskedInputFastField/MaskedInputFastField';
-import { MaskedInputProps } from 'antd-mask-input/build/main/lib/MaskedInput';
 
-interface FastMaskedProps extends MaskedInputProps {}
+import {FastMaskedProps} from "./types";
 
-const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
+const FastMaskedInput: React.FC<FastMaskedProps> = ({name, mask}) => {
   return (
     <FastField>
       {({ field, meta, form }: FastFieldProps) => (
         <MaskedInputFastField
-          {...props}
+          {...{name, mask}}
           value={field.value}
-          name={props.name || ''}
+          name={name || ''}
           onChange={form.handleChange}
         />
       )}

@@ -1,18 +1,16 @@
 import React from 'react';
-import './styles.scss';
-import { Card } from 'antd';
 import moment from 'moment';
+
 import './styles.scss';
+import {TooltipProps} from "./types";
 
-type TooltipProps = {
-  fullName?: string;
-  lastChange?: Date;
-};
-
-const PatientRowTooltip: React.FC<TooltipProps> = (props) => {
+const PatientRowTooltip: React.FC<TooltipProps> = ({
+  fullName,
+  lastChange
+}) => {
   const formattedDate = () => {
-    return props.lastChange
-      ? moment(props.lastChange).format('YYYY-MM-DD')
+    return lastChange
+      ? moment(lastChange).format('YYYY-MM-DD')
       : 'неизвестно';
   };
 
@@ -27,7 +25,7 @@ const PatientRowTooltip: React.FC<TooltipProps> = (props) => {
           ФИО вносившего последние изменения:
         </span>
         <span className={'tooltip-value'}>
-          {props.fullName ? props.fullName : 'неизвестно'}
+          {fullName ? fullName : 'неизвестно'}
         </span>
       </div>
     </div>

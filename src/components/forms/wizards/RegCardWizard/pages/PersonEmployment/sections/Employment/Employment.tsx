@@ -1,19 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Col, Input, Row, Select } from 'antd';
-import FormField from '../../../../../../components/FormField/FormField';
-import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
-import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 
-enum LABELS {
-  INN = 'ИНН',
-  OGRN = 'ОГРН',
-  EMPLOYMENT = 'Занятость',
-  ORG = 'Организация',
-  POSITION = 'Должность',
-  EXPERIENCE = 'Стаж',
-}
+import {LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
+import FormField from '../../../../../../components/FormField/FormField';
+import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 
 const Employment: React.FC = () => {
   return (

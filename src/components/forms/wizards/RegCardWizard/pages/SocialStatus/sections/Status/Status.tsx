@@ -1,21 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Col, Divider, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
-import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
-import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Соц.статус';
-
-enum LABELS {
-  CLASS = 'Класс',
-  TYPE = 'Тип',
-  START_DATE = 'Дата начала',
-  END_DATE = 'Дата окончания',
-  NOTE = 'Примечание',
-}
 
 const Status: React.FC = () => {
   return (

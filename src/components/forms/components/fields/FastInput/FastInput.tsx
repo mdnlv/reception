@@ -1,19 +1,17 @@
 import React from 'react';
 import { useField } from 'formik';
+
+import {FastInputProps} from "./types";
+
 import TextFastField from '../TextFastField/TextFastField';
-import { InputProps } from 'antd/es/input';
 
-interface FastInputProps extends InputProps {
-  name: string;
-}
-
-const FastInput: React.FC<FastInputProps> = (props) => {
-  const [field, , form] = useField<string>(props.name);
+const FastInput: React.FC<FastInputProps> = ({name, disabled}) => {
+  const [field, , form] = useField<string>(name);
 
   return (
     <TextFastField
-      {...props}
-      disabled={props.disabled}
+      {...{name}}
+      disabled={disabled}
       name={field.name}
       value={field.value}
       onChange={(event) => {

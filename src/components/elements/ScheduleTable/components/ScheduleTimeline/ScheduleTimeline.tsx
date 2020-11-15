@@ -1,19 +1,19 @@
 import React from 'react';
-import './styles.scss';
-import ScheduleTimelineItem from './components/ScheduleTimilineItem/ScheduleTimelineItem';
 import { addDays } from 'date-fns';
+
+import './styles.scss';
 import format from '../../../../../utils/date/format';
-import { ScheduleTableModeType } from '../../types';
+import {TimeLineProps} from "./types";
 
-interface TimeLineProps {
-  mode: ScheduleTableModeType;
-  currentDate: Date;
-  rangeWeekNum: number;
-}
+import ScheduleTimelineItem from './components/ScheduleTimilineItem/ScheduleTimelineItem';
 
-const ScheduleTimeline: React.FC<TimeLineProps> = (props) => {
+const ScheduleTimeline: React.FC<TimeLineProps> = ({
+  mode,
+  currentDate,
+  rangeWeekNum
+}) => {
   const content = () => {
-    switch (props.mode) {
+    switch (mode) {
       case 'day':
         const startHour = 9;
         const endHour = 17;
@@ -40,9 +40,9 @@ const ScheduleTimeline: React.FC<TimeLineProps> = (props) => {
 
       case 'week':
         const dayItems = [];
-        for (let i = 0; i < props.rangeWeekNum; i++) {
-          const dateString = format(addDays(props.currentDate, i), 'MM.dd');
-          const dayName = format(addDays(props.currentDate, i), 'EEEEEE');
+        for (let i = 0; i < rangeWeekNum; i++) {
+          const dateString = format(addDays(currentDate, i), 'MM.dd');
+          const dayName = format(addDays(currentDate, i), 'EEEEEE');
           dayItems.push(
             <li key={i} className={'timeline-list__item--week'}>
               <ScheduleTimelineItem

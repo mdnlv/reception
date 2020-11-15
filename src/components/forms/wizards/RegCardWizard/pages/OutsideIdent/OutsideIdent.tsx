@@ -1,16 +1,11 @@
 import React from 'react';
+import { Col, DatePicker, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-import { Col, DatePicker, Row, Select } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-
-const DROPDOWN_TITLE = 'Идентификаторы во внешних учетных системах';
-
-enum LABELS {
-  OUTSIDE_IDENTS = 'Идентификаторы во внешних учетных системах',
-  IDENTS = 'Идентификаторы',
-  DATE = 'Дата подтверждения',
-}
 
 const OutsideIdent: React.FC = () => {
   return (

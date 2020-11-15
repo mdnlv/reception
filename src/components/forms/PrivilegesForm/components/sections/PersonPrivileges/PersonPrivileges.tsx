@@ -1,16 +1,14 @@
 import React, {FC} from "react";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {Col, DatePicker, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
-import FormState from "../../../types";
 import {useFormikContext} from "formik";
+
+import FormState from "../../../types";
+
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormField from "../../../../components/FormField/FormField";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-
-const PersonPrivileges: FC = (props) => {
-
+const PersonPrivileges: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (

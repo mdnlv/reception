@@ -1,14 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
+
 import PersonAppointment from '../../../../../../types/data/PersonAppointment';
 import './styles.scss';
+import {PaneProps} from "./types";
+
 import PatientReceptionCard from '../../../../PatientReceptionCard/PatientReceptionCard';
 import PaginationList from '../../../../../lists/PaginationList/PaginationList';
 import EmptyLoadList from '../../../../../lists/EmptyLoadList/EmptyLoadList';
-
-type PaneProps = {
-  appointmentsList?: PersonAppointment[];
-  isLoading?: boolean;
-};
 
 const PersonAppointmentsPane: React.FC<PaneProps> = ({
   appointmentsList,

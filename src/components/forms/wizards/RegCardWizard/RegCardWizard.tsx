@@ -25,9 +25,7 @@ import AdditionalHospitalization from './pages/AdditionalHospitalization/Additio
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
 import Etc from './pages/Etc/Etc';
 
-interface WizardProps {}
-
-const RegCardWizard: React.FC<WizardProps> = () => {
+const RegCardWizard: React.FC = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: RootState) => state.registrationCard.form);
 

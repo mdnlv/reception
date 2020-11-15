@@ -8,7 +8,7 @@ import './styles.scss';
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 
-const AppHeaderBar: FC = (props) => {
+const AppHeaderBar: FC = () => {
   const navigation = useHistory();
   const [showNewAppointment, setShowAppointment] = useState(false);
 

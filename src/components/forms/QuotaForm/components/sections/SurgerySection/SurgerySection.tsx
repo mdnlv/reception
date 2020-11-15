@@ -1,13 +1,14 @@
 import React, {FC} from 'react'
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {Col, DatePicker, Input, Row, Select, TimePicker} from 'antd';
-import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
+
 import FormState from "../../../types";
 
-const SurgerySection: FC = (props) => {
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import ArrayField from "../../../../components/ArrayField/ArrayField";
+import FormField from "../../../../components/FormField/FormField";
 
+const SurgerySection: FC = () => {
     const form = useFormContext<FormState>()
 
     return (

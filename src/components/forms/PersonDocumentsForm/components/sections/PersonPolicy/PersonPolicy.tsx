@@ -1,20 +1,17 @@
 import React, { FC } from 'react';
 import { Col, Divider, Input, Row } from 'antd';
+import { useFormikContext } from 'formik';
+import moment from 'moment';
+
+import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
+import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
+import {SectionProps} from "./types";
+
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
-import { useFormikContext } from 'formik';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
-import moment from 'moment';
-import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
 
-interface SectionProps {
-  getPolicyKindId: (id: string) => string;
-  getPolicyTypeId: (id: string) => string;
-  getCmoTypeId: (id: string) => string;
-}
-
-const PersonPolicy: FC<SectionProps> = (props) => {
+const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolicyTypeId}) => {
   const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
@@ -31,7 +28,7 @@ const PersonPolicy: FC<SectionProps> = (props) => {
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={props.getPolicyTypeId(values.type)}
+                      value={getPolicyTypeId(values.type)}
                       disabled
                     />
                   </FormField>
@@ -39,7 +36,7 @@ const PersonPolicy: FC<SectionProps> = (props) => {
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={props.getPolicyKindId(values.timeType)}
+                      value={getPolicyKindId(values.timeType)}
                       disabled
                     />
                   </FormField>
@@ -71,7 +68,7 @@ const PersonPolicy: FC<SectionProps> = (props) => {
                 </Col>
                 <Col>
                   <FormField label={'СМО'}>
-                    <Input value={props.getCmoTypeId(values.cmo)} disabled />
+                    <Input value={getCmoTypeId(values.cmo)} disabled />
                   </FormField>
                 </Col>
                 <Col>

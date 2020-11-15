@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Tabs } from 'antd';
+
 import './styles.scss';
+
 import SocialStatusPage from './pages/SocialStatusPage/SocialStatusPage';
 import EmploymentPage from './pages/EmploymentPage/EmploymentPage';
 import AttachmentsPage from './pages/AttachmentsPage/AttachmentsPage';
@@ -16,7 +18,7 @@ import OutsideHospitalizationPage from './pages/OutsideHospitalizationPage/Outsi
 import QuotaPage from './pages/QuotaPage/QuotaPage';
 import AdditionalHospitalizationPage from './pages/AdditionalHospitalizationPage/AdditionalHospitalizationPage';
 
-const RegistrationCardTabs: FC = (props) => {
+const RegistrationCardTabs: FC = () => {
   return (
     <div className="registration-card-tabs">
       <Tabs defaultActiveKey={'2'} size={'small'}>

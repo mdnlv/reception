@@ -1,19 +1,11 @@
 import React from 'react';
+import { Col, DatePicker, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-import { Col, DatePicker, Row, Select } from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-
-const DROPDOWN_TITLE = 'Прикрепление';
-
-enum LABELS {
-  TYPE = 'Тип',
-  LPU = 'ЛПУ',
-  UNIT = 'Подразделение',
-  ATTACHMENT_DATE = 'Дата прикрепления',
-  DETACH_DATE = 'Дата открепления',
-  DETACH_REASON = 'Причина открепления',
-}
 
 const Attachments: React.FC = () => {
   return (

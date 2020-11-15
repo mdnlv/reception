@@ -15,3 +15,19 @@ export interface ScheduleListItem {
   personName: string;
   items: ActionItems;
 }
+
+export interface ScheduleTableSchedule {
+  id: number;
+  personName: string;
+  planned: number;
+  items: {
+    [k: string]: {
+      clientId: number;
+      name: string;
+    };
+  };
+}
+
+export interface ScheduleTableProps {
+  schedules: ScheduleTableSchedule[];
+}

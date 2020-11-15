@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'antd';
+
 import StatusDocs from './sections/StatusDocs/StatusDocs';
 import Status from './sections/Status/Status';
 

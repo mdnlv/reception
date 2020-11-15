@@ -1,25 +1,24 @@
 import React from 'react';
+
 import './styles.scss';
-import { ScheduleTableModeType } from '../../../../types';
+import {ItemProps} from "./types";
 
-interface ItemProps {
-  mode: ScheduleTableModeType;
-  value: string;
-  dayName?: string;
-}
-
-const ScheduleTimelineItem: React.FC<ItemProps> = (props) => {
+const ScheduleTimelineItem: React.FC<ItemProps> = ({
+  mode,
+  value,
+  dayName
+}) => {
   const content = () => {
-    switch (props.mode) {
+    switch (mode) {
       case 'day':
         return (
-          <div className={'schedule-timeline__item-time'}>{props.value}</div>
+          <div className={'schedule-timeline__item-time'}>{value}</div>
         );
       case 'week':
         return (
           <div className={'schedule-timeline__item-day'}>
-            <div className="day-date">{props.value}</div>
-            <div className="day-name">{props.dayName}</div>
+            <div className="day-date">{value}</div>
+            <div className="day-name">{dayName}</div>
           </div>
         );
     }
@@ -28,7 +27,7 @@ const ScheduleTimelineItem: React.FC<ItemProps> = (props) => {
   return (
     <div
       className={`schedule-timeline__item ${
-        props.mode === 'week' && 'schedule-timeline__item--week'
+        mode === 'week' && 'schedule-timeline__item--week'
       }`}>
       {content()}
     </div>

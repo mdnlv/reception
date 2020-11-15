@@ -2,37 +2,23 @@ import { Button, Col, Input, Row, Select, Space } from 'antd';
 import moment from 'moment';
 import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
-import FormField from '../../../../../../components/FormField/FormField';
+
+import {SectionProps, ListOptionItem, LABELS} from "./types";
 import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+
+import FormField from '../../../../../../components/FormField/FormField';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-interface ListOptionItem {
-  id: number;
-  name: string;
-}
-
-interface SectionProps {
-  policyKey: 'policyOms' | 'policyDms';
-  policyTimeType: ListOptionItem[];
-  policyType: ListOptionItem[];
-}
-
-enum LABELS {
-  FROM = 'С',
-  TO = 'До',
-  SERIAL = 'Серия',
-  NUMBER = 'Номер',
-  CMO = 'СМО',
-  NAME = 'Название',
-  NOTE = 'Примечание',
-}
-
-const Policy: React.FC<SectionProps> = (props) => {
+const Policy: React.FC<SectionProps> = ({
+  policyKey,
+  policyType,
+  policyTimeType
+}) => {
   const form = useFormikContext<RegistrationCardStateType>();
 
-  const formValues = form.values.form.passportGeneral[props.policyKey];
-  const sectionValuePath = `passportGeneral.${props.policyKey}`;
+  const formValues = form.values.form.passportGeneral[policyKey];
+  const sectionValuePath = `passportGeneral.${policyKey}`;
 
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
@@ -45,7 +31,7 @@ const Policy: React.FC<SectionProps> = (props) => {
   );
 
   const sectionTitle = () => {
-    switch (props.policyKey) {
+    switch (policyKey) {
       case 'policyDms':
         return 'Полис ДМС';
       case 'policyOms':
@@ -56,14 +42,14 @@ const Policy: React.FC<SectionProps> = (props) => {
   return (
     <div
       className={`form-section policy-${
-        props.policyKey === 'policyOms' ? 'omc' : 'dmc'
+        policyKey === 'policyOms' ? 'omc' : 'dmc'
       }`}>
       <h2>{sectionTitle()}</h2>
       <Row className="form-row" align={'bottom'} gutter={16}>
         <Col span={4}>
           <FormField>
             <FastSearchSelect name={`${sectionValuePath}.timeType`}>
-              {getPropsOptions(props.policyTimeType)}
+              {getPropsOptions(policyTimeType)}
             </FastSearchSelect>
           </FormField>
         </Col>
@@ -119,7 +105,7 @@ const Policy: React.FC<SectionProps> = (props) => {
               onChange={(val) => {
                 form.setFieldValue(`${sectionValuePath}.type`, val);
               }}>
-              {getPropsOptions(props.policyType)}
+              {getPropsOptions(policyType)}
             </Select>
           </FormField>
         </Col>

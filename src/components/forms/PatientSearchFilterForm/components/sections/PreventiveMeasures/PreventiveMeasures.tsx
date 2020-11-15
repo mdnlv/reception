@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd/lib';
 import FormField from '../../../../components/FormField/FormField';
-import PartialFormState from '../../../types';
-import { useFormikContext } from 'formik';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
@@ -21,9 +19,7 @@ const selectList = [
   },
 ];
 
-const PreventiveMeasures: React.FC = (props) => {
-  const form = useFormikContext<PartialFormState>();
-
+const PreventiveMeasures: React.FC = () => {
   const selectOptions = useCallback(() => {
     return selectList.map((item) => (
       <Select.Option key={item.value} value={item.value}>

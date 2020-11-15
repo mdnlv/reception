@@ -1,16 +1,11 @@
 import React from 'react';
+import { Col, DatePicker, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-import { Col, DatePicker, Row, Select } from 'antd';
 import FormField from '../../../../../../components/FormField/FormField';
-
-const DROPDOWN_TITLE = 'Медикаментозная непереносимость';
-
-enum LABELS {
-  NAME = 'Наименование вещества',
-  DEGREE = 'Степень',
-  SET_DATE = 'Дата установления',
-}
 
 const MedIntolerance: React.FC = () => {
   return (

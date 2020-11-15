@@ -8,3 +8,12 @@ export interface PersonAddHospitalization {
 export default interface FormState {
   hospitalizations: PersonAddHospitalization[];
 }
+
+export const DROPDOWN_TITLE = 'Дополнительная диспансеризация';
+
+export enum LABELS {
+  CODE = 'Код',
+  DATE = 'Дата начала',
+  END_DATE = 'Дата окончания',
+  CODE_MO = 'Код МО',
+}

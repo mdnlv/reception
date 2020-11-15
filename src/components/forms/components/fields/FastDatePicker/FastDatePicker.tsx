@@ -2,14 +2,11 @@ import React, { useCallback } from 'react';
 import { useField } from 'formik';
 import { DatePicker } from 'antd';
 import moment from 'moment';
-import { DatePickerProps } from 'antd/es/date-picker';
 
-type PickerProps = DatePickerProps & {
-  name: string;
-};
+import {PickerProps} from "./types";
 
-const FastDatePicker: React.FC<PickerProps> = (props) => {
-  const [field, meta, form] = useField<string>(props.name);
+const FastDatePicker: React.FC<PickerProps> = ({name}) => {
+  const [field, meta, form] = useField<string>(name);
 
   const onChangeHandler = useCallback(
     (date: moment.Moment | null, dateString: string) => {
@@ -20,7 +17,7 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
 
   return (
     <DatePicker
-      {...props}
+      {...{name}}
       value={field.value ? moment(field.value) : undefined}
       onChange={onChangeHandler}
     />

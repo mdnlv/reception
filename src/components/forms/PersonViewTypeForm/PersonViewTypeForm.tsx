@@ -1,14 +1,13 @@
 import React, {FC} from 'react'
-import DropDownContent from "../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../components/ArrayField/ArrayField";
-import {Col, Row, Select, DatePicker, Input} from 'antd';
-import FormField from "../components/FormField/FormField";
+import {Col, Row, Select, DatePicker} from 'antd';
 import {Formik} from "formik";
-import FormArrayField from "../components/FormArrayField/FormArrayField";
 import moment from "moment";
 
-const PersonViewTypeForm: FC = (props) => {
+import DropDownContent from "../../elements/DropDownContent/DropDownContent";
+import FormField from "../components/FormField/FormField";
+import FormArrayField from "../components/FormArrayField/FormArrayField";
 
+const PersonViewTypeForm: FC = () => {
     return (
         <Formik
             initialValues={{}}

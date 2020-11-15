@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
-
 import { Row, Col } from 'antd';
-import PersonInvalidity from './components/sections/PersonInvalidity/PersonInvalidity';
-import PersonPrivileges from './components/sections/PersonPrivileges/PersonPrivileges';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '../../../reduxStore/store';
 
-const PrivilegesForm: FC = (props) => {
+import PersonInvalidity from './components/sections/PersonInvalidity/PersonInvalidity';
+import PersonPrivileges from './components/sections/PersonPrivileges/PersonPrivileges';
+
+const PrivilegesForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

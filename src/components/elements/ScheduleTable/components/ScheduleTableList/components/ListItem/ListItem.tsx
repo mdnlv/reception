@@ -1,22 +1,12 @@
 import React, { useCallback } from 'react';
-import ScheduleActionsRow from '../../../ScheduleActionsRow/ScheduleActionsRow';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import ScheduleScrollContainer from '../../../ScheduleScrollContainer/ScheduleScrollContainer';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
-import { ActionItems, ScheduleTableModeType } from '../../../../types';
 
-interface ItemProps {
-  id: number;
-  name: string;
-  planned: number;
-  items: ActionItems;
-  onNewScheduleItem(): void;
-  toggle: boolean;
-  onToggle(id: number): void;
-  mode: ScheduleTableModeType;
-  rangeWeekNum: number;
-}
+import {ItemProps} from "./types";
+
+import ScheduleActionsRow from '../../../ScheduleActionsRow/ScheduleActionsRow';
+import ScheduleScrollContainer from '../../../ScheduleScrollContainer/ScheduleScrollContainer';
 
 const ListItem: React.FC<ItemProps> = ({
   onToggle,

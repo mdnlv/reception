@@ -1,18 +1,12 @@
 import React, { FC } from 'react';
 import { Col, DatePicker, Input, Row, Select } from 'antd';
+
 import { TrustedDoc } from '../../../../../../SocialStatusForm/types';
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Документ, подтверждающий соц.статус';
-
-enum LABELS {
-  SERIAL = 'Серия',
-  NUMBER = 'Номер',
-  DATE = 'Дата',
-  GIVEN = 'Выдан',
-}
 
 const StatusDocs: FC = () => {
   return (

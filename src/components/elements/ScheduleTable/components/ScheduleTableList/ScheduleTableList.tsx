@@ -1,37 +1,37 @@
 import React, { useMemo } from 'react';
-import ListItem from './components/ListItem/ListItem';
+
 import './styles.scss';
-import { ScheduleListItem, ScheduleTableModeType } from '../../types';
+import {ListProps} from "./types";
 
-interface ListProps {
-  list: ScheduleListItem[];
-  onNewScheduleItem(): void;
-  onToggleRow(id: number): void;
-  selected: number[];
-  mode: ScheduleTableModeType;
-  rangeWeekNum: number;
-}
+import ListItem from './components/ListItem/ListItem';
 
-const ScheduleTableList: React.FC<ListProps> = (props) => {
+const ScheduleTableList: React.FC<ListProps> = ({
+  list,
+  onNewScheduleItem,
+  onToggleRow,
+  selected,
+  mode,
+  rangeWeekNum
+}) => {
   const listContent = useMemo(() => {
-    return props.list.map((item, index) => {
-      const toggle = props.selected.find((sitem) => sitem === item.id);
+    return list.map((item, index) => {
+      const toggle = selected.find((sitem) => sitem === item.id);
       return (
         <ListItem
-          rangeWeekNum={props.rangeWeekNum}
-          mode={props.mode}
+          rangeWeekNum={rangeWeekNum}
+          mode={mode}
           toggle={!!toggle}
           id={item.id}
-          onToggle={props.onToggleRow}
+          onToggle={onToggleRow}
           key={item.id + index}
-          onNewScheduleItem={props.onNewScheduleItem}
+          onNewScheduleItem={onNewScheduleItem}
           name={item.personName}
           planned={item.planned}
           items={item.items}
         />
       );
     });
-  }, [props.list, props.selected, props.mode, props.rangeWeekNum]);
+  }, [list, selected, mode, rangeWeekNum]);
 
   return <div className={'schedule-list'}>{listContent}</div>;
 };

@@ -1,20 +1,18 @@
-import React, {FC, useEffect} from 'react'
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import {Button, Col, Divider, Input, InputNumber, Radio, Row, Select, Space, Tooltip} from "antd";
-import {Controller, useFieldArray, useForm, useFormContext} from "react-hook-form";
-import FormField from "../../../../components/FormField/FormField";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
-import FormState from "../../../types";
+import React, {FC} from 'react'
+import {Col, Input, Row, Select} from "antd";
 import {useFormikContext} from "formik";
+
+import FormState from "../../../types";
+
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormField from "../../../../components/FormField/FormField";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-const PersonEmployment: FC = (props) => {
-
+const PersonEmployment: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section'}>
-
             <DropDownContent title={'Занятось'}>
                 <FormArrayField values={form.values.employments} name={'employements'} renderChild={
                     (key, index) => (

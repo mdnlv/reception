@@ -1,15 +1,13 @@
 import React from 'react';
 import { Button, Row } from 'antd';
-import PatientCardInfoForm from '../../forms/PatientCardInfoForm/PatientCardInfoForm';
-import './styles.scss';
 import { useHistory } from 'react-router';
-import Patient from '../../../types/data/Patient';
 
-interface InfoCardProps {
-  currentPatient: Patient;
-}
+import './styles.scss';
+import {InfoCardProps} from "./types";
 
-const PatientMedInfoCard: React.FC<InfoCardProps> = (props) => {
+import PatientCardInfoForm from '../../forms/PatientCardInfoForm/PatientCardInfoForm';
+
+const PatientMedInfoCard: React.FC<InfoCardProps> = ({currentPatient}) => {
   const navigation = useHistory();
 
   const navigateBack = () => {
@@ -36,7 +34,7 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = (props) => {
         </div>
       </Row>
       <div className="patient-card__content">
-        <PatientCardInfoForm patient={props.currentPatient} />
+        <PatientCardInfoForm patient={currentPatient} />
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 export interface PersonAttachment{
     type: string
     lpu: string

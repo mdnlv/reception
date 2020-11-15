@@ -1,34 +1,32 @@
 import React, { useMemo } from 'react';
 import { Formik } from 'formik';
 import { Col, DatePicker, Divider, Input, Row, Select } from 'antd';
-import FormField from '../components/FormField/FormField';
 import MaskedInput from 'antd-mask-input';
-import Patient from '../../../types/data/Patient';
-import './styles.scss';
 import moment from 'moment';
 
-type FormProps = {
-  patient: Patient;
-};
+import './styles.scss';
+import {FormProps} from "./types";
 
-const PatientCardInfoForm: React.FC<FormProps> = (props) => {
+import FormField from '../components/FormField/FormField';
+
+const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
   const valuesMemo = useMemo(() => {
     return {
-      code: props.patient.code,
-      fullName: props.patient.fullName,
-      birthDate: props.patient.birthDate,
-      sex: props.patient.sex,
+      code: patient.code,
+      fullName: patient.fullName,
+      birthDate: patient.birthDate,
+      sex: patient.sex,
       regAddress:
-        props.patient.address.find((item) => item.type === 1)?.freeInput || '',
+        patient.address.find((item) => item.type === 1)?.freeInput || '',
       livingAddress:
-        props.patient.address.find((item) => item.type === 0)?.freeInput || '',
-      birthPlace: props.patient.birthPlace,
-      snils: props.patient.snils,
+        patient.address.find((item) => item.type === 0)?.freeInput || '',
+      birthPlace: patient.birthPlace,
+      snils: patient.snils,
       oms:
-        props.patient.policy.find((item) => item.policyTypeId === 1)?.number ||
+        patient.policy.find((item) => item.policyTypeId === 1)?.number ||
         '',
     };
-  }, [props.patient]);
+  }, [patient]);
 
   return (
     <Formik initialValues={valuesMemo} onSubmit={() => {}}>

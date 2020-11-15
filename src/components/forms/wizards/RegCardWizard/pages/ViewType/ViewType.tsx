@@ -1,6 +1,7 @@
 import React from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import { Col, DatePicker, Row, Select } from 'antd';
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
 

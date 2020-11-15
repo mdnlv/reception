@@ -9,7 +9,12 @@ import {
 import './styles.scss';
 import {HeaderProps} from "./types";
 
-const PatientHappeningsHeader: React.FC<HeaderProps> = ({selectedHappening, uploadDoc, onInputChange, searchQuery}) => {
+const PatientHappeningsHeader: React.FC<HeaderProps> = ({
+  selectedHappening,
+  uploadDoc,
+  onInputChange,
+  searchQuery
+}) => {
   return (
     <Row
       justify={'space-between'}

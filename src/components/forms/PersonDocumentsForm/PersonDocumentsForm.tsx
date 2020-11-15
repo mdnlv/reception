@@ -1,17 +1,19 @@
 import React, { FC, useCallback } from 'react';
 import { Col, Divider, Row } from 'antd';
-import PersonalIdent from './components/sections/PersonalIdent/PersonalIdent';
-import PersonPolicy from './components/sections/PersonPolicy/PersonPolicy';
-import SocialStatus from './components/sections/SocialStatus/SocialStatus';
-import NamedContract from './components/sections/NamedContract/NamedContract';
 import { useSelector } from 'react-redux';
+
 import {
   detailedCMOSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../reduxStore/slices/rb/selectors';
 
-const PersonDocumentsForm: FC = (props) => {
+import PersonalIdent from './components/sections/PersonalIdent/PersonalIdent';
+import PersonPolicy from './components/sections/PersonPolicy/PersonPolicy';
+import SocialStatus from './components/sections/SocialStatus/SocialStatus';
+import NamedContract from './components/sections/NamedContract/NamedContract';
+
+const PersonDocumentsForm: FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
   const policyKinds = useSelector(detailedPolicyKindsSelector);
   const cmoTypes = useSelector(detailedCMOSelector);

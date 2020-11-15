@@ -11,16 +11,18 @@ import {
   Select,
   TimePicker,
 } from 'antd';
-import './styles.scss';
-import FormField from '../components/FormField/FormField';
 import RadioGroup from 'antd/es/radio/group';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+
+import './styles.scss';
 import { detailedPersonsSelector } from '../../../reduxStore/slices/rb/selectors';
 import { WizardStateType } from '../wizards/RegCardWizard/types';
 
-const UserGeneralInfo: FC = (props) => {
+import FormField from '../components/FormField/FormField';
+
+const UserGeneralInfo: FC = () => {
   const formProps = useFormikContext<WizardStateType>();
   const personsList = useSelector(detailedPersonsSelector);
 

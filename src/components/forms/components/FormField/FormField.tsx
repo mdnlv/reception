@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 
 import './styles.scss';
+import {FieldProps} from "./types";
 
-type FieldProps = {
-  label?: string;
-  labelPosition?: string;
-  error?: string;
-};
-
-const FormField: FC<FieldProps> = ({label, labelPosition, error, children}) => {
+const FormField: FC<FieldProps> = ({
+  label,
+  labelPosition,
+  error,
+  children
+}) => {
   const getFieldLabel = () => {
     if (!label) {
       return null;

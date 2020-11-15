@@ -1,15 +1,14 @@
 import React, { useCallback } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd/lib';
-import FormField from '../../../../components/FormField/FormField';
-import './styles.scss';
 import { useFormikContext } from 'formik';
-import PartialFormState from '../../../types';
-import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
-interface SectionProps {
-  orgs: { id: number; name: string }[];
-}
+import './styles.scss';
+import PartialFormState from '../../../types';
+import {SectionProps} from "./types";
+
+import FormField from '../../../../components/FormField/FormField';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const LpuAttachment: React.FC<SectionProps> = ({ orgs }) => {
   const { setFieldValue, values } = useFormikContext<PartialFormState>();

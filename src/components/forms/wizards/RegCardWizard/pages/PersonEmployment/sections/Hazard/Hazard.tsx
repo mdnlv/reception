@@ -1,22 +1,13 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Col, Divider, Input, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
-import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 
-const DROPDOWN_TITLE = 'Вредность';
-
-enum LABELS {
-  HAZARD = 'Вредность',
-  EXPERIENCE = 'Опыт',
-  FACTOR = 'Фактор',
-  ORG = 'Организация',
-  POSITION = 'Должность',
-}
-
-const Hazard: React.FC = (props) => {
+const Hazard: React.FC = () => {
   return (
     <div className={'form-section person-hazard'}>
       <DropDownContent title={DROPDOWN_TITLE}>

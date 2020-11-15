@@ -3,31 +3,28 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button, Space, Tooltip } from 'antd';
 import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
-type FieldProps<T> = {
-  fieldName: string;
-  renderChild: (key: string, index: number) => JSX.Element;
-};
+import {FieldProps} from './types';
 
-function ArrayField<T>(props: FieldProps<T>) {
-  const { control } = useFormContext<T>();
+const ArrayField = ({fieldName, renderChild}: FieldProps) => {
+  const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: props.fieldName,
+    name: fieldName,
   });
 
-  function addItem() {
+  const addItem = () => {
     append({ name: 'item' });
   }
 
-  function removeLast() {
+  const removeLast = () => {
     if (fields.length) {
       remove(fields.length - 1);
     }
   }
 
-  function getFieldsContent() {
+  const getFieldsContent = () => {
     return fields.map((field, index) => {
-      return props.renderChild(field.id!, index);
+      return renderChild(field.id!, index);
     });
   }
 

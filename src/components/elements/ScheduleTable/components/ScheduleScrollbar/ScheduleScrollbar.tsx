@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
+
 import './styles.scss';
 
-const ScheduleScrollbar: React.FC = (props) => {
+const ScheduleScrollbar: React.FC = () => {
   const SCROLL_ITEM_BASE = 40;
   const [hovering, setHovering] = useState(false);
 

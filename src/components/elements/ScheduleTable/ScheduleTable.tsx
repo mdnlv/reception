@@ -1,40 +1,24 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
-import data from './data';
-import './styles.scss';
-import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
-import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 import { addDays, eachDayOfInterval } from 'date-fns';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import { ScheduleTableModeType } from './types';
-import Schedule from '../../../types/data/Schedule';
 
-interface ScheduleTableSchedule {
-  id: number;
-  personName: string;
-  planned: number;
-  items: {
-    [k: string]: {
-      clientId: number;
-      name: string;
-    };
-  };
-}
+import './styles.scss';
+import { ScheduleTableModeType, ScheduleTableProps } from './types';
 
-interface ScheduleTableProps {
-  schedules: ScheduleTableSchedule[];
-}
+import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
+import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
+import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = (props) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
   const [mode, setMode] = useState<ScheduleTableModeType>('day');
   const [selected, setSelected] = useState<number[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(new Date(), 14));
 
   useEffect(() => {
-    console.log(props.schedules);
-  }, [props.schedules]);
+    console.log(schedules);
+  }, [schedules]);
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -105,7 +89,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = (props) => {
           rangeWeekNum={rangeWeekNum}
           onToggleRow={onToggleScheduleRow}
           onNewScheduleItem={onNewScheduleItem}
-          list={props.schedules}
+          list={schedules}
           mode={mode}
         />
       </Row>

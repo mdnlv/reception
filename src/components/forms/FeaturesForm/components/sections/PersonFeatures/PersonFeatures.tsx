@@ -1,14 +1,14 @@
-import React, {FC, useEffect} from 'react'
+import React, {FC} from 'react'
 import {Row, Col, Select, Input, InputNumber} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from 'react-hook-form';
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import FormState from "../../../types";
 import {useFormikContext} from "formik";
+
+import FormState from "../../../types";
+
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-const PersonFeatures: FC = (props) => {
-
+const PersonFeatures: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
@@ -25,29 +25,45 @@ const PersonFeatures: FC = (props) => {
                                 </Col>
                                 <Col offset={2} span={7}>
                                     <FormField label={'Примечание'}>
-                                        <Input name={`form.values.features[${index}].note`} onChange={form.handleChange} />
+                                        <Input
+                                          name={`form.values.features[${index}].note`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                             </Row>
                             <Row gutter={16} align={'bottom'}>
                                 <Col>
                                     <FormField label={'Диагноз'}>
-                                        <Input name={`form.values.features[${index}].diagnose`} onChange={form.handleChange} />
+                                        <Input
+                                          name={`form.values.features[${index}].diagnose`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                                 <Col>
-                                    <FormField labelPosition={'left'} label={'Рост при рождении'}>
-                                        <InputNumber name={`form.values.features[${index}].birthHeight`} onChange={form.handleChange} />
+                                    <FormField
+                                      labelPosition={'left'} label={'Рост при рождении'}>
+                                        <InputNumber
+                                          name={`form.values.features[${index}].birthHeight`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                                 <Col>
                                     <FormField labelPosition={'left'} label={'Вес при рождении'}>
-                                        <InputNumber name={`form.values.features[${index}].birthWeight`} onChange={form.handleChange} />
+                                        <InputNumber
+                                          name={`form.values.features[${index}].birthWeight`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                                 <Col>
                                     <FormField labelPosition={'left'} label={'Неделя эмбрионального периода'}>
-                                        <InputNumber name={`form.values.features[${index}].weekEmbryonic`} onChange={form.handleChange} />
+                                        <InputNumber
+                                          name={`form.values.features[${index}].weekEmbryonic`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                             </Row>

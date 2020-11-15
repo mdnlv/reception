@@ -1,16 +1,15 @@
 import React, {FC} from 'react'
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {Col, DatePicker, Input, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import {useFormikContext} from "formik";
 import moment from "moment";
+
 import FormState from "../../../types";
+
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-const SocialStatus: FC = (props) => {
-
+const SocialStatus: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
@@ -26,12 +25,18 @@ const SocialStatus: FC = (props) => {
                             </Col>
                             <Col>
                                 <FormField label={'Серия'}>
-                                    <Input name={`socialStatus[${index}].serial`} onChange={form.handleChange}/>
+                                    <Input
+                                      name={`socialStatus[${index}].serial`}
+                                      onChange={form.handleChange}
+                                    />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Номер'}>
-                                    <Input name={`socialStatus[${index}].number`} onChange={form.handleChange}/>
+                                    <Input
+                                      name={`socialStatus[${index}].number`}
+                                      onChange={form.handleChange}
+                                    />
                                 </FormField>
                             </Col>
                             <Col>
@@ -50,7 +55,10 @@ const SocialStatus: FC = (props) => {
                             </Col>
                             <Col>
                                 <FormField label={'Кем выдан'}>
-                                    <Input name={`socialStatus[${index}].givenBy`} onChange={form.handleChange}/>
+                                    <Input
+                                      name={`socialStatus[${index}].givenBy`}
+                                      onChange={form.handleChange}
+                                    />
                                 </FormField>
                             </Col>
                         </Row>

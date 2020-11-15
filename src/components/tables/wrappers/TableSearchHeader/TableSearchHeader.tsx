@@ -1,64 +1,66 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
-import './style.scss';
 import { Button, Card, Input, Row } from 'antd/lib';
+
+import './style.scss';
+import {SearchHeaderProps} from "./types";
+
 import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
 
-type SearchHeaderProps = {
-  onOpenSearch?(): void;
-  title?: string;
-  onCloseClick?(): void;
-  onSearchButtonClick?(query: string): void;
-  onTableModeChange(mode: 'default' | 'search'): void;
-  mode: string;
-  onSubmitForm?(): void;
-  onClearSearch?(): void;
-  searchCount?: number;
-  className?: string;
-};
-
-const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
+const TableSearchHeader: React.FC<SearchHeaderProps> = ({
+  onOpenSearch,
+  title,
+  onCloseClick,
+  onSearchButtonClick,
+  onTableModeChange,
+  mode,
+  onSubmitForm,
+  onClearSearch,
+  searchCount,
+  className,
+  children
+}) => {
   const [showSearchForm, setShowForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (props.onOpenSearch) {
-      props.onOpenSearch();
+    if (onOpenSearch) {
+      onOpenSearch();
     }
   }, [showSearchForm]);
 
-  function submitQuery() {
-    if (props.onSearchButtonClick) {
-      props.onSearchButtonClick(searchQuery);
+  const submitQuery = () => {
+    if (onSearchButtonClick) {
+      onSearchButtonClick(searchQuery);
     }
   }
 
   const tableBody = useMemo(() => {
-    if (props.mode === 'search') {
+    if (mode === 'search') {
       return (
         <Card>
           <PatientSearchFilterForm
-            onClose={props.onCloseClick}
-            onSubmit={props.onSubmitForm}
+            onClose={onCloseClick}
+            onSubmit={onSubmitForm}
           />
         </Card>
       );
-    } else if (props.children) {
-      return props.children;
+    } else if (children) {
+      return children;
     } else {
       return null;
     }
-  }, [props.mode, props.onCloseClick, props.onSubmitForm, props.children]);
+  }, [mode, onCloseClick, onSubmitForm, children]);
 
   const getHeaderByType = useMemo(() => {
-    switch (props.mode) {
+    switch (mode) {
       case 'search':
         return (
           <div className={'table-top__logo table-top__search'}>
             Расширенный поиск
             <div
               onClick={() => {
-                props.onTableModeChange('default');
+                onTableModeChange('default');
               }}
               className="find-filters__wrapper">
               <CloseOutlined />
@@ -69,11 +71,11 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
         return (
           <>
             <div className={'table-top__logo'}>
-              {props.title ? props.title : null}
+              {title ? title : null}
               <div className="find-filters__wrapper">
                 <SlidersOutlined
                   onClick={() => {
-                    props.onTableModeChange('search');
+                    onTableModeChange('search');
                   }}
                 />
               </div>
@@ -91,16 +93,16 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
                 Поиск
               </Button>
             </div>
-            {props.searchCount !== undefined ? (
+            {searchCount !== undefined ? (
               <div className={'table__top-search-results'}>
-                {`Найдено: (${props.searchCount})`}
+                {`Найдено: (${searchCount})`}
                 <Button
                   type={'primary'}
                   shape={'circle'}
                   icon={<CloseOutlined />}
                   onClick={() => {
-                    if (props.onClearSearch) {
-                      props.onClearSearch();
+                    if (onClearSearch) {
+                      onClearSearch();
                     }
                   }}
                   size={'small'}
@@ -111,10 +113,10 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
         );
     }
   }, [
-    props.mode,
-    props.searchCount,
-    props.onClearSearch,
-    props.onTableModeChange,
+    mode,
+    searchCount,
+    onClearSearch,
+    onTableModeChange,
     searchQuery,
   ]);
 

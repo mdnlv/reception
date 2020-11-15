@@ -1,4 +1,8 @@
+import Patient from "../../../types/data/Patient";
 
+export type FormProps = {
+    patient: Patient;
+};
 
 export default interface FormState {
     code: string

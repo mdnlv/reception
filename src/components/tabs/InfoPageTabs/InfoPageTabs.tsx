@@ -1,14 +1,10 @@
 import React from "react"
-import './styles.scss'
-import {Row, Tabs, Descriptions, Col} from "antd";
-import PaginationSearchList from "../../lists/PaginationSearchList/PaginationSearchList";
+import {Tabs, Descriptions} from "antd";
 
-type DataItemType = {
-    id: number
-    title: string
-    phone: string
-    address: string
-}
+import './styles.scss'
+import {DataItemType} from "./types";
+
+import PaginationSearchList from "../../lists/PaginationSearchList/PaginationSearchList";
 
 const arr: DataItemType[] = []
 for(let i = 0; i < 90; i++){
@@ -20,8 +16,7 @@ for(let i = 0; i < 90; i++){
     })
 }
 
-
-const InfoPageTabs: React.FC = (props) => {
+const InfoPageTabs: React.FC = () => {
     return (
         <div className={'info-page-tabs'}>
             <Tabs size={'small'}>
@@ -29,12 +24,24 @@ const InfoPageTabs: React.FC = (props) => {
                     <p>Графики больниц</p>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'2'} tab='Контакты больниц'>
-                    <PaginationSearchList<DataItemType> data={arr} perPage={42} renderItem={(item) => {
+                    <PaginationSearchList<DataItemType>
+                      data={arr} perPage={42}
+                      renderItem={(item) => {
                         return (
-                            <Descriptions className={'hospital-description'} title={item.title} column={1} size={'small'}>
-                                <Descriptions.Item className={'hospital-description__item'} label="адрес">{item.address}</Descriptions.Item>
-                                <Descriptions.Item className={'hospital-description__item'} label="телефон">{item.phone}</Descriptions.Item>
-
+                            <Descriptions
+                              className={'hospital-description'}
+                              title={item.title}
+                              column={1}
+                              size={'small'}
+                            >
+                                <Descriptions.Item
+                                  className={'hospital-description__item'}
+                                  label="адрес"
+                                >{item.address}</Descriptions.Item>
+                                <Descriptions.Item
+                                  className={'hospital-description__item'}
+                                  label="телефон"
+                                >{item.phone}</Descriptions.Item>
                             </Descriptions>
                         )
                     }}/>

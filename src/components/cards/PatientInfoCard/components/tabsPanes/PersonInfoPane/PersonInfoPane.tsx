@@ -1,20 +1,19 @@
 import React from 'react';
-import Patient from '../../../../../../types/data/Patient';
 import { Descriptions, List } from 'antd/lib';
-import './styles.scss';
 import moment from 'moment';
 
-type PaneProps = {
-  patient?: Partial<Patient>;
-  policyTitle?: string;
-};
+import './styles.scss';
+import {PaneProps} from "./types";
 
-const PersonInfoPane: React.FC<PaneProps> = (props) => {
-  function getMainPolicy() {
-    return props.patient?.policy?.find((item) => item.policyTypeId === 1);
+const PersonInfoPane: React.FC<PaneProps> = ({
+  patient,
+  policyTitle
+}) => {
+  const getMainPolicy = () => {
+    return patient?.policy?.find((item) => item.policyTypeId === 1);
   }
 
-  function getPolicyString() {
+  const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
     if (mainPolicy !== undefined && mainPolicy.policyTypeId === 1) {
       return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${moment(
@@ -27,14 +26,14 @@ const PersonInfoPane: React.FC<PaneProps> = (props) => {
     }
   }
 
-  function getTypeAddress(type: 0 | 1) {
+  const getTypeAddress = (type: 0 | 1) => {
     return (
-      props.patient?.address?.find((item) => item.type === type)?.freeInput ||
+      patient?.address?.find((item) => item.type === type)?.freeInput ||
       ''
     );
   }
 
-  function getContactTypeName(type: number, contact: string) {
+  const getContactTypeName = (type: number, contact: string) => {
     switch (type) {
       case 1:
         return 'домашний ' + contact;
@@ -46,11 +45,11 @@ const PersonInfoPane: React.FC<PaneProps> = (props) => {
     }
   }
 
-  function getContactPhones() {
+  const getContactPhones = () => {
     return (
       <List
         size={'small'}
-        dataSource={props.patient?.contacts?.map((item) => ({
+        dataSource={patient?.contacts?.map((item) => ({
           contact: item.contact,
           type: item.contactTypeId,
         }))}
@@ -65,15 +64,15 @@ const PersonInfoPane: React.FC<PaneProps> = (props) => {
     <div className={'person-info-tabs__pane person-info-pane'}>
       <Descriptions column={1}>
         <Descriptions.Item className={'person-info-item'} label={'Фио'}>
-          {props.patient?.fullName}
+          {patient?.fullName}
         </Descriptions.Item>
         <Descriptions.Item
           className={'person-info-item'}
           label={'Дата рождения'}>
-          {moment(props.patient?.birthDate).format('DD.MM.YYYY')}
+          {moment(patient?.birthDate).format('DD.MM.YYYY')}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Код'}>
-          {props.patient?.code}
+          {patient?.code}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Полис ОМС'}>
           {getPolicyString()}
@@ -97,10 +96,10 @@ const PersonInfoPane: React.FC<PaneProps> = (props) => {
         <Descriptions.Item
           className={'person-info-item'}
           label={'Место рождения'}>
-          {props.patient?.birthPlace}
+          {patient?.birthPlace}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Примечания'}>
-          {props.patient?.note}
+          {patient?.note}
         </Descriptions.Item>
       </Descriptions>
     </div>

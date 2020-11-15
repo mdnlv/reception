@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
-import { Controller, FormContext, useForm } from 'react-hook-form';
-import DropDownContent from '../../elements/DropDownContent/DropDownContent';
-import { Col, Input, Row, DatePicker, Select } from 'antd';
-import FormField from '../components/FormField/FormField';
-import ArrayField from '../components/ArrayField/ArrayField';
-import FormArrayField from '../components/FormArrayField/FormArrayField';
+import { Col, Row, DatePicker, Select } from 'antd';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+
 import { RootState } from '../../../reduxStore/store';
 
-const OutsideIdentificationForm: FC = (props) => {
+import DropDownContent from '../../elements/DropDownContent/DropDownContent';
+import FormField from '../components/FormField/FormField';
+import FormArrayField from '../components/FormArrayField/FormArrayField';
+
+const OutsideIdentificationForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

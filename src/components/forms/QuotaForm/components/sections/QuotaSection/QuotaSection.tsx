@@ -1,14 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
-import ArrayField from '../../../../components/ArrayField/ArrayField';
 import { Col, Input, Row, Select } from 'antd';
-import FormField from '../../../../components/FormField/FormField';
 import { useFormContext } from 'react-hook-form';
-import QuotaDetailed from '../../cards/QuotaDetailed/QuotaDetailed';
+
 import FormState from '../../../types';
 import './styles.scss';
 
-const QuotaSection: FC = (props) => {
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
+import ArrayField from '../../../../components/ArrayField/ArrayField';
+import FormField from '../../../../components/FormField/FormField';
+import QuotaDetailed from '../../cards/QuotaDetailed/QuotaDetailed';
+
+const QuotaSection: FC = () => {
   const form = useFormContext<FormState>();
   const [quotaIndex, setQuotaIndex] = useState(0);
 
