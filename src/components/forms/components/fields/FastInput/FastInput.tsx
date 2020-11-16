@@ -5,15 +5,15 @@ import {FastInputProps} from "./types";
 
 import TextFastField from '../TextFastField/TextFastField';
 
-const FastInput: React.FC<FastInputProps> = ({name, disabled}) => {
+const FastInput: React.FC<FastInputProps> = ({name, disabled, valueSet}) => {
   const [field, , form] = useField<string>(name);
 
   return (
     <TextFastField
-      {...{name}}
+      {...{name, disabled}}
       disabled={disabled}
       name={field.name}
-      value={field.value}
+      value={valueSet ? valueSet : field.value}
       onChange={(event) => {
         form.setValue(event.target.value);
       }}

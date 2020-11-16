@@ -31,7 +31,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
-      onSearchButtonClick(searchQuery);
+      onSearchButtonClick(searchQuery.trim());
     }
   }
 
@@ -86,7 +86,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value.trim());
+                  setSearchQuery(e.target.value);
                 }}
               />
               <Button onClick={submitQuery} size="small">

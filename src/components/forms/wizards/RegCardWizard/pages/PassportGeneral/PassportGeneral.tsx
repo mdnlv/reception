@@ -112,6 +112,19 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   return (
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
+        <Col span={12}>
+          <Address
+              passportType="documentedAddress"
+              isLoadingKladr={isLoadingKladrDocumented}
+              isLoadingKladrNested={isLoadingKladrNestedDocumented}
+              isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
+              getKladrNested={fetchNestedKladr}
+              getKladrStreets={fetchKladrStreetsItems}
+              kladr={rbKladrDocumented}
+              nestedKladr={rbKladrNestedDocumented}
+              kladrStreets={rbKladrStreetsDocumented}
+          />
+        </Col>
         <Col span={12} className={'col--border-right'}>
           <Address
             passportType="addressRegistration"
@@ -123,19 +136,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             kladr={rbKladrRegistration}
             nestedKladr={rbKladrNestedRegistration}
             kladrStreets={rbKladrStreetsRegistration}
-          />
-        </Col>
-        <Col span={12}>
-          <Address
-            passportType="documentedAddress"
-            isLoadingKladr={isLoadingKladrDocumented}
-            isLoadingKladrNested={isLoadingKladrNestedDocumented}
-            isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
-            getKladrNested={fetchNestedKladr}
-            getKladrStreets={fetchKladrStreetsItems}
-            kladr={rbKladrDocumented}
-            nestedKladr={rbKladrNestedDocumented}
-            kladrStreets={rbKladrStreetsDocumented}
           />
         </Col>
       </Row>
