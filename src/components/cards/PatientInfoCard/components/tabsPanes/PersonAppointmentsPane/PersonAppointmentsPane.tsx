@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PersonAppointment from '../../../../../../types/data/PersonAppointment';
 import './styles.scss';
 import PatientReceptionCard from '../../../../PatientReceptionCard/PatientReceptionCard';

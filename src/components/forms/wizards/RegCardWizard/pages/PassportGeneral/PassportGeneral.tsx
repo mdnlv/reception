@@ -37,6 +37,10 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(form.values.passportGeneral.passportInfo);
+  }, [form.values.passportGeneral.passportInfo]);
+
+  useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
   const { dms, oms } = useSelector(
@@ -65,9 +69,12 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
   const cmoTypeList = useSelector(detailedCMOSelector);
-  const { organisations } = useSelector((state: RootState) => state.rb.loading);
+  const { organisations, documentTypes } = useSelector(
+    (state: RootState) => state.rb.loading,
+  );
 
   function fetchNestedKladr(id: string, type: KladrDocType) {
+    console.log(id, type);
     let rbKladrItem: KladrItem | undefined;
 
     switch (type) {
@@ -169,7 +176,10 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
       <Divider />
       <Row>
         <Col span={12} className={'col--border-right'}>
-          <PersonalDocument documentTypes={documentTypesList} />
+          <PersonalDocument
+            isLoadingDocuments={documentTypes}
+            documentTypes={documentTypesList}
+          />
         </Col>
         <Col span={12}>
           <PersonalContacts contactTypes={contactTypesList} />

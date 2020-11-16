@@ -90,7 +90,8 @@ export const fetchRbInvalidReasons = createAsyncThunk(
 
 export const fetchRbDocumentTypes = createAsyncThunk(
   'rb/fetchDocumentTypes',
-  async () => {
+  async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'documentTypes', value: true }));
     try {
       const response = await RbService.fetchDocumentTypes();
       if (response.data) {
@@ -99,7 +100,10 @@ export const fetchRbDocumentTypes = createAsyncThunk(
           name: item.name,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'documentTypes', value: false }));
+    }
   },
 );
 
@@ -214,12 +218,16 @@ const rbSlice = createSlice({
     rbDocumentTypes: [] as PatientDocumentType[],
     loading: {
       organisations: false,
+      documentTypes: false,
     },
   },
   reducers: {
     setLoading: (
       state,
-      action: PayloadAction<{ type: 'organisations'; value: boolean }>,
+      action: PayloadAction<{
+        type: 'organisations' | 'documentTypes';
+        value: boolean;
+      }>,
     ) => {
       state.loading[action.payload.type] = action.payload.value;
     },

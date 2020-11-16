@@ -1,10 +1,6 @@
 import React, {FC} from "react"
-import {Controller, FormContext, useForm} from "react-hook-form"
-import QuotaDetailed from "./components/cards/QuotaDetailed/QuotaDetailed";
-import ArrayField from "../components/ArrayField/ArrayField";
-import {Col, Divider, Row, Select} from "antd";
-import FormField from "../components/FormField/FormField";
-import DropDownContent from "../../elements/DropDownContent/DropDownContent";
+import {FormContext, useForm} from "react-hook-form"
+import {Col, Divider, Row} from "antd";
 import QuotaSection from "./components/sections/QuotaSection/QuotaSection";
 import SurgerySection from "./components/sections/SurgerySection/SurgerySection";
 import FormState from "./types";

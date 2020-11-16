@@ -36,7 +36,9 @@ export const fetchKladr = createAsyncThunk(
 export const fetchKladrNested = createAsyncThunk(
   'registrationCard/fetchKladrNested',
   async (payload: { id: string; type?: KladrDocType }, thunkAPI) => {
-    thunkAPI.dispatch(setKladrLoading({ value: true, type: payload.type }));
+    thunkAPI.dispatch(
+      setKladrNestedLoading({ value: true, type: payload.type }),
+    );
     try {
       const response = await RbService.getRegionList(payload.id);
       if (response.data) {
@@ -51,7 +53,9 @@ export const fetchKladrNested = createAsyncThunk(
       }
     } catch (e) {
     } finally {
-      thunkAPI.dispatch(setKladrLoading({ value: false, type: payload.type }));
+      thunkAPI.dispatch(
+        setKladrNestedLoading({ value: false, type: payload.type }),
+      );
     }
   },
 );
@@ -59,7 +63,9 @@ export const fetchKladrNested = createAsyncThunk(
 export const fetchKladrStreets = createAsyncThunk(
   'registrationCard/fetchKladrStreets',
   async (payload: { id: string; type?: KladrDocType }, thunkAPI) => {
-    thunkAPI.dispatch(setKladrLoading({ value: true, type: payload.type }));
+    thunkAPI.dispatch(
+      setKladrStreetsLodaing({ value: true, type: payload.type }),
+    );
     try {
       const response = await RbService.getRegionStreets(payload.id);
       if (response.data) {
@@ -73,7 +79,9 @@ export const fetchKladrStreets = createAsyncThunk(
       }
     } catch (e) {
     } finally {
-      thunkAPI.dispatch(setKladrLoading({ value: false, type: payload.type }));
+      thunkAPI.dispatch(
+        setKladrStreetsLodaing({ value: false, type: payload.type }),
+      );
     }
   },
 );

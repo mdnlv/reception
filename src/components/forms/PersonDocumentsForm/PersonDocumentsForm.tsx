@@ -1,14 +1,14 @@
-import React, { FC, useCallback } from 'react';
-import { Col, Divider, Row } from 'antd';
+import React, {FC, useCallback} from 'react';
+import {Col, Divider, Row} from 'antd';
 import PersonalIdent from './components/sections/PersonalIdent/PersonalIdent';
 import PersonPolicy from './components/sections/PersonPolicy/PersonPolicy';
 import SocialStatus from './components/sections/SocialStatus/SocialStatus';
 import NamedContract from './components/sections/NamedContract/NamedContract';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {
-  detailedCMOSelector,
-  detailedPolicyKindsSelector,
-  detailedPolicyTypesSelector,
+    detailedCMOSelector,
+    detailedPolicyKindsSelector,
+    detailedPolicyTypesSelector,
 } from '../../../reduxStore/slices/rb/selectors';
 
 const PersonDocumentsForm: FC = (props) => {

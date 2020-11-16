@@ -1,10 +1,6 @@
 import React from 'react';
-import { Button, Col, Input, Row } from 'antd';
-import {
-  DeleteOutlined,
-  DownloadOutlined,
-  PlusOutlined,
-} from '@ant-design/icons/lib';
+import {Button, Col, Input, Row} from 'antd';
+import {DeleteOutlined, DownloadOutlined, PlusOutlined,} from '@ant-design/icons/lib';
 import './styles.scss';
 
 type HeaderProps = {

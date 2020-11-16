@@ -1,8 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
 import PatientCardInfoForm from './PatientCardInfoForm';
-import moment from 'moment';
-import FormState from './types';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

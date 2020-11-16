@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { PassportContactType } from '../../types';
@@ -25,6 +25,7 @@ const PersonalContacts: FC<SectionProps> = (props) => {
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
+    console.log(index, fieldChain);
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
 
@@ -35,12 +36,13 @@ const PersonalContacts: FC<SectionProps> = (props) => {
   ));
 
   function getTypeInput(index: number, mask: string) {
-    if (mask) {
-      return (
-        <FastMaskedInput mask={mask} name={getSelectionItem(index, 'number')} />
-      );
-    } else {
+    console.log(mask);
+    if (!mask) {
       return <FastInput name={getSelectionItem(index, 'number')} />;
+    } else {
+      return (
+        <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
+      );
     }
   }
 

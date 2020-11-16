@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Tabs } from 'antd';
+import React, {FC} from 'react';
+import {Tabs} from 'antd';
 import './styles.scss';
 import SocialStatusPage from './pages/SocialStatusPage/SocialStatusPage';
 import EmploymentPage from './pages/EmploymentPage/EmploymentPage';

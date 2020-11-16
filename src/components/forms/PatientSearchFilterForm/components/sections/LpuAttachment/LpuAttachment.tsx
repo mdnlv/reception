@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Checkbox, Col, Row, Select } from 'antd/lib';
+import React, {useCallback} from 'react';
+import {Checkbox, Col, Row, Select} from 'antd/lib';
 import FormField from '../../../../components/FormField/FormField';
 import './styles.scss';
-import { useFormikContext } from 'formik';
+import {useFormikContext} from 'formik';
 import PartialFormState from '../../../types';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import {CheckboxChangeEvent} from 'antd/lib/checkbox';
 
 interface SectionProps {
   orgs: { id: number; name: string }[];

@@ -1,7 +1,7 @@
 import React from 'react';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-import { Col, DatePicker, Row, Select } from 'antd';
+import {Col, DatePicker, Row, Select} from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 
 const DROPDOWN_TITLE = 'Идентификаторы во внешних учетных системах';

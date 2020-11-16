@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'antd';
+import {Col, Row} from 'antd';
 import Employment from './sections/Employment/Employment';
 import Hazard from './sections/Hazard/Hazard';
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
-import { Col, Divider, Input, Row, Select } from 'antd';
+import {Col, Divider, Input, Row, Select} from 'antd';
 import FormField from '../../../../../../components/FormField/FormField';
-import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
 
 const DROPDOWN_TITLE = 'Вредность';

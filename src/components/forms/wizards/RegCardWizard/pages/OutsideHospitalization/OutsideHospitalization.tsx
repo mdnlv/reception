@@ -1,7 +1,7 @@
 import React from 'react';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-import { Col, DatePicker, Input, Row, Select } from 'antd';
+import {Col, DatePicker, Input, Row, Select} from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 
 const DROPDOWN_TITLE = 'Госпитализация в другие ЛПУ';

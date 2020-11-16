@@ -1,9 +1,7 @@
 import React, {FC} from 'react'
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
-import {Row, Col, Radio, Select, DatePicker, Input, Checkbox} from "antd";
+import {Checkbox, Col, DatePicker, Input, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
 import FormState from "../../../types";
 import {useFormikContext} from "formik";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";

@@ -1,6 +1,6 @@
 import React from 'react';
 import Patient from '../../../../../../types/data/Patient';
-import { Descriptions, List } from 'antd/lib';
+import {Descriptions, List} from 'antd/lib';
 import './styles.scss';
 import moment from 'moment';
 

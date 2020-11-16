@@ -1,5 +1,5 @@
 import React from 'react'
-import {mount, render, shallow} from "enzyme"
+import {mount, shallow} from "enzyme"
 import PersonAppointmentsPane from "./PersonAppointmentsPane";
 import moment from "moment";
 import PersonAppointment from "../../../../../../types/data/PersonAppointment";

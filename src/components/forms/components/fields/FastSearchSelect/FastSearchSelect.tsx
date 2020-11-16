@@ -1,7 +1,7 @@
 import React from 'react';
-import { FastField, FastFieldProps, useField } from 'formik';
-import { Select } from 'antd';
-import { SelectProps, SelectValue } from 'antd/es/select';
+import {useField} from 'formik';
+import {Select} from 'antd';
+import {SelectProps, SelectValue} from 'antd/es/select';
 
 interface SearchSelectProps extends SelectProps<SelectValue> {
   name: string;

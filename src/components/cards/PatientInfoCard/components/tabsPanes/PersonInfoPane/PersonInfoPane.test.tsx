@@ -1,7 +1,6 @@
 import React from 'react'
 import {shallow} from "enzyme"
 import PersonInfoPane from "./PersonInfoPane";
-import PersonAppointmentsPane from "../PersonAppointmentsPane/PersonAppointmentsPane";
 import moment from "moment";
 
 describe('PersonInfoPane', () => {

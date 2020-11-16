@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react'
-import {Row, Col, Select, Input, InputNumber, Radio, DatePicker} from 'antd'
+import {Col, DatePicker, Input, InputNumber, Radio, Row, Select} from 'antd'
 import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
 import './styles.scss'

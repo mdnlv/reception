@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
-import { Formik } from 'formik';
-import { Button, Col, Row, Select, Space } from 'antd';
+import React, {useCallback, useMemo} from 'react';
+import {Formik} from 'formik';
+import {Button, Col, Row, Select, Space} from 'antd';
 import FormField from '../components/FormField/FormField';
 import moment from 'moment';
-import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';

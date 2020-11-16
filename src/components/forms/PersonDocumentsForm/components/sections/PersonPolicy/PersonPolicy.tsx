@@ -1,12 +1,12 @@
-import React, { FC } from 'react';
-import { Col, Divider, Input, Row } from 'antd';
+import React, {FC} from 'react';
+import {Col, Divider, Input, Row} from 'antd';
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
-import { useFormikContext } from 'formik';
+import {useFormikContext} from 'formik';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
+import {PassportPolicyType} from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 import moment from 'moment';
-import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
+import {WizardStateType} from '../../../../wizards/RegCardWizard/types';
 
 interface SectionProps {
   getPolicyKindId: (id: string) => string;

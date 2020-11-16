@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Row } from 'antd';
+import {Button, Row} from 'antd';
 import PatientCardInfoForm from '../../forms/PatientCardInfoForm/PatientCardInfoForm';
 import './styles.scss';
-import { useHistory } from 'react-router';
+import {useHistory} from 'react-router';
 import Patient from '../../../types/data/Patient';
 
 interface InfoCardProps {

@@ -1,16 +1,13 @@
 import React from 'react';
-import { Formik } from 'formik';
-import { Card, Col, Row, Tabs } from 'antd';
+import {Formik} from 'formik';
+import {Card, Col, Row, Tabs} from 'antd';
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import UserInfo from './pages/UserInfo/UserInfo';
 import './styles.scss';
-import { RootState } from '../../../../reduxStore/store';
+import {RootState} from '../../../../reduxStore/store';
 import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
-import {
-  saveCardPatient,
-  setFormSection,
-} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {saveCardPatient, setFormSection,} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
 import Attachments from './pages/Attachments/Attachments';

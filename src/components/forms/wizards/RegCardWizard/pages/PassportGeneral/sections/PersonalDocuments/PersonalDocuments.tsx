@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
@@ -10,28 +10,32 @@ import { WizardStateType } from '../../../../types';
 
 interface SectionProps {
   documentTypes: { id: number; name: string }[];
+  isLoadingDocuments: boolean;
 }
 
 enum LABELS {
-  PASSPORT = 'Паспорт',
+  PASSPORT = 'Тип документа',
   SERIAL = 'Серия',
   NUMBER = 'Номер',
   GIVEN_DATE = 'Дата выдачи',
   GIVEN_BY = 'Кем выдан',
 }
 
-const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
+const PersonalDocument: FC<SectionProps> = ({
+  documentTypes,
+  isLoadingDocuments,
+}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
 
-  const documentTypeOptions = useCallback(() => {
+  const documentTypeOptions = useMemo(() => {
     return documentTypes.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id}>
         {item.name}
       </Select.Option>
     ));
-  }, []);
+  }, [documentTypes]);
 
   return (
     <div className="form-section personal-document">
@@ -39,7 +43,12 @@ const PersonalDocument: FC<SectionProps> = ({ documentTypes }) => {
       <Row gutter={16}>
         <Col span={8}>
           <FormField label={LABELS.PASSPORT}>
-            <FastSearchSelect name={`${selectionValuePath}.passportType`}>
+            <FastSearchSelect
+              filterOption
+              loading={isLoadingDocuments}
+              optionFilterProp={'name'}
+              showSearch
+              name={`${selectionValuePath}.passportType`}>
               {documentTypeOptions}
             </FastSearchSelect>
           </FormField>

@@ -1,7 +1,6 @@
-import React, {FC, useEffect} from 'react'
-import {Row, Col, Select, Input, InputNumber} from "antd";
+import React, {FC} from 'react'
+import {Col, Input, InputNumber, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from 'react-hook-form';
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import FormState from "../../../types";
 import {useFormikContext} from "formik";

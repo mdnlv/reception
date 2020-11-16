@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Space, Tooltip } from 'antd';
-import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Button, Space, Tooltip} from 'antd';
+import {MinusCircleTwoTone, PlusCircleTwoTone} from '@ant-design/icons';
 
 type FieldProps<T> = {
   values: T[];

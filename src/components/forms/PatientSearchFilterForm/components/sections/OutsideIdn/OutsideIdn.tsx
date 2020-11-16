@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Col, Row, Select } from 'antd/lib';
+import React, {useCallback} from 'react';
+import {Col, Row, Select} from 'antd/lib';
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';

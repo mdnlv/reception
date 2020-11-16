@@ -1,10 +1,8 @@
 import React, {FC} from 'react'
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import {Col, Input, Row, InputNumber, Select, Divider} from "antd";
-import {Controller, useForm, useFormContext} from "react-hook-form";
+import {Col, Divider, InputNumber, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
 import FormState from "../../../types";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {useFormikContext} from "formik";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 

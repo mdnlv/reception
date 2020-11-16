@@ -5,6 +5,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 interface FieldProps extends MaskedInputProps {
   name: string;
+  value: string;
 }
 
 const MaskedInputFastField: React.FC<FieldProps> = (props) => {
@@ -35,7 +36,7 @@ const MaskedInputFastField: React.FC<FieldProps> = (props) => {
       setInnerValue(newVal);
       debouncedCallback.callback(event);
     },
-    [debouncedCallback],
+    [],
   );
 
   return (

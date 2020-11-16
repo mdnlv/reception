@@ -1,13 +1,11 @@
-import React, { FC } from 'react';
-import { FormContext, useForm } from 'react-hook-form';
-import { FormState } from './types';
-import { Col, Row } from 'antd';
+import React, {FC} from 'react';
+import {Col, Row} from 'antd';
 import SocialStatus from './components/sections/SocialStatus/SocialStatus';
 import './styles.scss';
 import SocialStatusDoc from './components/sections/SocialStatusDoc/SocialStatusDoc';
-import { Formik } from 'formik';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../reduxStore/store';
+import {Formik} from 'formik';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../reduxStore/store';
 
 const SocialStatusForm: FC = (props) => {
   const store = useSelector((state: RootState) => state.registrationCard);

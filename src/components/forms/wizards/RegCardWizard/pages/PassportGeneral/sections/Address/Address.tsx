@@ -3,7 +3,6 @@ import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import FormField from '../../../../../../components/FormField/FormField';
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import { WizardStateType } from '../../../../types';
@@ -152,7 +151,7 @@ const Address: FC<SectionProps> = (props) => {
                   }}
                   value={formValues.passportInfo[props.passportType].street}
                   placeholder={'Улица'}
-                  name={'`${sectionValuePath}.street`'}
+                  name={`${sectionValuePath}.street`}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>

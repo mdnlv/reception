@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { useField } from 'formik';
-import { DatePicker } from 'antd';
+import React, {useCallback} from 'react';
+import {useField} from 'formik';
+import {DatePicker} from 'antd';
 import moment from 'moment';
-import { DatePickerProps } from 'antd/es/date-picker';
+import {DatePickerProps} from 'antd/es/date-picker';
 
 type PickerProps = DatePickerProps & {
   name: string;

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Col, Descriptions, Row } from 'antd';
+import React, {useMemo} from 'react';
+import {Col, Descriptions, Row} from 'antd';
 import './styles.scss';
 import DetailedPatientEvent from '../../../../../types/data/DetailedPatientEvent';
 import PaginationList from '../../../../lists/PaginationList/PaginationList';

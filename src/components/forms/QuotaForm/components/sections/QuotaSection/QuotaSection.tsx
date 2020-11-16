@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import ArrayField from '../../../../components/ArrayField/ArrayField';
-import { Col, Input, Row, Select } from 'antd';
+import {Col, Input, Row, Select} from 'antd';
 import FormField from '../../../../components/FormField/FormField';
-import { useFormContext } from 'react-hook-form';
+import {useFormContext} from 'react-hook-form';
 import QuotaDetailed from '../../cards/QuotaDetailed/QuotaDetailed';
 import FormState from '../../../types';
 import './styles.scss';

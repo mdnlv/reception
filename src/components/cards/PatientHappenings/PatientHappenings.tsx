@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, {useMemo, useState} from 'react';
 import PatientHappeningsHeader from './components/PatientHappeningsHeader/PatientHappeningsHeader';
 import './styles.scss';
-import { Col, Row } from 'antd';
+import {Col, Row} from 'antd';
 import PatientHappeningsList from './components/PatienHappeningsList/PatientHappeningsList';
 import UploadDoc from '../../modals/UploadDoc/UploadDoc';
 import DetailedPatientEvent from '../../../types/data/DetailedPatientEvent';

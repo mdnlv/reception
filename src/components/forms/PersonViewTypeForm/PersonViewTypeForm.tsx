@@ -1,7 +1,6 @@
 import React, {FC} from 'react'
 import DropDownContent from "../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../components/ArrayField/ArrayField";
-import {Col, Row, Select, DatePicker, Input} from 'antd';
+import {Col, DatePicker, Row, Select} from 'antd';
 import FormField from "../components/FormField/FormField";
 import {Formik} from "formik";
 import FormArrayField from "../components/FormArrayField/FormArrayField";

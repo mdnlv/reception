@@ -1,13 +1,11 @@
-import React, {FC, useEffect} from 'react'
-import {Col, DatePicker, Input, Row, Select} from "antd";
+import React, {FC} from 'react'
+import {Col, DatePicker, Row, Select} from "antd";
 import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
 import FormState from "../../../types";
 import {useFormikContext} from "formik";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import moment from "moment";
-
 
 
 const PersonAllergy: FC = (props) => {

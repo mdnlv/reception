@@ -1,6 +1,6 @@
 import React from 'react'
 import {Formik} from "formik";
-import {Col, DatePicker, Divider, Input, Row, Select, TimePicker} from "antd";
+import {Col, DatePicker, Divider, Input, Row} from "antd";
 import FormField from "../components/FormField/FormField";
 
 const PatientLastChangeForm: React.FC = (props) => {

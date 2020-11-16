@@ -1,9 +1,9 @@
-import { Button, Col, Input, Row, Select, Space } from 'antd';
+import {Button, Col, Input, Row, Select, Space} from 'antd';
 import moment from 'moment';
-import React, { useCallback } from 'react';
-import { useFormikContext } from 'formik';
+import React, {useCallback} from 'react';
+import {useFormikContext} from 'formik';
 import FormField from '../../../../../../components/FormField/FormField';
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import {RegistrationCardStateType} from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
