@@ -86,7 +86,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                  setSearchQuery(e.target.value.trim());
                 }}
               />
               <Button onClick={submitQuery} size="small">

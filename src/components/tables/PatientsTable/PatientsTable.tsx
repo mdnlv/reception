@@ -85,7 +85,7 @@ const PatientsTable: FC<TableProps> = ({
       rowSelection={{
         type: 'radio',
         selectedRowKeys: currentPatient ? [currentPatient] : [],
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (selectedRowKeys) => {
           if (typeof selectedRowKeys[0] === 'number') {
             onPatientClick(selectedRowKeys[0]);
           }
@@ -93,7 +93,7 @@ const PatientsTable: FC<TableProps> = ({
       }}
       onRow={(record) => {
         return {
-          onClick: (event) => {
+          onClick: () => {
             onPatientClick(record.key);
           },
         };
