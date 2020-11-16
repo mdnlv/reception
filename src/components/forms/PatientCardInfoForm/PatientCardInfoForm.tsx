@@ -189,7 +189,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
               </Col>
             </Row>
           </div>
-          <h3 className={'content-title'}>Занятось</h3>
+          <h3 className={'content-title'}>Занятость</h3>
           <div className="form-section">
             <Row className={'form-section__item work-place-item'}>
               <Col>

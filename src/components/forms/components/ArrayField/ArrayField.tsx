@@ -5,7 +5,7 @@ import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
 import {FieldProps} from './types';
 
-const ArrayField = ({fieldName, renderChild}: FieldProps) => {
+function ArrayField<T>({fieldName, renderChild}: FieldProps<T>) {
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,

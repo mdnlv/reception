@@ -4,7 +4,7 @@ import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
 import {FieldProps} from "./types";
 
-const FormArrayField = ({values, name, renderChild}: FieldProps) => {
+function FormArrayField<T>({values, name, renderChild}: FieldProps<T>) {
   const initialValues = values?.length || 0;
   const [fieldsArr, setFieldsArr] = useState<string[]>(
     initialValues

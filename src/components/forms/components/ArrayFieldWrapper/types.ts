@@ -1,9 +1,9 @@
 import React from "react";
 
-export interface WrapperProps {
+export interface WrapperProps<T> {
   name: string;
-  values: [];
-  renderChild: (item: any, index: number) => React.ReactNode;
+  values: T[];
+  renderChild: (item: T, index: number) => React.ReactNode;
   onAddItem?(): void;
   onRemoveItem?(): void;
   showActions?: boolean;

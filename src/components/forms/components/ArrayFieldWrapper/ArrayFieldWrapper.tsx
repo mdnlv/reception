@@ -4,13 +4,13 @@ import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
 import {WrapperProps} from "./types";
 
-const ArrayFieldWrapper = ({
+function ArrayFieldWrapper<T>({
   onAddItem,
   onRemoveItem,
   showActions,
   values,
   renderChild,
-}: WrapperProps) => {
+}: WrapperProps<T>) {
   const onAddHandler = useCallback(() => {
     if (onAddItem) onAddItem();
   }, [onAddItem]);

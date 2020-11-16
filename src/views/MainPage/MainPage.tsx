@@ -1,16 +1,18 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
-import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+
+import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
-import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
 import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+
+import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
+import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
+import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
 
 const MainPage: FC = () => {
   const dispatch = useDispatch();
