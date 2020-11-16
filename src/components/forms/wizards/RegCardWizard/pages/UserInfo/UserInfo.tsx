@@ -38,7 +38,7 @@ const UserInfo: React.FC = () => {
   return (
     <form className="wizard-step registration-form">
       <FormField label="Код">
-        <FastInput name={'personal.code'} />
+        <FastInput disabled name={'personal.code'} />
       </FormField>
       <FormField label="Фамилия">
         <FastInput name={'personal.lastName'} />
