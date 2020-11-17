@@ -113,8 +113,7 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          {/*<FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>*/}
-          <FastInput name={'personal.snils'}/>
+          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>
