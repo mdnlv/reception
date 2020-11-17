@@ -145,7 +145,11 @@ const Address: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
-                  isDisabled={!formValues.passportInfo[passportType].area || setDisabled()}
+                  isDisabled={setDisabled()
+                    || formValues.passportInfo[passportType].area === '7800000000000'
+                    || formValues.passportInfo[passportType].area === '7700000000000'
+                    || formValues.passportInfo[passportType].area === '9200000000000'
+                  }
                   onFocus={() => {
                     getKladrNested(
                       formValues.passportInfo[passportType].area,
@@ -169,7 +173,12 @@ const Address: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrStreets}
-                  isDisabled={!formValues.passportInfo[passportType].city || setDisabled()}
+                  isDisabled={
+                    setDisabled()
+                      || formValues.passportInfo[passportType].area !== '7800000000000'
+                      && formValues.passportInfo[passportType].area !== '7700000000000'
+                      && formValues.passportInfo[passportType].area !== '9200000000000'
+                  }
                   onFocus={() => {
                     getKladrStreets(
                       formValues.passportInfo[passportType].city,
