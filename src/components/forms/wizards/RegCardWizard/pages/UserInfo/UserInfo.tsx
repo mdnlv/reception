@@ -19,6 +19,7 @@ import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
+import FastMaskedInput from "../../../../components/fields/FastMaskedInput/FastMaskedInput";
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
@@ -112,7 +113,8 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <FastInput name={'personal.snils'} />
+          {/*<FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>*/}
+          <FastInput name={'personal.snils'}/>
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>

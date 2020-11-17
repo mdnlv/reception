@@ -100,6 +100,10 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 <Select
                   value={formProps[index]?.type}
                   onChange={(val) => {
+                    console.log(`index: ${index}`);
+                    console.log(`val: ${val}`);
+                    debugger;
+                    //index всегда 0
                     form.setFieldValue(getSelectionItem(index, 'type'), val);
                   }}>
                   {typesOptions}
