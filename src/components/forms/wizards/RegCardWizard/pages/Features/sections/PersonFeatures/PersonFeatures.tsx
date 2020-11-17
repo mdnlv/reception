@@ -1,19 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import {Col, Input, InputNumber, Row, Select} from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Особенности';
-
-enum LABELS {
-  BLOOD_GROUP = 'Группа крови',
-  NOTE = 'Примечание',
-  DIAGNOSIS = 'Диагноз',
-  WEIGHT = 'Вес при рождении',
-  HEIGHT = 'Рост при рождении',
-  WEEK = 'Неделя эмбрионального периода',
-}
 
 const PersonFeatures: React.FC = () => {
   return (

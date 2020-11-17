@@ -1,23 +1,26 @@
 import React from 'react';
 import {useField} from 'formik';
 import {Select} from 'antd';
-import {SelectProps, SelectValue} from 'antd/es/select';
 
-interface SearchSelectProps extends SelectProps<SelectValue> {
-  name: string;
-}
+import {SearchSelectProps} from "./types";
 
-const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
-  const [field, meta, form] = useField(props.name);
+const FastSearchSelect: React.FC<SearchSelectProps> = ({
+  name,
+  children,
+  isDisabled,
+  valueSet
+}) => {
+  const [field, meta, form] = useField(name);
 
   return (
     <Select
-      {...props}
-      value={field.value}
+      {...{name, children}}
+      value={valueSet ? valueSet : field.value}
+      disabled={isDisabled}
       onChange={(val) => {
         form.setValue(val);
       }}>
-      {props.children}
+      {children}
     </Select>
   );
 };

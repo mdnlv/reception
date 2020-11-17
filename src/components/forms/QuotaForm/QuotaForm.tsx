@@ -1,12 +1,12 @@
 import React, {FC} from "react"
 import {FormContext, useForm} from "react-hook-form"
 import {Col, Divider, Row} from "antd";
-import QuotaSection from "./components/sections/QuotaSection/QuotaSection";
-import SurgerySection from "./components/sections/SurgerySection/SurgerySection";
 import FormState from "./types";
 
-const QuotaForm: FC = (props) => {
+import QuotaSection from "./components/sections/QuotaSection/QuotaSection";
+import SurgerySection from "./components/sections/SurgerySection/SurgerySection";
 
+const QuotaForm: FC = () => {
     const form = useForm<FormState>({
         mode: 'onChange',
         defaultValues: {

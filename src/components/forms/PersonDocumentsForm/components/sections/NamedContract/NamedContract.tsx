@@ -1,14 +1,15 @@
 import React, {FC} from 'react'
 import {Col, DatePicker, Row, Select} from "antd";
+import {useFormikContext} from "formik";
+import moment from "moment";
+
+import FormState from "../../../types";
+
 import FormField from "../../../../components/FormField/FormField";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import {useFormikContext} from "formik";
-import FormState from "../../../types";
-import moment from "moment";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-const NamedContract: FC = (props) => {
-
+const NamedContract: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (

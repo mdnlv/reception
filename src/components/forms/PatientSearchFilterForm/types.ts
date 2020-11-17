@@ -7,6 +7,12 @@ interface FormState extends PatientsSearchFiltersType {
   birthYear: undefined;
 }
 
+export interface FormProps {
+  onClose?(): void;
+  onClearForm?(): void;
+  onSubmit?(): void;
+}
+
 type PartialFormState = Partial<FormState>;
 
 export default PartialFormState;

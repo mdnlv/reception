@@ -1,22 +1,20 @@
 import React from 'react';
 import { FastField, FastFieldProps } from 'formik';
+
+import {InputProps} from "./types";
+
 import InputNumberFastField from '../InputNumberFastField/InputNumberFastField';
-import { InputNumberProps } from 'antd/es/input-number';
 
-interface InputProps extends InputNumberProps {
-  name: string;
-}
-
-const FastInputNumber: React.FC<InputProps> = (props) => {
+const FastInputNumber: React.FC<InputProps> = ({name}) => {
   return (
-    <FastField name={props.name}>
+    <FastField name={name}>
       {({ field, meta, form }: FastFieldProps) => (
         <InputNumberFastField
-          {...props}
-          name={props.name}
+          {...{name}}
+          name={name}
           value={field.value}
           onChange={(val) => {
-            form.setFieldValue(props.name, val);
+            form.setFieldValue(name, val);
           }}
         />
       )}

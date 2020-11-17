@@ -1,20 +1,24 @@
-import React, {FC} from 'react'
-import {Col, DatePicker, Divider, Input, Row, Select} from "antd";
-import {FormState, SocialStatus as SocialStatusType} from "../../../types";
-import FormField from "../../../../components/FormField/FormField";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import React, {FC} from 'react';
+import {Col, Input, Row, Select, DatePicker, Divider} from "antd";
 import {useFormikContext} from "formik";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import moment from "moment";
 
-const SocialStatus: FC = (props) => {
+import {FormState, SocialStatus as SocialStatusType} from "../../../types";
 
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+
+const SocialStatus: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section social-status'}>
             <DropDownContent title={'Соц.статус'}>
-                <FormArrayField<SocialStatusType> values={form.values.socialStatus} name={'socialStatus'} renderChild={
+                <FormArrayField<SocialStatusType>
+                  values={form.values.socialStatus}
+                  name={'socialStatus'}
+                  renderChild={
                     (key, index) => (
                         <div key={key}>
                             <Row gutter={16}>
@@ -52,8 +56,8 @@ const SocialStatus: FC = (props) => {
                             </Row>
                             <Divider/>
                         </div>
-                    )
-                }/>
+                        )
+                  }/>
             </DropDownContent>
         </div>
     )

@@ -1,16 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import {Col, DatePicker, Input, Row, Select} from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Прочее';
-
-enum LABELS {
-  INFO = 'Вы получили информацию о нашем учереждении',
-  DATA = 'Дата',
-  NOTE = 'Примечание',
-}
 
 const Etc: React.FC = () => {
   return (

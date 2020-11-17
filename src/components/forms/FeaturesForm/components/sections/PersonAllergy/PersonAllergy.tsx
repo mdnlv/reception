@@ -1,15 +1,16 @@
 import React, {FC} from 'react'
 import {Col, DatePicker, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import FormState from "../../../types";
 import {useFormikContext} from "formik";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+
 import moment from "moment";
 
+import FormState from "../../../types";
 
-const PersonAllergy: FC = (props) => {
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
+const PersonAllergy: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
@@ -30,7 +31,10 @@ const PersonAllergy: FC = (props) => {
                             </Col>
                             <Col span={5}>
                                 <FormField label={'Дата установления'}>
-                                    <DatePicker value={moment(form.values.allergy[index]?.fromDate)} onChange={form.handleChange} />
+                                    <DatePicker
+                                      value={moment(form.values.allergy[index]?.fromDate)}
+                                      onChange={form.handleChange}
+                                    />
                                 </FormField>
                             </Col>
                         </Row>

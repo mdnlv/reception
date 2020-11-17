@@ -1,13 +1,14 @@
 import React, {FC} from 'react'
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import {Col, Divider, InputNumber, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import FormState from "../../../types";
+import {Col, Row, InputNumber, Select, Divider} from "antd";
 import {useFormikContext} from "formik";
+
+import FormState from "../../../types";
+
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormField from "../../../../components/FormField/FormField";
 import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
-const PersonHazard: FC = (props) => {
-
+const PersonHazard: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (

@@ -8,25 +8,22 @@ import {
   isSameMonth,
   subDays,
 } from 'date-fns';
-import './styles.scss';
 import moment from 'moment';
 import { ru } from 'date-fns/locale';
-import { ScheduleTableModeType } from '../../../../types';
 import DatePicker from 'antd/lib/date-picker';
 import Popover from 'antd/lib/popover';
 import Row from 'antd/lib/row';
 
-interface PickerProps {
-  current: Date;
-  onDateChange(date: Date): void;
-  onRangeWeekChange(date: Date): void;
-  mode: ScheduleTableModeType;
-  rangeWeekDate: Date;
-}
+import './styles.scss';
+import {PickerProps, DateMode} from "./types";
 
-type DateMode = 'default' | 'detailed';
-
-const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
+const ScheduleDatePicker: React.FC<PickerProps> = ({
+  current,
+  onDateChange,
+  onRangeWeekChange,
+  mode,
+  rangeWeekDate
+}) => {
   const [visibleMode, setVisibleMode] = useState(false);
 
   const onDateModeChange = useCallback(() => {
@@ -34,25 +31,25 @@ const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
   }, [setVisibleMode]);
 
   const dateContent = () => {
-    if (props.mode === 'day') {
+    if (mode === 'day') {
       return (
         <div>
-          {format(props.current, 'EEEEEE d MMMM', {
+          {format(current, 'EEEEEE d MMMM', {
             locale: ru,
           })}
         </div>
       );
-    } else if (props.mode === 'week') {
-      const lastDate = addDays(props.current, 14);
-      if (isSameMonth(props.current, lastDate)) {
-        return `${getWeekOfMonth(props.current)}-${getWeekOfMonth(
+    } else if (mode === 'week') {
+      const lastDate = addDays(current, 14);
+      if (isSameMonth(current, lastDate)) {
+        return `${getWeekOfMonth(current)}-${getWeekOfMonth(
           lastDate,
-        )} недели ${format(props.current, 'MMM', {
+        )} недели ${format(current, 'MMM', {
           locale: ru,
         })}`;
       } else {
-        return `${getWeekOfMonth(props.current)} неделя(${format(
-          props.current,
+        return `${getWeekOfMonth(current)} неделя(${format(
+          current,
           'MMM',
           {
             locale: ru,
@@ -68,7 +65,7 @@ const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
 
   const onPickerDateChange = useCallback((_: unknown, dateString: string) => {
     if (dateString) {
-      props.onDateChange(new Date(dateString));
+      onDateChange(new Date(dateString));
     }
   }, []);
 
@@ -84,30 +81,30 @@ const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
         dateStrings[0] &&
         dateStrings[1]
       ) {
-        props.onDateChange(new Date(dateStrings[0]));
-        props.onRangeWeekChange(new Date(dateStrings[1]));
+        onDateChange(new Date(dateStrings[0]));
+        onRangeWeekChange(new Date(dateStrings[1]));
       }
     },
     [],
   );
 
   const popoverContent = () => {
-    if (props.mode === 'day') {
+    if (mode === 'day') {
       return (
         <DatePicker
           onChange={onPickerDateChange}
-          value={moment(props.current || new Date())}
+          value={moment(current || new Date())}
         />
       );
-    } else if (props.mode === 'week') {
+    } else if (mode === 'week') {
       return (
         <DatePicker.RangePicker
           onChange={onRangePickerChange}
           value={[
-            moment(props.current || new Date()),
-            props.current < props.rangeWeekDate
-              ? moment(props.rangeWeekDate || addDays(new Date(), 14))
-              : moment(addDays(props.current, 14)),
+            moment(current || new Date()),
+            current < rangeWeekDate
+              ? moment(rangeWeekDate || addDays(new Date(), 14))
+              : moment(addDays(current, 14)),
           ]}
         />
       );
@@ -116,10 +113,10 @@ const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
 
   return (
     <Row justify={'center'} align={'middle'}>
-      {props.mode === 'day' && (
+      {mode === 'day' && (
         <div
           onClick={() => {
-            props.onDateChange(subDays(props.current, 1));
+            onDateChange(subDays(current, 1));
           }}
           className={'picker-action__wrapper'}>
           <LeftOutlined />
@@ -133,10 +130,10 @@ const ScheduleDatePicker: React.FC<PickerProps> = (props) => {
           <div>{dateContent()}</div>
         </Popover>
       </div>
-      {props.mode === 'day' && (
+      {mode === 'day' && (
         <div
           onClick={() => {
-            props.onDateChange(addDays(props.current, 1));
+            onDateChange(addDays(current, 1));
           }}
           className={'picker-action__wrapper'}>
           <RightOutlined />

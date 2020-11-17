@@ -1,17 +1,14 @@
 import React, {useMemo, useState} from 'react';
-import PatientHappeningsHeader from './components/PatientHappeningsHeader/PatientHappeningsHeader';
+import { Col, Row } from 'antd';
+
 import './styles.scss';
-import {Col, Row} from 'antd';
+import HappeningsProps from "./types";
+
+import PatientHappeningsHeader from './components/PatientHappeningsHeader/PatientHappeningsHeader';
 import PatientHappeningsList from './components/PatienHappeningsList/PatientHappeningsList';
 import UploadDoc from '../../modals/UploadDoc/UploadDoc';
-import DetailedPatientEvent from '../../../types/data/DetailedPatientEvent';
 
-interface HappeningsProps {
-  events: DetailedPatientEvent[];
-  isLoading?: boolean;
-}
-
-const PatientHappenings: React.FC<HappeningsProps> = (props) => {
+const PatientHappenings: React.FC<HappeningsProps> = ({events, isLoading}) => {
   const [selectedHappening, setSelectedHappening] = useState<
     number | undefined
   >(1);
@@ -26,13 +23,13 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
     }
   };
 
-  function onQueryChange(query: string) {
+  const onQueryChange = (query: string) => {
     setSearchQuery(query);
   }
 
   const getQueryEvents = useMemo(() => {
     if (searchQuery) {
-      return props.events.filter((item) => {
+      return events.filter((item) => {
         return (
           item.assignDoc.toLowerCase().indexOf(searchQuery.toLowerCase()) !==
             -1 ||
@@ -43,9 +40,9 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
         );
       });
     } else {
-      return props.events;
+      return events;
     }
-  }, [searchQuery, props.events]);
+  }, [searchQuery, events]);
 
   const showUploadModal = () => {
     setVisibleModal(true);
@@ -69,7 +66,7 @@ const PatientHappenings: React.FC<HappeningsProps> = (props) => {
               data={getQueryEvents}
               onSelect={selectHappening}
               selectedItem={selectedHappening}
-              isLoading={props.isLoading}
+              isLoading={isLoading}
             />
           </Col>
         </Row>

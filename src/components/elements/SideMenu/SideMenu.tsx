@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { Menu } from 'antd/lib';
+
 import './styles.scss';
 import BoxIcon from '../../../assets/icons/box.svg';
 import TableIcon from '../../../assets/icons/table-up.svg';
 
-const SideMenu: FC = (props) => {
+const SideMenu: FC = () => {
   return (
     <Menu className="side-menu" theme={'dark'}>
       <Menu.Item className="side-menu__item">

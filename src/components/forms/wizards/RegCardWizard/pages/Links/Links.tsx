@@ -1,15 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import { Col, Divider, Row, Select } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
 import FormField from '../../../../components/FormField/FormField';
-
-const DROPDOWN_TITLE = 'Связи';
-
-enum LABELS {
-  DIRECT_LINK = 'Прямая связь',
-  WITH_PATIENT = 'Связь с пациентом',
-}
 
 const Links: React.FC = () => {
   return (

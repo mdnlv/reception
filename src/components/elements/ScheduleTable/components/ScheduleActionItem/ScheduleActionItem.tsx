@@ -1,19 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
-import './styles.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import Popover from 'antd/lib/popover';
 import Descriptions from 'antd/lib/descriptions';
 
-interface ItemProps {
-  type: 'default' | 'closed' | 'empty';
-  onClick?(): void;
-  info?: {
-    clientId: number;
-    name: string;
-  };
-  onNewScheduleItem(): void;
-  width: number;
-}
+import './styles.scss';
+import {ItemProps} from "./types";
 
 const ScheduleActionItem: React.FC<ItemProps> = ({
   onClick,

@@ -2,14 +2,7 @@ import React, { useCallback } from 'react';
 import { Button, Space, Tooltip } from 'antd';
 import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
-interface WrapperProps<T> {
-  name: string;
-  values: T[];
-  renderChild: (item: T, index: number) => React.ReactNode;
-  onAddItem?(): void;
-  onRemoveItem?(): void;
-  showActions?: boolean;
-}
+import {WrapperProps} from "./types";
 
 function ArrayFieldWrapper<T>({
   onAddItem,
@@ -31,6 +24,7 @@ function ArrayFieldWrapper<T>({
       return values?.map((item, index) => renderChild(item, index));
     }
   }, [values]);
+
   return (
     <div>
       {showActions && (

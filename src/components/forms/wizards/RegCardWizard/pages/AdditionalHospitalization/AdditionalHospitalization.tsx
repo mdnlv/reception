@@ -1,17 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import { Col, DatePicker, Input, Row } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Дополнительная диспансеризация';
-
-enum LABELS {
-  CODE = 'Код',
-  DATE = 'Дата начала',
-  END_DATE = 'Дата окончания',
-  CODE_MO = 'Код МО',
-}
 
 const AdditionalHospitalization: React.FC = () => {
   return (

@@ -1,21 +1,19 @@
 import React, {useCallback} from 'react';
-import {Col, Divider, Row} from 'antd';
-import PersonalIdent from '../../../../PersonDocumentsForm/components/sections/PersonalIdent/PersonalIdent';
-import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
-import SocialStatus from '../../../../PersonDocumentsForm/components/sections/SocialStatus/SocialStatus';
-import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
-import {useFormContext} from 'react-hook-form';
-import {RegistrationCardStateType} from '../../../../../../reduxStore/slices/registrationCard/initialState';
-import {useSelector} from 'react-redux';
+import { Col, Divider, Row } from 'antd';
+import { useSelector } from 'react-redux';
+
 import {
     detailedCMOSelector,
     detailedPolicyKindsSelector,
     detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 
-const PersonDocuments: React.FC = (props) => {
-  const form = useFormContext<RegistrationCardStateType>();
+import PersonalIdent from '../../../../PersonDocumentsForm/components/sections/PersonalIdent/PersonalIdent';
+import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
+import SocialStatus from '../../../../PersonDocumentsForm/components/sections/SocialStatus/SocialStatus';
+import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
 
+const PersonDocuments: React.FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
   const policyKinds = useSelector(detailedPolicyKindsSelector);
   const cmoTypes = useSelector(detailedCMOSelector);

@@ -1,20 +1,21 @@
 import React from 'react';
 import { Spin } from 'antd';
+
 import './styles.scss';
+import {ContentProps} from "./types";
 
-interface ContentProps {
-  isLoading: boolean;
-}
-
-const LoadingContent: React.FC<ContentProps> = (props) => {
+const LoadingContent: React.FC<ContentProps> = ({
+  isLoading,
+  children
+}) => {
   return (
     <div className={'loading-content'}>
-      {props.isLoading ? (
+      {isLoading ? (
         <div className={'loading-content__spinner'}>
           <Spin />
         </div>
       ) : (
-        props.children
+        children
       )}
     </div>
   );

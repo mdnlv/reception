@@ -4,17 +4,12 @@ import { SearchOutlined } from '@ant-design/icons';
 import { usePaginationList } from '../../../hooks/paginationList';
 import { chunk } from 'lodash';
 import './styles.scss';
+import {ListProps} from "./types";
 
-interface ListProps<T> {
-  data?: T[];
-  renderItem?(item: T): React.ReactNode;
-  perPage?: number;
-}
-
-function PaginationSearchList<T>(props: PropsWithChildren<ListProps<T>>) {
-  const numberPerPage = props.perPage ? props.perPage : 42;
+function PaginationSearchList<T>({data, perPage, renderItem}: PropsWithChildren<ListProps<T>>) {
+  const numberPerPage = perPage ? perPage : 42;
   const { currentPage, totalPages, setCurrentPage } = usePaginationList({
-    len: props.data?.length || 0,
+    len: data?.length || 0,
     numberPerPage,
   });
 
@@ -22,13 +17,13 @@ function PaginationSearchList<T>(props: PropsWithChildren<ListProps<T>>) {
     const bodyRows = [];
     const startIndex = (currentPage - 1) * numberPerPage;
     const endIndex = startIndex + numberPerPage;
-    const groupedArr = chunk(props.data?.slice(startIndex, endIndex), 6);
+    const groupedArr = chunk(data?.slice(startIndex, endIndex), 6);
     for (let i = 0; i < groupedArr.length; i++) {
       const colArr = groupedArr[i].map((item, index) => {
-        if (props.renderItem) {
+        if (renderItem) {
           return (
             <Col key={index} span={4}>
-              {props.renderItem(item)}
+              {renderItem(item)}
             </Col>
           );
         }
@@ -42,7 +37,7 @@ function PaginationSearchList<T>(props: PropsWithChildren<ListProps<T>>) {
       }
     }
     return bodyRows;
-  }, [props.data, props.renderItem, currentPage, numberPerPage]);
+  }, [data, renderItem, currentPage, numberPerPage]);
 
   return (
     <div className={'pagination-search-list'}>
@@ -63,7 +58,7 @@ function PaginationSearchList<T>(props: PropsWithChildren<ListProps<T>>) {
             }}
             defaultCurrent={currentPage}
             pageSize={numberPerPage}
-            total={props.data?.length}
+            total={data?.length}
           />
         </Col>
       </Row>

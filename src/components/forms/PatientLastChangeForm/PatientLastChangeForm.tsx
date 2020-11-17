@@ -1,9 +1,10 @@
 import React from 'react'
 import {Formik} from "formik";
 import {Col, DatePicker, Divider, Input, Row} from "antd";
+
 import FormField from "../components/FormField/FormField";
 
-const PatientLastChangeForm: React.FC = (props) => {
+const PatientLastChangeForm: React.FC = () => {
     return (
         <Formik
             initialValues={{}}

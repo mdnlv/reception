@@ -1,23 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Checkbox, Col, DatePicker, Input, Row, Select } from 'antd';
+
+import {LABELS, DROPDOWN_LABEL} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_LABEL = 'Инвалидность';
-
-enum LABELS {
-  SOMAT = 'Сомат',
-  SET_DATE = 'Дата установления',
-  TIME = 'Бессрочно',
-  GROUP = 'Группа',
-  NEXT_PLAN = 'Очередное переосв.',
-  WORK_PLACE = 'Место работы',
-  DEGREE = 'Степень утраты трудосп.',
-  ORIGIN = 'Перв.',
-  HOSPITAL = 'Стационар',
-  NOTE = 'Примечание',
-}
 
 const Disability: React.FC = () => {
   return (

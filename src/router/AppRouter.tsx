@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import RegistrationCard from '../views/RegistrationCard/RegistrationCard';
 import { Result } from 'antd';
+
+import RegistrationCard from '../views/RegistrationCard/RegistrationCard';
 import MainPage from '../views/MainPage/MainPage';
 import PatientCard from '../views/PatientCard/PatientCard';
 import InfoPage from '../views/InfoPage/InfoPage';
 
-const AppRouter: FC = (props) => {
+const AppRouter: FC = () => {
   return (
     <Switch>
       <Route exact path="/regcard">

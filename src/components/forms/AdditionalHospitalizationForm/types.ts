@@ -1,5 +1,3 @@
-
-
 export interface PersonAddHospitalization {
     code: string
     fromDate: Date

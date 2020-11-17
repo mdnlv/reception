@@ -1,11 +1,10 @@
 import React, {useCallback} from 'react';
 import {Col, Row, Select} from 'antd/lib';
+
+import {SectionProps} from "./types";
+
 import FormField from '../../../../components/FormField/FormField';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-
-interface SectionProps {
-  orgs: { id: number; name: string }[];
-}
 
 const PersonBed: React.FC<SectionProps> = ({ orgs }) => {
   const bedTypeList = ['не задано', 'на лечении', 'на выписке', 'в очереди'];

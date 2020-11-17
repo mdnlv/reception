@@ -1,6 +1,5 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
-import FormField from '../../../../components/FormField/FormField';
 import {
   Button,
   Checkbox,
@@ -14,12 +13,15 @@ import {
 import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
+
+import { WizardStateType } from '../../types';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+
+import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import { WizardStateType } from '../../types';
 
 const UserInfo: React.FC = () => {
   const formProps = useFormikContext<WizardStateType>();
@@ -36,7 +38,7 @@ const UserInfo: React.FC = () => {
   return (
     <form className="wizard-step registration-form">
       <FormField label="Код">
-        <FastInput name={'personal.code'} />
+        <FastInput disabled name={'personal.code'} />
       </FormField>
       <FormField label="Фамилия">
         <FastInput name={'personal.lastName'} />

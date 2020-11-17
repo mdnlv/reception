@@ -1,18 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import {Col, DatePicker, Input, Row, Select} from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Обследования';
-
-enum LABELS {
-  CLASS = 'Класс',
-  TYPE = 'Тип',
-  START_DATE = 'Дата начала',
-  END_DATE = 'Дата окончания',
-  NOTE = 'Примечание',
-}
 
 const Inspection: React.FC = () => {
   return (

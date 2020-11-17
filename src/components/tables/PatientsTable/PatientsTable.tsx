@@ -1,26 +1,17 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import Table from 'antd/lib/table';
-import './styles.scss';
 import moment from 'moment';
-import Patient from '../../../types/data/Patient';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
-type TableProps = {
-  patients: Patient[];
-  isLoading: boolean;
-  onPatientClick: (id: number) => void;
-  currentPatient?: number;
-};
+import './styles.scss';
+import {TableProps} from "./types";
 
-type ToolTipInfo = {
-  fullName: string;
-  lastChange: Date;
-};
-
-const PatientsTable: FC<TableProps> = (props) => {
-  const navigation = useHistory();
-
+const PatientsTable: FC<TableProps> = ({
+  patients,
+  isLoading,
+  onPatientClick,
+  currentPatient
+}) => {
   const columns = [
     {
       title: 'ФИО',
@@ -58,7 +49,7 @@ const PatientsTable: FC<TableProps> = (props) => {
     },
   ];
 
-  function getSexName(sex: 1 | 2) {
+  const getSexName = (sex: 1 | 2) => {
     switch (sex) {
       case 1:
         return 'М';
@@ -68,7 +59,7 @@ const PatientsTable: FC<TableProps> = (props) => {
   }
 
   const getFormattedProps = useMemo(() => {
-    return props.patients.map((item, index) => {
+    return patients.map((item, index) => {
       return {
         ...item,
         key: item.code,
@@ -84,28 +75,26 @@ const PatientsTable: FC<TableProps> = (props) => {
         route: <Link to={`/card/${item.code}`}>Перейти</Link>,
       };
     });
-  }, [props.patients]);
-
-  const onRowChange = useCallback(() => {}, [props.onPatientClick]);
+  }, [patients]);
 
   return (
     <Table
-      loading={props.isLoading}
+      loading={isLoading}
       dataSource={getFormattedProps}
       columns={columns}
       rowSelection={{
         type: 'radio',
-        selectedRowKeys: props.currentPatient ? [props.currentPatient] : [],
-        onChange: (selectedRowKeys, selectedRows) => {
+        selectedRowKeys: currentPatient ? [currentPatient] : [],
+        onChange: (selectedRowKeys) => {
           if (typeof selectedRowKeys[0] === 'number') {
-            props.onPatientClick(selectedRowKeys[0]);
+            onPatientClick(selectedRowKeys[0]);
           }
         },
       }}
       onRow={(record) => {
         return {
-          onClick: (event) => {
-            props.onPatientClick(record.key);
+          onClick: () => {
+            onPatientClick(record.key);
           },
         };
       }}

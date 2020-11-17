@@ -11,3 +11,16 @@ export interface PersonOffence {
 export default interface OffencesForm {
   offences: PersonOffence[];
 }
+
+export const DROPDOWN_TITLE = 'Правонарушения';
+
+export enum LABELS {
+  ARTICLE = 'Статья УК',
+  COURT = 'Суд',
+  NUMBER = '№ дела',
+  DATE = 'Дата постановления',
+  DECREE = 'Постановление',
+  DOCTOR = 'Врач',
+  NEXT_COURT = 'Дата очередного обращения в суд',
+  NOTE = 'Примечание',
+}

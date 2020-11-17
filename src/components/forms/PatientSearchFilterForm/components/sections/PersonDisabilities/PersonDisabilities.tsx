@@ -1,21 +1,14 @@
 import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd/lib';
-import FormField from '../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
+
 import FormState from '../../../types';
+import {SectionProps, InvalidArrayType} from "./types";
+
+import FormField from '../../../../components/FormField/FormField';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
-
-interface InvalidArrayType {
-  id: number;
-  name: string;
-}
-
-interface SectionProps {
-  invalidReasons: InvalidArrayType[];
-  invalidDocs: InvalidArrayType[];
-}
 
 const PersonDisabilities: React.FC<SectionProps> = ({
   invalidDocs,

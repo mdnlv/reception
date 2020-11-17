@@ -1,19 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Button, Col, Divider, Row } from 'antd/lib';
-import PersonDisabilities from './components/sections/PersonDisabilities/PersonDisabilities';
-import AuthorDateChange from './components/sections/AuthorDateChange/AuthorDateChange';
-import PersonalData from './components/sections/PersonalData/PersonalData';
-import LpuAttachment from './components/sections/LpuAttachment/LpuAttachment';
-import RpfAcceptPeriod from './components/sections/RpfAcceptPeriod/RpfAcceptPeriod';
-import PreventiveMeasures from './components/sections/PreventiveMeasures/PreventiveMeasures';
-import OutsideIdn from './components/sections/OutsideIdn/OutsideIdn';
+import { useDispatch, useSelector } from 'react-redux';
+
 import './styles.scss';
 import PartialFormState from './types';
-import { useDispatch, useSelector } from 'react-redux';
-import PersonArea from './components/sections/PersonArea/PersonArea';
-import PersonBed from './components/sections/PersonBed/PersonBed';
-import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
+import {FormProps} from "./types";
 import validation from './validation';
 import { fetchFiltersPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 import {
@@ -24,11 +16,18 @@ import {
   detailedPersonsSelector,
 } from '../../../reduxStore/slices/rb/selectors';
 
-interface FormProps {
-  onClose?(): void;
-  onClearForm?(): void;
-  onSubmit?(): void;
-}
+import PersonDisabilities from './components/sections/PersonDisabilities/PersonDisabilities';
+import AuthorDateChange from './components/sections/AuthorDateChange/AuthorDateChange';
+import PersonalData from './components/sections/PersonalData/PersonalData';
+import LpuAttachment from './components/sections/LpuAttachment/LpuAttachment';
+import RpfAcceptPeriod from './components/sections/RpfAcceptPeriod/RpfAcceptPeriod';
+import PreventiveMeasures from './components/sections/PreventiveMeasures/PreventiveMeasures';
+import OutsideIdn from './components/sections/OutsideIdn/OutsideIdn';
+import PersonArea from './components/sections/PersonArea/PersonArea';
+import PersonBed from './components/sections/PersonBed/PersonBed';
+import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
+
+
 
 const initialStore: PartialFormState = {
   tempInvalidDocumentBegDate: '',
@@ -49,7 +48,11 @@ const initialStore: PartialFormState = {
   birthMonth: undefined,
 };
 
-const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
+const PatientSearchFilterForm: React.FC<FormProps> = ({
+  onClose,
+  onClearForm,
+  onSubmit
+}) => {
   const dispatch = useDispatch();
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
   const rbPersons = useSelector(detailedPersonsSelector);
@@ -57,9 +60,9 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
   const rbOrgs = useSelector(detailedOrganisationsSelector);
   const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
-  const onSubmit = (values: PartialFormState) => {
-    if (props.onSubmit) {
-      props.onSubmit();
+  const onFormSubmit = (values: PartialFormState) => {
+    if (onSubmit) {
+      onSubmit();
     }
     //todo clear func props
     dispatch(
@@ -70,8 +73,8 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
         begBirthDate: '2000-01-01',
       }),
     );
-    if (props.onClose) {
-      props.onClose();
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -79,7 +82,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
     <Formik
       initialValues={{ ...initialStore }}
       validationSchema={validation}
-      onSubmit={onSubmit}>
+      onSubmit={onFormSubmit}>
       {(formProps) => (
         <form className={'patient-search-filter-form'}>
           <Row>
@@ -128,8 +131,8 @@ const PatientSearchFilterForm: React.FC<FormProps> = (props) => {
               <Button
                 type={'primary'}
                 onClick={() => {
-                  if (props.onClearForm) {
-                    props.onClearForm();
+                  if (onClearForm) {
+                    onClearForm();
                   }
                 }}
                 danger>

@@ -1,41 +1,33 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import FormField from '../../../../../../components/FormField/FormField';
+
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import { WizardStateType } from '../../../../types';
+import {SectionProps, KladrItem} from "./types";
+
+import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import { WizardStateType } from '../../../../types';
 
-interface KladrItem {
-  id: string;
-  name: string;
-  socr: string;
-}
-
-interface PrefixKladrItem extends KladrItem {
-  prefix: string;
-}
-
-interface SectionProps {
-  passportType: 'addressRegistration' | 'documentedAddress';
-  kladr: PrefixKladrItem[];
-  nestedKladr: PrefixKladrItem[];
-  kladrStreets: KladrItem[];
-  isLoadingKladr: boolean;
-  isLoadingKladrNested: boolean;
-  isLoadingKladrStreets: boolean;
-  getKladrNested(id: string, type: KladrDocType): void;
-  getKladrStreets(id: string, type: KladrDocType): void;
-}
-
-const Address: FC<SectionProps> = (props) => {
+const Address: FC<SectionProps> = ({
+  passportType,
+  kladr,
+  nestedKladr,
+  kladrStreets,
+  isLoadingKladr,
+  isLoadingKladrNested,
+  isLoadingKladrStreets,
+  getKladrNested,
+  getKladrStreets
+}) => {
+  const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
-  const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;
+  const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
 
-  function getKladrDetailed(kladrArr: KladrItem[]) {
+  const getKladrDetailed = (kladrArr: KladrItem[]) => {
     return kladrArr.map((item) => (
       <Select.Option
         key={item.id}
@@ -46,18 +38,18 @@ const Address: FC<SectionProps> = (props) => {
     ));
   }
 
-  function getTitle() {
-    switch (props.passportType) {
+  const getTitle = () => {
+    switch (passportType) {
       case 'documentedAddress':
-        return 'Адрес регистрация';
+        return 'Адрес регистрации';
       case 'addressRegistration':
         return 'Адрес проживания';
     }
   }
 
-  function getType() {
+  const getType = () => {
     let type: KladrDocType;
-    switch (props.passportType) {
+    switch (passportType) {
       case 'addressRegistration':
         type = 'registration';
         break;
@@ -68,21 +60,52 @@ const Address: FC<SectionProps> = (props) => {
     return type;
   }
 
+  const setValue = (field: string) =>
+    isDocumentedAddress && passportType !== 'documentedAddress'
+      ? formValues.passportInfo['documentedAddress'][field]
+      : formValues.passportInfo[passportType][field];
+
+  const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
+
   //clear select fields after top-level select changed
   useEffect(() => {
     const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
     toEmptyFields.map((item) => {
       form.setFieldValue(`${sectionValuePath}.${item}`, '');
     });
-  }, [formValues.passportInfo[props.passportType].street]);
+  }, [formValues.passportInfo[passportType].street]);
 
   useEffect(() => {
     form.setFieldValue(`${sectionValuePath}.street`, '');
-  }, [formValues.passportInfo[props.passportType].city]);
+  }, [formValues.passportInfo[passportType].city]);
 
   useEffect(() => {
     form.setFieldValue(`${sectionValuePath}.city`, '');
-  }, [formValues.passportInfo[props.passportType].area]);
+  }, [formValues.passportInfo[passportType].area]);
+
+  useEffect(() => {
+    formValues.passportInfo['addressRegistration'].isDocumentedAddress ? setIsDocumentedAddress(true) : setIsDocumentedAddress(false);
+  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress]);
+
+  useEffect(() => {
+    if (formValues.passportInfo[passportType].isKLADR) {
+      form.setFieldValue(`${sectionValuePath}.freeInput`, '');
+    } else {
+      for (let key in formValues.passportInfo[passportType]) {
+        if (key !== 'freeInput' && key !== 'isKLADR' && key !== 'isDocumentedAddress') {
+          form.setFieldValue(`${sectionValuePath}[${key}]`, '');
+        }
+      }
+    }
+  }, [formValues.passportInfo[passportType].isKLADR]);
+
+  useEffect(() => {
+    if (isDocumentedAddress && passportType !== 'documentedAddress') {
+      form.setFieldValue(`${sectionValuePath}.isKLADR`, formValues.passportInfo['documentedAddress'].isKLADR);
+    } else {
+      form.setFieldValue(`${sectionValuePath}.isKLADR`, formValues.passportInfo[passportType].isKLADR);
+    }
+  }, [isDocumentedAddress, formValues.passportInfo['documentedAddress'].isKLADR]);
 
   return (
     <div className="form-section address-registration">
@@ -90,7 +113,8 @@ const Address: FC<SectionProps> = (props) => {
       <Row gutter={16} className="form-row">
         <Col span={8}>
           <Radio.Group
-            value={formValues.passportInfo[props.passportType].isKLADR}
+            value={setValue('isKLADR')}
+            disabled={setDisabled()}
             name={`${sectionValuePath}.isKLADR`}
             onChange={form.handleChange}>
             <Radio value={true}>КЛАДР</Radio>
@@ -98,41 +122,44 @@ const Address: FC<SectionProps> = (props) => {
           </Radio.Group>
         </Col>
       </Row>
-      {formValues.passportInfo[props.passportType].isKLADR && (
+      {formValues.passportInfo[passportType].isKLADR && (
         <>
           <Row gutter={16} className="form-row">
             <Col span={8}>
               <FormField>
                 <FastSearchSelect
-                  loading={props.isLoadingKladr}
+                  loading={isLoadingKladr}
                   name={`${sectionValuePath}.area`}
-                  value={formValues.passportInfo[props.passportType].area}
+                  valueSet={setValue('area')}
+                  value={setValue('area')}
                   placeholder={'Область'}
                   showSearch
                   filterOption
+                  isDisabled={setDisabled()}
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.kladr)}
+                  {getKladrDetailed(kladr)}
                 </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={8}>
               <FormField>
                 <FastSearchSelect
-                  loading={props.isLoadingKladrNested}
-                  disabled={!formValues.passportInfo[props.passportType].area}
+                  loading={isLoadingKladrNested}
+                  isDisabled={!formValues.passportInfo[passportType].area || setDisabled()}
                   onFocus={() => {
-                    props.getKladrNested(
-                      formValues.passportInfo[props.passportType].area,
+                    getKladrNested(
+                      formValues.passportInfo[passportType].area,
                       getType(),
                     );
                   }}
-                  value={formValues.passportInfo[props.passportType].city}
+                  valueSet={setValue('city')}
+                  value={setValue('city')}
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.nestedKladr)}
+                  {getKladrDetailed(nestedKladr)}
                 </FastSearchSelect>
               </FormField>
             </Col>
@@ -141,21 +168,22 @@ const Address: FC<SectionProps> = (props) => {
             <Col span={8}>
               <FormField>
                 <FastSearchSelect
-                  loading={props.isLoadingKladrStreets}
-                  disabled={!formValues.passportInfo[props.passportType].city}
+                  loading={isLoadingKladrStreets}
+                  isDisabled={!formValues.passportInfo[passportType].city || setDisabled()}
                   onFocus={() => {
-                    props.getKladrStreets(
-                      formValues.passportInfo[props.passportType].city,
+                    getKladrStreets(
+                      formValues.passportInfo[passportType].city,
                       getType(),
                     );
                   }}
-                  value={formValues.passportInfo[props.passportType].street}
+                  valueSet={setValue('street')}
+                  value={setValue('street')}
                   placeholder={'Улица'}
                   name={`${sectionValuePath}.street`}
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(props.kladrStreets)}
+                  {getKladrDetailed(kladrStreets)}
                 </FastSearchSelect>
               </FormField>
             </Col>
@@ -163,17 +191,32 @@ const Address: FC<SectionProps> = (props) => {
               <Row gutter={16}>
                 <Col span={8}>
                   <FormField>
-                    <FastInput name={`${sectionValuePath}.houseNumber`} />
+                    <FastInput
+                        name={`${sectionValuePath}.houseNumber`}
+                        disabled={setDisabled()}
+                        valueSet={setValue('houseNumber')}
+                        value={setValue('houseNumber')}
+                    />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
-                    <FastInput name={`${sectionValuePath}.houseCharacter`} />
+                    <FastInput
+                        name={`${sectionValuePath}.houseCharacter`}
+                        disabled={setDisabled()}
+                        valueSet={setValue('houseCharacter')}
+                        value={setValue('houseCharacter')}
+                    />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
-                    <FastInput name={`${sectionValuePath}.flatNumber`} />
+                    <FastInput
+                        name={`${sectionValuePath}.flatNumber`}
+                        disabled={setDisabled()}
+                        valueSet={setValue('flatNumber')}
+                        value={setValue('flatNumber')}
+                    />
                   </FormField>
                 </Col>
               </Row>
@@ -181,28 +224,33 @@ const Address: FC<SectionProps> = (props) => {
           </Row>
         </>
       )}
-      {!formValues.passportInfo[props.passportType].isKLADR && (
+      {!formValues.passportInfo[passportType].isKLADR && (
         <>
           <Row gutter={8}>
             <Col span={16}>
               <FormField>
-                <FastInput name={`${sectionValuePath}.freeInput`} />
+                <FastInput
+                  name={`${sectionValuePath}.freeInput`}
+                  disabled={setDisabled()}
+                  valueSet={setValue('freeInput')}
+                  value={setValue('freeInput')}
+                />
               </FormField>
             </Col>
           </Row>
         </>
       )}
-      {props.passportType === 'addressRegistration' && (
+      {passportType === 'addressRegistration' && (
         <Row gutter={8}>
           <Col span={16}>
             <FormField>
               <Checkbox
                 checked={
-                  formValues.passportInfo[props.passportType]
-                    .isDocumentedAddress
+                  formValues.passportInfo['addressRegistration'].isDocumentedAddress
                 }
                 name={`${sectionValuePath}.isDocumentedAddress`}
-                onChange={form.handleChange}>
+                onChange={form.handleChange}
+              >
                 Соответствует адресу прописки
               </Checkbox>
             </FormField>

@@ -1,17 +1,15 @@
 import React from 'react';
+
 import './styles.scss';
+import {ScrollProps} from "./types";
 
-interface ScrollProps {
-  left: number;
-}
-
-const ScheduleScrollContainer: React.FC<ScrollProps> = (props) => {
+const ScheduleScrollContainer: React.FC<ScrollProps> = ({left, children}) => {
   return (
     <div className={'schedule-scroll-container'}>
       <div
-        style={{ left: props.left }}
+        style={{ left: left }}
         className="schedule-scroll-container__content">
-        {props.children}
+        {children}
       </div>
     </div>
   );

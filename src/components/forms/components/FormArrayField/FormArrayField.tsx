@@ -2,33 +2,29 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Space, Tooltip} from 'antd';
 import {MinusCircleTwoTone, PlusCircleTwoTone} from '@ant-design/icons';
 
-type FieldProps<T> = {
-  values: T[];
-  name: string;
-  renderChild: (key: string, index: number) => JSX.Element;
-};
+import {FieldProps} from "./types";
 
-function FormArrayField<T>(props: FieldProps<T>) {
-  const initialValues = props.values?.length || 0;
+function FormArrayField<T>({values, name, renderChild}: FieldProps<T>) {
+  const initialValues = values?.length || 0;
   const [fieldsArr, setFieldsArr] = useState<string[]>(
     initialValues
       ? Array.of(initialValues).map((item, index) => {
-          return `${props.name}[${index}]`;
+          return `${name}[${index}]`;
         })
       : [],
   );
 
   useEffect(() => {
-    if (Array.isArray(props.values)) {
+    if (Array.isArray(values)) {
       setFieldsArr(
-        Array.of(props.values.length).map((item, index) => {
-          return `${props.name}[${index}]`;
+        Array.of(values.length).map((item, index) => {
+          return `${name}[${index}]`;
         }),
       );
     }
-  }, [props.values]);
+  }, [values]);
 
-  function addItem() {
+  const addItem = () => {
     let index = 0;
     if (fieldsArr.length === 0) {
       index = fieldsArr.length;
@@ -37,23 +33,23 @@ function FormArrayField<T>(props: FieldProps<T>) {
     } else {
       index = fieldsArr.length;
     }
-    const fieldName = `${props.name}[${index}]`;
+    const fieldName = `${name}[${index}]`;
     setFieldsArr([...fieldsArr, fieldName]);
   }
 
-  function removeItem() {
+  const removeItem = () => {
     setFieldsArr(fieldsArr.slice(0, fieldsArr.length - 1));
   }
 
-  function arrayContent() {
+  const arrayContent = () => {
     return fieldsArr.map((item, index) => {
-      return props.renderChild(item, index);
+      return renderChild(item, index);
     });
   }
 
   const arrayContentMemo = useMemo(() => {
     return fieldsArr.map((item, index) => {
-      return props.renderChild(item, index);
+      return renderChild(item, index);
     });
   }, [fieldsArr.length]);
 

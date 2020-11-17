@@ -2,24 +2,14 @@ import React, { FC, useMemo } from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
+
+import { WizardStateType } from '../../../../types';
+import {SectionProps, LABELS} from "./types";
+
 import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import { WizardStateType } from '../../../../types';
-
-interface SectionProps {
-  documentTypes: { id: number; name: string }[];
-  isLoadingDocuments: boolean;
-}
-
-enum LABELS {
-  PASSPORT = 'Тип документа',
-  SERIAL = 'Серия',
-  NUMBER = 'Номер',
-  GIVEN_DATE = 'Дата выдачи',
-  GIVEN_BY = 'Кем выдан',
-}
 
 const PersonalDocument: FC<SectionProps> = ({
   documentTypes,

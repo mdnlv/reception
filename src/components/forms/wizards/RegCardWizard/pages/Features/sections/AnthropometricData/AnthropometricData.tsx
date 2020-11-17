@@ -1,21 +1,11 @@
 import React from 'react';
+import { Col, DatePicker, Input, Row } from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
-import {Col, DatePicker, Input, Row} from 'antd';
 import FormField from '../../../../../../components/FormField/FormField';
 import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Антропометрические данные';
-
-enum LABELS {
-  SET_DATE = 'Дата установления',
-  HEIGHT = 'Рост, см',
-  WEIGHT = 'Вес, кг',
-  GIRTH_WAIST = 'Обхват талии, см',
-  GIRTH_CHEST = 'Обхват груди, см',
-  BODY_MASS = 'Индекс массы тела',
-  PHYSIQUE = 'Телосложение',
-  DAY_VOLUME = 'Суточный объем физиологических отправлений, мл',
-}
 
 const AnthropometricData: React.FC = () => {
   return (

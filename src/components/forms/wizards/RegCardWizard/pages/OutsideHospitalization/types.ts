@@ -11,3 +11,15 @@ export interface PersonHospitalization {
 export default interface FormState {
   outsideHospitalization: PersonHospitalization[];
 }
+
+export const DROPDOWN_TITLE = 'Госпитализация в другие ЛПУ';
+
+export enum LABELS {
+  NUMBER = '№ п/п',
+  LPU = 'Наименование ЛПУ',
+  AIM = 'Цель госпитализации',
+  DATE = 'Дата поступления',
+  END_DATE = 'Дата выбытия',
+  MKB = 'МКБ',
+  DIAGNOSIS = 'Клинический диагноз',
+}

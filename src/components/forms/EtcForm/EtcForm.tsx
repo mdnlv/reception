@@ -1,14 +1,16 @@
-import React, {FC} from 'react';
-import {Col, DatePicker, Input, Row, Select} from 'antd';
+import React, { FC } from 'react';
+import { Col, DatePicker, Row, Select, Input } from 'antd';
+import { useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import moment from 'moment';
+
+import { RootState } from '../../../reduxStore/store';
+
 import DropDownContent from '../../elements/DropDownContent/DropDownContent';
 import FormField from '../components/FormField/FormField';
-import {useSelector} from 'react-redux';
-import {Formik} from 'formik';
 import FormArrayField from '../components/FormArrayField/FormArrayField';
-import moment from 'moment';
-import {RootState} from '../../../reduxStore/store';
 
-const EtcForm: FC = (props) => {
+const EtcForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

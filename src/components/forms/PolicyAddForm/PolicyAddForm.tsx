@@ -1,31 +1,16 @@
 import React, {useCallback, useMemo} from 'react';
 import {Formik} from 'formik';
 import {Button, Col, Row, Select, Space} from 'antd';
-import FormField from '../components/FormField/FormField';
 import moment from 'moment';
-import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+
+import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
+import {FormProps, ListOptionItem} from "./types";
+
+import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
-import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import PatientPolicy from '../../../types/data/PatientPolicy';
-
-interface ListOptionItem {
-  id: number;
-  name: string;
-}
-
-interface FormProps {
-  policyKey: 'policyOms' | 'policyDms';
-  policyTimeType: ListOptionItem[];
-  policyType: ListOptionItem[];
-  cmoType: ListOptionItem[];
-  onAddPolicy(policy: PassportPolicyType, type: 'oms' | 'dms'): void;
-  onFindPolicy(policy: FindPolicyParams, type: 'oms' | 'dms'): void;
-  isLoading: boolean;
-  isCmoLoading: boolean;
-  foundPolicy?: PatientPolicy;
-}
 
 const initialState: PassportPolicyType = {
   timeType: '',
@@ -39,9 +24,19 @@ const initialState: PassportPolicyType = {
   type: '',
 };
 
-const PolicyAddForm: React.FC<FormProps> = (props) => {
+const PolicyAddForm: React.FC<FormProps> = ({
+  policyKey,
+  policyType,
+  policyTimeType,
+  onFindPolicy,
+  foundPolicy,
+  onAddPolicy,
+  isLoading,
+  isCmoLoading,
+  cmoType
+}) => {
   const sectionTitle = () => {
-    switch (props.policyKey) {
+    switch (policyKey) {
       case 'policyDms':
         return 'Полис ДМС';
       case 'policyOms':
@@ -56,65 +51,65 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           {item.name}
         </Select.Option>
       )),
-    [props.policyTimeType, props.policyType],
+    [policyTimeType, policyType],
   );
 
   const onFindPolicyHandler = useCallback(
     (values: FindPolicyParams) => {
-      props.onFindPolicy(
+      onFindPolicy(
         values,
-        props.policyKey === 'policyDms' ? 'dms' : 'oms',
+        policyKey === 'policyDms' ? 'dms' : 'oms',
       );
     },
-    [props.onFindPolicy],
+    [onFindPolicy],
   );
 
   const initialFormState = useMemo(() => {
-    if (props.foundPolicy) {
+    if (foundPolicy) {
       return {
-        from: props.foundPolicy.begDate.toString(),
-        to: props.foundPolicy.endDate.toString(),
-        serial: props.foundPolicy.serial,
-        number: props.foundPolicy.number,
+        from: foundPolicy.begDate.toString(),
+        to: foundPolicy.endDate.toString(),
+        serial: foundPolicy.serial,
+        number: foundPolicy.number,
         note: '',
-        name: props.foundPolicy.name,
+        name: foundPolicy.name,
         ...initialState,
       };
     } else {
       return initialState;
     }
-  }, [props.foundPolicy]);
+  }, [foundPolicy]);
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={
-        props.foundPolicy
+        foundPolicy
           ? {
               ...initialState,
-              from: props.foundPolicy.begDate.toString(),
-              to: props.foundPolicy.endDate.toString(),
-              serial: props.foundPolicy.serial,
-              number: props.foundPolicy.number,
+              from: foundPolicy.begDate.toString(),
+              to: foundPolicy.endDate.toString(),
+              serial: foundPolicy.serial,
+              number: foundPolicy.number,
               note: '',
-              name: props.foundPolicy.name,
+              name: foundPolicy.name,
             }
           : initialState
       }
       onSubmit={(values) => {
-        const pathName = props.policyKey === 'policyDms' ? 'dms' : 'oms';
-        props.onAddPolicy(values, pathName);
+        const pathName = policyKey === 'policyDms' ? 'dms' : 'oms';
+        onAddPolicy(values, pathName);
       }}>
       {(formProps) => (
         <div
           className={`form-section policy-${
-            props.policyKey === 'policyOms' ? 'omc' : 'dmc'
+            policyKey === 'policyOms' ? 'omc' : 'dmc'
           }`}>
           <h2>{sectionTitle()}</h2>
           <Row className="form-row" align={'bottom'} gutter={16}>
             <Col>
               <Button
-                loading={props.isLoading}
+                loading={isLoading}
                 onClick={() => {
                   onFindPolicyHandler({
                     docNumber: formProps.values.number,
@@ -128,15 +123,15 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
             </Col>
             <Col span={4}>
               <FormField>
-                <FastSearchSelect loading={props.isLoading} name={'timeType'}>
-                  {getPropsOptions(props.policyTimeType)}
+                <FastSearchSelect loading={isLoading} name={'timeType'}>
+                  {getPropsOptions(policyTimeType)}
                 </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={5}>
               <FormField label={'С'}>
                 <FastDatePicker
-                  disabled={props.isLoading}
+                  disabled={isLoading}
                   value={
                     formProps.values.from
                       ? moment(formProps.values.from)
@@ -149,7 +144,7 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
             <Col span={5}>
               <FormField label={'До'}>
                 <FastDatePicker
-                  disabled={props.isLoading}
+                  disabled={isLoading}
                   value={
                     formProps.values.to
                       ? moment(formProps.values.to)
@@ -163,12 +158,12 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row" gutter={16}>
             <Col span={6}>
               <FormField label={'Серия'}>
-                <FastInput disabled={props.isLoading} name={'serial'} />
+                <FastInput disabled={isLoading} name={'serial'} />
               </FormField>
             </Col>
             <Col span={18}>
               <FormField label={'Номер'}>
-                <FastInput disabled={props.isLoading} name={'number'} />
+                <FastInput disabled={isLoading} name={'number'} />
               </FormField>
             </Col>
           </Row>
@@ -176,17 +171,17 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
             <Col span={14}>
               <FormField label="СМО" labelPosition="left">
                 <FastSearchSelect
-                  loading={props.isLoading || props.isCmoLoading}
-                  disabled={props.isLoading}
+                  loading={isLoading || isCmoLoading}
+                  disabled={isLoading}
                   name={'cmo'}>
-                  {getPropsOptions(props.cmoType)}
+                  {getPropsOptions(cmoType)}
                 </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={10}>
               <FormField>
-                <FastSearchSelect disabled={props.isLoading} name={'type'}>
-                  {getPropsOptions(props.policyType)}
+                <FastSearchSelect disabled={isLoading} name={'type'}>
+                  {getPropsOptions(policyType)}
                 </FastSearchSelect>
               </FormField>
             </Col>
@@ -194,28 +189,28 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
           <Row className="form-row">
             <Col span={24}>
               <FormField labelPosition="left" label="Название">
-                <FastInput disabled={props.isLoading} name={'name'} />
+                <FastInput disabled={isLoading} name={'name'} />
               </FormField>
             </Col>
           </Row>
           <Row className="form-row">
             <Col span={24}>
               <FormField labelPosition="left" label="Примечание">
-                <FastInput disabled={props.isLoading} name={'note'} />
+                <FastInput disabled={isLoading} name={'note'} />
               </FormField>
             </Col>
           </Row>
           <Row className="form-row" justify={'end'}>
             <Col>
               <Space>
-                <Button disabled={props.isLoading} type={'link'} danger>
+                <Button disabled={isLoading} type={'link'} danger>
                   Закрыть полис
                 </Button>
                 <Button
                   onClick={() => {
                     formProps.handleSubmit();
                   }}
-                  disabled={props.isLoading}
+                  disabled={isLoading}
                   type={'primary'}>
                   Добавить полис
                 </Button>

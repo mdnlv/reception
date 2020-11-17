@@ -1,15 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
-import './styles.scss';
-import { ActionItems, ScheduleTableModeType } from '../../types';
 
-interface RowProps {
-  planned: number;
-  items: ActionItems;
-  onNewScheduleItem(): void;
-  mode: ScheduleTableModeType;
-  rangeWeekNum: number;
-}
+import './styles.scss';
+import {RowProps} from "./types";
+
+import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
 
 const ScheduleActionsRow: React.FC<RowProps> = ({
   items,

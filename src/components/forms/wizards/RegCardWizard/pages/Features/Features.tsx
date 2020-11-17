@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Divider, Row } from 'antd';
+
 import Allergy from './sections/Allergy/Allergy';
 import Inspection from './sections/Inspection/Inspection';
 import MedIntolerance from './sections/MedIntolerance/MedIntolerance';

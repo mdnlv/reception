@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import './styles.scss';
+import { useHistory } from 'react-router';
 import { Col, Row } from 'antd';
+
+import './styles.scss';
+
 import InfoPageTabs from '../../components/tabs/InfoPageTabs/InfoPageTabs';
 import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
-import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
 
-const InfoPage: React.FC = (props) => {
+const InfoPage: React.FC = () => {
   const navigation = useHistory();
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
 

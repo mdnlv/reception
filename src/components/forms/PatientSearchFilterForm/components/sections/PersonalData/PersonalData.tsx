@@ -1,10 +1,12 @@
 import React, {useCallback} from 'react';
 import {Checkbox, Col, Row} from 'antd/lib';
-import FormField from '../../../../components/FormField/FormField';
 import {useFormikContext} from 'formik';
-import PartialFormState from '../../../types';
-import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import {CheckboxChangeEvent} from 'antd/lib/checkbox';
+
+import PartialFormState from '../../../types';
+
+import FormField from '../../../../components/FormField/FormField';
+import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 
 const PersonalData: React.FC = () => {
   const { values, setFieldValue } = useFormikContext<PartialFormState>();

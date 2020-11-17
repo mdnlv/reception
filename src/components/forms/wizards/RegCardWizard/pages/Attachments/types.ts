@@ -10,3 +10,13 @@ export interface PersonAttachment {
 export default interface FormState {
   attachments: PersonAttachment[];
 }
+export const DROPDOWN_TITLE = 'Прикрепление';
+
+export enum LABELS {
+  TYPE = 'Тип',
+  LPU = 'ЛПУ',
+  UNIT = 'Подразделение',
+  ATTACHMENT_DATE = 'Дата прикрепления',
+  DETACH_DATE = 'Дата открепления',
+  DETACH_REASON = 'Причина открепления',
+}

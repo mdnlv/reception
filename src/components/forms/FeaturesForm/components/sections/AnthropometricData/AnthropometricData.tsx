@@ -1,14 +1,15 @@
 import React, {FC} from 'react'
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import {Col, DatePicker, Input, Row} from 'antd';
-import FormField from "../../../../components/FormField/FormField";
+import {Row, Col, DatePicker, Input} from 'antd';
 import moment from "moment";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import {useFormikContext} from "formik";
+
 import FormState from "../../../types";
 
-const AnthropometricData: FC = (props) => {
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormField from "../../../../components/FormField/FormField";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
+const AnthropometricData: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (

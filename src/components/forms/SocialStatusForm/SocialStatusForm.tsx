@@ -1,13 +1,15 @@
 import React, {FC} from 'react';
 import {Col, Row} from 'antd';
-import SocialStatus from './components/sections/SocialStatus/SocialStatus';
-import './styles.scss';
-import SocialStatusDoc from './components/sections/SocialStatusDoc/SocialStatusDoc';
 import {Formik} from 'formik';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../reduxStore/store';
 
-const SocialStatusForm: FC = (props) => {
+import './styles.scss';
+import { RootState } from '../../../reduxStore/store';
+
+import SocialStatus from './components/sections/SocialStatus/SocialStatus';
+import SocialStatusDoc from './components/sections/SocialStatusDoc/SocialStatusDoc';
+
+const SocialStatusForm: FC = () => {
   const store = useSelector((state: RootState) => state.registrationCard);
 
   return (

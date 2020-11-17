@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PatientsTable from '../PatientsTable/PatientsTable';
-import TableSearchHeader from '../wrappers/TableSearchHeader/TableSearchHeader';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   clearFoundPatients,
   fetchPatients,
@@ -10,12 +9,12 @@ import {
   setIsSearchingPatients,
 } from '../../../reduxStore/slices/patients/patientsSlice';
 import { RootState } from '../../../reduxStore/store';
+import {TableProps} from "./types";
 
-interface TableProps {
-  onOpenSearch: () => void;
-}
+import PatientsTable from '../PatientsTable/PatientsTable';
+import TableSearchHeader from '../wrappers/TableSearchHeader/TableSearchHeader';
 
-const PatientsSearchTable: React.FC<TableProps> = (props) => {
+const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
   const dispatch = useDispatch();
   //selectors
@@ -34,12 +33,12 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
     }
   }, []);
 
-  function onSearchButtonClick(query: string) {
+  const onSearchButtonClick = (query: string) => {
     dispatch(setIsSearchingPatients(true));
     dispatch(fetchQueryPatients(query));
   }
 
-  function onTableRowClick(id: number) {
+  const onTableRowClick = (id: number) => {
     if (id !== currentPatient && id) {
       dispatch(setCurrentPatient(id));
     }
@@ -68,7 +67,7 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
 
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
-    props.onOpenSearch();
+    onOpenSearch();
   }, []);
 
   const tablePatientsCount = useMemo(() => {
@@ -86,7 +85,7 @@ const PatientsSearchTable: React.FC<TableProps> = (props) => {
   return (
     <TableSearchHeader
       title={'Пациенты'}
-      onOpenSearch={props.onOpenSearch}
+      onOpenSearch={onOpenSearch}
       mode={tableMode}
       searchCount={tablePatientsCount}
       onSubmitForm={onSubmitForm}

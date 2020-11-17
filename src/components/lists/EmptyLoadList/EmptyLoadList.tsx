@@ -1,14 +1,12 @@
 import { List, Skeleton } from 'antd/lib';
 import React from 'react';
 
-interface ListProps {
-  nums?: number[];
-}
+import {ListProps} from "./types";
 
-const EmptyLoadList: React.FC<ListProps> = (props) => {
+const EmptyLoadList: React.FC<ListProps> = ({nums}) => {
   return (
     <List
-      dataSource={props.nums}
+      dataSource={nums}
       itemLayout={'horizontal'}
       renderItem={(_) => (
         <List.Item>

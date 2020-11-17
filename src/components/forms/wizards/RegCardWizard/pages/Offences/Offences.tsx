@@ -1,21 +1,11 @@
 import React from 'react';
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import {Col, DatePicker, Input, Row} from 'antd';
+
+import {DROPDOWN_TITLE, LABELS} from "./types";
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
 import FormArrayField from '../../../../components/FormArrayField/FormArrayField';
-
-const DROPDOWN_TITLE = 'Правонарушения';
-
-enum LABELS {
-  ARTICLE = 'Статья УК',
-  COURT = 'Суд',
-  NUMBER = '№ дела',
-  DATE = 'Дата постановления',
-  DECREE = 'Постановление',
-  DOCTOR = 'Врач',
-  NEXT_COURT = 'Дата очередного обращения в суд',
-  NOTE = 'Примечание',
-}
 
 const Offences: React.FC = () => {
   return (

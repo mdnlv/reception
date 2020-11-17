@@ -1,13 +1,19 @@
 import React from 'react';
 import {Formik} from 'formik';
-import {Card, Col, Row, Tabs} from 'antd';
-import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import {useDispatch, useSelector} from 'react-redux';
-import UserInfo from './pages/UserInfo/UserInfo';
+import {Card, Col, Row, Tabs} from 'antd';
+
+
 import './styles.scss';
-import {RootState} from '../../../../reduxStore/store';
+import { RootState } from '../../../../reduxStore/store';
+import {
+    saveCardPatient,
+    setFormSection,
+} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+
+import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
+import UserInfo from './pages/UserInfo/UserInfo';
 import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
-import {saveCardPatient, setFormSection,} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
 import Attachments from './pages/Attachments/Attachments';
@@ -20,9 +26,7 @@ import AdditionalHospitalization from './pages/AdditionalHospitalization/Additio
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
 import Etc from './pages/Etc/Etc';
 
-interface WizardProps {}
-
-const RegCardWizard: React.FC<WizardProps> = () => {
+const RegCardWizard: React.FC = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: RootState) => state.registrationCard.form);
 

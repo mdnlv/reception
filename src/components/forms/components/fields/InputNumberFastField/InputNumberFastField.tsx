@@ -1,28 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { InputNumber } from 'antd';
-import { InputNumberProps } from 'antd/es/input-number';
 import { useDebouncedCallback } from 'use-debounce';
 
-interface FieldProps extends InputNumberProps {
-  name: string;
-  value?: number;
-}
+import {FieldProps} from "./types";
 
-const InputNumberFastField: React.FC<FieldProps> = (props) => {
+const InputNumberFastField: React.FC<FieldProps> = ({value, onChange}) => {
   const [innerValue, setInnerValue] = useState(0);
 
   useEffect(() => {
-    if (props.value) {
-      setInnerValue(props.value);
+    if (value) {
+      setInnerValue(value);
     } else {
       setInnerValue(0);
     }
-  }, [props.value]);
+  }, [value]);
 
   const debouncedCallback = useDebouncedCallback(
     (value: number | string | undefined) => {
-      if (props.onChange) {
-        props.onChange(value);
+      if (onChange) {
+        onChange(value);
       }
     },
     200,
