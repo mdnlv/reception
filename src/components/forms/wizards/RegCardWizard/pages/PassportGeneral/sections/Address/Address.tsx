@@ -87,14 +87,25 @@ const Address: FC<SectionProps> = ({
     formValues.passportInfo['addressRegistration'].isDocumentedAddress ? setIsDocumentedAddress(true) : setIsDocumentedAddress(false);
   }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress]);
 
-  // useEffect(() => {
-  //   const values = formValues.passportInfo[passportType];
-  //   if (isDocumentedAddress) {
-  //     for (let key in values) {
-  //       values[key] = formValues.passportInfo['documentedAddress'][key]
-  //     }
-  //   }
-  // }, [isDocumentedAddress]);
+  useEffect(() => {
+    if (formValues.passportInfo[passportType].isKLADR) {
+      form.setFieldValue(`${sectionValuePath}.freeInput`, '');
+    } else {
+      for (let key in formValues.passportInfo[passportType]) {
+        if (key !== 'freeInput' && key !== 'isKLADR' && key !== 'isDocumentedAddress') {
+          form.setFieldValue(`${sectionValuePath}[${key}]`, '');
+        }
+      }
+    }
+  }, [formValues.passportInfo[passportType].isKLADR]);
+
+  useEffect(() => {
+    if (isDocumentedAddress && passportType !== 'documentedAddress') {
+      form.setFieldValue(`${sectionValuePath}.isKLADR`, formValues.passportInfo['documentedAddress'].isKLADR);
+    } else {
+      form.setFieldValue(`${sectionValuePath}.isKLADR`, formValues.passportInfo[passportType].isKLADR);
+    }
+  }, [isDocumentedAddress, formValues.passportInfo['documentedAddress'].isKLADR]);
 
   return (
     <div className="form-section address-registration">
@@ -111,7 +122,7 @@ const Address: FC<SectionProps> = ({
           </Radio.Group>
         </Col>
       </Row>
-      {(formValues.passportInfo[passportType].isKLADR || isDocumentedAddress && passportType !== 'documentedAddress') && (
+      {formValues.passportInfo[passportType].isKLADR && (
         <>
           <Row gutter={16} className="form-row">
             <Col span={8}>
@@ -213,7 +224,7 @@ const Address: FC<SectionProps> = ({
           </Row>
         </>
       )}
-      {(!formValues.passportInfo[passportType].isKLADR ||  isDocumentedAddress && passportType !== 'documentedAddress') && (
+      {!formValues.passportInfo[passportType].isKLADR && (
         <>
           <Row gutter={8}>
             <Col span={16}>
