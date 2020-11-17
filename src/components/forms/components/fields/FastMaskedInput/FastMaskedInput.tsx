@@ -9,7 +9,7 @@ interface FastMaskedProps extends MaskedInputProps {
 
 const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
   return (
-    <FastField>
+    <FastField name={props.name}>
       {({ field, meta, form }: FastFieldProps) => (
         <MaskedInputFastField
           {...props}

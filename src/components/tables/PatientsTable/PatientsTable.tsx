@@ -1,9 +1,8 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import Table from 'antd/lib/table';
 import './styles.scss';
 import moment from 'moment';
 import Patient from '../../../types/data/Patient';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
 type TableProps = {
@@ -13,14 +12,7 @@ type TableProps = {
   currentPatient?: number;
 };
 
-type ToolTipInfo = {
-  fullName: string;
-  lastChange: Date;
-};
-
 const PatientsTable: FC<TableProps> = (props) => {
-  const navigation = useHistory();
-
   const columns = [
     {
       title: 'ФИО',
@@ -56,6 +48,10 @@ const PatientsTable: FC<TableProps> = (props) => {
       dataIndex: 'route',
       key: 'route',
     },
+    {
+      dataIndex: 'regCard',
+      key: 'regCard',
+    },
   ];
 
   function getSexName(sex: 1 | 2) {
@@ -68,7 +64,7 @@ const PatientsTable: FC<TableProps> = (props) => {
   }
 
   const getFormattedProps = useMemo(() => {
-    return props.patients.map((item, index) => {
+    return props.patients.map((item) => {
       return {
         ...item,
         key: item.code,
@@ -82,11 +78,10 @@ const PatientsTable: FC<TableProps> = (props) => {
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
         route: <Link to={`/card/${item.code}`}>Перейти</Link>,
+        regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
   }, [props.patients]);
-
-  const onRowChange = useCallback(() => {}, [props.onPatientClick]);
 
   return (
     <Table
@@ -96,7 +91,7 @@ const PatientsTable: FC<TableProps> = (props) => {
       rowSelection={{
         type: 'radio',
         selectedRowKeys: props.currentPatient ? [props.currentPatient] : [],
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (selectedRowKeys) => {
           if (typeof selectedRowKeys[0] === 'number') {
             props.onPatientClick(selectedRowKeys[0]);
           }
@@ -104,7 +99,7 @@ const PatientsTable: FC<TableProps> = (props) => {
       }}
       onRow={(record) => {
         return {
-          onClick: (event) => {
+          onClick: () => {
             props.onPatientClick(record.key);
           },
         };

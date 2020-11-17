@@ -56,6 +56,43 @@ import PatientPolicy from '../../../types/data/PatientPolicy';
 export interface RegistrationCardStateType {
   loading: {
     saveNewPatient: boolean;
+    idPatient: boolean;
+  };
+  initialFormState: {
+    additionalHospitalization: AdditionalHospitalizationFormState;
+    attachments: AttachmentsFormState;
+    employment: EmploymentFormState;
+    etc: EtcFormState;
+    features: FeaturesFormState;
+    offences: OffencesFormState;
+    outsideHospitalization: OutsideHospitalizationFormState;
+    outsideIdentification: OutsideIdsFormState;
+    passportGeneral: PassportGeneralFormState;
+    personDocs: PersonDocsState;
+    links: LinksFormState;
+    privileges: PersonPrivilegesFormState;
+    quotas: {};
+    socialStatus: SocialStatusFormState;
+    viewTypes: PersonViewTypeFormState;
+    personal: {
+      firstName: string;
+      lastName: string;
+      patrName: string;
+      code: string;
+      birthDate: string;
+      birthTime: string;
+      height: number;
+      weight: number;
+      snils: string;
+      startCardDate: string;
+      sex: 0 | 1;
+      hasImplants: boolean;
+      hasProsthesis: boolean;
+      birthPlace: string;
+      hasCard: boolean;
+      onlyTempRegistration: boolean;
+      docPersonId: string;
+    };
   };
   form: {
     additionalHospitalization: AdditionalHospitalizationFormState;
@@ -122,6 +159,107 @@ export interface RegistrationCardStateType {
 const initialState: RegistrationCardStateType = {
   loading: {
     saveNewPatient: false,
+    idPatient: false,
+  },
+  initialFormState: {
+    personal: {
+      firstName: '',
+      lastName: '',
+      patrName: '',
+      code: '',
+      birthPlace: '',
+      birthDate: '',
+      birthTime: '',
+      height: 0,
+      weight: 0,
+      snils: '',
+      hasImplants: false,
+      hasProsthesis: false,
+      sex: 0,
+      startCardDate: '',
+      hasCard: false,
+      onlyTempRegistration: false,
+      docPersonId: '',
+    },
+    additionalHospitalization: {
+      hospitalizations: [] as PersonAddHospitalization[],
+    },
+    attachments: {
+      attachments: [] as PersonAttachment[],
+    },
+    employment: {
+      employments: [] as EmploymentItem[],
+      hazardHistory: [] as EmploymentHazardItem[],
+    },
+    etc: {
+      items: [] as EtcItem[],
+    },
+    features: {
+      features: [] as PersonFeatureItem[],
+      allergy: [] as PersonAllergyItem[],
+      medIntolerance: [] as MedIntoleranceItem[],
+      inspections: [] as InspectionItem[],
+      anthropometricDate: [] as AnthropometricDataItem[],
+    },
+    offences: {
+      offences: [] as PersonOffence[],
+    },
+    outsideHospitalization: {
+      outsideHospitalization: [] as PersonHospitalization[],
+    },
+    outsideIdentification: {
+      outsideIds: [] as PersonOutsideId[],
+    },
+    passportGeneral: {
+      passportInfo: {
+        passportType: '',
+        serial: '',
+        number: '',
+        fromDate: '',
+        givenBy: '',
+        addressRegistration: {
+          isKLADR: true,
+          city: '',
+          area: '',
+          street: '',
+          isDocumentedAddress: false,
+          freeInput: '',
+        },
+        documentedAddress: {
+          isKLADR: true,
+          city: '',
+          area: '',
+          street: '',
+          isDocumentedAddress: false,
+          freeInput: '',
+        },
+      },
+      contacts: [] as PassportContactType[],
+      policyOms: [],
+      policyDms: [],
+    },
+    personDocs: {
+      idDoc: [] as PassportDoc[],
+      policy: [] as PolicyDoc[],
+      socialStatus: [] as DocsSocialStatus[],
+      namedDoc: [] as NamedDoc[],
+    },
+    links: {
+      directLinks: [] as PersonLink[],
+      backLinks: [] as PersonLink[],
+    },
+    privileges: {
+      invalidity: [] as PrivilegeInvalidity[],
+      privileges: [] as PrivilegeItem[],
+    },
+    quotas: {},
+    socialStatus: {
+      socialStatus: [] as SocialStatus[],
+      trustedDoc: [] as TrustedDoc[],
+    },
+    viewTypes: {
+      viewTypes: [] as PersonViewType[],
+    },
   },
   form: {
     personal: {

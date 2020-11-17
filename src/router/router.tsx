@@ -6,10 +6,10 @@ import MainPage from '../views/MainPage/MainPage';
 import PatientCard from '../views/PatientCard/PatientCard';
 import InfoPage from '../views/InfoPage/InfoPage';
 
-const AppRouter: FC = (props) => {
+const AppRouter: FC = () => {
   return (
     <Switch>
-      <Route exact path="/regcard">
+      <Route exact path="/regcard/:id">
         <RegistrationCard />
       </Route>
       <Route exact path="/info">

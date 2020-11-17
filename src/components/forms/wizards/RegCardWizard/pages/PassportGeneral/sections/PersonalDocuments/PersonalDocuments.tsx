@@ -31,7 +31,7 @@ const PersonalDocument: FC<SectionProps> = ({
 
   const documentTypeOptions = useMemo(() => {
     return documentTypes.map((item) => (
-      <Select.Option key={item.id} name={item.name} value={item.id}>
+      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
         {item.name}
       </Select.Option>
     ));

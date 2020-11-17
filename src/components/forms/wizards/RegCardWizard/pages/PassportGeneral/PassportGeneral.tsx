@@ -32,20 +32,17 @@ import { WizardStateType } from '../../types';
 
 interface SectionProps {}
 
-const PassportGeneral: React.FC<SectionProps> = (props) => {
+const PassportGeneral: React.FC<SectionProps> = () => {
   const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(form.values.passportGeneral.passportInfo);
-  }, [form.values.passportGeneral.passportInfo]);
+  const { dms, oms } = useSelector(
+    (state: RootState) => state.registrationCard.form.foundPolicies,
+  );
 
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
-  const { dms, oms } = useSelector(
-    (state: RootState) => state.registrationCard.form.foundPolicies,
-  );
 
   const {
     rbKladrDocumented,
@@ -74,7 +71,6 @@ const PassportGeneral: React.FC<SectionProps> = (props) => {
   );
 
   function fetchNestedKladr(id: string, type: KladrDocType) {
-    console.log(id, type);
     let rbKladrItem: KladrItem | undefined;
 
     switch (type) {

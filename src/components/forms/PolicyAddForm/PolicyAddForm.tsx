@@ -1,9 +1,9 @@
-import React, {useCallback, useMemo} from 'react';
-import {Formik} from 'formik';
-import {Button, Col, Row, Select, Space} from 'antd';
+import React, { useCallback } from 'react';
+import { Formik } from 'formik';
+import { Button, Col, Row, Select, Space } from 'antd';
 import FormField from '../components/FormField/FormField';
 import moment from 'moment';
-import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
@@ -52,7 +52,7 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
       props.map((item) => (
-        <Select.Option key={item.id} value={item.id}>
+        <Select.Option key={item.id} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       )),
@@ -69,29 +69,15 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
     [props.onFindPolicy],
   );
 
-  const initialFormState = useMemo(() => {
-    if (props.foundPolicy) {
-      return {
-        from: props.foundPolicy.begDate.toString(),
-        to: props.foundPolicy.endDate.toString(),
-        serial: props.foundPolicy.serial,
-        number: props.foundPolicy.number,
-        note: '',
-        name: props.foundPolicy.name,
-        ...initialState,
-      };
-    } else {
-      return initialState;
-    }
-  }, [props.foundPolicy]);
-
   return (
     <Formik
       enableReinitialize={true}
       initialValues={
         props.foundPolicy
           ? {
-              ...initialState,
+              cmo: props.foundPolicy.insurerId?.toString(),
+              type: props.foundPolicy.policyTypeId?.toString(),
+              timeType: props.foundPolicy.policyKindId?.toString(),
               from: props.foundPolicy.begDate.toString(),
               to: props.foundPolicy.endDate.toString(),
               serial: props.foundPolicy.serial,
@@ -128,7 +114,14 @@ const PolicyAddForm: React.FC<FormProps> = (props) => {
             </Col>
             <Col span={4}>
               <FormField>
-                <FastSearchSelect loading={props.isLoading} name={'timeType'}>
+                <FastSearchSelect
+                  value={
+                    props.policyTimeType.find(
+                      (item) => formProps.values.timeType,
+                    )?.id
+                  }
+                  loading={props.isLoading}
+                  name={'timeType'}>
                   {getPropsOptions(props.policyTimeType)}
                 </FastSearchSelect>
               </FormField>

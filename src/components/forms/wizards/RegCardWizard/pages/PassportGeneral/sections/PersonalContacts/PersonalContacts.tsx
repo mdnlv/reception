@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { PassportContactType } from '../../types';
@@ -8,6 +8,7 @@ import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/Ar
 import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import { WizardStateType } from '../../../../types';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 interface SectionProps {
   contactTypes: PatientContactType[];
@@ -25,12 +26,11 @@ const PersonalContacts: FC<SectionProps> = (props) => {
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
-    console.log(index, fieldChain);
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
 
   const typesOptions = props.contactTypes.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
+    <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
       {item.name}
     </Select.Option>
   ));
@@ -108,13 +108,14 @@ const PersonalContacts: FC<SectionProps> = (props) => {
             </Col>
             <Col span={5}>
               <FormField label={LABELS.TYPE}>
-                <Select
+                <FastSearchSelect
+                  name={getSelectionItem(index, 'type')}
                   value={formProps[index]?.type}
                   onChange={(val) => {
                     form.setFieldValue(getSelectionItem(index, 'type'), val);
                   }}>
                   {typesOptions}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={10}>

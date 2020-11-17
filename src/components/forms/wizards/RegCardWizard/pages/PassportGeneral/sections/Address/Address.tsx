@@ -36,14 +36,16 @@ const Address: FC<SectionProps> = (props) => {
   const sectionValuePath = `passportGeneral.passportInfo.${props.passportType}`;
 
   function getKladrDetailed(kladrArr: KladrItem[]) {
-    return kladrArr.map((item) => (
-      <Select.Option
-        key={item.id}
-        name={`${item.socr}. ${item.name}`}
-        value={item.id}>
-        {`${item.socr}. ${item.name}`}
-      </Select.Option>
-    ));
+    return kladrArr.map((item) => {
+      return (
+        <Select.Option
+          key={item.id}
+          name={`${item.socr}. ${item.name}`}
+          value={item.id}>
+          {`${item.socr}. ${item.name}`}
+        </Select.Option>
+      );
+    });
   }
 
   function getTitle() {
@@ -106,10 +108,10 @@ const Address: FC<SectionProps> = (props) => {
                 <FastSearchSelect
                   loading={props.isLoadingKladr}
                   name={`${sectionValuePath}.area`}
-                  value={formValues.passportInfo[props.passportType].area}
                   placeholder={'Область'}
                   showSearch
                   filterOption
+                  value={formValues.passportInfo[props.passportType].area}
                   optionFilterProp={'name'}>
                   {getKladrDetailed(props.kladr)}
                 </FastSearchSelect>

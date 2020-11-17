@@ -7,8 +7,25 @@ import transformPolicyResponse from '../../utils/transform/transformPolicyRespon
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
+import transformPatientResponse from '../../utils/transform/transformPatientResponse';
 
 export type KladrDocType = 'documented' | 'registration';
+
+export const fetchIdPatient = createAsyncThunk(
+  `patients/fetchIdPatient`,
+  async (id: number, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'idPatient', value: true }));
+    try {
+      const response = await PatientsService.fetchIdPatient(id);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'idPatient', value: false }));
+    }
+  },
+);
 
 export const fetchKladr = createAsyncThunk(
   'registrationCard/fetchKladr',
@@ -120,7 +137,6 @@ export const saveCardPatient = createAsyncThunk(
         number,
         fromDate,
         givenBy,
-        documentedAddress,
         addressRegistration,
       } = state.registrationCard.form.passportGeneral.passportInfo;
       const {
@@ -196,7 +212,10 @@ const registrationCardSlice = createSlice({
     },
     setLoading: (
       state,
-      action: PayloadAction<{ value: boolean; type: 'saveNewPatient' }>,
+      action: PayloadAction<{
+        value: boolean;
+        type: 'saveNewPatient' | 'idPatient';
+      }>,
     ) => {
       state.loading[action.payload.type] = action.payload.value;
     },
@@ -245,6 +264,38 @@ const registrationCardSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
+      if (action.payload && action.payload.length > 0) {
+        const transformedPatient = transformPatientResponse(action.payload[0]);
+        state.initialFormState.personal = {
+          ...state.form.personal,
+          firstName: action.payload[0].firstName,
+          lastName: action.payload[0].lastName,
+          patrName: action.payload[0].patrName,
+          sex: action.payload[0].sex === 1 ? 1 : 0,
+          birthDate: action.payload[0].birthDate,
+        };
+        state.initialFormState.passportGeneral.passportInfo = {
+          ...state.form.passportGeneral.passportInfo,
+          ...transformedPatient.client_document_info,
+        };
+        state.form.foundPolicies.dms.items = transformedPatient.policy[0] && [
+          transformedPatient.policy[0],
+        ];
+        state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
+          (item) => ({
+            isMain: item.isPrimary === 1,
+            number: item.contact,
+            type: item.contactTypeId.toString(),
+            note: item.note,
+          }),
+        );
+        state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =
+          transformedPatient.address[0]?.address.KLADRCode || '';
+        state.initialFormState.passportGeneral.passportInfo.addressRegistration.area =
+          transformedPatient.address[1]?.address.KLADRCode || '';
+      }
+    });
     builder.addCase(fetchKladr.fulfilled, (state, action) => {
       if (action.payload?.type === 'documented' && action.payload.items) {
         state.form.data.passportGeneral.documentedAddress = {

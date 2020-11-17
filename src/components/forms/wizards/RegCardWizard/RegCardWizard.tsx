@@ -1,13 +1,16 @@
-import React from 'react';
-import {Formik} from 'formik';
-import {Card, Col, Row, Tabs} from 'antd';
+import React, { useEffect } from 'react';
+import { Formik } from 'formik';
+import { Card, Col, Row, Spin, Tabs } from 'antd';
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UserInfo from './pages/UserInfo/UserInfo';
 import './styles.scss';
-import {RootState} from '../../../../reduxStore/store';
+import { RootState } from '../../../../reduxStore/store';
 import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
-import {saveCardPatient, setFormSection,} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {
+  fetchIdPatient,
+  saveCardPatient,
+} from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
 import Attachments from './pages/Attachments/Attachments';
@@ -19,18 +22,33 @@ import Links from './pages/Links/Links';
 import AdditionalHospitalization from './pages/AdditionalHospitalization/AdditionalHospitalization';
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
 import Etc from './pages/Etc/Etc';
+import { useParams } from 'react-router';
 
 interface WizardProps {}
 
 const RegCardWizard: React.FC<WizardProps> = () => {
   const dispatch = useDispatch();
-  const store = useSelector((state: RootState) => state.registrationCard.form);
+  const params = useParams<{ id: string }>();
+  const store = useSelector(
+    (state: RootState) => state.registrationCard.initialFormState,
+  );
+  const isLoading = useSelector(
+    (state: RootState) => state.registrationCard.loading.idPatient,
+  );
 
-  return (
+  useEffect(() => {
+    dispatch(fetchIdPatient(parseInt(params.id)));
+  }, [params]);
+
+  return isLoading ? (
+    <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
+      <Spin />
+    </Row>
+  ) : (
     <Formik
+      enableReinitialize={true}
       initialValues={store}
-      onSubmit={(values) => {
-        dispatch(setFormSection(values));
+      onSubmit={() => {
         dispatch(saveCardPatient());
       }}>
       {() => (
