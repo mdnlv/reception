@@ -67,10 +67,6 @@ const Address: FC<SectionProps> = ({
 
   const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
 
-  useEffect(() => {
-    console.log(formValues.passportInfo[passportType].area);
-  }, [formValues.passportInfo[passportType].area]);
-
   //clear select fields after top-level select changed
   useEffect(() => {
     const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
