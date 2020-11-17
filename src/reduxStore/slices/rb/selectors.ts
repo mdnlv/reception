@@ -73,3 +73,28 @@ export const detailedContactTypesSelector = createSelector(
   (state: RootState) => state.rb.rbContactTypes,
   (types) => types,
 );
+
+export const detailedSocialTypesSelector = createSelector(
+  (state: RootState) => state.rb.rbSocialTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedSocialClassesSelector = createSelector(
+  (state: RootState) => state.rb.rbSocialClasses,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const socialLoadingsSelector = createSelector(
+  (state: RootState) => state.rb.loading,
+  (loadings) => {
+    return { types: loadings.socialTypes, classes: loadings.socialClasses };
+  },
+);

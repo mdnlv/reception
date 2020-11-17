@@ -14,8 +14,16 @@ import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 import PatientPolicyResponse from '../interfaces/responses/patients/patientPolicy';
+import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
+import RbSocialClassResponse from '../interfaces/responses/rb/rbSocialClass';
 
 export default {
+  fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusType`);
+  },
+  fetchSocialClasses(): Promise<AxiosResponse<RbSocialClassResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusClass`);
+  },
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
