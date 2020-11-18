@@ -1,14 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-
-import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
-import { WizardStateType } from '../../../../types';
-import {SectionProps, KladrItem} from "./types";
-
 import FormField from '../../../../../../components/FormField/FormField';
+import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import { WizardStateType } from '../../../../types';
+import {SectionProps, KladrItem} from "./types";
 
 const Address: FC<SectionProps> = ({
   passportType,
@@ -28,14 +26,16 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
 
   const getKladrDetailed = (kladrArr: KladrItem[]) => {
-    return kladrArr.map((item) => (
-      <Select.Option
-        key={item.id}
-        name={`${item.socr}. ${item.name}`}
-        value={item.id}>
-        {`${item.socr}. ${item.name}`}
-      </Select.Option>
-    ));
+    return kladrArr.map((item) => {
+      return (
+        <Select.Option
+          key={item.id}
+          name={`${item.socr}. ${item.name}`}
+          value={item.id}>
+          {`${item.socr}. ${item.name}`}
+        </Select.Option>
+      );
+    });
   }
 
   const getTitle = () => {
@@ -255,11 +255,11 @@ const Address: FC<SectionProps> = ({
             <FormField>
               <Checkbox
                 checked={
-                  formValues.passportInfo['addressRegistration'].isDocumentedAddress
+                  formValues.passportInfo[passportType]
+                    .isDocumentedAddress
                 }
                 name={`${sectionValuePath}.isDocumentedAddress`}
-                onChange={form.handleChange}
-              >
+                onChange={form.handleChange}>
                 Соответствует адресу прописки
               </Checkbox>
             </FormField>

@@ -23,6 +23,7 @@
     "axios": "^0.19.2",
     "clean-deep": "^3.4.0",
     "date-fns": "^2.14.0",
+    "deep-equal": "^2.0.4",
     "formik": "^2.1.4",
     "formik-persist": "^1.1.0",
     "moment": "^2.25.3",

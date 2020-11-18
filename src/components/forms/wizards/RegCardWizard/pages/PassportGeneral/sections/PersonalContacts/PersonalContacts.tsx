@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -10,6 +10,7 @@ import FormField from '../../../../../../components/FormField/FormField';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
@@ -21,20 +22,23 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   };
 
   const typesOptions = contactTypes.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
+    <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
       {item.name}
     </Select.Option>
   ));
 
-  const getTypeInput = (index: number, mask: string) => {
-    if (mask) {
+  function getTypeInput(index: number, mask: string) {
+    console.log(mask);
+    if (!mask) {
+      return <FastInput name={getSelectionItem(index, 'number')} />;
+    } else {
       return (
         <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
       );
     }
   }
 
-  const findMaskByType = (typeId: number) => {
+  function findMaskByType(typeId: number) {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
       if (type) return type.mask;
@@ -96,13 +100,14 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
             </Col>
             <Col span={5}>
               <FormField label={LABELS.TYPE}>
-                <Select
+                <FastSearchSelect
+                  name={getSelectionItem(index, 'type')}
                   value={formProps[index]?.type}
                   onChange={(val) => {
                     form.setFieldValue(getSelectionItem(index, 'type'), val);
                   }}>
                   {typesOptions}
-                </Select>
+                </FastSearchSelect>
               </FormField>
             </Col>
             <Col span={10}>

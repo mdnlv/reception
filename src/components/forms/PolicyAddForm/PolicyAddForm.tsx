@@ -47,7 +47,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
       props.map((item) => (
-        <Select.Option key={item.id} value={item.id}>
+        <Select.Option key={item.id} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       )),
@@ -87,6 +87,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
         foundPolicy
           ? {
               ...initialState,
+              cmo: foundPolicy.insurerId?.toString(),
+              type: foundPolicy.policyTypeId?.toString(),
+              timeType: foundPolicy.policyKindId?.toString(),
               from: foundPolicy.begDate.toString(),
               to: foundPolicy.endDate.toString(),
               serial: foundPolicy.serial,
