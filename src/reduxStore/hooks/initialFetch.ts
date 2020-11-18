@@ -5,12 +5,16 @@ import {
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbEventTypes,
+  fetchRbHurtFactorTypes,
+  fetchRbHurtType,
   fetchRbInvalidDocumentsTypes,
   fetchRbInvalidReasons,
   fetchRbOrganisations,
   fetchRbPersons,
   fetchRbPolicyKind,
   fetchRbPolicyTypes,
+  fetchRbSocialStatusClass,
+  fetchRbSocialStatusType,
 } from '../slices/rb/rbSlice';
 
 export default function useInitialFetch() {
@@ -28,5 +32,9 @@ export default function useInitialFetch() {
     dispatch(fetchRbDocumentTypes());
     dispatch(fetchRbPolicyKind());
     dispatch(fetchRbPolicyTypes());
+    dispatch(fetchRbSocialStatusType());
+    dispatch(fetchRbSocialStatusClass());
+    dispatch(fetchRbHurtType());
+    dispatch(fetchRbHurtFactorTypes());
   };
 }

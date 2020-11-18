@@ -1,6 +1,5 @@
-import { AxiosResponse } from 'axios';
-
 import apiInstance from './api';
+import { AxiosResponse } from 'axios';
 import RbEventTypeResponse from '../interfaces/responses/rb/rbEventType';
 import RbPersonResponse from '../interfaces/responses/rb/rbPerson';
 import RbOrganisationResponse from '../interfaces/responses/rb/rbOrganisation';
@@ -14,8 +13,24 @@ import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
 import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
+import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
+import RbSocialClassResponse from '../interfaces/responses/rb/rbSocialClass';
+import RbHurtType from '../interfaces/responses/rb/rbHurtType';
+import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 
 export default {
+  fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusType`);
+  },
+  fetchSocialClasses(): Promise<AxiosResponse<RbSocialClassResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusClass`);
+  },
+  fetchHurtTypes(): Promise<AxiosResponse<RbHurtType[]>> {
+    return apiInstance.get(`/refBooks/rbHurtType`);
+  },
+  fetchHurtFactorTypes(): Promise<AxiosResponse<RbHurtFactorType[]>> {
+    return apiInstance.get(`/refBooks/rbHurtFactorType`);
+  },
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
@@ -44,7 +59,7 @@ export default {
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbAttachType');
   },
-  fetchCityDisctricts(): Promise<AxiosResponse<any>> {
+  fetchCityDistricts(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbDistrict');
   },
   getRegionList(parent?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
@@ -66,9 +81,6 @@ export default {
     return apiInstance.get('/refBooks/rbPolicyType');
   },
   fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
-    return apiInstance.get('/refBooks/rbPolicyKind');
-  },
-  fetchCMO(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbPolicyKind');
   },
 };

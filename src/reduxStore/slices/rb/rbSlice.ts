@@ -6,18 +6,21 @@ import InvalidReason from '../../../types/data/InvalidReason';
 import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
-import KladrItem from '../../../types/data/KladrItem';
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';
 import PatientContactType from '../../../types/data/PatientContactType';
 import PatientDocumentType from '../../../types/data/PatientDocumentType';
+import SocialType from '../../../types/data/SocialType';
+import SocialClass from '../../../types/data/SocialClass';
+import HurtType from '../../../types/data/HurtType';
+import HurtFactorType from '../../../types/data/HurtFactorType';
 
 export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
   try {
     const response = await RbService.fetchPersons();
     if (response.data) {
-      const formattedData = response.data.map((item) => ({
+      return response.data.map((item) => ({
         id: item.id,
         createDatetime: item.createDatetime,
         createPersonId: item.createPerson_id,
@@ -30,7 +33,6 @@ export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
         postId: item.post_id,
         specialityId: item.speciality_id,
       }));
-      return formattedData;
     }
   } catch (e) {
   } finally {
@@ -113,12 +115,11 @@ export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
     try {
       const response = await RbService.fetchInvalidDocumentTypes();
       if (response.data) {
-        const formattedData = response.data.map((item) => ({
+        return response.data.map((item) => ({
           id: item.id,
           name: item.name,
           code: item.code,
         }));
-        return formattedData;
       }
     } catch (e) {}
   },
@@ -130,11 +131,10 @@ export const fetchRbAccountingSystem = createAsyncThunk(
     try {
       const response = await RbService.fetchAccountingSystem();
       if (response.data) {
-        const formattedData = response.data.map((item) => ({
+        return response.data.map((item) => ({
           id: item.id,
           name: item.name,
         }));
-        return formattedData;
       }
     } catch (e) {}
   },
@@ -146,11 +146,10 @@ export const fetchRbAttachTypes = createAsyncThunk(
     try {
       const response = await RbService.fetchAttachTypes();
       if (response.data) {
-        const formattedData = response.data.map((item) => ({
+        return response.data.map((item) => ({
           id: item.id,
           name: item.name,
         }));
-        return formattedData;
       }
     } catch (e) {}
   },
@@ -202,6 +201,70 @@ export const fetchRbContactTypes = createAsyncThunk(
   },
 );
 
+export const fetchRbSocialStatusType = createAsyncThunk(
+  'rb/fetchRbSocialStatusType',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: true }));
+    try {
+      const response = await RbService.fetchSocialTypes();
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: false }));
+    }
+  },
+);
+
+export const fetchRbSocialStatusClass = createAsyncThunk(
+  'rb/fetchRbSocialStatusClass',
+  async (_, thunkApi) => {
+    thunkApi.dispatch(setLoading({ value: true, type: 'socialClasses' }));
+    try {
+      const response = await RbService.fetchSocialClasses();
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+      thunkApi.dispatch(setLoading({ value: false, type: 'socialClasses' }));
+    }
+  },
+);
+
+export const fetchRbHurtType = createAsyncThunk(
+  'rb/fetchRbHurtType',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: true }));
+    try {
+      const response = await RbService.fetchHurtTypes();
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: false }));
+    }
+  },
+);
+
+export const fetchRbHurtFactorTypes = createAsyncThunk(
+  'rb/fetchRbHurtFactorType',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: true }));
+    try {
+      const response = await RbService.fetchHurtFactorTypes();
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: false }));
+    }
+  },
+);
+
 const rbSlice = createSlice({
   name: 'rb',
   initialState: {
@@ -216,16 +279,30 @@ const rbSlice = createSlice({
     rbPolicyKinds: [] as PolicyKind[],
     rbContactTypes: [] as PatientContactType[],
     rbDocumentTypes: [] as PatientDocumentType[],
+    rbSocialTypes: [] as SocialType[],
+    rbSocialClasses: [] as SocialClass[],
+    rbHurtTypes: [] as HurtType[],
+    rbHurtFactorTypes: [] as HurtFactorType[],
     loading: {
       organisations: false,
       documentTypes: false,
+      socialTypes: false,
+      socialClasses: false,
+      hurtTypes: false,
+      hurtFactorTypes: false,
     },
   },
   reducers: {
     setLoading: (
       state,
       action: PayloadAction<{
-        type: 'organisations' | 'documentTypes';
+        type:
+          | 'organisations'
+          | 'documentTypes'
+          | 'socialTypes'
+          | 'socialClasses'
+          | 'hurtTypes'
+          | 'hurtFactorTypes';
         value: boolean;
       }>,
     ) => {
@@ -291,6 +368,26 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbContactTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbContactTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbSocialStatusType.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSocialTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbSocialStatusClass.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSocialClasses = action.payload;
+      }
+    });
+    builder.addCase(fetchRbHurtType.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbHurtTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbHurtFactorTypes.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbHurtFactorTypes = action.payload;
       }
     });
   },

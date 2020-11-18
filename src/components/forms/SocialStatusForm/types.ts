@@ -1,22 +1,22 @@
-
 export interface SocialStatus {
-    type?: string
-    serialNumber: string
-    number: string
-    note?: string
-    fromDate: Date
-    endDate: Date
+  type?: string;
+  serialNumber: string;
+  number: string;
+  note?: string;
+  fromDate: string;
+  endDate: string;
+  class?: string;
 }
 
 export interface TrustedDoc {
-    date: Date
-    givenBy: string
-    serial: string
-    number: string
+  date: string;
+  type?: string;
+  givenBy: string;
+  serial: string;
+  number: string;
 }
 
-
 export interface FormState {
-    socialStatus: SocialStatus[]
-    trustedDoc: TrustedDoc[]
+  socialStatus: SocialStatus[];
+  trustedDoc: TrustedDoc[];
 }

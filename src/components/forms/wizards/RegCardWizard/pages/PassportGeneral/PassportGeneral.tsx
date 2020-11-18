@@ -90,11 +90,11 @@ const PassportGeneral: React.FC<SectionProps> = () => {
     if (rbKladrItem) {
       dispatch(fetchKladrNested({ id: rbKladrItem.prefix, type }));
     }
-  }
+  };
 
   const fetchKladrStreetsItems = (id: string, type: KladrDocType) => {
     dispatch(fetchKladrStreets({ id, type }));
-  }
+  };
 
   const onAddPolicy = (policy: PassportPolicyType, type: 'oms' | 'dms') => {
     let policyItems: PassportPolicyType[] = [] as PassportPolicyType[];
@@ -109,26 +109,29 @@ const PassportGeneral: React.FC<SectionProps> = () => {
     const pathName = type === 'oms' ? 'Oms' : 'Dms';
     policyItems = [...policyItems, policy];
     form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
-  }
+  };
 
-  const onFindPatientPolicy = (payload: FindPolicyParams, type: 'oms' | 'dms') => {
+  const onFindPatientPolicy = (
+    payload: FindPolicyParams,
+    type: 'oms' | 'dms',
+  ) => {
     dispatch(findPatientPolicy({ params: payload, type }));
-  }
+  };
 
   return (
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
         <Col span={12}>
           <Address
-              passportType="documentedAddress"
-              isLoadingKladr={isLoadingKladrDocumented}
-              isLoadingKladrNested={isLoadingKladrNestedDocumented}
-              isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
-              getKladrNested={fetchNestedKladr}
-              getKladrStreets={fetchKladrStreetsItems}
-              kladr={rbKladrDocumented}
-              nestedKladr={rbKladrNestedDocumented}
-              kladrStreets={rbKladrStreetsDocumented}
+            passportType="documentedAddress"
+            isLoadingKladr={isLoadingKladrDocumented}
+            isLoadingKladrNested={isLoadingKladrNestedDocumented}
+            isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
+            getKladrNested={fetchNestedKladr}
+            getKladrStreets={fetchKladrStreetsItems}
+            kladr={rbKladrDocumented}
+            nestedKladr={rbKladrNestedDocumented}
+            kladrStreets={rbKladrStreetsDocumented}
           />
         </Col>
         <Col span={12} className={'col--border-right'}>
