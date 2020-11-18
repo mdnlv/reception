@@ -10,6 +10,7 @@ import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 import {
   fetchIdPatient,
   saveCardPatient,
+  setFormSection,
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
@@ -48,7 +49,8 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     <Formik
       enableReinitialize={true}
       initialValues={store}
-      onSubmit={() => {
+      onSubmit={(values) => {
+        dispatch(setFormSection(values));
         dispatch(saveCardPatient());
       }}>
       {() => (

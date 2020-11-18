@@ -1,5 +1,6 @@
-import {MaskedInputProps} from "antd-mask-input/build/main/lib/MaskedInput";
+import { MaskedInputProps } from 'antd-mask-input/build/main/lib/MaskedInput';
 
 export interface FastMaskedProps extends MaskedInputProps {
-  mask: any
+  name: string;
+  mask: any;
 }

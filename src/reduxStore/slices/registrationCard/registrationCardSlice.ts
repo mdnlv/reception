@@ -138,6 +138,7 @@ export const saveCardPatient = createAsyncThunk(
         fromDate,
         givenBy,
         addressRegistration,
+        documentedAddress,
       } = state.registrationCard.form.passportGeneral.passportInfo;
       const {
         firstName,
@@ -172,24 +173,39 @@ export const saveCardPatient = createAsyncThunk(
           endDate: '',
         },
 
+        social_status_info:
+          state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+            type: item.type ? parseInt(item.type) : null,
+            class: item.class ? parseInt(item.class) : null,
+            begDate: item.fromDate,
+            endDate: item.endDate,
+            notes: item.note ?? null,
+          })) || [],
+
         client_address_info: [
           {
             address: {
-              KLADRCode: addressRegistration.city,
-              KLADRStreetCode: addressRegistration.street,
-              number: addressRegistration.houseNumber?.toString() || '',
-              corpus: '',
-              litera: addressRegistration.houseCharacter?.toString() || '',
+              address_house: {
+                KLADRCode: addressRegistration.city,
+                KLADRStreetCode: addressRegistration.street,
+                number: addressRegistration.houseNumber?.toString() || '',
+                corpus: '',
+                litera: addressRegistration.houseCharacter?.toString() || '',
+              },
+              flat: addressRegistration.flatNumber?.toString() || '',
             },
             type: 0,
           },
           {
             address: {
-              KLADRCode: addressRegistration.city,
-              KLADRStreetCode: addressRegistration.street,
-              number: addressRegistration.houseNumber?.toString() || '',
-              corpus: '',
-              litera: addressRegistration.houseCharacter?.toString() || '',
+              address_house: {
+                KLADRCode: documentedAddress.city,
+                KLADRStreetCode: documentedAddress.street,
+                corpus: documentedAddress.houseCharacter?.toString() || '',
+                litera: '',
+                number: documentedAddress.houseNumber?.toString() || '',
+              },
+              flat: documentedAddress.flatNumber?.toString() || '',
             },
             type: 1,
           },
@@ -208,7 +224,7 @@ const registrationCardSlice = createSlice({
   initialState: initialState,
   reducers: {
     setFormSection: (state, action: PayloadAction<WizardStateType>) => {
-      state.form = action.payload;
+      state.form = { ...state.form, ...action.payload };
     },
     setLoading: (
       state,

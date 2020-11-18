@@ -2,10 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MaskedInput } from 'antd-mask-input';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { FieldProps } from './types';
 
-import {FieldProps} from "./types";
-
-const MaskedInputFastField: React.FC<FieldProps> = ({value, onChange, mask}) => {
+const MaskedInputFastField: React.FC<FieldProps> = ({
+  value,
+  name,
+  onChange,
+  mask,
+}) => {
   const [innerValue, setInnerValue] = useState('');
 
   useEffect(() => {
@@ -38,10 +42,11 @@ const MaskedInputFastField: React.FC<FieldProps> = ({value, onChange, mask}) => 
 
   return (
     <MaskedInput
-      {...{value, onChange, mask}}
+      {...{ value, onChange, mask }}
       value={innerValue}
       onChange={handleOnChange}
       mask={mask}
+      name={name}
     />
   );
 };
