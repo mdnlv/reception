@@ -3,14 +3,14 @@ import PatientPolicyResponse from '../../../interfaces/responses/patients/patien
 export default function transformPolicyResponse(item: PatientPolicyResponse) {
   return {
     id: item.id,
-    begDate: item.begDate,
-    endDate: item.endDate,
+    from: item.begDate,
+    to: item.endDate,
     name: item.name,
     serial: item.serial,
     number: item.number,
-    policyTypeId: item.policyType_id,
-    policyKindId: item.policyKind_id,
-    insurerId: item.insurer_id,
-    clientId: item.client_id,
+    type: item.policyType_id?.toString() ?? '',
+    timeType: item.policyKind_id?.toString() ?? '',
+    cmo: item.insurer_id?.toString() ?? '',
+    note: '',
   };
 }

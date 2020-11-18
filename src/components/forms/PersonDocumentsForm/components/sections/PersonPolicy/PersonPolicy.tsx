@@ -9,6 +9,7 @@ import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import PatientPolicy from '../../../../../../types/data/PatientPolicy';
+import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 
 const PersonPolicy: FC<SectionProps> = ({
   getCmoTypeId,
@@ -22,7 +23,7 @@ const PersonPolicy: FC<SectionProps> = ({
   return (
     <div className={'form-section person-policy'}>
       <DropDownContent title={'Полис'}>
-        <ArrayFieldWrapper<PatientPolicy>
+        <ArrayFieldWrapper<PassportPolicyType>
           name={'passportGeneral'}
           values={[...formValues.policyOms, ...formValues.policyDms]}
           renderChild={(values, index) => (
@@ -31,9 +32,7 @@ const PersonPolicy: FC<SectionProps> = ({
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={getPolicyTypeId(
-                        values.policyTypeId.toString() ?? '',
-                      )}
+                      value={getPolicyTypeId(values.type.toString() ?? '')}
                       disabled
                     />
                   </FormField>
@@ -41,9 +40,7 @@ const PersonPolicy: FC<SectionProps> = ({
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={getPolicyKindId(
-                        values.policyKindId?.toString() ?? '',
-                      )}
+                      value={getPolicyKindId(values.timeType?.toString() ?? '')}
                       disabled
                     />
                   </FormField>
@@ -59,16 +56,11 @@ const PersonPolicy: FC<SectionProps> = ({
                   </FormField>
                 </Col>
                 <Col>
-                  <FormField label={'Номер'}>
-                    <Input value={values.serial} disabled />
-                  </FormField>
-                </Col>
-                <Col>
                   <FormField label={'Дата начала'}>
                     <Input
                       value={
-                        values.begDate
-                          ? moment(values.begDate).format('L')
+                        values.from
+                          ? moment(values.from).format('L')
                           : undefined
                       }
                       disabled
@@ -79,9 +71,7 @@ const PersonPolicy: FC<SectionProps> = ({
                   <FormField label={'Дата окончания'}>
                     <Input
                       value={
-                        values.begDate
-                          ? moment(values.endDate).format('L')
-                          : undefined
+                        values.from ? moment(values.to).format('L') : undefined
                       }
                       disabled
                     />
@@ -90,7 +80,7 @@ const PersonPolicy: FC<SectionProps> = ({
                 <Col>
                   <FormField label={'СМО'}>
                     <Input
-                      value={getCmoTypeId(values.insurerId.toString())}
+                      value={getCmoTypeId(values.cmo.toString())}
                       disabled
                     />
                   </FormField>

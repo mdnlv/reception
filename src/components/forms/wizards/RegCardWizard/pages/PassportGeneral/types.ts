@@ -8,6 +8,7 @@ export interface PassportContactType {
 }
 
 export interface PassportPolicyType {
+  id?: number;
   timeType: string;
   from: string;
   to: string;
@@ -54,6 +55,6 @@ export default interface FormState {
     };
   };
   contacts: PassportContactType[];
-  policyOms: PatientPolicy[];
-  policyDms: PatientPolicy[];
+  policyOms: PassportPolicyType[];
+  policyDms: PassportPolicyType[];
 }

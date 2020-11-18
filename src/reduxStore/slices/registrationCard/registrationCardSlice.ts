@@ -191,13 +191,13 @@ export const saveCardPatient = createAsyncThunk(
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
-            id: item.id,
-            insurer_id: item.insurerId,
-            policyType_id: item.policyTypeId,
-            policyKind_id: item.policyKindId,
-            begDate: item.begDate,
-            endDate: item.endDate,
-            note: '',
+            id: item.id ?? null,
+            insurer_id: parseInt(item.cmo),
+            policyType_id: item.type ? parseInt(item.type) : null,
+            policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+            begDate: item.from,
+            endDate: item.to,
+            note: item.note,
             name: item.name,
             number: item.number,
           })) || [],
@@ -323,10 +323,10 @@ const registrationCardSlice = createSlice({
           transformedPatient.policy[0],
         ];
         state.initialFormState.passportGeneral.policyDms = transformedPatient.policy.filter(
-          (item) => [4].indexOf(item.policyTypeId) !== -1,
+          (item) => [4].indexOf(parseInt(item.type)) !== -1,
         );
         state.initialFormState.passportGeneral.policyOms = transformedPatient.policy.filter(
-          (item) => [1, 2, 3].indexOf(item.policyTypeId) !== -1,
+          (item) => [1, 2, 3].indexOf(parseInt(item.type)) !== -1,
         );
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus;

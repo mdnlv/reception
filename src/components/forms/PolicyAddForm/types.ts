@@ -1,6 +1,6 @@
-import {PassportPolicyType} from "../wizards/RegCardWizard/pages/PassportGeneral/types";
-import FindPolicyParams from "../../../interfaces/payloads/patients/findPatientPolicy";
-import PatientPolicy from "../../../types/data/PatientPolicy";
+import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
+import PatientPolicy from '../../../types/data/PatientPolicy';
 
 export interface ListOptionItem {
   id: number;
@@ -16,5 +16,5 @@ export interface FormProps {
   onFindPolicy(policy: FindPolicyParams, type: 'oms' | 'dms'): void;
   isLoading: boolean;
   isCmoLoading: boolean;
-  foundPolicy?: PatientPolicy;
+  foundPolicy?: PassportPolicyType;
 }

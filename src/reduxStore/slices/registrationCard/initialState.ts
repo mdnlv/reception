@@ -27,6 +27,7 @@ import OutsideIdsFormState, {
 } from '../../../components/forms/OutsideIdentificationForm/types';
 import PassportGeneralFormState, {
   PassportContactType,
+  PassportPolicyType,
 } from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import PersonDocsState, {
   NamedDoc,
@@ -112,8 +113,8 @@ interface FormState extends InitialRegFormState {
     };
   };
   foundPolicies: {
-    dms: { items: PatientPolicy[]; isLoading: boolean };
-    oms: { items: PatientPolicy[]; isLoading: boolean };
+    dms: { items: PassportPolicyType[]; isLoading: boolean };
+    oms: { items: PassportPolicyType[]; isLoading: boolean };
   };
 }
 
@@ -305,8 +306,8 @@ const initialState: RegistrationCardStateType = {
         },
       },
       contacts: [] as PassportContactType[],
-      policyOms: [],
-      policyDms: [],
+      policyOms: [] as PassportPolicyType[],
+      policyDms: [] as PassportPolicyType[],
     },
     personDocs: {
       idDoc: [] as PassportDoc[],
@@ -351,8 +352,8 @@ const initialState: RegistrationCardStateType = {
       },
     },
     foundPolicies: {
-      dms: { items: [] as PatientPolicy[], isLoading: false },
-      oms: { items: [] as PatientPolicy[], isLoading: false },
+      dms: { items: [] as PassportPolicyType[], isLoading: false },
+      oms: { items: [] as PassportPolicyType[], isLoading: false },
     },
   },
 };
