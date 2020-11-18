@@ -8,18 +8,21 @@ const FastSearchSelect: React.FC<SearchSelectProps> = ({
   name,
   children,
   isDisabled,
-  valueSet
+  valueSet,
+  onFocus
 }) => {
   const [field, meta, form] = useField(name);
 
   return (
     <Select
-      {...{name, children}}
+      {...{name, children, onFocus}}
       value={valueSet ? valueSet : field.value}
       disabled={isDisabled}
       onChange={(val) => {
         form.setValue(val);
-      }}>
+      }}
+      // onFocus={onFocus}
+    >
       {children}
     </Select>
   );

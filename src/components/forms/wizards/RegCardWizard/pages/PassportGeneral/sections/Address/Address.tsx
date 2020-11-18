@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
-import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {KladrDocType} from "../../../../../../../../reduxStore/slices/registrationCard/types";
 import { WizardStateType } from '../../../../types';
 import {SectionProps, KladrItem} from "./types";
 
@@ -26,46 +26,6 @@ const Address: FC<SectionProps> = ({
 
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
-
-  const getKladrDetailed = (kladrArr: KladrItem[]) => {
-    return kladrArr.map((item) => (
-      <Select.Option
-        key={item.id}
-        name={`${item.socr}. ${item.name}`}
-        value={item.id}>
-        {`${item.socr}. ${item.name}`}
-      </Select.Option>
-    ));
-  }
-
-  const getTitle = () => {
-    switch (passportType) {
-      case 'documentedAddress':
-        return 'Адрес регистрации';
-      case 'addressRegistration':
-        return 'Адрес проживания';
-    }
-  }
-
-  const getType = () => {
-    let type: KladrDocType;
-    switch (passportType) {
-      case 'addressRegistration':
-        type = 'registration';
-        break;
-      case 'documentedAddress':
-        type = 'documented';
-        break;
-    }
-    return type;
-  }
-
-  const setValue = (field: string) =>
-    isDocumentedAddress && passportType !== 'documentedAddress'
-      ? formValues.passportInfo['documentedAddress'][field]
-      : formValues.passportInfo[passportType][field];
-
-  const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
 
   //clear select fields after top-level select changed
   useEffect(() => {
@@ -107,13 +67,68 @@ const Address: FC<SectionProps> = ({
     }
   }, [isDocumentedAddress, formValues.passportInfo['documentedAddress'].isKLADR]);
 
+  const getKladrDetailed = (kladrArr: KladrItem[]) => {
+    return kladrArr.map((item) => (
+      <Select.Option
+        key={item.id}
+        name={`${item.socr}. ${item.name}`}
+        value={item.id}>
+        {`${item.socr}. ${item.name}`}
+      </Select.Option>
+    ));
+  }
+
+  const getTitle = () => {
+    switch (passportType) {
+      case 'documentedAddress':
+        return 'Адрес регистрации';
+      case 'addressRegistration':
+        return 'Адрес проживания';
+    }
+  }
+
+  const getType = () => {
+    let type: KladrDocType;
+    switch (passportType) {
+      case 'addressRegistration':
+        type = 'registration';
+        break;
+      case 'documentedAddress':
+        type = 'documented';
+        break;
+    }
+    return type;
+  }
+
+  const setValue = (field: string) =>
+    isDocumentedAddress && passportType !== 'documentedAddress'
+      ? formValues.passportInfo['documentedAddress'][field]
+      : formValues.passportInfo[passportType][field];
+
+  const setNestedValue = (kladrArr: KladrItem[], field: string) => {
+    if (isDocumentedAddress && passportType !== 'documentedAddress') {
+      const result = kladrArr.find(item => item.id === field)
+      return result?.name
+    }
+  }
+
+  const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
+
+  useEffect(() => {
+    console.log(nestedKladr)
+  }, [nestedKladr]);
+
   return (
     <div className="form-section address-registration">
       <h2>{getTitle()}</h2>
       <Row gutter={16} className="form-row">
         <Col span={8}>
           <Radio.Group
-            value={setValue('isKLADR')}
+            value={
+              isDocumentedAddress && passportType !== 'documentedAddress'
+                ? formValues.passportInfo['documentedAddress'].isKLADR
+                : formValues.passportInfo[passportType].isKLADR
+            }
             disabled={setDisabled()}
             name={`${sectionValuePath}.isKLADR`}
             onChange={form.handleChange}>
@@ -156,8 +171,8 @@ const Address: FC<SectionProps> = ({
                       getType(),
                     );
                   }}
-                  valueSet={setValue('city')}
-                  value={setValue('city')}
+                  valueSet={setNestedValue(nestedKladr,'city')}
+                  value={setNestedValue(nestedKladr,'city')}
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
@@ -175,13 +190,20 @@ const Address: FC<SectionProps> = ({
                   loading={isLoadingKladrStreets}
                   isDisabled={
                     setDisabled()
-                      || formValues.passportInfo[passportType].area !== '7800000000000'
-                      && formValues.passportInfo[passportType].area !== '7700000000000'
-                      && formValues.passportInfo[passportType].area !== '9200000000000'
+                      || formValues.passportInfo[passportType].area === '7800000000000'
+                      || formValues.passportInfo[passportType].area === '7700000000000'
+                      || formValues.passportInfo[passportType].area === '9200000000000'
+                      || !formValues.passportInfo[passportType].city
                   }
                   onFocus={() => {
                     getKladrStreets(
-                      formValues.passportInfo[passportType].city,
+                      (
+                        formValues.passportInfo[passportType].area === '7800000000000'
+                          || formValues.passportInfo[passportType].area === '7700000000000'
+                          || formValues.passportInfo[passportType].area === '9200000000000'
+                            ? formValues.passportInfo[passportType].area
+                            : formValues.passportInfo[passportType].city
+                      ),
                       getType(),
                     );
                   }}
