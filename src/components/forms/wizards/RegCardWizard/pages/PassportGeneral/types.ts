@@ -26,6 +26,7 @@ export default interface FormState {
     givenBy: string;
 
     addressRegistration: {
+      [key: string]: any;
       isKLADR: boolean;
       city: string;
       area: string;
@@ -38,6 +39,7 @@ export default interface FormState {
     };
 
     documentedAddress: {
+      [key: string]: boolean| string | number | undefined;
       isKLADR: boolean;
       city: string;
       area: string;
