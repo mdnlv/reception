@@ -53,107 +53,77 @@ import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
 import PatientPolicy from '../../../types/data/PatientPolicy';
 
+interface InitialRegFormState {
+  additionalHospitalization: AdditionalHospitalizationFormState;
+  attachments: AttachmentsFormState;
+  employment: EmploymentFormState;
+  etc: EtcFormState;
+  features: FeaturesFormState;
+  offences: OffencesFormState;
+  outsideHospitalization: OutsideHospitalizationFormState;
+  outsideIdentification: OutsideIdsFormState;
+  passportGeneral: PassportGeneralFormState;
+  personDocs: PersonDocsState;
+  links: LinksFormState;
+  privileges: PersonPrivilegesFormState;
+  quotas: {};
+  socialStatus: SocialStatusFormState;
+  viewTypes: PersonViewTypeFormState;
+  personal: {
+    firstName: string;
+    lastName: string;
+    patrName: string;
+    code: string;
+    birthDate: string;
+    birthTime: string;
+    height: number;
+    weight: number;
+    snils: string;
+    startCardDate: string;
+    sex: 0 | 1;
+    hasImplants: boolean;
+    hasProsthesis: boolean;
+    birthPlace: string;
+    hasCard: boolean;
+    onlyTempRegistration: boolean;
+    docPersonId: string;
+  };
+}
+
+interface FormState extends InitialRegFormState {
+  data: {
+    passportGeneral: {
+      documentedAddress: {
+        kladr: KladrItem[];
+        kladrNested: KladrItem[];
+        kladrStreets: KladrStreet[];
+        isKladrLoading: boolean;
+        isKladrNestedLoading: boolean;
+        isKladrStreetsLoading: boolean;
+      };
+      addressRegistration: {
+        kladr: KladrItem[];
+        kladrNested: KladrItem[];
+        kladrStreets: KladrStreet[];
+        isKladrLoading: boolean;
+        isKladrNestedLoading: boolean;
+        isKladrStreetsLoading: boolean;
+      };
+    };
+  };
+  foundPolicies: {
+    dms: { items: PatientPolicy[]; isLoading: boolean };
+    oms: { items: PatientPolicy[]; isLoading: boolean };
+  };
+}
+
 export interface RegistrationCardStateType {
   loading: {
     saveNewPatient: boolean;
     idPatient: boolean;
   };
-  initialFormState: {
-    additionalHospitalization: AdditionalHospitalizationFormState;
-    attachments: AttachmentsFormState;
-    employment: EmploymentFormState;
-    etc: EtcFormState;
-    features: FeaturesFormState;
-    offences: OffencesFormState;
-    outsideHospitalization: OutsideHospitalizationFormState;
-    outsideIdentification: OutsideIdsFormState;
-    passportGeneral: PassportGeneralFormState;
-    personDocs: PersonDocsState;
-    links: LinksFormState;
-    privileges: PersonPrivilegesFormState;
-    quotas: {};
-    socialStatus: SocialStatusFormState;
-    viewTypes: PersonViewTypeFormState;
-    personal: {
-      firstName: string;
-      lastName: string;
-      patrName: string;
-      code: string;
-      birthDate: string;
-      birthTime: string;
-      height: number;
-      weight: number;
-      snils: string;
-      startCardDate: string;
-      sex: 0 | 1;
-      hasImplants: boolean;
-      hasProsthesis: boolean;
-      birthPlace: string;
-      hasCard: boolean;
-      onlyTempRegistration: boolean;
-      docPersonId: string;
-    };
-  };
-  form: {
-    additionalHospitalization: AdditionalHospitalizationFormState;
-    attachments: AttachmentsFormState;
-    employment: EmploymentFormState;
-    etc: EtcFormState;
-    features: FeaturesFormState;
-    offences: OffencesFormState;
-    outsideHospitalization: OutsideHospitalizationFormState;
-    outsideIdentification: OutsideIdsFormState;
-    passportGeneral: PassportGeneralFormState;
-    personDocs: PersonDocsState;
-    links: LinksFormState;
-    privileges: PersonPrivilegesFormState;
-    quotas: {};
-    socialStatus: SocialStatusFormState;
-    viewTypes: PersonViewTypeFormState;
-    personal: {
-      firstName: string;
-      lastName: string;
-      patrName: string;
-      code: string;
-      birthDate: string;
-      birthTime: string;
-      height: number;
-      weight: number;
-      snils: string;
-      startCardDate: string;
-      sex: 0 | 1;
-      hasImplants: boolean;
-      hasProsthesis: boolean;
-      birthPlace: string;
-      hasCard: boolean;
-      onlyTempRegistration: boolean;
-      docPersonId: string;
-    };
-    data: {
-      passportGeneral: {
-        documentedAddress: {
-          kladr: KladrItem[];
-          kladrNested: KladrItem[];
-          kladrStreets: KladrStreet[];
-          isKladrLoading: boolean;
-          isKladrNestedLoading: boolean;
-          isKladrStreetsLoading: boolean;
-        };
-        addressRegistration: {
-          kladr: KladrItem[];
-          kladrNested: KladrItem[];
-          kladrStreets: KladrStreet[];
-          isKladrLoading: boolean;
-          isKladrNestedLoading: boolean;
-          isKladrStreetsLoading: boolean;
-        };
-      };
-    };
-    foundPolicies: {
-      dms: { items: PatientPolicy[]; isLoading: boolean };
-      oms: { items: PatientPolicy[]; isLoading: boolean };
-    };
-  };
+  initialFormState: InitialRegFormState;
+  form: FormState;
 }
 
 const initialState: RegistrationCardStateType = {

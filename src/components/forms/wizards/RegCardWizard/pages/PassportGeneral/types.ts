@@ -1,3 +1,5 @@
+import PatientPolicy from '../../../../../../types/data/PatientPolicy';
+
 export interface PassportContactType {
   isMain: boolean;
   number: string;
@@ -39,7 +41,7 @@ export default interface FormState {
     };
 
     documentedAddress: {
-      [key: string]: boolean| string | number | undefined;
+      [key: string]: boolean | string | number | undefined;
       isKLADR: boolean;
       city: string;
       area: string;
@@ -52,6 +54,6 @@ export default interface FormState {
     };
   };
   contacts: PassportContactType[];
-  policyOms: PassportPolicyType[];
-  policyDms: PassportPolicyType[];
+  policyOms: PatientPolicy[];
+  policyDms: PatientPolicy[];
 }

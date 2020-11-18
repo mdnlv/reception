@@ -19,8 +19,11 @@ export const fetchIdPatient = createAsyncThunk(
       const response = await PatientsService.fetchIdPatient(id);
       if (response.status === 200) {
         return response.data;
+      } else {
+        thunkAPI.dispatch(fetchIdPatientError());
       }
     } catch (e) {
+      thunkAPI.dispatch(fetchIdPatientError());
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'idPatient', value: false }));
     }
@@ -141,6 +144,10 @@ export const saveCardPatient = createAsyncThunk(
         documentedAddress,
       } = state.registrationCard.form.passportGeneral.passportInfo;
       const {
+        policyDms,
+        policyOms,
+      } = state.registrationCard.form.passportGeneral;
+      const {
         firstName,
         lastName,
         patrName,
@@ -180,6 +187,19 @@ export const saveCardPatient = createAsyncThunk(
             begDate: item.fromDate,
             endDate: item.endDate,
             notes: item.note ?? null,
+          })) || [],
+
+        client_policy_info:
+          policyDms.concat(policyOms).map((item) => ({
+            id: item.id,
+            insurer_id: item.insurerId,
+            policyType_id: item.policyTypeId,
+            policyKind_id: item.policyKindId,
+            begDate: item.begDate,
+            endDate: item.endDate,
+            note: '',
+            name: item.name,
+            number: item.number,
           })) || [],
 
         client_address_info: [
@@ -278,6 +298,10 @@ const registrationCardSlice = createSlice({
           action.payload.value;
       }
     },
+    fetchIdPatientError: (state) => {
+      state.form = { ...initialState.form };
+      state.initialFormState = { ...initialState.initialFormState };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
@@ -298,6 +322,12 @@ const registrationCardSlice = createSlice({
         state.form.foundPolicies.dms.items = transformedPatient.policy[0] && [
           transformedPatient.policy[0],
         ];
+        state.initialFormState.passportGeneral.policyDms = transformedPatient.policy.filter(
+          (item) => [4].indexOf(item.policyTypeId) !== -1,
+        );
+        state.initialFormState.passportGeneral.policyOms = transformedPatient.policy.filter(
+          (item) => [1, 2, 3].indexOf(item.policyTypeId) !== -1,
+        );
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus;
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
@@ -394,6 +424,7 @@ export const {
   setKladrStreetsLodaing,
   setFindPolicyLoading,
   setLoading,
+  fetchIdPatientError,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;
