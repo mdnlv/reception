@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useMemo } from 'react';
 import { Col, Input, Pagination, Row } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { usePaginationList } from '../../../hooks/paginationList';
+import { usePaginationList } from '../../../hooks/paginationList/paginationList';
 import { chunk } from 'lodash';
 import './styles.scss';
 import {ListProps} from "./types";

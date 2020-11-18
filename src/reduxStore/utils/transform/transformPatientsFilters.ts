@@ -1,4 +1,4 @@
-import { PatientsSearchFiltersType } from '../../slices/patients/patientsSlice';
+import PatientsSearchFiltersType from "../../slices/patients/types";
 import PatientFiltersQueryPayload from '../../../interfaces/payloads/patients/patientFiltersQuery';
 import cleanDeep from 'clean-deep';
 

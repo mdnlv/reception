@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import PatientsService from '../../../services/PatientsService';
-import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
+import PatientsService from '../../../services/PatientsService/PatientsService';
+import {transformPolicyResponse} from '../../utils/transform/transformPolicyResponse';
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
-
-export type KladrDocType = 'documented' | 'registration';
+import {KladrDocType} from "./types";
 
 export const fetchKladr = createAsyncThunk(
   'registrationCard/fetchKladr',

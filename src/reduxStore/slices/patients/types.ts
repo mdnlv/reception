@@ -1,0 +1,34 @@
+export default interface PatientsSearchFiltersType {
+  tempInvalidDocumentBegDate: string;
+  tempInvalidDocumentEndDate: string;
+  tempInvalidDocumentSerial: string;
+  tempInvalidDocumentNumber: string;
+  tempInvalidDocumentTypeId: number;
+  tempInvalidReasonId: number;
+  createPersonId: number;
+  modifyPersonId: number;
+  begModifyDatetime: string;
+  endModifyDatetime: string;
+  begBirthDate: string;
+  endBirthDate: string;
+  isEmptyAddress: 0 | 1;
+  areaTypeId: number;
+  areaOrgStructureId: number;
+  bedProfileTypeId: 0 | 1 | 2 | 3 | 4;
+  bedProfileOrgStructureId: number;
+  isAttachment: 0 | 1;
+  attachmentCategoryId: 0 | 1 | 2 | 3;
+  attachmentTypeId: number;
+  isAttachNonBase: 0 | 1;
+  attachmentOrganisationId: number;
+  begDateRPFConfirmed: string;
+  endDateRPFConfirmed: string;
+  isRPFUnconfirmed: 0 | 1;
+  isOncologyForm90: 0 | 1;
+  isClientExamPlan: 0 | 1;
+  clientExamPlanKindId: 0 | 1 | 2;
+  clientExamPlanYear: number;
+  clientExamPlanQuarter: number;
+  identifierSystemId: number;
+  identifier: string;
+}

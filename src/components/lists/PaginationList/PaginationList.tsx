@@ -9,7 +9,7 @@ import { Pagination } from 'antd/lib';
 import {ListProps} from "./types";
 import './styles.scss';
 
-import { usePaginationList } from '../../../hooks/paginationList';
+import { usePaginationList } from '../../../hooks/paginationList/paginationList';
 
 function PaginationList<T>({len, numberPerPage, data, renderBody}: PropsWithChildren<ListProps<T>>) {
   const { currentPage, setCurrentPage, totalPages } = usePaginationList({

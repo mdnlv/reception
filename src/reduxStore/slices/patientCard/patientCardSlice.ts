@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import PatientEvent from '../../../types/data/PatientEvent';
-import PatientsService from '../../../services/PatientsService';
-import Patient from '../../../types/data/Patient';
+import PatientsService from '../../../services/PatientsService/PatientsService';
 import EventService from '../../../services/EventService';
-import transformPatientResponse from '../../utils/transform/transformPatientResponse';
+import {transformPatientResponse} from '../../utils/transform/transformPatientResponse';
+import StateType from "./types";
 
 export const fetchCurrentPatient = createAsyncThunk(
   'patientCard/fetchCurrentPatient',
@@ -66,15 +66,6 @@ export const fetchPatientEvents = createAsyncThunk(
     }
   },
 );
-
-interface StateType {
-  currentPatient?: Patient;
-  loading: {
-    patient: boolean;
-    events: boolean;
-  };
-  events: PatientEvent[];
-}
 
 const initialState: StateType = {
   currentPatient: undefined,

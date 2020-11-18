@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import ScheduleService from '../../../services/ScheduleService';
 import Schedule from '../../../types/data/Schedule';
 import exampleData from './exampleData';

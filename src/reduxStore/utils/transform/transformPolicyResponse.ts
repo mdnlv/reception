@@ -1,6 +1,6 @@
 import PatientPolicyResponse from '../../../interfaces/responses/patients/patientPolicy';
 
-export default function transformPolicyResponse(item: PatientPolicyResponse) {
+export const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
     id: item.id,
     begDate: item.begDate,

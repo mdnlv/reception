@@ -1,4 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+
 import patientSlice from './slices/patients/patientsSlice';
 import rbSlice from './slices/rb/rbSlice';
 import patientCardSlice from './slices/patientCard/patientCardSlice';
