@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import PatientEvent from '../../../types/data/PatientEvent';
 import PatientsService from '../../../services/PatientsService';
 import Patient from '../../../types/data/Patient';

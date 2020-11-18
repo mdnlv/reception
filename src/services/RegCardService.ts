@@ -1,6 +1,6 @@
-import apiInstance from "./api";
 import {AxiosResponse} from "axios";
 
+import apiInstance from "./api";
 
 export default {
     fetchRegCard(): Promise<AxiosResponse<any>>{

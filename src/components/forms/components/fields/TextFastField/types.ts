@@ -3,7 +3,7 @@ import React from "react";
 
 export interface FieldProps extends InputProps {
   name: string;
-  value?: string;
+  value?: any;
   onChange?(event: React.ChangeEvent<HTMLInputElement>): unknown;
   placeholder?: string;
 }

@@ -1,11 +1,12 @@
 import { AxiosResponse } from 'axios';
+import moment from 'moment';
+
 import apiInstance from './api';
 import PatientResponse from '../interfaces/responses/patients/patient';
 import PatientFiltersQueryPayload from '../interfaces/payloads/patients/patientFiltersQuery';
 import FilterSearchPatientResponse from '../interfaces/responses/patients/filterSearchPatient';
 import PatientPolicyResponse from '../interfaces/responses/patients/patientPolicy';
 import FindPolicyParams from '../interfaces/payloads/patients/findPatientPolicy';
-import moment from 'moment';
 import NewPatientPayload from '../interfaces/payloads/patients/newPatient';
 
 type FetchPatientsFilter = {

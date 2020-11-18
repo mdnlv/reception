@@ -151,7 +151,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
                         ? moment(formProps.values.to)
                         : undefined
                     }
-                    valueSet={formProps.values.timeType === 3 ? "2200-01-01" : formProps.values.to}
+                    valueSet={parseInt(formProps.values.timeType) === 3 ? "2200-01-01" : formProps.values.to}
                     name={'to'}
                   />
                 </FormField>
@@ -163,7 +163,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   <FastInput
                     disabled={isLoading}
                     name={'serial'}
-                    valueSet={formProps.values.timeType === 3 ? "ЕП" : formProps.values.timeType === 1 ? "ВС" : formProps.values.serial}
+                    valueSet={parseInt(formProps.values.timeType) === 3 ? "ЕП" : parseInt(formProps.values.timeType) === 1 ? "ВС" : formProps.values.serial}
                   />
                 </FormField>
               </Col>

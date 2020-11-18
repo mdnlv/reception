@@ -1,5 +1,6 @@
-import apiInstance from './api';
 import { AxiosResponse } from 'axios';
+
+import apiInstance from './api';
 import PatientEventResponse from '../interfaces/responses/events/patientEvent';
 
 export default {
