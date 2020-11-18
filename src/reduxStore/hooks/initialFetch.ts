@@ -5,6 +5,8 @@ import {
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbEventTypes,
+  fetchRbHurtFactorTypes,
+  fetchRbHurtType,
   fetchRbInvalidDocumentsTypes,
   fetchRbInvalidReasons,
   fetchRbOrganisations,
@@ -32,5 +34,7 @@ export default function useInitialFetch() {
     dispatch(fetchRbPolicyTypes());
     dispatch(fetchRbSocialStatusType());
     dispatch(fetchRbSocialStatusClass());
+    dispatch(fetchRbHurtType());
+    dispatch(fetchRbHurtFactorTypes());
   };
 }

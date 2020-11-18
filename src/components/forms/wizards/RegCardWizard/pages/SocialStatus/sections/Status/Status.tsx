@@ -61,7 +61,7 @@ const Status: React.FC<StatusProps> = (props) => {
   const propsList = useCallback(
     (items: ListOptionProps[]) => {
       return items.map((item) => (
-        <Select.Option key={item.id} value={item.id}>
+        <Select.Option key={item.id} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       ));

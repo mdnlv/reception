@@ -282,6 +282,8 @@ const registrationCardSlice = createSlice({
         state.form.foundPolicies.dms.items = transformedPatient.policy[0] && [
           transformedPatient.policy[0],
         ];
+        state.initialFormState.socialStatus.socialStatus =
+          transformedPatient.socialStatus;
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
           (item) => ({
             isMain: item.isPrimary === 1,

@@ -20,6 +20,18 @@ export default function transformPatientResponse(item: PatientResponse) {
       passportType: item.client_document_info.documentType_id,
     },
 
+    socialStatus:
+      item.client_social_status.map((item) => ({
+        id: item.id,
+        serialNumber: '',
+        number: '',
+        note: item.notes ?? '',
+        class: item.socStatusClass_id?.toString(),
+        type: item.socStatusType_id?.toString(),
+        fromDate: item.begDate,
+        endDate: item.endDate,
+      })) || [],
+
     policy:
       item.client_policy_info.map((item) => transformPolicyResponse(item)) ||
       [],

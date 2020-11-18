@@ -188,7 +188,7 @@ const initialState: RegistrationCardStateType = {
       attachments: [] as PersonAttachment[],
     },
     employment: {
-      employments: [] as EmploymentItem[],
+      employment: [] as EmploymentItem[],
       hazardHistory: [] as EmploymentHazardItem[],
     },
     etc: {
@@ -288,7 +288,7 @@ const initialState: RegistrationCardStateType = {
       attachments: [] as PersonAttachment[],
     },
     employment: {
-      employments: [] as EmploymentItem[],
+      employment: [] as EmploymentItem[],
       hazardHistory: [] as EmploymentHazardItem[],
     },
     etc: {

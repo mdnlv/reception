@@ -98,3 +98,32 @@ export const socialLoadingsSelector = createSelector(
     return { types: loadings.socialTypes, classes: loadings.socialClasses };
   },
 );
+
+export const hazardLoadingsSelector = createSelector(
+  (state: RootState) => state.rb.loading,
+  (loadings) => {
+    return {
+      types: loadings.socialTypes,
+      factorTypes: loadings.hurtFactorTypes,
+      orgs: loadings.organisations,
+    };
+  },
+);
+
+export const detailedHurtTypesSelector = createSelector(
+  (state: RootState) => state.rb.rbHurtTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedHurtFactorTypesSelector = createSelector(
+  (state: RootState) => state.rb.rbHurtFactorTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
