@@ -21,7 +21,7 @@ export default function (
     isEmptyAddress: filters.isEmptyAddress,
     isRPFUnconfirmed: filters.isRPFUnconfirmed,
     tempInvalid_DocumentType_id: filters.tempInvalidDocumentTypeId,
-    tempInvalid_Reason_id: filters.tempInvalidReasonId,
+    tempInvalid_Reason_id: filters.clientExamPlanKindId,
     tempInvalid_DocumentBegDate: filters.tempInvalidDocumentBegDate,
     tempInvalid_DocumentEndDate: filters.tempInvalidDocumentEndDate,
     tempInvalid_DocumentNumber: filters.tempInvalidDocumentNumber,

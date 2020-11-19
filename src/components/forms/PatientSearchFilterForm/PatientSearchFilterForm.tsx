@@ -28,11 +28,26 @@ import PersonBed from './components/sections/PersonBed/PersonBed';
 import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
 
 const initialStore: PartialFormState = {
+  tempInvalidDocumentTypeId: undefined,
   tempInvalidDocumentBegDate: '',
   tempInvalidDocumentEndDate: '',
   tempInvalidDocumentSerial: '',
   tempInvalidDocumentNumber: '',
+  createPersonId: undefined,
+  modifyPersonId: undefined,
+  begModifyDatetime: '',
+  endModifyDatetime: '',
+  begBirthDate: '',
+  endBirthDate: '',
+  isEmptyAddress: undefined,
   tempInvalidReasonId: undefined,
+  identifierSystemId: undefined,
+  attachmentCategoryId: undefined,
+  attachmentOrganisationId: undefined,
+  areaTypeId: undefined,
+  areaOrgStructureId: undefined,
+  bedProfileTypeId: undefined,
+  bedProfileOrgStructureId: undefined,
   clientExamPlanKindId: undefined,
   clientExamPlanYear: undefined,
   clientExamPlanQuarter: undefined,
@@ -40,10 +55,6 @@ const initialStore: PartialFormState = {
   isRPFUnconfirmed: undefined,
   isOncologyForm90: undefined,
   identifier: '',
-  personAgeFrom: undefined,
-  personAgeTo: undefined,
-  birthYear: undefined,
-  birthMonth: undefined,
 };
 
 const PatientSearchFilterForm: React.FC<FormProps> = ({
@@ -59,8 +70,6 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
   const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
   const onFormSubmit = (values: PartialFormState) => {
-    console.log('values: ', values);
-
     if (onSubmit) {
       onSubmit();
     }
@@ -68,7 +77,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
     dispatch(
       fetchFiltersPatients({
         ...values,
-        begBirthDate: '2000-01-01',
+        begBirthDate: '2000-01-01'
       }),
     );
     if (onClose) {

@@ -32,11 +32,12 @@ export const fetchFiltersPatients = createAsyncThunk(
   async (filters: Partial<PatientsSearchFiltersType>, thunkAPI) => {
     thunkAPI.dispatch(setLoadingFound(true));
     try {
+      console.log('filtered', transformPatientsFilters(filters))
       const response = await PatientsService.detailedQueryPatients(
         transformPatientsFilters(filters),
       );
       if (response.data) {
-        console.log('response.data', response.data)
+        // console.log('response.data', response.data)
         return response.data;
       }
     } catch (e) {
