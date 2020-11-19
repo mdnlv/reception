@@ -11,16 +11,16 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Address: FC<SectionProps> = ({
-  passportType,
-  kladr,
-  nestedKladr,
-  kladrStreets,
-  isLoadingKladr,
-  isLoadingKladrNested,
-  isLoadingKladrStreets,
-  getKladrNested,
-  getKladrStreets
-}) => {
+                                     passportType,
+                                     kladr,
+                                     nestedKladr,
+                                     kladrStreets,
+                                     isLoadingKladr,
+                                     isLoadingKladrNested,
+                                     isLoadingKladrStreets,
+                                     getKladrNested,
+                                     getKladrStreets
+                                   }) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const form = useFormikContext<WizardStateType>();
 
@@ -157,10 +157,10 @@ const Address: FC<SectionProps> = ({
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
                   isDisabled={setDisabled()
-                    || !formValues.passportInfo[passportType].area
-                    || formValues.passportInfo[passportType].area === '7800000000000'
-                    || formValues.passportInfo[passportType].area === '7700000000000'
-                    || formValues.passportInfo[passportType].area === '9200000000000'
+                  || !formValues.passportInfo[passportType].area
+                  || formValues.passportInfo[passportType].area === '7800000000000'
+                  || formValues.passportInfo[passportType].area === '7700000000000'
+                  || formValues.passportInfo[passportType].area === '9200000000000'
                   }
                   onFocus={() => {
                     getKladrNested(
@@ -187,22 +187,22 @@ const Address: FC<SectionProps> = ({
                   loading={isLoadingKladrStreets}
                   isDisabled={
                     setDisabled()
-                      ||
-                      (
-                        formValues.passportInfo[passportType].area !== '7800000000000'
-                        && formValues.passportInfo[passportType].area !== '7700000000000'
-                        && formValues.passportInfo[passportType].area !== '9200000000000'
-                        && !formValues.passportInfo[passportType].city
-                      )
+                    ||
+                    (
+                      formValues.passportInfo[passportType].area !== '7800000000000'
+                      && formValues.passportInfo[passportType].area !== '7700000000000'
+                      && formValues.passportInfo[passportType].area !== '9200000000000'
+                      && !formValues.passportInfo[passportType].city
+                    )
                   }
                   onFocus={() => {
                     getKladrStreets(
                       (
                         formValues.passportInfo[passportType].area === '7800000000000'
-                          || formValues.passportInfo[passportType].area === '7700000000000'
-                          || formValues.passportInfo[passportType].area === '9200000000000'
-                            ? formValues.passportInfo[passportType].area
-                            : formValues.passportInfo[passportType].city
+                        || formValues.passportInfo[passportType].area === '7700000000000'
+                        || formValues.passportInfo[passportType].area === '9200000000000'
+                          ? formValues.passportInfo[passportType].area
+                          : formValues.passportInfo[passportType].city
                       ),
                       getType(),
                     );
@@ -223,30 +223,30 @@ const Address: FC<SectionProps> = ({
                 <Col span={8}>
                   <FormField>
                     <FastInput
-                        name={`${sectionValuePath}.houseNumber`}
-                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
-                        valueSet={setValue('houseNumber')}
-                        value={setValue('houseNumber')}
+                      name={`${sectionValuePath}.houseNumber`}
+                      disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
+                      valueSet={setValue('houseNumber')}
+                      value={setValue('houseNumber')}
                     />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
                     <FastInput
-                        name={`${sectionValuePath}.houseCharacter`}
-                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
-                        valueSet={setValue('houseCharacter')}
-                        value={setValue('houseCharacter')}
+                      name={`${sectionValuePath}.houseCharacter`}
+                      disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
+                      valueSet={setValue('houseCharacter')}
+                      value={setValue('houseCharacter')}
                     />
                   </FormField>
                 </Col>
                 <Col span={8}>
                   <FormField>
                     <FastInput
-                        name={`${sectionValuePath}.flatNumber`}
-                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
-                        valueSet={setValue('flatNumber')}
-                        value={setValue('flatNumber')}
+                      name={`${sectionValuePath}.flatNumber`}
+                      disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
+                      valueSet={setValue('flatNumber')}
+                      value={setValue('flatNumber')}
                     />
                   </FormField>
                 </Col>

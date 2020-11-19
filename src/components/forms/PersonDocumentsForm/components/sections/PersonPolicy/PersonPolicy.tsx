@@ -1,17 +1,21 @@
-import React, {FC} from 'react';
-import {Col, Divider, Input, Row} from 'antd';
-import {useFormikContext} from 'formik';
+import React, { FC } from 'react';
+import { Col, Divider, Input, Row } from 'antd';
+import { useFormikContext } from 'formik';
 import moment from 'moment';
-
-import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
-import {SectionProps} from "./types";
+import { SectionProps } from './types';
 
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
+import PatientPolicy from '../../../../../../types/data/PatientPolicy';
+import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 
-const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolicyTypeId}) => {
+const PersonPolicy: FC<SectionProps> = ({
+  getCmoTypeId,
+  getPolicyKindId,
+  getPolicyTypeId,
+}) => {
   const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
@@ -28,7 +32,7 @@ const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolic
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={getPolicyTypeId(values.type)}
+                      value={getPolicyTypeId(values.type.toString() ?? '')}
                       disabled
                     />
                   </FormField>
@@ -36,7 +40,7 @@ const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolic
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={getPolicyKindId(values.timeType)}
+                      value={getPolicyKindId(values.timeType?.toString() ?? '')}
                       disabled
                     />
                   </FormField>
@@ -52,23 +56,33 @@ const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolic
                   </FormField>
                 </Col>
                 <Col>
-                  <FormField label={'Номер'}>
-                    <Input value={values.serial} disabled />
-                  </FormField>
-                </Col>
-                <Col>
                   <FormField label={'Дата начала'}>
-                    <Input value={moment(values.from).format('L')} disabled />
+                    <Input
+                      value={
+                        values.from
+                          ? moment(values.from).format('L')
+                          : undefined
+                      }
+                      disabled
+                    />
                   </FormField>
                 </Col>
                 <Col>
                   <FormField label={'Дата окончания'}>
-                    <Input value={moment(values.to).format('L')} disabled />
+                    <Input
+                      value={
+                        values.from ? moment(values.to).format('L') : undefined
+                      }
+                      disabled
+                    />
                   </FormField>
                 </Col>
                 <Col>
                   <FormField label={'СМО'}>
-                    <Input value={getCmoTypeId(values.cmo)} disabled />
+                    <Input
+                      value={getCmoTypeId(values.cmo.toString())}
+                      disabled
+                    />
                   </FormField>
                 </Col>
                 <Col>
@@ -78,7 +92,7 @@ const PersonPolicy: FC<SectionProps> = ({getCmoTypeId, getPolicyKindId, getPolic
                 </Col>
                 <Col>
                   <FormField label={'Примечание'}>
-                    <Input value={values.note} disabled />
+                    <Input value={''} disabled />
                   </FormField>
                 </Col>
               </Row>

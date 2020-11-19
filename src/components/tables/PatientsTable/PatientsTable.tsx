@@ -47,9 +47,13 @@ const PatientsTable: FC<TableProps> = ({
       dataIndex: 'route',
       key: 'route',
     },
+    {
+      dataIndex: 'regCard',
+      key: 'regCard',
+    },
   ];
 
-  const getSexName = (sex: 1 | 2) => {
+  function getSexName(sex: 1 | 2) {
     switch (sex) {
       case 1:
         return 'М';
@@ -73,10 +77,10 @@ const PatientsTable: FC<TableProps> = ({
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
         route: <Link to={`/card/${item.code}`}>Перейти</Link>,
+        regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
   }, [patients]);
-
   return (
     <Table
       loading={isLoading}

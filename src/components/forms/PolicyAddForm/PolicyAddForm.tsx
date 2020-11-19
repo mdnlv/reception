@@ -1,11 +1,11 @@
-import React, {useCallback, useMemo} from 'react';
-import {Formik} from 'formik';
-import {Button, Col, Row, Select, Space} from 'antd';
+import React, { useCallback, useMemo } from 'react';
+import { Formik } from 'formik';
+import { Button, Col, Row, Select, Space } from 'antd';
 import moment from 'moment';
 
 import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import {FormProps, ListOptionItem} from "./types";
+import { FormProps, ListOptionItem } from './types';
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -33,7 +33,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   onAddPolicy,
   isLoading,
   isCmoLoading,
-  cmoType
+  cmoType,
 }) => {
   const sectionTitle = () => {
     switch (policyKey) {
@@ -47,7 +47,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
       props.map((item) => (
-        <Select.Option key={item.id} value={item.id}>
+        <Select.Option key={item.id} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       )),
@@ -56,10 +56,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onFindPolicyHandler = useCallback(
     (values: FindPolicyParams) => {
-      onFindPolicy(
-        values,
-        policyKey === 'policyDms' ? 'dms' : 'oms',
-      );
+      onFindPolicy(values, policyKey === 'policyDms' ? 'dms' : 'oms');
     },
     [onFindPolicy],
   );
@@ -67,8 +64,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const initialFormState = useMemo(() => {
     if (foundPolicy) {
       return {
-        from: foundPolicy.begDate.toString(),
-        to: foundPolicy.endDate.toString(),
+        from: foundPolicy.from.toString(),
+        to: foundPolicy.to.toString(),
         serial: foundPolicy.serial,
         number: foundPolicy.number,
         note: '',
@@ -87,11 +84,14 @@ const PolicyAddForm: React.FC<FormProps> = ({
         foundPolicy
           ? {
               ...initialState,
-              from: foundPolicy.begDate.toString(),
-              to: foundPolicy.endDate.toString(),
+              cmo: foundPolicy.cmo,
+              type: foundPolicy.type,
+              timeType: foundPolicy.timeType,
+              from: foundPolicy.from,
+              to: foundPolicy.to,
               serial: foundPolicy.serial,
               number: foundPolicy.number,
-              note: '',
+              note: foundPolicy.note,
               name: foundPolicy.name,
             }
           : initialState
@@ -151,7 +151,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
                         ? moment(formProps.values.to)
                         : undefined
                     }
-                    valueSet={parseInt(formProps.values.timeType) === 3 ? "2200-01-01" : formProps.values.to}
+                    valueSet={
+                      parseInt(formProps.values.timeType) === 3
+                        ? '2200-01-01'
+                        : formProps.values.to
+                    }
                     name={'to'}
                   />
                 </FormField>
@@ -163,13 +167,19 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   <FastInput
                     disabled={isLoading}
                     name={'serial'}
-                    valueSet={parseInt(formProps.values.timeType) === 3 ? "ЕП" : parseInt(formProps.values.timeType) === 1 ? "ВС" : formProps.values.serial}
+                    valueSet={
+                      parseInt(formProps.values.timeType) === 3
+                        ? 'ЕП'
+                        : parseInt(formProps.values.timeType) === 1
+                        ? 'ВС'
+                        : formProps.values.serial
+                    }
                   />
                 </FormField>
               </Col>
               <Col span={18}>
                 <FormField label={'Номер'}>
-                  <FastInput disabled={isLoading} name={'number'}/>
+                  <FastInput disabled={isLoading} name={'number'} />
                 </FormField>
               </Col>
             </Row>
@@ -195,14 +205,14 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <Row className="form-row">
               <Col span={24}>
                 <FormField labelPosition="left" label="Название">
-                  <FastInput disabled={isLoading} name={'name'}/>
+                  <FastInput disabled={isLoading} name={'name'} />
                 </FormField>
               </Col>
             </Row>
             <Row className="form-row">
               <Col span={24}>
                 <FormField labelPosition="left" label="Примечание">
-                  <FastInput disabled={isLoading} name={'note'}/>
+                  <FastInput disabled={isLoading} name={'note'} />
                 </FormField>
               </Col>
             </Row>
@@ -224,7 +234,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               </Col>
             </Row>
           </div>
-        )
+        );
       }}
     </Formik>
   );

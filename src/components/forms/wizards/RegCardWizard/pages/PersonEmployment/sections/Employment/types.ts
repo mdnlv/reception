@@ -6,3 +6,13 @@ export enum LABELS {
   POSITION = 'Должность',
   EXPERIENCE = 'Стаж',
 }
+
+export interface ListOptionProps {
+  id: number;
+  name: string;
+}
+
+export interface SectionProps {
+  orgsList: ListOptionProps[];
+  isLoadingOrgs: boolean;
+}

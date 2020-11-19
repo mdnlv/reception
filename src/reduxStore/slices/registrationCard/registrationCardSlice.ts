@@ -4,11 +4,31 @@ import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import PatientsService from '../../../services/PatientsService/PatientsService';
-import {transformPolicyResponse} from '../../utils/transform/transformPolicyResponse';
+import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
 import {KladrDocType} from "./types";
+import {transformPatientResponse} from '../../utils/transform/transformPatientResponse';
+
+export const fetchIdPatient = createAsyncThunk(
+  `patients/fetchIdPatient`,
+  async (id: number, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'idPatient', value: true }));
+    try {
+      const response = await PatientsService.fetchIdPatient(id);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        thunkAPI.dispatch(fetchIdPatientError());
+      }
+    } catch (e) {
+      thunkAPI.dispatch(fetchIdPatientError());
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'idPatient', value: false }));
+    }
+  },
+);
 
 export const fetchKladr = createAsyncThunk(
   'registrationCard/fetchKladr',
@@ -120,9 +140,13 @@ export const saveCardPatient = createAsyncThunk(
         number,
         fromDate,
         givenBy,
-        documentedAddress,
         addressRegistration,
+        documentedAddress,
       } = state.registrationCard.form.passportGeneral.passportInfo;
+      const {
+        policyDms,
+        policyOms,
+      } = state.registrationCard.form.passportGeneral;
       const {
         firstName,
         lastName,
@@ -156,24 +180,52 @@ export const saveCardPatient = createAsyncThunk(
           endDate: '',
         },
 
+        social_status_info:
+          state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+            type: item.type ? parseInt(item.type) : null,
+            class: item.class ? parseInt(item.class) : null,
+            begDate: item.fromDate,
+            endDate: item.endDate,
+            notes: item.note ?? null,
+          })) || [],
+
+        client_policy_info:
+          policyDms.concat(policyOms).map((item) => ({
+            id: item.id ?? null,
+            insurer_id: parseInt(item.cmo),
+            policyType_id: item.type ? parseInt(item.type) : null,
+            policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+            begDate: item.from,
+            endDate: item.to,
+            note: item.note,
+            name: item.name,
+            number: item.number,
+          })) || [],
+
         client_address_info: [
           {
             address: {
-              KLADRCode: addressRegistration.city,
-              KLADRStreetCode: addressRegistration.street,
-              number: addressRegistration.houseNumber?.toString() || '',
-              corpus: '',
-              litera: addressRegistration.houseCharacter?.toString() || '',
+              address_house: {
+                KLADRCode: addressRegistration.city,
+                KLADRStreetCode: addressRegistration.street,
+                number: addressRegistration.houseNumber?.toString() || '',
+                corpus: '',
+                litera: addressRegistration.houseCharacter?.toString() || '',
+              },
+              flat: addressRegistration.flatNumber?.toString() || '',
             },
             type: 0,
           },
           {
             address: {
-              KLADRCode: addressRegistration.city,
-              KLADRStreetCode: addressRegistration.street,
-              number: addressRegistration.houseNumber?.toString() || '',
-              corpus: '',
-              litera: addressRegistration.houseCharacter?.toString() || '',
+              address_house: {
+                KLADRCode: documentedAddress.city,
+                KLADRStreetCode: documentedAddress.street,
+                corpus: documentedAddress.houseCharacter?.toString() || '',
+                litera: '',
+                number: documentedAddress.houseNumber?.toString() || '',
+              },
+              flat: documentedAddress.flatNumber?.toString() || '',
             },
             type: 1,
           },
@@ -192,11 +244,14 @@ const registrationCardSlice = createSlice({
   initialState: initialState,
   reducers: {
     setFormSection: (state, action: PayloadAction<WizardStateType>) => {
-      state.form = action.payload;
+      state.form = { ...state.form, ...action.payload };
     },
     setLoading: (
       state,
-      action: PayloadAction<{ value: boolean; type: 'saveNewPatient' }>,
+      action: PayloadAction<{
+        value: boolean;
+        type: 'saveNewPatient' | 'idPatient';
+      }>,
     ) => {
       state.loading[action.payload.type] = action.payload.value;
     },
@@ -243,8 +298,52 @@ const registrationCardSlice = createSlice({
           action.payload.value;
       }
     },
+    fetchIdPatientError: (state) => {
+      state.form = { ...initialState.form };
+      state.initialFormState = { ...initialState.initialFormState };
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
+      if (action.payload && action.payload.length > 0) {
+        const transformedPatient = transformPatientResponse(action.payload[0]);
+        state.initialFormState.personal = {
+          ...state.form.personal,
+          firstName: action.payload[0].firstName,
+          lastName: action.payload[0].lastName,
+          patrName: action.payload[0].patrName,
+          sex: action.payload[0].sex === 1 ? 1 : 0,
+          birthDate: action.payload[0].birthDate,
+        };
+        state.initialFormState.passportGeneral.passportInfo = {
+          ...state.form.passportGeneral.passportInfo,
+          ...transformedPatient.client_document_info,
+        };
+        state.form.foundPolicies.dms.items = transformedPatient.policy[0] && [
+          transformedPatient.policy[0],
+        ];
+        state.initialFormState.passportGeneral.policyDms = transformedPatient.policy.filter(
+          (item) => [4].indexOf(parseInt(item.type)) !== -1,
+        );
+        state.initialFormState.passportGeneral.policyOms = transformedPatient.policy.filter(
+          (item) => [1, 2, 3].indexOf(parseInt(item.type)) !== -1,
+        );
+        state.initialFormState.socialStatus.socialStatus =
+          transformedPatient.socialStatus;
+        state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
+          (item) => ({
+            isMain: item.isPrimary === 1,
+            number: item.contact,
+            type: item.contactTypeId.toString(),
+            note: item.note,
+          }),
+        );
+        state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =
+          transformedPatient.address[0]?.address.KLADRCode || '';
+        state.initialFormState.passportGeneral.passportInfo.addressRegistration.area =
+          transformedPatient.address[1]?.address.KLADRCode || '';
+      }
+    });
     builder.addCase(fetchKladr.fulfilled, (state, action) => {
       if (action.payload?.type === 'documented' && action.payload.items) {
         state.form.data.passportGeneral.documentedAddress = {
@@ -325,6 +424,7 @@ export const {
   setKladrStreetsLodaing,
   setFindPolicyLoading,
   setLoading,
+  fetchIdPatientError,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;

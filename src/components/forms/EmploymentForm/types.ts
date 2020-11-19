@@ -1,21 +1,21 @@
-
 export interface EmploymentItem {
-    organization: string
-    position: string
-    experience: number
-    inn: string
-    ogrn: string
+  organization: string;
+  position: string;
+  experience: number;
+  inn: string;
+  ogrn: string;
 }
 
 export interface EmploymentHazardItem {
-    hazardDescription: string
-    exp: number
+  hazardDescription: string;
+  hazardExp: number;
+  factor?: string;
+  organization?: string;
+  post: string;
+  exp: number;
 }
 
-
 export default interface FormState {
-    employments: EmploymentItem[]
-    hazardHistory: EmploymentHazardItem[]
-    hazard?: EmploymentHazardItem
-
+  employment: EmploymentItem[];
+  hazardHistory: EmploymentHazardItem[];
 }

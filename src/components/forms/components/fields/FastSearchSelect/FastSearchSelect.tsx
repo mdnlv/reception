@@ -1,8 +1,8 @@
 import React from 'react';
-import {useField} from 'formik';
-import {Select} from 'antd';
+import { useField } from 'formik';
+import { Select } from 'antd';
 
-import {SearchSelectProps} from "./types";
+import { SearchSelectProps } from './types';
 
 const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
   const [field, meta, form] = useField(props.name);

@@ -7,3 +7,17 @@ export enum LABELS {
   ORG = 'Организация',
   POSITION = 'Должность',
 }
+
+export interface ListOptionProps {
+  id: number;
+  name: string;
+}
+
+export interface SectionProps {
+  hurtTypesList: ListOptionProps[];
+  hurtFactorTypesList: ListOptionProps[];
+  orgsList: ListOptionProps[];
+  isLoadingOrgs: boolean;
+  isLoadingHurtTypes: boolean;
+  isLoadingHurtFactorTypes: boolean;
+}

@@ -10,7 +10,7 @@ import InfoPage from '../views/InfoPage/InfoPage';
 const AppRouter: FC = () => {
   return (
     <Switch>
-      <Route exact path="/regcard">
+      <Route exact path="/regcard/:id">
         <RegistrationCard />
       </Route>
       <Route exact path="/info">
