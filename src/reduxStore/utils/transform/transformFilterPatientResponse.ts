@@ -1,8 +1,8 @@
 import FilterSearchPatientResponse from '../../../interfaces/responses/patients/filterSearchPatient';
 
-export default function transformFilterPatientResponse(
+export const transformFilterPatientResponse = (
   item: FilterSearchPatientResponse,
-) {
+) => {
   return {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,

@@ -27,8 +27,6 @@ import PersonArea from './components/sections/PersonArea/PersonArea';
 import PersonBed from './components/sections/PersonBed/PersonBed';
 import PersonAttachment from './components/sections/PersonAttachment/PersonAttachment';
 
-
-
 const initialStore: PartialFormState = {
   tempInvalidDocumentBegDate: '',
   tempInvalidDocumentEndDate: '',
@@ -61,6 +59,8 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
   const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
   const onFormSubmit = (values: PartialFormState) => {
+    console.log(`values: ${JSON.stringify(values)}`);
+
     if (onSubmit) {
       onSubmit();
     }
@@ -68,8 +68,6 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
     dispatch(
       fetchFiltersPatients({
         ...values,
-        tempInvalidReasonId: 1,
-        tempInvalidDocumentTypeId: 1,
         begBirthDate: '2000-01-01',
       }),
     );

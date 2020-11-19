@@ -8,7 +8,6 @@ import {
   fetchKladrNested,
   fetchKladrStreets,
   findPatientPolicy,
-  KladrDocType,
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
   kladrLoadingsSelector,
@@ -26,6 +25,7 @@ import { PassportPolicyType } from './types';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { WizardStateType } from '../../types';
+import {KladrDocType} from "../../../../../../reduxStore/slices/registrationCard/types";
 
 import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';

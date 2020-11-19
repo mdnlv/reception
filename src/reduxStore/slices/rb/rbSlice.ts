@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import Person from '../../../types/data/Person';
 import EventType from '../../../types/data/EventType';
 import Organisation from '../../../types/data/Organisation';
@@ -6,7 +7,6 @@ import InvalidReason from '../../../types/data/InvalidReason';
 import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
-import KladrItem from '../../../types/data/KladrItem';
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';

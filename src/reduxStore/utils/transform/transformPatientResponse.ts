@@ -1,7 +1,7 @@
 import PatientResponse from '../../../interfaces/responses/patients/patient';
-import transformPolicyResponse from './transformPolicyResponse';
+import {transformPolicyResponse} from './transformPolicyResponse';
 
-export default function transformPatientResponse(item: PatientResponse) {
+export const transformPatientResponse = (item: PatientResponse) => {
   return {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,

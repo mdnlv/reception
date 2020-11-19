@@ -1,4 +1,4 @@
-import {KladrDocType} from "../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {KladrDocType} from "../../../../../../../../reduxStore/slices/registrationCard/types";
 
 export interface KladrItem {
   id: string;
