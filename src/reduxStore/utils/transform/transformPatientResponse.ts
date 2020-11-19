@@ -1,5 +1,5 @@
 import PatientResponse from '../../../interfaces/responses/patients/patient';
-import {transformPolicyResponse} from './transformPolicyResponse';
+import transformPolicyResponse from './transformPolicyResponse';
 
 export const transformPatientResponse = (item: PatientResponse) => {
   return {
