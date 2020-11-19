@@ -59,7 +59,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
   const rbAccountTypes = useSelector(detailedAccountingSystemSelector);
 
   const onFormSubmit = (values: PartialFormState) => {
-    console.log(`values: ${JSON.stringify(values)}`);
+    console.log('values: ', values);
 
     if (onSubmit) {
       onSubmit();

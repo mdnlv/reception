@@ -36,6 +36,7 @@ export const fetchFiltersPatients = createAsyncThunk(
         transformPatientsFilters(filters),
       );
       if (response.data) {
+        console.log('response.data', response.data)
         return response.data;
       }
     } catch (e) {
