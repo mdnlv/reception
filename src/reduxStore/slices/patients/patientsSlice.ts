@@ -18,6 +18,7 @@ export const fetchPatients = createAsyncThunk(
         offset || 0,
       );
       if (response.status === 200 && response.data) {
+        // console.log(response.data)
         return response.data;
       }
     } catch (e) {
@@ -32,12 +33,10 @@ export const fetchFiltersPatients = createAsyncThunk(
   async (filters: Partial<PatientsSearchFiltersType>, thunkAPI) => {
     thunkAPI.dispatch(setLoadingFound(true));
     try {
-      console.log('filtered', transformPatientsFilters(filters))
       const response = await PatientsService.detailedQueryPatients(
         transformPatientsFilters(filters),
       );
       if (response.data) {
-        // console.log('response.data', response.data)
         return response.data;
       }
     } catch (e) {

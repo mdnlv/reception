@@ -62,6 +62,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
           house: item.address.address_house.number,
           corpus: item.address.address_house.corpus,
           litera: item.address.address_house.litera,
+          flat: item.address.flat
         },
       })) || [],
   };

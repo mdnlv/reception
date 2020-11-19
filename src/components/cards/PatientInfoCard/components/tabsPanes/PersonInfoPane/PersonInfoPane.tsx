@@ -1,21 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Descriptions, List} from 'antd/lib';
 import moment from 'moment';
+import {useDispatch} from "react-redux";
 
 import './styles.scss';
 import {PaneProps} from "./types";
+import {fetchKladr, fetchKladrNested, fetchKladrStreets} from "../../../../../../reduxStore/slices/registrationCard/registrationCardSlice";
 
 const PersonInfoPane: React.FC<PaneProps> = ({
   patient,
   policyTitle
 }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchKladr({}));
+  }, [patient]);
+  console.log('patient', patient)
+
   const getMainPolicy = () => {
-    return patient?.policy?.find((item) => item.policyTypeId === 1);
+    return patient?.policy?.find((item) => item.id === 1);
   }
 
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
-    if (mainPolicy !== undefined && mainPolicy.policyTypeId === 1) {
+    if (mainPolicy !== undefined && mainPolicy.id === 1) {
       return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${moment(
         mainPolicy.begDate,
       ).format('DD.MM.YYYY')} до ${moment(mainPolicy?.endDate).format(
@@ -29,8 +37,17 @@ const PersonInfoPane: React.FC<PaneProps> = ({
   const getTypeAddress = (type: 0 | 1) => {
     return (
       patient?.address?.find((item) => item.type === type)?.freeInput ||
-      ''
+      ``
     );
+  }
+
+  const getAddress = (type: 0 | 1) => {
+    const number = patient?.address?.find((item) => item.type === type)?.address.number;
+    const corpus = patient?.address?.find((item) => item.type === type)?.address.corpus;
+    const litera = patient?.address?.find((item) => item.type === type)?.address.litera;
+    const flat = patient?.address?.find((item) => item.type === type)?.address.flat;
+    //todo доделать адрес
+    return `${number && `д.${number}, ${corpus && `к.${corpus}`}`}` || ''
   }
 
   const getContactTypeName = (type: number, contact: string) => {

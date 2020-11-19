@@ -39,10 +39,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(form.values.passportGeneral.passportInfo);
-  }, [form.values.passportGeneral.passportInfo]);
-
-  useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
   const { dms, oms } = useSelector(

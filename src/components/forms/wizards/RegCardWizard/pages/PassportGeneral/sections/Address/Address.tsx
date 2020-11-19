@@ -11,16 +11,16 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Address: FC<SectionProps> = ({
-                                     passportType,
-                                     kladr,
-                                     nestedKladr,
-                                     kladrStreets,
-                                     isLoadingKladr,
-                                     isLoadingKladrNested,
-                                     isLoadingKladrStreets,
-                                     getKladrNested,
-                                     getKladrStreets
-                                   }) => {
+  passportType,
+  kladr,
+  nestedKladr,
+  kladrStreets,
+  isLoadingKladr,
+  isLoadingKladrNested,
+  isLoadingKladrStreets,
+  getKladrNested,
+  getKladrStreets
+}) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const form = useFormikContext<WizardStateType>();
 
@@ -109,10 +109,6 @@ const Address: FC<SectionProps> = ({
   }
 
   const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
-
-  // const setInputDisabled = () => {
-  //   if (!formValues.passportInfo[passportType].area && !formValues.passportInfo[passportType].street)
-  // };
 
   return (
     <div className="form-section address-registration">

@@ -12,5 +12,6 @@ export default interface PatientAddress {
     number?: string;
     corpus?: string;
     litera?: string;
+    flat?: string;
   };
 }
