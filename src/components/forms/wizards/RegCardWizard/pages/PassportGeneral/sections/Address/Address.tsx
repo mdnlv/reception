@@ -100,23 +100,19 @@ const Address: FC<SectionProps> = ({
     return type;
   }
 
-  const setValue = (field: string) =>
-    isDocumentedAddress && passportType !== 'documentedAddress'
-      ? formValues.passportInfo['documentedAddress'][field]
-      : formValues.passportInfo[passportType][field];
-
-  const setNestedValue = (kladrArr: KladrItem[], field: string) => {
+  const setValue = (field: string) => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
-      const result = kladrArr.find(item => item.id === field)
-      return result?.name
+      return formValues.passportInfo['documentedAddress'][field]
+    } else {
+      return formValues.passportInfo[passportType][field]
     }
   }
 
   const setDisabled = () => isDocumentedAddress && (passportType !== 'documentedAddress');
 
-  useEffect(() => {
-    console.log(nestedKladr)
-  }, [nestedKladr]);
+  // const setInputDisabled = () => {
+  //   if (!formValues.passportInfo[passportType].area && !formValues.passportInfo[passportType].street)
+  // };
 
   return (
     <div className="form-section address-registration">
@@ -161,6 +157,7 @@ const Address: FC<SectionProps> = ({
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
                   isDisabled={setDisabled()
+                    || !formValues.passportInfo[passportType].area
                     || formValues.passportInfo[passportType].area === '7800000000000'
                     || formValues.passportInfo[passportType].area === '7700000000000'
                     || formValues.passportInfo[passportType].area === '9200000000000'
@@ -171,8 +168,8 @@ const Address: FC<SectionProps> = ({
                       getType(),
                     );
                   }}
-                  valueSet={setNestedValue(nestedKladr,'city')}
-                  value={setNestedValue(nestedKladr,'city')}
+                  valueSet={setValue('city')}
+                  value={setValue('city')}
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
@@ -190,10 +187,13 @@ const Address: FC<SectionProps> = ({
                   loading={isLoadingKladrStreets}
                   isDisabled={
                     setDisabled()
-                      || formValues.passportInfo[passportType].area === '7800000000000'
-                      || formValues.passportInfo[passportType].area === '7700000000000'
-                      || formValues.passportInfo[passportType].area === '9200000000000'
-                      || !formValues.passportInfo[passportType].city
+                      ||
+                      (
+                        formValues.passportInfo[passportType].area !== '7800000000000'
+                        && formValues.passportInfo[passportType].area !== '7700000000000'
+                        && formValues.passportInfo[passportType].area !== '9200000000000'
+                        && !formValues.passportInfo[passportType].city
+                      )
                   }
                   onFocus={() => {
                     getKladrStreets(
@@ -224,7 +224,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                         name={`${sectionValuePath}.houseNumber`}
-                        disabled={setDisabled()}
+                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
                         valueSet={setValue('houseNumber')}
                         value={setValue('houseNumber')}
                     />
@@ -234,7 +234,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                         name={`${sectionValuePath}.houseCharacter`}
-                        disabled={setDisabled()}
+                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
                         valueSet={setValue('houseCharacter')}
                         value={setValue('houseCharacter')}
                     />
@@ -244,7 +244,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                         name={`${sectionValuePath}.flatNumber`}
-                        disabled={setDisabled()}
+                        disabled={setDisabled() || !formValues.passportInfo[passportType].area || !formValues.passportInfo[passportType].street}
                         valueSet={setValue('flatNumber')}
                         value={setValue('flatNumber')}
                     />

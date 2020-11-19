@@ -4,26 +4,19 @@ import { Select } from 'antd';
 
 import {SearchSelectProps} from "./types";
 
-const FastSearchSelect: React.FC<SearchSelectProps> = ({
-  name,
-  children,
-  isDisabled,
-  valueSet,
-  onFocus
-}) => {
-  const [field, meta, form] = useField(name);
+const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
+  const [field, meta, form] = useField(props.name);
 
   return (
     <Select
-      {...{name, children, onFocus}}
-      value={valueSet ? valueSet : field.value}
-      disabled={isDisabled}
+      {...props}
+      value={props.valueSet ? props.valueSet : field.value}
+      disabled={props.isDisabled}
       onChange={(val) => {
         form.setValue(val);
       }}
-      // onFocus={onFocus}
     >
-      {children}
+      {props.children}
     </Select>
   );
 };
