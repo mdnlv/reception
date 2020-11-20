@@ -2,6 +2,7 @@ import AddressResponse from './patientAddress';
 import PatientContactResponse from './patientContact';
 import PatientPolicyResponse from './patientPolicy';
 import PatientSocialStatusResponse from './patientSocialStatus';
+import PatientWorkResponse from "./patientWork";
 
 export default interface PatientResponse {
   id: number;
@@ -53,6 +54,5 @@ export default interface PatientResponse {
 
   client_policy_info: PatientPolicyResponse[];
   client_contact_info: PatientContactResponse[];
-
-  client_work_info?: [];
+  client_work_info: PatientWorkResponse[];
 }

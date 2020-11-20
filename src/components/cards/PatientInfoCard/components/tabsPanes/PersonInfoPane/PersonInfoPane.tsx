@@ -44,6 +44,15 @@ const PersonInfoPane: React.FC<PaneProps> = ({
     }
   }
 
+  const getWork = () => {
+    const workItem = patient?.work?.find((item) => item.id === 1);
+    if (workItem) {
+      return workItem.freeInput
+    } else {
+      return ''
+    }
+  }
+
   const getTypeAddress = (type: 0 | 1) => {
     return (
       patient?.address?.find((item) => item.type === type)?.freeInput ||
@@ -152,7 +161,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({
           {getTypeAddress(1)}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Занятость'}>
-          ''
+          {getWork()}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Телефоны'}>
           {getContactPhones()}
@@ -163,7 +172,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({
           {patient?.birthPlace}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Примечания'}>
-          {patient?.note}
+          {patient?.notes}
         </Descriptions.Item>
       </Descriptions>
     </div>

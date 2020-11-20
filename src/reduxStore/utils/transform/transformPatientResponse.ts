@@ -11,6 +11,12 @@ export const transformPatientResponse = (item: PatientResponse) => {
     code: item.id,
     regAddress: '',
     livingAddress: '',
+    notes: item.notes,
+
+    work: item.client_work_info.map(item => ({
+      id: item.id,
+      freeInput: item.freeInput
+    })),
 
     client_document_info: item.client_document_info && {
       givenBy: item.client_document_info.origin,

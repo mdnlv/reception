@@ -1,6 +1,7 @@
 import PatientAddress from './PatientAddress';
 import PatientPolicy from './PatientPolicy';
 import PatientContact from './PatientContact';
+import PatientWork from "./PatientWork";
 
 export default interface Patient {
   fullName: string;
@@ -17,7 +18,7 @@ export default interface Patient {
   employment?: string;
   phone?: Map<string, string>[];
   birthPlace?: string;
-  note?: string;
+  notes?: string;
   eisAcceptDate?: string;
   misRegDate?: string;
   medExamination?: string;
@@ -25,4 +26,5 @@ export default interface Patient {
   address: PatientAddress[];
   policy: PatientPolicy[];
   contacts: PatientContact[];
+  work: PatientWork[];
 }

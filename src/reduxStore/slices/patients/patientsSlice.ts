@@ -18,7 +18,6 @@ export const fetchPatients = createAsyncThunk(
         offset || 0,
       );
       if (response.status === 200 && response.data) {
-        console.log(response.data)
         return response.data;
       }
     } catch (e) {
@@ -95,8 +94,7 @@ const patientSlice = createSlice({
     builder.addCase(fetchPatients.fulfilled, (state, action) => {
       state.patients =
         action.payload?.map((item, index) => ({
-          ...transformPatientResponse(item),
-          code: index,
+          ...transformPatientResponse(item)
         })) || [];
     });
     builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
