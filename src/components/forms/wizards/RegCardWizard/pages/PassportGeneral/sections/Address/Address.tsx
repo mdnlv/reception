@@ -22,6 +22,8 @@ const Address: FC<SectionProps> = ({
   getKladrStreets
 }) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
+  const [cityMain, setCityMain] = useState('');
+  const [streetMain, setStreetMain] = useState('');
   const form = useFormikContext<WizardStateType>();
 
   const formValues = form.values.passportGeneral;
@@ -66,6 +68,30 @@ const Address: FC<SectionProps> = ({
       form.setFieldValue(`${sectionValuePath}.isKLADR`, formValues.passportInfo[passportType].isKLADR);
     }
   }, [isDocumentedAddress, formValues.passportInfo['documentedAddress'].isKLADR]);
+
+  useEffect(() => {
+    const city = formValues.passportInfo['documentedAddress'].city;
+    if (passportType === 'documentedAddress' && nestedKladr.length > 0) {
+      const kladrItem = nestedKladr.find((item) => item.id === city)
+      setCityMain(`${kladrItem.socr}. ${kladrItem.name}`)
+    }
+  }, [formValues.passportInfo['documentedAddress'].city]);
+
+  useEffect(() => {
+    const street = formValues.passportInfo['documentedAddress'].street;
+    if (passportType === 'documentedAddress' && kladrStreets.length > 0) {
+      const kladrItem = kladrStreets.find((item) => item.id === street)
+      setStreetMain(`${kladrItem.socr}. ${kladrItem.name}`)
+    }
+  }, [formValues.passportInfo['documentedAddress'].street]);
+
+  useEffect(() => {
+    console.log(cityMain)
+  }, [cityMain]);
+
+  useEffect(() => {
+    console.log(streetMain)
+  }, [streetMain]);
 
   const getKladrDetailed = (kladrArr: KladrItem[]) => {
     return kladrArr.map((item) => (

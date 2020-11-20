@@ -20,4 +20,6 @@ export interface SectionProps {
   isLoadingKladrStreets: boolean;
   getKladrNested(id: string, type: KladrDocType): void;
   getKladrStreets(id: string, type: KladrDocType): void;
+  onCityBuffer(city: string): void;
+  onStreetBuffer(street: string): void;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 import { useFormikContext } from 'formik';
@@ -37,10 +37,8 @@ interface SectionProps {}
 const PassportGeneral: React.FC<SectionProps> = () => {
   const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchKladr({}));
-  }, []);
+  const [cityBuffer, setCityBuffer] = useState('');
+  const [streetBuffer, setStreetBuffer] = useState('');
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
@@ -70,6 +68,10 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
+
+  useEffect(() => {
+    dispatch(fetchKladr({}));
+  }, []);
 
   const fetchNestedKladr = (id: string, type: KladrDocType) => {
     let rbKladrItem: KladrItem | undefined;
@@ -128,6 +130,7 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             kladr={rbKladrDocumented}
             nestedKladr={rbKladrNestedDocumented}
             kladrStreets={rbKladrStreetsDocumented}
+            onCityBuffer={setCityBuffer}
           />
         </Col>
         <Col span={12} className={'col--border-right'}>

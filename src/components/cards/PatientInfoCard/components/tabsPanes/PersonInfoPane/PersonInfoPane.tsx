@@ -1,21 +1,31 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Descriptions, List} from 'antd/lib';
 import moment from 'moment';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import './styles.scss';
 import {PaneProps} from "./types";
-import {fetchKladr, fetchKladrNested, fetchKladrStreets} from "../../../../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {fetchKladr, fetchKladrStreets} from "../../../../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {kladrSelector} from "../../../../../../reduxStore/slices/registrationCard/selectors";
+import {KladrDocType} from "../../../../../../reduxStore/slices/registrationCard/types";
 
 const PersonInfoPane: React.FC<PaneProps> = ({
   patient,
   policyTitle
 }) => {
   const dispatch = useDispatch();
+  const {rbKladrDocumented, rbKladrStreetsDocumented} = useSelector(kladrSelector);
+  // const [cityId, setCityId] = useState('');
+  // console.log('rbKladrStreetsDocumented', rbKladrStreetsDocumented);
+
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, [patient]);
-  console.log('patient', patient)
+
+  // useEffect(() => {
+  //   dispatch(fetchKladrStreets({id: cityId, type: "documented"}));
+  // }, [cityId]);
+  // console.log('patient', patient)
 
   const getMainPolicy = () => {
     return patient?.policy?.find((item) => item.id === 1);
@@ -37,17 +47,54 @@ const PersonInfoPane: React.FC<PaneProps> = ({
   const getTypeAddress = (type: 0 | 1) => {
     return (
       patient?.address?.find((item) => item.type === type)?.freeInput ||
-      ``
+      getAddress(type)
     );
   }
 
+  // const fetchKladrStreetsItems = useCallback((id: string, type: KladrDocType) => {
+  //   dispatch(fetchKladrStreets({ id, type }));
+  // }, [cityId]);
+
   const getAddress = (type: 0 | 1) => {
-    const number = patient?.address?.find((item) => item.type === type)?.address.number;
+    const number = patient?.address?.find((item) => item.type === type)?.address.house;
     const corpus = patient?.address?.find((item) => item.type === type)?.address.corpus;
     const litera = patient?.address?.find((item) => item.type === type)?.address.litera;
     const flat = patient?.address?.find((item) => item.type === type)?.address.flat;
-    //todo доделать адрес
-    return `${number && `д.${number}, ${corpus && `к.${corpus}`}`}` || ''
+    let address = '';
+
+    const kladrCode = patient?.address?.find((item) => item.type === type)?.address.KLADRCode;
+    // setCityId(kladrCode);
+    // fetchKladrStreetsItems(kladrCode, "documented");
+    const kladrStreetCode = patient?.address?.find((item) => item.type === type)?.address.KLADRStreetCode;
+    // console.log('kladrCode', kladrCode);
+    // dispatch(fetchKladrStreets({id: kladrCode, type: "documented"}));
+    const kladrCity = rbKladrDocumented.find((item) => item.id === kladrCode);
+    const kladrStreet = rbKladrStreetsDocumented.find((item) => item.id === kladrStreetCode);
+    const city = kladrCity?.name;
+    const street = kladrStreet?.name;
+    const socr = kladrStreet?.socr;
+
+    // console.log('kladrItem', kladrItem)
+    if (city) {
+      address = `г. ${city}`
+      if (street && socr) {
+        address = address.concat(`, ${socr} ${street}`);
+        if (number) {
+          address = address.concat(`, д.${number}`);
+          if (corpus) {
+            address = address.concat(`, к.${corpus}`);
+            if (litera) {
+              address = address.concat(litera);
+            }
+          }
+          if (flat) {
+            address = address.concat(`, кв.${flat}`);
+          }
+        }
+      }
+    }
+
+    return address
   }
 
   const getContactTypeName = (type: number, contact: string) => {

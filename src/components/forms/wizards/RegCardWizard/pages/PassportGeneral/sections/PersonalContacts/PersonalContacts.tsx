@@ -17,7 +17,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
-    console.log(index, fieldChain);
+    // console.log(index, fieldChain);
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
 
@@ -28,7 +28,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   ));
 
   function getTypeInput(index: number, mask: string) {
-    console.log(mask);
+    // console.log(mask);
     if (!mask) {
       return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {

@@ -9,7 +9,7 @@ export default interface PatientAddress {
     id: number;
     KLADRCode?: string;
     KLADRStreetCode?: string;
-    number?: string;
+    house?: string;
     corpus?: string;
     litera?: string;
     flat?: string;

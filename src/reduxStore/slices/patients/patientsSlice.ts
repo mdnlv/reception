@@ -18,7 +18,7 @@ export const fetchPatients = createAsyncThunk(
         offset || 0,
       );
       if (response.status === 200 && response.data) {
-        // console.log(response.data)
+        console.log(response.data)
         return response.data;
       }
     } catch (e) {
