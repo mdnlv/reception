@@ -3,9 +3,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Patient from '../../../types/data/Patient';
 import PatientsService from '../../../services/PatientsService/PatientsService';
 import transformPatientsFilters from '../../utils/transform/transformPatientsFilters';
-import {transformPatientResponse} from '../../utils/transform/transformPatientResponse';
-import {transformFilterPatientResponse} from '../../utils/transform/transformFilterPatientResponse';
-import PatientsSearchFiltersType from "./types";
+import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
+import { transformFilterPatientResponse } from '../../utils/transform/transformFilterPatientResponse';
+import PatientsSearchFiltersType from './types';
 
 export const fetchPatients = createAsyncThunk(
   'patients/fetchPatients',
@@ -94,7 +94,7 @@ const patientSlice = createSlice({
     builder.addCase(fetchPatients.fulfilled, (state, action) => {
       state.patients =
         action.payload?.map((item, index) => ({
-          ...transformPatientResponse(item)
+          ...transformPatientResponse(item),
         })) || [];
     });
     builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
