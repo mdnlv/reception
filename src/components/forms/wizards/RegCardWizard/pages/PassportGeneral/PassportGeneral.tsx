@@ -37,8 +37,6 @@ interface SectionProps {}
 const PassportGeneral: React.FC<SectionProps> = () => {
   const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
-  const [cityBuffer, setCityBuffer] = useState('');
-  const [streetBuffer, setStreetBuffer] = useState('');
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
@@ -59,7 +57,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
     isLoadingKladrStreetsDocumented,
     isLoadingKladrStreetsRegistration,
   } = useSelector(kladrLoadingsSelector);
-
   const policyTypesList = useSelector(detailedPolicyTypesSelector);
   const policyKindsList = useSelector(detailedPolicyKindsSelector);
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
@@ -130,7 +127,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             kladr={rbKladrDocumented}
             nestedKladr={rbKladrNestedDocumented}
             kladrStreets={rbKladrStreetsDocumented}
-            onCityBuffer={setCityBuffer}
           />
         </Col>
         <Col span={12} className={'col--border-right'}>

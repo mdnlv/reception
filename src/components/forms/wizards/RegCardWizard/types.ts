@@ -1,4 +1,4 @@
-import { RegistrationCardStateType } from '../../../../reduxStore/slices/registrationCard/initialState';
+import {RegistrationCardStateType} from '../../../../reduxStore/slices/registrationCard/types';
 
 export type WizardStateType = Pick<
   RegistrationCardStateType,

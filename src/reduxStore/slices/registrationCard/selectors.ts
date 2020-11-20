@@ -11,6 +11,8 @@ export const kladrSelector = createSelector(
     rbKladrRegistration: data.addressRegistration.kladr,
     rbKladrNestedRegistration: data.addressRegistration.kladrNested,
     rbKladrStreetsRegistration: data.addressRegistration.kladrStreets,
+    cityDocumented: data.documentedAddress.cityDocumented,
+    streetDocumented: data.documentedAddress.streetDocumented,
   }),
 );
 

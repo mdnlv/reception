@@ -84,7 +84,7 @@ export const fetchKladrStreets = createAsyncThunk(
   'registrationCard/fetchKladrStreets',
   async (payload: { id: string; type?: KladrDocType }, thunkAPI) => {
     thunkAPI.dispatch(
-      setKladrStreetsLodaing({ value: true, type: payload.type }),
+      setKladrStreetsLoading({ value: true, type: payload.type }),
     );
     try {
       const response = await RbService.getRegionStreets(payload.id);
@@ -100,7 +100,7 @@ export const fetchKladrStreets = createAsyncThunk(
     } catch (e) {
     } finally {
       thunkAPI.dispatch(
-        setKladrStreetsLodaing({ value: false, type: payload.type }),
+        setKladrStreetsLoading({ value: false, type: payload.type }),
       );
     }
   },
@@ -246,6 +246,18 @@ const registrationCardSlice = createSlice({
     setFormSection: (state, action: PayloadAction<WizardStateType>) => {
       state.form = { ...state.form, ...action.payload };
     },
+    setCityBuffer: (state, action: PayloadAction<{
+      value: string;
+      type: 'setCityBuffer';
+    }>) => {
+      state.form.data.passportGeneral.documentedAddress.cityDocumented = action.payload.value
+    },
+    setStreetBuffer: (state, action: PayloadAction<{
+      value: string;
+      type: 'setStreetBuffer';
+    }>) => {
+      state.form.data.passportGeneral.documentedAddress.streetDocumented = action.payload.value
+    },
     setLoading: (
       state,
       action: PayloadAction<{
@@ -286,7 +298,7 @@ const registrationCardSlice = createSlice({
           action.payload.value;
       }
     },
-    setKladrStreetsLodaing: (
+    setKladrStreetsLoading: (
       state,
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
@@ -421,9 +433,11 @@ export const {
   setFormSection,
   setKladrLoading,
   setKladrNestedLoading,
-  setKladrStreetsLodaing,
+  setKladrStreetsLoading,
   setFindPolicyLoading,
   setLoading,
+  setCityBuffer,
+  setStreetBuffer,
   fetchIdPatientError,
 } = registrationCardSlice.actions;
 
