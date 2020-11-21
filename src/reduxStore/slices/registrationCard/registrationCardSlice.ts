@@ -318,7 +318,9 @@ const registrationCardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
       if (action.payload && action.payload.length > 0) {
+        // console.log('state', JSON.parse(JSON.stringify(state)));
         const transformedPatient = transformPatientResponse(action.payload[0]);
+        // console.log('transformedPatient', transformedPatient)
         state.initialFormState.personal = {
           ...state.form.personal,
           firstName: action.payload[0].firstName,
@@ -327,10 +329,33 @@ const registrationCardSlice = createSlice({
           sex: action.payload[0].sex === 1 ? 1 : 0,
           birthDate: action.payload[0].birthDate,
         };
+        // console.log('state.form', JSON.parse(JSON.stringify(state.form.passportGeneral.passportInfo)))
         state.initialFormState.passportGeneral.passportInfo = {
-          ...state.form.passportGeneral.passportInfo,
+          addressRegistration: {
+            isKLADR: Boolean(!transformedPatient.address[0].freeInput),
+            city: state.form.passportGeneral.passportInfo.addressRegistration.city,
+            area: transformedPatient.address[0].address.KLADRCode,
+            street: transformedPatient.address[0].address.KLADRStreetCode,
+            houseNumber: transformedPatient.address[0].address.house,
+            houseCharacter: transformedPatient.address[0].address.corpus,
+            flatNumber: transformedPatient.address[0].address.flat,
+            isDocumentedAddress: Boolean(transformedPatient.address[0].addressId === transformedPatient.address[1].addressId),
+            freeInput: transformedPatient.address[0].freeInput
+          },
+          documentedAddress: {
+            isKLADR: Boolean(!transformedPatient.address[1].freeInput),
+            city: state.form.passportGeneral.passportInfo.addressRegistration.city,
+            area: transformedPatient.address[1].address.KLADRCode,
+            street: transformedPatient.address[1].address.KLADRStreetCode,
+            houseNumber: transformedPatient.address[1].address.house,
+            houseCharacter: transformedPatient.address[1].address.corpus,
+            flatNumber: transformedPatient.address[1].address.flat,
+            isDocumentedAddress: Boolean(transformedPatient.address[0].addressId === transformedPatient.address[1].addressId),
+            freeInput: transformedPatient.address[1].freeInput
+          },
           ...transformedPatient.client_document_info,
         };
+        // console.log('passportInfo', state.initialFormState.passportGeneral.passportInfo)
         state.form.foundPolicies.dms.items = transformedPatient.policy[0] && [
           transformedPatient.policy[0],
         ];

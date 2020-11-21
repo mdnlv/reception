@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import { Card, Col, Row, Spin, Tabs } from 'antd';
-import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import { useDispatch, useSelector } from 'react-redux';
-import UserInfo from './pages/UserInfo/UserInfo';
+import { useParams } from 'react-router';
+
 import './styles.scss';
 import { RootState } from '../../../../reduxStore/store';
-import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 import {
   fetchIdPatient,
   saveCardPatient,
   setFormSection,
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+
+import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
+import UserInfo from './pages/UserInfo/UserInfo';
+import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
 import Attachments from './pages/Attachments/Attachments';
@@ -23,7 +26,6 @@ import Links from './pages/Links/Links';
 import AdditionalHospitalization from './pages/AdditionalHospitalization/AdditionalHospitalization';
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
 import Etc from './pages/Etc/Etc';
-import { useParams } from 'react-router';
 
 interface WizardProps {}
 
@@ -36,6 +38,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   const isLoading = useSelector(
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
+  // console.log('store', store)
 
   useEffect(() => {
     dispatch(fetchIdPatient(parseInt(params.id)));

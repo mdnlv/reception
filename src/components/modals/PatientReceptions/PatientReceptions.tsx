@@ -74,7 +74,7 @@ const PatientReceptions: React.FC<PatientReceptionsProps> = ({
       <Tabs
         centered={true}
         onChange={(key) => {
-          console.log(key);
+          //console.log(key);
           setActiveTab(key);
         }}>
         <Row>

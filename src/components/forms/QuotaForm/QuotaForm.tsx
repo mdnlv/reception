@@ -28,7 +28,7 @@ const QuotaForm: FC = () => {
     })
 
     const submitFunc = (values: any) => {
-        console.log(values)
+        //console.log(values)
     }
 
     return (
