@@ -25,30 +25,51 @@ const Address: FC<SectionProps> = ({
   getKladrStreets
 }) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
+  const [prevCity, setPrevCity] = useState('');
+  const [prevStreet, setPrevStreet] = useState('');
   const form = useFormikContext<WizardStateType>();
   const {cityDocumented, streetDocumented} = useSelector(kladrSelector);
   const dispatch = useDispatch();
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
+  // console.log(formValues)
+
+  // useEffect(() => {
+  //   console.log('formValues', formValues.passportInfo)
+  // });
 
   //clear select fields after top-level select changed
   useEffect(() => {
-    const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
-    toEmptyFields.map((item) => {
-      form.setFieldValue(`${sectionValuePath}.${item}`, '');
-    });
+    if (!formValues.passportInfo[passportType].street) {
+      const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
+      toEmptyFields.map((item) => {
+        form.setFieldValue(`${sectionValuePath}.${item}`, '');
+      });
+    }
   }, [formValues.passportInfo[passportType].street]);
 
   useEffect(() => {
-    form.setFieldValue(`${sectionValuePath}.street`, '');
+    formValues.passportInfo[passportType].city && setPrevCity(formValues.passportInfo[passportType].city);
+    formValues.passportInfo[passportType].city !== prevCity
+      && form.setFieldValue(`${sectionValuePath}.street`, '');
   }, [formValues.passportInfo[passportType].city]);
 
   useEffect(() => {
     form.setFieldValue(`${sectionValuePath}.city`, '');
+    if (
+      formValues.passportInfo[passportType].area !== '7800000000000'
+      && formValues.passportInfo[passportType].area !== '7700000000000'
+      && formValues.passportInfo[passportType].area !== '9200000000000'
+    ) {
+      form.setFieldValue(`passportGeneral.passportInfo.documentedAddress.street`, '');
+      form.setFieldValue(`passportGeneral.passportInfo.addressRegistration.street`, '');
+    }
   }, [formValues.passportInfo[passportType].area]);
 
   useEffect(() => {
-    formValues.passportInfo['addressRegistration'].isDocumentedAddress ? setIsDocumentedAddress(true) : setIsDocumentedAddress(false);
+    formValues.passportInfo['addressRegistration'].isDocumentedAddress
+      ? setIsDocumentedAddress(true)
+      : setIsDocumentedAddress(false);
   }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress]);
 
   useEffect(() => {

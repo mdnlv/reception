@@ -31,7 +31,7 @@ const QuotaSection: FC = () => {
   const watchQuotas = form.watch('quotas');
 
   useEffect(() => {
-    console.log(form.getValues());
+    //console.log(form.getValues());
   }, [watchQuotas]);
 
   return (

@@ -40,6 +40,8 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
+  //console.log('dms', dms)
+  //console.log('oms', oms)
 
   const {
     rbKladrDocumented,

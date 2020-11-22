@@ -17,7 +17,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
   const [rangeWeekDate, setRangeWeek] = useState(addDays(new Date(), 14));
 
   useEffect(() => {
-    console.log(schedules);
+    //console.log(schedules);
   }, [schedules]);
 
   const rangeWeekNum = useMemo(() => {

@@ -14,7 +14,7 @@ const QuotaDetailed: FC<QuotaProps> = ({currentIndex}) => {
     const appealChange = form.watch('quotas')
 
     useEffect(() => {
-        console.log(form.getValues({nest: true}))
+        //console.log(form.getValues({nest: true}))
     }, [appealChange])
 
     return (

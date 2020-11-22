@@ -10,7 +10,7 @@ const { Dragger } = Upload;
 
 const UploadDoc: React.FC<ModalProps> = ({isVisible, onClose}) => {
   const onUploadChange = (info: UploadChangeParam) => {
-    console.log(info.file)
+    //console.log(info.file)
   }
 
   return (
