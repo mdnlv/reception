@@ -4,7 +4,7 @@ import {useFormikContext} from 'formik';
 import moment from 'moment';
 
 import {SectionProps, ListOptionItem, LABELS} from "./types";
-import { RegistrationCardStateType } from '../../../../../../../../reduxStore/slices/registrationCard/initialState';
+import {RegistrationCardStateType} from '../../../../../../../../reduxStore/slices/registrationCard/types';
 
 import FormField from '../../../../../../components/FormField/FormField';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';

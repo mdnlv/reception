@@ -97,7 +97,7 @@ const AppHeaderBar: FC = () => {
       </Col>
       <NewAppointment
         isVisible={showNewAppointment}
-        onClose={showAppointment}
+        onClose={() => setShowAppointment(false)}
       />
     </Row>
   );

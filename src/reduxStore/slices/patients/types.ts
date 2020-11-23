@@ -31,4 +31,5 @@ export default interface PatientsSearchFiltersType {
   clientExamPlanQuarter: number;
   identifierSystemId: number;
   identifier: string;
+  personAgeFrom: number;
 }
