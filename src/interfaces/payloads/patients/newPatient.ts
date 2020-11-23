@@ -52,6 +52,7 @@ export default interface NewPatientPayload {
         corpus: string;
         litera: string;
       };
+      isVillager: number,
       flat: string;
     };
     type: number;

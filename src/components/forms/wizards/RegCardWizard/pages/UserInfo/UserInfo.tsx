@@ -67,7 +67,7 @@ const UserInfo: React.FC = () => {
           </Col>
           <Col span={12}>
             <FormField label="Время рождения">
-              //todo make birthTime correct binding
+              {/*todo make birthTime correct binding*/}
               <TimePicker
                 format={'HH:mm'}
                 value={

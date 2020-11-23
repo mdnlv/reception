@@ -38,7 +38,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   const isLoading = useSelector(
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
-  // console.log('store', store)
 
   useEffect(() => {
     if (params.id !== 'new') {
@@ -55,6 +54,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       enableReinitialize={true}
       initialValues={store}
       onSubmit={(values) => {
+        console.log('values', values)
         dispatch(setFormSection(values));
         dispatch(saveCardPatient());
       }}>

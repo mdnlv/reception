@@ -177,17 +177,19 @@ export const saveCardPatient = createAsyncThunk(
           number,
           date: fromDate,
           origin: givenBy,
-          endDate: '',
+          endDate: '2200-12-12',
         },
 
-        social_status_info:
-          state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-            type: item.type ? parseInt(item.type) : null,
-            class: item.class ? parseInt(item.class) : null,
-            begDate: item.fromDate,
-            endDate: item.endDate,
-            notes: item.note ?? null,
-          })) || [],
+        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
+          social_status_info:
+            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+              type: item.type ? parseInt(item.type) : null,
+              class: item.class ? parseInt(item.class) : null,
+              begDate: item.fromDate,
+              endDate: item.endDate,
+              notes: item.note ?? null,
+            }))
+        },
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
@@ -200,12 +202,14 @@ export const saveCardPatient = createAsyncThunk(
             note: item.note,
             name: item.name,
             number: item.number,
+            serial: item.serial,
           })) || [],
 
-        client_attachments:
-          state.registrationCard.form.attachments.attachments.map(
+        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
+          client_attachments: state.registrationCard.form.attachments.attachments.map(
             (item) => item,
-          ) || [],
+          )
+        },
 
         client_address_info: [
           {
@@ -219,6 +223,7 @@ export const saveCardPatient = createAsyncThunk(
               },
               flat: addressRegistration.flatNumber?.toString() || '',
             },
+            isVillager: +!addressRegistration.isKLADR,
             type: 0,
           },
           {
@@ -232,10 +237,12 @@ export const saveCardPatient = createAsyncThunk(
               },
               flat: documentedAddress.flatNumber?.toString() || '',
             },
+            isVillager: +!documentedAddress.isKLADR,
             type: 1,
           },
         ],
       };
+      // console.log('payload', payload);
       await PatientsService.savePatient(payload);
     } catch (e) {
     } finally {
