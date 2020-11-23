@@ -25,7 +25,7 @@ const AppHeaderBar: FC = () => {
   };
 
   const onNewPatientClick = useCallback(() => {
-    goPath('regCard');
+    goPath('regCard/0');
   }, []);
 
   const onInfoClick = useCallback(() => {

@@ -32,11 +32,6 @@ const Address: FC<SectionProps> = ({
   const dispatch = useDispatch();
   const formValues = form.values.passportGeneral;
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
-  // console.log(formValues)
-
-  // useEffect(() => {
-  //   console.log('formValues', formValues.passportInfo)
-  // });
 
   //clear select fields after top-level select changed
   useEffect(() => {
@@ -61,8 +56,12 @@ const Address: FC<SectionProps> = ({
       && formValues.passportInfo[passportType].area !== '7700000000000'
       && formValues.passportInfo[passportType].area !== '9200000000000'
     ) {
-      form.setFieldValue(`passportGeneral.passportInfo.documentedAddress.street`, '');
-      form.setFieldValue(`passportGeneral.passportInfo.addressRegistration.street`, '');
+      if (isDocumentedAddress) {
+        form.setFieldValue(`passportGeneral.passportInfo.documentedAddress.street`, '');
+        form.setFieldValue(`passportGeneral.passportInfo.addressRegistration.street`, '');
+      } else {
+        form.setFieldValue(`${sectionValuePath}.street`, '');
+      }
     }
   }, [formValues.passportInfo[passportType].area]);
 
