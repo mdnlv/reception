@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import { Col, Divider, Row, Select } from 'antd';
 import FormField from '../../../../../../components/FormField/FormField';
@@ -69,59 +69,68 @@ const Status: React.FC<StatusProps> = (props) => {
     [props.socialTypesList],
   );
 
+  const StatusValue = useMemo(() => {
+    return (
+      <ArrayFieldWrapper
+        name={sectionValuePath}
+        values={formValues}
+        onAddItem={onAddStatus}
+        onRemoveItem={onRemoveStatus}
+        showActions
+        renderChild={(status, index) => (
+          <div key={index}>
+            <Row gutter={16}>
+              <Col span={6}>
+                <FormField label={LABELS.CLASS}>
+                  <FastSearchSelect
+                    loading={props.isLoadingClasses}
+                    name={getSelectionPath(index, 'class')}>
+                    {propsList(props.socialClassesList)}
+                  </FastSearchSelect>
+                </FormField>
+              </Col>
+              <Col span={6}>
+                <FormField label={LABELS.TYPE}>
+                  <FastSearchSelect
+                    loading={props.isLoadingTypes}
+                    name={getSelectionPath(index, 'type')}>
+                    {propsList(props.socialTypesList)}
+                  </FastSearchSelect>
+                </FormField>
+              </Col>
+              <Col span={3}>
+                <FormField label={LABELS.START_DATE}>
+                  <FastDatePicker name={getSelectionPath(index, 'fromDate')} />
+                </FormField>
+              </Col>
+              <Col span={3}>
+                <FormField label={LABELS.END_DATE}>
+                  <FastDatePicker name={getSelectionPath(index, 'endDate')} />
+                </FormField>
+              </Col>
+              <Col span={6}>
+                <FormField label={LABELS.NOTE}>
+                  <FastInput name={getSelectionPath(index, 'note')} />
+                </FormField>
+              </Col>
+            </Row>
+            <Divider />
+          </div>
+        )}
+      />
+    );
+  }, [
+    formValues,
+    getSelectionPath,
+    props.socialTypesList,
+    props.socialClassesList,
+    props.isLoadingTypes,
+    props.isLoadingClasses,
+  ]);
+
   return (
     <div className={'form-section social-status'}>
-      <DropDownContent title={DROPDOWN_TITLE}>
-        <ArrayFieldWrapper
-          name={sectionValuePath}
-          values={formValues}
-          onAddItem={onAddStatus}
-          onRemoveItem={onRemoveStatus}
-          showActions
-          renderChild={(status, index) => (
-            <div key={index}>
-              <Row gutter={16}>
-                <Col span={6}>
-                  <FormField label={LABELS.CLASS}>
-                    <FastSearchSelect
-                      loading={props.isLoadingClasses}
-                      name={getSelectionPath(index, 'class')}>
-                      {propsList(props.socialClassesList)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={6}>
-                  <FormField label={LABELS.TYPE}>
-                    <FastSearchSelect
-                      loading={props.isLoadingTypes}
-                      name={getSelectionPath(index, 'type')}>
-                      {propsList(props.socialTypesList)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={3}>
-                  <FormField label={LABELS.START_DATE}>
-                    <FastDatePicker
-                      name={getSelectionPath(index, 'fromDate')}
-                    />
-                  </FormField>
-                </Col>
-                <Col span={3}>
-                  <FormField label={LABELS.END_DATE}>
-                    <FastDatePicker name={getSelectionPath(index, 'endDate')} />
-                  </FormField>
-                </Col>
-                <Col span={6}>
-                  <FormField label={LABELS.NOTE}>
-                    <FastInput name={getSelectionPath(index, 'note')} />
-                  </FormField>
-                </Col>
-              </Row>
-              <Divider />
-            </div>
-          )}
-        />
-      </DropDownContent>
+      <DropDownContent title={DROPDOWN_TITLE}>{StatusValue}</DropDownContent>
     </div>
   );
 };

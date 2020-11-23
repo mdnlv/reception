@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './styles.scss';
 import PartialFormState from './types';
-import {FormProps} from "./types";
+import { FormProps } from './types';
 import validation from './validation';
 import { fetchFiltersPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 import {
@@ -60,7 +60,7 @@ const initialStore: PartialFormState = {
 const PatientSearchFilterForm: React.FC<FormProps> = ({
   onClose,
   onClearForm,
-  onSubmit
+  onSubmit,
 }) => {
   const dispatch = useDispatch();
   const invalidReasons = useSelector(detailedInvalidReasonsSelector);
@@ -73,11 +73,9 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
     if (onSubmit) {
       onSubmit();
     }
-    //todo clear func props
     dispatch(
       fetchFiltersPatients({
         ...values,
-        begBirthDate: '2000-01-01'
       }),
     );
     if (onClose) {

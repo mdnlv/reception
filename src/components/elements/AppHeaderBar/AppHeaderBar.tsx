@@ -8,6 +8,18 @@ import './styles.scss';
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 
+const BarLogoAlt = 'Logo';
+
+enum Labels {
+  Print = 'Печать',
+  Journal = 'ЖОС',
+  K = 'Кэр',
+  Appointment = 'Записать на прием',
+  RegCard = 'Регистрационная карта',
+  NewPatient = 'Новый пациент',
+  Info = 'Справка',
+}
+
 const AppHeaderBar: FC = () => {
   const navigation = useHistory();
   const [showNewAppointment, setShowAppointment] = useState(false);
@@ -25,7 +37,7 @@ const AppHeaderBar: FC = () => {
   };
 
   const onNewPatientClick = useCallback(() => {
-    goPath('regCard');
+    goPath('regCard/new');
   }, []);
 
   const onInfoClick = useCallback(() => {
@@ -37,42 +49,42 @@ const AppHeaderBar: FC = () => {
       <Col md={20} xs={24}>
         <Row>
           <Col className="header__logo" onClick={logoClickHandler}>
-            <img src={Logo} className="app-logo" />
+            <img src={Logo} alt={BarLogoAlt} className="app-logo" />
           </Col>
           <Col>
             <Space>
               <Button size={'small'} className="header__button">
-                Печать
+                {Labels.Print}
               </Button>
               <Button size={'small'} className="header__button">
-                КЭР
+                {Labels.K}
               </Button>
               <Button size={'small'} className="header__button">
-                ЖОС
+                {Labels.Journal}
               </Button>
               <Button
                 size={'small'}
                 className="header__button"
                 onClick={showAppointment}>
-                Записать на прием
+                {Labels.Appointment}
               </Button>
               <Button
                 size={'small'}
                 className="header__button"
                 onClick={onNewPatientClick}>
-                Регистрационная карточка
+                {Labels.RegCard}
               </Button>
               <Button
                 onClick={onNewPatientClick}
                 size={'small'}
                 className="header__button">
-                Новый пациент
+                {Labels.NewPatient}
               </Button>
               <Button
                 size={'small'}
                 className="header__button"
                 onClick={onInfoClick}>
-                Справка
+                {Labels.Info}
               </Button>
             </Space>
           </Col>

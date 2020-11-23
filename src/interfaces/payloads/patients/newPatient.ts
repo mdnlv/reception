@@ -1,3 +1,5 @@
+import { PersonAttachment } from '../../../components/forms/wizards/RegCardWizard/pages/Attachments/types';
+
 export default interface NewPatientPayload {
   lastName: string;
   firstName: string;
@@ -9,6 +11,8 @@ export default interface NewPatientPayload {
   growth: string;
   weight: string;
   birthPlace: string;
+
+  client_attachments?: PersonAttachment[];
 
   social_status_info: {
     type: number | null;
