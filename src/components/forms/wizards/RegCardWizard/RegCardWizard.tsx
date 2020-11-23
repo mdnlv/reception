@@ -41,7 +41,9 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   // console.log('store', store)
 
   useEffect(() => {
-    dispatch(fetchIdPatient(parseInt(params.id)));
+    if (params.id !== 'new') {
+      dispatch(fetchIdPatient(parseInt(params.id)));
+    }
   }, [params]);
 
   return isLoading ? (

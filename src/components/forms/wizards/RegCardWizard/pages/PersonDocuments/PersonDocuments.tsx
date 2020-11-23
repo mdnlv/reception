@@ -1,22 +1,36 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { Col, Divider, Row } from 'antd';
 import { useSelector } from 'react-redux';
 
 import {
-    detailedCMOSelector,
-    detailedPolicyKindsSelector,
-    detailedPolicyTypesSelector,
+  detailedCMOSelector,
+  detailedDocumentTypesSelector,
+  detailedPolicyKindsSelector,
+  detailedPolicyTypesSelector,
+  detailedSocialClassesSelector,
+  detailedSocialTypesSelector,
+  socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 
 import PersonalIdent from '../../../../PersonDocumentsForm/components/sections/PersonalIdent/PersonalIdent';
 import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
 import SocialStatus from '../../../../PersonDocumentsForm/components/sections/SocialStatus/SocialStatus';
 import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
+import Status from '../SocialStatus/sections/Status/Status';
+import PersonalDocument from '../PassportGeneral/sections/PersonalDocuments/PersonalDocuments';
+import { RootState } from '../../../../../../reduxStore/store';
 
 const PersonDocuments: React.FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
   const policyKinds = useSelector(detailedPolicyKindsSelector);
   const cmoTypes = useSelector(detailedCMOSelector);
+
+  const socialTypesList = useSelector(detailedSocialTypesSelector);
+  const socialClassesList = useSelector(detailedSocialClassesSelector);
+  const documentTypesList = useSelector(detailedDocumentTypesSelector);
+  const loadings = useSelector(socialLoadingsSelector);
+
+  const { documentTypes } = useSelector((state: RootState) => state.rb.loading);
 
   const getPolicyIdType = useCallback(
     (id: string) => {
@@ -58,7 +72,10 @@ const PersonDocuments: React.FC = () => {
     <form className={'wizard-step person-documents-page card-page'}>
       <Row>
         <Col span={24}>
-          <PersonalIdent />
+          <PersonalDocument
+            isLoadingDocuments={documentTypes}
+            documentTypes={documentTypesList}
+          />
         </Col>
       </Row>
       <Divider />
@@ -74,7 +91,12 @@ const PersonDocuments: React.FC = () => {
       <Divider />
       <Row>
         <Col span={24}>
-          <SocialStatus />
+          <Status
+            isLoadingClasses={loadings.classes}
+            isLoadingTypes={loadings.types}
+            socialClassesList={socialClassesList}
+            socialTypesList={socialTypesList}
+          />
         </Col>
       </Row>
       <Divider />

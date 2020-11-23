@@ -128,3 +128,12 @@ export const detailedHurtFactorTypesSelector = createSelector(
       name: item.name,
     })),
 );
+
+export const detailedAttachTypesSelector = createSelector(
+  (state: RootState) => state.rb.rbAttachTypes,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);

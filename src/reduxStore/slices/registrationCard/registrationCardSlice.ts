@@ -8,8 +8,8 @@ import transformPolicyResponse from '../../utils/transform/transformPolicyRespon
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
-import {KladrDocType} from "./types";
-import {transformPatientResponse} from '../../utils/transform/transformPatientResponse';
+import { KladrDocType } from './types';
+import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -202,6 +202,11 @@ export const saveCardPatient = createAsyncThunk(
             number: item.number,
           })) || [],
 
+        client_attachments:
+          state.registrationCard.form.attachments.attachments.map(
+            (item) => item,
+          ) || [],
+
         client_address_info: [
           {
             address: {
@@ -246,17 +251,25 @@ const registrationCardSlice = createSlice({
     setFormSection: (state, action: PayloadAction<WizardStateType>) => {
       state.form = { ...state.form, ...action.payload };
     },
-    setCityBuffer: (state, action: PayloadAction<{
-      value: string;
-      type: 'setCityBuffer';
-    }>) => {
-      state.form.data.passportGeneral.documentedAddress.cityDocumented = action.payload.value
+    setCityBuffer: (
+      state,
+      action: PayloadAction<{
+        value: string;
+        type: 'setCityBuffer';
+      }>,
+    ) => {
+      state.form.data.passportGeneral.documentedAddress.cityDocumented =
+        action.payload.value;
     },
-    setStreetBuffer: (state, action: PayloadAction<{
-      value: string;
-      type: 'setStreetBuffer';
-    }>) => {
-      state.form.data.passportGeneral.documentedAddress.streetDocumented = action.payload.value
+    setStreetBuffer: (
+      state,
+      action: PayloadAction<{
+        value: string;
+        type: 'setStreetBuffer';
+      }>,
+    ) => {
+      state.form.data.passportGeneral.documentedAddress.streetDocumented =
+        action.payload.value;
     },
     setLoading: (
       state,
@@ -320,10 +333,10 @@ const registrationCardSlice = createSlice({
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
         const dmsFound = transformedPatient.policy.filter(
-          (item) => parseInt(item.type) !== 3
+          (item) => parseInt(item.type) !== 3,
         );
         const omsFound = transformedPatient.policy.filter(
-          (item) => parseInt(item.type) === 3
+          (item) => parseInt(item.type) === 3,
         );
         state.initialFormState.personal = {
           ...state.form.personal,
@@ -336,31 +349,41 @@ const registrationCardSlice = createSlice({
         state.initialFormState.passportGeneral.passportInfo = {
           addressRegistration: {
             isKLADR: Boolean(!transformedPatient.address[0].freeInput),
-            city: state.form.passportGeneral.passportInfo.addressRegistration.city,
+            city:
+              state.form.passportGeneral.passportInfo.addressRegistration.city,
             area: transformedPatient.address[0].address.KLADRCode,
             street: transformedPatient.address[0].address.KLADRStreetCode,
             houseNumber: transformedPatient.address[0].address.house,
             houseCharacter: transformedPatient.address[0].address.corpus,
             flatNumber: transformedPatient.address[0].address.flat,
-            isDocumentedAddress: Boolean(transformedPatient.address[0].addressId === transformedPatient.address[1].addressId),
-            freeInput: transformedPatient.address[0].freeInput
+            isDocumentedAddress: Boolean(
+              transformedPatient.address[0].addressId ===
+                transformedPatient.address[1].addressId,
+            ),
+            freeInput: transformedPatient.address[0].freeInput,
           },
           documentedAddress: {
             isKLADR: Boolean(!transformedPatient.address[1].freeInput),
-            city: state.form.passportGeneral.passportInfo.addressRegistration.city,
+            city:
+              state.form.passportGeneral.passportInfo.addressRegistration.city,
             area: transformedPatient.address[1].address.KLADRCode,
             street: transformedPatient.address[1].address.KLADRStreetCode,
             houseNumber: transformedPatient.address[1].address.house,
             houseCharacter: transformedPatient.address[1].address.corpus,
             flatNumber: transformedPatient.address[1].address.flat,
-            isDocumentedAddress: Boolean(transformedPatient.address[0].addressId === transformedPatient.address[1].addressId),
-            freeInput: transformedPatient.address[1].freeInput
+            isDocumentedAddress: Boolean(
+              transformedPatient.address[0].addressId ===
+                transformedPatient.address[1].addressId,
+            ),
+            freeInput: transformedPatient.address[1].freeInput,
           },
           ...transformedPatient.client_document_info,
         };
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
-        state.initialFormState.passportGeneral.policyDms = [dmsFound[dmsFound.length - 1]];
-        state.initialFormState.passportGeneral.policyOms = [omsFound[omsFound.length - 1]];
+        state.initialFormState.passportGeneral.policyDms =
+          dmsFound.length > 0 ? [dmsFound[dmsFound.length - 1]] : [];
+        state.initialFormState.passportGeneral.policyOms =
+          omsFound.length > 0 ? [omsFound[omsFound.length - 1]] : [];
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus;
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(

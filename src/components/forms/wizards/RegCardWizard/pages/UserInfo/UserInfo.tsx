@@ -19,7 +19,7 @@ import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
-import FastMaskedInput from "../../../../components/fields/FastMaskedInput/FastMaskedInput";
+import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
@@ -67,16 +67,17 @@ const UserInfo: React.FC = () => {
           </Col>
           <Col span={12}>
             <FormField label="Время рождения">
+              //todo make birthTime correct binding
               <TimePicker
                 format={'HH:mm'}
                 value={
-                  formProps.values.personal.birthDate
-                    ? moment(formProps.values.personal.birthDate)
+                  formProps.values.personal.birthTime
+                    ? moment(formProps.values.personal.birthTime)
                     : undefined
                 }
                 onChange={(_, dateString) => {
                   formProps.setFieldValue(
-                    `${sectionValuePath}.birthDate`,
+                    `${sectionValuePath}.birthTime`,
                     dateString,
                   );
                 }}
@@ -113,7 +114,7 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
+          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11" />
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>

@@ -32,7 +32,7 @@ const PersonPolicy: FC<SectionProps> = ({
                 <Col>
                   <FormField label={'Тип'}>
                     <Input
-                      value={getPolicyTypeId(values.type.toString() ?? '')}
+                      value={getPolicyTypeId(values.type?.toString() ?? '')}
                       disabled
                     />
                   </FormField>

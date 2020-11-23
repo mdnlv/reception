@@ -285,6 +285,7 @@ const rbSlice = createSlice({
     rbHurtTypes: [] as HurtType[],
     rbHurtFactorTypes: [] as HurtFactorType[],
     loading: {
+      attachTypes: false,
       organisations: false,
       documentTypes: false,
       socialTypes: false,
@@ -298,6 +299,7 @@ const rbSlice = createSlice({
       state,
       action: PayloadAction<{
         type:
+          | 'attachTypes'
           | 'organisations'
           | 'documentTypes'
           | 'socialTypes'
