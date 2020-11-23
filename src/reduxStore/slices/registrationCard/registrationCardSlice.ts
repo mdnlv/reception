@@ -290,7 +290,7 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
-      if (action.type === 'documented') {
+      if (action.payload.type === 'documented') {
         state.form.data.passportGeneral.documentedAddress.isKladrNestedLoading =
           action.payload.value;
       } else {
@@ -302,7 +302,7 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<{ value: boolean; type?: KladrDocType }>,
     ) => {
-      if (action.type === 'documented') {
+      if (action.payload.type === 'documented') {
         state.form.data.passportGeneral.documentedAddress.isKladrStreetsLoading =
           action.payload.value;
       } else {

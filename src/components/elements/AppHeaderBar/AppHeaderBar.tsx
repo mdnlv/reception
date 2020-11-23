@@ -25,7 +25,7 @@ const AppHeaderBar: FC = () => {
   };
 
   const onNewPatientClick = useCallback(() => {
-    goPath('regCard');
+    goPath('regCard/0');
   }, []);
 
   const onInfoClick = useCallback(() => {
@@ -97,7 +97,7 @@ const AppHeaderBar: FC = () => {
       </Col>
       <NewAppointment
         isVisible={showNewAppointment}
-        onClose={showAppointment}
+        onClose={() => setShowAppointment(false)}
       />
     </Row>
   );

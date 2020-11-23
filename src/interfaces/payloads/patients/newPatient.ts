@@ -43,7 +43,7 @@ export default interface NewPatientPayload {
     address: {
       address_house: {
         KLADRCode: string;
-        KLADRStreetCode: string;
+        KLADRStreetCode?: string;
         number: string;
         corpus: string;
         litera: string;

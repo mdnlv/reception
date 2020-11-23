@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../../store';
+import Patient from "../../../types/data/Patient";
 
 const patients = (state: RootState) => state.patients.patients;
 const foundPatients = (state: RootState) => state.patients.foundPatients;
@@ -17,6 +18,6 @@ export const currentPatientInfoSelector = createSelector(
     if (isSearching) {
       patientsRef = foundPatients;
     }
-    return patientsRef.find((item) => item.code === currentPatient);
+    return patientsRef.find((item: Patient) => item.code === currentPatient);
   },
 );

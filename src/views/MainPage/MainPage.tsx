@@ -15,14 +15,12 @@ import PatientsSearchTable from '../../components/tables/PatientsSearchTable/Pat
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
 
 const MainPage: FC = () => {
-  const dispatch = useDispatch();
   const [showUserInfo, setShowInfo] = useState(false);
-
-  //selectors
   const schedules = useSelector(detailedSchedules);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (currentPatientMemo) {

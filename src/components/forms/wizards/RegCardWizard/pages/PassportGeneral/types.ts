@@ -32,24 +32,24 @@ export default interface FormState {
       [key: string]: any;
       isKLADR: boolean;
       city: string;
-      area: string;
-      street: string;
-      houseNumber?: number;
-      houseCharacter?: number;
-      flatNumber?: number;
+      area?: string;
+      street?: string;
+      houseNumber?: string | number;
+      houseCharacter?: string | number;
+      flatNumber: string | null | number;
       isDocumentedAddress: boolean;
       freeInput: string;
     };
 
     documentedAddress: {
-      [key: string]: boolean | string | number | undefined;
+      [key: string]: any;
       isKLADR: boolean;
       city: string;
-      area: string;
-      street: string;
-      houseNumber?: number;
-      houseCharacter?: number;
-      flatNumber?: number;
+      area?: string;
+      street?: string;
+      houseNumber?: string | number;
+      houseCharacter?: string | number;
+      flatNumber: string | null | number;
       isDocumentedAddress: boolean;
       freeInput: string;
     };

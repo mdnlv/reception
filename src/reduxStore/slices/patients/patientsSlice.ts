@@ -65,12 +65,12 @@ export const fetchQueryPatients = createAsyncThunk(
 const patientSlice = createSlice({
   name: 'patients',
   initialState: {
-    patients: [] as Patient[],
+    patients: [] as Patient[] | any,
     currentPatient: 0,
     isSearching: false,
     isLoading: false,
     isLoadingFound: false,
-    foundPatients: [] as Patient[],
+    foundPatients: [] as Patient[] | any,
   },
   reducers: {
     setCurrentPatient: (state, action: PayloadAction<number>) => {

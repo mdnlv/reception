@@ -18,6 +18,6 @@ export interface SectionProps {
   isLoadingKladr: boolean;
   isLoadingKladrNested: boolean;
   isLoadingKladrStreets: boolean;
-  getKladrNested(id: string, type: KladrDocType): void;
-  getKladrStreets(id: string, type: KladrDocType): void;
+  getKladrNested(id?: string, type?: KladrDocType): void;
+  getKladrStreets(id?: string, type?: KladrDocType): void;
 }
