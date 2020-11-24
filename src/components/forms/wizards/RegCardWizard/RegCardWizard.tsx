@@ -67,49 +67,77 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           </Col>
           <Col span={19} className={'wizard-tabs'}>
             <Tabs defaultActiveKey={'passport-general'}>
-              <Tabs.TabPane key={'passport-general'} tab={'Паспортные данные'}>
+              <Tabs.TabPane
+                forceRender={false}
+                key={'passport-general'}
+                tab={'Паспортные данные'}>
                 <PassportGeneral />
               </Tabs.TabPane>
               <Tabs.TabPane
+                forceRender={false}
                 key={'attached-docs'}
                 tab={'Прикрепленные документы'}>
                 <PersonDocuments />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Социальный статус'} key={'status'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Социальный статус'}
+                key={'status'}>
                 <SocialStatus />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Занятость'} key={'employment'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Занятость'}
+                key={'employment'}>
                 <PersonEmployment />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Прикрепление'} key={'attachments'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Прикрепление'}
+                key={'attachments'}>
                 <Attachments />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Вид наблюдения'} key={'views-type'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Вид наблюдения'}
+                key={'views-type'}>
                 <ViewType />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Особенности'} key={'features'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Особенности'}
+                key={'features'}>
                 <Features />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Льготы'} key={'privileges'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Льготы'}
+                key={'privileges'}>
                 <Privileges />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Правонарушения'} key={'offences'}>
+              <Tabs.TabPane
+                forceRender={false}
+                tab={'Правонарушения'}
+                key={'offences'}>
                 <Offences />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={'Связи'} key={'links'}>
+              <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
                 <Links />
               </Tabs.TabPane>
               <Tabs.TabPane
+                forceRender={false}
                 tab={'Дополнительная диспансеризация'}
                 key={'additional-hospitalization'}>
                 <AdditionalHospitalization />
               </Tabs.TabPane>
               <Tabs.TabPane
+                forceRender={false}
                 tab={'Госпитализация в другие ЛПУ'}
                 key={'outside-hospitalization'}>
                 <AdditionalHospitalization />
               </Tabs.TabPane>
               <Tabs.TabPane
+                forceRender={false}
                 tab={'Идентификаторы во внешних учетных системах'}
                 key={'outside-idents'}>
                 <OutsideIdent />

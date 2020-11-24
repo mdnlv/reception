@@ -2,10 +2,14 @@ import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Result } from 'antd';
 
-import RegistrationCard from '../views/RegistrationCard/RegistrationCard';
-import MainPage from '../views/MainPage/MainPage';
-import PatientCard from '../views/PatientCard/PatientCard';
-import InfoPage from '../views/InfoPage/InfoPage';
+const RegistrationCard = React.lazy(() =>
+  import('../views/RegistrationCard/RegistrationCard'),
+);
+const MainPage = React.lazy(() => import('../views/MainPage/MainPage'));
+const PatientCard = React.lazy(() =>
+  import('../views/PatientCard/PatientCard'),
+);
+const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
 const AppRouter: FC = () => {
   return (
