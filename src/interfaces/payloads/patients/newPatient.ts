@@ -23,7 +23,7 @@ export default interface NewPatientPayload {
   }[];
 
   client_policy_info: {
-    id: number | null;
+    id?: number | null;
     insurer_id: number | null;
     policyType_id: number | null;
     policyKind_id: number | null;
@@ -41,7 +41,7 @@ export default interface NewPatientPayload {
     date: string;
     endDate: string;
     origin: string;
-  };
+  }[];
 
   client_address_info?: {
     address: {

@@ -171,14 +171,16 @@ export const saveCardPatient = createAsyncThunk(
         weight: weight.toString(),
         growth: height.toString(),
 
-        client_document_info: {
-          documentType_id: passportType,
-          serial,
-          number,
-          date: fromDate,
-          origin: givenBy,
-          endDate: '2200-12-12',
-        },
+        client_document_info: [
+          {
+            documentType_id: passportType,
+            serial,
+            number,
+            date: fromDate,
+            origin: givenBy,
+            endDate: '2200-12-12',
+          }
+        ],
 
         ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
           social_status_info:
@@ -193,7 +195,7 @@ export const saveCardPatient = createAsyncThunk(
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
-            id: item.id ?? null,
+            ...(item.id) && {id: item.id},
             insurer_id: parseInt(item.cmo),
             policyType_id: item.type ? parseInt(item.type) : null,
             policyKind_id: item.timeType ? parseInt(item.timeType) : null,
@@ -215,7 +217,11 @@ export const saveCardPatient = createAsyncThunk(
           {
             address: {
               address_house: {
-                KLADRCode: addressRegistration.city,
+                KLADRCode: (addressRegistration.area === '7800000000000'
+                            || addressRegistration.area === '7700000000000'
+                            || addressRegistration.area === '9200000000000')
+                              ? addressRegistration.area
+                              : addressRegistration.city,
                 KLADRStreetCode: addressRegistration.street,
                 number: addressRegistration.houseNumber?.toString() || '',
                 corpus: '',
@@ -229,7 +235,11 @@ export const saveCardPatient = createAsyncThunk(
           {
             address: {
               address_house: {
-                KLADRCode: documentedAddress.city,
+                KLADRCode: (documentedAddress.area === '7800000000000'
+                            || documentedAddress.area === '7700000000000'
+                            || documentedAddress.area === '9200000000000')
+                              ? documentedAddress.area
+                              : documentedAddress.city,
                 KLADRStreetCode: documentedAddress.street,
                 corpus: documentedAddress.houseCharacter?.toString() || '',
                 litera: '',
@@ -242,7 +252,7 @@ export const saveCardPatient = createAsyncThunk(
           },
         ],
       };
-      // console.log('payload', payload);
+      console.log('payload', payload);
       await PatientsService.savePatient(payload);
     } catch (e) {
     } finally {

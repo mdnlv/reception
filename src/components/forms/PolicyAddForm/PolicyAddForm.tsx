@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
-import { Formik } from 'formik';
-import { Button, Col, Row, Select, Space } from 'antd';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
+import {Formik, useFormikContext} from 'formik';
+import {Button, Col, Row, Select, Space} from 'antd';
 import moment from 'moment';
 
-import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
+import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import { FormProps, ListOptionItem } from './types';
+import {FormProps, ListOptionItem} from './types';
+import {WizardStateType} from "../wizards/RegCardWizard/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -35,6 +36,18 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isCmoLoading,
   cmoType,
 }) => {
+  const [policyFormValues, setPolicyFormValues] = useState({
+    cmo: "",
+    from: "",
+    name: "",
+    note: "",
+    number: "",
+    serial: "",
+    timeType: "",
+    to: "",
+    type: ""
+  });
+
   const sectionTitle = () => {
     switch (policyKey) {
       case 'policyDms':
@@ -101,6 +114,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
         onAddPolicy(values, pathName);
       }}>
       {(formProps) => {
+        // console.log('formProps', formProps.values)
+        setPolicyFormValues(formProps.values)
         return (
           <div
             className={`form-section policy-${
@@ -124,7 +139,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
               </Col>
               <Col span={4}>
                 <FormField>
-                  <FastSearchSelect loading={isLoading} name={'timeType'}>
+                  <FastSearchSelect
+                    loading={isLoading}
+                    name={'timeType'}
+                    value={formProps.values.timeType}
+                  >
                     {getPropsOptions(policyTimeType)}
                   </FastSearchSelect>
                 </FormField>
@@ -147,14 +166,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   <FastDatePicker
                     disabled={isLoading}
                     value={
-                      formProps.values.to
-                        ? moment(formProps.values.to)
-                        : undefined
-                    }
-                    valueSet={
-                      parseInt(formProps.values.timeType) === 3
-                        ? '2200-01-01'
-                        : formProps.values.to
+                      policyFormValues.timeType === "3"
+                        ? formProps.values.to = '2200-01-01'
+                        : moment(formProps.values.to)
                     }
                     name={'to'}
                   />
@@ -167,19 +181,23 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   <FastInput
                     disabled={isLoading}
                     name={'serial'}
-                    valueSet={
-                      parseInt(formProps.values.timeType) === 3
-                        ? 'ЕП'
-                        : parseInt(formProps.values.timeType) === 1
-                        ? 'ВС'
-                        : formProps.values.serial
+                    value={
+                      policyFormValues.timeType === "1"
+                        ? formProps.values.serial = 'ВС'
+                        : policyFormValues.timeType === "3"
+                          ? formProps.values.serial = 'ЕП'
+                          : formProps.values.serial
                     }
                   />
                 </FormField>
               </Col>
               <Col span={18}>
                 <FormField label={'Номер'}>
-                  <FastInput disabled={isLoading} name={'number'} />
+                  <FastInput
+                    disabled={isLoading}
+                    name={'number'}
+                    value={formProps.values.number}
+                  />
                 </FormField>
               </Col>
             </Row>
@@ -189,14 +207,20 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   <FastSearchSelect
                     loading={isLoading || isCmoLoading}
                     disabled={isLoading}
-                    name={'cmo'}>
+                    name={'cmo'}
+                    value={formProps.values.cmo}
+                  >
                     {getPropsOptions(cmoType)}
                   </FastSearchSelect>
                 </FormField>
               </Col>
               <Col span={10}>
                 <FormField>
-                  <FastSearchSelect disabled={isLoading} name={'type'}>
+                  <FastSearchSelect
+                    disabled={isLoading}
+                    name={'type'}
+                    value={formProps.values.type}
+                  >
                     {getPropsOptions(policyType)}
                   </FastSearchSelect>
                 </FormField>
@@ -205,14 +229,22 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <Row className="form-row">
               <Col span={24}>
                 <FormField labelPosition="left" label="Название">
-                  <FastInput disabled={isLoading} name={'name'} />
+                  <FastInput
+                    disabled={isLoading}
+                    name={'name'}
+                    value={formProps.values.name}
+                  />
                 </FormField>
               </Col>
             </Row>
             <Row className="form-row">
               <Col span={24}>
                 <FormField labelPosition="left" label="Примечание">
-                  <FastInput disabled={isLoading} name={'note'} />
+                  <FastInput
+                    disabled={isLoading}
+                    name={'note'}
+                    value={formProps.values.note}
+                  />
                 </FormField>
               </Col>
             </Row>

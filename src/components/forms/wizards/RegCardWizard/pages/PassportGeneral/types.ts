@@ -1,5 +1,3 @@
-import PatientPolicy from '../../../../../../types/data/PatientPolicy';
-
 export interface PassportContactType {
   isMain: boolean;
   number: string;
