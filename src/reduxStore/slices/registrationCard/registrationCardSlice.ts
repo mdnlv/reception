@@ -374,25 +374,25 @@ const registrationCardSlice = createSlice({
             houseCharacter: transformedPatient.address[0].address.corpus,
             flatNumber: transformedPatient.address[0].address.flat,
             isDocumentedAddress: Boolean(
-              transformedPatient.address[0].addressId ===
-                transformedPatient.address[1].addressId,
+              transformedPatient.address[0]?.addressId ===
+                transformedPatient.address[1]?.addressId,
             ),
             freeInput: transformedPatient.address[0].freeInput,
           },
           documentedAddress: {
-            isKLADR: Boolean(!transformedPatient.address[1].freeInput),
+            isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
             city:
               state.form.passportGeneral.passportInfo.addressRegistration.city,
-            area: transformedPatient.address[1].address.KLADRCode,
-            street: transformedPatient.address[1].address.KLADRStreetCode,
-            houseNumber: transformedPatient.address[1].address.house,
-            houseCharacter: transformedPatient.address[1].address.corpus,
-            flatNumber: transformedPatient.address[1].address.flat,
+            area: transformedPatient.address[1]?.address.KLADRCode,
+            street: transformedPatient.address[1]?.address.KLADRStreetCode,
+            houseNumber: transformedPatient.address[1]?.address.house,
+            houseCharacter: transformedPatient.address[1]?.address.corpus,
+            flatNumber: transformedPatient.address[1]?.address.flat,
             isDocumentedAddress: Boolean(
-              transformedPatient.address[0].addressId ===
-                transformedPatient.address[1].addressId,
+              transformedPatient.address[0]?.addressId ===
+                transformedPatient.address[1]?.addressId,
             ),
-            freeInput: transformedPatient.address[1].freeInput,
+            freeInput: transformedPatient.address[1]?.freeInput,
           },
           ...transformedPatient.client_document_info,
         };

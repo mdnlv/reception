@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 import { useFormikContext } from 'formik';
@@ -25,7 +25,7 @@ import { PassportPolicyType } from './types';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { WizardStateType } from '../../types';
-import {KladrDocType} from "../../../../../../reduxStore/slices/registrationCard/types";
+import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
 
 import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
@@ -40,8 +40,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
-  //console.log('dms', dms)
-  //console.log('oms', oms)
 
   const {
     rbKladrDocumented,

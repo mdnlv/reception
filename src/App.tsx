@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Col, Layout, Row } from 'antd/lib';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -27,7 +27,10 @@ const App = () => {
               <SideMenu />
             </Col>
             <Col span={23}>
-              <AppRouter />
+              {/*todo add smooth fallback*/}
+              <Suspense fallback={''}>
+                <AppRouter />
+              </Suspense>
             </Col>
           </Row>
         </Layout.Content>
