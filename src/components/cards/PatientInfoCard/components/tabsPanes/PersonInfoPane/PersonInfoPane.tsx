@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Descriptions, List, Spin } from 'antd/lib';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import './styles.scss';
 import { PaneProps } from './types';
-import {
-  fetchKladr,
-  fetchKladrStreets,
-} from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
   kladrLoadingsSelector,
   kladrSelector,
 } from '../../../../../../reduxStore/slices/registrationCard/selectors';
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
-  const dispatch = useDispatch();
   const { rbKladrDocumented, rbKladrStreetsDocumented } = useSelector(
     kladrSelector,
   );
@@ -23,41 +18,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     isLoadingKladrStreetsDocumented,
     isLoadingKladrStreetsRegistration,
   } = useSelector(kladrLoadingsSelector);
-  useEffect(() => {
-    dispatch(fetchKladr({}));
-  }, []);
-
-  useEffect(() => {
-    if (patient) {
-      if (
-        patient.address &&
-        patient.address[0] &&
-        patient.address[0].freeInput !== '' &&
-        patient.address[0].address.KLADRCode &&
-        patient.address[0].address.KLADRStreetCode
-      ) {
-        dispatch(
-          fetchKladrStreets({
-            id: patient.address[0].address.KLADRCode,
-            type: 'documented',
-          }),
-        );
-      } else if (
-        patient.address &&
-        patient.address[1] &&
-        patient.address[1].freeInput !== '' &&
-        patient.address[1].address.KLADRCode &&
-        patient.address[1].address.KLADRStreetCode
-      ) {
-        dispatch(
-          fetchKladrStreets({
-            id: patient.address[1].address.KLADRCode,
-            type: 'registration',
-          }),
-        );
-      }
-    }
-  }, [patient]);
 
   const getMainPolicy = () => {
     return patient?.policy?.find((item) => item.id === 1);
@@ -107,7 +67,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
       ?.address.KLADRCode;
     const kladrStreetCode = patient?.address?.find((item) => item.type === type)
       ?.address.KLADRStreetCode;
-    console.log('PATIENT INFO', kladrCode, kladrStreetCode);
     const kladrCity = rbKladrDocumented.find((item) => item.id === kladrCode);
     const kladrStreet = rbKladrStreetsDocumented.find(
       (item) => item.id === kladrStreetCode,
@@ -116,7 +75,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     const street = kladrStreet?.name;
     const socr = kladrStreet?.socr;
 
-    // console.log('kladrItem', kladrItem)
     if (city) {
       address = `г. ${city}`;
       if (street && socr) {

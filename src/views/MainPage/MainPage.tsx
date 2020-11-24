@@ -9,6 +9,8 @@ import { eventsAppointments } from '../../reduxStore/slices/patientCard/selector
 import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
 import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
 
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
@@ -20,10 +22,44 @@ const MainPage: FC = () => {
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
+  const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchKladr({}));
+  }, []);
+
+  useEffect(() => {
+    // console.log('currentPatientMemo', currentPatientMemo);
     if (currentPatientMemo) {
+      if (
+        currentPatientMemo.address &&
+        currentPatientMemo.address[0] &&
+        currentPatientMemo.address[0].freeInput === '' &&
+        currentPatientMemo.address[0].address.KLADRCode &&
+        currentPatientMemo.address[0].address.KLADRStreetCode
+      ) {
+        dispatch(
+          fetchKladrStreets({
+            id: currentPatientMemo.address[0].address.KLADRCode,
+            type: 'documented',
+          }),
+        );
+      }
+      if (
+        currentPatientMemo.address &&
+        currentPatientMemo.address[1] &&
+        currentPatientMemo.address[1].freeInput === '' &&
+        currentPatientMemo.address[1].address.KLADRCode &&
+        currentPatientMemo.address[1].address.KLADRStreetCode
+      ) {
+        dispatch(
+          fetchKladrStreets({
+            id: currentPatientMemo.address[1].address.KLADRCode,
+            type: 'registration',
+          }),
+        );
+      }
       dispatch(fetchPatientEvents(currentPatientMemo.code));
     }
   }, [currentPatientMemo]);
@@ -55,7 +91,7 @@ const MainPage: FC = () => {
         {getInfoCard && (
           <Col span={7}>
             <PatientInfoCard
-              isLoading={loading.events}
+              isLoading={loading.events || isLoadingKladrStreetsDocumented || isLoadingKladrStreetsRegistration}
               patient={currentPatientMemo}
               appointments={currentPatientAppointments}
             />
