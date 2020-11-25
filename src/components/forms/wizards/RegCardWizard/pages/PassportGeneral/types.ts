@@ -18,6 +18,19 @@ export interface PassportPolicyType {
   note: string;
 }
 
+export interface PassportAddressType {
+  [key: string]: any;
+  isKLADR: boolean;
+  city: string;
+  area?: string;
+  street?: string;
+  houseNumber?: string | number;
+  houseCharacter?: string | number;
+  flatNumber: string | null | number;
+  isDocumentedAddress: boolean;
+  freeInput: string;
+}
+
 export default interface FormState {
   passportInfo: {
     passportType: string;
@@ -25,32 +38,8 @@ export default interface FormState {
     number: string;
     fromDate: string;
     givenBy: string;
-
-    addressRegistration: {
-      [key: string]: any;
-      isKLADR: boolean;
-      city: string;
-      area?: string;
-      street?: string;
-      houseNumber?: string | number;
-      houseCharacter?: string | number;
-      flatNumber: string | null | number;
-      isDocumentedAddress: boolean;
-      freeInput: string;
-    };
-
-    documentedAddress: {
-      [key: string]: any;
-      isKLADR: boolean;
-      city: string;
-      area?: string;
-      street?: string;
-      houseNumber?: string | number;
-      houseCharacter?: string | number;
-      flatNumber: string | null | number;
-      isDocumentedAddress: boolean;
-      freeInput: string;
-    };
+    addressRegistration: PassportAddressType;
+    documentedAddress: PassportAddressType;
   };
   contacts: PassportContactType[];
   policyOms: PassportPolicyType[];

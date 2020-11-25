@@ -14,6 +14,7 @@ import {FormState as SocialStatusFormState} from "../../../components/forms/Soci
 import PersonViewTypeFormState from "../../../components/forms/PersonViewTypeForm/types";
 import KladrItem from "../../../types/data/KladrItem";
 import KladrStreet from "../../../types/data/KladrStreet";
+import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 
 export type KladrDocType = 'documented' | 'registration';
 
@@ -64,8 +65,7 @@ interface FormState extends InitialRegFormState {
         isKladrLoading: boolean;
         isKladrNestedLoading: boolean;
         isKladrStreetsLoading: boolean;
-        cityDocumented: string;
-        streetDocumented: string;
+        documentedBuffer: PassportAddressType;
       };
       addressRegistration: {
         kladr: KladrItem[];

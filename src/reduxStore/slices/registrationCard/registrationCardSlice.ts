@@ -10,6 +10,7 @@ import { RootState } from '../../store';
 import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
 import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
+import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -268,24 +269,14 @@ const registrationCardSlice = createSlice({
     setFormSection: (state, action: PayloadAction<WizardStateType>) => {
       state.form = { ...state.form, ...action.payload };
     },
-    setCityBuffer: (
+    setDocumentedBuffer: (
       state,
       action: PayloadAction<{
-        value: string;
-        type: 'setCityBuffer';
+        value: PassportAddressType;
+        type: 'setDocumentedBuffer';
       }>,
     ) => {
-      state.form.data.passportGeneral.documentedAddress.cityDocumented =
-        action.payload.value;
-    },
-    setStreetBuffer: (
-      state,
-      action: PayloadAction<{
-        value: string;
-        type: 'setStreetBuffer';
-      }>,
-    ) => {
-      state.form.data.passportGeneral.documentedAddress.streetDocumented =
+      state.form.data.passportGeneral.documentedAddress.documentedBuffer =
         action.payload.value;
     },
     setLoading: (
@@ -497,8 +488,7 @@ export const {
   setKladrStreetsLoading,
   setFindPolicyLoading,
   setLoading,
-  setCityBuffer,
-  setStreetBuffer,
+  setDocumentedBuffer,
   fetchIdPatientError,
 } = registrationCardSlice.actions;
 

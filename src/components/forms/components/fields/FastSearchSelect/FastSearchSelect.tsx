@@ -10,7 +10,7 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
   return (
     <Select
       {...props}
-      value={props.valueSet ? props.valueSet : field.value}
+      value={field.value}
       disabled={props.isDisabled}
       onChange={(val) => {
         form.setValue(val);
