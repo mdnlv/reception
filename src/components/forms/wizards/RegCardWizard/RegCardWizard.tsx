@@ -10,6 +10,7 @@ import {
   fetchIdPatient,
   saveCardPatient,
   setFormSection,
+  resetRegCard
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
@@ -41,6 +42,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
 
   useEffect(() => {
     if (params.id !== 'new') {
+      dispatch(resetRegCard());
       dispatch(fetchIdPatient(parseInt(params.id)));
     }
   }, [params]);

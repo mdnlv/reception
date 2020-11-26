@@ -335,6 +335,10 @@ const registrationCardSlice = createSlice({
       state.form = { ...initialState.form };
       state.initialFormState = { ...initialState.initialFormState };
     },
+    resetRegCard: (state) => {
+      state.form = { ...initialState.form };
+      state.initialFormState = { ...initialState.initialFormState };
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
@@ -492,6 +496,7 @@ export const {
   setLoading,
   setDocumentedBuffer,
   fetchIdPatientError,
+  resetRegCard
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;
