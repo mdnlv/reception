@@ -26,11 +26,20 @@ const Address: FC<SectionProps> = ({
 }) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
+  const [cleanable, setCleanable] = useState(false);
   const form = useFormikContext<WizardStateType>();
   const {documentedBuffer} = useSelector(kladrSelector);
   const dispatch = useDispatch();
   const formValues = form.values.passportGeneral;
+  const formInitialValues = form.initialValues.passportGeneral.passportInfo[passportType];
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
+
+  useEffect(() => {
+    if (formInitialValues.area) {
+      form.setFieldValue(`${sectionValuePath}.area`, '');
+      form.setFieldValue(`${sectionValuePath}.area`, formInitialValues.area);
+    }
+  }, [formInitialValues])
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
@@ -70,8 +79,23 @@ const Address: FC<SectionProps> = ({
     }
   },[
     isDocumentedAddress,
-    formValues.passportInfo.documentedAddress.street
+    formValues.passportInfo.documentedAddress.street,
   ]);
+
+  useEffect(() => {
+    if (formInitialValues.street) {
+      if (formValues.passportInfo[passportType].area ===
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
+        getKladrStreets(formValues.passportInfo['documentedAddress'].area, 'documented');
+      } else {
+        getKladrStreets(formValues.passportInfo['documentedAddress'].city, 'documented');
+      }
+    }
+  }, [formInitialValues.street]);
 
   //clear select fields after top-level select changed
   useEffect(() => {
@@ -91,11 +115,12 @@ const Address: FC<SectionProps> = ({
       form.setFieldValue(`${sectionValuePath}.street`, '');
   }, [formValues.passportInfo[passportType].city]);
 
-  //очистка города после изменения области
+  // очистка города после изменения области
   useEffect(() => {
-    // console.log('passportType', passportType);
-    form.setFieldValue(`${sectionValuePath}.city`, '');
-    form.setFieldValue(`${sectionValuePath}.street`, '');
+    if (cleanable) {
+      form.setFieldValue(`${sectionValuePath}.city`, '');
+      form.setFieldValue(`${sectionValuePath}.street`, '');
+    }
   }, [formValues.passportInfo[passportType].area]);
 
   useEffect(() => {
@@ -209,6 +234,7 @@ const Address: FC<SectionProps> = ({
                   name={`${sectionValuePath}.area`}
                   value={setValue('area')}
                   placeholder={'Область'}
+                  onFocus={() => setCleanable(true)}
                   showSearch
                   filterOption
                   isDisabled={setDisabled()}
@@ -238,7 +264,6 @@ const Address: FC<SectionProps> = ({
                     );
                   }}
                   value={setValue('city')}
-                  // value={formValues.passportInfo[passportType].city}
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
