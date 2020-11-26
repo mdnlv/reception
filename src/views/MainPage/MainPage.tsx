@@ -30,7 +30,6 @@ const MainPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    // console.log('currentPatientMemo', currentPatientMemo);
     if (currentPatientMemo) {
       if (
         currentPatientMemo.address &&
@@ -43,20 +42,6 @@ const MainPage: FC = () => {
           fetchKladrStreets({
             id: currentPatientMemo.address[0].address.KLADRCode,
             type: 'documented',
-          }),
-        );
-      }
-      if (
-        currentPatientMemo.address &&
-        currentPatientMemo.address[1] &&
-        currentPatientMemo.address[1].freeInput === '' &&
-        currentPatientMemo.address[1].address.KLADRCode &&
-        currentPatientMemo.address[1].address.KLADRStreetCode
-      ) {
-        dispatch(
-          fetchKladrStreets({
-            id: currentPatientMemo.address[1].address.KLADRCode,
-            type: 'registration',
           }),
         );
       }
