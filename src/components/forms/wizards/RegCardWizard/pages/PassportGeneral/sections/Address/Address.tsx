@@ -36,15 +36,42 @@ const Address: FC<SectionProps> = ({
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
   }, [formValues.passportInfo.documentedAddress]);
 
-  // useEffect(() => {
-  //   console.log('documentedBuffer', documentedBuffer)
-  // }, [documentedBuffer]);
+  useEffect(() => {
+    if (isDocumentedAddress && passportType !== 'documentedAddress') {
+      if (formValues.passportInfo[passportType].area ===
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
+        getKladrStreets(formValues.passportInfo[passportType].area, getType());
+      } else {
+        getKladrNested(formValues.passportInfo[passportType].area, getType());
+      }
+    }
+  },[
+    isDocumentedAddress,
+    formValues.passportInfo.documentedAddress.city,
+    formValues.passportInfo.documentedAddress.area
+  ]);
 
   useEffect(() => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
-      console.log('Адрес проживания', formValues.passportInfo.addressRegistration)
+      if (formValues.passportInfo[passportType].area ===
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
+        getKladrStreets(formValues.passportInfo[passportType].area, getType());
+      } else {
+        getKladrStreets(formValues.passportInfo[passportType].city, getType());
+      }
     }
-  },[isDocumentedAddress, formValues.passportInfo.documentedAddress]);
+  },[
+    isDocumentedAddress,
+    formValues.passportInfo.documentedAddress.street
+  ]);
 
   //clear select fields after top-level select changed
   useEffect(() => {
@@ -70,22 +97,6 @@ const Address: FC<SectionProps> = ({
     form.setFieldValue(`${sectionValuePath}.city`, '');
     form.setFieldValue(`${sectionValuePath}.street`, '');
   }, [formValues.passportInfo[passportType].area]);
-
-  //что это такое?
-  useEffect(() => {
-    if (
-      kladrStreets.length === 0 &&
-      formValues.passportInfo[passportType].street !== '' &&
-      !isLoadingKladrStreets
-    ) {
-      // console.log(
-      //   kladrStreets,
-      //   isLoadingKladrStreets,
-      //   formValues.passportInfo[passportType].street,
-      // );
-      getKladrStreets(formValues.passportInfo[passportType].area, getType());
-    }
-  }, [formValues.passportInfo[passportType].street]);
 
   useEffect(() => {
     passportType !== 'documentedAddress' && formValues.passportInfo[passportType].isDocumentedAddress
