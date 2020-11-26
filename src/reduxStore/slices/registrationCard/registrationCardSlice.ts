@@ -348,6 +348,7 @@ const registrationCardSlice = createSlice({
         );
         state.initialFormState.personal = {
           ...state.form.personal,
+          code: transformedPatient.code,
           firstName: action.payload[0].firstName,
           lastName: action.payload[0].lastName,
           patrName: action.payload[0].patrName,
