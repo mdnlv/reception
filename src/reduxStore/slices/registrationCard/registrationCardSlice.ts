@@ -341,11 +341,12 @@ const registrationCardSlice = createSlice({
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
         const dmsFound = transformedPatient.policy.filter(
-          (item) => parseInt(item.type) !== 3,
-        );
-        const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) === 3,
         );
+        const omsFound = transformedPatient.policy.filter(
+          (item) => parseInt(item.type) !== 3,
+        );
+        console.log('omsFound', omsFound);
         state.initialFormState.personal = {
           ...state.form.personal,
           firstName: action.payload[0].firstName,
@@ -388,6 +389,7 @@ const registrationCardSlice = createSlice({
           ...transformedPatient.client_document_info,
         };
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
+        state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
           dmsFound.length > 0 ? [dmsFound[dmsFound.length - 1]] : [];
         state.initialFormState.passportGeneral.policyOms =
