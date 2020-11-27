@@ -357,7 +357,10 @@ const registrationCardSlice = createSlice({
           lastName: action.payload[0].lastName,
           patrName: action.payload[0].patrName,
           sex: action.payload[0].sex === 1 ? 1 : 0,
-          birthDate: action.payload[0].birthDate,
+          birthDate: transformedPatient.birthDate,
+          birthPlace: transformedPatient.birthPlace,
+          snils: transformedPatient.snils,
+          startCardDate: transformedPatient.chartBeginDate
         };
         state.initialFormState.passportGeneral.passportInfo = {
           ...(transformedPatient.address.length > 0) ? {

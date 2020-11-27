@@ -28,7 +28,7 @@ export default interface PatientResponse {
   birthPlace: string;
   chronicalMKB: string;
   diagNames: string;
-  chartBeginDate: Date;
+  chartBeginDate: string;
   rbInfoSource_id: null | number;
   notes: string;
   IIN: string;

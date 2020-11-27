@@ -92,9 +92,9 @@ const Address: FC<SectionProps> = ({
         '7700000000000' ||
         formValues.passportInfo[passportType].area ===
         '9200000000000') {
-        getKladrStreets(formValues.passportInfo['documentedAddress'].area, 'documented');
+        getKladrStreets(formValues.passportInfo['documentedAddress'].area, getType());
       } else {
-        getKladrStreets(formValues.passportInfo['documentedAddress'].city, 'documented');
+        getKladrStreets(formValues.passportInfo['documentedAddress'].city, getType());
       }
     }
   }, [formInitialValues.street]);

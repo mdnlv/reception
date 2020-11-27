@@ -12,6 +12,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     regAddress: '',
     livingAddress: '',
     notes: item.notes,
+    chartBeginDate: item.chartBeginDate,
 
     work: item.client_work_info.map(item => ({
       id: item.id,
