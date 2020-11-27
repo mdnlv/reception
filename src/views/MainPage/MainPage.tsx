@@ -34,7 +34,6 @@ const MainPage: FC = () => {
       if (
         currentPatientMemo.address &&
         currentPatientMemo.address[0] &&
-        currentPatientMemo.address[0].freeInput === '' &&
         currentPatientMemo.address[0].address.KLADRCode &&
         currentPatientMemo.address[0].address.KLADRStreetCode
       ) {
@@ -42,6 +41,19 @@ const MainPage: FC = () => {
           fetchKladrStreets({
             id: currentPatientMemo.address[0].address.KLADRCode,
             type: 'documented',
+          }),
+        );
+      }
+      if (
+        currentPatientMemo.address &&
+        currentPatientMemo.address[1] &&
+        currentPatientMemo.address[1].address.KLADRCode &&
+        currentPatientMemo.address[1].address.KLADRStreetCode
+      ) {
+        dispatch(
+          fetchKladrStreets({
+            id: currentPatientMemo.address[1].address.KLADRCode,
+            type: 'registration',
           }),
         );
       }
