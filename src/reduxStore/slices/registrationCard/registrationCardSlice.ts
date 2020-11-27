@@ -360,35 +360,44 @@ const registrationCardSlice = createSlice({
           birthDate: action.payload[0].birthDate,
         };
         state.initialFormState.passportGeneral.passportInfo = {
-          addressRegistration: {
-            isKLADR: Boolean(!transformedPatient.address[0].freeInput),
-            city:
+          ...(transformedPatient.address.length > 0) ? {
+            addressRegistration: {
+              isKLADR: Boolean(!transformedPatient.address[0].freeInput),
+              city:
               state.form.passportGeneral.passportInfo.addressRegistration.city,
-            area: transformedPatient.address[0].address.KLADRCode,
-            street: transformedPatient.address[0].address.KLADRStreetCode,
-            houseNumber: transformedPatient.address[0].address.house,
-            houseCharacter: transformedPatient.address[0].address.corpus,
-            flatNumber: transformedPatient.address[0].address.flat,
-            isDocumentedAddress: Boolean(
-              transformedPatient.address[0]?.addressId ===
+              area: transformedPatient.address[0].address.KLADRCode,
+              street: transformedPatient.address[0].address.KLADRStreetCode,
+              houseNumber: transformedPatient.address[0].address.house,
+              houseCharacter: transformedPatient.address[0].address.corpus,
+              flatNumber: transformedPatient.address[0].address.flat,
+              isDocumentedAddress: Boolean(
+                transformedPatient.address[0]?.addressId ===
                 transformedPatient.address[1]?.addressId,
-            ),
-            freeInput: transformedPatient.address[0].freeInput,
-          },
-          documentedAddress: {
-            isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
-            city:
+              ),
+              freeInput: transformedPatient.address[0].freeInput,
+            },
+            documentedAddress: {
+              isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
+              city:
               state.form.passportGeneral.passportInfo.addressRegistration.city,
-            area: transformedPatient.address[1]?.address.KLADRCode,
-            street: transformedPatient.address[1]?.address.KLADRStreetCode,
-            houseNumber: transformedPatient.address[1]?.address.house,
-            houseCharacter: transformedPatient.address[1]?.address.corpus,
-            flatNumber: transformedPatient.address[1]?.address.flat,
-            isDocumentedAddress: Boolean(
-              transformedPatient.address[0]?.addressId ===
+              area: transformedPatient.address[1]?.address.KLADRCode,
+              street: transformedPatient.address[1]?.address.KLADRStreetCode,
+              houseNumber: transformedPatient.address[1]?.address.house,
+              houseCharacter: transformedPatient.address[1]?.address.corpus,
+              flatNumber: transformedPatient.address[1]?.address.flat,
+              isDocumentedAddress: Boolean(
+                transformedPatient.address[0]?.addressId ===
                 transformedPatient.address[1]?.addressId,
-            ),
-            freeInput: transformedPatient.address[1]?.freeInput,
+              ),
+              freeInput: transformedPatient.address[1]?.freeInput,
+            }
+          } : {
+            addressRegistration: {
+              ...initialState.initialFormState.passportGeneral.passportInfo.addressRegistration
+            },
+            documentedAddress: {
+              ...initialState.initialFormState.passportGeneral.passportInfo.documentedAddress
+            }
           },
           ...transformedPatient.client_document_info,
         };

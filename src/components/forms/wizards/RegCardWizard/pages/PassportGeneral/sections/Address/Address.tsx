@@ -7,7 +7,7 @@ import { KladrDocType } from '../../../../../../../../reduxStore/slices/registra
 import { WizardStateType } from '../../../../types';
 import { SectionProps, KladrItem } from './types';
 import { kladrSelector } from '../../../../../../../../reduxStore/slices/registrationCard/selectors';
-import {setDocumentedBuffer} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {setDocumentedBuffer, fetchKladr} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 
 import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
@@ -38,8 +38,10 @@ const Address: FC<SectionProps> = ({
     if (formInitialValues.area) {
       form.setFieldValue(`${sectionValuePath}.area`, '');
       form.setFieldValue(`${sectionValuePath}.area`, formInitialValues.area);
+    } else {
+      dispatch(fetchKladr({}));
     }
-  }, [formInitialValues])
+  }, [formInitialValues.area])
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
@@ -198,7 +200,7 @@ const Address: FC<SectionProps> = ({
   };
 
   const setValue = (field: string) => {
-    if (isDocumentedAddress && passportType !== 'documentedAddress') {
+    if (isDocumentedAddress && passportType !== 'documentedAddress' && formValues.passportInfo['documentedAddress'].area) {
       formValues.passportInfo[passportType][field] = documentedBuffer[field];
       return formValues.passportInfo[passportType][field]
     } else {
