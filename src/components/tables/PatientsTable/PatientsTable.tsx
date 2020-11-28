@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useEffect } from 'react';
+import React, { FC, useMemo, useState, useEffect, useCallback } from 'react';
 import {Table, Spin} from 'antd/lib';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -22,6 +22,7 @@ const PatientsTable: FC<TableProps> = ({
     kladrSelector,
   );
   const {isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
+  const [cityArr, setCityArr] = useState([] as string[]);
   const columns = [
     {
       title: 'ФИО',
@@ -64,16 +65,22 @@ const PatientsTable: FC<TableProps> = ({
   ];
 
   useEffect(() => {
-    const cityArr = [] as string[];
-
+    const itemsArr = [] as string[];
     patients.map(
-      (item) =>
-        item.address[0]
-          && !cityArr.includes(item.address[0].address.KLADRCode)
-          && cityArr.push(item.address[0].address.KLADRCode)
+      (item) => {
+        if (item.address[0] && !itemsArr.includes(item.address[0].address.KLADRCode)) {
+          itemsArr.push(item.address[0].address.KLADRCode);
+        }
+      }
     );
-    console.log(cityArr)
+    setCityArr(itemsArr);
   }, [patients]);
+
+  useEffect(() => {
+    cityArr.map(item => {
+      dispatch(fetchKladrStreets({id: item, type: 'registration'}));
+    })
+  }, [cityArr]);
 
   const getSexName = (sex: 1 | 2) => {
     switch (sex) {
@@ -84,14 +91,14 @@ const PatientsTable: FC<TableProps> = ({
     }
   }
 
-  const getTypeAddress = (patient: Patient) => {
+  const getTypeAddress = useCallback((patient: Patient) => {
     return (
       patient?.address?.find((item) => item.type === 0)?.freeInput ||
       getAddress(patient)
     );
-  };
+  }, [rbKladrStreetsRegistration]);
 
-  const getAddress = (patient: Patient) => {
+  const getAddress = useCallback((patient: Patient) => {
     const number = patient?.address?.find((item) => item.type === 0)?.address
       .house;
     const corpus = patient?.address?.find((item) => item.type === 0)?.address
@@ -107,10 +114,9 @@ const PatientsTable: FC<TableProps> = ({
     const kladrStreetCode = patient?.address?.find((item) => item.type === 0)
       ?.address.KLADRStreetCode;
     const kladrCity = rbKladrRegistration.find((item) => item.id === kladrCode);
-    const kladrStreet = rbKladrRegistration.find(
+    const kladrStreet = rbKladrStreetsRegistration.find(
       (item) => item.id === kladrStreetCode,
     );
-    // console.log('kladrStreet', kladrStreet);
     const city = kladrCity?.name;
     const street = kladrStreet?.name;
     const socr = kladrStreet?.socr;
@@ -135,16 +141,10 @@ const PatientsTable: FC<TableProps> = ({
     }
 
     return address;
-  };
+  }, [rbKladrStreetsRegistration]);
 
   const getFormattedProps = useMemo(() => {
     return patients.map((item) => {
-      item && item.address[0] && dispatch(
-        fetchKladrStreets({
-          id: item.address[0].address.KLADRCode,
-          type: 'registration',
-        }),
-      );
       return {
         ...item,
         key: item.code,
@@ -161,7 +161,7 @@ const PatientsTable: FC<TableProps> = ({
         regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
-  }, [patients]);
+  }, [patients, rbKladrStreetsRegistration]);
 
   return (isLoadingKladrStreetsRegistration)
     ? (
