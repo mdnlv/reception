@@ -27,8 +27,6 @@ const PatientCard: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
 
-  // console.log('id ' + id);
-
   useEffect(() => {
     dispatch(fetchRbPersons());
     dispatch(fetchRbEventTypes());

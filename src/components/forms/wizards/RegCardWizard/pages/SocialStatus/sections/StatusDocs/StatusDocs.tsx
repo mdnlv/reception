@@ -1,34 +1,19 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Col, Row, Select } from 'antd';
+import { useFormikContext } from 'formik';
+
 import { TrustedDoc } from '../../../../../../SocialStatusForm/types';
+import { WizardStateType } from '../../../../types';
+import {SectionProps, ListOptionProps, DROPDOWN_TITLE, LABELS} from './types';
+
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
-import { useFormikContext } from 'formik';
-import { WizardStateType } from '../../../../types';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 
-interface ListOptionProps {
-  id: number;
-  name: string;
-}
-
-interface SectionProps {
-  documentTypesList: ListOptionProps[];
-}
-
-const DROPDOWN_TITLE = 'Документ, подтверждающий соц.статус';
-
-enum LABELS {
-  SERIAL = 'Серия',
-  NUMBER = 'Номер',
-  DATE = 'Дата',
-  GIVEN = 'Выдан',
-}
-
-const StatusDocs: FC<SectionProps> = (props) => {
+const StatusDocs: FC<SectionProps> = ({documentTypesList}) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.trustedDoc;
   const sectionValuePath = `socialStatus.trustedDoc`;
@@ -80,7 +65,7 @@ const StatusDocs: FC<SectionProps> = (props) => {
                 <Col span={3}>
                   <FormField>
                     <FastSearchSelect name={getSectionPath(index, 'type')}>
-                      {propsList(props.documentTypesList)}
+                      {propsList(documentTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>

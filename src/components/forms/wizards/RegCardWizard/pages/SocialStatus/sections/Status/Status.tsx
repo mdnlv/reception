@@ -1,38 +1,24 @@
-import React, { useCallback, useMemo } from 'react';
-import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { Col, Divider, Row, Select } from 'antd';
-import FormField from '../../../../../../components/FormField/FormField';
 import { useFormikContext } from 'formik';
+
 import { WizardStateType } from '../../../../types';
+import { SocialStatus } from '../../../../../../SocialStatusForm/types';
+import {StatusProps, ListOptionProps, LABELS, DROPDOWN_TITLE} from "./types";
+
+import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
+import FormField from '../../../../../../components/FormField/FormField';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import { SocialStatus } from '../../../../../../SocialStatusForm/types';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
-interface ListOptionProps {
-  id: number;
-  name: string;
-}
-
-interface StatusProps {
-  socialTypesList: ListOptionProps[];
-  socialClassesList: ListOptionProps[];
-  isLoadingClasses: boolean;
-  isLoadingTypes: boolean;
-}
-
-const DROPDOWN_TITLE = 'Соц.статус';
-
-enum LABELS {
-  CLASS = 'Класс',
-  TYPE = 'Тип',
-  START_DATE = 'Дата начала',
-  END_DATE = 'Дата окончания',
-  NOTE = 'Примечание',
-}
-
-const Status: React.FC<StatusProps> = (props) => {
+const Status: React.FC<StatusProps> = ({
+  socialTypesList,
+  socialClassesList,
+  isLoadingClasses,
+  isLoadingTypes
+}) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
   const sectionValuePath = `socialStatus.socialStatus`;
@@ -66,7 +52,7 @@ const Status: React.FC<StatusProps> = (props) => {
         </Select.Option>
       ));
     },
-    [props.socialTypesList],
+    [socialTypesList],
   );
 
   const StatusValue = useMemo(() => {
@@ -83,18 +69,18 @@ const Status: React.FC<StatusProps> = (props) => {
               <Col span={6}>
                 <FormField label={LABELS.CLASS}>
                   <FastSearchSelect
-                    loading={props.isLoadingClasses}
+                    loading={isLoadingClasses}
                     name={getSelectionPath(index, 'class')}>
-                    {propsList(props.socialClassesList)}
+                    {propsList(socialClassesList)}
                   </FastSearchSelect>
                 </FormField>
               </Col>
               <Col span={6}>
                 <FormField label={LABELS.TYPE}>
                   <FastSearchSelect
-                    loading={props.isLoadingTypes}
+                    loading={isLoadingTypes}
                     name={getSelectionPath(index, 'type')}>
-                    {propsList(props.socialTypesList)}
+                    {propsList(socialTypesList)}
                   </FastSearchSelect>
                 </FormField>
               </Col>
@@ -122,10 +108,10 @@ const Status: React.FC<StatusProps> = (props) => {
   }, [
     formValues,
     getSelectionPath,
-    props.socialTypesList,
-    props.socialClassesList,
-    props.isLoadingTypes,
-    props.isLoadingClasses,
+    socialTypesList,
+    socialClassesList,
+    isLoadingTypes,
+    isLoadingClasses,
   ]);
 
   return (

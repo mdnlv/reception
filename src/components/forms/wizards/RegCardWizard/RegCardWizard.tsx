@@ -56,7 +56,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       enableReinitialize={true}
       initialValues={store}
       onSubmit={(values) => {
-        // console.log('values', values)
         dispatch(setFormSection(values));
         dispatch(saveCardPatient());
       }}>

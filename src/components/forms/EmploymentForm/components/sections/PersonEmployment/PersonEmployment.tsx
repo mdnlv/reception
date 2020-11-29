@@ -13,7 +13,7 @@ const PersonEmployment: FC = () => {
 
   return (
     <div className={'form-section'}>
-      <DropDownContent title={'Занятось'}>
+      <DropDownContent title={'Занятость'}>
         <FormArrayField
           values={form.values.employment}
           name={'employements'}

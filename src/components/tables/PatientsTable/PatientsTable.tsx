@@ -65,6 +65,10 @@ const PatientsTable: FC<TableProps> = ({
   ];
 
   useEffect(() => {
+    console.log('patients', patients)
+  }, [patients]);
+
+  useEffect(() => {
     const itemsArr = [] as string[];
     patients.map(
       (item) => {

@@ -6,3 +6,12 @@ export enum LABELS {
   DATE = 'Дата',
   GIVEN = 'Выдан',
 }
+
+export interface ListOptionProps {
+  id: number;
+  name: string;
+}
+
+export interface SectionProps {
+  documentTypesList: ListOptionProps[];
+}

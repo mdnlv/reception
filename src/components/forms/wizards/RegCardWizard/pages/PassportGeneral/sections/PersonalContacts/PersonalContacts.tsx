@@ -15,7 +15,6 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
-  // console.log('formValues', form.values.passportGeneral)
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;

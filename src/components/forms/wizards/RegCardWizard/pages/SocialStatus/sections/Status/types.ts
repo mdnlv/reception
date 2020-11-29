@@ -7,3 +7,15 @@ export enum LABELS {
   END_DATE = 'Дата окончания',
   NOTE = 'Примечание',
 }
+
+export interface ListOptionProps {
+  id: number;
+  name: string;
+}
+
+export interface StatusProps {
+  socialTypesList: ListOptionProps[];
+  socialClassesList: ListOptionProps[];
+  isLoadingClasses: boolean;
+  isLoadingTypes: boolean;
+}

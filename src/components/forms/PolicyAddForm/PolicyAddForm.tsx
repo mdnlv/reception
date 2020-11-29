@@ -114,7 +114,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
         onAddPolicy(values, pathName);
       }}>
       {(formProps) => {
-        // console.log('formProps', formProps.values)
         setPolicyFormValues(formProps.values)
         return (
           <div

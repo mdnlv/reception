@@ -411,7 +411,24 @@ const registrationCardSlice = createSlice({
         state.initialFormState.passportGeneral.policyOms =
           omsFound.length > 0 ? [omsFound[omsFound.length - 1]] : [];
         state.initialFormState.socialStatus.socialStatus =
-          transformedPatient.socialStatus;
+          transformedPatient.socialStatus.map((item) => ({
+            id: item.id,
+            serialNumber: item.serialNumber,
+            number: item.number,
+            note: item.note,
+            class: item.class,
+            type: item.type,
+            fromDate: item.fromDate,
+            endDate: item.endDate,
+          }));
+        state.initialFormState.socialStatus.trustedDoc =
+          transformedPatient.socialStatus.map((item) => ({
+            type: item.document.id.toString(),
+            serial: item.document.serial,
+            number: item.document.number,
+            date: item.document.date,
+            givenBy: item.document.origin,
+          }));
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
           (item) => ({
             isMain: item.isPrimary === 1,

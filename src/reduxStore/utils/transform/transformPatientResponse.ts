@@ -37,6 +37,13 @@ export const transformPatientResponse = (item: PatientResponse) => {
         type: item.socStatusType_id?.toString(),
         fromDate: item.begDate,
         endDate: item.endDate,
+        document: {
+          id: item.document.id,
+          serial: item.document.serial,
+          number: item.document.number,
+          date: item.document.date,
+          origin: item.document.origin
+        }
       })) || [],
 
     policy:
