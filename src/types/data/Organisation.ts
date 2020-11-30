@@ -3,4 +3,6 @@ export default interface Organisation {
   fullName: string;
   shortName: string;
   isInsurer: boolean;
+  inn: string;
+  ogrn: string;
 }

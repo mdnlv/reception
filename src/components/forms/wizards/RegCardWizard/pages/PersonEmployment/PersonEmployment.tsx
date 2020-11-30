@@ -1,8 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import Employment from './sections/Employment/Employment';
-import Hazard from './sections/Hazard/Hazard';
 import { useSelector } from 'react-redux';
+
 import {
   detailedHurtFactorTypesSelector,
   detailedHurtTypesSelector,
@@ -10,7 +9,10 @@ import {
   hazardLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 
-const PersonEmployment: React.FC = (props) => {
+import Employment from './sections/Employment/Employment';
+import Hazard from './sections/Hazard/Hazard';
+
+const PersonEmployment: React.FC = () => {
   const orgsList = useSelector(detailedOrganisationsSelector);
   const hurtTypesList = useSelector(detailedHurtTypesSelector);
   const hurtFactorTypesList = useSelector(detailedHurtFactorTypesSelector);

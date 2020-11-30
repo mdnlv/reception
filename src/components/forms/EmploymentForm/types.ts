@@ -2,8 +2,8 @@ export interface EmploymentItem {
   organization: string;
   position: string;
   experience: number;
-  inn: string;
-  ogrn: string;
+  inn?: string;
+  ogrn?: string;
 }
 
 export interface EmploymentHazardItem {

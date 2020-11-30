@@ -15,8 +15,10 @@ export const transformPatientResponse = (item: PatientResponse) => {
     chartBeginDate: item.chartBeginDate,
 
     work: item.client_work_info.map(item => ({
-      id: item.id,
-      freeInput: item.freeInput
+      id: item.org_id,
+      freeInput: item.freeInput,
+      post: item.post,
+      stage: item.stage
     })),
 
     client_document_info: item.client_document_info && {

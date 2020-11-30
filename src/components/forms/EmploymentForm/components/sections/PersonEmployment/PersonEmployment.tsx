@@ -16,7 +16,7 @@ const PersonEmployment: FC = () => {
       <DropDownContent title={'Занятость'}>
         <FormArrayField
           values={form.values.employment}
-          name={'employements'}
+          name={'employments'}
           renderChild={(key, index) => (
             <div key={key}>
               <Row gutter={16}>

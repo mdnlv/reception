@@ -17,6 +17,8 @@ export const detailedOrganisationsSelector = createSelector(
     orgs.map((item) => ({
       id: item.id,
       name: item.shortName,
+      inn: item.inn,
+      ogrn: item.ogrn
     })),
 );
 

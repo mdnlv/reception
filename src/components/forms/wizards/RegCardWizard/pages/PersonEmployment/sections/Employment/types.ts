@@ -10,6 +10,8 @@ export enum LABELS {
 export interface ListOptionProps {
   id: number;
   name: string;
+  inn?: string;
+  ogrn?: string;
 }
 
 export interface SectionProps {

@@ -1,14 +1,16 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import StatusDocs from './sections/StatusDocs/StatusDocs';
-import Status from './sections/Status/Status';
 import { useSelector } from 'react-redux';
+
 import {
   detailedDocumentTypesSelector,
   detailedSocialClassesSelector,
   detailedSocialTypesSelector,
   socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
+
+import StatusDocs from './sections/StatusDocs/StatusDocs';
+import Status from './sections/Status/Status';
 
 const SocialStatus: React.FC = () => {
   const socialTypesList = useSelector(detailedSocialTypesSelector);

@@ -429,6 +429,13 @@ const registrationCardSlice = createSlice({
             date: item.document.date,
             givenBy: item.document.origin,
           }));
+        state.initialFormState.employment.employment = transformedPatient.work.map(
+          (item) => ({
+            organization: item.id ? item.id : item.freeInput,
+            position: item.post,
+            experience: item.stage
+          })
+        );
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
           (item) => ({
             isMain: item.isPrimary === 1,

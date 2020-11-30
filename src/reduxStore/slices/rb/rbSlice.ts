@@ -330,6 +330,8 @@ const rbSlice = createSlice({
           fullName: item.fullName,
           shortName: item.shortName,
           isInsurer: !!item.isInsurer,
+          inn: item.INN,
+          ogrn: item.OGRN
         }));
       }
     });
