@@ -320,6 +320,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                       name={`${sectionValuePath}.houseNumber`}
+                      placeholder='Дом'
                       disabled={
                         setDisabled() ||
                         !formValues.passportInfo[passportType].area ||
@@ -333,6 +334,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                       name={`${sectionValuePath}.houseCharacter`}
+                      placeholder='Корпус'
                       disabled={
                         setDisabled() ||
                         !formValues.passportInfo[passportType].area ||
@@ -346,6 +348,7 @@ const Address: FC<SectionProps> = ({
                   <FormField>
                     <FastInput
                       name={`${sectionValuePath}.flatNumber`}
+                      placeholder='Квартира'
                       disabled={
                         setDisabled() ||
                         !formValues.passportInfo[passportType].area ||

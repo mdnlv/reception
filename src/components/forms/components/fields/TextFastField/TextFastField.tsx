@@ -4,26 +4,21 @@ import { Input } from 'antd';
 
 import {FieldProps} from "./types";
 
-const TextFastField: React.FC<FieldProps> = ({
-  value,
-  onChange,
-  disabled,
-  name
-}) => {
+const TextFastField: React.FC<FieldProps> = (props) => {
   const [innerValue, setInnerValue] = useState('');
 
   useEffect(() => {
-    if (value) {
-      setInnerValue(value);
+    if (props.value) {
+      setInnerValue(props.value);
     } else {
       setInnerValue('');
     }
-  }, [value]);
+  }, [props.value]);
 
   const debouncedCallback = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (onChange) {
-        onChange(event);
+      if (props.onChange) {
+        props.onChange(event);
       }
     },
     200,
@@ -42,10 +37,10 @@ const TextFastField: React.FC<FieldProps> = ({
 
   return (
     <Input
-      {...{value, onChange, disabled, name}}
-      disabled={disabled}
+      {...props}
+      disabled={props.disabled}
       value={innerValue}
-      name={name}
+      name={props.name}
       onChange={handleOnChange}
     />
   );

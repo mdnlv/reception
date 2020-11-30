@@ -5,13 +5,13 @@ import { FastInputProps } from './types';
 
 import TextFastField from '../TextFastField/TextFastField';
 
-const FastInput: React.FC<FastInputProps> = ({ name, disabled }) => {
-  const [field, , form] = useField<string>(name);
+const FastInput: React.FC<FastInputProps> = (props) => {
+  const [field, , form] = useField<string>(props.name);
 
   return (
     <TextFastField
-      {...{ name, disabled }}
-      disabled={disabled}
+      {...props}
+      disabled={props.disabled}
       name={field.name}
       value={field.value}
       onChange={(event) => {
