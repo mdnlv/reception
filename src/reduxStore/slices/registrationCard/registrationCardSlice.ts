@@ -183,16 +183,16 @@ export const saveCardPatient = createAsyncThunk(
           }
         ],
 
-        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
-          social_status_info:
-            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-              type: item.type ? parseInt(item.type) : null,
-              class: item.class ? parseInt(item.class) : null,
-              begDate: item.fromDate,
-              endDate: item.endDate,
-              notes: item.note ?? null,
-            }))
-        },
+        // ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
+        //   social_status_info:
+        //     state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+        //       type: item.type ? parseInt(item.type) : null,
+        //       class: item.class ? parseInt(item.class) : null,
+        //       begDate: item.fromDate,
+        //       endDate: item.endDate,
+        //       notes: item.note ?? null,
+        //     }))
+        // },
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({

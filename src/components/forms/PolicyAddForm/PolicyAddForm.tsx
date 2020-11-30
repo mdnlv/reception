@@ -6,12 +6,12 @@ import moment from 'moment';
 import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
-import {WizardStateType} from "../wizards/RegCardWizard/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
+import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInput";
 
 const initialState: PassportPolicyType = {
   timeType: '',
@@ -36,6 +36,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isCmoLoading,
   cmoType,
 }) => {
+  const [policyMask, setPolicyMask] = useState('' as string);
   const [policyFormValues, setPolicyFormValues] = useState({
     cmo: "",
     from: "",
@@ -47,6 +48,17 @@ const PolicyAddForm: React.FC<FormProps> = ({
     to: "",
     type: ""
   });
+
+  useEffect(() => {
+    const timeType = policyFormValues.timeType;
+    if (timeType === "1" || policyFormValues.serial === 'ВС') {
+      setPolicyMask('111111111')
+    } else if (timeType === "3" || policyFormValues.serial === 'ЕП') {
+      setPolicyMask('111111111111')
+    } else {
+      setPolicyMask('')
+    }
+  }, [policyFormValues.timeType, policyFormValues.serial]);
 
   const sectionTitle = () => {
     switch (policyKey) {
@@ -192,11 +204,19 @@ const PolicyAddForm: React.FC<FormProps> = ({
               </Col>
               <Col span={18}>
                 <FormField label={'Номер'}>
-                  <FastInput
-                    disabled={isLoading}
-                    name={'number'}
-                    value={formProps.values.number}
-                  />
+                  {policyMask
+                    ? (<FastMaskedInput
+                        mask={policyMask}
+                        disabled={isLoading}
+                        name={'number'}
+                        value={formProps.values.number}
+                      />)
+                    : (<FastInput
+                        disabled={isLoading}
+                        name={'number'}
+                        value={formProps.values.number}
+                      />)
+                  }
                 </FormField>
               </Col>
             </Row>

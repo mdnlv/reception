@@ -4,7 +4,7 @@ export interface SectionProps {
 }
 
 export enum LABELS {
-  PASSPORT = 'Паспорт',
+  PASSPORT = 'Тип документа',
   SERIAL = 'Серия',
   NUMBER = 'Номер',
   GIVEN_DATE = 'Дата выдачи',

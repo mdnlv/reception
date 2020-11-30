@@ -4,26 +4,21 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { FieldProps } from './types';
 
-const MaskedInputFastField: React.FC<FieldProps> = ({
-  value,
-  name,
-  onChange,
-  mask,
-}) => {
+const MaskedInputFastField: React.FC<FieldProps> = (props) => {
   const [innerValue, setInnerValue] = useState('');
 
   useEffect(() => {
-    if (value) {
-      setInnerValue(value);
+    if (props.value) {
+      setInnerValue(props.value);
     } else {
       setInnerValue('');
     }
-  }, [value]);
+  }, [props.value]);
 
   const debouncedCallback = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (onChange) {
-        onChange(event);
+      if (props.onChange) {
+        props.onChange(event);
       }
     },
     200,
@@ -42,11 +37,11 @@ const MaskedInputFastField: React.FC<FieldProps> = ({
 
   return (
     <MaskedInput
-      {...{ value, onChange, mask }}
+      {...props}
       value={innerValue}
       onChange={handleOnChange}
-      mask={mask}
-      name={name}
+      mask={props.mask}
+      name={props.name}
     />
   );
 };
