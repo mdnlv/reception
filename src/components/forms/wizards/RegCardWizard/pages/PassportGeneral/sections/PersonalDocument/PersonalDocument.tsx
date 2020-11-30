@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
@@ -18,6 +18,10 @@ const PersonalDocument: FC<SectionProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
+
+  // useEffect(() => {
+  //   console.log('documentTypes', documentTypes)
+  // }, [documentTypes])
 
   const documentTypeOptions = useMemo(() => {
     return documentTypes.map((item) => (

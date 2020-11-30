@@ -17,7 +17,7 @@ import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/Pe
 import SocialStatus from '../../../../PersonDocumentsForm/components/sections/SocialStatus/SocialStatus';
 import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
 import Status from '../SocialStatus/sections/Status/Status';
-import PersonalDocument from '../PassportGeneral/sections/PersonalDocuments/PersonalDocuments';
+import PersonalDocument from '../PassportGeneral/sections/PersonalDocument/PersonalDocument';
 import { RootState } from '../../../../../../reduxStore/store';
 
 const PersonDocuments: React.FC = () => {

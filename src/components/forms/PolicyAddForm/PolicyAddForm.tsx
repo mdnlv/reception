@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState, useEffect} from 'react';
-import {Formik, useFormikContext} from 'formik';
+import {Formik} from 'formik';
 import {Button, Col, Row, Select, Space} from 'antd';
 import moment from 'moment';
 
@@ -49,6 +49,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
     type: ""
   });
 
+  // useEffect(() => {
+  //   console.log('cmoType', cmoType)
+  // }, [cmoType])
+
   useEffect(() => {
     const timeType = policyFormValues.timeType;
     if (timeType === "1" || policyFormValues.serial === 'ВС') {
@@ -76,7 +80,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           {item.name}
         </Select.Option>
       )),
-    [policyTimeType, policyType],
+    [policyTimeType, policyType, cmoType],
   );
 
   const onFindPolicyHandler = useCallback(
@@ -224,7 +228,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
               <Col span={14}>
                 <FormField label="СМО" labelPosition="left">
                   <FastSearchSelect
+                    filterOption
                     loading={isLoading || isCmoLoading}
+                    optionFilterProp={'name'}
+                    showSearch
                     disabled={isLoading}
                     name={'cmo'}
                     value={formProps.values.cmo}

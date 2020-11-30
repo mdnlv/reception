@@ -28,7 +28,7 @@ import { WizardStateType } from '../../types';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
 
 import Address from './sections/Address/Address';
-import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
+import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 
