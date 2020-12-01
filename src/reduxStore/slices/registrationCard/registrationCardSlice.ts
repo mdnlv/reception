@@ -183,6 +183,8 @@ export const saveCardPatient = createAsyncThunk(
           }
         ],
 
+        social_status_info: [],
+
         // ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
         //   social_status_info:
         //     state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
@@ -229,8 +231,8 @@ export const saveCardPatient = createAsyncThunk(
                 litera: addressRegistration.houseCharacter?.toString() || '',
               },
               flat: addressRegistration.flatNumber?.toString() || '',
+              isVillager: +!addressRegistration.isKLADR,
             },
-            isVillager: +!addressRegistration.isKLADR,
             type: 0,
           },
           {
@@ -247,8 +249,8 @@ export const saveCardPatient = createAsyncThunk(
                 number: documentedAddress.houseNumber?.toString() || '',
               },
               flat: documentedAddress.flatNumber?.toString() || '',
+              isVillager: +!documentedAddress.isKLADR,
             },
-            isVillager: +!documentedAddress.isKLADR,
             type: 1,
           },
         ],
@@ -352,7 +354,7 @@ const registrationCardSlice = createSlice({
         );
         state.initialFormState.personal = {
           ...state.form.personal,
-          code: transformedPatient.code,
+          code: transformedPatient.code.toString(),
           firstName: action.payload[0].firstName,
           lastName: action.payload[0].lastName,
           patrName: action.payload[0].patrName,
@@ -431,7 +433,7 @@ const registrationCardSlice = createSlice({
           }));
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
-            organization: item.id ? item.id : item.freeInput,
+            organization: item.id ? item.id.toString() : item.freeInput,
             position: item.post,
             experience: item.stage
           })

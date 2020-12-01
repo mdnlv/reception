@@ -31,7 +31,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
     return `${sectionValuePath}[${index}].${fieldChain}`;
   };
 
-  const changeFieldsById = (values) => {
+  const changeFieldsById = (values: typeof formValues) => {
     for (let i = 0; i < values.length; i++) {
       const itemArr = orgsList.find(item => item.id === parseInt(values[i].organization));
       form.setFieldValue(`${sectionValuePath}[${i}].inn`, itemArr?.inn);

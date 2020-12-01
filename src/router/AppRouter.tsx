@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Result } from 'antd';
+import DeferredCallsPage from "../views/DeferredCallsPage/DeferredCallsPage";
+import AuthPage from "../views/AuthPage/AuthPage";
 
 const RegistrationCard = React.lazy(() =>
   import('../views/RegistrationCard/RegistrationCard'),
@@ -14,8 +16,14 @@ const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 const AppRouter: FC = () => {
   return (
     <Switch>
+      <Route path={"/auth"}>
+          <AuthPage/>
+      </Route>
       <Route exact path="/regCard/:id">
         <RegistrationCard />
+      </Route>
+      <Route path="/deferred-calls">
+        <DeferredCallsPage/>
       </Route>
       <Route exact path="/info">
         <InfoPage />

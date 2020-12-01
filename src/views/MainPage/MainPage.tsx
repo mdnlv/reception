@@ -15,6 +15,7 @@ import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/se
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
+import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferredCallsSlice";
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
@@ -24,6 +25,10 @@ const MainPage: FC = () => {
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchDeferredQueue())
+  }, [])
 
   useEffect(() => {
     dispatch(fetchKladr({}));
