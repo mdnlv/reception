@@ -34,7 +34,8 @@ export interface PassportAddressType {
 export default interface FormState {
   passportInfo: {
     passportType: string;
-    serial: string;
+    serialFirst: string;
+    serialSecond: string;
     number: string;
     fromDate: string;
     givenBy: string;

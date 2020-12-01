@@ -46,8 +46,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
     serial: "",
     timeType: "",
     to: "",
-    type: ""
+    type: ''
   });
+
+
 
   useEffect(() => {
     const timeType = policyFormValues.timeType;
@@ -149,9 +151,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
                 </Button>
               </Col>
               <Col span={4}>
-                <FormField>
+                <FormField label={'Тип'}>
                   <FastSearchSelect
+                    allowClear
                     loading={isLoading}
+                    placeholder={"Тип"}
                     name={'timeType'}
                     value={formProps.values.timeType}
                   >

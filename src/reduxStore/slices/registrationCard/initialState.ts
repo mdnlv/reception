@@ -84,7 +84,8 @@ const initialState: RegistrationCardStateType = {
     passportGeneral: {
       passportInfo: {
         passportType: '',
-        serial: '',
+        serialFirst: '',
+        serialSecond: '',
         number: '',
         fromDate: '',
         givenBy: '',
@@ -190,7 +191,8 @@ const initialState: RegistrationCardStateType = {
     passportGeneral: {
       passportInfo: {
         passportType: '',
-        serial: '',
+        serialFirst: '',
+        serialSecond: '',
         number: '',
         fromDate: '',
         givenBy: '',

@@ -19,10 +19,6 @@ const PersonalDocument: FC<SectionProps> = ({
   const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
 
-  // useEffect(() => {
-  //   console.log('documentTypes', documentTypes)
-  // }, [documentTypes])
-
   const documentTypeOptions = useMemo(() => {
     return documentTypes.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
@@ -47,9 +43,14 @@ const PersonalDocument: FC<SectionProps> = ({
             </FastSearchSelect>
           </FormField>
         </Col>
-        <Col span={5}>
+        <Col span={2}>
           <FormField label={LABELS.SERIAL}>
-            <FastInput name={`${selectionValuePath}.serial`} />
+            <FastInput name={`${selectionValuePath}.serialFirst`} />
+          </FormField>
+        </Col>
+        <Col span={2}>
+          <FormField label={LABELS.SERIAL}>
+            <FastInput name={`${selectionValuePath}.serialSecond`} />
           </FormField>
         </Col>
         <Col span={7}>

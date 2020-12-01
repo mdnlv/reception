@@ -167,7 +167,7 @@ const PatientsTable: FC<TableProps> = ({
     });
   }, [patients, rbKladrStreetsRegistration]);
 
-  return (isLoadingKladrStreetsRegistration)
+  return (isLoadingKladrStreetsRegistration && patients.length === 0)
     ? (
         <div className={'person-info-loading__wrapper'}>
           <Spin />
@@ -175,7 +175,7 @@ const PatientsTable: FC<TableProps> = ({
     )
     : (
       <Table
-        loading={isLoading || isLoadingKladrStreetsRegistration}
+        loading={isLoading}
         dataSource={getFormattedProps}
         columns={columns}
         rowSelection={{

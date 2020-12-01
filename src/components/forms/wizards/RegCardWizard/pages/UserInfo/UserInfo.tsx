@@ -37,10 +37,28 @@ const UserInfo: React.FC = () => {
   ));
 
   const validateSnils = (value: string) => {
+    console.log('Snilsvalue', value)
     const valueInt = value.replace(/-/g, "").replace(/\s/g, "");
     let sum = 0;
+    let checkDigit = 0;
+    let error;
 
-    // return error;
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(valueInt[i]) * (9 - i);
+    }
+    if (sum < 100) {
+      checkDigit = sum;
+    } else if (sum > 101) {
+      checkDigit = parseInt(sum % 101);
+      if (checkDigit === 100) {
+        checkDigit = 0
+      }
+    }
+    if (checkDigit !== parseInt(valueInt.slice(-2))) {
+      error = 'Неправильно контрольное число'
+    }
+
+    return error;
   };
 
   return (
@@ -122,7 +140,7 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11" validate={validateSnils}/>
+          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>

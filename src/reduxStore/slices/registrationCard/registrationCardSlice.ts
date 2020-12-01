@@ -137,7 +137,8 @@ export const saveCardPatient = createAsyncThunk(
       const state = thunkAPI.getState() as RootState;
       const {
         passportType,
-        serial,
+        serialFirst,
+        serialSecond,
         number,
         fromDate,
         givenBy,
@@ -175,7 +176,7 @@ export const saveCardPatient = createAsyncThunk(
         client_document_info: [
           {
             documentType_id: passportType,
-            serial,
+            serial: serialFirst.concat(serialSecond),
             number,
             date: fromDate,
             origin: givenBy,
@@ -403,6 +404,8 @@ const registrationCardSlice = createSlice({
             }
           },
           ...transformedPatient.client_document_info,
+          serialFirst: transformedPatient.client_document_info.serial.substr(0,1),
+          serialSecond: transformedPatient.client_document_info.serial.substr(2),
         };
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
