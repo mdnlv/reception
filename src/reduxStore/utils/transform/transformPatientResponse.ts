@@ -18,7 +18,11 @@ export const transformPatientResponse = (item: PatientResponse) => {
       id: item.org_id,
       freeInput: item.freeInput,
       post: item.post,
-      stage: item.stage
+      stage: item.stage,
+      client_work_hurt_info: item.client_work_hurt_info.map(item => ({
+        hurtTypeId: item.hurtType_id,
+        stage: item.stage
+      }))
     })),
 
     client_document_info: item.client_document_info && {

@@ -436,6 +436,12 @@ const registrationCardSlice = createSlice({
             experience: item.stage
           })
         );
+        state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
+          (item, index) => ({
+            hazardDescription: item.client_work_hurt_info[index].hurtTypeId.toString(),
+            exp: item.client_work_hurt_info[index].stage
+          })
+        );
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
           (item) => ({
             isMain: item.isPrimary === 1,

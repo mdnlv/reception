@@ -5,8 +5,6 @@ import { useHistory } from 'react-router-dom';
 import Logo from '../../../assets/icons/app-logo.svg';
 import ExitIcon from '../../../assets/icons/exit.svg';
 import './styles.scss';
-import {useDispatch} from "react-redux";
-import {resetRegCard} from '../../../reduxStore/slices/registrationCard/registrationCardSlice'
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 
@@ -24,7 +22,6 @@ enum Labels {
 
 const AppHeaderBar: FC = () => {
   const navigation = useHistory();
-  const dispatch = useDispatch();
   const [showNewAppointment, setShowAppointment] = useState(false);
 
   const logoClickHandler = useCallback(() => {
@@ -40,7 +37,6 @@ const AppHeaderBar: FC = () => {
   };
 
   const onNewPatientClick = useCallback(() => {
-    dispatch(resetRegCard());
     goPath('regCard/new');
   }, []);
 

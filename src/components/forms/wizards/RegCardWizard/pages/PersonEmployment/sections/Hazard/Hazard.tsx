@@ -1,19 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Col, Divider, Row, Select } from 'antd';
+import { useFormikContext } from 'formik';
 
 import { DROPDOWN_TITLE, LABELS, ListOptionProps, SectionProps } from './types';
+import { EmploymentHazardItem } from '../../types';
+import { WizardStateType } from '../../../../types';
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
-import { EmploymentHazardItem } from '../../types';
-import { WizardStateType } from '../../../../types';
-import { useFormikContext } from 'formik';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastInputNumber from '../../../../../../components/fields/FastInputNumber/FastInpuNumber';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
-const Hazard: React.FC<SectionProps> = (props) => {
+const Hazard: React.FC<SectionProps> = ({
+  hurtTypesList,
+  hurtFactorTypesList,
+  orgsList,
+  isLoadingOrgs,
+  isLoadingHurtTypes,
+  isLoadingHurtFactorTypes
+}) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.employment.hazardHistory;
   const selectionValuePath = `employment.hazardHistory`;
@@ -40,7 +47,7 @@ const Hazard: React.FC<SectionProps> = (props) => {
   const propsList = useCallback((items: ListOptionProps[]) => {
     return items.map((item) => (
       <Select.Option
-        key={item.id.toString()}
+        key={item.id}
         name={item.name}
         value={item.id.toString()}>
         {item.name}
@@ -63,8 +70,12 @@ const Hazard: React.FC<SectionProps> = (props) => {
                 <Col span={16}>
                   <FormField label={LABELS.HAZARD}>
                     <FastSearchSelect
+                      filterOption
+                      optionFilterProp={'name'}
+                      showSearch
+                      loading={isLoadingHurtTypes}
                       name={getSectionPath(index, 'hazardDescription')}>
-                      {propsList(props.hurtTypesList)}
+                      {propsList(hurtTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
@@ -79,7 +90,7 @@ const Hazard: React.FC<SectionProps> = (props) => {
                 <Col span={12}>
                   <FormField label={LABELS.FACTOR}>
                     <FastSearchSelect name={getSectionPath(index, 'factor')}>
-                      {propsList(props.hurtFactorTypesList)}
+                      {propsList(hurtFactorTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
@@ -90,7 +101,7 @@ const Hazard: React.FC<SectionProps> = (props) => {
                   <FormField label={LABELS.ORG}>
                     <FastSearchSelect
                       name={getSectionPath(index, 'organisation')}>
-                      {propsList(props.orgsList)}
+                      {propsList(orgsList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>

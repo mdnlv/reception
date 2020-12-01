@@ -6,7 +6,6 @@ import { FastMaskedProps } from './types';
 import MaskedInputFastField from '../MaskedInputFastField/MaskedInputFastField';
 
 const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
-  console.log('mask', props.mask)
   return (
     <FastField name={props.name}>
       {({ field, form }: FastFieldProps) => (

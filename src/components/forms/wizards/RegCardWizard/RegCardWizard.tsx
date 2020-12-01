@@ -12,6 +12,7 @@ import {
   setFormSection,
   resetRegCard
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import validation from "./validation";
 
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import UserInfo from './pages/UserInfo/UserInfo';
@@ -44,6 +45,8 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     if (params.id !== 'new') {
       dispatch(resetRegCard());
       dispatch(fetchIdPatient(parseInt(params.id)));
+    } else {
+      dispatch(resetRegCard());
     }
   }, [params]);
 

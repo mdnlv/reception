@@ -49,10 +49,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
     type: ""
   });
 
-  // useEffect(() => {
-  //   console.log('cmoType', cmoType)
-  // }, [cmoType])
-
   useEffect(() => {
     const timeType = policyFormValues.timeType;
     if (timeType === "1" || policyFormValues.serial === 'ВС') {
@@ -76,7 +72,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
       props.map((item) => (
-        <Select.Option key={item.id} value={item.id.toString()}>
+        <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       )),

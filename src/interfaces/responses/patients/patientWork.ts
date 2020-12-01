@@ -3,4 +3,10 @@ export default interface PatientWorkResponse {
   freeInput: string;
   post: string;
   stage: number;
+  client_work_hurt_info: PatientWorkHurtInfo[];
+}
+
+interface PatientWorkHurtInfo {
+  hurtType_id: number;
+  stage: number;
 }

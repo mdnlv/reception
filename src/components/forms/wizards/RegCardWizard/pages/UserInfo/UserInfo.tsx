@@ -8,7 +8,7 @@ import {
   Radio,
   Row,
   Select,
-  TimePicker,
+  TimePicker
 } from 'antd';
 import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
@@ -35,6 +35,13 @@ const UserInfo: React.FC = () => {
       {item.name}
     </Select.Option>
   ));
+
+  const validateSnils = (value: string) => {
+    const valueInt = value.replace(/-/g, "").replace(/\s/g, "");
+    let sum = 0;
+
+    // return error;
+  };
 
   return (
     <form className="wizard-step registration-form">
@@ -115,7 +122,7 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11" />
+          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11" validate={validateSnils}/>
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>
