@@ -72,7 +72,7 @@ const PatientsTable: FC<TableProps> = ({
     const itemsArr = [] as string[];
     patients.map(
       (item) => {
-        if (item.address[0] && !itemsArr.includes(item.address[0].address.KLADRCode)) {
+        if (item.address[0] && item.address[0].address.KLADRCode && !itemsArr.includes(item.address[0].address.KLADRCode)) {
           itemsArr.push(item.address[0].address.KLADRCode);
         }
       }

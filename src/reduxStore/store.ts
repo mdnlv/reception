@@ -5,6 +5,8 @@ import rbSlice from './slices/rb/rbSlice';
 import patientCardSlice from './slices/patientCard/patientCardSlice';
 import registrationCardSlice from './slices/registrationCard/registrationCardSlice';
 import scheduleSlice from './slices/scheduleSlice/scheduleSlice';
+import deferredCallsSlice from "./slices/deferredCalls/deferredCallsSlice";
+import authSlice from "./slices/auth/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +15,8 @@ const store = configureStore({
     patientCard: patientCardSlice.reducer,
     registrationCard: registrationCardSlice.reducer,
     schedule: scheduleSlice.reducer,
+    deferredCalls: deferredCallsSlice.reducer,
+    auth: authSlice.reducer
   },
   middleware: [
     ...getDefaultMiddleware({
