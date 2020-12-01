@@ -22,9 +22,9 @@ export const detailedDeferredCalls = createSelector([orgs, persons, deferredSele
           key: item.id,
           fullName: item.fullName,
           person: person ? `${person.lastName} ${person.firstName}` : '',
-          netrica: 'string',
+          netrica: item.netrica,
           org: org ? org.shortName : '',
-          contact: 'string'
+          contact: item.contact
       }
   })
 })

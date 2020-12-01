@@ -40,11 +40,12 @@ const deferredCallsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchDeferredQueue.fulfilled, (state, action) => {
             if(action.payload){
+                console.log(action.payload)
                 state.queue = action.payload.map(item => ({
                     id: item.action_id,
                     fullName: item.patient_fullname,
                     patientId: item.client_id,
-                    contact: item.contact,
+                    contact: item.contact || "",
                     netrica: item.netrica_code,
                     orgId: item.orgStructure_id,
                     maxDate: item.maxDate,

@@ -4,8 +4,8 @@ export default interface DeferredCall {
     patientId: number
     contact: string
     maxDate: string
-    netrica: number
+    netrica: number | null
     orgId: number
-    personId: number
+    personId: number | null
     specialityId: number
 }
