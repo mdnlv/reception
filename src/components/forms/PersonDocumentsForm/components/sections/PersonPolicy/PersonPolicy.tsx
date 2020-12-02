@@ -2,13 +2,13 @@ import React, { FC } from 'react';
 import { Col, Divider, Input, Row } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
+
 import { WizardStateType } from '../../../../wizards/RegCardWizard/types';
 import { SectionProps } from './types';
 
 import FormField from '../../../../components/FormField/FormField';
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import PatientPolicy from '../../../../../../types/data/PatientPolicy';
 import { PassportPolicyType } from '../../../../wizards/RegCardWizard/pages/PassportGeneral/types';
 
 const PersonPolicy: FC<SectionProps> = ({

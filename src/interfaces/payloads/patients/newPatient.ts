@@ -1,4 +1,5 @@
 import { PersonAttachment } from '../../../components/forms/wizards/RegCardWizard/pages/Attachments/types';
+import {EmploymentItem, EmploymentHazardItem} from "../../../components/forms/EmploymentForm/types";
 
 export default interface NewPatientPayload {
   lastName: string;
@@ -11,8 +12,16 @@ export default interface NewPatientPayload {
   growth: string;
   weight: string;
   birthPlace: string;
+  hasImplants: boolean,
+  hasProsthesis: boolean,
+  docPersonId: string;
+  startCardDate: string;
+  hasCard: boolean;
+  onlyTempRegistration: boolean;
 
   client_attachments?: PersonAttachment[];
+  client_employment?: EmploymentItem[];
+  client_hazard?: EmploymentHazardItem[];
 
   client_contact_info: {
     contactType_id: number;

@@ -162,6 +162,10 @@ export const saveCardPatient = createAsyncThunk(
         height,
         hasImplants,
         hasProsthesis,
+        docPersonId,
+        startCardDate,
+        hasCard,
+        onlyTempRegistration
       } = state.registrationCard.form.personal;
       const payload: NewPatientPayload = {
         firstName,
@@ -170,6 +174,12 @@ export const saveCardPatient = createAsyncThunk(
         birthPlace,
         birthDate,
         birthTime,
+        hasImplants,
+        hasProsthesis,
+        docPersonId,
+        startCardDate,
+        hasCard,
+        onlyTempRegistration,
         sex: sex === 0 ? 1 : 2,
         SNILS: snils,
         weight: weight.toString(),
@@ -193,18 +203,14 @@ export const saveCardPatient = createAsyncThunk(
           notes: item.note
         })),
 
-        // social_status_info: [],
-
-        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
-          social_status_info:
-            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-              type: item.type ? parseInt(item.type) : null,
-              class: item.class ? parseInt(item.class) : null,
-              begDate: item.fromDate,
-              endDate: item.endDate,
-              notes: item.note ?? null,
-            }))
-        },
+        social_status_info:
+          state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+            type: item.type ? parseInt(item.type) : null,
+            class: item.class ? parseInt(item.class) : null,
+            begDate: item.fromDate,
+            endDate: item.endDate,
+            notes: item.note ?? null,
+          })),
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
@@ -220,11 +226,11 @@ export const saveCardPatient = createAsyncThunk(
             serial: item.serial,
           })) || [],
 
-        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-          client_attachments: state.registrationCard.form.attachments.attachments.map(
-            (item) => item,
-          )
-        },
+        client_attachments: state.registrationCard.form.attachments.attachments.map(
+          (item) => item,
+        ),
+
+
 
         client_address_info: [
           {
