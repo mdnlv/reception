@@ -14,6 +14,13 @@ export default interface NewPatientPayload {
 
   client_attachments?: PersonAttachment[];
 
+  client_contact_info: {
+    contactType_id: number;
+    contact: string;
+    isPrimary: 0 | 1;
+    notes: string;
+  }[],
+
   social_status_info: {
     type: number | null;
     class: number | null;
@@ -52,9 +59,9 @@ export default interface NewPatientPayload {
         corpus: string;
         litera: string;
       };
-      isVillager: number,
       flat: string;
     };
+    isVillager: number,
     type: number;
   }[];
 }

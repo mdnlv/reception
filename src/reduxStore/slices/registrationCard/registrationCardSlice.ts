@@ -160,6 +160,8 @@ export const saveCardPatient = createAsyncThunk(
         snils,
         weight,
         height,
+        hasImplants,
+        hasProsthesis,
       } = state.registrationCard.form.personal;
       const payload: NewPatientPayload = {
         firstName,
@@ -184,18 +186,25 @@ export const saveCardPatient = createAsyncThunk(
           }
         ],
 
-        social_status_info: [],
+        client_contact_info: state.registrationCard.form.passportGeneral.contacts.map((item) => ({
+          contactType_id: parseInt(item.type),
+          contact: item.number,
+          isPrimary: item.isMain ? 1 : 0,
+          notes: item.note
+        })),
 
-        // ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
-        //   social_status_info:
-        //     state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-        //       type: item.type ? parseInt(item.type) : null,
-        //       class: item.class ? parseInt(item.class) : null,
-        //       begDate: item.fromDate,
-        //       endDate: item.endDate,
-        //       notes: item.note ?? null,
-        //     }))
-        // },
+        // social_status_info: [],
+
+        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
+          social_status_info:
+            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+              type: item.type ? parseInt(item.type) : null,
+              class: item.class ? parseInt(item.class) : null,
+              begDate: item.fromDate,
+              endDate: item.endDate,
+              notes: item.note ?? null,
+            }))
+        },
 
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
@@ -211,11 +220,11 @@ export const saveCardPatient = createAsyncThunk(
             serial: item.serial,
           })) || [],
 
-        // ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-        //   client_attachments: state.registrationCard.form.attachments.attachments.map(
-        //     (item) => item,
-        //   )
-        // },
+        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
+          client_attachments: state.registrationCard.form.attachments.attachments.map(
+            (item) => item,
+          )
+        },
 
         client_address_info: [
           {
@@ -232,8 +241,8 @@ export const saveCardPatient = createAsyncThunk(
                 litera: addressRegistration.houseCharacter?.toString() || '',
               },
               flat: addressRegistration.flatNumber?.toString() || '',
-              isVillager: +!addressRegistration.isKLADR,
             },
+            isVillager: +!addressRegistration.isKLADR,
             type: 0,
           },
           {
@@ -250,8 +259,8 @@ export const saveCardPatient = createAsyncThunk(
                 number: documentedAddress.houseNumber?.toString() || '',
               },
               flat: documentedAddress.flatNumber?.toString() || '',
-              isVillager: +!documentedAddress.isKLADR,
             },
+            isVillager: +!documentedAddress.isKLADR,
             type: 1,
           },
         ],

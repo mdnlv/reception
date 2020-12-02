@@ -23,6 +23,7 @@ import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastM
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import {type} from "os";
 
 const UserInfo: React.FC = () => {
   const formProps = useFormikContext<WizardStateType>();
@@ -71,15 +72,11 @@ const UserInfo: React.FC = () => {
               {/* todo make correct bindings */}
               <TimePicker
                 format={'HH:mm'}
-                value={
-                  formProps.values.personal.birthTime
-                    ? moment(formProps.values.personal.birthTime)
-                    : undefined
-                }
-                onChange={(_, dateString) => {
+                name={'personal.birthTime'}
+                onChange={(_, timeString) => {
                   formProps.setFieldValue(
                     `${sectionValuePath}.birthTime`,
-                    dateString,
+                    timeString,
                   );
                 }}
               />
