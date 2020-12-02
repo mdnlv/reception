@@ -9,6 +9,7 @@ import {
   kladrLoadingsSelector,
   kladrSelector,
 } from '../../../../../../reduxStore/slices/registrationCard/selectors';
+import {getAddress} from "../../../../../../utils/getAddress";
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const { rbKladrDocumented, rbKladrStreetsDocumented } = useSelector(
@@ -43,58 +44,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     } else {
       return '';
     }
-  };
-
-  const getTypeAddress = (type: 0 | 1) => {
-    return (
-      patient?.address?.find((item) => item.type === type)?.freeInput ||
-      getAddress(type)
-    );
-  };
-
-  const getAddress = (type: 0 | 1) => {
-    const number = patient?.address?.find((item) => item.type === type)?.address
-      .house;
-    const corpus = patient?.address?.find((item) => item.type === type)?.address
-      .corpus;
-    const litera = patient?.address?.find((item) => item.type === type)?.address
-      .litera;
-    const flat = patient?.address?.find((item) => item.type === type)?.address
-      .flat;
-    let address = '';
-
-    const kladrCode = patient?.address?.find((item) => item.type === type)
-      ?.address.KLADRCode;
-    const kladrStreetCode = patient?.address?.find((item) => item.type === type)
-      ?.address.KLADRStreetCode;
-    const kladrCity = rbKladrDocumented.find((item) => item.id === kladrCode);
-    const kladrStreet = rbKladrStreetsDocumented.find(
-      (item) => item.id === kladrStreetCode,
-    );
-    const city = kladrCity?.name;
-    const street = kladrStreet?.name;
-    const socr = kladrStreet?.socr;
-
-    if (city) {
-      address = `г. ${city}`;
-      if (street && socr) {
-        address = address.concat(`, ${socr} ${street}`);
-        if (number) {
-          address = address.concat(`, д.${number}`);
-          if (corpus) {
-            address = address.concat(`, к.${corpus}`);
-            if (litera) {
-              address = address.concat(litera);
-            }
-          }
-          if (flat) {
-            address = address.concat(`, кв.${flat}`);
-          }
-        }
-      }
-    }
-
-    return address;
   };
 
   const getContactTypeName = (type: number, contact: string) => {
@@ -149,12 +98,12 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
           <Descriptions.Item
             className={'person-info-item'}
             label={'Адрес проживания'}>
-            {getTypeAddress(0)}
+            {getAddress(patient, 0, rbKladrDocumented, rbKladrStreetsDocumented)}
           </Descriptions.Item>
           <Descriptions.Item
             className={'person-info-item'}
             label={'Адрес регистрации'}>
-            {getTypeAddress(1)}
+            {getAddress(patient, 1, rbKladrDocumented, rbKladrStreetsDocumented)}
           </Descriptions.Item>
           <Descriptions.Item className={'person-info-item'} label={'Занятость'}>
             {getWork()}

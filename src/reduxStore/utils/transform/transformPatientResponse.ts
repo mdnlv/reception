@@ -19,10 +19,13 @@ export const transformPatientResponse = (item: PatientResponse) => {
       freeInput: item.freeInput,
       post: item.post,
       stage: item.stage,
-      client_work_hurt_info: item.client_work_hurt_info.map(item => ({
-        hurtTypeId: item.hurtType_id,
-        stage: item.stage
-      }))
+      client_work_hurt_info:
+        item.client_work_hurt_info.length > 0
+          ? item.client_work_hurt_info.map(item => ({
+              hurtTypeId: item.hurtType_id ? item.hurtType_id : '',
+              stage: item.stage ? item.stage : 0
+            }))
+          : []
     })),
 
     client_document_info: item.client_document_info && {
