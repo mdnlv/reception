@@ -211,11 +211,11 @@ export const saveCardPatient = createAsyncThunk(
             serial: item.serial,
           })) || [],
 
-        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-          client_attachments: state.registrationCard.form.attachments.attachments.map(
-            (item) => item,
-          )
-        },
+        // ...(state.registrationCard.form.attachments.attachments.length > 0) && {
+        //   client_attachments: state.registrationCard.form.attachments.attachments.map(
+        //     (item) => item,
+        //   )
+        // },
 
         client_address_info: [
           {

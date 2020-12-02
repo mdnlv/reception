@@ -36,31 +36,6 @@ const UserInfo: React.FC = () => {
     </Select.Option>
   ));
 
-  const validateSnils = (value: string) => {
-    console.log('Snilsvalue', value)
-    const valueInt = value.replace(/-/g, "").replace(/\s/g, "");
-    let sum = 0;
-    let checkDigit = 0;
-    let error;
-
-    for (let i = 0; i < 9; i++) {
-      sum += parseInt(valueInt[i]) * (9 - i);
-    }
-    if (sum < 100) {
-      checkDigit = sum;
-    } else if (sum > 101) {
-      checkDigit = parseInt(sum % 101);
-      if (checkDigit === 100) {
-        checkDigit = 0
-      }
-    }
-    if (checkDigit !== parseInt(valueInt.slice(-2))) {
-      error = 'Неправильно контрольное число'
-    }
-
-    return error;
-  };
-
   return (
     <form className="wizard-step registration-form">
       <FormField label="Код">

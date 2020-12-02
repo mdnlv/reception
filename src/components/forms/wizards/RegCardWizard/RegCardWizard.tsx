@@ -58,6 +58,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     <Formik
       enableReinitialize={true}
       initialValues={store}
+      validationSchema={validation}
       onSubmit={(values) => {
         dispatch(setFormSection(values));
         dispatch(saveCardPatient());
