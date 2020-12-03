@@ -7,10 +7,10 @@ import PatientsService from '../../../services/PatientsService/PatientsService';
 import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
-import NewPatientPayload from '../../../interfaces/payloads/patients/newPatient';
 import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
 import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
+import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -135,136 +135,7 @@ export const saveCardPatient = createAsyncThunk(
     thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
     try {
       const state = thunkAPI.getState() as RootState;
-      const {
-        passportType,
-        serialFirst,
-        serialSecond,
-        number,
-        fromDate,
-        givenBy,
-        addressRegistration,
-        documentedAddress,
-      } = state.registrationCard.form.passportGeneral.passportInfo;
-      const {
-        policyDms,
-        policyOms,
-      } = state.registrationCard.form.passportGeneral;
-      const {
-        firstName,
-        lastName,
-        patrName,
-        birthPlace,
-        birthDate,
-        birthTime,
-        sex,
-        snils,
-        weight,
-        height,
-        hasImplants,
-        hasProsthesis,
-      } = state.registrationCard.form.personal;
-      const payload: NewPatientPayload = {
-        firstName,
-        lastName,
-        patrName,
-        birthPlace,
-        birthDate,
-        birthTime,
-        sex: sex === 0 ? 1 : 2,
-        SNILS: snils,
-        weight: weight.toString(),
-        growth: height.toString(),
-
-        client_document_info: [
-          {
-            documentType_id: passportType,
-            serial: serialFirst.concat(serialSecond),
-            number,
-            date: fromDate,
-            origin: givenBy,
-            endDate: '2200-12-12',
-          }
-        ],
-
-        client_contact_info: state.registrationCard.form.passportGeneral.contacts.map((item) => ({
-          contactType_id: parseInt(item.type),
-          contact: item.number,
-          isPrimary: item.isMain ? 1 : 0,
-          notes: item.note
-        })),
-
-        // social_status_info: [],
-
-        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
-          social_status_info:
-            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-              type: item.type ? parseInt(item.type) : null,
-              class: item.class ? parseInt(item.class) : null,
-              begDate: item.fromDate,
-              endDate: item.endDate,
-              notes: item.note ?? null,
-            }))
-        },
-
-        client_policy_info:
-          policyDms.concat(policyOms).map((item) => ({
-            ...(item.id) && {id: item.id},
-            insurer_id: parseInt(item.cmo),
-            policyType_id: item.type ? parseInt(item.type) : null,
-            policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-            begDate: item.from,
-            endDate: item.to,
-            note: item.note,
-            name: item.name,
-            number: item.number,
-            serial: item.serial,
-          })) || [],
-
-        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-          client_attachments: state.registrationCard.form.attachments.attachments.map(
-            (item) => item,
-          )
-        },
-
-        client_address_info: [
-          {
-            address: {
-              address_house: {
-                KLADRCode: (addressRegistration.area === '7800000000000'
-                            || addressRegistration.area === '7700000000000'
-                            || addressRegistration.area === '9200000000000')
-                              ? addressRegistration.area
-                              : addressRegistration.city,
-                KLADRStreetCode: addressRegistration.street,
-                number: addressRegistration.houseNumber?.toString() || '',
-                corpus: '',
-                litera: addressRegistration.houseCharacter?.toString() || '',
-              },
-              flat: addressRegistration.flatNumber?.toString() || '',
-            },
-            isVillager: +!addressRegistration.isKLADR,
-            type: 0,
-          },
-          {
-            address: {
-              address_house: {
-                KLADRCode: (documentedAddress.area === '7800000000000'
-                            || documentedAddress.area === '7700000000000'
-                            || documentedAddress.area === '9200000000000')
-                              ? documentedAddress.area
-                              : documentedAddress.city,
-                KLADRStreetCode: documentedAddress.street,
-                corpus: documentedAddress.houseCharacter?.toString() || '',
-                litera: '',
-                number: documentedAddress.houseNumber?.toString() || '',
-              },
-              flat: documentedAddress.flatNumber?.toString() || '',
-            },
-            isVillager: +!documentedAddress.isKLADR,
-            type: 1,
-          },
-        ],
-      };
+      const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
       await PatientsService.savePatient(payload);
     } catch (e) {
