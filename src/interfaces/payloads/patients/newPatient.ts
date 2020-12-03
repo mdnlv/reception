@@ -58,9 +58,9 @@ export default interface NewPatientPayload {
     notes: string;
   }[],
 
-  social_status_info: {
-    type: number | null;
-    class: number | null;
+  client_soc_status_info: {
+    socStatusType_id: number | null;
+    socStatusClass_id: number | null;
     begDate: string;
     endDate: string;
     notes: string | null;

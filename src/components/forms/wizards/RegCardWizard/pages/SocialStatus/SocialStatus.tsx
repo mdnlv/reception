@@ -32,7 +32,10 @@ const SocialStatus: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <StatusDocs documentTypesList={documentTypesList} />
+          <StatusDocs
+            isLoadingDocuments={loadings.documents}
+            documentTypesList={documentTypesList}
+          />
         </Col>
       </Row>
     </form>

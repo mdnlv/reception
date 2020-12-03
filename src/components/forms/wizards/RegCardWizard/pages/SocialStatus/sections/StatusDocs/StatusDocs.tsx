@@ -13,7 +13,7 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 
-const StatusDocs: FC<SectionProps> = ({documentTypesList}) => {
+const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.trustedDoc;
   const sectionValuePath = `socialStatus.trustedDoc`;
@@ -26,7 +26,8 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList}) => {
     const newDoc: TrustedDoc = {
       givenBy: '',
       number: '',
-      serial: '',
+      serialFirst: '',
+      serialSecond: '',
       date: '',
     };
     form.setFieldValue(sectionValuePath, [...formValues, newDoc]);
@@ -63,15 +64,26 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList}) => {
             <div key={index}>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField>
-                    <FastSearchSelect name={getSectionPath(index, 'type')}>
+                  <FormField label={LABELS.TYPE}>
+                    <FastSearchSelect
+                      filterOption
+                      loading={isLoadingDocuments}
+                      optionFilterProp={'name'}
+                      showSearch
+                      name={getSectionPath(index, 'type')}
+                    >
                       {propsList(documentTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col span={1}>
                   <FormField label={LABELS.SERIAL}>
-                    <FastInput name={getSectionPath(index, 'serial')} />
+                    <FastInput name={getSectionPath(index, 'serialFirst')} />
+                  </FormField>
+                </Col>
+                <Col span={1}>
+                  <FormField label={LABELS.SERIAL}>
+                    <FastInput name={getSectionPath(index, 'serialSecond')} />
                   </FormField>
                 </Col>
                 <Col span={3}>

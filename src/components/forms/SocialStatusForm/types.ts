@@ -9,11 +9,12 @@ export interface SocialStatus {
 }
 
 export interface TrustedDoc {
-  date: string;
   type?: string;
-  givenBy: string;
-  serial: string;
+  serialFirst: string;
+  serialSecond: string;
   number: string;
+  date: string;
+  givenBy: string;
 }
 
 export interface FormState {
