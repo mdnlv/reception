@@ -35,6 +35,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     onlyTempRegistration
   } = state.registrationCard.form.personal;
   const {trustedDoc} = state.registrationCard.form.socialStatus;
+  const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
     firstName,
     lastName,
@@ -140,6 +141,17 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         endDate: item.endDate,
         notes: item.note ?? null,
       })),
+
+    client_relation_info: [
+      ...directLinks.map((item) => ({
+        relativeType_id: item.forwardRef,
+        relative_id: item.patientLink
+      })),
+      ...backLinks.map((item) => ({
+        relativeType_id: item.forwardRef,
+        relative_id: item.patientLink
+      }))
+    ],
 
     ...(state.registrationCard.form.attachments.attachments.length > 0) && {
       client_attachments: state.registrationCard.form.attachments.attachments.map(

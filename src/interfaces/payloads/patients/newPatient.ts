@@ -101,4 +101,9 @@ export default interface NewPatientPayload {
     isVillager: number,
     type: number;
   }[];
+
+  client_relation_info?: {
+    relativeType_id: number;
+    relative_id: number;
+  }[]
 }
