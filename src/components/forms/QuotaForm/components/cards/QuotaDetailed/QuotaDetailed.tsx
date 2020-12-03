@@ -1,22 +1,20 @@
 import React, {FC, useEffect} from 'react'
 import {Row, Col, Select, Input, InputNumber, Radio, DatePicker} from 'antd'
-import FormField from "../../../../components/FormField/FormField";
 import {Controller, useFormContext} from "react-hook-form";
+
 import './styles.scss'
 import FormState from "../../../types";
+import {QuotaProps} from "./types";
+
+import FormField from "../../../../components/FormField/FormField";
 import ArrayField from "../../../../components/ArrayField/ArrayField";
 
-type QuotaProps = {
-    currentIndex: number
-}
-
-const QuotaDetailed: FC<QuotaProps> = (props) => {
-
+const QuotaDetailed: FC<QuotaProps> = ({currentIndex}) => {
     const form = useFormContext<FormState>()
     const appealChange = form.watch('quotas')
 
     useEffect(() => {
-        console.log(form.getValues({nest: true}))
+        //console.log(form.getValues({nest: true}))
     }, [appealChange])
 
     return (
@@ -25,7 +23,7 @@ const QuotaDetailed: FC<QuotaProps> = (props) => {
                 (key, index) => (
                     <>
                         {
-                            index === props.currentIndex && <>
+                            index === currentIndex && <>
                                 <Row>
                                     <Col span={12} className={'col--border-right'}>
                                         <FormField label={'Идентификатор'} labelPosition={'left'}>

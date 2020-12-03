@@ -1,33 +1,33 @@
-import React from 'react';
-import { Col, InputNumber, Row, Select } from 'antd';
+import React, { useCallback } from 'react';
+import { Col, Row, Select } from 'antd/lib';
+
 import FormField from '../../../../components/FormField/FormField';
-import PartialFormState from '../../../types';
-import { useFormikContext } from 'formik';
+import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const PreventiveMeasures: React.FC = (props) => {
-  const form = useFormikContext<PartialFormState>();
+const selectList = [
+  {
+    value: 0,
+    title: 'Диспансеризация',
+  },
+  {
+    value: 1,
+    title: 'Проф.осмотр',
+  },
+  {
+    value: 2,
+    title: 'Диспансерное наблюдение',
+  },
+];
 
-  const selectList = [
-    {
-      value: 0,
-      title: 'Диспансеризация',
-    },
-    {
-      value: 1,
-      title: 'Проф.осмотр',
-    },
-    {
-      value: 2,
-      title: 'Диспансерное наблюдение',
-    },
-  ];
-  const selectOptions = () => {
+const PreventiveMeasures: React.FC = () => {
+  const selectOptions = useCallback(() => {
     return selectList.map((item) => (
       <Select.Option key={item.value} value={item.value}>
         {item.title}
       </Select.Option>
     ));
-  };
+  }, []);
 
   return (
     <div className={'form-section'}>
@@ -35,47 +35,32 @@ const PreventiveMeasures: React.FC = (props) => {
       <Row>
         <Col span={14}>
           <FormField label={'Тип'}>
-            <Select
-              size={'small'}
-              value={form.values.clientExamPlanKindId}
-              onChange={(value) => {
-                form.setFieldValue('clientExamPlanKindId', value);
-              }}>
+            <FastSearchSelect size={'small'} name={'clientExamPlanKindId'}>
               {selectOptions()}
-            </Select>
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
       <Row gutter={8}>
         <Col>
           <FormField label={'Год'}>
-            <InputNumber
+            <FastInputNumber
               size={'small'}
               name={'clientExamPlanYear'}
-              min={1900}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('clientExamPlanYear', val);
-                }
-              }}>
+              min={1900}>
               Год
-            </InputNumber>
+            </FastInputNumber>
           </FormField>
         </Col>
         <Col>
           <FormField label={'Квартал'}>
-            <InputNumber
+            <FastInputNumber
               size={'small'}
               name={'clientExamPlanQuarter'}
               max={4}
-              min={1}
-              onChange={(val) => {
-                if (val) {
-                  form.setFieldValue('clientExamPlanQuarter', val);
-                }
-              }}>
-              > Квартал
-            </InputNumber>
+              min={1}>
+              Квартал
+            </FastInputNumber>
           </FormField>
         </Col>
       </Row>

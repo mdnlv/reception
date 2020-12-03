@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectTasksOptions">
+<<<<<<< HEAD
     <TaskOptions isEnabled="true">
       <option name="arguments" value="--write $FilePathRelativeToProjectRoot$" />
       <option name="checkSyntaxErrors" value="true" />
@@ -10,10 +11,22 @@
       <option name="immediateSync" value="false" />
       <option name="name" value="Prettier" />
       <option name="output" value="$FilePathRelativeToProjectRoot$" />
+=======
+    <TaskOptions isEnabled="false">
+      <option name="arguments" value="$FileName$:$FileNameWithoutExtension$.css" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="scss" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="SCSS" />
+      <option name="output" value="$FileNameWithoutExtension$.css:$FileNameWithoutExtension$.css.map" />
+>>>>>>> a5c0bafe9a45191c63c1714b91765e687410cb12
       <option name="outputFilters">
         <array />
       </option>
       <option name="outputFromStdout" value="false" />
+<<<<<<< HEAD
       <option name="program" value="$ProjectFileDir$/node_modules/.bin/prettier" />
       <option name="runOnExternalChanges" value="true" />
       <option name="scopeName" value="Project Files" />
@@ -39,6 +52,13 @@
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="false" />
       <option name="workingDir" value="$ProjectFileDir$" />
+=======
+      <option name="program" value="sass" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Project Files" />
+      <option name="trackOnlyRoot" value="true" />
+      <option name="workingDir" value="$FileDir$" />
+>>>>>>> a5c0bafe9a45191c63c1714b91765e687410cb12
       <envs />
     </TaskOptions>
   </component>

@@ -1,0 +1,36 @@
+.schedule-timeline{
+}
+
+.schedule-timeline__item{
+  position: relative;
+  height: 32px;
+  width: 100%;
+
+  &--week{
+    height: auto !important;
+  }
+
+  &-time{
+    position: absolute;
+    left: -16px;
+    color: #686868;
+    opacity: .7;
+  }
+
+  &-day{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media only screen and (min-width: 1000px) and (max-width: 1200px){
+    font-size: 10px;
+
+    &-time{
+      left: -10px;
+    }
+  }
+}
+
+

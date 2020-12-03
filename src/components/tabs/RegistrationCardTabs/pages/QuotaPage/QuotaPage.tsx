@@ -1,7 +1,8 @@
 import React, {FC} from 'react'
+
 import QuotaForm from "../../../../forms/QuotaForm/QuotaForm";
 
-const QuotaPage: FC = (props) => {
+const QuotaPage: FC = () => {
     return (
         <div className={'card-page'}>
             <QuotaForm/>

@@ -1,22 +1,32 @@
-import React from 'react';
-import { Button, Checkbox, Col, Input, Row, Select } from 'antd';
-import FormField from '../../../../components/FormField/FormField';
-import './styles.scss';
+import React, {useCallback} from 'react';
+import { Checkbox, Col, Row, Select } from 'antd/lib';
 import { useFormikContext } from 'formik';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+
+import './styles.scss';
 import PartialFormState from '../../../types';
+import {SectionProps} from "./types";
 
-interface SectionProps {
-  orgs: { id: number; name: string }[];
-}
+import FormField from '../../../../components/FormField/FormField';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const LpuAttachment: React.FC<SectionProps> = (props) => {
-  const form = useFormikContext<PartialFormState>();
+const LpuAttachment: React.FC<SectionProps> = ({ orgs }) => {
+  const { setFieldValue, values } = useFormikContext<PartialFormState>();
 
-  const orgsOptionsList = props.orgs.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+  const orgsOptionsList = useCallback(() => {
+    return orgs.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+        {item.name}
+      </Select.Option>
+    ));
+  }, [orgs]);
+
+  const onCheckboxChange = useCallback(
+    (e: CheckboxChangeEvent) => {
+      setFieldValue(e.target.name || '', e.target.checked ? 1 : 0);
+    },
+    [setFieldValue],
+  );
 
   return (
     <div className={'form-section lpu-section'}>
@@ -24,18 +34,15 @@ const LpuAttachment: React.FC<SectionProps> = (props) => {
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
               allowClear
-              value={form.values.attachmentOrganisationId}
-              onChange={(val) => {
-                form.setFieldValue('attachmentOrganisationId', val);
-              }}
-              size={'small'}>
+              size={'small'}
+              name={'attachmentOrganisationId'}>
               {orgsOptionsList}
-            </Select>
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
@@ -43,14 +50,8 @@ const LpuAttachment: React.FC<SectionProps> = (props) => {
         <Col>
           <FormField>
             <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  form.setFieldValue('isAttachNonBase', 1);
-                } else {
-                  form.setFieldValue('isAttachNonBase', 0);
-                }
-              }}
-              checked={!!form.values.isAttachNonBase}>
+              onChange={onCheckboxChange}
+              checked={!!values.isAttachNonBase}>
               любое ЛПУ кроме базового
             </Checkbox>
           </FormField>

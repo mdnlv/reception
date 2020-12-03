@@ -1,23 +1,23 @@
-import React from 'react';
-import { Checkbox, Col, DatePicker, Row, Select } from 'antd';
-import FormField from '../../../../components/FormField/FormField';
+import React, { useCallback } from 'react';
+import { Checkbox, Col, DatePicker, Row, Select } from 'antd/lib';
 import { useFormikContext } from 'formik';
+
 import FormState from '../../../types';
+import {SectionProps} from "./types";
 
-interface SectionProps {
-  persons: { id: number; name: string }[];
-}
+import FormField from '../../../../components/FormField/FormField';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const AuthorDateChange: React.FC<SectionProps> = (props) => {
+const AuthorDateChange: React.FC<SectionProps> = ({persons}) => {
   const form = useFormikContext<FormState>();
 
-  const getPersonsOptions = () => {
-    return props.persons.map((item) => (
+  const getPersonsOptions = useCallback(() => {
+    return persons.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id}>
         {item.name}
       </Select.Option>
     ));
-  };
+  }, []);
 
   return (
     <div className={'form-section'}>
@@ -45,39 +45,37 @@ const AuthorDateChange: React.FC<SectionProps> = (props) => {
       <Row gutter={16}>
         <Col span={18}>
           <FormField>
-            <Select
+            <FastSearchSelect
               size={'small'}
               filterOption
               allowClear
               showSearch
               optionFilterProp={'name'}
-              onChange={(val) => {
-                form.setFieldValue('createPersonId', val);
-              }}>
+              name={'createPersonId'}>
               {getPersonsOptions()}
-            </Select>
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
       <Row gutter={8} align={'bottom'}>
         <Col span={6}>
           <FormField label={'Дата создания'}>
-            <DatePicker size={'small'} onChange={form.handleChange} />
+            <DatePicker size={'small'} />
           </FormField>
         </Col>
         <Col span={6}>
           <FormField>
-            <DatePicker size={'small'} onChange={form.handleChange} />
+            <DatePicker size={'small'} />
           </FormField>
         </Col>
         <Col span={6}>
           <FormField label={'Обращались'}>
-            <DatePicker size={'small'} onChange={form.handleChange} />
+            <DatePicker size={'small'} />
           </FormField>
         </Col>
         <Col span={6}>
           <FormField label={'Первично'}>
-            <DatePicker size={'small'} onChange={form.handleChange} />
+            <DatePicker size={'small'} />
           </FormField>
         </Col>
       </Row>

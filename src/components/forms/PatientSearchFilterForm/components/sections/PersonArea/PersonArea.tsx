@@ -1,16 +1,12 @@
-import React from 'react';
-import { useFormikContext } from 'formik';
-import PartialFormState from '../../../types';
-import { Col, Row, Select } from 'antd';
+import React, {useCallback} from 'react';
+import { Col, Row, Select } from 'antd/lib';
+
+import {AreaProps} from "./types";
+
 import FormField from '../../../../components/FormField/FormField';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-interface AreaProps {
-  orgs: { id: number; name: string }[];
-}
-
-const PersonArea: React.FC<AreaProps> = (props) => {
-  const form = useFormikContext<PartialFormState>();
-
+const PersonArea: React.FC<AreaProps> = ({ orgs }) => {
   const areaTypeList = [
     'Регистрация',
     'Проживание',
@@ -21,17 +17,21 @@ const PersonArea: React.FC<AreaProps> = (props) => {
     'Регистрация, проживание или прикрепление',
   ];
 
-  const areaOptionsList = areaTypeList.map((item, index) => (
-    <Select.Option key={index} name={item} value={index}>
-      {item}
-    </Select.Option>
-  ));
+  const areaOptionsList = useCallback(() => {
+    return areaTypeList.map((item, index) => (
+      <Select.Option key={index} name={item} value={index}>
+        {item}
+      </Select.Option>
+    ));
+  }, []);
 
-  const orgsOptionsList = props.orgs.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+  const orgsOptionsList = useCallback(() => {
+    return orgs.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+        {item.name}
+      </Select.Option>
+    ));
+  }, [orgs]);
 
   return (
     <div className={'form-section'}>
@@ -39,36 +39,30 @@ const PersonArea: React.FC<AreaProps> = (props) => {
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
+              size={'small'}
               optionFilterProp={'name'}
               allowClear
-              value={form.values.areaTypeId}
-              onChange={(val) => {
-                form.setFieldValue('areaTypeId', val);
-              }}
-              size={'small'}>
-              {areaOptionsList}
-            </Select>
+              name={'areaTypeId'}>
+              {areaOptionsList()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
           <FormField>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
+              size={'small'}
               allowClear
-              value={form.values.areaOrgStructureId}
-              onChange={(val) => {
-                form.setFieldValue('areaOrgStructureId', val);
-              }}
-              size={'small'}>
-              {orgsOptionsList}
-            </Select>
+              name={'areaOrgStructureId'}>
+              {orgsOptionsList()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>

@@ -1,6 +1,7 @@
 import React from 'react'
-import PatientHappeningsList from "./PatientHappeningsList";
 import {shallow} from "enzyme";
+
+import PatientHappeningsList from "./PatientHappeningsList";
 
 const listData = [
     {

@@ -1,10 +1,11 @@
 import PatientAddress from './PatientAddress';
 import PatientPolicy from './PatientPolicy';
 import PatientContact from './PatientContact';
+import PatientWork from "./PatientWork";
 
 export default interface Patient {
   fullName: string;
-  birthDate: Date;
+  birthDate: string;
   code: number;
   quotes?: string[];
   medicalAttachment?: string;
@@ -17,12 +18,13 @@ export default interface Patient {
   employment?: string;
   phone?: Map<string, string>[];
   birthPlace?: string;
-  note?: string;
-  eisAcceptDate?: Date;
-  misRegDate?: Date;
-  medExamination?: Date;
+  notes?: string;
+  eisAcceptDate?: string;
+  misRegDate?: string;
+  medExamination?: string;
 
   address: PatientAddress[];
   policy: PatientPolicy[];
   contacts: PatientContact[];
+  work: PatientWork[];
 }

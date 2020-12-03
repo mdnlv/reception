@@ -1,27 +1,28 @@
-import React, { FC, useMemo, useState } from 'react';
-import { Table } from 'antd';
-import './styles.scss';
+import React, { FC, useMemo, useState, useEffect, useCallback } from 'react';
+import {Table, Spin} from 'antd/lib';
 import moment from 'moment';
-import Patient from '../../../types/data/Patient';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import {useDispatch} from "react-redux";
 
-type TableProps = {
-  patients: Patient[];
-  isLoading: boolean;
-  onPatientClick: (id: number) => void;
-  currentPatient?: number;
-};
+import './styles.scss';
+import {TableProps} from "./types";
+import Patient from "../../../types/data/Patient";
+import {kladrSelector, kladrLoadingsSelector} from "../../../reduxStore/slices/registrationCard/selectors";
+import {fetchKladrStreets} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {useSelector} from "react-redux";
 
-type ToolTipInfo = {
-  fullName: string;
-  lastChange: Date;
-};
-
-const PatientsTable: FC<TableProps> = (props) => {
-  const navigation = useHistory();
-  const [isShowTooltip, setIsShowTooltip] = useState(false);
-
+const PatientsTable: FC<TableProps> = ({
+  patients,
+  isLoading,
+  onPatientClick,
+  currentPatient
+}) => {
+  const dispatch = useDispatch();
+  const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
+    kladrSelector,
+  );
+  const {isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
+  const [cityArr, setCityArr] = useState([] as string[]);
   const columns = [
     {
       title: 'ФИО',
@@ -57,9 +58,35 @@ const PatientsTable: FC<TableProps> = (props) => {
       dataIndex: 'route',
       key: 'route',
     },
+    {
+      dataIndex: 'regCard',
+      key: 'regCard',
+    },
   ];
 
-  function getSexName(sex: 1 | 2) {
+  useEffect(() => {
+    console.log('patients', patients)
+  }, [patients]);
+
+  useEffect(() => {
+    const itemsArr = [] as string[];
+    patients.map(
+      (item) => {
+        if (item.address[0] && item.address[0].address.KLADRCode && !itemsArr.includes(item.address[0].address.KLADRCode)) {
+          itemsArr.push(item.address[0].address.KLADRCode);
+        }
+      }
+    );
+    setCityArr(itemsArr);
+  }, [patients]);
+
+  useEffect(() => {
+    cityArr.map(item => {
+      dispatch(fetchKladrStreets({id: item, type: 'registration'}));
+    })
+  }, [cityArr]);
+
+  const getSexName = (sex: 1 | 2) => {
     switch (sex) {
       case 1:
         return 'М';
@@ -68,14 +95,66 @@ const PatientsTable: FC<TableProps> = (props) => {
     }
   }
 
+  const getTypeAddress = useCallback((patient: Patient) => {
+    return (
+      patient?.address?.find((item) => item.type === 0)?.freeInput ||
+      getAddress(patient)
+    );
+  }, [rbKladrStreetsRegistration]);
+
+  const getAddress = useCallback((patient: Patient) => {
+    const number = patient?.address?.find((item) => item.type === 0)?.address
+      .house;
+    const corpus = patient?.address?.find((item) => item.type === 0)?.address
+      .corpus;
+    const litera = patient?.address?.find((item) => item.type === 0)?.address
+      .litera;
+    const flat = patient?.address?.find((item) => item.type === 0)?.address
+      .flat;
+    let address = '';
+
+    const kladrCode = patient?.address?.find((item) => item.type === 0)
+      ?.address.KLADRCode;
+    const kladrStreetCode = patient?.address?.find((item) => item.type === 0)
+      ?.address.KLADRStreetCode;
+    const kladrCity = rbKladrRegistration.find((item) => item.id === kladrCode);
+    const kladrStreet = rbKladrStreetsRegistration.find(
+      (item) => item.id === kladrStreetCode,
+    );
+    const city = kladrCity?.name;
+    const street = kladrStreet?.name;
+    const socr = kladrStreet?.socr;
+
+    if (city) {
+      address = `г. ${city}`;
+      if (street && socr) {
+        address = address.concat(`, ${socr} ${street}`);
+        if (number) {
+          address = address.concat(`, д.${number}`);
+          if (corpus) {
+            address = address.concat(`, к.${corpus}`);
+            if (litera) {
+              address = address.concat(litera);
+            }
+          }
+          if (flat) {
+            address = address.concat(`, кв.${flat}`);
+          }
+        }
+      }
+    }
+
+    return address;
+  }, [rbKladrStreetsRegistration]);
+
   const getFormattedProps = useMemo(() => {
-    return props.patients.map((item, index) => {
+    return patients.map((item) => {
       return {
         ...item,
         key: item.code,
         cNumber: '',
         kNumber: '',
-        address: item.address.find((item) => item.type === 0)?.freeInput,
+        address: getTypeAddress(item),
         viewType: '',
         sex: getSexName(item.sex),
         birthDate: moment(item.birthDate).format('DD-MM-YYYY'),
@@ -83,43 +162,40 @@ const PatientsTable: FC<TableProps> = (props) => {
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
         route: <Link to={`/card/${item.code}`}>Перейти</Link>,
+        regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
-  }, [props.patients]);
+  }, [patients, rbKladrStreetsRegistration]);
 
-  return (
-    <>
+  return (isLoadingKladrStreetsRegistration && patients.length === 0)
+    ? (
+        <div className={'person-info-loading__wrapper'}>
+          <Spin />
+        </div>
+    )
+    : (
       <Table
-        loading={props.isLoading}
+        loading={isLoading}
         dataSource={getFormattedProps}
         columns={columns}
         rowSelection={{
           type: 'radio',
-          selectedRowKeys: props.currentPatient ? [props.currentPatient] : [],
-          onChange: (selectedRowKeys, selectedRows) => {
+          selectedRowKeys: currentPatient ? [currentPatient] : [],
+          onChange: (selectedRowKeys) => {
             if (typeof selectedRowKeys[0] === 'number') {
-              props.onPatientClick(selectedRowKeys[0]);
+              onPatientClick(selectedRowKeys[0]);
             }
           },
         }}
         onRow={(record) => {
           return {
-            onClick: (event) => {
-              props.onPatientClick(record.key);
-            },
-            onMouseEnter: (event) => {
-              event.persist();
-              setIsShowTooltip(true);
-            },
-            onMouseLeave: (event) => {
-              event.persist();
-              setIsShowTooltip(false);
+            onClick: () => {
+              onPatientClick(record.key);
             },
           };
         }}
       />
-    </>
-  );
+    )
 };
 
-export default PatientsTable;
+export default React.memo(PatientsTable);

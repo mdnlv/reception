@@ -1,96 +1,81 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
-import { RegistrationCardState } from '../../../../../../store/registrationCard/types';
-import FormField from '../../../../components/FormField/FormField';
 import {
   Button,
   Checkbox,
   Col,
-  DatePicker,
   Divider,
-  Input,
-  InputNumber,
   Radio,
   Row,
   Select,
-  TimePicker,
+  TimePicker
 } from 'antd';
 import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
-import { detailedPersonsSelector } from '../../../../../../store/rb/selectors';
-import optionsListMapper from '../../../../../../utils/mappers/optionsListMapper';
 
-const UserInfo: React.FC = (props) => {
-  const formProps = useFormikContext<RegistrationCardState>();
+import { WizardStateType } from '../../types';
+import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+
+import FormField from '../../../../components/FormField/FormField';
+import FastInput from '../../../../components/fields/FastInput/FastInput';
+import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastMaskedInput';
+import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
+import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
+
+const UserInfo: React.FC = () => {
+  const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
   const sectionValuePath = `personal`;
-  const personsOptions = optionsListMapper(persons);
+
+  const personsOptions = persons.map((item) => (
+    <Select.Option key={item.id} name={item.name} value={item.id}>
+      {item.name}
+    </Select.Option>
+  ));
 
   return (
     <form className="wizard-step registration-form">
       <FormField label="Код">
-        <Input
-          name={`${sectionValuePath}.code`}
-          value={formProps.values.personal.code}
-          onChange={formProps.handleChange}
-        />
+        <FastInput disabled name={'personal.code'} />
       </FormField>
       <FormField label="Фамилия">
-        <Input
-          name={`${sectionValuePath}.lastName`}
-          value={formProps.values.personal.lastName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.lastName'} />
       </FormField>
       <FormField label="Имя">
-        <Input
-          name={`${sectionValuePath}.firstName`}
-          value={formProps.values.personal.firstName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.firstName'} />
       </FormField>
       <FormField label="Отчество">
-        <Input
-          name={`${sectionValuePath}.patrName`}
-          value={formProps.values.personal.patrName}
-          onChange={formProps.handleChange}
-        />
+        <FastInput name={'personal.patrName'} />
       </FormField>
       <Divider />
       <div className="registration-form__dates">
         <Row gutter={16}>
           <Col span={12}>
-            <FormField label="Дата">
-              <DatePicker
+            <FormField label="Дата рождения">
+              <FastDatePicker
+                name={`${sectionValuePath}.birthDate`}
                 value={
                   formProps.values.personal.birthDate
                     ? moment(formProps.values.personal.birthDate)
                     : undefined
                 }
-                onChange={(date, dateString) => {
-                  formProps.setFieldValue(
-                    `${sectionValuePath}.birthDate`,
-                    dateString,
-                  );
-                }}
               />
             </FormField>
           </Col>
           <Col span={12}>
-            <FormField label="Время">
+            <FormField label="Время рождения">
+              {/*todo make birthTime correct binding*/}
+              {/* todo make correct bindings */}
               <TimePicker
                 format={'HH:mm'}
-                value={
-                  formProps.values.personal.birthDate
-                    ? moment(formProps.values.personal.birthDate)
-                    : undefined
-                }
-                onChange={(date, dateString) => {
+                name={'personal.birthTime'}
+                onChange={(_, timeString) => {
                   formProps.setFieldValue(
-                    `${sectionValuePath}.birthDate`,
-                    date?.toISOString(),
+                    `${sectionValuePath}.birthTime`,
+                    timeString,
                   );
                 }}
               />
@@ -102,26 +87,12 @@ const UserInfo: React.FC = (props) => {
         <Row gutter={16}>
           <Col>
             <FormField label="Рост">
-              <InputNumber
-                min={0}
-                name={`${sectionValuePath}.height`}
-                value={formProps.values.personal.height}
-                onChange={(val) => {
-                  formProps.setFieldValue(`${sectionValuePath}.height`, val);
-                }}
-              />
+              <FastInputNumber min={0} name={'personal.height'} />
             </FormField>
           </Col>
           <Col>
             <FormField label="Вес">
-              <InputNumber
-                min={0}
-                name={`${sectionValuePath}.weight`}
-                value={formProps.values.personal.weight}
-                onChange={(val) => {
-                  formProps.setFieldValue(`${sectionValuePath}.weight`, val);
-                }}
-              />
+              <FastInputNumber min={0} name={'personal.weight'} />
             </FormField>
           </Col>
           <Col>
@@ -140,23 +111,12 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="СНИЛС">
-          <Input
-            name={`${sectionValuePath}.snils`}
-            value={formProps.values.personal.snils}
-            onChange={formProps.handleChange}
-          />
+          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
         </FormField>
         <FormField label="Лечащий врач">
-          <Select
-            value={formProps.values.personal.docId}
-            onChange={(val) => {
-              formProps.setFieldValue(`${sectionValuePath}.docId`, val);
-            }}
-            showSearch
-            filterOption
-            optionFilterProp={'name'}>
+          <FastSearchSelect showSearch filterOption name={'name'}>
             {personsOptions}
-          </Select>
+          </FastSearchSelect>
         </FormField>
         <Row>
           <Col>
@@ -180,18 +140,13 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="Дата начала карты">
-          <DatePicker
+          <FastDatePicker
+            name={`${sectionValuePath}.startCardDate`}
             value={
               formProps.values.personal.startCardDate
                 ? moment(formProps.values.personal.startCardDate)
                 : undefined
             }
-            onChange={(date, dateTime) => {
-              formProps.setFieldValue(
-                `${sectionValuePath}.startCardDate`,
-                dateTime,
-              );
-            }}
           />
         </FormField>
         <div>
@@ -214,11 +169,7 @@ const UserInfo: React.FC = (props) => {
       <Divider />
       <div>
         <FormField label="Место рождения">
-          <Input
-            name={`${sectionValuePath}.birthPlace`}
-            value={formProps.values.personal.birthPlace}
-            onChange={formProps.handleChange}
-          />
+          <FastInput name={'personal.birthPlace'} />
         </FormField>
       </div>
       <div className="registration-form__filter-action">

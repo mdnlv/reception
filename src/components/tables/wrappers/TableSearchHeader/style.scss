@@ -22,8 +22,13 @@
   }
 }
 
+.table__top-search-results{
+  color: #4C86C8;
+  padding: 0 8px;
+}
+
 .find-filters__wrapper{
-  padding: 0 4px;
+  padding: 0 15px;
   &:hover{
     cursor: pointer;
     opacity: .7;

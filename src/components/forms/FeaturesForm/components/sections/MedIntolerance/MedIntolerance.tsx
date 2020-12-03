@@ -1,15 +1,15 @@
 import React, {FC} from 'react'
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {Col, DatePicker, Row, Select} from 'antd';
-import FormField from "../../../../components/FormField/FormField";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import FormState from "../../../types";
 import {useFormikContext} from "formik";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import moment from "moment";
 
-const MedIntolerance: FC = (props) => {
+import FormState from "../../../types";
 
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
+
+const MedIntolerance: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
@@ -30,9 +30,12 @@ const MedIntolerance: FC = (props) => {
                             </Col>
                             <Col>
                                 <FormField label={'Дата установления'}>
-                                    <DatePicker value={moment(form.values.medIntolerance[index]?.fromDate)} onChange={(_,date)=>{
-                                        form.setFieldValue(`medIntolerance[${index}].fromDate`, date)
-                                    }} />
+                                    <DatePicker
+                                      value={moment(form.values.medIntolerance[index]?.fromDate)}
+                                      onChange={(_,date)=>{
+                                          form.setFieldValue(`medIntolerance[${index}].fromDate`, date)
+                                      }}
+                                    />
                                 </FormField>
                             </Col>
                         </Row>

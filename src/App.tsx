@@ -1,39 +1,18 @@
-import React, { useEffect } from 'react';
-import { Col, Layout, Row } from 'antd';
-import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
-import AppRouter from './router/router';
-import SideMenu from './components/elements/SideMenu/SideMenu';
+import React, { Suspense, useEffect } from 'react';
+import { Col, Layout, Row } from 'antd/lib';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import {
-  fetchAccountingSystem,
-  fetchAttachTypes,
-  fetchContactTypes,
-  fetchEventTypes,
-  fetchInvalidDocuments,
-  fetchInvalidReasons,
-  fetchOrganisations,
-  fetchPatientDocumentTypes,
-  fetchPersons,
-  fetchPolicyKinds,
-  fetchPolicyTypes,
-} from './store/rb/actions';
 
-function App() {
-  const dispatch = useDispatch();
+import useInitialFetch from './reduxStore/hooks/initialFetch';
+
+import AppHeaderBar from './components/elements/AppHeaderBar/AppHeaderBar';
+import AppRouter from './router/AppRouter';
+import SideMenu from './components/elements/SideMenu/SideMenu';
+
+const App = () => {
+  const initialFetch = useInitialFetch();
 
   useEffect(() => {
-    dispatch(fetchPersons());
-    dispatch(fetchEventTypes());
-    dispatch(fetchInvalidDocuments());
-    dispatch(fetchOrganisations());
-    dispatch(fetchInvalidReasons());
-    dispatch(fetchAccountingSystem());
-    dispatch(fetchAttachTypes());
-    dispatch(fetchPolicyTypes());
-    dispatch(fetchPolicyKinds());
-    dispatch(fetchContactTypes());
-    dispatch(fetchPatientDocumentTypes());
+    initialFetch();
   }, []);
 
   return (
@@ -48,13 +27,16 @@ function App() {
               <SideMenu />
             </Col>
             <Col span={23}>
-              <AppRouter />
+              {/*todo add smooth fallback*/}
+              <Suspense fallback={''}>
+                <AppRouter />
+              </Suspense>
             </Col>
           </Row>
         </Layout.Content>
       </Layout>
     </Router>
   );
-}
+};
 
 export default App;

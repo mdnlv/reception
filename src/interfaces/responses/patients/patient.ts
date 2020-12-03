@@ -1,6 +1,8 @@
 import AddressResponse from './patientAddress';
 import PatientContactResponse from './patientContact';
 import PatientPolicyResponse from './patientPolicy';
+import PatientSocialStatusResponse from './patientSocialStatus';
+import PatientWorkResponse from "./patientWork";
 
 export default interface PatientResponse {
   id: number;
@@ -13,7 +15,7 @@ export default interface PatientResponse {
   lastName: string;
   firstName: string;
   patrName: string;
-  birthDate: Date;
+  birthDate: string;
   birthTime: Date | null;
   sex: 1 | 2;
   SNILS: string;
@@ -26,7 +28,7 @@ export default interface PatientResponse {
   birthPlace: string;
   chronicalMKB: string;
   diagNames: string;
-  chartBeginDate: Date;
+  chartBeginDate: string;
   rbInfoSource_id: null | number;
   notes: string;
   IIN: string;
@@ -39,6 +41,8 @@ export default interface PatientResponse {
 
   client_address_info: AddressResponse[];
 
+  client_social_status: PatientSocialStatusResponse[];
+
   client_document_info: {
     documentType_id: string;
     serial: string;
@@ -50,6 +54,5 @@ export default interface PatientResponse {
 
   client_policy_info: PatientPolicyResponse[];
   client_contact_info: PatientContactResponse[];
-
-  client_work_info?: [];
+  client_work_info: PatientWorkResponse[];
 }

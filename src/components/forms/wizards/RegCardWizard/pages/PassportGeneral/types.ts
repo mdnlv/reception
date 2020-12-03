@@ -5,59 +5,44 @@ export interface PassportContactType {
   note: string;
 }
 
+export interface PassportPolicyType {
+  id?: number;
+  timeType: string;
+  from: string;
+  to: string;
+  serial: string;
+  number: string;
+  cmo: string;
+  type: string;
+  name: string;
+  note: string;
+}
+
+export interface PassportAddressType {
+  [key: string]: any;
+  isKLADR: boolean;
+  city: string;
+  area?: string;
+  street?: string;
+  houseNumber?: string | number;
+  houseCharacter?: string | number;
+  flatNumber: string | null | number;
+  isDocumentedAddress: boolean;
+  freeInput: string;
+}
+
 export default interface FormState {
   passportInfo: {
     passportType: string;
-    serial: string;
+    serialFirst: string;
+    serialSecond: string;
     number: string;
-    fromDate: Date;
+    fromDate: string;
     givenBy: string;
-
-    addressRegistration: {
-      isKLADR: boolean;
-      city: string;
-      area: string;
-      street: string;
-      houseNumber?: number;
-      houseCharacter?: number;
-      flatNumber?: number;
-      isDocumentedAddress: boolean;
-      freeInput: string;
-    };
-
-    documentedAddress: {
-      isKLADR: boolean;
-      city: string;
-      area: string;
-      street: string;
-      houseNumber?: number;
-      houseCharacter?: number;
-      flatNumber?: number;
-      isDocumentedAddress: boolean;
-      freeInput: string;
-    };
+    addressRegistration: PassportAddressType;
+    documentedAddress: PassportAddressType;
   };
   contacts: PassportContactType[];
-  policyOms: {
-    timeType: string;
-    from: Date;
-    to: Date;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name: string;
-    note: string;
-  };
-  policyDms: {
-    timeType: string;
-    from: Date;
-    to: Date;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name: string;
-    note: string;
-  };
+  policyOms: PassportPolicyType[];
+  policyDms: PassportPolicyType[];
 }

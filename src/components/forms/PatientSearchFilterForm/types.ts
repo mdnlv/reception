@@ -1,12 +1,11 @@
-import { QueryPatientsFilters } from '../../../store/patients/types';
+import PatientsSearchFiltersType from "../../../reduxStore/slices/patients/types";
 
-interface FormState extends QueryPatientsFilters {
-  personAgeFrom: undefined;
-  personAgeTo: undefined;
-  birthMonth: undefined;
-  birthYear: undefined;
+export interface FormProps {
+  onClose?(): void;
+  onClearForm?(): void;
+  onSubmit?(): void;
 }
 
-type PartialFormState = Partial<FormState>;
+type PartialFormState = Partial<PatientsSearchFiltersType>;
 
 export default PartialFormState;

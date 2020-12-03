@@ -1,6 +1,7 @@
+import {AxiosResponse} from "axios";
+
 import apiInstance from "./api";
 import InfoItemResponse from "../interfaces/responses/infoBooks/InfoItemResponse";
-import {AxiosResponse} from "axios";
 
 export default {
     fetchAll(): Promise<AxiosResponse<InfoItemResponse[]>>{

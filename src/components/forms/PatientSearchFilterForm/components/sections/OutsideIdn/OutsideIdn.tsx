@@ -1,21 +1,20 @@
-import React from 'react';
-import { Col, Input, Row, Select } from 'antd';
+import React, {useCallback} from 'react';
+import { Col, Row, Select } from 'antd/lib';
+
+import {SectionProps} from "./types";
+
 import FormField from '../../../../components/FormField/FormField';
-import { useFormikContext } from 'formik';
-import PartialFormState from '../../../types';
+import FastInput from '../../../../components/fields/FastInput/FastInput';
+import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-interface SectionProps {
-  accountTypes: { id: number; name: string }[];
-}
-
-const OutsideIdn: React.FC<SectionProps> = (props) => {
-  const form = useFormikContext<PartialFormState>();
-
-  const accountTypesOptions = props.accountTypes.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+const OutsideIdn: React.FC<SectionProps> = ({ accountTypes }) => {
+  const accountTypesOptions = useCallback(() => {
+    return accountTypes.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+        {item.name}
+      </Select.Option>
+    ));
+  }, [accountTypes]);
 
   return (
     <div className={'form-section'}>
@@ -23,29 +22,21 @@ const OutsideIdn: React.FC<SectionProps> = (props) => {
       <Row>
         <Col span={24}>
           <FormField label={'Тип'}>
-            <Select
+            <FastSearchSelect
               showSearch
               filterOption
               optionFilterProp={'name'}
               allowClear
-              value={form.values.identifierSystemId}
-              onChange={(val) => {
-                form.setFieldValue('identifierSystemId', val);
-              }}
-              size={'small'}>
-              {accountTypesOptions}
-            </Select>
+              name={'identifierSystemId'}>
+              {accountTypesOptions()}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>
       <Row>
         <Col>
           <FormField label={'Идентификатор'}>
-            <Input
-              size={'small'}
-              name={'identifier'}
-              onChange={form.handleChange}
-            />
+            <FastInput size={'small'} name={'identifier'} />
           </FormField>
         </Col>
       </Row>

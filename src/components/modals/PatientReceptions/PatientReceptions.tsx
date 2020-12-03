@@ -1,28 +1,29 @@
 import React, { useMemo, useState } from 'react';
 import { Col, Divider, Input, Modal, Row, Tabs } from 'antd';
-import PersonAppointment from '../../../types/data/PersonAppointment';
 import _ from 'lodash';
-import PatientReceptionCard from '../../cards/PatientReceptionCard/PatientReceptionCard';
-import './styles.scss';
 import { isPast } from 'date-fns';
 
-type PatientReceptionsProps = {
-  onClose?(): void;
-  isVisible: boolean;
-  title: string;
-  receptions: PersonAppointment[];
-};
+import PersonAppointment from '../../../types/data/PersonAppointment';
+import './styles.scss';
+import {PatientReceptionsProps} from "./types";
 
-const PatientReceptions: React.FC<PatientReceptionsProps> = (props) => {
+import PatientReceptionCard from '../../cards/PatientReceptionCard/PatientReceptionCard';
+
+const PatientReceptions: React.FC<PatientReceptionsProps> = ({
+  onClose,
+  isVisible,
+  title,
+  receptions
+}) => {
   const [activeTab, setActiveTab] = useState('all');
 
   const passedReceptions = useMemo(() => {
-    return props.receptions.filter((item) => isPast(item.date));
-  }, [props.receptions]);
+    return receptions.filter((item) => isPast(item.date));
+  }, [receptions]);
 
   const futureReceptions = useMemo(() => {
-    return props.receptions.filter((item) => !isPast(item.date));
-  }, [props.receptions]);
+    return receptions.filter((item) => !isPast(item.date));
+  }, [receptions]);
 
   const getReceptionsGrid = useMemo(() => {
     let chunkArr = [] as PersonAppointment[];
@@ -34,7 +35,7 @@ const PatientReceptions: React.FC<PatientReceptionsProps> = (props) => {
         chunkArr = futureReceptions;
         break;
       default:
-        chunkArr = props.receptions;
+        chunkArr = receptions;
     }
     const chunkReceptions = _.chunk<PersonAppointment>(chunkArr, 2);
     return (
@@ -60,20 +61,20 @@ const PatientReceptions: React.FC<PatientReceptionsProps> = (props) => {
         })}
       </div>
     );
-  }, [activeTab, props.receptions]);
+  }, [activeTab, receptions]);
 
   return (
     <Modal
       width={720}
       className={'patient-receptions-modal'}
       wrapClassName={'app-modal'}
-      visible={props.isVisible}
-      title={props.title}
+      visible={isVisible}
+      title={title}
       footer={null}>
       <Tabs
         centered={true}
         onChange={(key) => {
-          console.log(key);
+          //console.log(key);
           setActiveTab(key);
         }}>
         <Row>

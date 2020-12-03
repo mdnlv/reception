@@ -1,34 +1,35 @@
-import React, {useEffect} from 'react'
-import './styles.scss'
-import {Col, Row} from "antd";
-import InfoPageTabs from "../../components/tabs/InfoPageTabs/InfoPageTabs";
-import TableSearchHeader from "../../components/tables/wrappers/TableSearchHeader/TableSearchHeader";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
-import {fetchInfoBook} from "../../store/infoBook/actions";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import { Col, Row } from 'antd';
 
-const InfoPage: React.FC = (props) => {
+import './styles.scss';
 
-    const navigation = useHistory()
-    const dispatch = useDispatch()
+import InfoPageTabs from '../../components/tabs/InfoPageTabs/InfoPageTabs';
+import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
 
-    useEffect(() => {
-        dispatch(fetchInfoBook())
-    }, [])
+const InfoPage: React.FC = () => {
+  const navigation = useHistory();
+  const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
 
-    const goToMain = () => {
-        navigation.push('/')
-    }
+  const goToMain = () => {
+    navigation.push('/');
+  };
 
-    return (
-        <Row className={'info-page'}>
-            <Col span={24}>
-                <TableSearchHeader title={'Справочная информация'} onCloseClick={goToMain} onChangeQuery={() => {}}>
-                    <InfoPageTabs/>
-                </TableSearchHeader>
-            </Col>
-        </Row>
-    )
-}
+  return (
+    <Row className={'info-page'}>
+      <Col span={24}>
+        <TableSearchHeader
+          title={'Справочная информация'}
+          onCloseClick={goToMain}
+          mode={tableMode}
+          onTableModeChange={(mode) => {
+            setTableMode(mode);
+          }}>
+          <InfoPageTabs />
+        </TableSearchHeader>
+      </Col>
+    </Row>
+  );
+};
 
-export default InfoPage
+export default InfoPage;

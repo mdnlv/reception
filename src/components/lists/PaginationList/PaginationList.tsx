@@ -1,34 +1,39 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
-import { usePaginationList } from '../../../hooks/paginationList';
-import { Pagination } from 'antd';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
+import { Pagination } from 'antd/lib';
+
+import {ListProps} from "./types";
 import './styles.scss';
 
-interface ListProps<T> {
-  len: number;
-  numberPerPage: number;
-  data: T[];
-  renderBody: (item: T) => React.ReactNode;
-}
+import { usePaginationList } from '../../../hooks/paginationList/paginationList';
 
-function PaginationList<T>(props: PropsWithChildren<ListProps<T>>) {
+function PaginationList<T>({len, numberPerPage, data, renderBody}: PropsWithChildren<ListProps<T>>) {
   const { currentPage, setCurrentPage, totalPages } = usePaginationList({
-    ...props,
+    ...{len, numberPerPage, data, renderBody},
   });
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [props.data]);
+  }, [data]);
 
   const listBody = useMemo(() => {
-    const startIndex = (currentPage - 1) * props.numberPerPage;
-    let endIndex = startIndex + props.numberPerPage;
-    if (endIndex > props.len) {
-      endIndex = props.len;
+    const startIndex = (currentPage - 1) * numberPerPage;
+    let endIndex = startIndex + numberPerPage;
+    if (endIndex > len) {
+      endIndex = len;
     }
-    return props.data
+    return data
       .slice(startIndex, endIndex)
-      .map((item) => props.renderBody(item));
-  }, [currentPage, props.data, props.renderBody]);
+      .map((item) => renderBody(item));
+  }, [currentPage, data, renderBody]);
+
+  const onPaginationChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
 
   return (
     <>
@@ -37,12 +42,10 @@ function PaginationList<T>(props: PropsWithChildren<ListProps<T>>) {
         <div className="pagination-list__pagination-wrapper">
           <Pagination
             disabled={totalPages <= 1}
-            onChange={(page) => {
-              setCurrentPage(page);
-            }}
+            onChange={onPaginationChange}
             current={currentPage}
-            pageSize={props.numberPerPage}
-            total={props.len - 1}
+            pageSize={numberPerPage}
+            total={len - 1}
           />
         </div>
       )}

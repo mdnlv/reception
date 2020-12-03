@@ -1,13 +1,17 @@
 import React from 'react';
-import { Button, Descriptions, Row, Space } from 'antd';
+import {Button, Descriptions, Row, Space} from 'antd/lib';
+
 import format from '../../../utils/date/format';
-import PersonAppointment from '../../../types/data/PersonAppointment';
+import {CardProps} from "./types";
 
-interface CardProps extends PersonAppointment {
-  isExecuted?: boolean;
-}
-
-const PatientReceptionCard: React.FC<CardProps> = (props) => {
+const PatientReceptionCard: React.FC<CardProps> = ({
+  isExecuted,
+  date,
+  unit,
+  type,
+  specialization,
+  doctor
+}) => {
   const wrappedText = (item: string | undefined | null) => {
     if (!item) {
       return '-';
@@ -17,7 +21,7 @@ const PatientReceptionCard: React.FC<CardProps> = (props) => {
   };
 
   const formattedDate = () => {
-    return format(new Date(props.date), 'dd.MM.yyyy');
+    return format(new Date(date), 'dd.MM.yyyy');
   };
 
   const liveReceptionActions = () => {
@@ -45,20 +49,20 @@ const PatientReceptionCard: React.FC<CardProps> = (props) => {
             {formattedDate()}
           </Descriptions.Item>
           <Descriptions.Item label={'Подразделение'}>
-            {wrappedText(props.unit)}
+            {wrappedText(unit)}
           </Descriptions.Item>
           <Descriptions.Item label={'Тип приема'}>
-            {wrappedText(props.type)}
+            {wrappedText(type)}
           </Descriptions.Item>
           <Descriptions.Item label={'Специлизация'}>
-            {wrappedText(props.specialization)}
+            {wrappedText(specialization)}
           </Descriptions.Item>
           <Descriptions.Item label={'Врач'}>
-            {wrappedText(props.doctor)}
+            {wrappedText(doctor)}
           </Descriptions.Item>
         </Descriptions>
       </Row>
-      {props.isExecuted && (
+      {isExecuted && (
         <Row className={'patient-reception-card__actions'} justify={'end'}>
           {liveReceptionActions()}
         </Row>

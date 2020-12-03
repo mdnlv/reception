@@ -1,8 +1,9 @@
 import React, {FC} from 'react'
+
 import AdditionalHospitalizationForm
     from "../../../../forms/AdditionalHospitalizationForm/AdditionalHospitalizationForm";
 
-const AdditionalHospitalizationPage: FC = (props) => {
+const AdditionalHospitalizationPage: FC = () => {
     return (
         <div className={'card-page'}>
             <AdditionalHospitalizationForm/>

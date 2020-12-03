@@ -1,148 +1,131 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  CloseOutlined,
-  SearchOutlined,
-  SlidersOutlined,
-} from '@ant-design/icons/lib';
+import React, { useEffect, useMemo, useState } from 'react';
+import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
+import { Button, Card, Input, Row } from 'antd/lib';
+
 import './style.scss';
-import { Button, Card, Input, Row } from 'antd';
+import {SearchHeaderProps} from "./types";
+
 import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
 
-type SearchHeaderProps = {
-  onChangeQuery(query: string): void;
-  onOpenSearch?(): void;
-  type?: 'default' | 'filter';
-  title?: string;
-  onCloseClick?(): void;
-  onSearchButtonClick?(query: string): void;
-  className?: string;
-};
-
-const TableSearchHeader: React.FC<SearchHeaderProps> = (props) => {
+const TableSearchHeader: React.FC<SearchHeaderProps> = ({
+  onOpenSearch,
+  title,
+  onCloseClick,
+  onSearchButtonClick,
+  onTableModeChange,
+  mode,
+  onSubmitForm,
+  onClearSearch,
+  searchCount,
+  className,
+  children
+}) => {
   const [showSearchForm, setShowForm] = useState(false);
-  const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (props.onOpenSearch) {
-      props.onOpenSearch();
+    if (onOpenSearch) {
+      onOpenSearch();
     }
   }, [showSearchForm]);
 
-  const submitQuery = useCallback(() => {
-    if (props.onSearchButtonClick) {
-      props.onSearchButtonClick(query);
+  const submitQuery = () => {
+    if (onSearchButtonClick) {
+      onSearchButtonClick(searchQuery.trim());
     }
-  }, [query]);
+  }
 
-  const renderTableBody = () => {
-    if (showSearchForm) {
+  const tableBody = useMemo(() => {
+    if (mode === 'search') {
       return (
         <Card>
-          <PatientSearchFilterForm />
+          <PatientSearchFilterForm
+            onClose={onCloseClick}
+            onSubmit={onSubmitForm}
+          />
         </Card>
       );
-    } else if (props.children) {
-      return props.children;
+    } else if (children) {
+      return children;
     } else {
       return null;
     }
-  };
+  }, [mode, onCloseClick, onSubmitForm, children]);
 
-  const getHeaderByType = () => {
-    switch (props.type) {
-      case 'filter':
-        return renderSearchHeader();
-      case 'default':
-        return renderDefaultHeader();
-    }
-  };
-
-  const renderDefaultHeader = () => {
-    return (
-      <>
-        <div
-          className={`table-top__logo table-top__search ${
-            props.className ? props.className : ''
-          }`}>
-          {props.title ? props.title : null}
-          <div
-            className="find-filters__wrapper"
-            onClick={() => {
-              if (props.onCloseClick) {
-                props.onCloseClick();
-              }
-            }}>
-            <CloseOutlined />
-          </div>
-        </div>
-        <div className={'table__top-search-wrapper'}>
-          <Input
-            placeholder="Поиск"
-            type={'small'}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-          />
-        </div>
-      </>
-    );
-  };
-
-  const renderSearchHeader = () => {
-    if (showSearchForm) {
-      return (
-        <div className={'table-top__logo table-top__search'}>
-          Расширенный поиск
-          <div
-            onClick={() => {
-              setShowForm(!showSearchForm);
-            }}
-            className="find-filters__wrapper">
-            <CloseOutlined />
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <>
-          <div className={'table-top__logo'}>
-            {props.title ? props.title : null}
-            <div className="find-filters__wrapper">
-              <SlidersOutlined
-                onClick={() => {
-                  setShowForm(!showSearchForm);
-                }}
-              />
+  const getHeaderByType = useMemo(() => {
+    switch (mode) {
+      case 'search':
+        return (
+          <div className={'table-top__logo table-top__search'}>
+            Расширенный поиск
+            <div
+              onClick={() => {
+                onTableModeChange('default');
+              }}
+              className="find-filters__wrapper">
+              <CloseOutlined />
             </div>
           </div>
-          <div className={'table__top-search-wrapper'}>
-            <Input
-              placeholder="Поиск"
-              type={'small'}
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-            />
-            <Button onClick={submitQuery} size="small">
-              Поиск
-            </Button>
-          </div>
-        </>
-      );
+        );
+      case 'default':
+        return (
+          <>
+            <div className={'table-top__logo'}>
+              {title ? title : null}
+              <div className="find-filters__wrapper">
+                <SlidersOutlined
+                  onClick={() => {
+                    onTableModeChange('search');
+                  }}
+                />
+              </div>
+            </div>
+            <div className={'table__top-search-wrapper'}>
+              <Input
+                placeholder="Поиск"
+                type={'small'}
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                }}
+              />
+              <Button onClick={submitQuery} size="small">
+                Поиск
+              </Button>
+            </div>
+            {searchCount !== undefined ? (
+              <div className={'table__top-search-results'}>
+                {`Найдено: (${searchCount})`}
+                <Button
+                  type={'primary'}
+                  shape={'circle'}
+                  icon={<CloseOutlined />}
+                  onClick={() => {
+                    if (onClearSearch) {
+                      onClearSearch();
+                    }
+                  }}
+                  size={'small'}
+                />
+              </div>
+            ) : null}
+          </>
+        );
     }
-  };
+  }, [
+    mode,
+    searchCount,
+    onClearSearch,
+    onTableModeChange,
+    searchQuery,
+  ]);
 
   return (
     <div>
-      <Row align={'stretch'}>{getHeaderByType()}</Row>
-      <div>{renderTableBody()}</div>
+      <Row align={'stretch'}>{getHeaderByType}</Row>
+      <div>{tableBody}</div>
     </div>
   );
-};
-
-TableSearchHeader.defaultProps = {
-  type: 'default',
 };
 
 export default TableSearchHeader;

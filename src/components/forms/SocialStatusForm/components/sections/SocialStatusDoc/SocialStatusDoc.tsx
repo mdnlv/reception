@@ -1,23 +1,24 @@
 import React, {FC} from 'react'
 import {Col, DatePicker, Input, Row, Select} from 'antd'
-import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
-import {FormState, TrustedDoc} from "../../../types";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {useFormikContext} from "formik";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import moment from "moment";
 
+import {FormState, TrustedDoc} from "../../../types";
 
-const SocialStatusDoc: FC = (props) => {
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
+const SocialStatusDoc: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
         <div className={'form-section social-status-doc'}>
             <DropDownContent title={'Документ, подтверждающий соц.статус'}>
-                <FormArrayField<TrustedDoc> values={form.values.trustedDoc} name={'trustedDoc'} renderChild={
+                <FormArrayField<TrustedDoc>
+                  values={form.values.trustedDoc}
+                  name={'trustedDoc'}
+                  renderChild={
                     (key, index) => (
                         <div key={key}>
                             <Row gutter={16} align={"bottom"}>
@@ -28,21 +29,30 @@ const SocialStatusDoc: FC = (props) => {
                                 </Col>
                                 <Col span={3}>
                                     <FormField label={'Серия'}>
-                                        <Input name={`trustedDoc[${index}].serial`} onChange={form.handleChange}/>
+                                        <Input
+                                          name={`trustedDoc[${index}].serial`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                                 <Col span={3}>
                                     <FormField label={'Номер'}>
-                                        <Input name={`trustedDoc[${index}].serial`} onChange={form.handleChange}/>
+                                        <Input
+                                          name={`trustedDoc[${index}].serial`}
+                                          onChange={form.handleChange}
+                                        />
                                     </FormField>
                                 </Col>
                             </Row>
                             <Row >
                                 <Col span={3}>
                                     <FormField label={'Дата'}>
-                                        <DatePicker value={moment(form.values.trustedDoc[index]?.date)} onChange={(_,date) => {
+                                        <DatePicker
+                                          value={moment(form.values.trustedDoc[index]?.date)}
+                                          onChange={(_,date) => {
                                             form.setFieldValue(`trustedDoc[${index}].date`, date)
-                                        }} />
+                                          }}
+                                        />
                                     </FormField>
                                 </Col>
                                 <Col span={5}>
@@ -53,7 +63,7 @@ const SocialStatusDoc: FC = (props) => {
                             </Row>
                         </div>
                     )
-                }/>
+                  }/>
             </DropDownContent>
         </div>
     )

@@ -1,17 +1,15 @@
 import React, {FC} from 'react'
-import ArrayField from "../../../../components/ArrayField/ArrayField";
 import {Col, DatePicker, Input, Row, Select} from "antd";
-import FormField from "../../../../components/FormField/FormField";
-import {Controller, useFormContext} from "react-hook-form";
-import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
-import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 import {useFormikContext} from "formik";
-import FormState from "../../../types";
 import moment from "moment";
 
+import FormState from "../../../types";
 
-const PersonalIdent: FC = (props) => {
+import FormField from "../../../../components/FormField/FormField";
+import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
+import FormArrayField from "../../../../components/FormArrayField/FormArrayField";
 
+const PersonalIdent: FC = () => {
     const form = useFormikContext<FormState>()
 
     return (
@@ -37,16 +35,22 @@ const PersonalIdent: FC = (props) => {
                             </Col>
                             <Col>
                                 <FormField label={'Дата начала'}>
-                                    <DatePicker value={moment(form.values.idDoc[index]?.fromDate)} onChange={(_, date) => {
-                                        form.setFieldValue(`namedDoc[${index}].fromDate`, date)
-                                    } }/>
+                                    <DatePicker
+                                      value={moment(form.values.idDoc[index]?.fromDate)}
+                                      onChange={(_, date) => {
+                                          form.setFieldValue(`namedDoc[${index}].fromDate`, date)
+                                      }}
+                                    />
                                 </FormField>
                             </Col>
                             <Col>
                                 <FormField label={'Дата окончания'}>
-                                    <DatePicker value={moment(form.values.idDoc[index]?.endDate)} onChange={(_, date) => {
-                                        form.setFieldValue(`namedDoc[${index}].endDate`, date)
-                                    } }/>
+                                    <DatePicker
+                                      value={moment(form.values.idDoc[index]?.endDate)}
+                                      onChange={(_, date) => {
+                                          form.setFieldValue(`namedDoc[${index}].endDate`, date)
+                                      }}
+                                    />
                                 </FormField>
                             </Col>
                             <Col>

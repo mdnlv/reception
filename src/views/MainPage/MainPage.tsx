@@ -1,92 +1,111 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Col, Row } from 'antd';
-import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
-import './styles.scss';
-import TableSearchHeader from '../../components/tables/wrappers/TableSearchHeader/TableSearchHeader';
-import TimeTable from '../../components/elements/TimeTable/TimeTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { fetchPatients } from '../../store/patients/actions';
-import exampleTree from './exampleTree';
-import { fetchPatientEvents } from '../../store/patientCard/actions';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+
+import './styles.scss';
+import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
+import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
+import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
+import { RootState } from '../../reduxStore/store';
+import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
+
+import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
-import { currentPatientInfoSelector } from '../../store/patients/selectors';
-import { eventsAppointments } from '../../store/patientCard/selectors';
+import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
+import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferredCallsSlice";
 
-const MainPage: FC = (props) => {
-  const dispatch = useDispatch();
+const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
-
-  //selectors
-  const { isLoading, currentPatient } = useSelector(
-    (state: RootState) => state.patients,
-  );
+  const schedules = useSelector(detailedSchedules);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
-  const { rbPersons, rbEventTypes } = useSelector(
-    (state: RootState) => state.rb,
-  );
+  const { loading } = useSelector((state: RootState) => state.patientCard);
+  const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      fetchPatients({
-        limit: 300,
-        offset: 0,
-      }),
-    );
+    dispatch(fetchDeferredQueue())
+  }, [])
+
+  useEffect(() => {
+    dispatch(fetchKladr({}));
   }, []);
 
   useEffect(() => {
-    if (currentPatient) {
-      dispatch(fetchPatientEvents(currentPatient));
+    if (currentPatientMemo) {
+      if (
+        currentPatientMemo.address &&
+        currentPatientMemo.address[0] &&
+        currentPatientMemo.address[0].address.KLADRCode &&
+        currentPatientMemo.address[0].address.KLADRStreetCode
+      ) {
+        dispatch(
+          fetchKladrStreets({
+            id: currentPatientMemo.address[0].address.KLADRCode,
+            type: 'documented',
+          }),
+        );
+      }
+      if (
+        currentPatientMemo.address &&
+        currentPatientMemo.address[1] &&
+        currentPatientMemo.address[1].address.KLADRCode &&
+        currentPatientMemo.address[1].address.KLADRStreetCode
+      ) {
+        dispatch(
+          fetchKladrStreets({
+            id: currentPatientMemo.address[1].address.KLADRCode,
+            type: 'registration',
+          }),
+        );
+      }
+      dispatch(fetchPatientEvents(currentPatientMemo.code));
     }
-  }, [currentPatient, rbPersons, rbEventTypes]);
+  }, [currentPatientMemo]);
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
-      return !!currentPatient;
+      return !!currentPatientMemo;
     } else {
       return false;
     }
-  }, [showUserInfo, currentPatient]);
+  }, [showUserInfo, currentPatientMemo]);
 
   const openSearchQuery = useCallback(() => {
-    setShowInfo(!showUserInfo);
-  }, [showUserInfo]);
+    setShowInfo((prevState) => {
+      return !prevState;
+    });
+  }, []);
 
   return (
-    <Row className={'main-page'}>
-      <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
-        <Row>
-          <Col span={24}>
-            <PatientsSearchTable onOpenSearch={openSearchQuery} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <TableSearchHeader
-              className={'docs-search-table'}
-              title={'Врачи'}
-              type={'filter'}
-              onOpenSearch={() => {
-                setShowInfo(!showUserInfo);
-              }}
-              onChangeQuery={() => {}}>
-              <TimeTable data={exampleTree} />
-            </TableSearchHeader>
-          </Col>
-        </Row>
-      </Col>
-      {getInfoCard && (
-        <Col span={7}>
-          <PatientInfoCard
-            isLoading={isLoading}
-            patient={currentPatientMemo}
-            appointments={currentPatientAppointments}
-          />
+    <div className={'main-page'}>
+      <Row>
+        <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
+          <Row>
+            <Col span={24}>
+              <PatientsSearchTable onOpenSearch={openSearchQuery} />
+            </Col>
+          </Row>
         </Col>
-      )}
-    </Row>
+        {getInfoCard && (
+          <Col span={7}>
+            <PatientInfoCard
+              isLoading={loading.events || isLoadingKladrStreetsDocumented || isLoadingKladrStreetsRegistration}
+              patient={currentPatientMemo}
+              appointments={currentPatientAppointments}
+            />
+          </Col>
+        )}
+      </Row>
+      <Row>
+        <Col span={24}>
+          <ScheduleTable schedules={schedules} />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

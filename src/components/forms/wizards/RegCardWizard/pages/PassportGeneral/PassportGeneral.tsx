@@ -1,40 +1,45 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../store/store';
-import {
-  kladrLoadingsSelector,
-  kladrSelector,
-} from '../../../../../../store/registrationCard/selectors';
-import { KladrDocType } from '../../../../../../store/registrationCard/types';
-import KladrItem from '../../../../../../types/data/KladrItem';
+import { Col, Divider, Row } from 'antd';
+import { useFormikContext } from 'formik';
+
 import {
   fetchKladr,
   fetchKladrNested,
   fetchKladrStreets,
-} from '../../../../../../store/registrationCard/actions';
-import { Col, Divider, Row } from 'antd';
-import Address from './sections/Address/Address';
-import Policy from './sections/Policy/Policy';
-import PersonalDocument from './sections/PersonalDocuments/PersonalDocuments';
-import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
+  findPatientPolicy,
+} from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
-  detailedContactTypes,
-  detailedPatientDocumentsTypes,
-  detailedPolicyKinds,
-  detailedPolicyTypes,
-} from '../../../../../../store/rb/selectors';
+  kladrLoadingsSelector,
+  kladrSelector,
+} from '../../../../../../reduxStore/slices/registrationCard/selectors';
+import {
+  detailedCMOSelector,
+  detailedContactTypesSelector,
+  detailedDocumentTypesSelector,
+  detailedPolicyKindsSelector,
+  detailedPolicyTypesSelector,
+} from '../../../../../../reduxStore/slices/rb/selectors';
+import KladrItem from '../../../../../../types/data/KladrItem';
+import { PassportPolicyType } from './types';
+import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
+import { RootState } from '../../../../../../reduxStore/store';
+import { WizardStateType } from '../../types';
+import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
 
-const PassportGeneral: React.FC = (props) => {
-  const policyOmsTimeTypesList = useSelector(detailedPolicyKinds);
-  const policyOmsTypesList = useSelector(detailedPolicyTypes);
-  const docTypesList = useSelector(detailedPatientDocumentsTypes);
-  const contactTypes = useSelector(detailedContactTypes);
+import Address from './sections/Address/Address';
+import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
+import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
+import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 
-  const store = useSelector((state: RootState) => state.registrationCard);
+interface SectionProps {}
 
-  useEffect(() => {
-    dispatch(fetchKladr());
-  }, []);
+const PassportGeneral: React.FC<SectionProps> = () => {
+  const form = useFormikContext<WizardStateType>();
+  const dispatch = useDispatch();
+  const { dms, oms } = useSelector(
+    (state: RootState) => state.registrationCard.form.foundPolicies,
+  );
 
   const {
     rbKladrDocumented,
@@ -52,10 +57,20 @@ const PassportGeneral: React.FC = (props) => {
     isLoadingKladrStreetsDocumented,
     isLoadingKladrStreetsRegistration,
   } = useSelector(kladrLoadingsSelector);
+  const policyTypesList = useSelector(detailedPolicyTypesSelector);
+  const policyKindsList = useSelector(detailedPolicyKindsSelector);
+  const documentTypesList = useSelector(detailedDocumentTypesSelector);
+  const contactTypesList = useSelector(detailedContactTypesSelector);
+  const cmoTypeList = useSelector(detailedCMOSelector);
+  const { organisations, documentTypes } = useSelector(
+    (state: RootState) => state.rb.loading,
+  );
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchKladr({}));
+  }, []);
 
-  function fetchNestedKladr(id: string, type: KladrDocType) {
+  const fetchNestedKladr = (id: string, type: KladrDocType) => {
     let rbKladrItem: KladrItem | undefined;
 
     switch (type) {
@@ -70,28 +85,37 @@ const PassportGeneral: React.FC = (props) => {
     if (rbKladrItem) {
       dispatch(fetchKladrNested({ id: rbKladrItem.prefix, type }));
     }
-  }
+  };
 
-  function fetchKladrStreetsItems(id: string, type: KladrDocType) {
+  const fetchKladrStreetsItems = (id: string, type: KladrDocType) => {
     dispatch(fetchKladrStreets({ id, type }));
-  }
+  };
+
+  const onAddPolicy = (policy: PassportPolicyType, type: 'oms' | 'dms') => {
+    let policyItems: PassportPolicyType[] = [] as PassportPolicyType[];
+    switch (type) {
+      case 'dms':
+        policyItems = form.values.passportGeneral.policyDms;
+        break;
+      case 'oms':
+        policyItems = form.values.passportGeneral.policyOms;
+        break;
+    }
+    const pathName = type === 'oms' ? 'Oms' : 'Dms';
+    policyItems = [...policyItems, policy];
+    form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
+  };
+
+  const onFindPatientPolicy = (
+    payload: FindPolicyParams,
+    type: 'oms' | 'dms',
+  ) => {
+    dispatch(findPatientPolicy({ params: payload, type }));
+  };
 
   return (
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
-        <Col span={12} className={'col--border-right'}>
-          <Address
-            passportType="addressRegistration"
-            isLoadingKladr={isLoadingKladrRegistration}
-            isLoadingKladrNested={isLoadingKladrNestedRegistration}
-            isLoadingKladrStreets={isLoadingKladrStreetsRegistration}
-            getKladrNested={fetchNestedKladr}
-            getKladrStreets={fetchKladrStreetsItems}
-            kladr={rbKladrRegistration}
-            nestedKladr={rbKladrNestedRegistration}
-            kladrStreets={rbKladrStreetsRegistration}
-          />
-        </Col>
         <Col span={12}>
           <Address
             passportType="documentedAddress"
@@ -105,31 +129,59 @@ const PassportGeneral: React.FC = (props) => {
             kladrStreets={rbKladrStreetsDocumented}
           />
         </Col>
-      </Row>
-      <Divider />
-      <Row>
         <Col span={12} className={'col--border-right'}>
-          <Policy
-            policyKey="policyOms"
-            policyTimeType={policyOmsTimeTypesList}
-            policyType={policyOmsTypesList}
-          />
-        </Col>
-        <Col span={12}>
-          <Policy
-            policyKey="policyDms"
-            policyTimeType={policyOmsTimeTypesList}
-            policyType={policyOmsTypesList}
+          <Address
+            passportType="addressRegistration"
+            isLoadingKladr={isLoadingKladrRegistration}
+            isLoadingKladrNested={isLoadingKladrNestedRegistration}
+            isLoadingKladrStreets={isLoadingKladrStreetsRegistration}
+            getKladrNested={fetchNestedKladr}
+            getKladrStreets={fetchKladrStreetsItems}
+            kladr={rbKladrRegistration}
+            nestedKladr={rbKladrNestedRegistration}
+            kladrStreets={rbKladrStreetsRegistration}
           />
         </Col>
       </Row>
       <Divider />
       <Row>
         <Col span={12} className={'col--border-right'}>
-          <PersonalDocument docTypes={docTypesList} />
+          <PolicyAddForm
+            cmoType={cmoTypeList}
+            isLoading={oms.isLoading}
+            isCmoLoading={organisations}
+            foundPolicy={oms.items[0]}
+            policyKey={'policyOms'}
+            policyTimeType={policyKindsList}
+            policyType={policyTypesList}
+            onAddPolicy={onAddPolicy}
+            onFindPolicy={onFindPatientPolicy}
+          />
         </Col>
         <Col span={12}>
-          <PersonalContacts contactTypes={contactTypes} />
+          <PolicyAddForm
+            cmoType={cmoTypeList}
+            foundPolicy={dms.items[0]}
+            isLoading={dms.isLoading}
+            isCmoLoading={organisations}
+            policyKey={'policyDms'}
+            policyTimeType={policyKindsList}
+            policyType={policyTypesList}
+            onAddPolicy={onAddPolicy}
+            onFindPolicy={onFindPatientPolicy}
+          />
+        </Col>
+      </Row>
+      <Divider />
+      <Row>
+        <Col span={12} className={'col--border-right'}>
+          <PersonalDocument
+            isLoadingDocuments={documentTypes}
+            documentTypes={documentTypesList}
+          />
+        </Col>
+        <Col span={12}>
+          <PersonalContacts contactTypes={contactTypesList} />
         </Col>
       </Row>
       <Divider />

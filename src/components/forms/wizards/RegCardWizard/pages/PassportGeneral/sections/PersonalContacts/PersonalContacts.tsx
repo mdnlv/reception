@@ -1,128 +1,122 @@
-import React, { FC } from 'react';
-import { Checkbox, Col, Input, Row, Select } from 'antd';
+import React, { FC, useCallback } from 'react';
+import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import { RegistrationCardState } from '../../../../../../../../store/registrationCard/types';
-import FormArrayField from '../../../../../../components/FormArrayField/FormArrayField';
+
 import { PassportContactType } from '../../types';
+import { WizardStateType } from '../../../../types';
+import {SectionProps, LABELS} from "./types";
+
 import FormField from '../../../../../../components/FormField/FormField';
-import PatientContactType from '../../../../../../../../types/data/PatientContactType';
-import optionsListMapper from '../../../../../../../../utils/mappers/optionsListMapper';
-import MaskedInput from 'antd-mask-input';
+import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
+import FastMaskedInput from '../../../../../../components/fields/FastMaskedInput/FastMaskedInput';
+import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-interface SectionProps {
-  contactTypes: PatientContactType[];
-}
-
-const PersonalContacts: FC<SectionProps> = (props) => {
-  const form = useFormikContext<RegistrationCardState>();
+const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
+  const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
   };
 
-  const contactTypesOptions = optionsListMapper(props.contactTypes);
+  const typesOptions = contactTypes.map((item) => (
+      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+        {item.name}
+      </Select.Option>
+  ));
 
-  const formatMask = (mask: string) =>
-    mask
-      .split('')
-      .map((item) => {
-        if (item === '9') {
-          return '1';
-        }
-        return item;
-      })
-      .join('');
-
-  const getInputByType = (mask: string, index: number) => {
-    let node: React.ReactNode;
-    if (mask) {
-      node = (
-        <MaskedInput
-          mask={formatMask(mask)}
-          name={getSelectionItem(index, 'number')}
-          value={formProps[index]?.number}
-          onChange={form.handleChange}
-        />
-      );
+  function getTypeInput(index: number, mask: string) {
+    if (!mask) {
+      return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {
-      node = (
-        <Input
-          name={getSelectionItem(index, 'number')}
-          value={formProps[index]?.number}
-          onChange={form.handleChange}
-        />
+      return (
+          <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
       );
     }
-    return node;
-  };
+  }
 
-  const getMaskByType = (id: number) => {
-    const type = props.contactTypes.find((item) => item.id === id);
-    if (type && type.mask) {
-      return type.mask;
+  function findMaskByType(typeId: number) {
+    if (typeId) {
+      const type = contactTypes.find((item) => item.id === typeId);
+      if (type) return type.mask;
+      return '';
     } else {
       return '';
     }
-  };
+  }
+
+  const onAddContact = useCallback(() => {
+    const item: PassportContactType = {
+      isMain: false,
+      number: '',
+      type: '',
+      note: '',
+    };
+    const newArr = [...form.values.passportGeneral.contacts, item];
+    form.setFieldValue('passportGeneral.contacts', newArr);
+  }, [form.values.passportGeneral.contacts]);
+
+  const onRemoveContact = useCallback(() => {
+    if (formProps && formProps.length > 0) {
+      form.setFieldValue(
+          'passportGeneral.contacts',
+          formProps.slice(0, formProps.length - 1),
+      );
+    }
+  }, [formProps]);
 
   return (
-    <div className={'form-section personal-contacts'}>
-      <h2>Контакты</h2>
-      <FormArrayField<PassportContactType>
-        values={formProps}
-        name={'contacts'}
-        renderChild={(key, index) => (
-          <Row gutter={16} key={index.toString()}>
-            <Col span={3}>
-              <FormField label="Основной">
-                <div className="center-wrapper">
-                  <Checkbox
-                    name={getSelectionItem(index, 'isMain')}
-                    checked={formProps[index]?.isMain || false}
-                    onChange={form.handleChange}
-                  />
-                </div>
-              </FormField>
-            </Col>
-            <Col span={6}>
-              <FormField label="Номер">
-                {getInputByType(
-                  getMaskByType(parseInt(formProps[index]?.type)),
-                  index,
-                )}
-              </FormField>
-            </Col>
-            <Col span={5}>
-              <FormField label="Тип">
-                <Select
-                  value={formProps[index]?.type}
-                  showSearch
-                  filterOption
-                  optionFilterProp={'name'}
-                  onChange={(val) => {
-                    if (val !== formProps[index]?.type) {
-                      form.setFieldValue(getSelectionItem(index, 'number'), '');
-                    }
-                    form.setFieldValue(getSelectionItem(index, 'type'), val);
-                  }}>
-                  {contactTypesOptions}
-                </Select>
-              </FormField>
-            </Col>
-            <Col span={10}>
-              <FormField label="Примечания">
-                <Input
-                  name={getSelectionItem(index, 'note')}
-                  value={formProps[index]?.note || ''}
-                  onChange={form.handleChange}
-                />
-              </FormField>
-            </Col>
-          </Row>
-        )}
-      />
-    </div>
+      <div className={'form-section personal-contacts'}>
+        <h2>Контакты</h2>
+        <ArrayFieldWrapper<PassportContactType>
+            values={formProps}
+            name={'contacts'}
+            onAddItem={onAddContact}
+            onRemoveItem={onRemoveContact}
+            showActions={true}
+            renderChild={(key, index) => (
+                <Row gutter={16} key={index}>
+                  <Col span={3}>
+                    <FormField label={LABELS.MAIN}>
+                      <div className="center-wrapper">
+                        <Checkbox
+                            name={getSelectionItem(index, 'isMain')}
+                            checked={formProps[index]?.isMain || false}
+                            onChange={form.handleChange}
+                        />
+                      </div>
+                    </FormField>
+                  </Col>
+                  <Col span={6}>
+                    <FormField label={LABELS.NUMBER}>
+                      {getTypeInput(
+                          index,
+                          findMaskByType(parseInt(formProps[index]?.type)),
+                      )}
+                    </FormField>
+                  </Col>
+                  <Col span={5}>
+                    <FormField label={LABELS.TYPE}>
+                      <FastSearchSelect
+                          name={getSelectionItem(index, 'type')}
+                          value={formProps[index]?.type}
+                          onChange={(val) => {
+                            form.setFieldValue(getSelectionItem(index, 'type'), val);
+                          }}>
+                        {typesOptions}
+                      </FastSearchSelect>
+                    </FormField>
+                  </Col>
+                  <Col span={10}>
+                    <FormField label={LABELS.NOTE}>
+                      <FastInput name={getSelectionItem(index, 'note')} />
+                    </FormField>
+                  </Col>
+                </Row>
+            )}
+        />
+      </div>
   );
 };
 

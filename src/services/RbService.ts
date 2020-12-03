@@ -1,5 +1,6 @@
-import apiInstance from './api';
 import { AxiosResponse } from 'axios';
+
+import apiInstance from './api';
 import RbEventTypeResponse from '../interfaces/responses/rb/rbEventType';
 import RbPersonResponse from '../interfaces/responses/rb/rbPerson';
 import RbOrganisationResponse from '../interfaces/responses/rb/rbOrganisation';
@@ -9,12 +10,28 @@ import RbAccountingSystemResponse from '../interfaces/responses/rb/rbAccountingS
 import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
 import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
-import RbPatientDocumentTypeResponse from '../interfaces/responses/rb/rbPatientDocumentType';
+import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
 import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
-import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
+import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
+import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
+import RbSocialClassResponse from '../interfaces/responses/rb/rbSocialClass';
+import RbHurtType from '../interfaces/responses/rb/rbHurtType';
+import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 
 export default {
+  fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusType`);
+  },
+  fetchSocialClasses(): Promise<AxiosResponse<RbSocialClassResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusClass`);
+  },
+  fetchHurtTypes(): Promise<AxiosResponse<RbHurtType[]>> {
+    return apiInstance.get(`/refBooks/rbHurtType`);
+  },
+  fetchHurtFactorTypes(): Promise<AxiosResponse<RbHurtFactorType[]>> {
+    return apiInstance.get(`/refBooks/rbHurtFactorType`);
+  },
   fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
@@ -27,14 +44,17 @@ export default {
   fetchInvalidReasons(): Promise<AxiosResponse<RbInvalidReasonResponse[]>> {
     return apiInstance.get(`/refBooks/rbTempInvalidReason`);
   },
+  fetchDocumentTypes(): Promise<AxiosResponse<RbDocumentTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbDocumentType');
+  },
   fetchInvalidDocumentTypes(): Promise<
     AxiosResponse<RbInvalidDocumentTypeResponse[]>
-  > {
+    > {
     return apiInstance.get('/refBooks/rbTempInvalidDocument');
   },
   fetchAccountingSystem(): Promise<
     AxiosResponse<RbAccountingSystemResponse[]>
-  > {
+    > {
     return apiInstance.get('/refBooks/rbAccountingSystem');
   },
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
@@ -55,18 +75,13 @@ export default {
   ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
     return apiInstance.get(`/kladr/street?code=${id}`);
   },
+  fetchContactTypes(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbContactType');
+  },
   fetchPolicyTypes(): Promise<AxiosResponse<RbPolicyTypeResponse[]>> {
-    return apiInstance.get(`/refBooks/rbPolicyType`);
+    return apiInstance.get('/refBooks/rbPolicyType');
   },
   fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
-    return apiInstance.get(`/refBooks/rbPolicyKind`);
-  },
-  fetchContactType(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
-    return apiInstance.get(`/refBooks/rbContactType`);
-  },
-  fetchPatientDocumentTypes(): Promise<
-    AxiosResponse<RbPatientDocumentTypeResponse[]>
-  > {
-    return apiInstance.get(`/refBooks/rbDocumentType`);
+    return apiInstance.get('/refBooks/rbPolicyKind');
   },
 };

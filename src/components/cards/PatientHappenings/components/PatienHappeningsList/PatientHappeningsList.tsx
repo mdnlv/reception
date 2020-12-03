@@ -1,20 +1,22 @@
-import React from 'react';
-import PatientHappening from '../../../../../types/data/PatientHappening';
+import React, {useMemo} from 'react';
 import { Col, Descriptions, Row } from 'antd';
+
 import './styles.scss';
+import {ListProps} from "./types";
 import DetailedPatientEvent from '../../../../../types/data/DetailedPatientEvent';
+
 import PaginationList from '../../../../lists/PaginationList/PaginationList';
+import EmptyLoadList from '../../../../lists/EmptyLoadList/EmptyLoadList';
 
-type ListProps = {
-  data: DetailedPatientEvent[];
-  onSelect?(id: number): void;
-  selectedItem?: number;
-};
-
-const PatientHappeningsList: React.FC<ListProps> = (props) => {
-  function renderListItem(item: DetailedPatientEvent) {
+const PatientHappeningsList: React.FC<ListProps> = ({
+  data,
+  onSelect,
+  selectedItem,
+  isLoading
+}) => {
+  const renderListItem = (item: DetailedPatientEvent) => {
     let getSelectedClass = '';
-    if (props.selectedItem && item.id === props.selectedItem) {
+    if (selectedItem && item.id === selectedItem) {
       getSelectedClass = 'happenings-list__item--selected';
     }
 
@@ -22,8 +24,8 @@ const PatientHappeningsList: React.FC<ListProps> = (props) => {
       <div
         key={item.id}
         onClick={() => {
-          if (props.onSelect) {
-            props.onSelect(item.id);
+          if (onSelect) {
+            onSelect(item.id);
           }
         }}
         className={`happenings-list__item ${getSelectedClass}`}>
@@ -59,16 +61,22 @@ const PatientHappeningsList: React.FC<ListProps> = (props) => {
     );
   }
 
-  return (
-    <div className={'happenings-list'}>
-      <PaginationList<DetailedPatientEvent>
-        len={props.data.length}
-        numberPerPage={10}
-        data={props.data}
-        renderBody={renderListItem}
-      />
-    </div>
-  );
+  const listBody = useMemo(() => {
+    if (isLoading) {
+      return <EmptyLoadList />;
+    } else {
+      return (
+        <PaginationList<DetailedPatientEvent>
+          len={data.length}
+          numberPerPage={10}
+          data={data}
+          renderBody={renderListItem}
+        />
+      );
+    }
+  }, [isLoading, data]);
+
+  return <div className={'happenings-list'}>{listBody}</div>;
 };
 
 export default PatientHappeningsList;
