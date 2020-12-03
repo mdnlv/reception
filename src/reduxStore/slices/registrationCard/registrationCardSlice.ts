@@ -167,6 +167,7 @@ export const saveCardPatient = createAsyncThunk(
         hasCard,
         onlyTempRegistration
       } = state.registrationCard.form.personal;
+      // const {} =
       const payload: NewPatientPayload = {
         firstName,
         lastName,
@@ -203,15 +204,6 @@ export const saveCardPatient = createAsyncThunk(
           notes: item.note
         })),
 
-        social_status_info:
-          state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-            type: item.type ? parseInt(item.type) : null,
-            class: item.class ? parseInt(item.class) : null,
-            begDate: item.fromDate,
-            endDate: item.endDate,
-            notes: item.note ?? null,
-          })),
-
         client_policy_info:
           policyDms.concat(policyOms).map((item) => ({
             ...(item.id) && {id: item.id},
@@ -226,21 +218,15 @@ export const saveCardPatient = createAsyncThunk(
             serial: item.serial,
           })) || [],
 
-        client_attachments: state.registrationCard.form.attachments.attachments.map(
-          (item) => item,
-        ),
-
-
-
         client_address_info: [
           {
             address: {
               address_house: {
                 KLADRCode: (addressRegistration.area === '7800000000000'
-                            || addressRegistration.area === '7700000000000'
-                            || addressRegistration.area === '9200000000000')
-                              ? addressRegistration.area
-                              : addressRegistration.city,
+                  || addressRegistration.area === '7700000000000'
+                  || addressRegistration.area === '9200000000000')
+                  ? addressRegistration.area
+                  : addressRegistration.city,
                 KLADRStreetCode: addressRegistration.street,
                 number: addressRegistration.houseNumber?.toString() || '',
                 corpus: '',
@@ -255,10 +241,10 @@ export const saveCardPatient = createAsyncThunk(
             address: {
               address_house: {
                 KLADRCode: (documentedAddress.area === '7800000000000'
-                            || documentedAddress.area === '7700000000000'
-                            || documentedAddress.area === '9200000000000')
-                              ? documentedAddress.area
-                              : documentedAddress.city,
+                  || documentedAddress.area === '7700000000000'
+                  || documentedAddress.area === '9200000000000')
+                  ? documentedAddress.area
+                  : documentedAddress.city,
                 KLADRStreetCode: documentedAddress.street,
                 corpus: documentedAddress.houseCharacter?.toString() || '',
                 litera: '',
@@ -270,6 +256,117 @@ export const saveCardPatient = createAsyncThunk(
             type: 1,
           },
         ],
+
+        ...(state.registrationCard.form.socialStatus.socialStatus.length > 0) && {
+          social_status_info:
+            state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+              type: item.type ? parseInt(item.type) : null,
+              class: item.class ? parseInt(item.class) : null,
+              begDate: item.fromDate,
+              endDate: item.endDate,
+              notes: item.note ?? null,
+            })),
+        },
+        ...(state.registrationCard.form.attachments.attachments.length > 0) && {
+          client_attachments: state.registrationCard.form.attachments.attachments.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.employment.employment.length > 0) && {
+          client_employment: state.registrationCard.form.employment.employment.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.employment.hazardHistory.length > 0) && {
+          client_hazard: state.registrationCard.form.employment.hazardHistory.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
+          client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.features.features.length > 0) && {
+          client_features: state.registrationCard.form.features.features.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.features.allergy.length > 0) && {
+          client_allergy: state.registrationCard.form.features.allergy.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.features.medIntolerance.length > 0) && {
+          client_med_intolerance: state.registrationCard.form.features.medIntolerance.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.features.inspections.length > 0) && {
+          client_inspections: state.registrationCard.form.features.inspections.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.features.anthropometricDate.length > 0) && {
+          client_anthropometric: state.registrationCard.form.features.anthropometricDate.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.privileges.privileges.length > 0) && {
+          client_privileges: state.registrationCard.form.privileges.privileges.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.privileges.invalidity.length > 0) && {
+          client_invalidity: state.registrationCard.form.privileges.invalidity.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.offences.offences.length > 0) && {
+          client_offences: state.registrationCard.form.offences.offences.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.additionalHospitalization.hospitalizations.length > 0) && {
+          client_additional_hospitalization: state.registrationCard.form.additionalHospitalization.hospitalizations.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.outsideHospitalization.outsideHospitalization.length > 0) && {
+          client_outside_hospitalization: state.registrationCard.form.outsideHospitalization.outsideHospitalization.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
+          client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.etc.items.length > 0) && {
+          client_etc: state.registrationCard.form.etc.items.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.personDocs.idDoc.length > 0) && {
+          client_id_doc: state.registrationCard.form.personDocs.idDoc.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.personDocs.policy.length > 0) && {
+          client_policy: state.registrationCard.form.personDocs.policy.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.personDocs.socialStatus.length > 0) && {
+          client_social_status: state.registrationCard.form.personDocs.socialStatus.map(
+            (item) => item,
+          ),
+        },
+        ...(state.registrationCard.form.personDocs.namedDoc.length > 0) && {
+          client_named_doc: state.registrationCard.form.personDocs.namedDoc.map(
+            (item) => item,
+          ),
+        },
       };
       console.log('payload', payload);
       await PatientsService.savePatient(payload);
