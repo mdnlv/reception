@@ -66,6 +66,19 @@ export default interface NewPatientPayload {
     notes: string | null;
   }[];
 
+  client_work_info: {
+    org_id: number;
+    post: string;
+    stage: number;
+    client_work_hurt_info: {
+      hurtType_id: number;
+      stage: number;
+    }[];
+    client_work_hurt_factor_info: {
+      factorType_id: number;
+    }[];
+  }[];
+
   client_policy_info: {
     id?: number | null;
     insurer_id: number | null;

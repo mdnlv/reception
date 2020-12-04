@@ -27,10 +27,6 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
     changeFieldsById(formValues)
   }, [formValues]);
 
-  // useEffect(() => {
-  //   console.log('orgsList', orgsList)
-  // }, [orgsList])
-
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `${sectionValuePath}[${index}].${fieldChain}`;
   };
