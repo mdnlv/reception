@@ -29,9 +29,6 @@ export default interface NewPatientPayload {
   hasCard: boolean;
   onlyTempRegistration: boolean;
 
-  client_attachments?: PersonAttachment[];
-  client_employment?: EmploymentItem[];
-  client_hazard?: EmploymentHazardItem[];
   client_view_types?: PersonViewType[];
   client_features?: PersonFeatureItem[];
   client_allergy?: PersonAllergyItem[];
@@ -48,7 +45,6 @@ export default interface NewPatientPayload {
   client_etc: EtcItem[];
   client_id_doc: PassportDoc[];
   client_policy: PolicyDoc[];
-  client_social_status: SocialStatus[];
   client_named_doc: NamedDoc[];
 
   client_contact_info: {
@@ -64,6 +60,19 @@ export default interface NewPatientPayload {
     begDate: string;
     endDate: string;
     notes: string | null;
+  }[];
+
+  client_work_info: {
+    org_id: number;
+    post: string;
+    stage: number;
+    client_work_hurt_info: {
+      hurtType_id: number;
+      stage: number;
+    }[];
+    client_work_hurt_factor_info: {
+      factorType_id: number;
+    }[];
   }[];
 
   client_policy_info: {
@@ -105,5 +114,13 @@ export default interface NewPatientPayload {
   client_relation_info?: {
     relativeType_id: number;
     relative_id: number;
+  }[]
+
+  client_attach_info?: {
+    LPU_id: number;
+    attachType_id: number;
+    begDate: string;
+    orgStructure_id: number;
+    reason: number;
   }[]
 }

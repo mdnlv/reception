@@ -7,15 +7,15 @@ export interface PassportContactType {
 
 export interface PassportPolicyType {
   id?: number;
-  timeType: string;
+  timeType?: string;
   from: string;
   to: string;
   serial: string;
   number: string;
   cmo: string;
   type: string;
-  name: string;
-  note: string;
+  name?: string;
+  note?: string;
 }
 
 export interface PassportAddressType {

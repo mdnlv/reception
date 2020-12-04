@@ -1,27 +1,34 @@
 import React, { useCallback } from 'react';
 import { Col, Row, Select } from 'antd';
+import { useFormikContext } from 'formik';
+import { useSelector } from 'react-redux';
 
 import { DROPDOWN_TITLE, LABELS, PersonAttachment } from './types';
-
-import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
-import FormField from '../../../../components/FormField/FormField';
-import { useFormikContext } from 'formik';
 import { WizardStateType } from '../../types';
-import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import { useSelector } from 'react-redux';
 import {
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
+  detailedOrgStructureSelector
 } from '../../../../../../reduxStore/slices/rb/selectors';
+import { RootState } from '../../../../../../reduxStore/store';
+
+import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
+import FormField from '../../../../components/FormField/FormField';
+import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
-import { RootState } from '../../../../../../reduxStore/store';
 
 const Attachments: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.attachments.attachments;
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
+  const orgStructure = useSelector(detailedOrgStructureSelector);
+  const {
+    organisations: loadingOrgs,
+    attachTypes: loadingAttachTypes,
+    orgStructure: loadingOrgStructure,
+  } = useSelector((state: RootState) => state.rb.loading);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
@@ -29,16 +36,11 @@ const Attachments: React.FC = () => {
 
   const getPropsList = (props: { id: number; name: string }[]) => {
     return props.map((item) => (
-      <Select.Option key={item.id} value={item.id.toString()}>
+      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
         {item.name}
       </Select.Option>
     ));
   };
-
-  const {
-    organisations: loadingOrgs,
-    attachTypes: loadingAttachTypes,
-  } = useSelector((state: RootState) => state.rb.loading);
 
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
@@ -77,6 +79,9 @@ const Attachments: React.FC = () => {
                 <Col span={3}>
                   <FormField label={LABELS.TYPE}>
                     <FastSearchSelect
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
                       loading={loadingAttachTypes}
                       name={getSelectionPath(index, 'type')}>
                       {getPropsList(attachTypes)}
@@ -86,6 +91,9 @@ const Attachments: React.FC = () => {
                 <Col span={6}>
                   <FormField label={LABELS.LPU}>
                     <FastSearchSelect
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
                       loading={loadingOrgs}
                       name={getSelectionPath(index, 'lpu')}>
                       {getPropsList(orgs)}
@@ -94,7 +102,14 @@ const Attachments: React.FC = () => {
                 </Col>
                 <Col span={4}>
                   <FormField label={LABELS.UNIT}>
-                    <FastSearchSelect name={getSelectionPath(index, 'unit')} />
+                    <FastSearchSelect
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
+                      loading={loadingOrgStructure}
+                      name={getSelectionPath(index, 'unit')}>
+                      {getPropsList(orgStructure)}
+                    </FastSearchSelect>
                   </FormField>
                 </Col>
                 <Col span={3}>
@@ -111,7 +126,7 @@ const Attachments: React.FC = () => {
                 </Col>
                 <Col span={5}>
                   <FormField label={LABELS.DETACH_REASON}>
-                    <FastSearchSelect name={getSelectionPath(index, 'unit')} />
+                    <FastSearchSelect name={getSelectionPath(index, 'detachmentReason')} />
                   </FormField>
                 </Col>
               </Row>

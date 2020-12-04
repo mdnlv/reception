@@ -153,21 +153,29 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }))
     ],
 
-    ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-      client_attachments: state.registrationCard.form.attachments.attachments.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.employment.employment.length > 0) && {
-      client_employment: state.registrationCard.form.employment.employment.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.employment.hazardHistory.length > 0) && {
-      client_hazard: state.registrationCard.form.employment.hazardHistory.map(
-        (item) => item,
-      ),
-    },
+    client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
+      org_id: item.organization,
+      post: item.position,
+      stage: item.experience,
+      client_work_hurt_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
+        hurtType_id: item.hazardDescription,
+        stage: item.hazardExp
+      })),
+      client_work_hurt_factor_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
+        factorType_id: item.factor
+      }))
+    })),
+
+    client_attach_info: state.registrationCard.form.attachments.attachments.map(
+      (item) => ({
+        LPU_id: parseInt(item.lpu),
+        attachType_id: parseInt(item.type),
+        begDate: item.fromDate,
+        orgStructure_id: item.unit,
+        reason: 0
+      }),
+    ),
+
     ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
       client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
         (item) => item,

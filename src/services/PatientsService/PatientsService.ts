@@ -47,22 +47,7 @@ export default {
     });
   },
 
-  findPatientPolicy(params: FindPolicyParams): Promise<PatientPolicyResponse> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          id: 1,
-          begDate: moment().toDate().toDateString(),
-          endDate: moment().add(20000).toDate().toDateString(),
-          name: 'Test tetwst',
-          serial: '4010',
-          number: '4563423',
-          policyType_id: 1,
-          policyKind_id: 2,
-          insurer_id: 1,
-          client_id: 1,
-        });
-      }, 4000);
-    });
+  findPatientPolicy(params: FindPolicyParams): Promise<AxiosResponse<PatientPolicyResponse>> {
+    return apiInstance.post('/client/tfoms/getPolicy', params);
   },
 };
