@@ -403,11 +403,11 @@ const registrationCardSlice = createSlice({
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload && action.payload.type === 'oms') {
         state.form.foundPolicies.oms.items = [
-          transformPolicyResponse(action.payload.data),
+          transformPolicyResponse(action.payload.data.data),
         ];
       } else if (action.payload?.type === 'dms') {
         state.form.foundPolicies.dms.items = [
-          transformPolicyResponse(action.payload.data),
+          transformPolicyResponse(action.payload.data.data),
         ];
       }
     });

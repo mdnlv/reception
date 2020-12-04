@@ -1,12 +1,11 @@
 export default interface PatientPolicyResponse {
-  id: number;
+  client_id: number;
+  smoId: number;
+  policySerial: string;
+  policyNumber: string;
+  policyTypeId: number;
   begDate: string;
   endDate: string;
-  name: string;
-  serial: string;
-  number: string;
-  policyType_id: number;
-  policyKind_id: number;
-  insurer_id: number;
-  client_id: number;
+  attach?: string;
+  attachList?: number[][];
 }

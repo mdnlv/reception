@@ -2,17 +2,17 @@ import PatientPolicyResponse from '../../../interfaces/responses/patients/patien
 
 const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
-    id: item.id,
+    id: item.client_id,
+    cmo: item.smoId?.toString() ?? '',
+    serial: item.policySerial,
+    number: item.policyNumber,
+    timeType: '',
     from: item.begDate,
     to: item.endDate,
-    name: item.name,
-    serial: item.serial,
-    number: item.number,
-    type: item.policyType_id?.toString() ?? '',
-    timeType: item.policyKind_id?.toString() ?? '',
-    cmo: item.insurer_id?.toString() ?? '',
-    note: '',
+    type: item.policyTypeId?.toString() ?? '',
+    name: '',
+    note: ''
   };
-}
+};
 
 export default transformPolicyResponse;

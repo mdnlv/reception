@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import {Formik} from 'formik';
 import {Button, Col, Row, Select, Space} from 'antd';
 import moment from 'moment';
+import { useFormikContext } from 'formik';
 
 import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
@@ -12,6 +13,7 @@ import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
 import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInput";
+import {WizardStateType} from "../wizards/RegCardWizard/types";
 
 const initialState: PassportPolicyType = {
   timeType: '',
@@ -36,6 +38,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isCmoLoading,
   cmoType,
 }) => {
+  const form = useFormikContext<WizardStateType>();
+  const firstName = form.values.personal.firstName;
+  const lastName = form.values.personal.lastName;
+  const patrName = form.values.personal.patrName;
+  const sex = form.values.personal.sex;
+  const birthDate = form.values.personal.birthDate;
+  const docSerial = form.values.passportGeneral.passportInfo.serialFirst
+    .concat(form.values.passportGeneral.passportInfo.serialSecond);
+  const docNumber = form.values.passportGeneral.passportInfo.number;
   const [policyMask, setPolicyMask] = useState('' as string);
   const [policyFormValues, setPolicyFormValues] = useState({
     cmo: "",
@@ -48,8 +59,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
     to: "",
     type: ''
   });
-
-
 
   useEffect(() => {
     const timeType = policyFormValues.timeType;
@@ -88,22 +97,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
     [onFindPolicy],
   );
 
-  const initialFormState = useMemo(() => {
-    if (foundPolicy) {
-      return {
-        from: foundPolicy.from.toString(),
-        to: foundPolicy.to.toString(),
-        serial: foundPolicy.serial,
-        number: foundPolicy.number,
-        note: '',
-        name: foundPolicy.name,
-        ...initialState,
-      };
-    } else {
-      return initialState;
-    }
-  }, [foundPolicy]);
-
   return (
     <Formik
       enableReinitialize={true}
@@ -141,10 +134,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   loading={isLoading}
                   onClick={() => {
                     onFindPolicyHandler({
-                      docNumber: formProps.values.number,
-                      docSerial: formProps.values.serial,
-                      fromDoc: formProps.values.from,
-                      toDoc: formProps.values.to,
+                      birthDate,
+                      docNumber,
+                      docSerial,
+                      firstName,
+                      lastName,
+                      patrName,
+                      policyNumber: formProps.values.number,
+                      policySerial: formProps.values.serial,
+                      sex: sex.toString(),
                     });
                   }}>
                   Искать

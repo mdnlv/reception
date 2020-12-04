@@ -1,8 +1,13 @@
 type FindPolicyParams = Partial<{
-  docNumber: string;
+  birthDate: string;
   docSerial: string;
-  fromDoc: string;
-  toDoc: string;
+  docNumber: string;
+  firstName: string;
+  lastName: string;
+  patrName: string;
+  policyNumber: string;
+  policySerial: string;
+  sex: string;
 }>;
 
 export default FindPolicyParams;
