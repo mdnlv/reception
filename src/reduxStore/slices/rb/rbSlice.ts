@@ -16,6 +16,7 @@ import SocialType from '../../../types/data/SocialType';
 import SocialClass from '../../../types/data/SocialClass';
 import HurtType from '../../../types/data/HurtType';
 import HurtFactorType from '../../../types/data/HurtFactorType';
+import OrgStructure from "../../../types/data/OrgStructure";
 
 export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
   try {
@@ -171,6 +172,25 @@ export const fetchRbPolicyTypes = createAsyncThunk(
   },
 );
 
+export const fetchRbOrgStructure = createAsyncThunk(
+  'rb/fetchOrgStructure',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'orgStructure', value: true }));
+    try {
+      const response = await RbService.fetchOrgStructure();
+      if (response.data) {
+        return response.data.map((item) => ({
+          id: item.id,
+          name: item.name,
+        }));
+      }
+    } catch (e) {
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'orgStructure', value: false }));
+    }
+  },
+);
+
 export const fetchRbPolicyKind = createAsyncThunk(
   'rb/fetchPolicyKind',
   async () => {
@@ -279,6 +299,7 @@ const rbSlice = createSlice({
     rbPolicyTypes: [] as PolicyType[],
     rbPolicyKinds: [] as PolicyKind[],
     rbContactTypes: [] as PatientContactType[],
+    rbOrgStructure: [] as OrgStructure[],
     rbDocumentTypes: [] as PatientDocumentType[],
     rbSocialTypes: [] as SocialType[],
     rbSocialClasses: [] as SocialClass[],
@@ -287,6 +308,7 @@ const rbSlice = createSlice({
     loading: {
       attachTypes: false,
       organisations: false,
+      orgStructure: false,
       documentTypes: false,
       socialTypes: false,
       socialClasses: false,
@@ -300,6 +322,7 @@ const rbSlice = createSlice({
       action: PayloadAction<{
         type:
           | 'attachTypes'
+          | 'orgStructure'
           | 'organisations'
           | 'documentTypes'
           | 'socialTypes'
@@ -368,6 +391,11 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbDocumentTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbDocumentTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbOrgStructure.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbOrgStructure = action.payload;
       }
     });
     builder.addCase(fetchRbContactTypes.fulfilled, (state, action) => {

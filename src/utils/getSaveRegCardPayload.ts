@@ -166,11 +166,16 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }))
     })),
 
-    ...(state.registrationCard.form.attachments.attachments.length > 0) && {
-      client_attachments: state.registrationCard.form.attachments.attachments.map(
-        (item) => item,
-      ),
-    },
+    client_attach_info: state.registrationCard.form.attachments.attachments.map(
+      (item) => ({
+        LPU_id: parseInt(item.lpu),
+        attachType_id: parseInt(item.type),
+        begDate: item.fromDate,
+        orgStructure_id: item.unit,
+        reason: 0
+      }),
+    ),
+
     ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
       client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
         (item) => item,

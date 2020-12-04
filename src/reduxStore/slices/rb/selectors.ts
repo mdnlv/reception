@@ -95,6 +95,15 @@ export const detailedSocialClassesSelector = createSelector(
     })),
 );
 
+export const detailedOrgStructureSelector = createSelector(
+  (state: RootState) => state.rb.rbOrgStructure,
+  (orgs) =>
+    orgs.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
 export const socialLoadingsSelector = createSelector(
   (state: RootState) => state.rb.loading,
   (loadings) => {

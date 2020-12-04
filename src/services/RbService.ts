@@ -17,6 +17,7 @@ import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
 import RbSocialClassResponse from '../interfaces/responses/rb/rbSocialClass';
 import RbHurtType from '../interfaces/responses/rb/rbHurtType';
 import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
+import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 
 export default {
   fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
@@ -61,6 +62,9 @@ export default {
   },
   fetchCityDistricts(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbDistrict');
+  },
+  fetchOrgStructure(): Promise<AxiosResponse<RbOrgStructureResponse[]>> {
+    return apiInstance.get('/refBooks/OrgStructure');
   },
   getRegionList(parent?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
     if (parent) {

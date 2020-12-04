@@ -16,6 +16,7 @@ import {
   fetchRbPolicyTypes,
   fetchRbSocialStatusClass,
   fetchRbSocialStatusType,
+  fetchRbOrgStructure
 } from '../slices/rb/rbSlice';
 
 export default function useInitialFetch() {
@@ -37,5 +38,6 @@ export default function useInitialFetch() {
     dispatch(fetchRbSocialStatusClass());
     dispatch(fetchRbHurtType());
     dispatch(fetchRbHurtFactorTypes());
+    dispatch(fetchRbOrgStructure());
   };
 }
