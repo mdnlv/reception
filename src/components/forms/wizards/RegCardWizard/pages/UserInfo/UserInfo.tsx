@@ -23,7 +23,6 @@ import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastM
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
-import {type} from "os";
 
 const UserInfo: React.FC = () => {
   const formProps = useFormikContext<WizardStateType>();

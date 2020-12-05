@@ -37,10 +37,6 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
 
   useEffect(() => {
-    console.log('formInitialValues.area', Boolean(formInitialValues.area))
-  }, [formInitialValues.area])
-
-  useEffect(() => {
     if (formInitialValues.area) {
       form.setFieldValue(`${sectionValuePath}.area`, '');
       form.setFieldValue(`${sectionValuePath}.area`, formInitialValues.area);
