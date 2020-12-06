@@ -43,12 +43,12 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     birthPlace,
     birthDate,
     birthTime,
-    ...hasImplants && {hasImplants},
-    ...hasProsthesis && {hasProsthesis},
-    ...docPersonId && {docPersonId},
-    ...startCardDate && {startCardDate},
-    ...hasCard && {hasCard},
-    ...onlyTempRegistration && {onlyTempRegistration},
+    // ...hasImplants && {hasImplants},
+    // ...hasProsthesis && {hasProsthesis},
+    // ...docPersonId && {docPersonId},
+    // ...startCardDate && {startCardDate},
+    // ...hasCard && {hasCard},
+    // ...onlyTempRegistration && {onlyTempRegistration},
     sex: sex === 0 ? 1 : 2,
     SNILS: snils,
     weight: weight.toString(),
@@ -176,90 +176,90 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }),
     ),
 
-    ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
-      client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.features.features.length > 0) && {
-      client_features: state.registrationCard.form.features.features.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.features.allergy.length > 0) && {
-      client_allergy: state.registrationCard.form.features.allergy.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.features.medIntolerance.length > 0) && {
-      client_med_intolerance: state.registrationCard.form.features.medIntolerance.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.features.inspections.length > 0) && {
-      client_inspections: state.registrationCard.form.features.inspections.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.features.anthropometricDate.length > 0) && {
-      client_anthropometric: state.registrationCard.form.features.anthropometricDate.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.privileges.privileges.length > 0) && {
-      client_privileges: state.registrationCard.form.privileges.privileges.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.privileges.invalidity.length > 0) && {
-      client_invalidity: state.registrationCard.form.privileges.invalidity.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.offences.offences.length > 0) && {
-      client_offences: state.registrationCard.form.offences.offences.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.additionalHospitalization.hospitalizations.length > 0) && {
-      client_additional_hospitalization: state.registrationCard.form.additionalHospitalization.hospitalizations.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.outsideHospitalization.outsideHospitalization.length > 0) && {
-      client_outside_hospitalization: state.registrationCard.form.outsideHospitalization.outsideHospitalization.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
-      client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.etc.items.length > 0) && {
-      client_etc: state.registrationCard.form.etc.items.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.personDocs.idDoc.length > 0) && {
-      client_id_doc: state.registrationCard.form.personDocs.idDoc.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.personDocs.policy.length > 0) && {
-      client_policy: state.registrationCard.form.personDocs.policy.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.personDocs.socialStatus.length > 0) && {
-      client_social_status: state.registrationCard.form.personDocs.socialStatus.map(
-        (item) => item,
-      ),
-    },
-    ...(state.registrationCard.form.personDocs.namedDoc.length > 0) && {
-      client_named_doc: state.registrationCard.form.personDocs.namedDoc.map(
-        (item) => item,
-      ),
-    },
+    // ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
+    //   client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.features.features.length > 0) && {
+    //   client_features: state.registrationCard.form.features.features.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.features.allergy.length > 0) && {
+    //   client_allergy: state.registrationCard.form.features.allergy.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.features.medIntolerance.length > 0) && {
+    //   client_med_intolerance: state.registrationCard.form.features.medIntolerance.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.features.inspections.length > 0) && {
+    //   client_inspections: state.registrationCard.form.features.inspections.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.features.anthropometricDate.length > 0) && {
+    //   client_anthropometric: state.registrationCard.form.features.anthropometricDate.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.privileges.privileges.length > 0) && {
+    //   client_privileges: state.registrationCard.form.privileges.privileges.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.privileges.invalidity.length > 0) && {
+    //   client_invalidity: state.registrationCard.form.privileges.invalidity.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.offences.offences.length > 0) && {
+    //   client_offences: state.registrationCard.form.offences.offences.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.additionalHospitalization.hospitalizations.length > 0) && {
+    //   client_additional_hospitalization: state.registrationCard.form.additionalHospitalization.hospitalizations.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.outsideHospitalization.outsideHospitalization.length > 0) && {
+    //   client_outside_hospitalization: state.registrationCard.form.outsideHospitalization.outsideHospitalization.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
+    //   client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.etc.items.length > 0) && {
+    //   client_etc: state.registrationCard.form.etc.items.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.personDocs.idDoc.length > 0) && {
+    //   client_id_doc: state.registrationCard.form.personDocs.idDoc.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.personDocs.policy.length > 0) && {
+    //   client_policy: state.registrationCard.form.personDocs.policy.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.personDocs.socialStatus.length > 0) && {
+    //   client_social_status: state.registrationCard.form.personDocs.socialStatus.map(
+    //     (item) => item,
+    //   ),
+    // },
+    // ...(state.registrationCard.form.personDocs.namedDoc.length > 0) && {
+    //   client_named_doc: state.registrationCard.form.personDocs.namedDoc.map(
+    //     (item) => item,
+    //   ),
+    // },
   };
 };

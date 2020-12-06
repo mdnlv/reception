@@ -63,7 +63,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         dispatch(setFormSection(values));
         dispatch(saveCardPatient());
       }}>
-      {() => (
+      {({errors}) => (
         <Row>
           <Col span={5}>
             <Card>
