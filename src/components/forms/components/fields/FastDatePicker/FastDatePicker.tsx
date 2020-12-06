@@ -5,8 +5,8 @@ import moment from 'moment';
 
 import {PickerProps} from "./types";
 
-const FastDatePicker: React.FC<PickerProps> = ({name, valueSet}) => {
-  const [field, meta, form] = useField<string>(name);
+const FastDatePicker: React.FC<PickerProps> = (props) => {
+  const [field, meta, form] = useField<string>(props.name);
 
   const onChangeHandler = useCallback(
     (date: moment.Moment | null, dateString: string) => {
@@ -17,8 +17,10 @@ const FastDatePicker: React.FC<PickerProps> = ({name, valueSet}) => {
 
   return (
     <DatePicker
-      {...{name}}
-      value={valueSet ? moment(valueSet) : field.value ? moment(field.value) : undefined}
+      {...props}
+      defaultValue={moment()}
+      allowClear={false}
+      value={field.value ? moment(field.value) : undefined}
       onChange={onChangeHandler}
     />
   );

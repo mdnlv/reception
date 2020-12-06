@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 
 import { WizardStateType } from '../../types';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+import {UserInfoProps} from "./types";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -24,7 +25,7 @@ import FastInputNumber from '../../../../components/fields/FastInputNumber/FastI
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const UserInfo: React.FC = () => {
+const UserInfo: React.FC<UserInfoProps> = ({error}) => {
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
@@ -110,7 +111,7 @@ const UserInfo: React.FC = () => {
       </div>
       <Divider />
       <div>
-        <FormField label="СНИЛС">
+        <FormField label="СНИЛС" error={error && error.snils}>
           <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
         </FormField>
         <FormField label="Лечащий врач">

@@ -63,11 +63,11 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         dispatch(setFormSection(values));
         dispatch(saveCardPatient());
       }}>
-      {() => (
+      {({errors}) => (
         <Row>
           <Col span={5}>
             <Card>
-              <UserInfo />
+              <UserInfo error={errors.personal}/>
             </Card>
           </Col>
           <Col span={19} className={'wizard-tabs'}>
