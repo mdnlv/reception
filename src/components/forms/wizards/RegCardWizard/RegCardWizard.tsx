@@ -67,7 +67,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         <Row>
           <Col span={5}>
             <Card>
-              <UserInfo />
+              <UserInfo error={errors.personal}/>
             </Card>
           </Col>
           <Col span={19} className={'wizard-tabs'}>
