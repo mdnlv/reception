@@ -3,24 +3,19 @@ import React, { FC } from 'react';
 import './styles.scss';
 import {FieldProps} from "./types";
 
-const FormField: FC<FieldProps> = ({
-  label,
-  labelPosition,
-  error,
-  children
-}) => {
+const FormField: FC<FieldProps> = (props) => {
   const getFieldLabel = () => {
-    if (!label) {
+    if (!props.label) {
       return null;
     } else {
       let className = '';
-      if (labelPosition === 'left') {
+      if (props.labelPosition === 'left') {
         className = 'form-field__label--left';
       }
 
       return (
         <label className={`form-field__label ${className}`}>
-          {label}
+          {props.label}
         </label>
       );
     }
@@ -29,17 +24,17 @@ const FormField: FC<FieldProps> = ({
   const getFormBody = () => {
     return (
       <div
-        className={`form-field__body form-field__body--${labelPosition}`}>
+        className={`form-field__body form-field__body--${props.labelPosition}`}>
         {getFieldLabel()}
-        <div className="form-field__content">{children}</div>
+        <div className="form-field__content">{props.children}</div>
         {getFormError()}
       </div>
     );
   }
 
   const getFormError = () => {
-    if (error) {
-      return <div className={'form-field__error'}>{error}</div>;
+    if (props.error) {
+      return <div className={'form-field__error'}>{props.error}</div>;
     } else return null;
   }
 
