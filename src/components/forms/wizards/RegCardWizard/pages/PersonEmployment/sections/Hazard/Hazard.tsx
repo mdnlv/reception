@@ -89,7 +89,12 @@ const Hazard: React.FC<SectionProps> = ({
               <Row>
                 <Col span={12}>
                   <FormField label={LABELS.FACTOR}>
-                    <FastSearchSelect name={getSectionPath(index, 'factor')}>
+                    <FastSearchSelect
+                      filterOption
+                      optionFilterProp={'name'}
+                      showSearch
+                      loading={isLoadingHurtFactorTypes}
+                      name={getSectionPath(index, 'factor')}>
                       {propsList(hurtFactorTypesList)}
                     </FastSearchSelect>
                   </FormField>

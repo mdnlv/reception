@@ -25,6 +25,12 @@ export const transformPatientResponse = (item: PatientResponse) => {
               hurtTypeId: item.hurtType_id ? item.hurtType_id : '',
               stage: item.stage ? item.stage : 0
             }))
+          : [],
+      client_work_hurt_factor_info:
+        item.client_work_hurt_factor_info.length > 0
+          ? item.client_work_hurt_factor_info.map(item => ({
+            factorTypeId: item.factorType_id ? item.factorType_id : ''
+          }))
           : []
     })),
 
