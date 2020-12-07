@@ -37,15 +37,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     }
   };
 
-  // const getWork = () => {
-  //   const workItem = patient?.work?.find((item) => item.id === 1);
-  //   if (workItem) {
-  //     return workItem.post;
-  //   } else {
-  //     return '';
-  //   }
-  // };
-
   const getContactTypeName = (type: number, contact: string) => {
     switch (type) {
       case 1:
