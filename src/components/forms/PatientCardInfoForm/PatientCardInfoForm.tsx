@@ -15,17 +15,13 @@ import FormField from '../components/FormField/FormField';
 
 const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
   const orgsList = useSelector(detailedOrganisationsSelector);
-  const { rbKladrDocumented, rbKladrStreetsDocumented } = useSelector(
+  const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
     kladrSelector,
   );
   const {
     isLoadingKladrStreetsDocumented,
     isLoadingKladrStreetsRegistration,
   } = useSelector(kladrLoadingsSelector);
-
-  useEffect(() => {
-    console.log('patient', patient)
-  }, [patient])
 
   const getOmsNumber = () => {
     const policies = patient.policy;
@@ -54,8 +50,8 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
       fullName: patient.fullName,
       birthDate: patient.birthDate,
       sex: patient.sex,
-      regAddress: getAddress(patient, 0, rbKladrDocumented, rbKladrStreetsDocumented),
-      livingAddress: getAddress(patient, 1, rbKladrDocumented, rbKladrStreetsDocumented),
+      regAddress: getAddress(patient, 0, rbKladrRegistration, rbKladrStreetsRegistration),
+      livingAddress: getAddress(patient, 1, rbKladrRegistration, rbKladrStreetsRegistration),
       birthPlace: patient.birthPlace,
       phone: getPhone() || '',
       snils: patient.snils,

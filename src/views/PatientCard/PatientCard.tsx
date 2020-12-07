@@ -35,7 +35,7 @@ const PatientCard: React.FC = () => {
   useEffect(() => {
     dispatch(fetchCurrentPatient(parseInt(id)));
     dispatch(fetchPatientEvents(parseInt(id)));
-  }, [dispatch]);
+  }, [id]);
 
   return (
     <Row className={'patient-card-page'}>

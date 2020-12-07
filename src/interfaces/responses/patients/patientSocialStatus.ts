@@ -5,11 +5,11 @@ export default interface PatientSocialStatusResponse {
   begDate: string;
   endDate: string;
   notes: string | null;
-  document: {
-    id: number;
-    serial: string;
-    number: string;
-    date: string;
-    origin: string;
+  document?: {
+    documentType_id?: number;
+    serial?: string;
+    number?: string;
+    date?: string;
+    origin?: string;
   }
 }

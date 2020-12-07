@@ -233,6 +233,7 @@ const registrationCardSlice = createSlice({
         const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
+        // console.log('socialStatus', transformedPatient.socialStatus)
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),
@@ -307,13 +308,16 @@ const registrationCardSlice = createSlice({
             endDate: item.endDate,
           }));
         state.initialFormState.socialStatus.trustedDoc =
-          transformedPatient.socialStatus.map((item) => ({
-            type: item.document.id.toString(),
-            serial: item.document.serial,
-            number: item.document.number,
-            date: item.document.date,
-            givenBy: item.document.origin,
-          }));
+          transformedPatient.socialStatus.map((item) => (
+            item.document ? {
+              type: item.document.id.toString(),
+              serialFirst: item.document.serial.substring(0, item.document.serial.length/2),
+              serialSecond: item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
+              number: item.document.number,
+              date: item.document.date,
+              givenBy: item.document.origin,
+            } : {}
+          ));
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
             organization: item.id ? item.id.toString() : item.freeInput,
