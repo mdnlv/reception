@@ -27,6 +27,10 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
     changeFieldsById(formValues)
   }, [formValues]);
 
+  useEffect(() => {
+    console.log('orgsList', orgsList)
+  }, [orgsList]);
+
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `${sectionValuePath}[${index}].${fieldChain}`;
   };
@@ -56,7 +60,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
 
   const propsList = useCallback((items: ListOptionProps[]) => {
     return items.map((item) => (
-      <Select.Option key={item.id} name={item.name} value={item.id}>
+      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
         {item.name}
       </Select.Option>
     ));
