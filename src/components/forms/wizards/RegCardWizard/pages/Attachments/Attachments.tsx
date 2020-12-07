@@ -31,10 +31,10 @@ const Attachments: React.FC = () => {
     orgStructure: loadingOrgStructure,
   } = useSelector((state: RootState) => state.rb.loading);
 
-  // useEffect(() => {
-  //   console.log('orgs', orgs)
-  // }, [orgs])
-  //
+  useEffect(() => {
+    console.log('orgs', orgs)
+  }, [orgs])
+
   // useEffect(() => {
   //   console.log('attachTypes', attachTypes)
   // }, [attachTypes])
@@ -48,7 +48,7 @@ const Attachments: React.FC = () => {
   };
 
   const getPropsList = (props: { id: number; name: string }[]) => {
-    // console.log('props', props);
+    console.log('props', props);
     return props.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
         {item.name}

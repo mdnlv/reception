@@ -40,7 +40,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
   };
 
   const getOrganization = useCallback(() => {
-    const organization = orgsList.find((item) => item.id = patient.work[0].id);
+    const organization = orgsList.find((item) => item.id === patient.work[0].id);
     return organization?.name
   }, [orgsList.length > 0 && orgsList]);
 

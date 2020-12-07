@@ -37,15 +37,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     }
   };
 
-  const getWork = () => {
-    const workItem = patient?.work?.find((item) => item.id === 1);
-    if (workItem) {
-      return workItem.freeInput;
-    } else {
-      return '';
-    }
-  };
-
   const getContactTypeName = (type: number, contact: string) => {
     switch (type) {
       case 1:
@@ -106,7 +97,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
             {getAddress(patient, 1, rbKladrDocumented, rbKladrStreetsDocumented)}
           </Descriptions.Item>
           <Descriptions.Item className={'person-info-item'} label={'Занятость'}>
-            {getWork()}
+            {patient?.work[0].post}
           </Descriptions.Item>
           <Descriptions.Item className={'person-info-item'} label={'Телефоны'}>
             {getContactPhones()}

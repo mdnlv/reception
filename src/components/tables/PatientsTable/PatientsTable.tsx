@@ -64,9 +64,9 @@ const PatientsTable: FC<TableProps> = ({
     },
   ];
 
-  // useEffect(() => {
-  //   console.log('patients', patients)
-  // }, [patients]);
+  useEffect(() => {
+    console.log('patients', patients)
+  }, [patients]);
 
   useEffect(() => {
     dispatch(resetCurrentPatient())
