@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 const Attachments: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.attachments.attachments;
+  const formInitialValues = form.initialValues.attachments.attachments;
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const orgStructure = useSelector(detailedOrgStructureSelector);
@@ -30,11 +31,24 @@ const Attachments: React.FC = () => {
     orgStructure: loadingOrgStructure,
   } = useSelector((state: RootState) => state.rb.loading);
 
+  // useEffect(() => {
+  //   console.log('orgs', orgs)
+  // }, [orgs])
+  //
+  // useEffect(() => {
+  //   console.log('attachTypes', attachTypes)
+  // }, [attachTypes])
+  //
+  // useEffect(() => {
+  //   console.log('orgStructure', orgStructure)
+  // }, [orgStructure])
+
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
   };
 
   const getPropsList = (props: { id: number; name: string }[]) => {
+    // console.log('props', props);
     return props.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
         {item.name}
@@ -44,7 +58,7 @@ const Attachments: React.FC = () => {
 
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
-      lpu: '',
+      lpu: '3188',
       fromDate: '',
       endDate: '',
       type: '',
