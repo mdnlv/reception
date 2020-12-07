@@ -37,7 +37,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     },
 
     socialStatus:
-      item.client_social_status.map((item) => ({
+      item.client_soc_status_info.map((item) => ({
         id: item.id,
         serialNumber: '',
         number: '',
@@ -46,13 +46,14 @@ export const transformPatientResponse = (item: PatientResponse) => {
         type: item.socStatusType_id?.toString(),
         fromDate: item.begDate,
         endDate: item.endDate,
-        document: {
-          id: item.document.id,
-          serial: item.document.serial,
-          number: item.document.number,
-          date: item.document.date,
-          origin: item.document.origin
-        }
+        document: Object.keys(item.document).length
+          ? {
+            id: item.document.documentType_id,
+            serial: item.document.serial,
+            number: item.document.number,
+            date: item.document.date,
+            origin: item.document.origin
+          } : null
       })) || [],
 
     policy:

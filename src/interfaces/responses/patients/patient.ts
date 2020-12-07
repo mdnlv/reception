@@ -41,7 +41,7 @@ export default interface PatientResponse {
 
   client_address_info: AddressResponse[];
 
-  client_social_status: PatientSocialStatusResponse[];
+  client_soc_status_info: PatientSocialStatusResponse[];
 
   client_document_info: {
     documentType_id: string;
