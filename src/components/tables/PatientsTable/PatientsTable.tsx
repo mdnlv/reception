@@ -2,14 +2,14 @@ import React, { FC, useMemo, useState, useEffect, useCallback } from 'react';
 import {Table, Spin} from 'antd/lib';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import './styles.scss';
 import {TableProps} from "./types";
 import Patient from "../../../types/data/Patient";
 import {kladrSelector, kladrLoadingsSelector} from "../../../reduxStore/slices/registrationCard/selectors";
 import {fetchKladrStreets} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
-import {useSelector} from "react-redux";
+import {resetCurrentPatient} from '../../../reduxStore/slices/patientCard/patientCardSlice'
 
 const PatientsTable: FC<TableProps> = ({
   patients,
@@ -64,9 +64,13 @@ const PatientsTable: FC<TableProps> = ({
     },
   ];
 
+  // useEffect(() => {
+  //   console.log('patients', patients)
+  // }, [patients]);
+
   useEffect(() => {
-    console.log('patients', patients)
-  }, [patients]);
+    dispatch(resetCurrentPatient())
+  }, []);
 
   useEffect(() => {
     const itemsArr = [] as string[];

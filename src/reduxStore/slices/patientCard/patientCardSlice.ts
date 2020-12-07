@@ -89,6 +89,9 @@ const patientCardSlice = createSlice({
     ) => {
       state.loading[action.payload.type] = action.payload.value;
     },
+    resetCurrentPatient: (state) => {
+      state.currentPatient = undefined;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentPatient.fulfilled, (state, action) => {
@@ -104,6 +107,9 @@ const patientCardSlice = createSlice({
   },
 });
 
-export const { setLoading } = patientCardSlice.actions;
+export const {
+  setLoading,
+  resetCurrentPatient
+} = patientCardSlice.actions;
 
 export default patientCardSlice;

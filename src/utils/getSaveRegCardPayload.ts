@@ -82,7 +82,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_policy_info:
       policyDms.concat(policyOms).map((item) => ({
-        ...(item.id) && {id: item.id},
         insurer_id: parseInt(item.cmo),
         policyType_id: item.type ? parseInt(item.type) : null,
         policyKind_id: item.timeType ? parseInt(item.timeType) : null,

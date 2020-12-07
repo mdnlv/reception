@@ -76,14 +76,13 @@ export default interface NewPatientPayload {
   }[];
 
   client_policy_info: {
-    id?: number | null;
     insurer_id: number | null;
     policyType_id: number | null;
     policyKind_id: number | null;
     begDate: string | null;
     endDate: string | null;
-    name: string;
-    note: string;
+    name?: string;
+    note?: string;
     number: string;
   }[];
 
