@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import {PersonAddHospitalization} from '../../../components/forms/AdditionalHospitalizationForm/types';
 import {PersonAttachment} from '../../../components/forms/AttachmentsForm/types';
 import {EmploymentHazardItem, EmploymentItem} from '../../../components/forms/EmploymentForm/types';
@@ -38,7 +40,7 @@ const initialState: RegistrationCardStateType = {
       firstName: '',
       lastName: '',
       patrName: '',
-      birthDate: '',
+      birthDate: moment().format("YYYY-MM-DD"),
       birthTime: '',
       height: 0,
       weight: 0,
@@ -47,7 +49,7 @@ const initialState: RegistrationCardStateType = {
       docPersonId: '',
       hasImplants: false,
       hasProsthesis: false,
-      startCardDate: '',
+      startCardDate: moment().format("YYYY-MM-DD"),
       hasCard: false,
       onlyTempRegistration: false,
       birthPlace: '',
@@ -87,7 +89,7 @@ const initialState: RegistrationCardStateType = {
         serialFirst: '',
         serialSecond: '',
         number: '',
-        fromDate: '',
+        fromDate: moment().format("YYYY-MM-DD"),
         givenBy: '',
         addressRegistration: {
           isKLADR: true,

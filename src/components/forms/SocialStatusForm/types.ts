@@ -3,8 +3,8 @@ export interface SocialStatus {
   serialNumber: string;
   number: string;
   note?: string;
-  fromDate: string;
-  endDate: string;
+  fromDate: any;
+  endDate: any;
   class?: string;
 }
 
@@ -13,7 +13,7 @@ export interface TrustedDoc {
   serialFirst?: string;
   serialSecond?: string;
   number?: string;
-  date?: string;
+  date?: any;
   givenBy?: string;
 }
 

@@ -37,7 +37,7 @@ export default interface FormState {
     serialFirst: string;
     serialSecond: string;
     number: string;
-    fromDate: string;
+    fromDate: any;
     givenBy: string;
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
