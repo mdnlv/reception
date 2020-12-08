@@ -67,7 +67,7 @@ const PassportGeneral: React.FC<SectionProps> = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchKladr({}));
+    rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
 
   const fetchNestedKladr = (id: string, type: KladrDocType) => {

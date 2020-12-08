@@ -226,7 +226,8 @@ const registrationCardSlice = createSlice({
       state.initialFormState = { ...initialState.initialFormState };
     },
     resetRegCard: (state) => {
-      state.form = { ...initialState.form };
+      const {data: initialData, ...stateWithoutData} = initialState.form
+      state.form = {...state.form, ...stateWithoutData};
       state.initialFormState = { ...initialState.initialFormState };
     }
   },
@@ -240,7 +241,6 @@ const registrationCardSlice = createSlice({
         const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
-        // console.log('socialStatus', transformedPatient.socialStatus)
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),

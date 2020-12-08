@@ -41,7 +41,6 @@ const Address: FC<SectionProps> = ({
       form.setFieldValue(`${sectionValuePath}.area`, '');
       form.setFieldValue(`${sectionValuePath}.area`, formInitialValues.area);
     } else if (!formInitialValues.area && id === 'new') {
-      dispatch(fetchKladr({}));
       form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
     }
   }, [formInitialValues.area])
