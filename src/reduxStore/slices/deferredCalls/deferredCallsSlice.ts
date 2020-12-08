@@ -1,11 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import DeferredCallsService from "../../../services/DeferredCallsService";
-import DeferredCall from "../../../types/data/DeferredCall";
 
-interface DeferredCallsState {
-    queue: DeferredCall[],
-    loading: boolean
-}
+import DeferredCallsService from "../../../services/DeferredCallsService";
+import {DeferredCallsState} from "./types";
 
 const initialState: DeferredCallsState = {
     queue: [],
@@ -16,14 +12,14 @@ export const fetchDeferredQueue = createAsyncThunk(
     'deferredQueue/fetchQueue',
     async (_, thunkAPI) => {
         thunkAPI.dispatch(setLoading(true));
-        try{
+        try {
             const response = await DeferredCallsService.getDeferredCalls();
             if(response.data && response.status === 200){
                 return response.data;
             }
-        }catch (e) {
-
-        }finally {
+        } catch (e) {
+            alert(e)
+        } finally {
             thunkAPI.dispatch(setLoading(false));
         }
     }

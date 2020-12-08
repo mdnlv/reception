@@ -24,6 +24,7 @@ export const fetchIdPatient = createAsyncThunk(
         thunkAPI.dispatch(fetchIdPatientError());
       }
     } catch (e) {
+      alert(e);
       thunkAPI.dispatch(fetchIdPatientError());
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'idPatient', value: false }));
@@ -48,6 +49,7 @@ export const fetchKladr = createAsyncThunk(
         return { items: formattedData, type: payload.type };
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setKladrLoading({ value: false, type: payload.type }));
     }
@@ -73,6 +75,7 @@ export const fetchKladrNested = createAsyncThunk(
         return { items: formattedData, type: payload.type };
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(
         setKladrNestedLoading({ value: false, type: payload.type }),
@@ -99,6 +102,7 @@ export const fetchKladrStreets = createAsyncThunk(
         return { items: formattedData, type: payload.type };
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(
         setKladrStreetsLoading({ value: false, type: payload.type }),
@@ -125,7 +129,9 @@ export const findPatientPolicy = createAsyncThunk(
         data: response,
         type: payload.type,
       };
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -139,6 +145,7 @@ export const saveCardPatient = createAsyncThunk(
       console.log('payload', payload);
       await PatientsService.savePatient(payload);
     } catch (e) {
+      alert(JSON.stringify(e.response.data));
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: false }));
     }
