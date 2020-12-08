@@ -54,11 +54,11 @@ export const transformPatientResponse = (item: PatientResponse) => {
         endDate: item.endDate,
         document: Object.keys(item.document).length
           ? {
-            id: item.document.documentType_id,
-            serial: item.document.serial,
-            number: item.document.number,
-            date: item.document.date,
-            origin: item.document.origin
+            id: item.document?.documentType_id,
+            serial: item.document?.serial,
+            number: item.document?.number,
+            date: item.document?.date,
+            origin: item.document?.origin
           } : null
       })) || [],
 

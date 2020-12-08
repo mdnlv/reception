@@ -10,14 +10,14 @@ export interface SocialStatus {
 
 export interface TrustedDoc {
   type?: string;
-  serialFirst: string;
-  serialSecond: string;
-  number: string;
-  date: string;
-  givenBy: string;
+  serialFirst?: string;
+  serialSecond?: string;
+  number?: string;
+  date?: string;
+  givenBy?: string;
 }
 
 export interface FormState {
   socialStatus: SocialStatus[];
-  trustedDoc: TrustedDoc[];
+  trustedDoc: TrustedDoc[] | {};
 }

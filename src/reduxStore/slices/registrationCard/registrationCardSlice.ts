@@ -310,9 +310,9 @@ const registrationCardSlice = createSlice({
         state.initialFormState.socialStatus.trustedDoc =
           transformedPatient.socialStatus.map((item) => (
             item.document ? {
-              type: item.document.id.toString(),
-              serialFirst: item.document.serial.substring(0, item.document.serial.length/2),
-              serialSecond: item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
+              type: item.document.id && item.document.id.toString(),
+              serialFirst: item.document.serial && item.document.serial.substring(0, item.document.serial.length/2),
+              serialSecond: item.document.serial && item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
               number: item.document.number,
               date: item.document.date,
               givenBy: item.document.origin,
@@ -328,7 +328,7 @@ const registrationCardSlice = createSlice({
         state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
           (item, index) => ({
             hazardDescription: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].hurtTypeId.toString() : '',
-            exp: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].stage : 0,
+            hazardExp: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].stage : 0,
             factor: item.client_work_hurt_factor_info.length > 0 ? item.client_work_hurt_factor_info[index].factorTypeId.toString() : ''
           })
         );

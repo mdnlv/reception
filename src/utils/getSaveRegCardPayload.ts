@@ -143,25 +143,25 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_relation_info: [
       ...directLinks.map((item) => ({
-        relativeType_id: item.forwardRef,
-        relative_id: item.patientLink
+        relativeType_id: parseInt(item.forwardRef),
+        relative_id: parseInt(item.patientLink)
       })),
       ...backLinks.map((item) => ({
-        relativeType_id: item.forwardRef,
-        relative_id: item.patientLink
+        relativeType_id: parseInt(item.forwardRef),
+        relative_id: parseInt(item.patientLink)
       }))
     ],
 
     client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
-      org_id: item.organization,
+      org_id: parseInt(item.organization),
       post: item.position,
       stage: item.experience,
       client_work_hurt_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
-        hurtType_id: item.hazardDescription,
+        hurtType_id: parseInt(item.hazardDescription),
         stage: item.hazardExp
       })),
       client_work_hurt_factor_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
-        factorType_id: item.factor
+        factorType_id: parseInt(item.factor)
       }))
     })),
 
@@ -170,7 +170,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         LPU_id: parseInt(item.lpu),
         attachType_id: parseInt(item.type),
         begDate: item.fromDate,
-        orgStructure_id: item.unit,
+        orgStructure_id: parseInt(item.unit),
         reason: 0
       }),
     ),

@@ -9,10 +9,10 @@ export interface EmploymentItem {
 export interface EmploymentHazardItem {
   hazardDescription: string;
   hazardExp: number;
-  factor?: string;
+  factor: string;
   organization?: string;
-  post: string;
-  exp: number;
+  post?: string;
+  exp?: number;
 }
 
 export default interface FormState {
