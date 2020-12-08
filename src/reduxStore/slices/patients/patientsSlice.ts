@@ -21,6 +21,7 @@ export const fetchPatients = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
@@ -39,6 +40,7 @@ export const fetchFiltersPatients = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoadingFound(false));
     }
@@ -55,7 +57,7 @@ export const fetchQueryPatients = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
-      console.log(e);
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoadingFound(false));
     }

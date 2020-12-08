@@ -39,12 +39,12 @@ interface InitialRegFormState {
     lastName: string;
     patrName: string;
     code: string;
-    birthDate: string;
+    birthDate: any;
     birthTime: string;
     height: number;
     weight: number;
     snils: string;
-    startCardDate: string;
+    startCardDate: any;
     sex: 0 | 1;
     hasImplants: boolean;
     hasProsthesis: boolean;

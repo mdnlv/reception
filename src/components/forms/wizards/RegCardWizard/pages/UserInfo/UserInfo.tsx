@@ -29,6 +29,8 @@ const UserInfo: React.FC<UserInfoProps> = ({error}) => {
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
 
+  // console.log('formProps', formProps.initialValues)
+
   const sectionValuePath = `personal`;
 
   const personsOptions = persons.map((item) => (

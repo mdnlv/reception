@@ -6,7 +6,6 @@ import Col from 'antd/lib/col';
 import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
-import { fetchPatientEvents } from '../../reduxStore/slices/patientCard/patientCardSlice';
 import { RootState } from '../../reduxStore/store';
 import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
@@ -33,38 +32,6 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
-
-  useEffect(() => {
-    if (currentPatientMemo) {
-      if (
-        currentPatientMemo.address &&
-        currentPatientMemo.address[0] &&
-        currentPatientMemo.address[0].address.KLADRCode &&
-        currentPatientMemo.address[0].address.KLADRStreetCode
-      ) {
-        dispatch(
-          fetchKladrStreets({
-            id: currentPatientMemo.address[0].address.KLADRCode,
-            type: 'documented',
-          }),
-        );
-      }
-      if (
-        currentPatientMemo.address &&
-        currentPatientMemo.address[1] &&
-        currentPatientMemo.address[1].address.KLADRCode &&
-        currentPatientMemo.address[1].address.KLADRStreetCode
-      ) {
-        dispatch(
-          fetchKladrStreets({
-            id: currentPatientMemo.address[1].address.KLADRCode,
-            type: 'registration',
-          }),
-        );
-      }
-      dispatch(fetchPatientEvents(currentPatientMemo.code));
-    }
-  }, [currentPatientMemo]);
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {

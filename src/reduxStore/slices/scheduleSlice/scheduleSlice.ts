@@ -14,6 +14,7 @@ export const fetchSchedules = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
@@ -41,7 +42,7 @@ export const fetchPersonsSchedule = createAsyncThunk(
       }
       return response;
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   },
 );

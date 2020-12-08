@@ -21,6 +21,7 @@ export const fetchCurrentPatient = createAsyncThunk(
         return transformPatientResponse(response.data[0]);
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(
         setLoading({
@@ -56,6 +57,7 @@ export const fetchPatientEvents = createAsyncThunk(
         return formattedData;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(
         setLoading({

@@ -73,6 +73,7 @@ export const fetchRbOrganisations = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e);
       thunkAPI.rejectWithValue(e);
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'organisations', value: false }));
@@ -88,7 +89,9 @@ export const fetchRbInvalidReasons = createAsyncThunk(
       if (response.data) {
         return response.data;
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -105,6 +108,7 @@ export const fetchRbDocumentTypes = createAsyncThunk(
         }));
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'documentTypes', value: false }));
     }
@@ -123,7 +127,9 @@ export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
           code: item.code,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -138,7 +144,9 @@ export const fetchRbAccountingSystem = createAsyncThunk(
           name: item.name,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -153,7 +161,9 @@ export const fetchRbAttachTypes = createAsyncThunk(
           name: item.name,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -168,7 +178,9 @@ export const fetchRbPolicyTypes = createAsyncThunk(
           name: item.name,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -185,6 +197,7 @@ export const fetchRbOrgStructure = createAsyncThunk(
         }));
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'orgStructure', value: false }));
     }
@@ -202,7 +215,9 @@ export const fetchRbPolicyKind = createAsyncThunk(
           name: item.name,
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -218,7 +233,9 @@ export const fetchRbContactTypes = createAsyncThunk(
           mask: item.mask.replace(/[0-9]/g, '1'),
         }));
       }
-    } catch (e) {}
+    } catch (e) {
+      alert(e)
+    }
   },
 );
 
@@ -232,6 +249,7 @@ export const fetchRbSocialStatusType = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: false }));
     }
@@ -248,6 +266,7 @@ export const fetchRbSocialStatusClass = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkApi.dispatch(setLoading({ value: false, type: 'socialClasses' }));
     }
@@ -264,6 +283,7 @@ export const fetchRbHurtType = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: false }));
     }
@@ -280,6 +300,7 @@ export const fetchRbHurtFactorTypes = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
+      alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: false }));
     }
