@@ -97,7 +97,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
             {getAddress(patient, 1, rbKladrDocumented, rbKladrStreetsDocumented)}
           </Descriptions.Item>
           <Descriptions.Item className={'person-info-item'} label={'Занятость'}>
-            {patient?.work[0].post}
+            {patient?.work ? patient?.work[0].post : ''}
           </Descriptions.Item>
           <Descriptions.Item className={'person-info-item'} label={'Телефоны'}>
             {getContactPhones()}

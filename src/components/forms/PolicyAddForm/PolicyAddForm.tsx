@@ -58,7 +58,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
     timeType: "",
     to: "",
     type: ''
-  });
+  } as PassportPolicyType);
 
   useEffect(() => {
     const timeType = policyFormValues.timeType;
@@ -180,7 +180,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
                     disabled={isLoading}
                     value={
                       policyFormValues.timeType === "3"
-                        ? formProps.values.to = '2200-01-01'
+                        ? moment(formProps.values.to = '2200-01-01')
                         : moment(formProps.values.to)
                     }
                     name={'to'}

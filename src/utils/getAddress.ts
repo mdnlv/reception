@@ -2,14 +2,14 @@ import Patient from "../types/data/Patient";
 import KladrItem from "../types/data/KladrItem";
 import KladrStreet from "../types/data/KladrStreet";
 
-export const getAddress = (patient: Patient, type: 0|1, kladrRegistration: KladrItem[], kladrStreetsRegistration: KladrStreet[]) => {
+export const getAddress = (patient: Partial<Patient> | undefined, type: 0|1, kladrRegistration: KladrItem[], kladrStreetsRegistration: KladrStreet[]) => {
   return (
     patient?.address?.find((item) => item.type === type)?.freeInput ||
     getKladrAddress(patient, type, kladrRegistration, kladrStreetsRegistration)
   );
 };
 
-export const getKladrAddress = (patient: Patient, type: 0|1, kladrRegistration: KladrItem[], kladrStreetsRegistration: KladrStreet[]) => {
+export const getKladrAddress = (patient: Partial<Patient> | undefined, type: 0|1, kladrRegistration: KladrItem[], kladrStreetsRegistration: KladrStreet[]) => {
   const number = patient?.address?.find((item) => item.type === type)?.address
     .house;
   const corpus = patient?.address?.find((item) => item.type === type)?.address
