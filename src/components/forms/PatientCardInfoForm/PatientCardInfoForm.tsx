@@ -55,7 +55,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
       birthPlace: patient.birthPlace,
       phone: getPhone() || '',
       snils: patient.snils,
-      oms: getOmsNumber() || '',
+      oms: patient.policy.length > 0 ? getOmsNumber() : '',
       organization: getOrganization() || patient.work[0].freeInput || '',
       post: patient.work[0].post || ''
     };
