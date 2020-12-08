@@ -47,7 +47,7 @@ const Status: React.FC<StatusProps> = ({
   const propsList = useCallback(
     (items: ListOptionProps[]) => {
       return items.map((item) => (
-        <Select.Option key={item.id} value={item.id.toString()}>
+        <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
           {item.name}
         </Select.Option>
       ));
@@ -70,6 +70,9 @@ const Status: React.FC<StatusProps> = ({
                 <FormField label={LABELS.CLASS}>
                   <FastSearchSelect
                     loading={isLoadingClasses}
+                    showSearch
+                    filterOption
+                    optionFilterProp={'name'}
                     name={getSelectionPath(index, 'class')}>
                     {propsList(socialClassesList)}
                   </FastSearchSelect>
@@ -79,6 +82,9 @@ const Status: React.FC<StatusProps> = ({
                 <FormField label={LABELS.TYPE}>
                   <FastSearchSelect
                     loading={isLoadingTypes}
+                    showSearch
+                    filterOption
+                    optionFilterProp={'name'}
                     name={getSelectionPath(index, 'type')}>
                     {propsList(socialTypesList)}
                   </FastSearchSelect>

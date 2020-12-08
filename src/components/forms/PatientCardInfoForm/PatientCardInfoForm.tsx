@@ -26,7 +26,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
   const getOmsNumber = () => {
     const policies = patient.policy;
     const omsFound  = policies.filter(
-      (item) => parseInt(item.type) !== 3,
+      (item) => item.policyTypeId !== 3,
     );
     return omsFound[omsFound.length - 1].number;
   };
