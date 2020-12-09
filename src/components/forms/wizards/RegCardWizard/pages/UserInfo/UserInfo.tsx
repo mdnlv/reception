@@ -114,7 +114,10 @@ const UserInfo: React.FC<UserInfoProps> = ({error}) => {
       <Divider />
       <div>
         <FormField label="СНИЛС" error={error && error.snils}>
-          <FastMaskedInput name={'personal.snils'} mask="111-111-111 11"/>
+          <FastMaskedInput
+            name={'personal.snils'}
+            mask="111-111-111 11"
+          />
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>
