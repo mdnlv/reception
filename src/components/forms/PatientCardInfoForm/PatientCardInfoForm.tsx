@@ -1,4 +1,4 @@
-import React, {useMemo, useEffect, useCallback} from 'react';
+import React, {useState, useMemo, useEffect, useCallback} from 'react';
 import {Formik} from 'formik';
 import {Col, DatePicker, Divider, Input, Row, Select, Spin} from 'antd';
 import MaskedInput from 'antd-mask-input';
@@ -8,20 +8,36 @@ import { useSelector } from 'react-redux';
 import './styles.scss';
 import {FormProps} from "./types";
 import {detailedOrganisationsSelector} from "../../../reduxStore/slices/rb/selectors";
-import {kladrLoadingsSelector, kladrSelector} from "../../../reduxStore/slices/registrationCard/selectors";
+import {kladrSelector} from "../../../reduxStore/slices/registrationCard/selectors";
 import {getAddress} from "../../../utils/getAddress";
 
 import FormField from '../components/FormField/FormField';
 
-const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
+const PatientCardInfoForm: React.FC<FormProps> = ({
+  patient,
+  kladr,
+  isLoadingKladr,
+  isLoadingKladrStreets,
+}) => {
   const orgsList = useSelector(detailedOrganisationsSelector);
-  const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
+  const { rbKladrStreetsRegistration, rbKladrStreetsDocumented } = useSelector(
     kladrSelector,
   );
-  const {
-    isLoadingKladrStreetsDocumented,
-    isLoadingKladrStreetsRegistration,
-  } = useSelector(kladrLoadingsSelector);
+  const [isDocFreeInput, setIsDocFreeInput] = useState(false);
+  const [isRegFreeInput, setIsRegFreeInput] = useState(false);
+
+  useEffect(() => {
+    const patientsAddress = patient.address;
+    for (let i = 0; i < patientsAddress.length; i++) {
+      if (patientsAddress[i].freeInput) {
+        if (patientsAddress[i].type === 0) {
+          setIsDocFreeInput(true)
+        } else if (patientsAddress[i].type === 1) {
+          setIsRegFreeInput(true)
+        }
+      }
+    }
+  }, [patient]);
 
   const getOmsNumber = () => {
     const policies = patient.policy;
@@ -50,8 +66,8 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
       fullName: patient.fullName,
       birthDate: patient.birthDate,
       sex: patient.sex,
-      regAddress: getAddress(patient, 0, rbKladrRegistration, rbKladrStreetsRegistration),
-      livingAddress: getAddress(patient, 1, rbKladrRegistration, rbKladrStreetsRegistration),
+      regAddress: getAddress(patient, 0, kladr, rbKladrStreetsDocumented),
+      livingAddress: getAddress(patient, 1, kladr, rbKladrStreetsRegistration),
       birthPlace: patient.birthPlace,
       phone: getPhone() || '',
       snils: patient.snils,
@@ -59,9 +75,13 @@ const PatientCardInfoForm: React.FC<FormProps> = ({patient}) => {
       organization: getOrganization() || patient.work[0].freeInput || '',
       post: patient.work[0].post || ''
     };
-  }, [patient]);
+  }, [patient, rbKladrStreetsRegistration, kladr, rbKladrStreetsDocumented]);
 
-  return isLoadingKladrStreetsRegistration || isLoadingKladrStreetsDocumented
+  return isLoadingKladr
+      || isLoadingKladrStreets
+      || kladr.length === 0
+      || rbKladrStreetsRegistration.length === 0 && patient.address[0] && !isRegFreeInput
+      || rbKladrStreetsDocumented.length === 0 && patient.address[1] && !isDocFreeInput
     ? (
       <div className={'person-info-loading__wrapper'}>
         <Spin />
