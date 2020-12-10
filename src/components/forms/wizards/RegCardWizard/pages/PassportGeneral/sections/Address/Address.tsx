@@ -114,9 +114,9 @@ const Address: FC<SectionProps> = ({
   //очистка улицы и текстовых инпутов после изменения города
   useEffect(() => {
     formValues.passportInfo[passportType].city &&
-      setPrevCity(formValues.passportInfo[passportType].city);
+    setPrevCity(formValues.passportInfo[passportType].city);
     formValues.passportInfo[passportType].city !== prevCity &&
-      form.setFieldValue(`${sectionValuePath}.street`, '');
+    form.setFieldValue(`${sectionValuePath}.street`, '');
   }, [formValues.passportInfo[passportType].city]);
 
   // очистка города после изменения области
@@ -255,11 +255,11 @@ const Address: FC<SectionProps> = ({
                     setDisabled() ||
                     !formValues.passportInfo[passportType].area ||
                     formValues.passportInfo[passportType].area ===
-                      '7800000000000' ||
+                    '7800000000000' ||
                     formValues.passportInfo[passportType].area ===
-                      '7700000000000' ||
+                    '7700000000000' ||
                     formValues.passportInfo[passportType].area ===
-                      '9200000000000'
+                    '9200000000000'
                   }
                   onFocus={() => {
                     getKladrNested(
@@ -288,19 +288,19 @@ const Address: FC<SectionProps> = ({
                     (formValues.passportInfo[passportType].area !==
                       '7800000000000' &&
                       formValues.passportInfo[passportType].area !==
-                        '7700000000000' &&
+                      '7700000000000' &&
                       formValues.passportInfo[passportType].area !==
-                        '9200000000000' &&
+                      '9200000000000' &&
                       !formValues.passportInfo[passportType].city)
                   }
                   onFocus={() => {
                     getKladrStreets(
                       formValues.passportInfo[passportType].area ===
-                        '7800000000000' ||
-                        formValues.passportInfo[passportType].area ===
-                          '7700000000000' ||
-                        formValues.passportInfo[passportType].area ===
-                          '9200000000000'
+                      '7800000000000' ||
+                      formValues.passportInfo[passportType].area ===
+                      '7700000000000' ||
+                      formValues.passportInfo[passportType].area ===
+                      '9200000000000'
                         ? formValues.passportInfo[passportType].area
                         : formValues.passportInfo[passportType].city,
                       getType(),
