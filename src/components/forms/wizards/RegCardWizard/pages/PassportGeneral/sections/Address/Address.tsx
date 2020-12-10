@@ -15,16 +15,16 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Address: FC<SectionProps> = ({
-  passportType,
-  kladr,
-  nestedKladr,
-  kladrStreets,
-  isLoadingKladr,
-  isLoadingKladrNested,
-  isLoadingKladrStreets,
-  getKladrNested,
-  getKladrStreets,
-}) => {
+                                     passportType,
+                                     kladr,
+                                     nestedKladr,
+                                     kladrStreets,
+                                     isLoadingKladr,
+                                     isLoadingKladrNested,
+                                     isLoadingKladrStreets,
+                                     getKladrNested,
+                                     getKladrStreets,
+                                   }) => {
   const { id } = useParams<{ id: string }>();
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
@@ -52,11 +52,11 @@ const Address: FC<SectionProps> = ({
   useEffect(() => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
       if (formValues.passportInfo[passportType].area ===
-          '7800000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '7700000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '9200000000000') {
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
         getKladrStreets(formValues.passportInfo[passportType].area, getType());
       } else {
         getKladrNested(formValues.passportInfo[passportType].area, getType());
@@ -71,11 +71,11 @@ const Address: FC<SectionProps> = ({
   useEffect(() => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
       if (formValues.passportInfo[passportType].area ===
-          '7800000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '7700000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '9200000000000') {
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
         getKladrStreets(formValues.passportInfo[passportType].area, getType());
       } else {
         getKladrStreets(formValues.passportInfo[passportType].city, getType());
@@ -89,11 +89,11 @@ const Address: FC<SectionProps> = ({
   useEffect(() => {
     if (formInitialValues.street) {
       if (formValues.passportInfo[passportType].area ===
-          '7800000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '7700000000000' ||
-          formValues.passportInfo[passportType].area ===
-          '9200000000000') {
+        '7800000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '7700000000000' ||
+        formValues.passportInfo[passportType].area ===
+        '9200000000000') {
         getKladrStreets(formValues.passportInfo['documentedAddress'].area, getType());
       } else {
         getKladrStreets(formValues.passportInfo['documentedAddress'].city, getType());
@@ -129,8 +129,8 @@ const Address: FC<SectionProps> = ({
 
   useEffect(() => {
     passportType !== 'documentedAddress' && formValues.passportInfo[passportType].isDocumentedAddress
-        ? setIsDocumentedAddress(true)
-        : setIsDocumentedAddress(false);
+      ? setIsDocumentedAddress(true)
+      : setIsDocumentedAddress(false);
   }, [formValues.passportInfo[passportType].isDocumentedAddress]);
 
   //очистка форм в зависимости от радиокнопок
@@ -140,9 +140,9 @@ const Address: FC<SectionProps> = ({
     } else {
       for (let key in formValues.passportInfo[passportType]) {
         if (
-            key !== 'freeInput' &&
-            key !== 'isKLADR' &&
-            key !== 'isDocumentedAddress'
+          key !== 'freeInput' &&
+          key !== 'isKLADR' &&
+          key !== 'isDocumentedAddress'
         ) {
           form.setFieldValue(`${sectionValuePath}[${key}]`, '');
         }
@@ -154,13 +154,13 @@ const Address: FC<SectionProps> = ({
   useEffect(() => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
       form.setFieldValue(
-          `${sectionValuePath}.isKLADR`,
-          formValues.passportInfo['documentedAddress'].isKLADR,
+        `${sectionValuePath}.isKLADR`,
+        formValues.passportInfo['documentedAddress'].isKLADR,
       );
     } else {
       form.setFieldValue(
-          `${sectionValuePath}.isKLADR`,
-          formValues.passportInfo[passportType].isKLADR,
+        `${sectionValuePath}.isKLADR`,
+        formValues.passportInfo[passportType].isKLADR,
       );
     }
   }, [
@@ -170,12 +170,12 @@ const Address: FC<SectionProps> = ({
 
   const getKladrDetailed = (kladrArr: KladrItem[]) => {
     return kladrArr.map((item) => (
-        <Select.Option
-            key={item.id}
-            name={`${item.socr}. ${item.name}`}
-            value={item.id}>
-          {`${item.socr}. ${item.name}`}
-        </Select.Option>
+      <Select.Option
+        key={item.id}
+        name={`${item.socr}. ${item.name}`}
+        value={item.id}>
+        {`${item.socr}. ${item.name}`}
+      </Select.Option>
     ));
   };
 
@@ -211,193 +211,193 @@ const Address: FC<SectionProps> = ({
   };
 
   const setDisabled = () =>
-      isDocumentedAddress && passportType !== 'documentedAddress';
+    isDocumentedAddress && passportType !== 'documentedAddress';
 
   return (
-      <div className="form-section address-registration">
-        <h2>{getTitle()}</h2>
-        <Row gutter={16} className="form-row">
-          <Col span={8}>
-            <Radio.Group
-                value={setValue('isKLADR')}
-                disabled={setDisabled()}
-                name={`${sectionValuePath}.isKLADR`}
-                onChange={form.handleChange}>
-              <Radio value={true}>КЛАДР</Radio>
-              <Radio value={false}>Сельский житель</Radio>
-            </Radio.Group>
-          </Col>
-        </Row>
-        {formValues.passportInfo[passportType].isKLADR && (
-            <>
-              <Row gutter={16} className="form-row">
+    <div className="form-section address-registration">
+      <h2>{getTitle()}</h2>
+      <Row gutter={16} className="form-row">
+        <Col span={8}>
+          <Radio.Group
+            value={setValue('isKLADR')}
+            disabled={setDisabled()}
+            name={`${sectionValuePath}.isKLADR`}
+            onChange={form.handleChange}>
+            <Radio value={true}>КЛАДР</Radio>
+            <Radio value={false}>Сельский житель</Radio>
+          </Radio.Group>
+        </Col>
+      </Row>
+      {formValues.passportInfo[passportType].isKLADR && (
+        <>
+          <Row gutter={16} className="form-row">
+            <Col span={8}>
+              <FormField>
+                <FastSearchSelect
+                  loading={isLoadingKladr}
+                  name={`${sectionValuePath}.area`}
+                  value={setValue('area')}
+                  placeholder={'Область'}
+                  onFocus={() => setCleanable(true)}
+                  showSearch
+                  filterOption
+                  isDisabled={setDisabled()}
+                  optionFilterProp={'name'}>
+                  {getKladrDetailed(kladr)}
+                </FastSearchSelect>
+              </FormField>
+            </Col>
+            <Col span={8}>
+              <FormField>
+                <FastSearchSelect
+                  loading={isLoadingKladrNested}
+                  isDisabled={
+                    setDisabled() ||
+                    !formValues.passportInfo[passportType].area ||
+                    formValues.passportInfo[passportType].area ===
+                    '7800000000000' ||
+                    formValues.passportInfo[passportType].area ===
+                    '7700000000000' ||
+                    formValues.passportInfo[passportType].area ===
+                    '9200000000000'
+                  }
+                  onFocus={() => {
+                    getKladrNested(
+                      formValues.passportInfo[passportType].area,
+                      getType(),
+                    );
+                  }}
+                  value={setValue('city')}
+                  placeholder={'Город'}
+                  name={`${sectionValuePath}.city`}
+                  showSearch
+                  filterOption
+                  optionFilterProp={'name'}>
+                  {getKladrDetailed(nestedKladr)}
+                </FastSearchSelect>
+              </FormField>
+            </Col>
+          </Row>
+          <Row gutter={16} className="form-row">
+            <Col span={8}>
+              <FormField>
+                <FastSearchSelect
+                  loading={isLoadingKladrStreets}
+                  isDisabled={
+                    setDisabled() ||
+                    (formValues.passportInfo[passportType].area !==
+                      '7800000000000' &&
+                      formValues.passportInfo[passportType].area !==
+                      '7700000000000' &&
+                      formValues.passportInfo[passportType].area !==
+                      '9200000000000' &&
+                      !formValues.passportInfo[passportType].city)
+                  }
+                  onFocus={() => {
+                    getKladrStreets(
+                      formValues.passportInfo[passportType].area ===
+                      '7800000000000' ||
+                      formValues.passportInfo[passportType].area ===
+                      '7700000000000' ||
+                      formValues.passportInfo[passportType].area ===
+                      '9200000000000'
+                        ? formValues.passportInfo[passportType].area
+                        : formValues.passportInfo[passportType].city,
+                      getType(),
+                    );
+                  }}
+                  value={setValue('street')}
+                  placeholder={'Улица'}
+                  name={`${sectionValuePath}.street`}
+                  showSearch
+                  filterOption
+                  optionFilterProp={'name'}>
+                  {getKladrDetailed(kladrStreets)}
+                </FastSearchSelect>
+              </FormField>
+            </Col>
+            <Col span={8}>
+              <Row gutter={16}>
                 <Col span={8}>
-                  <FormField>
-                    <FastSearchSelect
-                        loading={isLoadingKladr}
-                        name={`${sectionValuePath}.area`}
-                        value={setValue('area')}
-                        placeholder={'Область'}
-                        onFocus={() => setCleanable(true)}
-                        showSearch
-                        filterOption
-                        isDisabled={setDisabled()}
-                        optionFilterProp={'name'}>
-                      {getKladrDetailed(kladr)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={8}>
-                  <FormField>
-                    <FastSearchSelect
-                        loading={isLoadingKladrNested}
-                        isDisabled={
-                          setDisabled() ||
-                          !formValues.passportInfo[passportType].area ||
-                          formValues.passportInfo[passportType].area ===
-                          '7800000000000' ||
-                          formValues.passportInfo[passportType].area ===
-                          '7700000000000' ||
-                          formValues.passportInfo[passportType].area ===
-                          '9200000000000'
-                        }
-                        onFocus={() => {
-                          getKladrNested(
-                              formValues.passportInfo[passportType].area,
-                              getType(),
-                          );
-                        }}
-                        value={setValue('city')}
-                        placeholder={'Город'}
-                        name={`${sectionValuePath}.city`}
-                        showSearch
-                        filterOption
-                        optionFilterProp={'name'}>
-                      {getKladrDetailed(nestedKladr)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-              </Row>
-              <Row gutter={16} className="form-row">
-                <Col span={8}>
-                  <FormField>
-                    <FastSearchSelect
-                        loading={isLoadingKladrStreets}
-                        isDisabled={
-                          setDisabled() ||
-                          (formValues.passportInfo[passportType].area !==
-                              '7800000000000' &&
-                              formValues.passportInfo[passportType].area !==
-                              '7700000000000' &&
-                              formValues.passportInfo[passportType].area !==
-                              '9200000000000' &&
-                              !formValues.passportInfo[passportType].city)
-                        }
-                        onFocus={() => {
-                          getKladrStreets(
-                              formValues.passportInfo[passportType].area ===
-                              '7800000000000' ||
-                              formValues.passportInfo[passportType].area ===
-                              '7700000000000' ||
-                              formValues.passportInfo[passportType].area ===
-                              '9200000000000'
-                                  ? formValues.passportInfo[passportType].area
-                                  : formValues.passportInfo[passportType].city,
-                              getType(),
-                          );
-                        }}
-                        value={setValue('street')}
-                        placeholder={'Улица'}
-                        name={`${sectionValuePath}.street`}
-                        showSearch
-                        filterOption
-                        optionFilterProp={'name'}>
-                      {getKladrDetailed(kladrStreets)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={8}>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <FormField>
-                        <FastInput
-                            name={`${sectionValuePath}.houseNumber`}
-                            placeholder='Дом'
-                            disabled={
-                              setDisabled() ||
-                              !formValues.passportInfo[passportType].area ||
-                              !formValues.passportInfo[passportType].street
-                            }
-                            value={setValue('houseNumber')}
-                        />
-                      </FormField>
-                    </Col>
-                    <Col span={8}>
-                      <FormField>
-                        <FastInput
-                            name={`${sectionValuePath}.houseCharacter`}
-                            placeholder='Корпус'
-                            disabled={
-                              setDisabled() ||
-                              !formValues.passportInfo[passportType].area ||
-                              !formValues.passportInfo[passportType].street
-                            }
-                            value={setValue('houseCharacter')}
-                        />
-                      </FormField>
-                    </Col>
-                    <Col span={8}>
-                      <FormField>
-                        <FastInput
-                            name={`${sectionValuePath}.flatNumber`}
-                            placeholder='Квартира'
-                            disabled={
-                              setDisabled() ||
-                              !formValues.passportInfo[passportType].area ||
-                              !formValues.passportInfo[passportType].street
-                            }
-                            value={setValue('flatNumber')}
-                        />
-                      </FormField>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </>
-        )}
-        {!formValues.passportInfo[passportType].isKLADR && (
-            <>
-              <Row gutter={8}>
-                <Col span={16}>
                   <FormField>
                     <FastInput
-                        name={`${sectionValuePath}.freeInput`}
-                        disabled={setDisabled()}
-                        value={setValue('freeInput')}
+                      name={`${sectionValuePath}.houseNumber`}
+                      placeholder='Дом'
+                      disabled={
+                        setDisabled() ||
+                        !formValues.passportInfo[passportType].area ||
+                        !formValues.passportInfo[passportType].street
+                      }
+                      value={setValue('houseNumber')}
+                    />
+                  </FormField>
+                </Col>
+                <Col span={8}>
+                  <FormField>
+                    <FastInput
+                      name={`${sectionValuePath}.houseCharacter`}
+                      placeholder='Корпус'
+                      disabled={
+                        setDisabled() ||
+                        !formValues.passportInfo[passportType].area ||
+                        !formValues.passportInfo[passportType].street
+                      }
+                      value={setValue('houseCharacter')}
+                    />
+                  </FormField>
+                </Col>
+                <Col span={8}>
+                  <FormField>
+                    <FastInput
+                      name={`${sectionValuePath}.flatNumber`}
+                      placeholder='Квартира'
+                      disabled={
+                        setDisabled() ||
+                        !formValues.passportInfo[passportType].area ||
+                        !formValues.passportInfo[passportType].street
+                      }
+                      value={setValue('flatNumber')}
                     />
                   </FormField>
                 </Col>
               </Row>
-            </>
-        )}
-        {passportType === 'addressRegistration' && (
-            <Row gutter={8}>
-              <Col span={16}>
-                <FormField>
-                  <Checkbox
-                      checked={
-                        formValues.passportInfo['addressRegistration']
-                            .isDocumentedAddress
-                      }
-                      name={`${sectionValuePath}.isDocumentedAddress`}
-                      onChange={form.handleChange}>
-                    Соответствует адресу прописки
-                  </Checkbox>
-                </FormField>
-              </Col>
-            </Row>
-        )}
-      </div>
+            </Col>
+          </Row>
+        </>
+      )}
+      {!formValues.passportInfo[passportType].isKLADR && (
+        <>
+          <Row gutter={8}>
+            <Col span={16}>
+              <FormField>
+                <FastInput
+                  name={`${sectionValuePath}.freeInput`}
+                  disabled={setDisabled()}
+                  value={setValue('freeInput')}
+                />
+              </FormField>
+            </Col>
+          </Row>
+        </>
+      )}
+      {passportType === 'addressRegistration' && (
+        <Row gutter={8}>
+          <Col span={16}>
+            <FormField>
+              <Checkbox
+                checked={
+                  formValues.passportInfo['addressRegistration']
+                    .isDocumentedAddress
+                }
+                name={`${sectionValuePath}.isDocumentedAddress`}
+                onChange={form.handleChange}>
+                Соответствует адресу прописки
+              </Checkbox>
+            </FormField>
+          </Col>
+        </Row>
+      )}
+    </div>
   );
 };
 
