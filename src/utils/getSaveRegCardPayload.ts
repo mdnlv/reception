@@ -80,18 +80,30 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       notes: item.note
     })),
 
-    client_policy_info:
-      policyDms.concat(policyOms).map((item) => ({
-        insurer_id: parseInt(item.cmo),
-        policyType_id: item.type ? parseInt(item.type) : null,
-        policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-        begDate: item.from,
-        endDate: item.to,
-        note: item.note,
-        name: item.name,
-        number: item.number,
-        serial: item.serial,
-      })) || [],
+    client_policy_info: [
+      {
+        insurer_id: parseInt(policyOms.cmo),
+        policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
+        policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
+        begDate: policyOms.from,
+        endDate: policyOms.to,
+        note: policyOms.note,
+        name: policyOms.name,
+        number: policyOms.number,
+        serial: policyOms.serial,
+      }
+    ],
+      // policyDms.concat(policyOms).map((item) => ({
+      //   insurer_id: parseInt(item.cmo),
+      //   policyType_id: item.type ? parseInt(item.type) : null,
+      //   policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+      //   begDate: item.from,
+      //   endDate: item.to,
+      //   note: item.note,
+      //   name: item.name,
+      //   number: item.number,
+      //   serial: item.serial,
+      // })) || [],
 
     client_address_info: [
       {

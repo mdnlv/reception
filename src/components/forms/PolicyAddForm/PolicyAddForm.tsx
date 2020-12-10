@@ -1,8 +1,8 @@
 import React, {useCallback, useMemo, useState, useEffect} from 'react';
-import {Formik} from 'formik';
 import {Button, Col, Row, Select, Space} from 'antd';
 import moment from 'moment';
 import { useFormikContext } from 'formik';
+import { useParams } from 'react-router';
 
 import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
@@ -38,7 +38,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isCmoLoading,
   cmoType,
 }) => {
+  const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
+  const formValues = form.values.passportGeneral[policyKey];
+  const sectionValuePath = `passportGeneral.${policyKey}`;
+
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
   const patrName = form.values.personal.patrName;
@@ -47,29 +51,23 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const docSerial = form.values.passportGeneral.passportInfo.serialFirst
     .concat(form.values.passportGeneral.passportInfo.serialSecond);
   const docNumber = form.values.passportGeneral.passportInfo.number;
+
   const [policyMask, setPolicyMask] = useState('' as string);
-  const [policyFormValues, setPolicyFormValues] = useState({
-    cmo: "",
-    from: "",
-    name: "",
-    note: "",
-    number: "",
-    serial: "",
-    timeType: "",
-    to: "",
-    type: ''
-  } as PassportPolicyType);
 
   useEffect(() => {
-    const timeType = policyFormValues.timeType;
-    if (timeType === "1" || policyFormValues.serial === 'ВС') {
+    console.log('formValues', formValues)
+  }, [formValues]);
+
+  useEffect(() => {
+    const timeType = formValues.timeType;
+    if (timeType === "1" ||formValues.serial === 'ВС') {
       setPolicyMask('111111111')
-    } else if (timeType === "3" || policyFormValues.serial === 'ЕП') {
+    } else if (timeType === "3" || formValues.serial === 'ЕП') {
       setPolicyMask('111111111111')
     } else {
       setPolicyMask('')
     }
-  }, [policyFormValues.timeType, policyFormValues.serial]);
+  }, [formValues.timeType, formValues.serial]);
 
   const sectionTitle = () => {
     switch (policyKey) {
@@ -98,201 +96,172 @@ const PolicyAddForm: React.FC<FormProps> = ({
   );
 
   return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={
-        foundPolicy
-          ? {
-              ...initialState,
-              cmo: foundPolicy.cmo,
-              type: foundPolicy.type,
-              timeType: foundPolicy.timeType,
-              from: foundPolicy.from,
-              to: foundPolicy.to,
-              serial: foundPolicy.serial,
-              number: foundPolicy.number,
-              note: foundPolicy.note,
-              name: foundPolicy.name,
+    <div
+      className={`form-section policy-${
+        policyKey === 'policyOms' ? 'omc' : 'dmc'
+      }`}>
+      <h2>{sectionTitle()}</h2>
+      <Row className="form-row" align={'bottom'} gutter={16}>
+        <Col>
+          <Button
+            loading={isLoading}
+            onClick={() => {
+              onFindPolicyHandler({
+                birthDate,
+                docNumber,
+                docSerial,
+                firstName,
+                lastName,
+                patrName,
+                policyNumber: formValues.number,
+                policySerial: formValues.serial,
+                sex: sex.toString(),
+              });
+            }}>
+            Искать
+          </Button>
+        </Col>
+        <Col span={4}>
+          <FormField label={'Тип'}>
+            <FastSearchSelect
+              allowClear
+              loading={isLoading}
+              placeholder={"Тип"}
+              name={`${sectionValuePath}.timeType`}
+              // value={formValues.timeType}
+            >
+              {getPropsOptions(policyTimeType)}
+            </FastSearchSelect>
+          </FormField>
+        </Col>
+        <Col span={5}>
+          <FormField label={'С'}>
+            <FastDatePicker
+              disabled={isLoading}
+              // value={
+              //   formValues.from
+              //     ? moment(formValues.from)
+              //     : undefined
+              // }
+              name={`${sectionValuePath}.from`}
+            />
+          </FormField>
+        </Col>
+        <Col span={5}>
+          <FormField label={'До'}>
+            <FastDatePicker
+              disabled={isLoading}
+              // value={
+              //   formValues.timeType === "3"
+              //     ? moment(formValues.to = '2200-01-01')
+              //     : moment(formValues.to)
+              // }
+              name={`${sectionValuePath}.to`}
+            />
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row" gutter={16}>
+        <Col span={6}>
+          <FormField label={'Серия'}>
+            <FastInput
+              disabled={isLoading}
+              name={`${sectionValuePath}.serial`}
+              // value={
+              //   formValues.timeType === "1"
+              //     ? formValues.serial = 'ВС'
+              //     : formValues.timeType === "3"
+              //       ? formValues.serial = 'ЕП'
+              //       : formValues.serial
+              // }
+            />
+          </FormField>
+        </Col>
+        <Col span={18}>
+          <FormField label={'Номер'}>
+            {policyMask
+              ? (<FastMaskedInput
+                  mask={policyMask}
+                  disabled={isLoading}
+                  name={`${sectionValuePath}.number`}
+                  // value={formValues.number}
+                />)
+              : (<FastInput
+                  disabled={isLoading}
+                  name={`${sectionValuePath}.number`}
+                  // value={formValues.number}
+                />)
             }
-          : initialState
-      }
-      onSubmit={(values) => {
-        const pathName = policyKey === 'policyDms' ? 'dms' : 'oms';
-        onAddPolicy(values, pathName);
-      }}>
-      {(formProps) => {
-        setPolicyFormValues(formProps.values)
-        return (
-          <div
-            className={`form-section policy-${
-              policyKey === 'policyOms' ? 'omc' : 'dmc'
-            }`}>
-            <h2>{sectionTitle()}</h2>
-            <Row className="form-row" align={'bottom'} gutter={16}>
-              <Col>
-                <Button
-                  loading={isLoading}
-                  onClick={() => {
-                    onFindPolicyHandler({
-                      birthDate,
-                      docNumber,
-                      docSerial,
-                      firstName,
-                      lastName,
-                      patrName,
-                      policyNumber: formProps.values.number,
-                      policySerial: formProps.values.serial,
-                      sex: sex.toString(),
-                    });
-                  }}>
-                  Искать
-                </Button>
-              </Col>
-              <Col span={4}>
-                <FormField label={'Тип'}>
-                  <FastSearchSelect
-                    allowClear
-                    loading={isLoading}
-                    placeholder={"Тип"}
-                    name={'timeType'}
-                    value={formProps.values.timeType}
-                  >
-                    {getPropsOptions(policyTimeType)}
-                  </FastSearchSelect>
-                </FormField>
-              </Col>
-              <Col span={5}>
-                <FormField label={'С'}>
-                  <FastDatePicker
-                    disabled={isLoading}
-                    value={
-                      formProps.values.from
-                        ? moment(formProps.values.from)
-                        : undefined
-                    }
-                    name={'from'}
-                  />
-                </FormField>
-              </Col>
-              <Col span={5}>
-                <FormField label={'До'}>
-                  <FastDatePicker
-                    disabled={isLoading}
-                    value={
-                      policyFormValues.timeType === "3"
-                        ? moment(formProps.values.to = '2200-01-01')
-                        : moment(formProps.values.to)
-                    }
-                    name={'to'}
-                  />
-                </FormField>
-              </Col>
-            </Row>
-            <Row className="form-row" gutter={16}>
-              <Col span={6}>
-                <FormField label={'Серия'}>
-                  <FastInput
-                    disabled={isLoading}
-                    name={'serial'}
-                    value={
-                      policyFormValues.timeType === "1"
-                        ? formProps.values.serial = 'ВС'
-                        : policyFormValues.timeType === "3"
-                          ? formProps.values.serial = 'ЕП'
-                          : formProps.values.serial
-                    }
-                  />
-                </FormField>
-              </Col>
-              <Col span={18}>
-                <FormField label={'Номер'}>
-                  {policyMask
-                    ? (<FastMaskedInput
-                        mask={policyMask}
-                        disabled={isLoading}
-                        name={'number'}
-                        value={formProps.values.number}
-                      />)
-                    : (<FastInput
-                        disabled={isLoading}
-                        name={'number'}
-                        value={formProps.values.number}
-                      />)
-                  }
-                </FormField>
-              </Col>
-            </Row>
-            <Row className="form-row" gutter={16}>
-              <Col span={14}>
-                <FormField label="СМО" labelPosition="left">
-                  <FastSearchSelect
-                    filterOption
-                    loading={isLoading || isCmoLoading}
-                    optionFilterProp={'name'}
-                    showSearch
-                    disabled={isLoading}
-                    name={'cmo'}
-                    value={formProps.values.cmo}
-                  >
-                    {getPropsOptions(cmoType)}
-                  </FastSearchSelect>
-                </FormField>
-              </Col>
-              <Col span={10}>
-                <FormField>
-                  <FastSearchSelect
-                    disabled={isLoading}
-                    name={'type'}
-                    value={formProps.values.type}
-                  >
-                    {getPropsOptions(policyType)}
-                  </FastSearchSelect>
-                </FormField>
-              </Col>
-            </Row>
-            <Row className="form-row">
-              <Col span={24}>
-                <FormField labelPosition="left" label="Название">
-                  <FastInput
-                    disabled={isLoading}
-                    name={'name'}
-                    value={formProps.values.name}
-                  />
-                </FormField>
-              </Col>
-            </Row>
-            <Row className="form-row">
-              <Col span={24}>
-                <FormField labelPosition="left" label="Примечание">
-                  <FastInput
-                    disabled={isLoading}
-                    name={'note'}
-                    value={formProps.values.note}
-                  />
-                </FormField>
-              </Col>
-            </Row>
-            <Row className="form-row" justify={'end'}>
-              <Col>
-                <Space>
-                  <Button disabled={isLoading} type={'link'} danger>
-                    Закрыть полис
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      formProps.handleSubmit();
-                    }}
-                    disabled={isLoading}
-                    type={'primary'}>
-                    Добавить полис
-                  </Button>
-                </Space>
-              </Col>
-            </Row>
-          </div>
-        );
-      }}
-    </Formik>
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row" gutter={16}>
+        <Col span={14}>
+          <FormField label="СМО" labelPosition="left">
+            <FastSearchSelect
+              filterOption
+              loading={isLoading || isCmoLoading}
+              optionFilterProp={'name'}
+              showSearch
+              disabled={isLoading}
+              name={`${sectionValuePath}.cmo`}
+              // value={formValues.cmo}
+            >
+              {getPropsOptions(cmoType)}
+            </FastSearchSelect>
+          </FormField>
+        </Col>
+        <Col span={10}>
+          <FormField>
+            <FastSearchSelect
+              disabled={isLoading}
+              name={`${sectionValuePath}.type`}
+              // value={formValues.type}
+            >
+              {getPropsOptions(policyType)}
+            </FastSearchSelect>
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row">
+        <Col span={24}>
+          <FormField labelPosition="left" label="Название">
+            <FastInput
+              disabled={isLoading}
+              name={`${sectionValuePath}.name`}
+              // value={formValues.name}
+            />
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row">
+        <Col span={24}>
+          <FormField labelPosition="left" label="Примечание">
+            <FastInput
+              disabled={isLoading}
+              name={`${sectionValuePath}.note`}
+              // value={formValues.note}
+            />
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row" justify={'end'}>
+        <Col>
+          <Space>
+            {id !== 'new' && (
+              <Button
+                // onClick={() => {
+                //   formValues.handleSubmit();
+                // }}
+                disabled={isLoading}
+                type={'primary'}>
+                Добавить полис
+              </Button>
+            )}
+          </Space>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

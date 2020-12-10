@@ -115,8 +115,28 @@ const initialState: RegistrationCardStateType = {
         },
       },
       contacts: [] as PassportContactType[],
-      policyOms: [],
-      policyDms: [],
+      policyOms: {
+        cmo: "",
+        from: moment().format("YYYY-MM-DD"),
+        name: "",
+        note: "",
+        number: "",
+        serial: "",
+        timeType: "",
+        to: moment().format("YYYY-MM-DD"),
+        type: ''
+      },
+      policyDms: {
+        cmo: "",
+        from: moment().format("YYYY-MM-DD"),
+        name: "",
+        note: "",
+        number: "",
+        serial: "",
+        timeType: "",
+        to: moment().format("YYYY-MM-DD"),
+        type: ''
+      }
     },
     personDocs: {
       idDoc: [] as PassportDoc[],
@@ -222,8 +242,28 @@ const initialState: RegistrationCardStateType = {
         },
       },
       contacts: [] as PassportContactType[],
-      policyOms: [] as PassportPolicyType[],
-      policyDms: [] as PassportPolicyType[],
+      policyOms: {
+        cmo: "",
+        from: "",
+        name: "",
+        note: "",
+        number: "",
+        serial: "",
+        timeType: "",
+        to: "",
+        type: ''
+      },
+      policyDms: {
+        cmo: "",
+        from: "",
+        name: "",
+        note: "",
+        number: "",
+        serial: "",
+        timeType: "",
+        to: "",
+        type: ''
+      }
     },
     personDocs: {
       idDoc: [] as PassportDoc[],

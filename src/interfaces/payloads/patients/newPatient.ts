@@ -84,6 +84,7 @@ export default interface NewPatientPayload {
     name?: string;
     note?: string;
     number: string;
+    serial: string;
   }[];
 
   client_document_info: {
