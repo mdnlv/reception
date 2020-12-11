@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
-import moment from 'moment';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
 
@@ -55,12 +54,32 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [policyMask, setPolicyMask] = useState('' as string);
 
   useEffect(() => {
-    console.log('formValues', formValues)
-  }, [formValues]);
+    if (foundPolicy) {
+      form.setFieldValue(`${sectionValuePath}.cmo`, foundPolicy.cmo);
+      form.setFieldValue(`${sectionValuePath}.type`, foundPolicy.type);
+      form.setFieldValue(`${sectionValuePath}.timeType`, foundPolicy.timeType);
+      form.setFieldValue(`${sectionValuePath}.from`, foundPolicy.from);
+      form.setFieldValue(`${sectionValuePath}.to`, foundPolicy.to);
+      form.setFieldValue(`${sectionValuePath}.serial`, foundPolicy.serial);
+      form.setFieldValue(`${sectionValuePath}.number`, foundPolicy.number);
+      form.setFieldValue(`${sectionValuePath}.note`, foundPolicy.note);
+      form.setFieldValue(`${sectionValuePath}.name`, foundPolicy.name);
+    }
+  }, [foundPolicy]);
+
+  useEffect(() => {
+    if (formValues.timeType === '1') {
+      form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
+    } else if (formValues.timeType === '3') {
+      form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
+    } else {
+      form.setFieldValue(`${sectionValuePath}.serial`, '');
+    }
+  }, [formValues.timeType]);
 
   useEffect(() => {
     const timeType = formValues.timeType;
-    if (timeType === "1" ||formValues.serial === 'ВС') {
+    if (timeType === "1" || formValues.serial === 'ВС') {
       setPolicyMask('111111111')
     } else if (timeType === "3" || formValues.serial === 'ЕП') {
       setPolicyMask('111111111111')
@@ -128,7 +147,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
               loading={isLoading}
               placeholder={"Тип"}
               name={`${sectionValuePath}.timeType`}
-              // value={formValues.timeType}
             >
               {getPropsOptions(policyTimeType)}
             </FastSearchSelect>
@@ -138,11 +156,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
           <FormField label={'С'}>
             <FastDatePicker
               disabled={isLoading}
-              // value={
-              //   formValues.from
-              //     ? moment(formValues.from)
-              //     : undefined
-              // }
               name={`${sectionValuePath}.from`}
             />
           </FormField>
@@ -151,11 +164,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
           <FormField label={'До'}>
             <FastDatePicker
               disabled={isLoading}
-              // value={
-              //   formValues.timeType === "3"
-              //     ? moment(formValues.to = '2200-01-01')
-              //     : moment(formValues.to)
-              // }
               name={`${sectionValuePath}.to`}
             />
           </FormField>
@@ -167,13 +175,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <FastInput
               disabled={isLoading}
               name={`${sectionValuePath}.serial`}
-              // value={
-              //   formValues.timeType === "1"
-              //     ? formValues.serial = 'ВС'
-              //     : formValues.timeType === "3"
-              //       ? formValues.serial = 'ЕП'
-              //       : formValues.serial
-              // }
             />
           </FormField>
         </Col>
@@ -184,12 +185,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   mask={policyMask}
                   disabled={isLoading}
                   name={`${sectionValuePath}.number`}
-                  // value={formValues.number}
                 />)
               : (<FastInput
                   disabled={isLoading}
                   name={`${sectionValuePath}.number`}
-                  // value={formValues.number}
                 />)
             }
           </FormField>
@@ -205,7 +204,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
               showSearch
               disabled={isLoading}
               name={`${sectionValuePath}.cmo`}
-              // value={formValues.cmo}
             >
               {getPropsOptions(cmoType)}
             </FastSearchSelect>
@@ -216,7 +214,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <FastSearchSelect
               disabled={isLoading}
               name={`${sectionValuePath}.type`}
-              // value={formValues.type}
             >
               {getPropsOptions(policyType)}
             </FastSearchSelect>
@@ -229,7 +226,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <FastInput
               disabled={isLoading}
               name={`${sectionValuePath}.name`}
-              // value={formValues.name}
             />
           </FormField>
         </Col>
@@ -240,7 +236,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <FastInput
               disabled={isLoading}
               name={`${sectionValuePath}.note`}
-              // value={formValues.note}
             />
           </FormField>
         </Col>

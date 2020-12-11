@@ -4,12 +4,12 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
     id: item.client_id,
     cmo: item.smoId?.toString() ?? '',
-    serial: item.serial,
-    number: item.number,
+    serial: item.policySerial,
+    number: item.policyNumber,
     timeType: '',
     from: item.begDate,
     to: item.endDate,
-    type: item.policyType_id?.toString() ?? '',
+    type: item.policyTypeId?.toString() ?? '',
     name: '',
     note: ''
   };
