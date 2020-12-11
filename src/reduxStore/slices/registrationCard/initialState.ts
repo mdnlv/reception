@@ -116,6 +116,7 @@ const initialState: RegistrationCardStateType = {
       },
       contacts: [] as PassportContactType[],
       policyOms: {
+        id: undefined,
         cmo: "",
         from: moment().format("YYYY-MM-DD"),
         name: "",
@@ -127,6 +128,7 @@ const initialState: RegistrationCardStateType = {
         type: ''
       },
       policyDms: {
+        id: undefined,
         cmo: "",
         from: moment().format("YYYY-MM-DD"),
         name: "",

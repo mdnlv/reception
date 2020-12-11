@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
+import moment from "moment";
 
 import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
@@ -41,6 +42,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.passportGeneral[policyKey];
   const sectionValuePath = `passportGeneral.${policyKey}`;
+  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
@@ -55,15 +57,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (foundPolicy) {
-      form.setFieldValue(`${sectionValuePath}.cmo`, foundPolicy.cmo);
-      form.setFieldValue(`${sectionValuePath}.type`, foundPolicy.type);
-      form.setFieldValue(`${sectionValuePath}.timeType`, foundPolicy.timeType);
-      form.setFieldValue(`${sectionValuePath}.from`, foundPolicy.from);
-      form.setFieldValue(`${sectionValuePath}.to`, foundPolicy.to);
-      form.setFieldValue(`${sectionValuePath}.serial`, foundPolicy.serial);
-      form.setFieldValue(`${sectionValuePath}.number`, foundPolicy.number);
-      form.setFieldValue(`${sectionValuePath}.note`, foundPolicy.note);
-      form.setFieldValue(`${sectionValuePath}.name`, foundPolicy.name);
+      fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, foundPolicy[item]))
     }
   }, [foundPolicy]);
 
@@ -113,6 +107,16 @@ const PolicyAddForm: React.FC<FormProps> = ({
     },
     [onFindPolicy],
   );
+
+  const cleanFields = () => {
+    fieldNames.map((item) => {
+      if (item === 'from' || item === 'to') {
+        form.setFieldValue(`${sectionValuePath}.${item}`, moment())
+      } else {
+        form.setFieldValue(`${sectionValuePath}.${item}`, '')
+      }
+    })
+  };
 
   return (
     <div
@@ -245,9 +249,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
           <Space>
             {id !== 'new' && (
               <Button
-                // onClick={() => {
-                //   formValues.handleSubmit();
-                // }}
+                onClick={() => {
+                  cleanFields()
+                }}
                 disabled={isLoading}
                 type={'primary'}>
                 Добавить полис

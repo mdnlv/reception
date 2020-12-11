@@ -43,6 +43,7 @@ export default interface FormState {
   };
   contacts: PassportContactType[];
   policyOms: {
+    id?: number;
     timeType?: string;
     from: string;
     to: string;
@@ -54,6 +55,7 @@ export default interface FormState {
     note?: string;
   };
   policyDms: {
+    id?: number;
     timeType?: string;
     from: string;
     to: string;

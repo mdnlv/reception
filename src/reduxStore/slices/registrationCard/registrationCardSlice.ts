@@ -5,6 +5,7 @@ import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import PatientsService from '../../../services/PatientsService/PatientsService';
 import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
+import transformPolicySearchResponse from "../../utils/transform/transformPolicySearchResponse";
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import { KladrDocType } from './types';
@@ -144,6 +145,7 @@ export const saveCardPatient = createAsyncThunk(
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
       await PatientsService.savePatient(payload);
+      window.location = "/";
     } catch (e) {
       alert(JSON.stringify(e.response.data));
     } finally {
@@ -241,6 +243,7 @@ const registrationCardSlice = createSlice({
         const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
+        console.log('omsFound', omsFound[omsFound.length - 1]);
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),
@@ -300,9 +303,13 @@ const registrationCardSlice = createSlice({
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
-          dmsFound.length > 0 ? [dmsFound[dmsFound.length - 1]] : [];
+          dmsFound.length > 0
+            ? dmsFound[dmsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyDms;
         state.initialFormState.passportGeneral.policyOms =
-          omsFound.length > 0 ? [omsFound[omsFound.length - 1]] : [];
+          omsFound.length > 0
+            ? omsFound[omsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyOms;
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
             id: item.id,
@@ -415,11 +422,11 @@ const registrationCardSlice = createSlice({
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload && action.payload.type === 'oms') {
         state.form.foundPolicies.oms.items = [
-          transformPolicyResponse(action.payload.data.data),
+          transformPolicySearchResponse(action.payload.data.data),
         ];
       } else if (action.payload?.type === 'dms') {
         state.form.foundPolicies.dms.items = [
-          transformPolicyResponse(action.payload.data.data),
+          transformPolicySearchResponse(action.payload.data.data),
         ];
       }
     });
