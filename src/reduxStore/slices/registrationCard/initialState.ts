@@ -34,6 +34,7 @@ const initialState: RegistrationCardStateType = {
     saveNewPatient: false,
     idPatient: false,
   },
+  patientRegId: undefined,
   initialFormState: {
     personal: {
       code: '',

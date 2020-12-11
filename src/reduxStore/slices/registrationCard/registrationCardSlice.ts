@@ -4,7 +4,6 @@ import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import PatientsService from '../../../services/PatientsService/PatientsService';
-import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
 import transformPolicySearchResponse from "../../utils/transform/transformPolicySearchResponse";
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
@@ -144,8 +143,10 @@ export const saveCardPatient = createAsyncThunk(
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      await PatientsService.savePatient(payload);
-      window.location = "/";
+      const response = await PatientsService.savePatient(payload);
+      const patientId = response.data.last_insert_id;
+      console.log('response', response.data);
+      // window.location = "/";
     } catch (e) {
       alert(JSON.stringify(e.response.data));
     } finally {
@@ -170,6 +171,15 @@ const registrationCardSlice = createSlice({
     ) => {
       state.form.data.passportGeneral.documentedAddress.documentedBuffer =
         action.payload.value;
+    },
+    setPatientReg: (
+      state,
+      action: PayloadAction<{
+        value: number;
+        type: 'setPatientReg'
+      }>
+    ) => {
+      state.patientRegId = action.payload.value;
     },
     setLoading: (
       state,
