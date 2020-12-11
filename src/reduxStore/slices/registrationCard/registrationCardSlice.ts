@@ -243,7 +243,6 @@ const registrationCardSlice = createSlice({
         const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
-        console.log('omsFound', omsFound[omsFound.length - 1]);
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),

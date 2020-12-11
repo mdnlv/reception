@@ -60,8 +60,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       initialValues={store}
       validationSchema={validation}
       onSubmit={(values) => {
-        dispatch(setFormSection(values));
-        dispatch(saveCardPatient());
+        if (params.id === 'new') {
+          dispatch(setFormSection(values));
+          dispatch(saveCardPatient());
+        } else {
+          window.location = "/";
+        }
       }}>
       {({errors}) => (
         <Row>

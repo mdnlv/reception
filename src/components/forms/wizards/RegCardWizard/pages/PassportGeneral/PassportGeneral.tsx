@@ -21,10 +21,8 @@ import {
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import KladrItem from '../../../../../../types/data/KladrItem';
-import { PassportPolicyType } from './types';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
-import { WizardStateType } from '../../types';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
 
 import Address from './sections/Address/Address';
@@ -35,7 +33,6 @@ import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 interface SectionProps {}
 
 const PassportGeneral: React.FC<SectionProps> = () => {
-  const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
@@ -91,21 +88,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
     dispatch(fetchKladrStreets({ id, type }));
   };
 
-  const onAddPolicy = (policy: PassportPolicyType, type: 'oms' | 'dms') => {
-    let policyItems: PassportPolicyType[] = [] as PassportPolicyType[];
-    switch (type) {
-      case 'dms':
-        policyItems = form.values.passportGeneral.policyDms;
-        break;
-      case 'oms':
-        policyItems = form.values.passportGeneral.policyOms;
-        break;
-    }
-    const pathName = type === 'oms' ? 'Oms' : 'Dms';
-    policyItems = [...policyItems, policy];
-    form.setFieldValue(`passportGeneral.policy${pathName}`, policyItems);
-  };
-
   const onFindPatientPolicy = (
     payload: FindPolicyParams,
     type: 'oms' | 'dms',
@@ -154,7 +136,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
-            onAddPolicy={onAddPolicy}
             onFindPolicy={onFindPatientPolicy}
           />
         </Col>
@@ -167,7 +148,6 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             policyKey={'policyDms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
-            onAddPolicy={onAddPolicy}
             onFindPolicy={onFindPatientPolicy}
           />
         </Col>

@@ -33,7 +33,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   policyTimeType,
   onFindPolicy,
   foundPolicy,
-  onAddPolicy,
   isLoading,
   isCmoLoading,
   cmoType,
