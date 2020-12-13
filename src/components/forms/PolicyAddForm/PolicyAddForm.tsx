@@ -4,7 +4,6 @@ import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
 import moment from "moment";
 
-import {PassportPolicyType} from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 
@@ -15,18 +14,6 @@ import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSe
 import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInput";
 import {WizardStateType} from "../wizards/RegCardWizard/types";
 
-const initialState: PassportPolicyType = {
-  timeType: '',
-  from: '',
-  to: '',
-  serial: '',
-  number: '',
-  note: '',
-  name: '',
-  cmo: '',
-  type: '',
-};
-
 const PolicyAddForm: React.FC<FormProps> = ({
   policyKey,
   policyType,
@@ -36,6 +23,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isLoading,
   isCmoLoading,
   cmoType,
+  error
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
@@ -144,7 +132,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </Button>
         </Col>
         <Col span={4}>
-          <FormField label={'Тип'}>
+          <FormField label={'Тип'} error={error && error.timeType}>
             <FastSearchSelect
               allowClear
               loading={isLoading}
@@ -199,7 +187,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       </Row>
       <Row className="form-row" gutter={16}>
         <Col span={14}>
-          <FormField label="СМО" labelPosition="left">
+          <FormField label="СМО" labelPosition="left" error={error && error.cmo}>
             <FastSearchSelect
               filterOption
               loading={isLoading || isCmoLoading}
@@ -213,7 +201,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
         <Col span={10}>
-          <FormField>
+          <FormField error={error && error.type}>
             <FastSearchSelect
               disabled={isLoading}
               name={`${sectionValuePath}.type`}

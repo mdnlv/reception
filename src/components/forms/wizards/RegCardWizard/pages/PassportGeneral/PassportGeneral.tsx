@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
-import { useFormikContext } from 'formik';
 
 import {
   fetchKladr,
@@ -24,20 +23,22 @@ import KladrItem from '../../../../../../types/data/KladrItem';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
+import {PassportGeneralErrors} from "./types";
 
 import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 
-interface SectionProps {}
+interface SectionProps {
+  error: PassportGeneralErrors
+}
 
-const PassportGeneral: React.FC<SectionProps> = () => {
+const PassportGeneral: React.FC<SectionProps> = ({error}) => {
   const dispatch = useDispatch();
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
-
   const {
     rbKladrDocumented,
     rbKladrNestedDocumented,
@@ -137,6 +138,9 @@ const PassportGeneral: React.FC<SectionProps> = () => {
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
+            error={
+              error && error.passportGeneral && error.passportGeneral.policyOms
+            }
           />
         </Col>
         <Col span={12}>
@@ -158,6 +162,9 @@ const PassportGeneral: React.FC<SectionProps> = () => {
           <PersonalDocument
             isLoadingDocuments={documentTypes}
             documentTypes={documentTypesList}
+            error={
+              error && error.passportGeneral && error.passportGeneral.passportInfo
+            }
           />
         </Col>
         <Col span={12}>

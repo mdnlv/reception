@@ -14,6 +14,7 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalDocument: FC<SectionProps> = ({
   documentTypes,
   isLoadingDocuments,
+  error
 }) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.passportInfo;
@@ -32,7 +33,7 @@ const PersonalDocument: FC<SectionProps> = ({
       <h2>Документ</h2>
       <Row gutter={16}>
         <Col span={8}>
-          <FormField label={LABELS.PASSPORT}>
+          <FormField label={LABELS.PASSPORT} error={error && error.passportType}>
             <FastSearchSelect
               filterOption
               loading={isLoadingDocuments}

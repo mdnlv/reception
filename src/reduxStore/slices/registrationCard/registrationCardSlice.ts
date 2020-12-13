@@ -11,6 +11,7 @@ import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
 import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
+import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -144,9 +145,9 @@ export const saveCardPatient = createAsyncThunk(
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
       const response = await PatientsService.savePatient(payload);
-      const patientId = response.data.last_insert_id;
-      console.log('response', response.data);
-      // window.location = "/";
+      const responceData: PatientAddedResponse = response.data;
+      const patientId = responceData.last_insert_id;
+      thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
     } catch (e) {
       alert(JSON.stringify(e.response.data));
     } finally {
@@ -451,6 +452,7 @@ export const {
   setLoading,
   setDocumentedBuffer,
   fetchIdPatientError,
+  setPatientReg,
   resetRegCard
 } = registrationCardSlice.actions;
 
