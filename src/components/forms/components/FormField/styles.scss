@@ -29,6 +29,10 @@
     flex: 1;
   }
 
+  &__content--error {
+    border: 1px solid red;
+  }
+
   &__error{
     color: #D64040;
     font-size: 12px;

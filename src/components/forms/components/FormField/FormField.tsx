@@ -26,14 +26,16 @@ const FormField: FC<FieldProps> = (props) => {
       <div
         className={`form-field__body form-field__body--${props.labelPosition}`}>
         {getFieldLabel()}
-        <div className="form-field__content">{props.children}</div>
+        <div
+          className={`form-field__content ${props.errorBorder && props.error && `form-field__content--error`}`}
+        >{props.children}</div>
         {getFormError()}
       </div>
     );
   }
 
   const getFormError = () => {
-    if (props.error) {
+    if (props.error && !props.errorBorder) {
       return <div className={'form-field__error'}>{props.error}</div>;
     } else return null;
   }

@@ -132,7 +132,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </Button>
         </Col>
         <Col span={4}>
-          <FormField label={'Тип'} error={error && error.timeType}>
+          <FormField label={'Тип'} error={error && error.timeType} errorBorder>
             <FastSearchSelect
               allowClear
               loading={isLoading}

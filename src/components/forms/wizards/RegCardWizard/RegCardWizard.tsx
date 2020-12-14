@@ -69,6 +69,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           dispatch(resetRegCard());
         } else {
           navigation.push('/');
+          dispatch(resetRegCard());
         }
       }}>
       {({errors, isValidating}) => (
