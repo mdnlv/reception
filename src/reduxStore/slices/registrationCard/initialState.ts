@@ -95,7 +95,7 @@ const initialState: RegistrationCardStateType = {
         addressRegistration: {
           isKLADR: true,
           city: '',
-          area: '7800000000000',
+          area: '',
           street: '',
           houseNumber: '',
           houseCharacter: '',
@@ -106,7 +106,7 @@ const initialState: RegistrationCardStateType = {
         documentedAddress: {
           isKLADR: true,
           city: '',
-          area: '7800000000000',
+          area: '',
           street: '',
           houseNumber: '',
           houseCharacter: '',

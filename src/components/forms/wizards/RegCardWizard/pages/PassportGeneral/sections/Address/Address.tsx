@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Checkbox, Col, Radio, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/types';
 import { WizardStateType } from '../../../../types';
@@ -24,6 +25,7 @@ const Address: FC<SectionProps> = ({
   getKladrNested,
   getKladrStreets,
 }) => {
+  const { id } = useParams<{ id: string }>();
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
   const [cleanable, setCleanable] = useState(false);
@@ -36,10 +38,11 @@ const Address: FC<SectionProps> = ({
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput'];
 
   useEffect(() => {
-    if (formValues.passportInfo['addressRegistration'].isDocumentedAddress) {
+    id === 'new' && form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
+    if (formValues.passportInfo['addressRegistration'].isDocumentedAddress && documentedBuffer.area) {
       fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, documentedBuffer[item]))
     }
-  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress, documentedBuffer]);
+  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress, documentedBuffer, id]);
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))

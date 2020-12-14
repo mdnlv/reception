@@ -147,7 +147,6 @@ export const saveCardPatient = createAsyncThunk(
       const response = await PatientsService.savePatient(payload);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
-      console.log('patientId', patientId);
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
     } catch (e) {
       alert(JSON.stringify(e.response.data));
