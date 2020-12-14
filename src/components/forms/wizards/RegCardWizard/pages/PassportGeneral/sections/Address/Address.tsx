@@ -8,7 +8,7 @@ import { KladrDocType } from '../../../../../../../../reduxStore/slices/registra
 import { WizardStateType } from '../../../../types';
 import { SectionProps, KladrItem } from './types';
 import { kladrSelector } from '../../../../../../../../reduxStore/slices/registrationCard/selectors';
-import {setDocumentedBuffer, fetchKladr} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {setDocumentedBuffer} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 
 import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
@@ -35,15 +35,14 @@ const Address: FC<SectionProps> = ({
   const formValues = form.values.passportGeneral;
   const formInitialValues = form.initialValues.passportGeneral.passportInfo[passportType];
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
+  const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput'];
 
   useEffect(() => {
-    if (formInitialValues.area) {
-      form.setFieldValue(`${sectionValuePath}.area`, '');
-      form.setFieldValue(`${sectionValuePath}.area`, formInitialValues.area);
-    } else if (!formInitialValues.area && id === 'new') {
-      form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
+    id === 'new' && form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
+    if (formValues.passportInfo['addressRegistration'].isDocumentedAddress && documentedBuffer.area) {
+      fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, documentedBuffer[item]))
     }
-  }, [formInitialValues.area])
+  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress, documentedBuffer, id]);
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
@@ -133,23 +132,6 @@ const Address: FC<SectionProps> = ({
       : setIsDocumentedAddress(false);
   }, [formValues.passportInfo[passportType].isDocumentedAddress]);
 
-  //очистка форм в зависимости от радиокнопок
-  useEffect(() => {
-    if (formValues.passportInfo[passportType].isKLADR) {
-      form.setFieldValue(`${sectionValuePath}.freeInput`, '');
-    } else {
-      for (let key in formValues.passportInfo[passportType]) {
-        if (
-          key !== 'freeInput' &&
-          key !== 'isKLADR' &&
-          key !== 'isDocumentedAddress'
-        ) {
-          form.setFieldValue(`${sectionValuePath}[${key}]`, '');
-        }
-      }
-    }
-  }, [formValues.passportInfo[passportType].isKLADR]);
-
   //изменение состояния радиокнопок обеих форм в зависимости от isDocumentedAddress
   useEffect(() => {
     if (isDocumentedAddress && passportType !== 'documentedAddress') {
@@ -219,10 +201,10 @@ const Address: FC<SectionProps> = ({
       <Row gutter={16} className="form-row">
         <Col span={8}>
           <Radio.Group
-            value={setValue('isKLADR')}
             disabled={setDisabled()}
             name={`${sectionValuePath}.isKLADR`}
-            onChange={form.handleChange}>
+            onChange={form.handleChange}
+            value={formValues.passportInfo[passportType].isKLADR}>
             <Radio value={true}>КЛАДР</Radio>
             <Radio value={false}>Сельский житель</Radio>
           </Radio.Group>
@@ -236,7 +218,6 @@ const Address: FC<SectionProps> = ({
                 <FastSearchSelect
                   loading={isLoadingKladr}
                   name={`${sectionValuePath}.area`}
-                  value={setValue('area')}
                   placeholder={'Область'}
                   onFocus={() => setCleanable(true)}
                   showSearch
@@ -267,7 +248,6 @@ const Address: FC<SectionProps> = ({
                       getType(),
                     );
                   }}
-                  value={setValue('city')}
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
@@ -306,7 +286,6 @@ const Address: FC<SectionProps> = ({
                       getType(),
                     );
                   }}
-                  value={setValue('street')}
                   placeholder={'Улица'}
                   name={`${sectionValuePath}.street`}
                   showSearch
@@ -328,7 +307,6 @@ const Address: FC<SectionProps> = ({
                         !formValues.passportInfo[passportType].area ||
                         !formValues.passportInfo[passportType].street
                       }
-                      value={setValue('houseNumber')}
                     />
                   </FormField>
                 </Col>
@@ -342,7 +320,6 @@ const Address: FC<SectionProps> = ({
                         !formValues.passportInfo[passportType].area ||
                         !formValues.passportInfo[passportType].street
                       }
-                      value={setValue('houseCharacter')}
                     />
                   </FormField>
                 </Col>
@@ -356,7 +333,6 @@ const Address: FC<SectionProps> = ({
                         !formValues.passportInfo[passportType].area ||
                         !formValues.passportInfo[passportType].street
                       }
-                      value={setValue('flatNumber')}
                     />
                   </FormField>
                 </Col>
@@ -373,7 +349,6 @@ const Address: FC<SectionProps> = ({
                 <FastInput
                   name={`${sectionValuePath}.freeInput`}
                   disabled={setDisabled()}
-                  value={setValue('freeInput')}
                 />
               </FormField>
             </Col>

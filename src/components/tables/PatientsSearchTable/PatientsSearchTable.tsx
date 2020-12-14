@@ -31,12 +31,16 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   const {patientRegId} = useSelector((state: RootState) => state.registrationCard);
 
   useEffect(() => {
+    console.log('patientRegId', patientRegId)
+  }, []);
+
+  useEffect(() => {
     if (patientRegId) {
       dispatch(fetchRegPatient(patientRegId));
     } else if (patients.length === 0 || !patients) {
       dispatch(fetchPatients({ limit: 50, offset: 0 }));
     }
-  }, []);
+  }, [patientRegId]);
 
   useEffect(() => {
     if (patientRegId) {
@@ -94,7 +98,7 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
       || !isSearching && isLoading
       || saveNewPatient && !patientRegId
       || idPatient;
-  }, [isSearching, isLoading, isLoadingFound, saveNewPatient]);
+  }, [isSearching, isLoading, isLoadingFound, saveNewPatient, patientRegId, idPatient]);
 
   return (
     <TableSearchHeader
