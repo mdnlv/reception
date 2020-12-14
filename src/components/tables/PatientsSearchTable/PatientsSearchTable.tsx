@@ -51,7 +51,6 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
 
   const onTableRowClick = (id: number) => {
     if (id !== currentPatient && id) {
-
       dispatch(setCurrentPatient(id));
     }
   }
