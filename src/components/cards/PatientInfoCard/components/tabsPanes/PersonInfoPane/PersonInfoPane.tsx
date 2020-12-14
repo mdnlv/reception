@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 
 import './styles.scss';
-import { PaneProps } from './types';
+import { PaneProps, PatientPolicyPane } from './types';
 import {kladrSelector} from '../../../../../../reduxStore/slices/registrationCard/selectors';
 import {getAddress} from "../../../../../../utils/getAddress";
 
@@ -14,15 +14,20 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   );
 
   const getMainPolicy = () => {
-    return patient?.policy?.find((item) => item.id === 1);
+    let policyOms: PatientPolicyPane;
+    const omsFound = patient?.policy?.filter((item) => item.type !== 3);
+    if (omsFound.length > 0) {
+      policyOms = omsFound[omsFound.length - 1];
+      return policyOms;
+    }
   };
 
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
-    if (mainPolicy !== undefined && mainPolicy.id === 1) {
+    if (mainPolicy !== undefined) {
       return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${moment(
-        mainPolicy.begDate,
-      ).format('DD.MM.YYYY')} до ${moment(mainPolicy?.endDate).format(
+        mainPolicy.from,
+      ).format('DD.MM.YYYY')} до ${moment(mainPolicy?.to).format(
         'DD.MM.YYYY',
       )}`;
     } else {
