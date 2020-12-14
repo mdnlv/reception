@@ -25,5 +25,31 @@ export default Yup.object().shape({
         return checkDigit === parseInt(valueInt.slice(-2))
       }
     )
+  }),
+  passportGeneral: Yup.object().shape({
+    passportInfo: Yup.object().shape({
+      passportType: Yup.mixed().test(
+        'passportGeneral.passportInfo.passportType',
+        'Не выбран тип паспорта',
+        value => Boolean(value)
+      )
+    }),
+    policyOms: Yup.object().shape({
+      timeType: Yup.mixed().test(
+        'passportGeneral.policyOms.timeType',
+        'Не выбран тип полиса',
+        value => Boolean(value)
+      ),
+      cmo: Yup.mixed().test(
+        'passportGeneral.policyOms.cmo',
+        'Не выбрана СМО',
+        value => Boolean(value)
+      ),
+      type: Yup.mixed().test(
+        'passportGeneral.policyOms.type',
+        'Не выбран тип полиса',
+        value => Boolean(value)
+      )
+    })
   })
 });

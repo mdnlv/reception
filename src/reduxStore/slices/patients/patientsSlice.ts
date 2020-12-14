@@ -6,6 +6,7 @@ import transformPatientsFilters from '../../utils/transform/transformPatientsFil
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
 import { transformFilterPatientResponse } from '../../utils/transform/transformFilterPatientResponse';
 import PatientsSearchFiltersType from './types';
+import {fetchIdPatientError} from "../registrationCard/registrationCardSlice";
 
 export const fetchPatients = createAsyncThunk(
   'patients/fetchPatients',
@@ -22,6 +23,26 @@ export const fetchPatients = createAsyncThunk(
       }
     } catch (e) {
       alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading(false));
+    }
+  },
+);
+
+export const fetchRegPatient = createAsyncThunk(
+  `patients/fetchRegPatient`,
+  async (id: number, thunkAPI) => {
+    thunkAPI.dispatch(setLoading(true));
+    try {
+      const response = await PatientsService.fetchIdPatient(id);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        thunkAPI.dispatch(fetchIdPatientError());
+      }
+    } catch (e) {
+      alert(e);
+      thunkAPI.dispatch(fetchIdPatientError());
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
@@ -95,9 +116,14 @@ const patientSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchPatients.fulfilled, (state, action) => {
       state.patients =
-        action.payload?.map((item, index) => ({
+        action.payload?.map((item) => ({
           ...transformPatientResponse(item),
         })) || [];
+    });
+    builder.addCase(fetchRegPatient.fulfilled, (state, action) => {
+      state.patients = action.payload?.map((item) => ({
+        ...transformPatientResponse(item)
+      })) || [];
     });
     builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
       state.foundPatients =

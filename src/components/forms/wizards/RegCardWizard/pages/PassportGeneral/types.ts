@@ -1,3 +1,16 @@
+export interface PassportGeneralErrors {
+  passportGeneral: {
+    passportInfo: {
+      passportType: string;
+    },
+    policyOms: {
+      timeType: string;
+      cmo: string;
+      type: string;
+    }
+  }
+}
+
 export interface PassportContactType {
   isMain: boolean;
   number: string;
@@ -6,7 +19,6 @@ export interface PassportContactType {
 }
 
 export interface PassportPolicyType {
-  id?: number;
   timeType?: string;
   from: string;
   to: string;
@@ -43,6 +55,28 @@ export default interface FormState {
     documentedAddress: PassportAddressType;
   };
   contacts: PassportContactType[];
-  policyOms: PassportPolicyType[];
-  policyDms: PassportPolicyType[];
+  policyOms: {
+    id?: number;
+    timeType?: string;
+    from: string;
+    to: string;
+    serial: string;
+    number: string;
+    cmo: string;
+    type: string;
+    name?: string;
+    note?: string;
+  };
+  policyDms: {
+    id?: number;
+    timeType?: string;
+    from: string;
+    to: string;
+    serial: string;
+    number: string;
+    cmo: string;
+    type: string;
+    name?: string;
+    note?: string;
+  };
 }

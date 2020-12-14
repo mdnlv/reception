@@ -88,6 +88,7 @@ export interface RegistrationCardStateType {
     saveNewPatient: boolean;
     idPatient: boolean;
   };
+  patientRegId?: number;
   initialFormState: InitialRegFormState;
   form: FormState;
 }

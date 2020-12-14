@@ -4,13 +4,14 @@ import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import PatientsService from '../../../services/PatientsService/PatientsService';
-import transformPolicyResponse from '../../utils/transform/transformPolicyResponse';
+import transformPolicySearchResponse from "../../utils/transform/transformPolicySearchResponse";
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
 import { RootState } from '../../store';
 import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
 import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
+import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -143,7 +144,10 @@ export const saveCardPatient = createAsyncThunk(
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      await PatientsService.savePatient(payload);
+      const response = await PatientsService.savePatient(payload);
+      const responceData: PatientAddedResponse = response.data;
+      const patientId = responceData.last_insert_id;
+      thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
     } catch (e) {
       alert(JSON.stringify(e.response.data));
     } finally {
@@ -168,6 +172,15 @@ const registrationCardSlice = createSlice({
     ) => {
       state.form.data.passportGeneral.documentedAddress.documentedBuffer =
         action.payload.value;
+    },
+    setPatientReg: (
+      state,
+      action: PayloadAction<{
+        value: number;
+        type: 'setPatientReg'
+      }>
+    ) => {
+      state.patientRegId = action.payload.value;
     },
     setLoading: (
       state,
@@ -300,9 +313,13 @@ const registrationCardSlice = createSlice({
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
-          dmsFound.length > 0 ? [dmsFound[dmsFound.length - 1]] : [];
+          dmsFound.length > 0
+            ? dmsFound[dmsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyDms;
         state.initialFormState.passportGeneral.policyOms =
-          omsFound.length > 0 ? [omsFound[omsFound.length - 1]] : [];
+          omsFound.length > 0
+            ? omsFound[omsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyOms;
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
             id: item.id,
@@ -415,11 +432,11 @@ const registrationCardSlice = createSlice({
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload && action.payload.type === 'oms') {
         state.form.foundPolicies.oms.items = [
-          transformPolicyResponse(action.payload.data.data),
+          transformPolicySearchResponse(action.payload.data.data),
         ];
       } else if (action.payload?.type === 'dms') {
         state.form.foundPolicies.dms.items = [
-          transformPolicyResponse(action.payload.data.data),
+          transformPolicySearchResponse(action.payload.data.data),
         ];
       }
     });
@@ -435,6 +452,7 @@ export const {
   setLoading,
   setDocumentedBuffer,
   fetchIdPatientError,
+  setPatientReg,
   resetRegCard
 } = registrationCardSlice.actions;
 

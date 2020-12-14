@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useFormikContext } from 'formik';
 import {
   Button,
@@ -28,9 +28,6 @@ import FastSearchSelect from '../../../../components/fields/FastSearchSelect/Fas
 const UserInfo: React.FC<UserInfoProps> = ({error}) => {
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
-
-  // console.log('formProps', formProps.initialValues)
-
   const sectionValuePath = `personal`;
 
   const personsOptions = persons.map((item) => (

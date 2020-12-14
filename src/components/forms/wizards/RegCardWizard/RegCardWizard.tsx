@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { Card, Col, Row, Spin, Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import './styles.scss';
 import { RootState } from '../../../../reduxStore/store';
@@ -32,6 +33,7 @@ import Etc from './pages/Etc/Etc';
 interface WizardProps {}
 
 const RegCardWizard: React.FC<WizardProps> = () => {
+  const navigation = useHistory();
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
   const store = useSelector(
@@ -60,10 +62,16 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       initialValues={store}
       validationSchema={validation}
       onSubmit={(values) => {
-        dispatch(setFormSection(values));
-        dispatch(saveCardPatient());
+        if (params.id === 'new') {
+          dispatch(setFormSection(values));
+          dispatch(saveCardPatient());
+          navigation.push('/');
+          dispatch(resetRegCard());
+        } else {
+          navigation.push('/');
+        }
       }}>
-      {({errors}) => (
+      {({errors, isValidating}) => (
         <Row>
           <Col span={5}>
             <Card>
@@ -76,7 +84,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 key={'passport-general'}
                 tab={'Паспортные данные'}>
-                <PassportGeneral />
+                <PassportGeneral error={errors}/>
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}

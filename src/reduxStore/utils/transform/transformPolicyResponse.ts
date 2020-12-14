@@ -3,10 +3,10 @@ import PatientPolicyResponse from '../../../interfaces/responses/patients/patien
 const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
     id: item.client_id,
-    cmo: item.smoId?.toString() ?? '',
+    cmo: item.insurer_id?.toString() ?? '',
     serial: item.serial,
     number: item.number,
-    timeType: '',
+    timeType: item.policyKind_id?.toString() ?? '',
     from: item.begDate,
     to: item.endDate,
     type: item.policyType_id?.toString() ?? '',
