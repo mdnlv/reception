@@ -4,6 +4,7 @@ export default interface PatientPolicyResponse {
   serial: string;
   number: string;
   policyType_id: number;
+  policyKind_id: number;
   begDate: string;
   endDate: string;
 }

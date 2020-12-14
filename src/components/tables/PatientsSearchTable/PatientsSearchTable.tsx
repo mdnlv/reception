@@ -32,7 +32,6 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
 
   useEffect(() => {
     if (patientRegId) {
-      console.log('patientRegId', patientRegId);
       dispatch(fetchRegPatient(patientRegId));
     } else if (patients.length === 0 || !patients) {
       dispatch(fetchPatients({ limit: 50, offset: 0 }));

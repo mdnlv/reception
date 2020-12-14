@@ -6,7 +6,7 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     cmo: item.insurer_id?.toString() ?? '',
     serial: item.serial,
     number: item.number,
-    timeType: '',
+    timeType: item.policyKind_id?.toString() ?? '',
     from: item.begDate,
     to: item.endDate,
     type: item.policyType_id?.toString() ?? '',
