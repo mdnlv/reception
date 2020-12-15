@@ -10,8 +10,8 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     from: item.begDate,
     to: item.endDate,
     type: item.policyType_id?.toString() ?? '',
-    name: '',
-    note: ''
+    name: item.name,
+    note: item.note
   };
 };
 

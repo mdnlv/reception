@@ -133,8 +133,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
               ? documentedAddress.area
               : documentedAddress.city,
             KLADRStreetCode: documentedAddress.street,
-            corpus: documentedAddress.houseCharacter?.toString() || '',
-            litera: '',
+            litera: documentedAddress.houseCharacter?.toString() || '',
+            corpus: '',
             number: documentedAddress.houseNumber?.toString() || '',
           },
           flat: documentedAddress.flatNumber?.toString() || '',
