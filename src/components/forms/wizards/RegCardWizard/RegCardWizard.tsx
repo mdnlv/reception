@@ -11,7 +11,8 @@ import {
   fetchIdPatient,
   saveCardPatient,
   setFormSection,
-  resetRegCard
+  resetRegCard,
+  setPatientReg
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import validation from "./validation";
 
@@ -68,11 +69,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           navigation.push('/');
           dispatch(resetRegCard());
         } else {
+          dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
           navigation.push('/');
           dispatch(resetRegCard());
         }
       }}>
-      {({errors, isValidating}) => (
+      {({errors}) => (
         <Row>
           <Col span={5}>
             <Card>
