@@ -11,6 +11,8 @@ export const transformPatientResponse = (item: PatientResponse) => {
     code: item.id,
     regAddress: '',
     livingAddress: '',
+    growth: parseInt(item.growth),
+    weight: parseInt(item.weight),
     notes: item.notes,
     chartBeginDate: item.chartBeginDate,
 

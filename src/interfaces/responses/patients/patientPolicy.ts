@@ -7,4 +7,6 @@ export default interface PatientPolicyResponse {
   policyKind_id: number;
   begDate: string;
   endDate: string;
+  name: string;
+  note: string;
 }

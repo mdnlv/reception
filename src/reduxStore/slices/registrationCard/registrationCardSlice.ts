@@ -263,6 +263,8 @@ const registrationCardSlice = createSlice({
           sex: transformedPatient.sex === 2 ? 1 : 0,
           birthDate: transformedPatient.birthDate,
           birthPlace: transformedPatient.birthPlace,
+          height: transformedPatient.growth,
+          weight: transformedPatient.weight,
           snils: transformedPatient.snils,
           startCardDate: transformedPatient.chartBeginDate
         };
@@ -275,7 +277,7 @@ const registrationCardSlice = createSlice({
               area: transformedPatient.address[0].address.KLADRCode,
               street: transformedPatient.address[0].address.KLADRStreetCode,
               houseNumber: transformedPatient.address[0].address.house,
-              houseCharacter: transformedPatient.address[0].address.corpus,
+              houseCharacter: transformedPatient.address[0].address.litera,
               flatNumber: transformedPatient.address[0].address.flat,
               isDocumentedAddress: Boolean(
                 transformedPatient.address[0]?.addressId ===
@@ -290,7 +292,7 @@ const registrationCardSlice = createSlice({
               area: transformedPatient.address[1]?.address.KLADRCode,
               street: transformedPatient.address[1]?.address.KLADRStreetCode,
               houseNumber: transformedPatient.address[1]?.address.house,
-              houseCharacter: transformedPatient.address[1]?.address.corpus,
+              houseCharacter: transformedPatient.address[1]?.address.litera,
               flatNumber: transformedPatient.address[1]?.address.flat,
               isDocumentedAddress: Boolean(
                 transformedPatient.address[0]?.addressId ===

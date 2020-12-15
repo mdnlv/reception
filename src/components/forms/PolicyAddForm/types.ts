@@ -15,7 +15,7 @@ export interface FormProps {
   isLoading: boolean;
   isCmoLoading: boolean;
   foundPolicy?: PassportPolicyType;
-  error: {
+  error?: {
     timeType: string;
     cmo: string;
     type: string;

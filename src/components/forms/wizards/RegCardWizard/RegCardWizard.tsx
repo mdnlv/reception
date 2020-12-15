@@ -87,7 +87,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 key={'passport-general'}
                 tab={'Паспортные данные'}>
-                <PassportGeneral error={errors}/>
+                <PassportGeneral error={errors.passportGeneral}/>
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}
@@ -99,7 +99,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 tab={'Социальный статус'}
                 key={'status'}>
-                <SocialStatus />
+                <SocialStatus/>
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}

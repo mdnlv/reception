@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Col, Divider, Input, Row } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
@@ -17,7 +17,6 @@ const PersonPolicy: FC<SectionProps> = ({
   getPolicyTypeId,
 }) => {
   const form = useFormikContext<WizardStateType>();
-
   const formValues = form.values.passportGeneral;
 
   return (
@@ -25,7 +24,7 @@ const PersonPolicy: FC<SectionProps> = ({
       <DropDownContent title={'Полис'}>
         <ArrayFieldWrapper<PassportPolicyType>
           name={'passportGeneral'}
-          values={[...formValues.policyOms, ...formValues.policyDms]}
+          values={[formValues.policyOms, formValues.policyDms]}
           renderChild={(values, index) => (
             <Row key={index}>
               <Row gutter={16}>

@@ -1,7 +1,7 @@
 export interface SectionProps {
   documentTypes: { id: number; name: string }[];
   isLoadingDocuments: boolean;
-  error: {
+  error?: {
     passportType: string;
   }
 }

@@ -1,5 +1,5 @@
-export interface PassportGeneralErrors {
-  passportGeneral: {
+export interface SectionProps {
+  error?: {
     passportInfo: {
       passportType: string;
     },
