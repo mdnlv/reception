@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo} from 'react';
+import React, { useCallback, useMemo, useEffect} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
+import moment from 'moment';
 
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
@@ -30,8 +31,8 @@ const Status: React.FC<StatusProps> = ({
   const onAddStatus = useCallback(() => {
     const status: SocialStatus = {
       serialNumber: '',
-      fromDate: '',
-      endDate: '',
+      fromDate: moment().format("YYYY-MM-DD"),
+      endDate: moment().format("YYYY-MM-DD"),
       number: '',
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);

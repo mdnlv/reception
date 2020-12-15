@@ -13,7 +13,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     documentedAddress,
   } = state.registrationCard.form.passportGeneral.passportInfo;
   const {
-    policyDms,
+    // policyDms,
     policyOms,
   } = state.registrationCard.form.passportGeneral;
   const {
@@ -27,12 +27,12 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     snils,
     weight,
     height,
-    hasImplants,
-    hasProsthesis,
-    docPersonId,
-    startCardDate,
-    hasCard,
-    onlyTempRegistration
+    // hasImplants,
+    // hasProsthesis,
+    // docPersonId,
+    // startCardDate,
+    // hasCard,
+    // onlyTempRegistration
   } = state.registrationCard.form.personal;
   const {trustedDoc} = state.registrationCard.form.socialStatus;
   const {directLinks, backLinks} = state.registrationCard.form.links;

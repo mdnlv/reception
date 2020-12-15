@@ -1,6 +1,7 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
+import moment from 'moment';
 
 import { TrustedDoc } from '../../../../../../SocialStatusForm/types';
 import { WizardStateType } from '../../../../types';
@@ -28,7 +29,7 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
       number: '',
       serialFirst: '',
       serialSecond: '',
-      date: '',
+      date: moment().format("YYYY-MM-DD"),
     };
     form.setFieldValue(sectionValuePath, [...formValues, newDoc]);
   }, [formValues, form.setFieldValue]);

@@ -8,7 +8,6 @@ import {
   detailedSocialTypesSelector,
   socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
-
 import StatusDocs from './sections/StatusDocs/StatusDocs';
 import Status from './sections/Status/Status';
 
