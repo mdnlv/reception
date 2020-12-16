@@ -26,7 +26,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     </Select.Option>
   ));
 
-  function getTypeInput(index: number, mask: string) {
+  const getTypeInput = (index: number, mask: string) => {
     if (!mask) {
       return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {
@@ -36,7 +36,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     }
   }
 
-  function findMaskByType(typeId: number) {
+  const findMaskByType = (typeId: number) => {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
       if (type) return type.mask;

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export default Yup.object().shape({
+export default Yup.object({
   personal: Yup.object().shape({
     snils: Yup.mixed().test(
       'personal.snils',
@@ -28,28 +28,12 @@ export default Yup.object().shape({
   }),
   passportGeneral: Yup.object().shape({
     passportInfo: Yup.object().shape({
-      passportType: Yup.mixed().test(
-        'passportGeneral.passportInfo.passportType',
-        'Не выбран тип паспорта',
-        value => Boolean(value)
-      )
+      passportType: Yup.string().required('Не выбран тип паспорта')
     }),
     policyOms: Yup.object().shape({
-      timeType: Yup.mixed().test(
-        'passportGeneral.policyOms.timeType',
-        'Не выбран тип полиса',
-        value => Boolean(value)
-      ),
-      cmo: Yup.mixed().test(
-        'passportGeneral.policyOms.cmo',
-        'Не выбрана СМО',
-        value => Boolean(value)
-      ),
-      type: Yup.mixed().test(
-        'passportGeneral.policyOms.type',
-        'Не выбран тип полиса',
-        value => Boolean(value)
-      )
+      timeType: Yup.string().required('Не выбран тип полиса'),
+      cmo: Yup.string().required('Не выбрана СМО'),
+      type: Yup.string().required('Не выбран тип полиса')
     })
   })
 });

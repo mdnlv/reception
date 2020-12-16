@@ -73,7 +73,8 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           navigation.push('/');
           dispatch(resetRegCard());
         }
-      }}>
+      }}
+    >
       {({errors}) => (
         <Row>
           <Col span={5}>
@@ -99,7 +100,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 tab={'Социальный статус'}
                 key={'status'}>
-                <SocialStatus/>
+                <SocialStatus />
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}
