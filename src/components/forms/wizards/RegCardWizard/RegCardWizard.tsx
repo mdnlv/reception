@@ -66,7 +66,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         if (params.id === 'new') {
           dispatch(setFormSection(values));
           dispatch(saveCardPatient());
-          navigation.push('/');
+          // navigation.push('/');
           dispatch(resetRegCard());
         } else {
           dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
@@ -79,7 +79,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         <Row>
           <Col span={5}>
             <Card>
-              <UserInfo error={errors.personal}/>
+              <UserInfo/>
             </Card>
           </Col>
           <Col span={19} className={'wizard-tabs'}>
@@ -88,7 +88,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 key={'passport-general'}
                 tab={'Паспортные данные'}>
-                <PassportGeneral error={errors.passportGeneral}/>
+                <PassportGeneral />
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}

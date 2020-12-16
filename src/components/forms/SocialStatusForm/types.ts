@@ -1,7 +1,7 @@
 export interface SocialStatus {
   type?: string;
-  serialNumber: string;
-  number: string;
+  serialNumber?: string;
+  number?: string;
   note?: string;
   fromDate: any;
   endDate: any;

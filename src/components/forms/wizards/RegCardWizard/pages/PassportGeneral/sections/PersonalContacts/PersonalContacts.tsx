@@ -97,7 +97,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
               </FormField>
             </Col>
             <Col span={5}>
-              <FormField label={LABELS.TYPE}>
+              <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
                 <FastSearchSelect
                   name={getSelectionItem(index, 'type')}
                   value={formProps[index]?.type}

@@ -1,16 +1,3 @@
-export interface SectionProps {
-  error?: {
-    passportInfo: {
-      passportType: string;
-    },
-    policyOms: {
-      timeType: string;
-      cmo: string;
-      type: string;
-    }
-  }
-}
-
 export interface PassportContactType {
   isMain: boolean;
   number: string;

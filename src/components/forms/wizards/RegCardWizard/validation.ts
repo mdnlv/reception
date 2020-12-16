@@ -30,10 +30,23 @@ export default Yup.object({
     passportInfo: Yup.object().shape({
       passportType: Yup.string().required('Не выбран тип паспорта')
     }),
+    contacts: Yup.array().of(Yup.object().shape({
+      type: Yup.string().required('Не выбран тип телефона'),
+    })),
     policyOms: Yup.object().shape({
-      timeType: Yup.string().required('Не выбран тип полиса'),
+      timeType: Yup.string().required('Не выбран'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
     })
-  })
+  }),
+  socialStatus: Yup.object().shape({
+    socialStatus: Yup.array().of(Yup.object().shape({
+      class: Yup.string().required('Не выбран класс'),
+      type: Yup.string().required('Не выбран тип'),
+    })),
+    trustedDoc: Yup.array().of(Yup.object().shape({
+      type: Yup.string().required('Не выбран тип')
+    }))
+  }),
+
 });

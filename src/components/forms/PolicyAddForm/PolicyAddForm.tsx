@@ -132,7 +132,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </Button>
         </Col>
         <Col span={4}>
-          <FormField label={'Тип'} error={error && error.timeType} errorBorder>
+          <FormField label={'Тип'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
               allowClear
               loading={isLoading}
@@ -187,7 +187,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       </Row>
       <Row className="form-row" gutter={16}>
         <Col span={14}>
-          <FormField label="СМО" labelPosition="left" error={error && error.cmo}>
+          <FormField label="СМО" labelPosition="left" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
               filterOption
               loading={isLoading || isCmoLoading}
@@ -201,7 +201,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
         <Col span={10}>
-          <FormField error={error && error.type}>
+          <FormField name={`${sectionValuePath}.type`}>
             <FastSearchSelect
               disabled={isLoading}
               name={`${sectionValuePath}.type`}
