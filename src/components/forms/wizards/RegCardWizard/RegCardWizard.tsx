@@ -73,12 +73,13 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           navigation.push('/');
           dispatch(resetRegCard());
         }
-      }}>
-      {({errors}) => (
+      }}
+    >
+      {() => (
         <Row>
           <Col span={5}>
             <Card>
-              <UserInfo error={errors.personal}/>
+              <UserInfo/>
             </Card>
           </Col>
           <Col span={19} className={'wizard-tabs'}>
@@ -87,7 +88,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 key={'passport-general'}
                 tab={'Паспортные данные'}>
-                <PassportGeneral error={errors.passportGeneral}/>
+                <PassportGeneral />
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}
@@ -99,7 +100,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                 forceRender={false}
                 tab={'Социальный статус'}
                 key={'status'}>
-                <SocialStatus/>
+                <SocialStatus />
               </Tabs.TabPane>
               <Tabs.TabPane
                 forceRender={false}

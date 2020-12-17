@@ -33,7 +33,7 @@ const PersonalDocument: FC<SectionProps> = ({
       <h2>Документ</h2>
       <Row gutter={16}>
         <Col span={8}>
-          <FormField label={LABELS.PASSPORT} error={error && error.passportType}>
+          <FormField label={LABELS.PASSPORT} name={`${selectionValuePath}.passportType`}>
             <FastSearchSelect
               filterOption
               loading={isLoadingDocuments}

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
@@ -25,15 +25,16 @@ const Status: React.FC<StatusProps> = ({
   const sectionValuePath = `socialStatus.socialStatus`;
 
   const getSelectionPath = (index: number, fieldChain: string) => {
-    return `${sectionValuePath}[${index}].${fieldChain}`;
+    return `${sectionValuePath}.${index}.${fieldChain}`;
   };
 
   const onAddStatus = useCallback(() => {
     const status: SocialStatus = {
-      serialNumber: '',
+      class: '',
+      type: '',
       fromDate: moment().format("YYYY-MM-DD"),
       endDate: moment().format("YYYY-MM-DD"),
-      number: '',
+      note: ''
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);
   }, [form.setFieldValue, formValues]);
@@ -68,7 +69,7 @@ const Status: React.FC<StatusProps> = ({
           <div key={index}>
             <Row gutter={16}>
               <Col span={6}>
-                <FormField label={LABELS.CLASS}>
+                <FormField label={LABELS.CLASS} name={getSelectionPath(index, 'class')}>
                   <FastSearchSelect
                     loading={isLoadingClasses}
                     showSearch
@@ -80,7 +81,7 @@ const Status: React.FC<StatusProps> = ({
                 </FormField>
               </Col>
               <Col span={6}>
-                <FormField label={LABELS.TYPE}>
+                <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
                   <FastSearchSelect
                     loading={isLoadingTypes}
                     showSearch

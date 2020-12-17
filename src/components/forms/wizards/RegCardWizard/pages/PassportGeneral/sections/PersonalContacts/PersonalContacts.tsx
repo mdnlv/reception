@@ -26,7 +26,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
       </Select.Option>
   ));
 
-  function getTypeInput(index: number, mask: string) {
+  const getTypeInput = (index: number, mask: string) => {
     if (!mask) {
       return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {
@@ -36,7 +36,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     }
   }
 
-  function findMaskByType(typeId: number) {
+  const findMaskByType = (typeId: number) => {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
       if (type) return type.mask;
@@ -67,56 +67,56 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   }, [formProps]);
 
   return (
-      <div className={'form-section personal-contacts'}>
-        <h2>Контакты</h2>
-        <ArrayFieldWrapper<PassportContactType>
-            values={formProps}
-            name={'contacts'}
-            onAddItem={onAddContact}
-            onRemoveItem={onRemoveContact}
-            showActions={true}
-            renderChild={(key, index) => (
-                <Row gutter={16} key={index}>
-                  <Col span={3}>
-                    <FormField label={LABELS.MAIN}>
-                      <div className="center-wrapper">
-                        <Checkbox
-                            name={getSelectionItem(index, 'isMain')}
-                            checked={formProps[index]?.isMain || false}
-                            onChange={form.handleChange}
-                        />
-                      </div>
-                    </FormField>
-                  </Col>
-                  <Col span={6}>
-                    <FormField label={LABELS.NUMBER}>
-                      {getTypeInput(
-                          index,
-                          findMaskByType(parseInt(formProps[index]?.type)),
-                      )}
-                    </FormField>
-                  </Col>
-                  <Col span={5}>
-                    <FormField label={LABELS.TYPE}>
-                      <FastSearchSelect
-                          name={getSelectionItem(index, 'type')}
-                          value={formProps[index]?.type}
-                          onChange={(val) => {
-                            form.setFieldValue(getSelectionItem(index, 'type'), val);
-                          }}>
-                        {typesOptions}
-                      </FastSearchSelect>
-                    </FormField>
-                  </Col>
-                  <Col span={10}>
-                    <FormField label={LABELS.NOTE}>
-                      <FastInput name={getSelectionItem(index, 'note')} />
-                    </FormField>
-                  </Col>
-                </Row>
-            )}
-        />
-      </div>
+    <div className={'form-section personal-contacts'}>
+      <h2>Контакты</h2>
+      <ArrayFieldWrapper<PassportContactType>
+        values={formProps}
+        name={'contacts'}
+        onAddItem={onAddContact}
+        onRemoveItem={onRemoveContact}
+        showActions={true}
+        renderChild={(key, index) => (
+          <Row gutter={16} key={index}>
+            <Col span={3}>
+              <FormField label={LABELS.MAIN}>
+                <div className="center-wrapper">
+                  <Checkbox
+                    name={getSelectionItem(index, 'isMain')}
+                    checked={formProps[index]?.isMain || false}
+                    onChange={form.handleChange}
+                  />
+                </div>
+              </FormField>
+            </Col>
+            <Col span={6}>
+              <FormField label={LABELS.NUMBER}>
+                {getTypeInput(
+                  index,
+                  findMaskByType(parseInt(formProps[index]?.type)),
+                )}
+              </FormField>
+            </Col>
+            <Col span={5}>
+              <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
+                <FastSearchSelect
+                  name={getSelectionItem(index, 'type')}
+                  value={formProps[index]?.type}
+                  onChange={(val) => {
+                    form.setFieldValue(getSelectionItem(index, 'type'), val);
+                  }}>
+                  {typesOptions}
+                </FastSearchSelect>
+              </FormField>
+            </Col>
+            <Col span={10}>
+              <FormField label={LABELS.NOTE}>
+                <FastInput name={getSelectionItem(index, 'note')} />
+              </FormField>
+            </Col>
+          </Row>
+        )}
+      />
+    </div>
   );
 };
 

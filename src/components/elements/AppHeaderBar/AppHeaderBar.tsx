@@ -15,7 +15,6 @@ enum Labels {
   Journal = 'ЖОС',
   K = 'Кэр',
   Appointment = 'Записать на прием',
-  RegCard = 'Регистрационная карта',
   NewPatient = 'Новый пациент',
   Info = 'Справка',
 }
@@ -67,12 +66,6 @@ const AppHeaderBar: FC = () => {
                 className="header__button"
                 onClick={showAppointment}>
                 {Labels.Appointment}
-              </Button>
-              <Button
-                size={'small'}
-                className="header__button"
-                onClick={onNewPatientClick}>
-                {Labels.RegCard}
               </Button>
               <Button
                 onClick={onNewPatientClick}

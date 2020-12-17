@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import {ErrorMessage} from "formik";
 
 import './styles.scss';
 import {FieldProps} from "./types";
@@ -27,17 +28,11 @@ const FormField: FC<FieldProps> = (props) => {
         className={`form-field__body form-field__body--${props.labelPosition}`}>
         {getFieldLabel()}
         <div
-          className={`form-field__content ${props.errorBorder && props.error && `form-field__content--error`}`}
+          className={`form-field__content`}
         >{props.children}</div>
-        {getFormError()}
+        {props.name && <ErrorMessage component="div" className="form-field__error" name={props.name}/>}
       </div>
     );
-  }
-
-  const getFormError = () => {
-    if (props.error && !props.errorBorder) {
-      return <div className={'form-field__error'}>{props.error}</div>;
-    } else return null;
   }
 
   return <div className="form-field">{getFormBody()}</div>;

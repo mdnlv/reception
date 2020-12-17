@@ -150,7 +150,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: item.fromDate,
         endDate: item.endDate,
-        notes: item.note ?? null,
+        notes: item.note ?? '',
       })),
 
     client_relation_info: [

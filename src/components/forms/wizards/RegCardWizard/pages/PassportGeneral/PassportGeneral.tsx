@@ -23,14 +23,13 @@ import KladrItem from '../../../../../../types/data/KladrItem';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
-import {SectionProps} from "./types";
 
 import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 
-const PassportGeneral: React.FC<SectionProps> = ({error}) => {
+const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
@@ -134,7 +133,6 @@ const PassportGeneral: React.FC<SectionProps> = ({error}) => {
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
-            error={error && error.policyOms}
           />
         </Col>
         <Col span={12}>
@@ -156,7 +154,6 @@ const PassportGeneral: React.FC<SectionProps> = ({error}) => {
           <PersonalDocument
             isLoadingDocuments={documentTypes}
             documentTypes={documentTypesList}
-            error={error && error.passportInfo}
           />
         </Col>
         <Col span={12}>

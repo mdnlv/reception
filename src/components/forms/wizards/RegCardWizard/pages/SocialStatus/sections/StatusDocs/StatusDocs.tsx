@@ -25,6 +25,7 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
 
   const onAddDoc = useCallback(() => {
     const newDoc: TrustedDoc = {
+      type: '',
       givenBy: '',
       number: '',
       serialFirst: '',
@@ -65,7 +66,7 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
             <div key={index}>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField label={LABELS.TYPE}>
+                  <FormField label={LABELS.TYPE} name={getSectionPath(index, 'type')}>
                     <FastSearchSelect
                       filterOption
                       loading={isLoadingDocuments}

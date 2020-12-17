@@ -78,7 +78,7 @@ const Attachments: React.FC = () => {
             renderChild={(key, index) => (
               <Row gutter={16} key={index}>
                 <Col span={3}>
-                  <FormField label={LABELS.TYPE}>
+                  <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
                     <FastSearchSelect
                       showSearch
                       filterOption
@@ -90,7 +90,7 @@ const Attachments: React.FC = () => {
                   </FormField>
                 </Col>
                 <Col span={6}>
-                  <FormField label={LABELS.LPU}>
+                  <FormField label={LABELS.LPU} name={getSelectionPath(index, 'lpu')}>
                     <FastSearchSelect
                       showSearch
                       filterOption
@@ -102,7 +102,7 @@ const Attachments: React.FC = () => {
                   </FormField>
                 </Col>
                 <Col span={4}>
-                  <FormField label={LABELS.UNIT}>
+                  <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
                     <FastSearchSelect
                       showSearch
                       filterOption
