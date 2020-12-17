@@ -74,7 +74,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
           <div key={index}>
             <Row gutter={16}>
               <Col span={8} className={'col--border-right'}>
-                <FormField label={LABELS.ORG}>
+                <FormField label={LABELS.ORG} name={getSelectionPath(index, 'organization')}>
                   <FastSearchSelect
                     filterOption
                     optionFilterProp={'name'}

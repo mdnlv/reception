@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useFormikContext } from 'formik';
 import {
   Button,
@@ -27,13 +27,46 @@ import FastSearchSelect from '../../../../components/fields/FastSearchSelect/Fas
 const UserInfo: React.FC = () => {
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
+  const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
+  const [snilsWarning, setSnilsWarning] = useState('');
+
+  useEffect(() => {
+    const checking = snilsCheck(formValues.snils)
+    !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
+  }, [formValues.snils]);
+
+  const snilsCheck = (value: string) => {
+    const valueInt = value ? value.replace(/-/g, "").replace(/\s/g, "") : '';
+    let sum = 0;
+    let checkDigit = 0;
+
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(valueInt[i]) * (9 - i);
+    }
+    if (sum < 100) {
+      checkDigit = sum;
+    } else if (sum > 101) {
+      checkDigit = sum % 101;
+      if (checkDigit === 100) {
+        checkDigit = 0
+      }
+    }
+
+    return checkDigit === parseInt(valueInt.slice(-2))
+  };
 
   const personsOptions = persons.map((item) => (
     <Select.Option key={item.id} name={item.name} value={item.id}>
       {item.name}
     </Select.Option>
   ));
+
+  const snilsAlert = () => (
+    <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600}}>
+      {snilsWarning}
+    </p>
+  );
 
   return (
     <form className="wizard-step registration-form">
@@ -109,11 +142,12 @@ const UserInfo: React.FC = () => {
       </div>
       <Divider />
       <div>
-        <FormField label="СНИЛС" name='personal.snils'>
+        <FormField label="СНИЛС">
           <FastMaskedInput
             name={'personal.snils'}
             mask="111-111-111 11"
           />
+          {snilsWarning && snilsAlert()}
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect showSearch filterOption name={'name'}>

@@ -29,6 +29,7 @@ const Hazard: React.FC<SectionProps> = ({
     const hazardItem: EmploymentHazardItem = {
       hazardDescription: '',
       exp: 0,
+      factor: ''
     };
     form.setFieldValue(selectionValuePath, [...formValues, hazardItem]);
   }, [formValues]);
@@ -68,7 +69,7 @@ const Hazard: React.FC<SectionProps> = ({
             <div key={index}>
               <Row gutter={16}>
                 <Col span={16}>
-                  <FormField label={LABELS.HAZARD}>
+                  <FormField label={LABELS.HAZARD} name={getSectionPath(index, 'hazardDescription')}>
                     <FastSearchSelect
                       filterOption
                       optionFilterProp={'name'}
@@ -88,7 +89,7 @@ const Hazard: React.FC<SectionProps> = ({
               <Divider />
               <Row>
                 <Col span={12}>
-                  <FormField label={LABELS.FACTOR}>
+                  <FormField label={LABELS.FACTOR} name={getSectionPath(index, 'factor')}>
                     <FastSearchSelect
                       filterOption
                       optionFilterProp={'name'}
@@ -105,6 +106,7 @@ const Hazard: React.FC<SectionProps> = ({
                 <Col span={8}>
                   <FormField label={LABELS.ORG}>
                     <FastSearchSelect
+                      loading={isLoadingOrgs}
                       name={getSectionPath(index, 'organisation')}>
                       {propsList(orgsList)}
                     </FastSearchSelect>

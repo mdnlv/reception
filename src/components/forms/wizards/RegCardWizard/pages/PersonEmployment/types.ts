@@ -9,6 +9,7 @@ export interface EmploymentItem {
 export interface EmploymentHazardItem {
   hazardDescription: string;
   exp: number;
+  factor: string;
 }
 
 export default interface FormState {
