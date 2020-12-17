@@ -86,15 +86,8 @@ const UserInfo: React.FC = () => {
       <div className="registration-form__dates">
         <Row gutter={16}>
           <Col span={12}>
-            <FormField label="Дата рождения">
-              <FastDatePicker
-                name={`${sectionValuePath}.birthDate`}
-                value={
-                  formProps.values.personal.birthDate
-                    ? moment(formProps.values.personal.birthDate)
-                    : undefined
-                }
-              />
+            <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
+              <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
             </FormField>
           </Col>
           <Col span={12}>
@@ -176,14 +169,7 @@ const UserInfo: React.FC = () => {
       <Divider />
       <div>
         <FormField label="Дата начала карты">
-          <FastDatePicker
-            name={`${sectionValuePath}.startCardDate`}
-            value={
-              formProps.values.personal.startCardDate
-                ? moment(formProps.values.personal.startCardDate)
-                : undefined
-            }
-          />
+          <FastDatePicker name={`${sectionValuePath}.startCardDate`}/>
         </FormField>
         <div>
           <Checkbox

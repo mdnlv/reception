@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import {Button, Col, Input, Row, Select, Space} from 'antd';
 import {useFormikContext} from 'formik';
-import moment from 'moment';
 
 import {SectionProps, ListOptionItem, LABELS} from "./types";
 import {RegistrationCardStateType} from '../../../../../../../../reduxStore/slices/registrationCard/types';
@@ -55,20 +54,12 @@ const Policy: React.FC<SectionProps> = ({
               </Col>
               <Col span={5}>
                   <FormField label={LABELS.FROM}>
-                      <FastDatePicker
-                        value={
-                            formValues[0].from ? moment(formValues[0].from) : undefined
-                        }
-                        name={`${sectionValuePath}.from`}
-                      />
+                      <FastDatePicker name={`${sectionValuePath}.from`}/>
                   </FormField>
               </Col>
               <Col span={5}>
                   <FormField label={LABELS.TO}>
-                      <FastDatePicker
-                        value={formValues[0].to ? moment(formValues[0].to) : undefined}
-                        name={`${sectionValuePath}.to`}
-                      />
+                      <FastDatePicker name={`${sectionValuePath}.to`}/>
                   </FormField>
               </Col>
           </Row>
@@ -77,7 +68,7 @@ const Policy: React.FC<SectionProps> = ({
                   <FormField label={LABELS.SERIAL}>
                       <Input
                         name={`${sectionValuePath}.serial`}
-                        value={formValues[0].serial}
+                        value={formValues.serial}
                         onChange={form.handleChange}
                       />
                   </FormField>
@@ -86,7 +77,7 @@ const Policy: React.FC<SectionProps> = ({
                   <FormField label={LABELS.NUMBER}>
                       <Input
                         name={`${sectionValuePath}.number`}
-                        value={formValues[0].number}
+                        value={formValues.number}
                         onChange={form.handleChange}
                       />
                   </FormField>
@@ -115,7 +106,7 @@ const Policy: React.FC<SectionProps> = ({
                   <FormField labelPosition="left" label={LABELS.NAME}>
                       <Input
                         name={`${sectionValuePath}.name`}
-                        value={formValues[0].name}
+                        value={formValues.name}
                         onChange={form.handleChange}
                       />
                   </FormField>
@@ -126,7 +117,7 @@ const Policy: React.FC<SectionProps> = ({
                   <FormField labelPosition="left" label={LABELS.NOTE}>
                       <Input
                         name={`${sectionValuePath}.note`}
-                        value={formValues[0].note}
+                        value={formValues.note}
                         onChange={form.handleChange}
                       />
                   </FormField>

@@ -63,9 +63,6 @@ const PersonalDocument: FC<SectionProps> = ({
           <FormField label={LABELS.GIVEN_DATE}>
             <FastDatePicker
               name={`${selectionValuePath}.fromDate`}
-              value={
-                formProps.fromDate ? moment(formProps.fromDate) : undefined
-              }
             />
           </FormField>
         </Col>

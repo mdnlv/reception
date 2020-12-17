@@ -53,6 +53,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
     } else if (formValues.timeType === '3') {
       form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
+      form.setFieldValue(`${sectionValuePath}.to`, '01.01.2200');
     } else {
       form.setFieldValue(`${sectionValuePath}.serial`, '');
     }
