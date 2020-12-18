@@ -32,7 +32,7 @@ const Status: React.FC<StatusProps> = ({
     const status: SocialStatus = {
       class: '',
       type: '',
-      fromDate: '',
+      fromDate: moment().format('DD.MM.YYYY'),
       endDate: '',
       note: ''
     };

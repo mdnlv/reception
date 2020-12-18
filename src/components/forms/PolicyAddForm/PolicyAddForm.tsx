@@ -6,6 +6,7 @@ import moment from "moment";
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
+import {toServerFormat} from "../../../utils/date/toServerFormat";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -22,8 +23,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   foundPolicy,
   isLoading,
   isCmoLoading,
-  cmoType,
-  error
+  cmoType
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
@@ -118,7 +118,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             loading={isLoading}
             onClick={() => {
               onFindPolicyHandler({
-                birthDate,
+                birthDate: toServerFormat(birthDate),
                 docNumber,
                 docSerial,
                 firstName,

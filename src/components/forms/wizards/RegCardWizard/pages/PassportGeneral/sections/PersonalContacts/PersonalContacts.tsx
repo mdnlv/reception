@@ -39,7 +39,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const findMaskByType = (typeId: number) => {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
-      if (type) return type.mask;
+      if (type && type.name !== 'электронная почта') return type.mask;
       return '';
     } else {
       return '';
@@ -89,7 +89,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
               </FormField>
             </Col>
             <Col span={6}>
-              <FormField label={LABELS.NUMBER}>
+              <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
                 {getTypeInput(
                   index,
                   findMaskByType(parseInt(formProps[index]?.type)),
