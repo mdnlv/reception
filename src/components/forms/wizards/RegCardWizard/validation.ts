@@ -13,6 +13,8 @@ export default Yup.object({
     })),
     policyOms: Yup.object().shape({
       timeType: Yup.string().required('Не выбран'),
+      from: Yup.string().required('Дата не задана'),
+      to: Yup.string().required('Дата не задана'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
     })

@@ -43,7 +43,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     lastName,
     patrName,
     birthPlace,
-    birthDate: moment(birthDate).format('YYYY-MM-DD'),
+    birthDate: moment(birthDate, "DD.MM.YYYY").format('YYYY-MM-DD'),
     birthTime,
     // ...hasImplants && {hasImplants},
     // ...hasProsthesis && {hasProsthesis},
@@ -61,7 +61,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: item.type,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
-        date: moment(item.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        date: moment(item.date, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         origin: item.givenBy,
         endDate: '2200-12-12',
       })),
@@ -69,7 +69,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: passportType,
         serial: serialFirst.concat(serialSecond),
         number,
-        date: moment(fromDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        date: moment(fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         origin: givenBy,
         endDate: '2200-12-12',
       }
@@ -87,8 +87,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         insurer_id: parseInt(policyOms.cmo),
         policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
         policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
-        begDate: moment(policyOms.from, 'YYYY-MM-DD').format('YYYY-MM-DD'),
-        endDate: moment(policyOms.to, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        begDate: moment(policyOms.from, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        endDate: moment(policyOms.to, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         note: policyOms.note,
         name: policyOms.name,
         number: policyOms.number,
@@ -150,8 +150,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
         socStatusType_id: item.type ? parseInt(item.type) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
-        begDate: moment(item.fromDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
-        endDate: moment(item.endDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        endDate: moment(item.endDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         notes: item.note ?? '',
       })),
 
@@ -183,7 +183,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       (item) => ({
         LPU_id: parseInt(item.lpu),
         attachType_id: parseInt(item.type),
-        begDate: moment(item.fromDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         orgStructure_id: parseInt(item.unit),
         reason: 0
       }),

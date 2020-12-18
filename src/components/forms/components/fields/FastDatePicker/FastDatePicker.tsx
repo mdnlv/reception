@@ -10,8 +10,6 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
   const [dateWarning, setDateWarning] = useState('');
 
   useEffect(() => {
-    console.log('field.value', field.value);
-    console.log('moment field.value', moment(field.value, "YYYY-MM-DD").format("YYYY-MM-DD"))
     !field.value
       ? setDateWarning('Формат ДД.ММ.ГГГГ')
       : setDateWarning('')
@@ -28,10 +26,9 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
     <>
       <DatePicker
         {...props}
-        // defaultValue={moment(moment(), "DD.MM.YYYY")}
         allowClear
         format={"DD.MM.YYYY"}
-        // value={field.value ? moment(field.value) : undefined}
+        value={field.value ? moment(field.value, "DD.MM.YYYY") : undefined}
         onChange={onChangeHandler}
       />
       {dateWarning && <p style={{color: '#D64040', fontSize: '12px', marginBottom: 0}}>{dateWarning}</p>}
