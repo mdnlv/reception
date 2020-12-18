@@ -42,6 +42,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const onAddEmployment = useCallback(() => {
     const employment: EmploymentItem = {
       organization: '',
+      freeInput: '',
       position: '',
       experience: 0,
       inn: '',
@@ -83,6 +84,9 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
                     name={getSelectionPath(index, 'organization')}>
                     {propsList(orgsList)}
                   </FastSearchSelect>
+                </FormField>
+                <FormField label={LABELS.ORG} name={getSelectionPath(index, 'freeInput')}>
+                  <FastInput name={getSelectionPath(index, 'freeInput')} />
                 </FormField>
               </Col>
               <Col span={8} className={'col--border-right'}>
