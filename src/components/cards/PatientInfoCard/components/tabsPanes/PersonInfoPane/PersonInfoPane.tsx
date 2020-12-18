@@ -1,6 +1,5 @@
 import React from 'react';
-import { Descriptions, List, Spin } from 'antd/lib';
-import moment from 'moment';
+import { Descriptions, List } from 'antd/lib';
 import { useSelector } from 'react-redux';
 
 import './styles.scss';
@@ -25,11 +24,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
     if (mainPolicy !== undefined) {
-      return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${moment(
-        mainPolicy.from,
-      ).format('DD.MM.YYYY')} до ${moment(mainPolicy?.to).format(
-        'DD.MM.YYYY',
-      )}`;
+      return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${mainPolicy.from} до ${mainPolicy?.to}`;
     } else {
       return '';
     }
@@ -71,7 +66,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
         <Descriptions.Item
           className={'person-info-item'}
           label={'Дата рождения'}>
-          {moment(patient?.birthDate).format('DD.MM.YYYY')}
+          {patient?.birthDate}
         </Descriptions.Item>
         <Descriptions.Item className={'person-info-item'} label={'Код'}>
           {patient?.code}

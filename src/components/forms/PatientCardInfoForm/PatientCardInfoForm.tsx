@@ -27,6 +27,10 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
   const [isRegFreeInput, setIsRegFreeInput] = useState(false);
 
   useEffect(() => {
+    console.log('patient', patient)
+  }, [patient]);
+
+  useEffect(() => {
     const patientsAddress = patient.address;
     for (let i = 0; i < patientsAddress.length; i++) {
       if (patientsAddress[i].freeInput) {
@@ -119,7 +123,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
                     <DatePicker
                       value={
                         formProps.values.birthDate
-                          ? moment(formProps.values.birthDate)
+                          ? moment(formProps.values.birthDate, 'DD.MM.YYYY')
                           : undefined
                       }
                       onChange={(date) => {

@@ -58,9 +58,6 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = ({currentPatient}) => {
             size={'small'}
             className={'header-actions__logout'}
             onClick={navigateBack}>
-            Выйти из мед карты
-          </Button>
-          <Button size={'small'} className={'header-actions__save save-btn'}>
             Сохранить
           </Button>
         </div>

@@ -161,7 +161,7 @@ const PatientsTable: FC<TableProps> = ({
         address: getTypeAddress(item),
         viewType: '',
         sex: getSexName(item.sex),
-        birthDate: moment(item.birthDate).format('DD-MM-YYYY'),
+        birthDate: item.birthDate,
         medExamination: item.medExamination
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
