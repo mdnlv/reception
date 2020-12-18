@@ -1,4 +1,5 @@
 import PatientPolicyResponse from '../../../interfaces/responses/patients/patientPolicy';
+import {toRusFormat} from "../../../utils/date/toRusFormat";
 
 const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
@@ -7,8 +8,8 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     serial: item.serial,
     number: item.number,
     timeType: item.policyKind_id?.toString() ?? '',
-    from: item.begDate,
-    to: item.endDate,
+    from: toRusFormat(item.begDate),
+    to: toRusFormat(item.endDate),
     type: item.policyType_id?.toString() ?? '',
     name: item.name,
     note: item.note

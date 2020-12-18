@@ -2,6 +2,7 @@ import moment from 'moment';
 
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
+import {toServerFormat} from "./date/toServerFormat";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -43,7 +44,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     lastName,
     patrName,
     birthPlace,
-    birthDate: moment(birthDate, "DD.MM.YYYY").format('YYYY-MM-DD'),
+    birthDate: toServerFormat(birthDate),
     birthTime,
     // ...hasImplants && {hasImplants},
     // ...hasProsthesis && {hasProsthesis},
@@ -61,7 +62,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: item.type,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
-        date: moment(item.date, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        date: toServerFormat(item.date),
         origin: item.givenBy,
         endDate: '2200-12-12',
       })),
@@ -69,7 +70,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: passportType,
         serial: serialFirst.concat(serialSecond),
         number,
-        date: moment(fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        date: toServerFormat(fromDate),
         origin: givenBy,
         endDate: '2200-12-12',
       }
@@ -87,8 +88,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         insurer_id: parseInt(policyOms.cmo),
         policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
         policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
-        begDate: moment(policyOms.from, 'DD.MM.YYYY').format('YYYY-MM-DD'),
-        endDate: moment(policyOms.to, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        begDate: toServerFormat(policyOms.from),
+        endDate: toServerFormat(policyOms.to),
         note: policyOms.note,
         name: policyOms.name,
         number: policyOms.number,
@@ -150,8 +151,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
         socStatusType_id: item.type ? parseInt(item.type) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
-        begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
-        endDate: moment(item.endDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+        begDate: toServerFormat(item.fromDate),
+        endDate: toServerFormat(item.endDate),
         notes: item.note ?? '',
       })),
 

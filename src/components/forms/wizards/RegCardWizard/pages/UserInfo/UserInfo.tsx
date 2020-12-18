@@ -63,7 +63,7 @@ const UserInfo: React.FC = () => {
   ));
 
   const snilsAlert = () => (
-    <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600}}>
+    <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
       {snilsWarning}
     </p>
   );
@@ -135,7 +135,7 @@ const UserInfo: React.FC = () => {
       </div>
       <Divider />
       <div>
-        <FormField label="СНИЛС">
+        <FormField label="СНИЛС" name={'personal.snils'}>
           <FastMaskedInput
             name={'personal.snils'}
             mask="111-111-111 11"

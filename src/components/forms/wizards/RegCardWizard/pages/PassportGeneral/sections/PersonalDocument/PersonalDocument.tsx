@@ -60,7 +60,7 @@ const PersonalDocument: FC<SectionProps> = ({
           </FormField>
         </Col>
         <Col span={4}>
-          <FormField label={LABELS.GIVEN_DATE}>
+          <FormField label={LABELS.GIVEN_DATE} name={`${selectionValuePath}.fromDate`}>
             <FastDatePicker
               name={`${selectionValuePath}.fromDate`}
             />

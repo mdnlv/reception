@@ -2,11 +2,13 @@ import * as Yup from "yup";
 
 export default Yup.object({
   personal: Yup.object({
-    birthDate: Yup.string().required('Не введена дата рождения')
+    birthDate: Yup.string().required('Не введена дата рождения'),
+    snils: Yup.string().required('Не введен СНИЛС')
   }),
   passportGeneral: Yup.object({
     passportInfo: Yup.object({
-      passportType: Yup.string().required('Не выбран тип паспорта')
+      passportType: Yup.string().required('Не выбран тип паспорта'),
+      fromDate: Yup.string().required('Не введена дата выдачи')
     }),
     contacts: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип телефона'),
