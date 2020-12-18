@@ -1,5 +1,8 @@
+import moment from 'moment';
+
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
+import {toServerFormat} from "./date/toServerFormat";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -41,7 +44,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     lastName,
     patrName,
     birthPlace,
-    birthDate,
+    birthDate: toServerFormat(birthDate),
     birthTime,
     // ...hasImplants && {hasImplants},
     // ...hasProsthesis && {hasProsthesis},
@@ -59,7 +62,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: item.type,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
-        date: item.date,
+        date: toServerFormat(item.date),
         origin: item.givenBy,
         endDate: '2200-12-12',
       })),
@@ -67,7 +70,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         documentType_id: passportType,
         serial: serialFirst.concat(serialSecond),
         number,
-        date: fromDate,
+        date: toServerFormat(fromDate),
         origin: givenBy,
         endDate: '2200-12-12',
       }
@@ -85,8 +88,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         insurer_id: parseInt(policyOms.cmo),
         policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
         policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
-        begDate: policyOms.from,
-        endDate: policyOms.to,
+        begDate: toServerFormat(policyOms.from),
+        endDate: toServerFormat(policyOms.to),
         note: policyOms.note,
         name: policyOms.name,
         number: policyOms.number,
@@ -148,8 +151,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
         socStatusType_id: item.type ? parseInt(item.type) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
-        begDate: item.fromDate,
-        endDate: item.endDate,
+        begDate: toServerFormat(item.fromDate),
+        endDate: toServerFormat(item.endDate),
         notes: item.note ?? '',
       })),
 
@@ -168,6 +171,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       org_id: parseInt(item.organization),
       post: item.position,
       stage: item.experience,
+      freeInput: item.freeInput || "",
       client_work_hurt_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
         hurtType_id: parseInt(item.hazardDescription),
         stage: item.hazardExp
@@ -181,7 +185,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       (item) => ({
         LPU_id: parseInt(item.lpu),
         attachType_id: parseInt(item.type),
-        begDate: item.fromDate,
+        begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         orgStructure_id: parseInt(item.unit),
         reason: 0
       }),

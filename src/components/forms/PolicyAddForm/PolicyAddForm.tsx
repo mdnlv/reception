@@ -53,6 +53,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
     } else if (formValues.timeType === '3') {
       form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
+      form.setFieldValue(`${sectionValuePath}.to`, '01.01.2200');
     } else {
       form.setFieldValue(`${sectionValuePath}.serial`, '');
     }
@@ -144,7 +145,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
         <Col span={5}>
-          <FormField label={'С'}>
+          <FormField label={'С'} name={`${sectionValuePath}.from`}>
             <FastDatePicker
               disabled={isLoading}
               name={`${sectionValuePath}.from`}
@@ -152,7 +153,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
         <Col span={5}>
-          <FormField label={'До'}>
+          <FormField label={'До'} name={`${sectionValuePath}.to`}>
             <FastDatePicker
               disabled={isLoading}
               name={`${sectionValuePath}.to`}

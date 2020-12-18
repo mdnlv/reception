@@ -1,5 +1,6 @@
 export interface EmploymentItem {
   organization: string;
+  freeInput: string;
   position: string;
   experience: number;
   inn: string;

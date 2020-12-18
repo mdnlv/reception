@@ -1,12 +1,13 @@
 import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
+import {toRusFormat} from "../../../utils/date/toRusFormat";
 
 export const transformPatientResponse = (item: PatientResponse) => {
   return {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,
     sex: item.sex,
-    birthDate: item.birthDate ? item.birthDate : '',
+    birthDate: item.birthDate ? toRusFormat(item.birthDate) : '',
     birthPlace: item.birthPlace,
     code: item.id,
     regAddress: '',
@@ -38,7 +39,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
 
     client_document_info: item.client_document_info && {
       givenBy: item.client_document_info.origin,
-      fromDate: item.client_document_info.date,
+      fromDate: toRusFormat(item.client_document_info.date),
       serial: item.client_document_info.serial,
       number: item.client_document_info.number,
       passportType: item.client_document_info.documentType_id,
@@ -52,14 +53,14 @@ export const transformPatientResponse = (item: PatientResponse) => {
         note: item.notes ?? '',
         class: item.socStatusClass_id?.toString(),
         type: item.socStatusType_id?.toString(),
-        fromDate: item.begDate,
-        endDate: item.endDate,
+        fromDate: toRusFormat(item.begDate),
+        endDate: toRusFormat(item.endDate),
         document: Object.keys(item.document).length
           ? {
             id: item.document?.documentType_id,
             serial: item.document?.serial,
             number: item.document?.number,
-            date: item.document?.date,
+            date: toRusFormat(item.document?.date),
             origin: item.document?.origin
           } : null
       })) || [],

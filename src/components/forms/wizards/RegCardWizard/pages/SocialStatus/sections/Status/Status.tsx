@@ -32,8 +32,8 @@ const Status: React.FC<StatusProps> = ({
     const status: SocialStatus = {
       class: '',
       type: '',
-      fromDate: moment().format("YYYY-MM-DD"),
-      endDate: moment().format("YYYY-MM-DD"),
+      fromDate: '',
+      endDate: '',
       note: ''
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);

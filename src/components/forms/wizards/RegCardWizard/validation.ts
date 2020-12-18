@@ -1,46 +1,28 @@
 import * as Yup from "yup";
 
 export default Yup.object({
-  // personal: Yup.object().shape({
-  //   snils: Yup.mixed().test(
-  //     'personal.snils',
-  //     'Неправильное контрольное число',
-  //     (value) => {
-  //       const valueInt = value ? value.replace(/-/g, "").replace(/\s/g, "") : '';
-  //       let sum = 0;
-  //       let checkDigit = 0;
-  //
-  //       for (let i = 0; i < 9; i++) {
-  //         sum += parseInt(valueInt[i]) * (9 - i);
-  //       }
-  //       if (sum < 100) {
-  //         checkDigit = sum;
-  //       } else if (sum > 101) {
-  //         checkDigit = sum % 101;
-  //         if (checkDigit === 100) {
-  //           checkDigit = 0
-  //         }
-  //       }
-  //
-  //       return checkDigit === parseInt(valueInt.slice(-2))
-  //     }
-  //   )
-  // }),
-  passportGeneral: Yup.object().shape({
-    passportInfo: Yup.object().shape({
-      passportType: Yup.string().required('Не выбран тип паспорта')
+  personal: Yup.object({
+    birthDate: Yup.string().required('Не введена дата рождения'),
+    snils: Yup.string().required('Не введен СНИЛС')
+  }),
+  passportGeneral: Yup.object({
+    passportInfo: Yup.object({
+      passportType: Yup.string().required('Не выбран тип паспорта'),
+      fromDate: Yup.string().required('Не введена дата выдачи')
     }),
-    contacts: Yup.array().of(Yup.object().shape({
+    contacts: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип телефона'),
     })),
-    policyOms: Yup.object().shape({
+    policyOms: Yup.object({
       timeType: Yup.string().required('Не выбран'),
+      from: Yup.string().required('Дата не задана'),
+      to: Yup.string().required('Дата не задана'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
     })
   }),
-  socialStatus: Yup.object().shape({
-    socialStatus: Yup.array().of(Yup.object().shape({
+  socialStatus: Yup.object({
+    socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('Не выбран класс'),
       type: Yup.string().required('Не выбран тип'),
     })),
@@ -48,17 +30,21 @@ export default Yup.object({
       type: Yup.string().required('Не выбран тип')
     }))
   }),
-  employment: Yup.object().shape({
-    employment: Yup.array().of(Yup.object().shape({
-      organization: Yup.string().required('Не выбрана организация'),
+  employment: Yup.object({
+    employment: Yup.array().of(Yup.object({
+      organization: Yup.string(),
+      freeInput: Yup.string().when('organization', {
+        is: value => !value,
+        then: Yup.string().required('Не введена организация')
+      })
     })),
-    hazardHistory: Yup.array().of(Yup.object().shape({
+    hazardHistory: Yup.array().of(Yup.object({
       hazardDescription: Yup.string().required('Не выбран тип вредности'),
       factor: Yup.string().required('Не выбран фактор')
     }))
   }),
-  attachments: Yup.object().shape({
-    attachments: Yup.array().of(Yup.object().shape({
+  attachments: Yup.object({
+    attachments: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип прикрепления'),
       lpu: Yup.string().required('Не выбрано ЛПУ'),
       unit: Yup.string().required('Не выбрано подразделение')
