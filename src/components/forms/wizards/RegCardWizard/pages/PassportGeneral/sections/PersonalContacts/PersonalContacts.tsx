@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -15,6 +15,10 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
+
+  useEffect(() => {
+    console.log('type', typeof formProps[0]?.type)
+  }, [formProps[0]?.type])
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
@@ -39,7 +43,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const findMaskByType = (typeId: number) => {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
-      if (type) return type.mask;
+      if (type && type.name !== 'электронная почта') return type.mask;
       return '';
     } else {
       return '';
@@ -89,7 +93,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
               </FormField>
             </Col>
             <Col span={6}>
-              <FormField label={LABELS.NUMBER}>
+              <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
                 {getTypeInput(
                   index,
                   findMaskByType(parseInt(formProps[index]?.type)),

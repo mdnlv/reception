@@ -12,6 +12,10 @@ export default Yup.object({
     }),
     contacts: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип телефона'),
+      number: Yup.string().when('type', {
+        is: value => value === '4' || value === '11',
+        then: Yup.string().required('Не введен e-mail').email('Не введен e-mail')
+      })
     })),
     policyOms: Yup.object({
       timeType: Yup.string().required('Не выбран'),
