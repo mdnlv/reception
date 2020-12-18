@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -15,10 +15,6 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
-
-  useEffect(() => {
-    console.log('type', typeof formProps[0]?.type)
-  }, [formProps[0]?.type])
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;

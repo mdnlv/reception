@@ -30,7 +30,7 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
       number: '',
       serialFirst: '',
       serialSecond: '',
-      date: '',
+      date: moment().format('DD.MM.YYYY'),
     };
     form.setFieldValue(sectionValuePath, [...formValues, newDoc]);
   }, [formValues, form.setFieldValue]);

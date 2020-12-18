@@ -46,7 +46,7 @@ const Attachments: React.FC = () => {
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
       lpu: '3188',
-      fromDate: '',
+      fromDate: moment().format('DD.MM.YYYY'),
       endDate: '',
       type: '',
       unit: '',
