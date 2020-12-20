@@ -60,44 +60,34 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   return (
     <div className={'person-info-tabs__pane person-info-pane'}>
       <Descriptions column={1}>
-        <Descriptions.Item className={'person-info-item'} label={'Фио'}>
+        <Descriptions.Item label={'Фио'}>
           {patient?.fullName}
         </Descriptions.Item>
-        <Descriptions.Item
-          className={'person-info-item'}
-          label={'Дата рождения'}>
+        <Descriptions.Item label={'Дата рождения'}>
           {patient?.birthDate}
         </Descriptions.Item>
-        <Descriptions.Item className={'person-info-item'} label={'Код'}>
+        <Descriptions.Item label={'Код'}>
           {patient?.code}
         </Descriptions.Item>
-        <Descriptions.Item className={'person-info-item'} label={'Полис ОМС'}>
+        <Descriptions.Item label={'Полис ОМС'}>
           {getPolicyString()}
         </Descriptions.Item>
-        <Descriptions.Item
-          className={'person-info-item'}
-          label={'Адрес проживания'}>
+        <Descriptions.Item label={'Адрес проживания'}>
           {getAddress(patient, 0, rbKladrRegistration, rbKladrStreetsRegistration)}
         </Descriptions.Item>
-        <Descriptions.Item
-          className={'person-info-item'}
-          label={'Адрес регистрации'}>
+        <Descriptions.Item label={'Адрес регистрации'}>
           {getAddress(patient, 1, rbKladrRegistration, rbKladrStreetsRegistration)}
         </Descriptions.Item>
-        <Descriptions.Item className={'person-info-item'} label={'Занятость'}>
+        <Descriptions.Item label={'Занятость'}>
           {patient?.work ? patient?.work[0].post : ''}
         </Descriptions.Item>
-        <Descriptions.Item className={'person-info-item'} label={'Телефоны'}>
+        <Descriptions.Item label={'Телефоны'}>
           {getContactPhones()}
         </Descriptions.Item>
-        <Descriptions.Item
-          className={'person-info-item'}
-          label={'Место рождения'}>
+        <Descriptions.Item label={'Место рождения'}>
           {patient?.birthPlace}
         </Descriptions.Item>
-        <Descriptions.Item
-          className={'person-info-item'}
-          label={'Примечания'}>
+        <Descriptions.Item label={'Примечания'}>
           {patient?.notes}
         </Descriptions.Item>
       </Descriptions>

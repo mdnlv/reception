@@ -58,7 +58,7 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = ({currentPatient}) => {
             size={'small'}
             className={'header-actions__logout'}
             onClick={navigateBack}>
-            Сохранить
+            Закрыть
           </Button>
         </div>
       </Row>
