@@ -15,16 +15,16 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Address: FC<SectionProps> = ({
-  passportType,
-  kladr,
-  nestedKladr,
-  kladrStreets,
-  isLoadingKladr,
-  isLoadingKladrNested,
-  isLoadingKladrStreets,
-  getKladrNested,
-  getKladrStreets,
-}) => {
+                                     passportType,
+                                     kladr,
+                                     nestedKladr,
+                                     kladrStreets,
+                                     isLoadingKladr,
+                                     isLoadingKladrNested,
+                                     isLoadingKladrStreets,
+                                     getKladrNested,
+                                     getKladrStreets,
+                                   }) => {
   const { id } = useParams<{ id: string }>();
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');

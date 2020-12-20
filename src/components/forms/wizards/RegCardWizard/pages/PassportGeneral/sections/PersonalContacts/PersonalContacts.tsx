@@ -21,9 +21,9 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   };
 
   const typesOptions = contactTypes.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
-      {item.name}
-    </Select.Option>
+      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+        {item.name}
+      </Select.Option>
   ));
 
   const getTypeInput = (index: number, mask: string) => {
@@ -31,7 +31,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
       return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {
       return (
-        <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
+          <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
       );
     }
   }
@@ -60,8 +60,8 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const onRemoveContact = useCallback(() => {
     if (formProps && formProps.length > 0) {
       form.setFieldValue(
-        'passportGeneral.contacts',
-        formProps.slice(0, formProps.length - 1),
+          'passportGeneral.contacts',
+          formProps.slice(0, formProps.length - 1),
       );
     }
   }, [formProps]);

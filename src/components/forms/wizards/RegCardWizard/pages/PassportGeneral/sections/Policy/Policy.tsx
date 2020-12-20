@@ -10,10 +10,10 @@ import FastDatePicker from '../../../../../../components/fields/FastDatePicker/F
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Policy: React.FC<SectionProps> = ({
-    policyKey,
-    policyType,
-    policyTimeType
-}) => {
+                                            policyKey,
+                                            policyType,
+                                            policyTimeType
+                                        }) => {
     const form = useFormikContext<RegistrationCardStateType>();
 
     const formValues = form.values.form.passportGeneral[policyKey];

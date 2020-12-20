@@ -1,5 +1,6 @@
-import apiInstance from './api';
 import { AxiosResponse } from 'axios';
+
+import apiInstance from './api';
 import RbEventTypeResponse from '../interfaces/responses/rb/rbEventType';
 import RbPersonResponse from '../interfaces/responses/rb/rbPerson';
 import RbOrganisationResponse from '../interfaces/responses/rb/rbOrganisation';
@@ -49,12 +50,12 @@ export default {
   },
   fetchInvalidDocumentTypes(): Promise<
     AxiosResponse<RbInvalidDocumentTypeResponse[]>
-  > {
+    > {
     return apiInstance.get('/refBooks/rbTempInvalidDocument');
   },
   fetchAccountingSystem(): Promise<
     AxiosResponse<RbAccountingSystemResponse[]>
-  > {
+    > {
     return apiInstance.get('/refBooks/rbAccountingSystem');
   },
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
