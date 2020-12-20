@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Formik } from 'formik';
 import { Card, Col, Row, Spin, Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,7 @@ import Links from './pages/Links/Links';
 import AdditionalHospitalization from './pages/AdditionalHospitalization/AdditionalHospitalization';
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
 import Etc from './pages/Etc/Etc';
+import RegCardValidation from "../../../modals/RegCardValidation/RegCardValidation";
 
 interface WizardProps {}
 
@@ -43,6 +44,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   const isLoading = useSelector(
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
+  const [showValidError, setShowValidError] = useState(false);
 
   useEffect(() => {
     if (params.id !== 'new') {
@@ -52,6 +54,10 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       dispatch(resetRegCard());
     }
   }, [params]);
+
+  const showErrorModal = useCallback(() => {
+    setShowValidError(!showValidError);
+  }, []);
 
   return isLoading ? (
     <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
@@ -75,97 +81,104 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         }
       }}
     >
-      {() => (
-        <Row>
-          <Col span={5}>
-            <Card>
-              <UserInfo/>
-            </Card>
-          </Col>
-          <Col span={19} className={'wizard-tabs'}>
-            <Tabs defaultActiveKey={'passport-general'}>
-              <Tabs.TabPane
-                forceRender={false}
-                key={'passport-general'}
-                tab={'Паспортные данные'}>
-                <PassportGeneral />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                key={'attached-docs'}
-                tab={'Прикрепленные документы'}>
-                <PersonDocuments />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Социальный статус'}
-                key={'status'}>
-                <SocialStatus />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Занятость'}
-                key={'employment'}>
-                <PersonEmployment />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Прикрепление'}
-                key={'attachments'}>
-                <Attachments />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Вид наблюдения'}
-                key={'views-type'}>
-                <ViewType />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Особенности'}
-                key={'features'}>
-                <Features />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Льготы'}
-                key={'privileges'}>
-                <Privileges />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Правонарушения'}
-                key={'offences'}>
-                <Offences />
-              </Tabs.TabPane>
-              <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
-                <Links />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Дополнительная диспансеризация'}
-                key={'additional-hospitalization'}>
-                <AdditionalHospitalization />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Госпитализация в другие ЛПУ'}
-                key={'outside-hospitalization'}>
-                <AdditionalHospitalization />
-              </Tabs.TabPane>
-              <Tabs.TabPane
-                forceRender={false}
-                tab={'Идентификаторы во внешних учетных системах'}
-                key={'outside-idents'}>
-                <OutsideIdent />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab={'Прочее'} key={'etc'}>
-                <Etc />
-              </Tabs.TabPane>
-            </Tabs>
-          </Col>
-        </Row>
-      )}
+      {({errors}) => {
+        console.log('errors', Object.keys(errors).length > 0);
+        return (
+          <Row>
+            <Col span={5}>
+              <Card>
+                <UserInfo/>
+              </Card>
+            </Col>
+            <Col span={19} className={'wizard-tabs'}>
+              <Tabs defaultActiveKey={'passport-general'}>
+                <Tabs.TabPane
+                  forceRender={false}
+                  key={'passport-general'}
+                  tab={'Паспортные данные'}>
+                  <PassportGeneral/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  key={'attached-docs'}
+                  tab={'Прикрепленные документы'}>
+                  <PersonDocuments/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Социальный статус'}
+                  key={'status'}>
+                  <SocialStatus/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Занятость'}
+                  key={'employment'}>
+                  <PersonEmployment/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Прикрепление'}
+                  key={'attachments'}>
+                  <Attachments/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Вид наблюдения'}
+                  key={'views-type'}>
+                  <ViewType/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Особенности'}
+                  key={'features'}>
+                  <Features/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Льготы'}
+                  key={'privileges'}>
+                  <Privileges/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Правонарушения'}
+                  key={'offences'}>
+                  <Offences/>
+                </Tabs.TabPane>
+                <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
+                  <Links/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Дополнительная диспансеризация'}
+                  key={'additional-hospitalization'}>
+                  <AdditionalHospitalization/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Госпитализация в другие ЛПУ'}
+                  key={'outside-hospitalization'}>
+                  <AdditionalHospitalization/>
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  forceRender={false}
+                  tab={'Идентификаторы во внешних учетных системах'}
+                  key={'outside-idents'}>
+                  <OutsideIdent/>
+                </Tabs.TabPane>
+                <Tabs.TabPane tab={'Прочее'} key={'etc'}>
+                  <Etc/>
+                </Tabs.TabPane>
+              </Tabs>
+            </Col>
+            <RegCardValidation
+              isVisible={showValidError}
+              onClose={() => setShowValidError(false)}
+            />
+          </Row>
+        )
+      }}
     </Formik>
   );
 };
