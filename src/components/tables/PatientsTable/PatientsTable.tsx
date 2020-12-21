@@ -165,7 +165,7 @@ const PatientsTable: FC<TableProps> = ({
         medExamination: item.medExamination
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
-        route: <Link to={`/card/${item.code}`}>Перейти</Link>,
+        route: <Link to={`/card/${item.code}`}>Мед. карта</Link>,
         regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
