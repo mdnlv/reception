@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Card, Col, Row, Spin, Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -55,10 +55,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     }
   }, [params]);
 
-  const showErrorModal = useCallback(() => {
-    setShowValidError(!showValidError);
-  }, []);
-
   return isLoading ? (
     <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
       <Spin />
@@ -72,7 +68,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         if (params.id === 'new') {
           dispatch(setFormSection(values));
           dispatch(saveCardPatient());
-          // navigation.push('/');
+          navigation.push('/');
           dispatch(resetRegCard());
         } else {
           dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
@@ -82,12 +78,14 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       }}
     >
       {({errors}) => {
-        console.log('errors', Object.keys(errors).length > 0);
         return (
           <Row>
             <Col span={5}>
               <Card>
-                <UserInfo/>
+                <UserInfo
+                  errors={errors}
+                  onOpen={() => setShowValidError(true)}
+                />
               </Card>
             </Col>
             <Col span={19} className={'wizard-tabs'}>
@@ -175,6 +173,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
             <RegCardValidation
               isVisible={showValidError}
               onClose={() => setShowValidError(false)}
+              errors={errors}
             />
           </Row>
         )

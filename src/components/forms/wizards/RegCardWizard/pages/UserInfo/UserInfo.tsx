@@ -10,12 +10,12 @@ import {
   Select,
   TimePicker
 } from 'antd';
-import moment from 'moment';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
 
-import { WizardStateType } from '../../types';
+import { WizardStateType, ValidationType } from '../../types';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+import UserInfoTypes from "./types";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -24,7 +24,7 @@ import FastInputNumber from '../../../../components/fields/FastInputNumber/FastI
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const UserInfo: React.FC = () => {
+const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsSelector);
   const formValues = formProps.values.personal;
@@ -205,7 +205,8 @@ const UserInfo: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            formProps.handleSubmit();
+            Object.keys(errors).length > 0 && onOpen();
+            formProps.handleSubmit()
           }}
           className="save-btn">
           Сохранить

@@ -1,13 +1,16 @@
 import * as Yup from "yup";
+import {FormikErrors} from "formik";
 
-export default Yup.object({
+import {ValidationType} from "./types";
+
+const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
     birthDate: Yup.string().required('Не введена дата рождения'),
     snils: Yup.string().required('Не введен СНИЛС')
   }),
   passportGeneral: Yup.object({
     passportInfo: Yup.object({
-      passportType: Yup.string().required('Не выбран тип паспорта'),
+      passportType: Yup.string().required('Не выбран тип документа'),
       fromDate: Yup.string().required('Не введена дата выдачи')
     }),
     contacts: Yup.array().of(Yup.object({
@@ -18,9 +21,9 @@ export default Yup.object({
       })
     })),
     policyOms: Yup.object({
-      timeType: Yup.string().required('Не выбран'),
-      from: Yup.string().required('Дата не задана'),
-      to: Yup.string().required('Дата не задана'),
+      timeType: Yup.string().required('Не выбран тип времени полиса'),
+      from: Yup.string().required('Не задана дата начала действия полиса'),
+      to: Yup.string().required('Не задана дата окончания действия полиса'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
     })
@@ -28,10 +31,10 @@ export default Yup.object({
   socialStatus: Yup.object({
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('Не выбран класс'),
-      type: Yup.string().required('Не выбран тип'),
+      type: Yup.string().required('Не выбран тип статуса'),
     })),
     trustedDoc: Yup.array().of(Yup.object().shape({
-      type: Yup.string().required('Не выбран тип')
+      type: Yup.string().required('Не выбран тип документа')
     }))
   }),
   employment: Yup.object({
@@ -55,3 +58,5 @@ export default Yup.object({
     }))
   })
 });
+
+export default validation
