@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {Col, DatePicker, Row, Select} from 'antd';
 import {useSelector} from 'react-redux';
 import {Formik} from 'formik';
-import moment from 'moment';
 
 import { RootState } from '../../../reduxStore/store';
 
@@ -41,26 +40,12 @@ const AttachmentsForm: FC = () => {
                     </Col>
                     <Col span={3}>
                       <FormField label={'Дата прикрепления'}>
-                        <DatePicker
-                          value={moment(
-                            formProps.values.attachments[index]?.fromDate,
-                          )}
-                          onChange={(_, date) => {
-                            formProps.setFieldValue('formDate', date);
-                          }}
-                        />
+                        <DatePicker/>
                       </FormField>
                     </Col>
                     <Col span={3}>
                       <FormField label={'Дата открепления'}>
-                        <DatePicker
-                          value={moment(
-                            formProps.values.attachments[index]?.endDate,
-                          )}
-                          onChange={(_, date) => {
-                            formProps.setFieldValue('endDate', date);
-                          }}
-                        />
+                        <DatePicker/>
                       </FormField>
                     </Col>
                     <Col span={5}>

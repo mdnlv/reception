@@ -32,6 +32,8 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('Не выбран класс'),
       type: Yup.string().required('Не выбран тип статуса'),
+      fromDate: Yup.string().required('Не введена дата начала'),
+      endDate: Yup.string().required('Не введена дата окончания')
     })),
     trustedDoc: Yup.array().of(Yup.object().shape({
       type: Yup.string().required('Не выбран тип документа')

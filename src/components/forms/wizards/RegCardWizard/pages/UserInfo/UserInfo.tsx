@@ -13,7 +13,7 @@ import {
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
 
-import { WizardStateType, ValidationType } from '../../types';
+import {WizardStateType} from '../../types';
 import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import UserInfoTypes from "./types";
 
@@ -83,31 +83,29 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         <FastInput name={'personal.patrName'} />
       </FormField>
       <Divider />
-      <div className="registration-form__dates">
-        <Row gutter={16}>
-          <Col span={12}>
-            <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
-              <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
-            </FormField>
-          </Col>
-          <Col span={12}>
-            <FormField label="Время рождения">
-              {/*todo make birthTime correct binding*/}
-              {/* todo make correct bindings */}
-              <TimePicker
-                format={'HH:mm'}
-                name={'personal.birthTime'}
-                onChange={(_, timeString) => {
-                  formProps.setFieldValue(
-                    `${sectionValuePath}.birthTime`,
-                    timeString,
-                  );
-                }}
-              />
-            </FormField>
-          </Col>
-        </Row>
-      </div>
+      <Row gutter={16}>
+        <Col span={12}>
+          <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
+            <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
+          </FormField>
+        </Col>
+        <Col span={12}>
+          <FormField label="Время рождения">
+            {/*todo make birthTime correct binding*/}
+            {/* todo make correct bindings */}
+            <TimePicker
+              format={'HH:mm'}
+              name={'personal.birthTime'}
+              onChange={(_, timeString) => {
+                formProps.setFieldValue(
+                  `${sectionValuePath}.birthTime`,
+                  timeString,
+                );
+              }}
+            />
+          </FormField>
+        </Col>
+      </Row>
       <div className="registration-form__general">
         <Row gutter={16}>
           <Col>

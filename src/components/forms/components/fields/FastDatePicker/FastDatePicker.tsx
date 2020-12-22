@@ -1,31 +1,52 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useField} from 'formik';
-import {DatePicker} from 'antd';
-import moment from 'moment';
+import ReactDatePicker, {registerLocale} from 'react-datepicker'
+import { MaskedInput } from 'antd-mask-input';
+import ru from "date-fns/locale/ru";
 
 import {PickerProps} from "./types";
+import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale("ru", ru);
 
 const FastDatePicker: React.FC<PickerProps> = (props) => {
-  const [field, meta, form] = useField<string>(props.name);
-
-  const onChangeHandler = useCallback(
-    (date: moment.Moment | null, dateString: string) => {
-      form.setValue(dateString);
-    },
-    [form],
-  );
+  const [field, meta, form] = useField<Date>(props.name);
 
   return (
-    <>
-      <DatePicker
-        {...props}
-        allowClear
-        format={"DD.MM.YYYY"}
-        placeholder={"ДД.ММ.ГГГГ"}
-        value={field.value ? moment(field.value, "DD.MM.YYYY") : undefined}
-        onChange={onChangeHandler}
-      />
-    </>
+    <ReactDatePicker
+      onChange={(date: Date) => form.setValue(date)}
+      locale='ru'
+      selected={field.value}
+      placeholderText="ДД.ММ.ГГГГ"
+      isClearable={Boolean(field.value)}
+      todayButton={"Сегодня"}
+      dateFormat="dd.MM.yyyy"
+      peekNextMonth
+      showMonthDropdown
+      showYearDropdown
+      popperPlacement="top-end"
+      popperProps={{
+        positionFixed: true // use this to make the popper position: fixed
+      }}
+      popperModifiers={{
+        offset: {
+          enabled: true,
+          offset: "5px, 10px"
+        },
+        preventOverflow: {
+          enabled: true,
+          escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+          boundariesElement: "viewport"
+        }
+      }}
+      customInput={
+        <MaskedInput
+          name={props.name}
+          type="text"
+          mask='11.11.1111'
+        />
+      }
+    />
   );
 };
 

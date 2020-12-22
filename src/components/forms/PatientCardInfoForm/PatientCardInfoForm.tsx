@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Divider, Spin, Descriptions} from 'antd';
 import { useSelector } from 'react-redux';
+import {format} from 'date-fns';
 
 import './styles.scss';
 import {FormProps} from "./types";
@@ -81,7 +82,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
                 {patient?.fullName}
               </Descriptions.Item>
               <Descriptions.Item label={'Дата рождения'}>
-                {patient?.birthDate}
+                {format(new Date(patient?.birthDate), "d.MM.yyyy")}
               </Descriptions.Item>
               <Descriptions.Item label={'Пол'}>
                 {patient?.sex === 1 ? "М" : "Ж"}
@@ -96,7 +97,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
                 {getAddress(patient, 1, kladr, rbKladrStreetsRegistration)}
               </Descriptions.Item>
               <Descriptions.Item label={'Место рождения'}>
-                {patient?.birthDate}
+                {patient?.birthPlace}
               </Descriptions.Item>
               <Descriptions.Item label={'Телефон'}>
                 {getPhone() || ''}

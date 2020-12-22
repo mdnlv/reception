@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
-import moment from 'moment';
 
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
@@ -32,7 +31,7 @@ const Status: React.FC<StatusProps> = ({
     const status: SocialStatus = {
       class: '',
       type: '',
-      fromDate: moment().format('DD.MM.YYYY'),
+      fromDate: '',
       endDate: '',
       note: ''
     };
@@ -93,12 +92,12 @@ const Status: React.FC<StatusProps> = ({
                 </FormField>
               </Col>
               <Col span={3}>
-                <FormField label={LABELS.START_DATE}>
+                <FormField label={LABELS.START_DATE} name={getSelectionPath(index, 'fromDate')}>
                   <FastDatePicker name={getSelectionPath(index, 'fromDate')} />
                 </FormField>
               </Col>
               <Col span={3}>
-                <FormField label={LABELS.END_DATE}>
+                <FormField label={LABELS.END_DATE} name={getSelectionPath(index, 'endDate')}>
                   <FastDatePicker name={getSelectionPath(index, 'endDate')} />
                 </FormField>
               </Col>

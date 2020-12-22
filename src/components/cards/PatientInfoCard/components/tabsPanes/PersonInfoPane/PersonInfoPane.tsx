@@ -1,6 +1,7 @@
 import React from 'react';
 import { Descriptions, List } from 'antd/lib';
 import { useSelector } from 'react-redux';
+import {format} from 'date-fns';
 
 import './styles.scss';
 import { PaneProps, PatientPolicyPane } from './types';
@@ -24,7 +25,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
     if (mainPolicy !== undefined) {
-      return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${mainPolicy.from} до ${mainPolicy?.to}`;
+      return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${format(mainPolicy.from, "d.MM.yyyy")} до ${format(mainPolicy.to, "d.MM.yyyy")}`;
     } else {
       return '';
     }
@@ -64,7 +65,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
           {patient?.fullName}
         </Descriptions.Item>
         <Descriptions.Item label={'Дата рождения'}>
-          {patient?.birthDate}
+          {format(new Date(patient?.birthDate), "d.MM.yyyy")}
         </Descriptions.Item>
         <Descriptions.Item label={'Код'}>
           {patient?.code}

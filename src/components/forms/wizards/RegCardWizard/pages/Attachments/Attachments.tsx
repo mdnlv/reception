@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 
 import { DROPDOWN_TITLE, LABELS, PersonAttachment } from './types';
 import { WizardStateType } from '../../types';
@@ -46,7 +45,7 @@ const Attachments: React.FC = () => {
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
       lpu: '3188',
-      fromDate: moment().format('DD.MM.YYYY'),
+      fromDate: '',
       endDate: '',
       type: '',
       unit: '',

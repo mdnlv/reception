@@ -2,7 +2,6 @@ import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
-import moment from "moment";
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
@@ -53,7 +52,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
     } else if (formValues.timeType === '3') {
       form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
-      form.setFieldValue(`${sectionValuePath}.to`, '01.01.2200');
+      form.setFieldValue(`${sectionValuePath}.to`, new Date('01.01.2200'));
     } else {
       form.setFieldValue(`${sectionValuePath}.serial`, '');
     }
@@ -98,11 +97,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const cleanFields = () => {
     fieldNames.map((item) => {
-      if (item === 'from' || item === 'to') {
-        form.setFieldValue(`${sectionValuePath}.${item}`, moment())
-      } else {
-        form.setFieldValue(`${sectionValuePath}.${item}`, '')
-      }
+      form.setFieldValue(`${sectionValuePath}.${item}`, '')
     })
   };
 

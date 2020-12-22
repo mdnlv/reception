@@ -1,3 +1,5 @@
+import {parseISO} from "date-fns";
+
 import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
 import {toRusFormat} from "../../../utils/date/toRusFormat";
@@ -7,7 +9,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,
     sex: item.sex,
-    birthDate: item.birthDate ? toRusFormat(item.birthDate) : '',
+    birthDate: item.birthDate ? parseISO(item.birthDate) : '',
     birthPlace: item.birthPlace,
     code: item.id,
     regAddress: '',
@@ -15,7 +17,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     growth: parseInt(item.growth),
     weight: parseInt(item.weight),
     notes: item.notes,
-    chartBeginDate: item.chartBeginDate,
+    chartBeginDate: item.chartBeginDate ? parseISO(item.chartBeginDate) : '',
 
     work: item.client_work_info.map(item => ({
       id: item.org_id,
@@ -39,7 +41,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
 
     client_document_info: item.client_document_info && {
       givenBy: item.client_document_info.origin,
-      fromDate: toRusFormat(item.client_document_info.date),
+      fromDate: parseISO(item.client_document_info.date),
       serial: item.client_document_info.serial,
       number: item.client_document_info.number,
       passportType: item.client_document_info.documentType_id,
@@ -53,14 +55,14 @@ export const transformPatientResponse = (item: PatientResponse) => {
         note: item.notes ?? '',
         class: item.socStatusClass_id?.toString(),
         type: item.socStatusType_id?.toString(),
-        fromDate: toRusFormat(item.begDate),
-        endDate: toRusFormat(item.endDate),
+        fromDate: item.begDate ? parseISO(item.begDate) : '',
+        endDate: item.endDate ? parseISO(item.endDate) : '',
         document: Object.keys(item.document).length
           ? {
             id: item.document?.documentType_id,
             serial: item.document?.serial,
             number: item.document?.number,
-            date: toRusFormat(item.document?.date),
+            date: item.document?.date ? parseISO(item.document?.date) : '',
             origin: item.document?.origin
           } : null
       })) || [],

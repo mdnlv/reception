@@ -1,3 +1,5 @@
+import {parseISO} from "date-fns";
+
 import PatientPolicyResponse from '../../../interfaces/responses/patients/patientPolicy';
 import {toRusFormat} from "../../../utils/date/toRusFormat";
 
@@ -8,8 +10,8 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     serial: item.serial,
     number: item.number,
     timeType: item.policyKind_id?.toString() ?? '',
-    from: toRusFormat(item.begDate),
-    to: toRusFormat(item.endDate),
+    from: item.begDate ? parseISO(item.begDate) : '',
+    to: item.endDate ? parseISO(item.endDate) : '',
     type: item.policyType_id?.toString() ?? '',
     name: item.name,
     note: item.note
