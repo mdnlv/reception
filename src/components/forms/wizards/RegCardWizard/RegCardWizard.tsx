@@ -68,7 +68,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         if (params.id === 'new') {
           dispatch(setFormSection(values));
           dispatch(saveCardPatient());
-          // navigation.push('/');
+          navigation.push('/');
           dispatch(resetRegCard());
         } else {
           dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));

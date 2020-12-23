@@ -43,7 +43,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   }),
   employment: Yup.object({
     employment: Yup.array().of(Yup.object({
-      organization: Yup.string(),
+      organization: Yup.string().required('Не введена организация'),
       freeInput: Yup.string().when('organization', {
         is: value => !value,
         then: Yup.string().required('Не введена организация')
