@@ -46,7 +46,7 @@ const initialState: RegistrationCardStateType = {
       height: 0,
       weight: 0,
       sex: 0,
-      snils: '153-420-953 43',
+      snils: '',
       docPersonId: '',
       hasImplants: false,
       hasProsthesis: false,

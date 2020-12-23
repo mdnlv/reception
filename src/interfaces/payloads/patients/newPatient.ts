@@ -98,7 +98,7 @@ export default interface NewPatientPayload {
   }[];
 
   client_address_info?: {
-    address: {
+    address?: {
       address_house: {
         KLADRCode: string;
         KLADRStreetCode?: string;
@@ -108,6 +108,8 @@ export default interface NewPatientPayload {
       };
       flat: string;
     };
+    isIdenticalAddresses?: 1 | 0;
+    freeInput: string;
     isVillager: number,
     type: number;
   }[];

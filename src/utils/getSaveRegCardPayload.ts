@@ -125,9 +125,11 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           flat: addressRegistration.flatNumber?.toString() || '',
         },
         isVillager: +!addressRegistration.isKLADR,
+        isIdenticalAddresses: addressRegistration.isDocumentedAddress ? 1 : 0,
+        freeInput: addressRegistration.freeInput,
         type: 0,
       },
-      {
+      ...(!state.registrationCard.form.passportGeneral.passportInfo.addressRegistration.isDocumentedAddress ? [{
         address: {
           address_house: {
             KLADRCode: (documentedAddress.area === '7800000000000'
@@ -143,8 +145,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           flat: documentedAddress.flatNumber?.toString() || '',
         },
         isVillager: +!documentedAddress.isKLADR,
+        freeInput: documentedAddress.freeInput,
         type: 1,
-      },
+      }] : []),
     ],
 
     client_soc_status_info:

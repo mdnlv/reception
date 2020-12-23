@@ -183,15 +183,6 @@ const Address: FC<SectionProps> = ({
     return type;
   };
 
-  const setValue = (field: string) => {
-    if (isDocumentedAddress && passportType !== 'documentedAddress' && formValues.passportInfo['documentedAddress'].area) {
-      formValues.passportInfo[passportType][field] = documentedBuffer[field];
-      return formValues.passportInfo[passportType][field]
-    } else {
-      return formValues.passportInfo[passportType][field];
-    }
-  };
-
   const setDisabled = () =>
     isDocumentedAddress && passportType !== 'documentedAddress';
 
