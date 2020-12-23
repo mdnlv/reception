@@ -6,7 +6,9 @@ import {ValidationType} from "./types";
 const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
     birthDate: Yup.string().required('Не введена дата рождения'),
-    snils: Yup.string().required('Не введен СНИЛС')
+    snils: Yup.string().required('Не введен СНИЛС'),
+    height: Yup.number().positive('Рост не является положительным значением'),
+    weight: Yup.number().positive('Вес не является положительным значением')
   }),
   passportGeneral: Yup.object({
     passportInfo: Yup.object({

@@ -88,14 +88,6 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 </div>
               </FormField>
             </Col>
-            <Col span={6}>
-              <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
-                {getTypeInput(
-                  index,
-                  findMaskByType(parseInt(formProps[index]?.type)),
-                )}
-              </FormField>
-            </Col>
             <Col span={5}>
               <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
                 <FastSearchSelect
@@ -106,6 +98,14 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                   }}>
                   {typesOptions}
                 </FastSearchSelect>
+              </FormField>
+            </Col>
+            <Col span={6}>
+              <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
+                {getTypeInput(
+                  index,
+                  findMaskByType(parseInt(formProps[index]?.type)),
+                )}
               </FormField>
             </Col>
             <Col span={10}>

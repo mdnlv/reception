@@ -109,12 +109,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       <div className="registration-form__general">
         <Row gutter={16}>
           <Col>
-            <FormField label="Рост">
+            <FormField label="Рост" name={'personal.height'}>
               <FastInputNumber min={0} name={'personal.height'} />
             </FormField>
           </Col>
           <Col>
-            <FormField label="Вес">
+            <FormField label="Вес" name={'personal.weight'}>
               <FastInputNumber min={0} name={'personal.weight'} />
             </FormField>
           </Col>
