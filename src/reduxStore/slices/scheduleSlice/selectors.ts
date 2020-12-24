@@ -1,5 +1,6 @@
-import { RootState } from '../../store';
 import { createSelector } from 'reselect';
+
+import { RootState } from '../../store';
 
 export const detailedSchedules = createSelector(
   (state: RootState) => state.schedule.schedules,

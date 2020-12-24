@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+import {Row, Col, Spin} from "antd";
 
 import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
@@ -10,6 +9,7 @@ import { RootState } from '../../reduxStore/store';
 import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
+import {fetchSchedules} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
@@ -23,6 +23,7 @@ const MainPage: FC = () => {
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
+  const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,6 +33,14 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchSchedules({
+      id: 1150,
+      year: 2019,
+      month: 12
+    }))
+  }, [])
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
@@ -69,7 +78,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ScheduleTable schedules={schedules} />
+         {isLoading ? <Spin/> : <ScheduleTable schedules={schedules}/>}
         </Col>
       </Row>
     </div>
