@@ -171,7 +171,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ],
 
     client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
-      org_id: parseInt(item.organization),
+      ...(item.organization && {org_id: parseInt(item.organization)}),
       post: item.position,
       stage: item.experience,
       freeInput: item.freeInput || "",

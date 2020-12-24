@@ -63,16 +63,16 @@ export default interface NewPatientPayload {
   }[];
 
   client_work_info: {
-    org_id: number;
-    post: string;
-    stage: number;
-    freeInput: string;
+    org_id?: number;
+    post?: string;
+    stage?: number;
+    freeInput?: string;
     client_work_hurt_info: {
-      hurtType_id: number;
-      stage: number;
+      hurtType_id?: number;
+      stage?: number;
     }[];
     client_work_hurt_factor_info: {
-      factorType_id: number;
+      factorType_id?: number;
     }[];
   }[];
 
