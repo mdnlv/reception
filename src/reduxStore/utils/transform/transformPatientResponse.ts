@@ -2,7 +2,6 @@ import {parseISO} from "date-fns";
 
 import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
-import {toRusFormat} from "../../../utils/date/toRusFormat";
 
 export const transformPatientResponse = (item: PatientResponse) => {
   return {

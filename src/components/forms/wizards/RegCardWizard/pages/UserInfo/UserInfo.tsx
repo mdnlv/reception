@@ -172,7 +172,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         <div>
           <Checkbox
             name={`${sectionValuePath}.hasCard`}
-            checked={formProps.values.personal.hasCard}
+            checked={true}
             onChange={formProps.handleChange}>
             Карта заведена
           </Checkbox>

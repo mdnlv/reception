@@ -22,10 +22,10 @@ export default interface NewPatientPayload {
   growth: string;
   weight: string;
   birthPlace: string;
+  chartBeginDate: string | Date;
   // hasImplants: boolean,
   // hasProsthesis: boolean,
   // docPersonId: string;
-  // startCardDate: string;
   // hasCard: boolean;
   // onlyTempRegistration: boolean;
 

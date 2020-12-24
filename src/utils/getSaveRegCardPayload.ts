@@ -30,10 +30,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     snils,
     weight,
     height,
+    startCardDate,
     // hasImplants,
     // hasProsthesis,
     // docPersonId,
-    // startCardDate,
     // hasCard,
     // onlyTempRegistration
   } = state.registrationCard.form.personal;
@@ -46,10 +46,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     birthPlace,
     birthDate: toServerFormat(birthDate),
     birthTime,
+    chartBeginDate: toServerFormat(startCardDate),
     // ...hasImplants && {hasImplants},
     // ...hasProsthesis && {hasProsthesis},
     // ...docPersonId && {docPersonId},
-    // ...startCardDate && {startCardDate},
     // ...hasCard && {hasCard},
     // ...onlyTempRegistration && {onlyTempRegistration},
     sex: sex === 0 ? 1 : 2,
