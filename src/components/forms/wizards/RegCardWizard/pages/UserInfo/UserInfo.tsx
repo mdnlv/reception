@@ -73,13 +73,13 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       <FormField label="Код">
         <FastInput disabled name={'personal.code'} />
       </FormField>
-      <FormField label="Фамилия">
+      <FormField label="Фамилия" name={'personal.lastName'}>
         <FastInput name={'personal.lastName'} />
       </FormField>
-      <FormField label="Имя">
+      <FormField label="Имя" name={'personal.firstName'}>
         <FastInput name={'personal.firstName'} />
       </FormField>
-      <FormField label="Отчество">
+      <FormField label="Отчество" name={'personal.patrName'}>
         <FastInput name={'personal.patrName'} />
       </FormField>
       <Divider />

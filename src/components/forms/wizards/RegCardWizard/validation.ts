@@ -5,6 +5,8 @@ import {ValidationType} from "./types";
 
 const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
+    lastName: Yup.string().required('Не введена фамилия пациента'),
+    firstName: Yup.string().required('Не введено имя пациента'),
     birthDate: Yup.string().required('Не введена дата рождения'),
     snils: Yup.string().required('Не введен СНИЛС'),
     height: Yup.number().positive('Рост не является положительным значением'),
