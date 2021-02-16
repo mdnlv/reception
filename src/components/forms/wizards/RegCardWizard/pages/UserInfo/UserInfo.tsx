@@ -192,11 +192,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           <FastInput name={'personal.birthPlace'} />
         </FormField>
       </div>
-      <div className="registration-form__filter-action">
-        <Button type="link" block>
-          Обновить данные по фильтрам
-        </Button>
-      </div>
+      <Divider />
       <div className="registration-form__actions">
         <Button type="link" danger>
           Отмена
