@@ -19,6 +19,8 @@ export const detailedSchedules = createSelector(
       return {
         id: item.action_id,
         planned: item.schedule.planned,
+        begTime: item.schedule.begTime,
+        endDate: item.schedule.endTime,
         personName: 'test test test',
         items: scheduleItems,
       };

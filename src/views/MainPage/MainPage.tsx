@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Row, Col, Spin} from "antd";
+import {Row, Col} from "antd";
 
 import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
@@ -23,7 +23,6 @@ const MainPage: FC = () => {
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
-  const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -78,7 +77,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-         {isLoading ? <Spin/> : <ScheduleTable schedules={schedules}/>}
+          <ScheduleTable schedules={schedules}/>
         </Col>
       </Row>
     </div>

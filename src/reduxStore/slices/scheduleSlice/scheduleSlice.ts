@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import ScheduleService from '../../../services/ScheduleService';
 import Schedule from '../../../types/data/Schedule';
-import exampleData from './exampleData';
+import {ScheduleItem} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
@@ -50,7 +50,7 @@ export const fetchPersonsSchedule = createAsyncThunk(
 const scheduleSlice = createSlice({
   name: 'schedule',
   initialState: {
-    schedules: exampleData,
+    schedules: [] as ScheduleItem[],
     isLoading: false,
   },
   reducers: {

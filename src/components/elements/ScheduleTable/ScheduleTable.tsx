@@ -64,7 +64,11 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
 
   return (
     <div className={'schedule-table'}>
-      {isLoading ? <Spin/> : (
+      {isLoading ? (
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+          <Spin/>
+        </div>
+      ) : (
         <>
           <Row>
             <Col span={20} offset={4}>

@@ -1,4 +1,4 @@
-import {parseISO} from "date-fns";
+import {format, parseISO} from "date-fns";
 
 import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
@@ -8,7 +8,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,
     sex: item.sex,
-    birthDate: item.birthDate ? parseISO(item.birthDate) : '',
+    birthDate: item.birthDate ? format(parseISO(item.birthDate), 'dd.MM.yyyy') : '',
     birthPlace: item.birthPlace,
     code: item.id,
     regAddress: '',

@@ -17,8 +17,8 @@ const ScheduleTimelineItem: React.FC<ItemProps> = ({
       case 'week':
         return (
           <div className={'schedule-timeline__item-day'}>
-            <div className="day-date">{value}</div>
-            <div className="day-name">{dayName}</div>
+            <div style={(dayName === 'сб' || dayName === 'вс') ? {color: '#D64040'} : undefined}>{value}</div>
+            <div style={(dayName === 'сб' || dayName === 'вс') ? {color: '#D64040'} : undefined}>{dayName}</div>
           </div>
         );
     }
