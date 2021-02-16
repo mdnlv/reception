@@ -54,13 +54,6 @@ const NewAppointmentForm: React.FC = () => {
                             </FormField>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col span={24}>
-                            <FormField label={'Тип услуги'}>
-                                <Select/>
-                            </FormField>
-                        </Col>
-                    </Row>
                 </form>
             )}
         </Formik>
