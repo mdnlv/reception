@@ -12,11 +12,13 @@ registerLocale("ru", ru);
 const FastDatePicker: React.FC<PickerProps> = (props) => {
   const [field, meta, form] = useField<Date>(props.name);
 
+  const selectedDate = field.value ? new Date(field.value) : null
+
   return (
     <ReactDatePicker
       onChange={(date: Date) => form.setValue(date)}
       locale='ru'
-      selected={field.value}
+      selected={selectedDate}
       placeholderText="ДД.ММ.ГГГГ"
       isClearable={Boolean(field.value)}
       todayButton={"Сегодня"}
