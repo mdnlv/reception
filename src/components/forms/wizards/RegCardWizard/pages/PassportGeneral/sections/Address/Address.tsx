@@ -39,10 +39,14 @@ const Address: FC<SectionProps> = ({
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
+  }, [id]);
+
+  useEffect(() => {
+
     if (formValues.passportInfo['addressRegistration'].isDocumentedAddress && documentedBuffer.area) {
       fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, documentedBuffer[item]))
     }
-  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress, documentedBuffer, id]);
+  }, [formValues.passportInfo['addressRegistration'].isDocumentedAddress, documentedBuffer]);
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
