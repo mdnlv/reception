@@ -7,10 +7,13 @@ import { SearchSelectProps } from './types';
 const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
   const [field, meta, form] = useField(props.name);
 
+    
+    const value = props.loading? '':field.value;
+        
   return (
     <Select
       {...props}
-      value={field.value}
+      value={value}
       disabled={props.isDisabled}
       onChange={(val) => {
         form.setValue(val);

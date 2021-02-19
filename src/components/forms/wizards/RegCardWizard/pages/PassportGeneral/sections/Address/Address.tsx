@@ -9,10 +9,12 @@ import { WizardStateType } from '../../../../types';
 import { SectionProps, KladrItem } from './types';
 import { kladrSelector } from '../../../../../../../../reduxStore/slices/registrationCard/selectors';
 import {setDocumentedBuffer} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
-
-import FormField from '../../../../../../components/FormField/FormField';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
-import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
+const FormField = React.lazy(() => import('../../../../../../components/FormField/FormField')); 
+const FastInput = React.lazy(() => import('../../../../../../components/fields/FastInput/FastInput')); 
+const FastSearchSelect = React.lazy(() => import('../../../../../../components/fields/FastSearchSelect/FastSearchSelect')); 
+// import FormField from '../../../../../../components/FormField/FormField';
+// import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+// import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const Address: FC<SectionProps> = ({
   passportType,
@@ -38,7 +40,7 @@ const Address: FC<SectionProps> = ({
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput'];
 
   useEffect(() => {
-    id === 'new' && form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
+    id === 'new' &&  form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
   }, [id]);
 
   useEffect(() => {
@@ -52,21 +54,20 @@ const Address: FC<SectionProps> = ({
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
   }, [formValues.passportInfo.documentedAddress]);
 
+
   useEffect(() => {
-    if (isDocumentedAddress && passportType !== 'documentedAddress') {
-      if (formValues.passportInfo[passportType].area ===
-        '7800000000000' ||
-        formValues.passportInfo[passportType].area ===
-        '7700000000000' ||
-        formValues.passportInfo[passportType].area ===
-        '9200000000000') {
-        getKladrStreets(formValues.passportInfo[passportType].area, getType());
-      } else {
-        getKladrNested(formValues.passportInfo[passportType].area, getType());
-      }
+    if (!isDocumentedAddress || passportType === 'documentedAddress') {
+      return;
+    }
+    const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
+    const area = formValues.passportInfo[passportType].area;
+    if (streetsAreas.includes(area)) {
+      getKladrStreets(area, getType());
+    } else {
+      getKladrNested(area, getType());
     }
   },[
-    isDocumentedAddress,
+    // isDocumentedAddress,
     formValues.passportInfo.documentedAddress.city,
     formValues.passportInfo.documentedAddress.area
   ]);
@@ -85,7 +86,7 @@ const Address: FC<SectionProps> = ({
       }
     }
   },[
-    isDocumentedAddress,
+    // isDocumentedAddress,
     formValues.passportInfo.documentedAddress.street,
   ]);
 
@@ -237,10 +238,12 @@ const Address: FC<SectionProps> = ({
                     formValues.passportInfo[passportType].area ===
                     '9200000000000'
                   }
-                  onFocus={() => {
+                  onKeyPress={(e) => {
+                    const value =  e.target.value 
                     getKladrNested(
                       formValues.passportInfo[passportType].area,
                       getType(),
+                      value
                     );
                   }}
                   placeholder={'Город'}
@@ -268,8 +271,9 @@ const Address: FC<SectionProps> = ({
                       '9200000000000' &&
                       !formValues.passportInfo[passportType].city)
                   }
-                  onFocus={() => {
-                    getKladrStreets(
+                  onKeyPress={(e) => {
+                    const value =  e.target.value 
+                  getKladrStreets(
                       formValues.passportInfo[passportType].area ===
                       '7800000000000' ||
                       formValues.passportInfo[passportType].area ===
@@ -279,6 +283,7 @@ const Address: FC<SectionProps> = ({
                         ? formValues.passportInfo[passportType].area
                         : formValues.passportInfo[passportType].city,
                       getType(),
+                      value
                     );
                   }}
                   placeholder={'Улица'}

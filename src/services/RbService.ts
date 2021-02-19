@@ -67,17 +67,18 @@ export default {
   fetchOrgStructure(): Promise<AxiosResponse<RbOrgStructureResponse[]>> {
     return apiInstance.get('/refBooks/OrgStructure');
   },
-  getRegionList(parent?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
+  getRegionList(parent?: string, query?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
     if (parent) {
-      return apiInstance.get(`/kladr?parent=${parent}`);
+      return apiInstance.get(`/kladr?parent=${parent}&name=${query}&limit=${10}`);
     } else {
       return apiInstance.get(`/kladr`);
     }
   },
   getRegionStreets(
     id: string,
+    query?: string
   ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
-    return apiInstance.get(`/kladr/street?code=${id}`);
+    return apiInstance.get(`/kladr/street?code=${id}&name=${query}&limit=${10}`);
   },
   fetchContactTypes(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbContactType');

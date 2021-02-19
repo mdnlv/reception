@@ -21,7 +21,7 @@ const InputNumberFastField: React.FC<FieldProps> = ({value, onChange}) => {
         onChange(value);
       }
     },
-    200,
+    500,
   );
 
   const handleOnChange = useCallback((value: number | string | undefined) => {

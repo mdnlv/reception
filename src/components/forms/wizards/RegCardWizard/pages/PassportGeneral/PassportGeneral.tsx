@@ -63,7 +63,7 @@ const PassportGeneral: React.FC = () => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
 
-  const fetchNestedKladr = (id: string, type: KladrDocType) => {
+  const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
 
     switch (type) {
@@ -76,12 +76,13 @@ const PassportGeneral: React.FC = () => {
     }
 
     if (rbKladrItem) {
-      dispatch(fetchKladrNested({ id: rbKladrItem.prefix, type }));
+      dispatch(fetchKladrNested({ id: rbKladrItem.prefix, type,value }));
     }
   };
 
-  const fetchKladrStreetsItems = (id: string, type: KladrDocType) => {
-    dispatch(fetchKladrStreets({ id, type }));
+  const fetchKladrStreetsItems = (id: string, type: KladrDocType,value:string) => {
+    
+    dispatch(fetchKladrStreets({ id, type,value }));
   };
 
   const onFindPatientPolicy = (

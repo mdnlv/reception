@@ -59,12 +59,12 @@ export const fetchKladr = createAsyncThunk(
 
 export const fetchKladrNested = createAsyncThunk(
   'registrationCard/fetchKladrNested',
-  async (payload: { id: string; type?: KladrDocType }, thunkAPI) => {
+  async (payload: { id: string; type?: KladrDocType, value?:string }, thunkAPI) => {
     thunkAPI.dispatch(
       setKladrNestedLoading({ value: true, type: payload.type }),
     );
     try {
-      const response = await RbService.getRegionList(payload.id);
+      const response = await RbService.getRegionList(payload.id,payload.value);
       if (response.data) {
         const formattedData = response.data.map((item) => ({
           id: item.CODE,
@@ -87,12 +87,12 @@ export const fetchKladrNested = createAsyncThunk(
 
 export const fetchKladrStreets = createAsyncThunk(
   'registrationCard/fetchKladrStreets',
-  async (payload: { id: string; type?: KladrDocType }, thunkAPI) => {
+  async (payload: { id: string; type?: KladrDocType,value:string }, thunkAPI) => {
     thunkAPI.dispatch(
       setKladrStreetsLoading({ value: true, type: payload.type }),
     );
     try {
-      const response = await RbService.getRegionStreets(payload.id);
+      const response = await RbService.getRegionStreets(payload.id,payload.value);
       if (response.data) {
         const formattedData = response.data.map((item) => ({
           id: item.CODE,

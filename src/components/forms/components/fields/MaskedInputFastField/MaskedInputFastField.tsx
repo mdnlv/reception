@@ -21,7 +21,7 @@ const MaskedInputFastField: React.FC<FieldProps> = (props) => {
         props.onChange(event);
       }
     },
-    200,
+    500,
   );
 
   const handleOnChange = useCallback(
