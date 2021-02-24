@@ -1,4 +1,4 @@
-export default interface PatientPolicy {
+export default interface PatientPolicy<Array> {
   id: number;
   begDate: string;
   endDate: string;
@@ -9,4 +9,5 @@ export default interface PatientPolicy {
   policyKindId: number;
   insurerId: number;
   clientId: number;
+  type: number | undefined,
 }

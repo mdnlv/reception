@@ -33,8 +33,12 @@ export default {
   fetchHurtFactorTypes(): Promise<AxiosResponse<RbHurtFactorType[]>> {
     return apiInstance.get(`/refBooks/rbHurtFactorType`);
   },
-  fetchPersons(limit = 1000): Promise<AxiosResponse<RbPersonResponse[]>> {
+  fetchPersons(limit = 10): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
+  },
+  
+  fetchPersonsFind(query?:string): Promise<AxiosResponse<RbPersonResponse[]>> {
+    return apiInstance.post(`/person/find`,{value:query,limit:10});
   },
   fetchEventTypes(limit = 1000): Promise<AxiosResponse<RbEventTypeResponse[]>> {
     return apiInstance.get(`/eventType?deleted=0&limit=${limit}`);

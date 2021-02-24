@@ -43,7 +43,7 @@ const SocialStatus: FC = () => {
                                 <FormField label={'Дата начала'}>
                                     <DatePicker value={moment()} onChange={(_, date) => {
                                         form.setFieldValue(`socialStatus[${index}].fromDate`, date)
-                                    }}/>>
+                                    }}/>
                                 </FormField>
                             </Col>
                             <Col>

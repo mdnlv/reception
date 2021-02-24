@@ -24,7 +24,7 @@ const InputNumberFastField: React.FC<FieldProps> = ({value, onChange}) => {
     500,
   );
 
-  const handleOnChange = useCallback((value: number | string | undefined) => {
+  const handleOnChange = useCallback((value: number | string | undefined | null) => {
     const stringValue = value?.toString().replace('-', '');
     const numValue = stringValue ? parseInt(stringValue) : 0;
     setInnerValue(numValue as number);

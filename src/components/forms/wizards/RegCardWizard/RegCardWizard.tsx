@@ -6,6 +6,9 @@ import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
 import './styles.scss';
+import {
+  fetchRbPersonsSearch
+} from '../../../../reduxStore/slices/rb/rbSlice';
 import { RootState } from '../../../../reduxStore/store';
 import {
   fetchIdPatient,
@@ -55,6 +58,10 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     }
   }, [params]);
 
+const fetchDoctors = (value?:string) =>{
+dispatch(fetchRbPersonsSearch({query:value})) 
+}
+
   return isLoading ? (
     <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
       <Spin />
@@ -84,6 +91,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
               <Card>
                 <UserInfo
                   errors={errors}
+                  fetchDoctors={fetchDoctors}
                   onOpen={() => setShowValidError(true)}
                 />
               </Card>

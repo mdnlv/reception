@@ -11,6 +11,7 @@ import {
 import {
   fetchRbEventTypes,
   fetchRbPersons,
+  fetchRbPersonsSearch,
 } from '../../reduxStore/slices/rb/rbSlice';
 import { detailedEventsSelector } from '../../reduxStore/slices/patientCard/selectors';
 import { RootState } from '../../reduxStore/store';

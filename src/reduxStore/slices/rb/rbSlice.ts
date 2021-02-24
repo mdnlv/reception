@@ -40,6 +40,29 @@ export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
   } finally {
   }
 });
+export const fetchRbPersonsSearch = createAsyncThunk('rb/fetchPersonsSearch', 
+async (payload: { query:string }, thunkAPI) => {
+  try {
+    const response = await RbService.fetchPersonsFind(payload.query);
+    if (response.data) {
+      return response.data.map((item) => ({
+        id: item.id,
+        createDatetime: item.createDatetime,
+        createPersonId: item.createPerson_id,
+        modifyDatetime: item.modifyDatetime,
+        modifyPersonId: item.modifyPerson_id,
+        code: item.code,
+        lastName: item.lastName,
+        firstName: item.firstName,
+        patrName: item.patrName,
+        postId: item.post_id,
+        specialityId: item.speciality_id,
+      }));
+    }
+  } catch (e) {
+  } finally {
+  }
+});
 
 export const fetchRbEventTypes = createAsyncThunk(
   'rb/fetchEventTypes',
@@ -358,6 +381,11 @@ const rbSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRbPersons.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbPersons = action.payload;
+      }
+    });
+    builder.addCase(fetchRbPersonsSearch.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbPersons = action.payload;
       }

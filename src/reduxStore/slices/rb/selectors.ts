@@ -11,6 +11,9 @@ export const detailedInvalidReasonsSelector = createSelector(
     })),
 );
 
+
+
+
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
   (orgs) =>
@@ -31,6 +34,14 @@ export const detailedCMOSelector = createSelector(
 );
 
 export const detailedPersonsSelector = createSelector(
+  (state: RootState) => state.rb.rbPersons,
+  (persons) =>
+    persons.map((item) => ({
+      id: item.id,
+      name: `${item.lastName} ${item.firstName} ${item.patrName}`,
+    })),
+);
+export const detailedPersonsFindSelector = createSelector(
   (state: RootState) => state.rb.rbPersons,
   (persons) =>
     persons.map((item) => ({

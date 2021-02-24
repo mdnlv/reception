@@ -14,7 +14,7 @@ import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
 
 import {WizardStateType} from '../../types';
-import { detailedPersonsSelector } from '../../../../../../reduxStore/slices/rb/selectors';
+import { detailedPersonsFindSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import UserInfoTypes from "./types";
 
 import FormField from '../../../../components/FormField/FormField';
@@ -24,9 +24,9 @@ import FastInputNumber from '../../../../components/fields/FastInputNumber/FastI
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
+const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   const formProps = useFormikContext<WizardStateType>();
-  const persons = useSelector(detailedPersonsSelector);
+  const persons = useSelector(detailedPersonsFindSelector);
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
   const [snilsWarning, setSnilsWarning] = useState('');
@@ -56,11 +56,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
     return checkDigit === parseInt(valueInt.slice(-2))
   };
 
-  const personsOptions = persons.map((item) => (
-    <Select.Option key={item.id} name={item.name} value={item.id}>
-      {item.name}
-    </Select.Option>
-  ));
+  
+
 
   const snilsAlert = () => (
     <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
@@ -141,8 +138,20 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           {snilsWarning && snilsAlert()}
         </FormField>
         <FormField label="Лечащий врач">
-          <FastSearchSelect showSearch filterOption name={'name'}>
-            {personsOptions}
+          <FastSearchSelect 
+          showSearch 
+          filterOption
+          optionFilterProp={'name'} 
+          name={'name'}
+               onInput={(e) => {
+                fetchDoctors(e.target.value)
+              }}
+          >
+            {persons.map((item) => (
+        <Select.Option key={item.id} name={item.name} value={item.id}>
+         {item.name}
+        </Select.Option>
+       ))}
           </FastSearchSelect>
         </FormField>
         <Row>

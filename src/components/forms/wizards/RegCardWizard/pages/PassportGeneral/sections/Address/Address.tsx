@@ -30,6 +30,7 @@ const Address: FC<SectionProps> = ({
   const { id } = useParams<{ id: string }>();
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
+
   const [cleanable, setCleanable] = useState(false);
   const form = useFormikContext<WizardStateType>();
   const {documentedBuffer} = useSelector(kladrSelector);
@@ -238,7 +239,8 @@ const Address: FC<SectionProps> = ({
                     formValues.passportInfo[passportType].area ===
                     '9200000000000'
                   }
-                  onKeyPress={(e) => {
+                  onFocus={() => setCleanable(true)}
+                  onInput={(e) => {
                     const value =  e.target.value 
                     getKladrNested(
                       formValues.passportInfo[passportType].area,
@@ -271,9 +273,11 @@ const Address: FC<SectionProps> = ({
                       '9200000000000' &&
                       !formValues.passportInfo[passportType].city)
                   }
-                  onKeyPress={(e) => {
+                  onFocus={() => setCleanable(true)}
+
+                  onInput={(e) => {
                     const value =  e.target.value 
-                  getKladrStreets(
+                     getKladrStreets(
                       formValues.passportInfo[passportType].area ===
                       '7800000000000' ||
                       formValues.passportInfo[passportType].area ===
