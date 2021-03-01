@@ -27,6 +27,7 @@
     "deep-equal": "^2.0.4",
     "formik": "^2.1.4",
     "formik-persist": "^1.1.0",
+    "idb": "^6.0.0",
     "moment": "^2.25.3",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

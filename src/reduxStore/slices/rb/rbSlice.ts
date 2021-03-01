@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import {get, set, del } from  '../../../services/IndexDbService';
+
 import Person from '../../../types/data/Person';
 import EventType from '../../../types/data/EventType';
 import Organisation from '../../../types/data/Organisation';
@@ -17,6 +19,21 @@ import SocialClass from '../../../types/data/SocialClass';
 import HurtType from '../../../types/data/HurtType';
 import HurtFactorType from '../../../types/data/HurtFactorType';
 import OrgStructure from "../../../types/data/OrgStructure";
+
+
+
+export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum', 
+async (payload: { name:string }, thunkAPI) => {
+  try {
+    const response = await RbService.fetchGetCheckSum(payload.name);
+    if (response.data) {
+        return response.data
+    }
+  } catch (e) {
+  } finally {
+  }
+});
+
 
 export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
   try {
@@ -89,10 +106,22 @@ export const fetchRbEventTypes = createAsyncThunk(
 export const fetchRbOrganisations = createAsyncThunk(
   'rb/fetchOrganisations',
   async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setLoading({ type: 'organisations', value: true }));
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Organisation"}))
+
+      const currentCheckSum =  await get('OrganisationSum') || ''
+  
+      const isCheckSum = currentCheckSum === checksum.payload
+
+     thunkAPI.dispatch(setLoading({ type: 'organisations', value: true }));
     try {
-      const response = await RbService.fetchOrganisation();
+      const response = isCheckSum ? await get('Organisation'):  await RbService.fetchOrganisation() 
       if (response.data) {
+        if(!isCheckSum){
+         await del('OrganisationSum')
+         await del('Organisation') 
+         await set('OrganisationSum',checksum.payload)
+         await set('Organisation',{data:response.data})
+        }
         return response.data;
       }
     } catch (e) {
@@ -106,10 +135,21 @@ export const fetchRbOrganisations = createAsyncThunk(
 
 export const fetchRbInvalidReasons = createAsyncThunk(
   'rb/fetchInvalidReasons',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await thunkAPI.dispatch(fetchCheckSum({name:"rbTempInvalidReason"}))
+
+    const currentCheckSum =  await get('rbTempInvalidReasonSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchInvalidReasons();
+      const response = isCheckSum ? await get('rbTempInvalidReason'):  await RbService.fetchInvalidReasons();
       if (response.data) {
+        if(!isCheckSum){
+          await del('rbTempInvalidReasonSum')
+          await del('rbTempInvalidReason') 
+          await set('rbTempInvalidReasonSum',checksum.payload)
+          await set('rbTempInvalidReason',{data:response.data})
+         }
         return response.data;
       }
     } catch (e) {
@@ -121,10 +161,23 @@ export const fetchRbInvalidReasons = createAsyncThunk(
 export const fetchRbDocumentTypes = createAsyncThunk(
   'rb/fetchDocumentTypes',
   async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbDocumentType"}))
+
+    const currentCheckSum =  await get('rbDocumentTypeSum') || ''
+  
+    const isCheckSum = currentCheckSum === checksum.payload
+
+
     thunkAPI.dispatch(setLoading({ type: 'documentTypes', value: true }));
     try {
-      const response = await RbService.fetchDocumentTypes();
+      const response = isCheckSum? await get('rbDocumentType'): await RbService.fetchDocumentTypes();
       if (response.data) {
+        if(!isCheckSum){
+          await del('rbDocumentTypeSum')
+          await del('rbDocumentType') 
+          await set('rbDocumentTypeSum',checksum.payload)
+          await set('rbDocumentType',{data:response.data})
+        }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -138,12 +191,25 @@ export const fetchRbDocumentTypes = createAsyncThunk(
   },
 );
 
+
+
 export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
   'rb/fetchInvaludDocuments',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbTempInvalidDocument"}))
+
+    const currentCheckSum =  await get('rbTempInvalidDocumentSum') || ''
+  
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchInvalidDocumentTypes();
+      const response = isCheckSum? await get('rbTempInvalidDocument'): await RbService.fetchInvalidDocumentTypes();;
       if (response.data) {
+        if(!isCheckSum){
+          await del('rbTempInvalidDocumentSum')
+          await del('rbTempInvalidDocument') 
+          await set('rbTempInvalidDocumentSum',checksum.payload)
+          await set('rbTempInvalidDocument',{data:response.data})
+        }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -158,10 +224,21 @@ export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
 
 export const fetchRbAccountingSystem = createAsyncThunk(
   'rb/fetchAccountingSystem',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbAccountingSystem"}))
+
+    const currentCheckSum =  await get('rbAccountingSystemSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchAccountingSystem();
+      const response = isCheckSum? await get('rbAccountingSystem'): await RbService.fetchAccountingSystem();
       if (response.data) {
+        if(!isCheckSum){
+          await del('rbAccountingSystemSum')
+          await del('rbAccountingSystem') 
+          await set('rbAccountingSystemSum',checksum.payload)
+          await set('rbAccountingSystem',{data:response.data})
+        }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -175,9 +252,20 @@ export const fetchRbAccountingSystem = createAsyncThunk(
 
 export const fetchRbAttachTypes = createAsyncThunk(
   'rb/fetchAttachTypes',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbAttachType"}))
+
+    const currentCheckSum =  await get('rbAttachTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchAttachTypes();
+      const response = isCheckSum? await get('rbAttachType'): await RbService.fetchAttachTypes()
+        if(!isCheckSum){
+          await del('rbAttachTypeSum')
+          await del('rbAttachType') 
+          await set('rbAttachTypeSum',checksum.payload)
+          await set('rbAttachType',{data:response.data})
+        }
       if (response.data) {
         return response.data.map((item) => ({
           id: item.id,
@@ -192,10 +280,21 @@ export const fetchRbAttachTypes = createAsyncThunk(
 
 export const fetchRbPolicyTypes = createAsyncThunk(
   'rb/fetchPolicyTypes',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbPolicyType"}))
+
+    const currentCheckSum =  await get('rbPolicyTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchPolicyTypes();
+      const response = isCheckSum? await get('rbPolicyType'): await RbService.fetchAttachTypes()
       if (response.data) {
+      if(!isCheckSum){
+        await del('rbPolicyTypeSum')
+        await del('rbPolicyType') 
+        await set('rbPolicyTypeSum',checksum.payload)
+        await set('rbPolicyType',{data:response.data})
+      }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -209,11 +308,23 @@ export const fetchRbPolicyTypes = createAsyncThunk(
 
 export const fetchRbOrgStructure = createAsyncThunk(
   'rb/fetchOrgStructure',
-  async (_, thunkAPI) => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"OrgStructure"}))
+
+    const currentCheckSum =  await get('OrgStructureSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
+    
     thunkAPI.dispatch(setLoading({ type: 'orgStructure', value: true }));
     try {
-      const response = await RbService.fetchOrgStructure();
+      const response = isCheckSum? await get('OrgStructure'): await RbService.fetchOrgStructure()
       if (response.data) {
+      if(!isCheckSum){
+        await del('OrgStructureSum')
+        await del('OrgStructure') 
+        await set('OrgStructureSum',checksum.payload)
+        await set('OrgStructure',{data:response.data})
+      }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -229,10 +340,21 @@ export const fetchRbOrgStructure = createAsyncThunk(
 
 export const fetchRbPolicyKind = createAsyncThunk(
   'rb/fetchPolicyKind',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbPolicyKind"}))
+
+    const currentCheckSum =  await get('rbPolicyKindSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchPolicyKind();
+      const response = isCheckSum? await get('rbPolicyKind'): await RbService.fetchPolicyKind()
       if (response.data) {
+      if(!isCheckSum){
+        await del('rbPolicyKindSum')
+        await del('rbPolicyKind') 
+        await set('rbPolicyKindSum',checksum.payload)
+        await set('rbPolicyKind',{data:response.data})
+      }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -246,10 +368,21 @@ export const fetchRbPolicyKind = createAsyncThunk(
 
 export const fetchRbContactTypes = createAsyncThunk(
   'rb/fetchContactTypes',
-  async () => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbContactType"}))
+
+    const currentCheckSum =  await get('rbContactTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchContactTypes();
+      const response = isCheckSum? await get('rbContactType'): await RbService.fetchContactTypes();
       if (response.data) {
+      if(!isCheckSum){
+        await del('rbContactTypeSum')
+        await del('rbContactType') 
+        await set('rbContactTypeSum',checksum.payload)
+        await set('rbContactType',{data:response.data})
+      }
         return response.data.map((item) => ({
           id: item.id,
           name: item.name,
@@ -264,14 +397,26 @@ export const fetchRbContactTypes = createAsyncThunk(
 
 export const fetchRbSocialStatusType = createAsyncThunk(
   'rb/fetchRbSocialStatusType',
-  async (_, thunkAPI) => {
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusType"}))
+
+    const currentCheckSum =  await get('rbSocStatusTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: true }));
     try {
-      const response = await RbService.fetchSocialTypes();
-      if (response.status === 200) {
-        return response.data;
+      const response = isCheckSum? await get('rbSocStatusType'): await RbService.fetchSocialTypes();
+      if (response.data) {
+      if(!isCheckSum){
+        await del('rbSocStatusTypeSum')
+        await del('rbSocStatusType') 
+        await set('rbSocStatusTypeSum',checksum.payload)
+        await set('rbSocStatusType',{data:response.data})
       }
-    } catch (e) {
+        return response.data;
+      
+    }
+  } catch (e) {
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: false }));
@@ -281,28 +426,55 @@ export const fetchRbSocialStatusType = createAsyncThunk(
 
 export const fetchRbSocialStatusClass = createAsyncThunk(
   'rb/fetchRbSocialStatusClass',
-  async (_, thunkApi) => {
-    thunkApi.dispatch(setLoading({ value: true, type: 'socialClasses' }));
+  async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ value: true, type: 'socialClasses' }));
+
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusClass"}))
+
+    const currentCheckSum =  await get('rbSocStatusClassSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
+
     try {
-      const response = await RbService.fetchSocialClasses();
-      if (response.status === 200) {
-        return response.data;
+      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialTypes();
+      if (response.data) {
+      if(!isCheckSum){
+        await del('rbSocStatusClassSum')
+        await del('rbSocStatusClass') 
+        await set('rbSocStatusClassSum',checksum.payload)
+        await set('rbSocStatusClass',{data:response.data})
       }
+    }
     } catch (e) {
       alert(e)
     } finally {
-      thunkApi.dispatch(setLoading({ value: false, type: 'socialClasses' }));
+      thunkAPI.dispatch(setLoading({ value: false, type: 'socialClasses' }));
     }
   },
 );
 
 export const fetchRbHurtType = createAsyncThunk(
   'rb/fetchRbHurtType',
-  async (_, thunkAPI) => {
+  async (arg, thunkAPI) => {
     thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: true }));
+
+
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbHurtType"}))
+
+    const currentCheckSum =  await get('rbHurtTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchHurtTypes();
-      if (response.status === 200) {
+
+      const response = isCheckSum? await get('rbHurtType'): await RbService.fetchHurtTypes();
+      if (response.data) {
+      if(!isCheckSum){
+        await del('rbHurtTypeSum')
+        await del('rbHurtType') 
+        await set('rbHurtTypeSum',checksum.payload)
+        await set('rbHurtType',{data:response.data})
+      }
+    
         return response.data;
       }
     } catch (e) {
@@ -315,11 +487,25 @@ export const fetchRbHurtType = createAsyncThunk(
 
 export const fetchRbHurtFactorTypes = createAsyncThunk(
   'rb/fetchRbHurtFactorType',
-  async (_, thunkAPI) => {
+  async (arg, thunkAPI) => {
     thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: true }));
+
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbHurtFactorType"}))
+
+    const currentCheckSum =  await get('rbHurtFactorTypeSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = await RbService.fetchHurtFactorTypes();
-      if (response.status === 200) {
+
+      const response = isCheckSum? await get('rbHurtFactorType'): await RbService.fetchHurtFactorTypes()
+      if (response.data) {
+      if(!isCheckSum){
+        await del('rbHurtFactorTypeSum')  
+        await del('rbHurtFactorType') 
+        await set('rbHurtFactorTypeSum',checksum.payload)
+        await set('rbHurtFactorType',{data:response.data})
+      }
+    
         return response.data;
       }
     } catch (e) {
@@ -333,6 +519,22 @@ export const fetchRbHurtFactorTypes = createAsyncThunk(
 const rbSlice = createSlice({
   name: 'rb',
   initialState: {
+    checksum:{
+      rbEventTypes:'',
+      rbOrganisations:'',
+      rbInvalidReasons:'',
+      rbInvalidDocuments:'',
+      rbAccountingSystem:'',
+      rbAttachTypes: '',
+      rbPolicyTypes: '',
+      rbContactTypes: '',
+      rbOrgStructure: '',
+      rbDocumentTypes: '',
+      rbSocialTypes: '',
+      rbSocialClasses: '',
+      rbHurtTypes: '',
+      rbHurtFactorTypes: ''
+    },
     rbPersons: [] as Person[],
     rbEventTypes: [] as EventType[],
     rbOrganisations: [] as Organisation[],

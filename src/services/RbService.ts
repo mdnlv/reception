@@ -43,6 +43,11 @@ export default {
   fetchEventTypes(limit = 1000): Promise<AxiosResponse<RbEventTypeResponse[]>> {
     return apiInstance.get(`/eventType?deleted=0&limit=${limit}`);
   },
+
+  fetchGetCheckSum(name:string): Promise<AxiosResponse<any>> {
+    return apiInstance.get(`/refBooks/${name}/checksum`);
+  },
+
   fetchOrganisation(): Promise<AxiosResponse<RbOrganisationResponse[]>> {
     return apiInstance.get(`/refBooks/Organisation`);
   },
