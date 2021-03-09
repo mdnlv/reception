@@ -14,7 +14,7 @@ export interface FormProps {
   onFindPolicy(policy: FindPolicyParams, type: 'oms' | 'dms'): void;
   isLoading: boolean;
   isCmoLoading: boolean;
-  foundPolicy?: PassportPolicyType;
+  foundPolicy?: PassportPolicyType | any;
   error?: {
     timeType: string;
     cmo: string;

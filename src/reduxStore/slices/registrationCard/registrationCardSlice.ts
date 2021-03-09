@@ -87,7 +87,7 @@ export const fetchKladrNested = createAsyncThunk(
 
 export const fetchKladrStreets = createAsyncThunk(
   'registrationCard/fetchKladrStreets',
-  async (payload: { id: string; type?: KladrDocType,value:string }, thunkAPI) => {
+  async (payload: { id: string; type?: KladrDocType,value?:string }, thunkAPI) => {
     thunkAPI.dispatch(
       setKladrStreetsLoading({ value: true, type: payload.type }),
     );
@@ -268,6 +268,7 @@ const registrationCardSlice = createSlice({
           snils: transformedPatient.snils,
           startCardDate: transformedPatient.chartBeginDate
         };
+        // @ts-ignore
         state.initialFormState.passportGeneral.passportInfo = {
           ...(transformedPatient.address.length > 0) ? {
             addressRegistration: {
@@ -312,7 +313,9 @@ const registrationCardSlice = createSlice({
           serialFirst: transformedPatient.client_document_info.serial.substr(0,1),
           serialSecond: transformedPatient.client_document_info.serial.substr(2),
         };
+        // @ts-ignore
         state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
+        // @ts-ignore
         state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
           dmsFound.length > 0
@@ -333,6 +336,7 @@ const registrationCardSlice = createSlice({
             fromDate: item.fromDate,
             endDate: item.endDate,
           }));
+          // @ts-ignore
         state.initialFormState.socialStatus.trustedDoc =
           transformedPatient.socialStatus.map((item) => (
             item.document ? {
@@ -344,6 +348,7 @@ const registrationCardSlice = createSlice({
               givenBy: item.document.origin,
             } : {}
           ));
+          // @ts-ignore
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
             organization: item.id ? item.id.toString() : item.freeInput,
@@ -434,10 +439,12 @@ const registrationCardSlice = createSlice({
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload && action.payload.type === 'oms') {
         state.form.foundPolicies.oms.items = [
+          // @ts-ignore
           transformPolicySearchResponse(action.payload.data.data),
         ];
       } else if (action.payload?.type === 'dms') {
         state.form.foundPolicies.dms.items = [
+          // @ts-ignore
           transformPolicySearchResponse(action.payload.data.data),
         ];
       }

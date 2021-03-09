@@ -73,7 +73,7 @@ export const initialState: RegistrationCardState = {
     attachments: [] as PersonAttachment[],
   },
   employment: {
-    employments: [] as EmploymentItem[],
+    employment: [] as EmploymentItem[],
     hazardHistory: [] as EmploymentHazardItem[],
   },
   etc: {
@@ -96,6 +96,7 @@ export const initialState: RegistrationCardState = {
     outsideIds: [] as PersonOutsideId[],
   },
   passportGeneral: {
+    // @ts-ignore
     passportInfo: {
       passportType: '',
       serial: '',
@@ -109,6 +110,7 @@ export const initialState: RegistrationCardState = {
         street: '',
         isDocumentedAddress: false,
         freeInput: '',
+        flatNumber: ''
       },
       documentedAddress: {
         isKLADR: true,
@@ -117,6 +119,7 @@ export const initialState: RegistrationCardState = {
         street: '',
         isDocumentedAddress: false,
         freeInput: '',
+        
       },
     },
     contacts: [] as PassportContactType[],
@@ -203,6 +206,7 @@ export function RegistrationCardReducer(
             ...state,
             data: {
               passportGeneral: {
+                // @ts-ignore
                 documentedAddress: {
                   ...state.data.passportGeneral.documentedAddress,
                   kladr: action.payload.items,
@@ -210,7 +214,7 @@ export function RegistrationCardReducer(
                   kladrStreets: [],
                 },
                 ...state.data.passportGeneral,
-              },
+              }, 
             },
           };
         case 'registration':

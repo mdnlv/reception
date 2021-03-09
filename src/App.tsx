@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { Col, Layout, Row } from 'antd/lib';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 import useInitialFetch from './reduxStore/hooks/initialFetch';
 

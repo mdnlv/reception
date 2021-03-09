@@ -21,11 +21,11 @@ export interface PassportAddressType {
   [key: string]: any;
   isKLADR: boolean;
   city: string;
-  area?: string;
+  area: string;
   street?: string;
   houseNumber?: string | number;
   houseCharacter?: string | number;
-  flatNumber: string | null | number;
+  flatNumber?: string | null | number;
   isDocumentedAddress: boolean;
   freeInput: string;
 }
@@ -33,20 +33,22 @@ export interface PassportAddressType {
 export default interface FormState {
   passportInfo: {
     passportType: string;
-    serialFirst: string;
+    serialFirst?: string;
     serialSecond: string;
-    number: string;
-    fromDate: any;
-    givenBy: string;
+    number?: string;
+    fromDate?: any;
+    givenBy?: string;
+    serial?:string;
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
+    
   };
   contacts: PassportContactType[];
   policyOms: {
     id?: number;
     timeType?: string;
-    from: string;
-    to: string;
+    from: string | Date;
+    to: string | Date;
     serial: string;
     number: string;
     cmo: string;
@@ -57,8 +59,8 @@ export default interface FormState {
   policyDms: {
     id?: number;
     timeType?: string;
-    from: string;
-    to: string;
+    from: string | Date;
+    to: string | Date;
     serial: string;
     number: string;
     cmo: string;

@@ -24,6 +24,7 @@ const PersonPolicy: FC<SectionProps> = ({
       <DropDownContent title={'Полис'}>
         <ArrayFieldWrapper<PassportPolicyType>
           name={'passportGeneral'}
+          // @ts-ignore
           values={[formValues.policyOms, formValues.policyDms]}
           renderChild={(values, index) => (
             <Row key={index}>

@@ -16,6 +16,7 @@ const SocialStatusDoc: FC = () => {
         <div className={'form-section social-status-doc'}>
             <DropDownContent title={'Документ, подтверждающий соц.статус'}>
                 <FormArrayField<TrustedDoc>
+                // @ts-ignore
                   values={form.values.trustedDoc}
                   name={'trustedDoc'}
                   renderChild={
@@ -48,7 +49,8 @@ const SocialStatusDoc: FC = () => {
                                 <Col span={3}>
                                     <FormField label={'Дата'}>
                                         <DatePicker
-                                          value={moment(form.values.trustedDoc[index]?.date)}
+                                           // @ts-ignore 
+                                          value={moment(form?.values?.trustedDoc[index]?.date)}
                                           onChange={(_,date) => {
                                             form.setFieldValue(`trustedDoc[${index}].date`, date)
                                           }}

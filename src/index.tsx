@@ -19,7 +19,10 @@ moment.locale('ru');
 ReactDOM.render(
   <ConfigProvider locale={ruRu}>
     <Provider store={store}>
-      <App />
+      <// eslint-disable-line react/jsx-tag-spacing
+      // @ts-ignore
+      App
+      />
     </Provider>
   </ConfigProvider>,
   document.getElementById('root'),

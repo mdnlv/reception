@@ -19,6 +19,8 @@ import SocialClass from '../../../types/data/SocialClass';
 import HurtType from '../../../types/data/HurtType';
 import HurtFactorType from '../../../types/data/HurtFactorType';
 import OrgStructure from "../../../types/data/OrgStructure";
+import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbDocumentType'
+import RbInvalidDocumentTypeResponse from "../../../../src/interfaces/responses/rb/rbInvalidDocumentType";
 
 
 
@@ -178,7 +180,7 @@ export const fetchRbDocumentTypes = createAsyncThunk(
           await set('rbDocumentTypeSum',checksum.payload)
           await set('rbDocumentType',{data:response.data})
         }
-        return response.data.map((item) => ({
+        return response.data.map((item:RbDocumentTypeResponse) => ({
           id: item.id,
           name: item.name,
         }));
@@ -210,7 +212,7 @@ export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
           await set('rbTempInvalidDocumentSum',checksum.payload)
           await set('rbTempInvalidDocument',{data:response.data})
         }
-        return response.data.map((item) => ({
+        return response.data.map((item:RbInvalidDocumentTypeResponse) => ({
           id: item.id,
           name: item.name,
           code: item.code,
@@ -239,7 +241,8 @@ export const fetchRbAccountingSystem = createAsyncThunk(
           await set('rbAccountingSystemSum',checksum.payload)
           await set('rbAccountingSystem',{data:response.data})
         }
-        return response.data.map((item) => ({
+        return response.data.map((item:{id: number;
+          name: string;}) => ({
           id: item.id,
           name: item.name,
         }));
@@ -267,7 +270,8 @@ export const fetchRbAttachTypes = createAsyncThunk(
           await set('rbAttachType',{data:response.data})
         }
       if (response.data) {
-        return response.data.map((item) => ({
+        return response.data.map((item:{ id: number;
+          name: string;}) => ({
           id: item.id,
           name: item.name,
         }));
@@ -295,7 +299,8 @@ export const fetchRbPolicyTypes = createAsyncThunk(
         await set('rbPolicyTypeSum',checksum.payload)
         await set('rbPolicyType',{data:response.data})
       }
-        return response.data.map((item) => ({
+        return response.data.map((item:{ id: number;
+          name: string;}) => ({
           id: item.id,
           name: item.name,
         }));
@@ -325,7 +330,7 @@ export const fetchRbOrgStructure = createAsyncThunk(
         await set('OrgStructureSum',checksum.payload)
         await set('OrgStructure',{data:response.data})
       }
-        return response.data.map((item) => ({
+        return response.data.map((item:OrgStructure) => ({
           id: item.id,
           name: item.name,
         }));
@@ -355,7 +360,8 @@ export const fetchRbPolicyKind = createAsyncThunk(
         await set('rbPolicyKindSum',checksum.payload)
         await set('rbPolicyKind',{data:response.data})
       }
-        return response.data.map((item) => ({
+        return response.data.map((item:{ id: number;
+          name: string;}) => ({
           id: item.id,
           name: item.name,
         }));
@@ -383,7 +389,9 @@ export const fetchRbContactTypes = createAsyncThunk(
         await set('rbContactTypeSum',checksum.payload)
         await set('rbContactType',{data:response.data})
       }
-        return response.data.map((item) => ({
+        return response.data.map((item:{  id: number;
+          name: string;
+          mask: string;}) => ({
           id: item.id,
           name: item.name,
           mask: item.mask.replace(/[0-9]/g, '1'),
@@ -599,7 +607,12 @@ const rbSlice = createSlice({
     });
     builder.addCase(fetchRbOrganisations.fulfilled, (state, action) => {
       if (action.payload) {
-        state.rbOrganisations = action.payload.map((item) => ({
+        state.rbOrganisations = action.payload.map((item:{  id: number;
+          fullName: string;
+          shortName: string;
+          isInsurer: 0 | 1;
+          INN: string;
+          OGRN: string;}) => ({
           id: item.id,
           fullName: item.fullName,
           shortName: item.shortName,
@@ -660,7 +673,9 @@ const rbSlice = createSlice({
       }
     });
     builder.addCase(fetchRbSocialStatusClass.fulfilled, (state, action) => {
+      // @ts-ignore
       if (action.payload) {
+        // @ts-ignore
         state.rbSocialClasses = action.payload;
       }
     });

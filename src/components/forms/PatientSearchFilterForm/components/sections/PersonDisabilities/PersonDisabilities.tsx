@@ -73,7 +73,6 @@ const PersonDisabilities: React.FC<SectionProps> = ({
       <Row>
         <Col span={12}>
           <FormField
-            error={form.errors.tempInvalidReasonId}
             label={'Причина нетрудоспособности'}>
             <FastSearchSelect
               showSearch

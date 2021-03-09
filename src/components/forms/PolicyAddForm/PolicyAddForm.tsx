@@ -35,6 +35,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const patrName = form.values.personal.patrName;
   const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
+  // @ts-ignore
   const docSerial = form.values.passportGeneral.passportInfo.serialFirst
     .concat(form.values.passportGeneral.passportInfo.serialSecond);
   const docNumber = form.values.passportGeneral.passportInfo.number;

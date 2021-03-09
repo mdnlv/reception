@@ -58,7 +58,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     }
   }, [params]);
 
-const fetchDoctors = (value?:string) =>{
+const fetchDoctors = (value:string) =>{
 dispatch(fetchRbPersonsSearch({query:value})) 
 }
 
@@ -90,6 +90,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
             <Col span={5}>
               <Card>
                 <UserInfo
+                // @ts-ignore
                   errors={errors}
                   fetchDoctors={fetchDoctors}
                   onOpen={() => setShowValidError(true)}
@@ -181,6 +182,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
             <RegCardValidation
               isVisible={showValidError}
               onClose={() => setShowValidError(false)}
+              // @ts-ignore
               errors={errors}
             />
           </Row>

@@ -58,7 +58,15 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     growth: height.toString(),
 
     client_document_info: [
-      ...trustedDoc.map((item) => ({
+      // @ts-ignore
+      ...trustedDoc.map((item:{
+        type:any;
+        serialFirst:any;
+        serialSecond: any;
+        number:any;
+        date:any;
+        givenBy:any;
+      }) => ({
         documentType_id: item.type,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
@@ -68,7 +76,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       })),
       {
         documentType_id: passportType,
-        serial: serialFirst.concat(serialSecond),
+        serial: serialFirst?.concat(serialSecond),
         number,
         date: toServerFormat(fromDate),
         origin: givenBy,

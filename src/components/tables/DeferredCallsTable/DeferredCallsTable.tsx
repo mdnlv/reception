@@ -8,7 +8,7 @@ interface DeferredCallsTableProps {
         fullName: string
         person: string
         org: string
-        netrica: string
+        netrica: string | number | null
         contact: string
     }[]
     isLoading: boolean

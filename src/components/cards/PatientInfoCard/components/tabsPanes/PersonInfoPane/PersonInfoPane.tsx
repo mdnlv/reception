@@ -16,7 +16,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const getMainPolicy = () => {
     let policyOms: PatientPolicyPane;
     const omsFound = patient?.policy?.filter((item) => item.type !== 3);
-    if (omsFound.length > 0) {
+    if (omsFound  && omsFound.length > 0) {
       policyOms = omsFound[omsFound.length - 1];
       return policyOms;
     }

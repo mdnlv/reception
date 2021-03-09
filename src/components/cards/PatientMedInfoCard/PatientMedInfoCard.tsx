@@ -33,8 +33,10 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = ({currentPatient}) => {
     const patientsAddress = currentPatient.address;
     for (let i = 0; i < patientsAddress.length; i++) {
       if (!patientsAddress[i].freeInput) {
+        
         dispatch(fetchKladrStreets(
           {
+            // @ts-ignore
             id: patientsAddress[i].address.KLADRCode,
             type: patientsAddress[i].type === 0 ? 'documented' : 'registration'
           }))
@@ -44,7 +46,7 @@ const PatientMedInfoCard: React.FC<InfoCardProps> = ({currentPatient}) => {
 
   const navigateBack = () => {
     navigation.goBack();
-  };
+  };  
 
   return (
     <div className={'patient-card'}>

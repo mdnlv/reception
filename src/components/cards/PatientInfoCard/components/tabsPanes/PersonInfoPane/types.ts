@@ -6,14 +6,14 @@ export type PaneProps = {
 };
 
 export interface PatientPolicyPane {
-  cmo: string;
-  from: string;
+  cmo?: string;
+  from: number | Date;
   id: number;
   name: string;
-  note: string;
+  note?: string;
   number: string;
   serial: string;
-  timeType: string;
-  to: string;
-  type: string;
+  timeType?: string;
+  to: number | Date ;
+  type?: number;
 }

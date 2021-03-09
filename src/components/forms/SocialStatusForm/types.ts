@@ -15,9 +15,10 @@ export interface TrustedDoc {
   number?: string;
   date?: any;
   givenBy?: string;
+ 
 }
 
 export interface FormState {
   socialStatus: SocialStatus[];
-  trustedDoc: TrustedDoc[] | {};
+  trustedDoc: TrustedDoc[] | [];
 }

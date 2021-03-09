@@ -55,6 +55,7 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
       errNameArr.push(key)
     }
     return errNameArr.map((item, index) => (
+      // @ts-ignore
       <Descriptions.Item key={index} label={getTabName(item)}>{getErrorNames(errors[item])}</Descriptions.Item>
     ))
   }, [isVisible]);

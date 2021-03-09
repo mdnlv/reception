@@ -92,6 +92,7 @@ const Policy: React.FC<SectionProps> = ({
               <Col span={10}>
                   <FormField>
                       <Select
+                      // @ts-ignore
                         value={formValues[0].type}
                         onChange={(val) => {
                             form.setFieldValue(`${sectionValuePath}.type`, val);

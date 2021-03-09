@@ -13,7 +13,7 @@ import {
 } from './types';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import RbService from '../../services/RbService';
-import { fetchPatientsError } from '../patients/actions';
+// import { fetchPatientsError } from '../patients/actions';
 import { AxiosResponse } from 'axios';
 import RbPersonResponse from '../../interfaces/responses/rb/rbPerson';
 import {
@@ -75,7 +75,7 @@ function* asyncFetchPersons() {
       yield put(setRbPersons(formattedData));
     }
   } catch (e) {
-    yield put(fetchPatientsError());
+    // yield put(fetchPatientsError());
   } finally {
   }
 }
@@ -222,6 +222,7 @@ function* asyncFetchPolicyKinds() {
 function* asyncFetchContactTypes() {
   try {
     const contactTypes: AxiosResponse<RbContactTypeResponse[]> = yield call(
+      // @ts-ignore
       RbService.fetchContactType,
     );
     if (contactTypes.data) {
@@ -239,6 +240,7 @@ function* asyncFetchDocumentTypes() {
   try {
     const documentTypes: AxiosResponse<
       RbPatientDocumentTypeResponse[]
+      // @ts-ignore
     > = yield call(RbService.fetchPatientDocumentTypes);
     if (documentTypes.data) {
       const formattedData = documentTypes.data.map((item) => ({
