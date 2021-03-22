@@ -18,6 +18,7 @@ const InputNumberFastField: React.FC<FieldProps> = ({value, onChange}) => {
   const debouncedCallback = useDebouncedCallback(
     (value: number | string | undefined) => {
       if (onChange) {
+        // @ts-ignore
         onChange(value);
       }
     },
