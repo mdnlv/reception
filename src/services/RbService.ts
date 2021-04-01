@@ -11,7 +11,8 @@ import RbAttachTypeResponse from '../interfaces/responses/rb/rbAttachType';
 import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
 import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
 import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
-import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
+import RbRelationTypeResponse from '../interfaces/responses/rb/rbRelationType';
+import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType'; 
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
@@ -57,6 +58,11 @@ export default {
   fetchDocumentTypes(): Promise<AxiosResponse<RbDocumentTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbDocumentType');
   },
+  fetchRelationTypes(): Promise<AxiosResponse<RbRelationTypeResponse[]>> {
+    return apiInstance.get('/refBooks/rbRelationType');
+  },
+
+
   fetchInvalidDocumentTypes(): Promise<
     AxiosResponse<RbInvalidDocumentTypeResponse[]>
     > {

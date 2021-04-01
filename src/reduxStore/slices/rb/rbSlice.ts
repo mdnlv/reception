@@ -21,7 +21,7 @@ import HurtFactorType from '../../../types/data/HurtFactorType';
 import OrgStructure from "../../../types/data/OrgStructure";
 import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbDocumentType'
 import RbInvalidDocumentTypeResponse from "../../../../src/interfaces/responses/rb/rbInvalidDocumentType";
-
+import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
 
 
 export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum', 
@@ -104,6 +104,21 @@ export const fetchRbEventTypes = createAsyncThunk(
     }
   },
 );
+
+export const fetchRbRelationTypes = createAsyncThunk(
+  'rb/fetchRelationTypes',
+  async (payload: { sex:number }, thunkAPI) => {
+    try {
+      const response = await RbService.fetchRelationTypes();
+      if (response.data) {
+          return response.data
+      }
+    } catch (e) {
+    } finally {
+    }
+  },
+);
+
 
 export const fetchRbOrganisations = createAsyncThunk(
   'rb/fetchOrganisations',
@@ -559,6 +574,8 @@ const rbSlice = createSlice({
     rbSocialClasses: [] as SocialClass[],
     rbHurtTypes: [] as HurtType[],
     rbHurtFactorTypes: [] as HurtFactorType[],
+    rbRelationTypesDirectLink: [] as RelatiionsTypes[],
+    rbRelationTypesRelativeLink: [] as RelatiionsTypes[],
     loading: {
       attachTypes: false,
       organisations: false,
@@ -627,6 +644,16 @@ const rbSlice = createSlice({
         state.rbInvalidReasons = action.payload;
       }
     });
+    builder.addCase(fetchRbRelationTypes.fulfilled, (state, action) => {
+      if (action.payload) {
+         const personSex = action.meta.arg.sex+1 
+         state.rbRelationTypesDirectLink = action.payload.filter((relation)=> personSex === relation.leftSex || relation.leftSex === 0)
+         state.rbRelationTypesRelativeLink = action.payload.filter((relation)=> personSex === relation.rightSex || relation.rightSex === 0)
+
+      }
+
+    });
+
     builder.addCase(fetchRbInvalidDocumentsTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbInvalidDocuments = action.payload;

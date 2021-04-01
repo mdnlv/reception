@@ -4,5 +4,6 @@ export interface SearchSelectProps extends SelectProps<SelectValue> {
   name: string;
   isDisabled?: boolean;
   onFocus?: () => void;
+  onSearch?: (val:string) => void;
   onInput?(event: React.ChangeEvent<HTMLInputElement>): unknown;
 }

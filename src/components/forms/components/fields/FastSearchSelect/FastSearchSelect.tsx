@@ -15,6 +15,9 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
       {...props}
       value={value}
       disabled={props.isDisabled}
+      onSearch={(val) => {
+      props.onSearch && props?.onSearch(val)
+      }}
       onChange={(val) => {
         form.setValue(val);
       }}

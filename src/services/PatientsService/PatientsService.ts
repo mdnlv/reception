@@ -41,9 +41,11 @@ export default {
 
   queryPatients(
     query: string,
+    limit = 20,
   ): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
-    return apiInstance.post(`/client/find?limit=20&deleted=0`, {
+    return apiInstance.post(`/client/find?&deleted=0`, {
       value: query,
+      limit:limit,
     });
   },
 

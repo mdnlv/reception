@@ -33,13 +33,13 @@ const MainPage: FC = () => {
     dispatch(fetchKladr({}));
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchSchedules({
-      id: 1150,
-      year: 2019,
-      month: 12
-    }))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchSchedules({
+  //     id: 1150,
+  //     year: 2019,
+  //     month: 12
+  //   }))
+  // }, [])
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {

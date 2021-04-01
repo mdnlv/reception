@@ -4,7 +4,8 @@ export interface WrapperProps<T> {
   name: string;
   values: T[];
   renderChild: (item: T, index: number) => React.ReactNode;
-  onAddItem?(): void;
+  onAddItem?(type?:string): void;
   onRemoveItem?(): void;
   showActions?: boolean;
 }
+ 
