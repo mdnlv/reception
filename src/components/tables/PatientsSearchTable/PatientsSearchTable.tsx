@@ -50,7 +50,8 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
 
   const onSearchButtonClick = (query: string) => {
     dispatch(setIsSearchingPatients(true));
-    dispatch(fetchQueryPatients(query));
+    dispatch(fetchQueryPatients({query:query,limit:5}))
+
   }
 
   const onTableRowClick = (id: number) => {
