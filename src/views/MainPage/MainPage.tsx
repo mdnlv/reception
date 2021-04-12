@@ -6,7 +6,7 @@ import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { RootState } from '../../reduxStore/store';
-import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+// import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
 import {fetchSchedules} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
