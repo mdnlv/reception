@@ -18,7 +18,7 @@ import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferred
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
-  const schedules = useSelector(detailedSchedules);
+  // const schedules = useSelector(detailedSchedules);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
@@ -77,7 +77,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ScheduleTable schedules={schedules}/>
+           {/* <ScheduleTable schedules={schedules}/> */}
         </Col>
       </Row>
     </div>
