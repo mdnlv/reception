@@ -3,6 +3,7 @@ import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { RootState } from '../../../../../../reduxStore/store';
 import { useSelector, useDispatch } from 'react-redux';
+
 import {
   fetchRbRelationTypes
 } from '../../../../../../reduxStore/slices/rb/rbSlice';
@@ -45,10 +46,10 @@ const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     forwardRef: '',
     patientLink: ''
   };
-  
+
     const newArr = [...formValues[type], links];
     form.setFieldValue(`links.${type}`, newArr);
-  
+
 }, [formValues,patientSex]);
 
 const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
@@ -88,7 +89,7 @@ const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
   }
 
   const getSelectionPath = (index: number, linkType:string, fieldChain: string) => {
-  
+
     return `${sectionValuePath}.${linkType}[${index}].${fieldChain}`;
   };
 

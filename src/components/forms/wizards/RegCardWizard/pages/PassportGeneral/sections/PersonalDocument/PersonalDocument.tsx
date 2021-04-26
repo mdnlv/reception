@@ -1,9 +1,6 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useMemo} from 'react';
 import { Col, Row, Select } from 'antd';
-import { useFormikContext } from 'formik';
-import moment from 'moment';
 
-import { WizardStateType } from '../../../../types';
 import {SectionProps, LABELS} from "./types";
 
 import FormField from '../../../../../../components/FormField/FormField';
@@ -14,10 +11,7 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalDocument: FC<SectionProps> = ({
   documentTypes,
   isLoadingDocuments,
-  error
 }) => {
-  const form = useFormikContext<WizardStateType>();
-  const formProps = form.values.passportGeneral.passportInfo;
   const selectionValuePath = 'passportGeneral.passportInfo';
 
   const documentTypeOptions = useMemo(() => {

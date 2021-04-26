@@ -56,9 +56,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
     return checkDigit === parseInt(valueInt.slice(-2))
   };
 
-  
-
-
   const snilsAlert = () => (
     <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
       {snilsWarning}
@@ -138,10 +135,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
           {snilsWarning && snilsAlert()}
         </FormField>
         <FormField label="Лечащий врач">
-          <FastSearchSelect 
-          showSearch 
+          <FastSearchSelect
+          showSearch
           filterOption
-          optionFilterProp={'name'} 
+          optionFilterProp={'name'}
           name={'name'}
                onInput={(e) => {
                 fetchDoctors(e.target.value)

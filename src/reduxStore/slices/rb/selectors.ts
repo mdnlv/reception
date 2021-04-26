@@ -11,9 +11,6 @@ export const detailedInvalidReasonsSelector = createSelector(
     })),
 );
 
-
-
-
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
   (orgs) =>

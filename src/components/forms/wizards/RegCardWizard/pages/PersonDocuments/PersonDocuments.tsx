@@ -11,14 +11,12 @@ import {
   detailedSocialTypesSelector,
   socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
+import {RootState} from '../../../../../../reduxStore/store';
 
-import PersonalIdent from '../../../../PersonDocumentsForm/components/sections/PersonalIdent/PersonalIdent';
 import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
-import SocialStatus from '../../../../PersonDocumentsForm/components/sections/SocialStatus/SocialStatus';
 import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
 import Status from '../SocialStatus/sections/Status/Status';
 import PersonalDocument from '../PassportGeneral/sections/PersonalDocument/PersonalDocument';
-import { RootState } from '../../../../../../reduxStore/store';
 
 const PersonDocuments: React.FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);

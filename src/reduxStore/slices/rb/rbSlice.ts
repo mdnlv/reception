@@ -24,7 +24,7 @@ import RbInvalidDocumentTypeResponse from "../../../../src/interfaces/responses/
 import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
 
 
-export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum', 
+export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum',
 async (payload: { name:string }, thunkAPI) => {
   try {
     const response = await RbService.fetchGetCheckSum(payload.name);
@@ -59,7 +59,8 @@ export const fetchRbPersons = createAsyncThunk('rb/fetchPersons', async () => {
   } finally {
   }
 });
-export const fetchRbPersonsSearch = createAsyncThunk('rb/fetchPersonsSearch', 
+
+export const fetchRbPersonsSearch = createAsyncThunk('rb/fetchPersonsSearch',
 async (payload: { query:string }, thunkAPI) => {
   try {
     const response = await RbService.fetchPersonsFind(payload.query);
@@ -126,16 +127,16 @@ export const fetchRbOrganisations = createAsyncThunk(
     const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Organisation"}))
 
       const currentCheckSum =  await get('OrganisationSum') || ''
-  
+
       const isCheckSum = currentCheckSum === checksum.payload
 
      thunkAPI.dispatch(setLoading({ type: 'organisations', value: true }));
     try {
-      const response = isCheckSum ? await get('Organisation'):  await RbService.fetchOrganisation() 
+      const response = isCheckSum ? await get('Organisation'):  await RbService.fetchOrganisation()
       if (response.data) {
         if(!isCheckSum){
          await del('OrganisationSum')
-         await del('Organisation') 
+         await del('Organisation')
          await set('OrganisationSum',checksum.payload)
          await set('Organisation',{data:response.data})
         }
@@ -163,7 +164,7 @@ export const fetchRbInvalidReasons = createAsyncThunk(
       if (response.data) {
         if(!isCheckSum){
           await del('rbTempInvalidReasonSum')
-          await del('rbTempInvalidReason') 
+          await del('rbTempInvalidReason')
           await set('rbTempInvalidReasonSum',checksum.payload)
           await set('rbTempInvalidReason',{data:response.data})
          }
@@ -181,7 +182,7 @@ export const fetchRbDocumentTypes = createAsyncThunk(
     const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbDocumentType"}))
 
     const currentCheckSum =  await get('rbDocumentTypeSum') || ''
-  
+
     const isCheckSum = currentCheckSum === checksum.payload
 
 
@@ -191,7 +192,7 @@ export const fetchRbDocumentTypes = createAsyncThunk(
       if (response.data) {
         if(!isCheckSum){
           await del('rbDocumentTypeSum')
-          await del('rbDocumentType') 
+          await del('rbDocumentType')
           await set('rbDocumentTypeSum',checksum.payload)
           await set('rbDocumentType',{data:response.data})
         }
@@ -208,22 +209,20 @@ export const fetchRbDocumentTypes = createAsyncThunk(
   },
 );
 
-
-
 export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
   'rb/fetchInvaludDocuments',
   async (arg, thunkAPI) => {
     const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbTempInvalidDocument"}))
 
     const currentCheckSum =  await get('rbTempInvalidDocumentSum') || ''
-  
+
     const isCheckSum = currentCheckSum === checksum.payload
     try {
       const response = isCheckSum? await get('rbTempInvalidDocument'): await RbService.fetchInvalidDocumentTypes();;
       if (response.data) {
         if(!isCheckSum){
           await del('rbTempInvalidDocumentSum')
-          await del('rbTempInvalidDocument') 
+          await del('rbTempInvalidDocument')
           await set('rbTempInvalidDocumentSum',checksum.payload)
           await set('rbTempInvalidDocument',{data:response.data})
         }
@@ -252,7 +251,7 @@ export const fetchRbAccountingSystem = createAsyncThunk(
       if (response.data) {
         if(!isCheckSum){
           await del('rbAccountingSystemSum')
-          await del('rbAccountingSystem') 
+          await del('rbAccountingSystem')
           await set('rbAccountingSystemSum',checksum.payload)
           await set('rbAccountingSystem',{data:response.data})
         }
@@ -280,7 +279,7 @@ export const fetchRbAttachTypes = createAsyncThunk(
       const response = isCheckSum? await get('rbAttachType'): await RbService.fetchAttachTypes()
         if(!isCheckSum){
           await del('rbAttachTypeSum')
-          await del('rbAttachType') 
+          await del('rbAttachType')
           await set('rbAttachTypeSum',checksum.payload)
           await set('rbAttachType',{data:response.data})
         }
@@ -310,7 +309,7 @@ export const fetchRbPolicyTypes = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbPolicyTypeSum')
-        await del('rbPolicyType') 
+        await del('rbPolicyType')
         await set('rbPolicyTypeSum',checksum.payload)
         await set('rbPolicyType',{data:response.data})
       }
@@ -334,14 +333,14 @@ export const fetchRbOrgStructure = createAsyncThunk(
     const currentCheckSum =  await get('OrgStructureSum') || ''
 
     const isCheckSum = currentCheckSum === checksum.payload
-    
+
     thunkAPI.dispatch(setLoading({ type: 'orgStructure', value: true }));
     try {
       const response = isCheckSum? await get('OrgStructure'): await RbService.fetchOrgStructure()
       if (response.data) {
       if(!isCheckSum){
         await del('OrgStructureSum')
-        await del('OrgStructure') 
+        await del('OrgStructure')
         await set('OrgStructureSum',checksum.payload)
         await set('OrgStructure',{data:response.data})
       }
@@ -371,7 +370,7 @@ export const fetchRbPolicyKind = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbPolicyKindSum')
-        await del('rbPolicyKind') 
+        await del('rbPolicyKind')
         await set('rbPolicyKindSum',checksum.payload)
         await set('rbPolicyKind',{data:response.data})
       }
@@ -400,7 +399,7 @@ export const fetchRbContactTypes = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbContactTypeSum')
-        await del('rbContactType') 
+        await del('rbContactType')
         await set('rbContactTypeSum',checksum.payload)
         await set('rbContactType',{data:response.data})
       }
@@ -432,12 +431,12 @@ export const fetchRbSocialStatusType = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbSocStatusTypeSum')
-        await del('rbSocStatusType') 
+        await del('rbSocStatusType')
         await set('rbSocStatusTypeSum',checksum.payload)
         await set('rbSocStatusType',{data:response.data})
       }
         return response.data;
-      
+
     }
   } catch (e) {
       alert(e)
@@ -463,7 +462,7 @@ export const fetchRbSocialStatusClass = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbSocStatusClassSum')
-        await del('rbSocStatusClass') 
+        await del('rbSocStatusClass')
         await set('rbSocStatusClassSum',checksum.payload)
         await set('rbSocStatusClass',{data:response.data})
       }
@@ -493,11 +492,11 @@ export const fetchRbHurtType = createAsyncThunk(
       if (response.data) {
       if(!isCheckSum){
         await del('rbHurtTypeSum')
-        await del('rbHurtType') 
+        await del('rbHurtType')
         await set('rbHurtTypeSum',checksum.payload)
         await set('rbHurtType',{data:response.data})
       }
-    
+
         return response.data;
       }
     } catch (e) {
@@ -523,12 +522,12 @@ export const fetchRbHurtFactorTypes = createAsyncThunk(
       const response = isCheckSum? await get('rbHurtFactorType'): await RbService.fetchHurtFactorTypes()
       if (response.data) {
       if(!isCheckSum){
-        await del('rbHurtFactorTypeSum')  
-        await del('rbHurtFactorType') 
+        await del('rbHurtFactorTypeSum')
+        await del('rbHurtFactorType')
         await set('rbHurtFactorTypeSum',checksum.payload)
         await set('rbHurtFactorType',{data:response.data})
       }
-    
+
         return response.data;
       }
     } catch (e) {
@@ -646,7 +645,7 @@ const rbSlice = createSlice({
     });
     builder.addCase(fetchRbRelationTypes.fulfilled, (state, action) => {
       if (action.payload) {
-         const personSex = action.meta.arg.sex+1 
+         const personSex = action.meta.arg.sex+1
          state.rbRelationTypesDirectLink = action.payload.filter((relation)=> personSex === relation.leftSex || relation.leftSex === 0)
          state.rbRelationTypesRelativeLink = action.payload.filter((relation)=> personSex === relation.rightSex || relation.rightSex === 0)
 
