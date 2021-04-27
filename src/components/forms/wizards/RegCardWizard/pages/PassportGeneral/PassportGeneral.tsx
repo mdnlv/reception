@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 
@@ -7,6 +7,7 @@ import {
   fetchKladrNested,
   fetchKladrStreets,
   findPatientPolicy,
+  resetPoliciesFound
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
   kladrLoadingsSelector,
@@ -28,6 +29,7 @@ import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
+import PoliciesFound from "../../../../../modals/PoliciesFound/PoliciesFound";
 
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
@@ -58,10 +60,21 @@ const PassportGeneral: React.FC = () => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
+  const [policyType, setPolicyType] = useState('' as 'oms' | 'dms' | '');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
+
+  useEffect(() => {
+    // dms.items.length > 0 && oms.items.length > 0 && setShowModal(true);
+    if (dms.items.length > 0 && policyType === 'dms') {
+      setShowModal(true);
+    } else if (oms.items.length > 0 && policyType === 'oms'){
+      setShowModal(true);
+    }
+  }, [dms, oms]);
 
   const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
@@ -81,7 +94,7 @@ const PassportGeneral: React.FC = () => {
   };
 
   const fetchKladrStreetsItems = (id: string, type: KladrDocType,value:string) => {
-    
+
     dispatch(fetchKladrStreets({ id, type,value }));
   };
 
@@ -89,7 +102,20 @@ const PassportGeneral: React.FC = () => {
     payload: FindPolicyParams,
     type: 'oms' | 'dms',
   ) => {
+    setPolicyType(type);
     dispatch(findPatientPolicy({ params: payload, type }));
+  };
+
+  const onCloseModal = () => {
+    if (policyType === 'oms' || policyType === 'dms') {
+      setPolicyType('');
+      dispatch(resetPoliciesFound({value: policyType}));
+    }
+    setShowModal(false);
+  };
+
+  const onOkModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -162,6 +188,12 @@ const PassportGeneral: React.FC = () => {
         </Col>
       </Row>
       <Divider />
+      <PoliciesFound
+        isVisible={showModal}
+        policy={policyType === 'oms' ? oms.items[0] : dms.items[0]}
+        onClose={() => onCloseModal()}
+        onOk={() => onOkModal()}
+      />
     </form>
   );
 };

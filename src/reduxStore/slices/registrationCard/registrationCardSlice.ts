@@ -242,7 +242,14 @@ const registrationCardSlice = createSlice({
       const {data: initialData, ...stateWithoutData} = initialState.form
       state.form = {...state.form, ...stateWithoutData};
       state.initialFormState = { ...initialState.initialFormState };
-    }
+    },
+    resetPoliciesFound: (state, action: PayloadAction<{value: 'oms' | 'dms';}>) => {
+      if (action.payload.value === 'oms') {
+        state.form.foundPolicies.oms.items[0] = state.initialFormState.passportGeneral.policyOms;
+      } else {
+        state.form.foundPolicies.dms.items[0] = state.initialFormState.passportGeneral.policyDms;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
@@ -314,9 +321,9 @@ const registrationCardSlice = createSlice({
           serialSecond: transformedPatient.client_document_info.serial.substr(2),
         };
         // @ts-ignore
-        state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
+        // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
-        state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
+        // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
           dmsFound.length > 0
             ? dmsFound[dmsFound.length - 1]
@@ -462,7 +469,8 @@ export const {
   setDocumentedBuffer,
   fetchIdPatientError,
   setPatientReg,
-  resetRegCard
+  resetRegCard,
+  resetPoliciesFound
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;
