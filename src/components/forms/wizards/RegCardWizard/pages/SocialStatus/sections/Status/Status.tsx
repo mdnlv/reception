@@ -1,10 +1,11 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
 import {StatusProps, ListOptionProps, LABELS, DROPDOWN_TITLE} from "./types";
+import SocialType from "../../../../../../../../types/data/SocialType";
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
@@ -22,6 +23,14 @@ const Status: React.FC<StatusProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
   const sectionValuePath = `socialStatus.socialStatus`;
+  const [typesData, setTypesData] = useState([] as SocialType[]);
+
+  // console.log('socialTypesList', socialTypesList);
+  // console.log('socialClassesList', socialClassesList);
+
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `${sectionValuePath}.${index}.${fieldChain}`;
@@ -53,7 +62,7 @@ const Status: React.FC<StatusProps> = ({
         </Select.Option>
       ));
     },
-    [socialTypesList],
+    [socialClassesList, socialTypesList],
   );
 
   const StatusValue = useMemo(() => {

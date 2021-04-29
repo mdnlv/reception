@@ -420,24 +420,21 @@ export const fetchRbContactTypes = createAsyncThunk(
 export const fetchRbSocialStatusType = createAsyncThunk(
   'rb/fetchRbSocialStatusType',
   async (arg, thunkAPI) => {
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusType"}))
-
-    const currentCheckSum =  await get('rbSocStatusTypeSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
     thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: true }));
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusType"}))
+    const currentCheckSum =  await get('rbSocStatusTypeSum') || ''
+    const isCheckSum = currentCheckSum === checksum.payload
     try {
       const response = isCheckSum? await get('rbSocStatusType'): await RbService.fetchSocialTypes();
       if (response.data) {
-      if(!isCheckSum){
-        await del('rbSocStatusTypeSum')
-        await del('rbSocStatusType')
-        await set('rbSocStatusTypeSum',checksum.payload)
-        await set('rbSocStatusType',{data:response.data})
-      }
+        if(!isCheckSum){
+          await del('rbSocStatusTypeSum')
+          await del('rbSocStatusType')
+          await set('rbSocStatusTypeSum',checksum.payload)
+          await set('rbSocStatusType',{data:response.data})
+        }
         return response.data;
-
-    }
+      }
   } catch (e) {
       alert(e)
     } finally {
@@ -451,22 +448,21 @@ export const fetchRbSocialStatusClass = createAsyncThunk(
   async (arg, thunkAPI) => {
     thunkAPI.dispatch(setLoading({ value: true, type: 'socialClasses' }));
 
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusClass"}))
-
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusClass"}));
     const currentCheckSum =  await get('rbSocStatusClassSum') || ''
-
     const isCheckSum = currentCheckSum === checksum.payload
 
     try {
-      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialTypes();
+      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialClasses();
       if (response.data) {
-      if(!isCheckSum){
-        await del('rbSocStatusClassSum')
-        await del('rbSocStatusClass')
-        await set('rbSocStatusClassSum',checksum.payload)
-        await set('rbSocStatusClass',{data:response.data})
+        if(!isCheckSum){
+          await del('rbSocStatusClassSum')
+          await del('rbSocStatusClass')
+          await set('rbSocStatusClassSum',checksum.payload)
+          await set('rbSocStatusClass',{data:response.data})
+        }
+        return response.data;
       }
-    }
     } catch (e) {
       alert(e)
     } finally {
@@ -699,9 +695,7 @@ const rbSlice = createSlice({
       }
     });
     builder.addCase(fetchRbSocialStatusClass.fulfilled, (state, action) => {
-      // @ts-ignore
       if (action.payload) {
-        // @ts-ignore
         state.rbSocialClasses = action.payload;
       }
     });

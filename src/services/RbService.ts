@@ -12,7 +12,7 @@ import RbKladrResponse from '../interfaces/responses/rb/rbKladr';
 import RbKladrStreetResponse from '../interfaces/responses/rb/rbKladrStreet';
 import RbDocumentTypeResponse from '../interfaces/responses/rb/rbDocumentType';
 import RbRelationTypeResponse from '../interfaces/responses/rb/rbRelationType';
-import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType'; 
+import RbContactTypeResponse from '../interfaces/responses/rb/rbContactType';
 import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 import RbSocialTypeResponse from '../interfaces/responses/rb/rbSocialType';
@@ -23,7 +23,7 @@ import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 
 export default {
   fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
-    return apiInstance.get(`/refBooks/rbSocStatusType`);
+    return apiInstance.get(`/refBooks/vrbSocStatusType`);
   },
   fetchSocialClasses(): Promise<AxiosResponse<RbSocialClassResponse[]>> {
     return apiInstance.get(`/refBooks/rbSocStatusClass`);
@@ -37,7 +37,7 @@ export default {
   fetchPersons(limit = 10): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
-  
+
   fetchPersonsFind(query?:string): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.post(`/person/find`,{value:query,limit:10});
   },
