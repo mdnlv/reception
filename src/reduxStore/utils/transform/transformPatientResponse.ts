@@ -4,11 +4,12 @@ import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
 
 export const transformPatientResponse = (item: PatientResponse) => {
+  // console.log('BIRTH DATE', item.birthDate);
   return {
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
     snils: item.SNILS,
     sex: item.sex,
-    birthDate: item.birthDate ? format(parseISO(item.birthDate), 'dd.MM.yyyy') : '',
+    birthDate: item.birthDate,
     birthPlace: item.birthPlace,
     code: item.id,
     regAddress: '',

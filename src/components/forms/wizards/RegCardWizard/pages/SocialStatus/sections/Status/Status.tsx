@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -23,9 +23,6 @@ const Status: React.FC<StatusProps> = ({
   const formValues = form.values.socialStatus.socialStatus;
   const sectionValuePath = `socialStatus.socialStatus`;
   const [index, setIndex] = useState(0);
-
-  // console.log('socialTypesList', socialTypesList);
-  // console.log('socialClassesList', socialClassesList);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
     return `${sectionValuePath}.${indexData}.${fieldChain}`;
@@ -72,7 +69,6 @@ const Status: React.FC<StatusProps> = ({
   );
 
   const StatusValue = useMemo(() => {
-    // console.log('typesData', typesData);
     return (
       <ArrayFieldWrapper
         name={sectionValuePath}

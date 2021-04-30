@@ -8,7 +8,6 @@ import {
   RegCardActionsType,
   RegistrationCardState,
 } from './types';
-import moment from 'moment';
 import {
   SocialStatus,
   TrustedDoc,
@@ -119,7 +118,7 @@ export const initialState: RegistrationCardState = {
         street: '',
         isDocumentedAddress: false,
         freeInput: '',
-        
+
       },
     },
     contacts: [] as PassportContactType[],
@@ -214,7 +213,7 @@ export function RegistrationCardReducer(
                   kladrStreets: [],
                 },
                 ...state.data.passportGeneral,
-              }, 
+              },
             },
           };
         case 'registration':
