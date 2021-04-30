@@ -11,6 +11,7 @@ export enum LABELS {
 export interface ListOptionProps {
   id: number;
   name: string;
+  classId: number;
 }
 
 export interface StatusProps {

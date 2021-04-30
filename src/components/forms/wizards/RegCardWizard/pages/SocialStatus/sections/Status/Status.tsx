@@ -5,7 +5,6 @@ import { useFormikContext } from 'formik';
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
 import {StatusProps, ListOptionProps, LABELS, DROPDOWN_TITLE} from "./types";
-import SocialType from "../../../../../../../../types/data/SocialType";
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
@@ -23,17 +22,13 @@ const Status: React.FC<StatusProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
   const sectionValuePath = `socialStatus.socialStatus`;
-  const [typesData, setTypesData] = useState([] as SocialType[]);
+  const [index, setIndex] = useState(0);
 
   // console.log('socialTypesList', socialTypesList);
   // console.log('socialClassesList', socialClassesList);
 
-  useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
-
-  const getSelectionPath = (index: number, fieldChain: string) => {
-    return `${sectionValuePath}.${index}.${fieldChain}`;
+  const getSelectionPath = (indexData: number, fieldChain: string) => {
+    return `${sectionValuePath}.${indexData}.${fieldChain}`;
   };
 
   const onAddStatus = useCallback(() => {
@@ -55,17 +50,29 @@ const Status: React.FC<StatusProps> = ({
   }, [form.setFieldValue, formValues]);
 
   const propsList = useCallback(
-    (items: ListOptionProps[]) => {
-      return items.map((item) => (
-        <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
-          {item.name}
-        </Select.Option>
-      ));
+    (items: ListOptionProps[], listName?: string) => {
+      if (listName !== 'types') {
+        return items.map((item) => (
+          <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+            {item.name}
+          </Select.Option>
+        ));
+      } else {
+        const types = items.filter(
+          (item) => item.classId === parseInt(formValues[index]?.class || '0')
+        );
+        return types.map((item) => (
+          <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+            {item.name}
+          </Select.Option>
+        ));
+      }
     },
-    [socialClassesList, socialTypesList],
+    [socialTypesList, socialClassesList, index, formValues],
   );
 
   const StatusValue = useMemo(() => {
+    // console.log('typesData', typesData);
     return (
       <ArrayFieldWrapper
         name={sectionValuePath}
@@ -73,52 +80,55 @@ const Status: React.FC<StatusProps> = ({
         onAddItem={onAddStatus}
         onRemoveItem={onRemoveStatus}
         showActions
-        renderChild={(status, index) => (
-          <div key={index}>
-            <Row gutter={16}>
-              <Col span={6}>
-                <FormField label={LABELS.CLASS} name={getSelectionPath(index, 'class')}>
-                  <FastSearchSelect
-                    loading={isLoadingClasses}
-                    showSearch
-                    filterOption
-                    optionFilterProp={'name'}
-                    name={getSelectionPath(index, 'class')}>
-                    {propsList(socialClassesList)}
-                  </FastSearchSelect>
-                </FormField>
-              </Col>
-              <Col span={6}>
-                <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
-                  <FastSearchSelect
-                    loading={isLoadingTypes}
-                    showSearch
-                    filterOption
-                    optionFilterProp={'name'}
-                    name={getSelectionPath(index, 'type')}>
-                    {propsList(socialTypesList)}
-                  </FastSearchSelect>
-                </FormField>
-              </Col>
-              <Col span={3}>
-                <FormField label={LABELS.START_DATE} name={getSelectionPath(index, 'fromDate')}>
-                  <FastDatePicker name={getSelectionPath(index, 'fromDate')} />
-                </FormField>
-              </Col>
-              <Col span={3}>
-                <FormField label={LABELS.END_DATE} name={getSelectionPath(index, 'endDate')}>
-                  <FastDatePicker name={getSelectionPath(index, 'endDate')} />
-                </FormField>
-              </Col>
-              <Col span={6}>
-                <FormField label={LABELS.NOTE}>
-                  <FastInput name={getSelectionPath(index, 'note')} />
-                </FormField>
-              </Col>
-            </Row>
-            <Divider />
-          </div>
-        )}
+        renderChild={(status, indexData) => {
+          setIndex(indexData);
+          return (
+            <div key={indexData}>
+              <Row gutter={16}>
+                <Col span={6}>
+                  <FormField label={LABELS.CLASS} name={getSelectionPath(indexData, 'class')}>
+                    <FastSearchSelect
+                      loading={isLoadingClasses}
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
+                      name={getSelectionPath(indexData, 'class')}>
+                      {propsList(socialClassesList)}
+                    </FastSearchSelect>
+                  </FormField>
+                </Col>
+                <Col span={6}>
+                  <FormField label={LABELS.TYPE} name={getSelectionPath(indexData, 'type')}>
+                    <FastSearchSelect
+                      loading={isLoadingTypes}
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
+                      name={getSelectionPath(indexData, 'type')}>
+                      {propsList(socialTypesList, 'types')}
+                    </FastSearchSelect>
+                  </FormField>
+                </Col>
+                <Col span={3}>
+                  <FormField label={LABELS.START_DATE} name={getSelectionPath(indexData, 'fromDate')}>
+                    <FastDatePicker name={getSelectionPath(indexData, 'fromDate')}/>
+                  </FormField>
+                </Col>
+                <Col span={3}>
+                  <FormField label={LABELS.END_DATE} name={getSelectionPath(indexData, 'endDate')}>
+                    <FastDatePicker name={getSelectionPath(indexData, 'endDate')}/>
+                  </FormField>
+                </Col>
+                <Col span={6}>
+                  <FormField label={LABELS.NOTE}>
+                    <FastInput name={getSelectionPath(indexData, 'note')}/>
+                  </FormField>
+                </Col>
+              </Row>
+              <Divider/>
+            </div>
+          )
+        }}
       />
     );
   }, [
