@@ -383,6 +383,13 @@ const registrationCardSlice = createSlice({
           transformedPatient.address[0]?.address.KLADRCode || '';
         state.initialFormState.passportGeneral.passportInfo.addressRegistration.area =
           transformedPatient.address[1]?.address.KLADRCode || '';
+        state.initialFormState.outsideIdentification.outsideIds = transformedPatient.outsideIds.map(
+          (item) => ({
+            outsideSchema: item.outsideSchema.toString(),
+            idRef: item.idRef,
+            date: new Date(item.date),
+          })
+        );
       }
     });
     builder.addCase(fetchKladr.fulfilled, (state, action) => {

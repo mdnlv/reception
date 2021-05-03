@@ -1,5 +1,3 @@
-import moment from "moment";
-
 import {PersonAddHospitalization} from '../../../components/forms/AdditionalHospitalizationForm/types';
 import {PersonAttachment} from '../../../components/forms/AttachmentsForm/types';
 import {EmploymentHazardItem, EmploymentItem} from '../../../components/forms/EmploymentForm/types';

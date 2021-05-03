@@ -1,4 +1,4 @@
-import {format, parseISO} from "date-fns";
+import {parseISO} from "date-fns";
 
 import PatientResponse from '../../../interfaces/responses/patients/patient';
 import transformPolicyResponse from './transformPolicyResponse';
@@ -100,5 +100,11 @@ export const transformPatientResponse = (item: PatientResponse) => {
           flat: item.address.flat
         },
       })) || [],
+
+    outsideIds: item.client_identification_info.map((item) => ({
+      outsideSchema: item.accountingSystem_id,
+      idRef: item.identifier,
+      date: item.checkDate,
+    })),
   };
 }

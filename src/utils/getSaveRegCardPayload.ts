@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {format} from "date-fns";
 
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
@@ -202,6 +203,20 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }),
     ),
 
+    client_identification_info: state.registrationCard.form.outsideIdentification.outsideIds.map(
+      (item) => ({
+        accountingSystem_id: parseInt(item.outsideSchema),
+        identifier: 'Да',
+        checkDate: format(item.date, 'yyyy-MM-dd'),
+      })
+    ),
+
+    // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
+    //   client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
+    //     (item) => item,
+    //   ),
+    // },
+
     // ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
     //   client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
     //     (item) => item,
@@ -254,11 +269,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     // },
     // ...(state.registrationCard.form.outsideHospitalization.outsideHospitalization.length > 0) && {
     //   client_outside_hospitalization: state.registrationCard.form.outsideHospitalization.outsideHospitalization.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
-    //   client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
     //     (item) => item,
     //   ),
     // },

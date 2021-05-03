@@ -1,5 +1,5 @@
 import React, {useMemo, useCallback} from 'react';
-import {Col, DatePicker, Row, Select} from 'antd';
+import {Col, Row, Select} from 'antd';
 import {useSelector} from 'react-redux';
 import {useFormikContext} from 'formik';
 

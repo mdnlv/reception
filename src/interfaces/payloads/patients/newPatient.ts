@@ -41,7 +41,6 @@ export default interface NewPatientPayload {
   // client_relative_info?: PersonLink[];
   // client_additional_hospitalization: PersonAddHospitalization[];
   // client_outside_hospitalization: PersonHospitalization[];
-  // client_outside_identification: PersonOutsideId[];
   // client_etc: EtcItem[];
   // client_id_doc: PassportDoc[];
   // client_policy: PolicyDoc[];
@@ -117,7 +116,7 @@ export default interface NewPatientPayload {
   client_relation_info?: {
     relativeType_id: number;
     relative_id: number;
-  }[]
+  }[];
 
   client_attach_info?: {
     LPU_id: number;
@@ -125,5 +124,11 @@ export default interface NewPatientPayload {
     begDate: string;
     orgStructure_id: number;
     reason: number;
-  }[]
+  }[];
+
+  client_identification_info?: {
+    accountingSystem_id: number;
+    checkDate: string;
+    identifier: string;
+  }[];
 }
