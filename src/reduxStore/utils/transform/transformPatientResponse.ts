@@ -39,7 +39,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
           : []
     })),
 
-    client_document_info: item.client_document_info && {
+    client_document_info: item.client_document_info[0] && {
       givenBy: item.client_document_info[0].origin,
       fromDate: item.client_document_info[0].date ? parseISO(item.client_document_info[0].date) : null,
       serial: item.client_document_info[0].serial,
