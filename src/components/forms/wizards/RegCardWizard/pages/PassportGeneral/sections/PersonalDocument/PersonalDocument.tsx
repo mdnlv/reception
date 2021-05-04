@@ -14,13 +14,13 @@ const PersonalDocument: FC<SectionProps> = ({
 }) => {
   const selectionValuePath = 'passportGeneral.passportInfo';
 
-  const documentTypeOptions = useMemo(() => {
-    return documentTypes.map((item) => (
-      <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
-        {item.name}
-      </Select.Option>
-    ));
-  }, [documentTypes]);
+  const documentTypeOptions = useMemo(
+    () =>
+      documentTypes.map((item) => (
+        <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+          {item.name}
+        </Select.Option>
+      )), [documentTypes]);
 
   return (
     <div className="form-section personal-document">

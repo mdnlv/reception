@@ -9,12 +9,10 @@ import { WizardStateType } from '../../../../types';
 import { SectionProps, KladrItem } from './types';
 import { kladrSelector } from '../../../../../../../../reduxStore/slices/registrationCard/selectors';
 import {setDocumentedBuffer} from '../../../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
-const FormField = React.lazy(() => import('../../../../../../components/FormField/FormField')); 
-const FastInput = React.lazy(() => import('../../../../../../components/fields/FastInput/FastInput')); 
-const FastSearchSelect = React.lazy(() => import('../../../../../../components/fields/FastSearchSelect/FastSearchSelect')); 
-// import FormField from '../../../../../../components/FormField/FormField';
-// import FastInput from '../../../../../../components/fields/FastInput/FastInput';
-// import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
+
+const FormField = React.lazy(() => import('../../../../../../components/FormField/FormField'));
+const FastInput = React.lazy(() => import('../../../../../../components/fields/FastInput/FastInput'));
+const FastSearchSelect = React.lazy(() => import('../../../../../../components/fields/FastSearchSelect/FastSearchSelect'));
 
 const Address: FC<SectionProps> = ({
   passportType,
@@ -45,7 +43,6 @@ const Address: FC<SectionProps> = ({
   }, [id]);
 
   useEffect(() => {
-
     if (formValues.passportInfo['addressRegistration'].isDocumentedAddress && documentedBuffer.area) {
       fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, documentedBuffer[item]))
     }
@@ -54,7 +51,6 @@ const Address: FC<SectionProps> = ({
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues.passportInfo.documentedAddress, type: 'setDocumentedBuffer'}))
   }, [formValues.passportInfo.documentedAddress]);
-
 
   useEffect(() => {
     if (!isDocumentedAddress || passportType === 'documentedAddress') {
@@ -241,7 +237,7 @@ const Address: FC<SectionProps> = ({
                   }
                   onFocus={() => setCleanable(true)}
                   onInput={(e) => {
-                    const value =  e.target.value 
+                    const value =  e.target.value
                     getKladrNested(
                       formValues.passportInfo[passportType].area,
                       getType(),
@@ -276,7 +272,7 @@ const Address: FC<SectionProps> = ({
                   onFocus={() => setCleanable(true)}
 
                   onInput={(e) => {
-                    const value =  e.target.value 
+                    const value =  e.target.value
                      getKladrStreets(
                       formValues.passportInfo[passportType].area ===
                       '7800000000000' ||

@@ -40,11 +40,11 @@ export const transformPatientResponse = (item: PatientResponse) => {
     })),
 
     client_document_info: item.client_document_info && {
-      givenBy: item.client_document_info.origin,
-      fromDate: parseISO(item.client_document_info.date),
-      serial: item.client_document_info.serial,
-      number: item.client_document_info.number,
-      passportType: item.client_document_info.documentType_id,
+      givenBy: item.client_document_info[0].origin,
+      fromDate: item.client_document_info[0].date ? parseISO(item.client_document_info[0].date) : null,
+      serial: item.client_document_info[0].serial,
+      number: item.client_document_info[0].number,
+      passportType: item.client_document_info[0].documentType_id.toString(),
     },
 
     socialStatus:

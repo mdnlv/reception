@@ -4,6 +4,7 @@ import PatientPolicyResponse from './patientPolicy';
 import PatientSocialStatusResponse from './patientSocialStatus';
 import PatientWorkResponse from "./patientWork";
 import PatientOutsideIdsResponse from "./patientOutsideIds";
+import PatientDocumentResponse from './patientDocument';
 
 export default interface PatientResponse {
   id: number;
@@ -44,14 +45,7 @@ export default interface PatientResponse {
 
   client_soc_status_info: PatientSocialStatusResponse[];
 
-  client_document_info: {
-    documentType_id: string;
-    serial: string;
-    number: string;
-    date: string;
-    endDate: string;
-    origin: string;
-  };
+  client_document_info: PatientDocumentResponse[];
 
   client_policy_info: PatientPolicyResponse[];
   client_contact_info: PatientContactResponse[];

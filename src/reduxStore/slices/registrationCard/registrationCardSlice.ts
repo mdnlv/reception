@@ -318,8 +318,8 @@ const registrationCardSlice = createSlice({
             }
           },
           ...transformedPatient.client_document_info,
-          serialFirst: transformedPatient.client_document_info.serial.substr(0,1),
-          serialSecond: transformedPatient.client_document_info.serial.substr(2),
+          serialFirst: transformedPatient.client_document_info.serial.substr(0,2),
+          serialSecond: transformedPatient.client_document_info.serial.substr(3),
         };
         // @ts-ignore
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
