@@ -53,7 +53,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               <Col span={11}>с {format(policy.from, 'd.MM.yyyy')} до {format(policy.to, 'd.MM.yyyy')}</Col>
             ) : null}
           </Row>
-          {policy.attachList.length > 0 ? (
+          {policy.attachList && policy.attachList.length > 0 ? (
             <>
               <Row justify={'start'}>
                 <Typography.Text strong>Список прикреплений</Typography.Text>

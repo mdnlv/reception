@@ -189,7 +189,7 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <PoliciesFound
-        isVisible={showModal}
+        isVisible={showModal && !oms.isLoading && !dms.isLoading}
         policy={policyType === 'oms' ? oms.items[0] : dms.items[0]}
         onClose={() => onCloseModal()}
         onOk={() => onOkModal()}
