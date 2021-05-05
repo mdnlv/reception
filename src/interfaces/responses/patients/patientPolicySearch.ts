@@ -1,11 +1,13 @@
+import {PolicyAttachesType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
+
 export default interface PatientPolicySearchResponse {
-  client_id: number;
-  smoId: number;
+  smo: {
+    id: number;
+    shortName: string;
+  };
   policySerial: string;
   policyNumber: string;
-  policyTypeId: number;
   begDate: string;
   endDate: string;
-  attach: string;
-  attachList: number[][];
+  attachList: PolicyAttachesType[];
 }

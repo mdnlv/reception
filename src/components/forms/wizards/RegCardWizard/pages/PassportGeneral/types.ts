@@ -5,6 +5,18 @@ export interface PassportContactType {
   note: string;
 }
 
+export interface PolicyAttachesType {
+  mo: {
+    id: number;
+    shortName: string;
+  };
+  net: {
+    id: number;
+    code: string;
+    name: string;
+  };
+}
+
 export interface PassportPolicyType {
   timeType?: string;
   from: string;
@@ -15,6 +27,7 @@ export interface PassportPolicyType {
   type: string;
   name?: string;
   note?: string;
+  attachList?: PolicyAttachesType[];
 }
 
 export interface PassportAddressType {
@@ -41,7 +54,7 @@ export default interface FormState {
     serial?:string;
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
-    
+
   };
   contacts: PassportContactType[];
   policyOms: {

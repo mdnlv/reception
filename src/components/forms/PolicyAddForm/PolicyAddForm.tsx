@@ -1,11 +1,10 @@
-import React, {useCallback, useMemo, useState, useEffect} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
-import {toServerFormat} from "../../../utils/date/toServerFormat";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -114,7 +113,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             loading={isLoading}
             onClick={() => {
               onFindPolicyHandler({
-                birthDate: toServerFormat(birthDate),
+                birthDate: birthDate,
                 docNumber,
                 docSerial,
                 firstName,

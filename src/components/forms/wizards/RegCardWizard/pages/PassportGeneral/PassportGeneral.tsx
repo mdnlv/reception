@@ -193,6 +193,7 @@ const PassportGeneral: React.FC = () => {
         policy={policyType === 'oms' ? oms.items[0] : dms.items[0]}
         onClose={() => onCloseModal()}
         onOk={() => onOkModal()}
+        cmoType={cmoTypeList}
       />
     </form>
   );

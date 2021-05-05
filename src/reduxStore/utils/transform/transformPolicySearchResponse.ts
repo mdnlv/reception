@@ -4,16 +4,17 @@ import PatientPolicySearchResponse from "../../../interfaces/responses/patients/
 
 const transformPolicySearchResponse = (item: PatientPolicySearchResponse) => {
   return {
-    id: item.client_id,
-    cmo: item.smoId?.toString() ?? '',
+    id: 0,
+    cmo: item.smo.id?.toString() ?? '',
     serial: item.policySerial,
     number: item.policyNumber,
-    timeType: '',
+    timeType: item.policySerial === 'ЕП' ? '3' : item.policySerial === 'ВС' ? '1' : '',
     from: item.begDate ? parseISO(item.begDate) : '',
     to: item.endDate ? parseISO(item.endDate) : '',
-    type: item.policyTypeId?.toString() ?? '',
+    type: '',
     name: '',
-    note: ''
+    note: '',
+    attachList: item.attachList,
   };
 };
 

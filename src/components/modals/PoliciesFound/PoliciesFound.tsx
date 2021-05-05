@@ -8,7 +8,8 @@ const PoliciesFound: React.FC<ModalProps> = ({
   isVisible,
   onClose,
   policy,
-  onOk
+  onOk,
+  cmoType
 }) => {
   return (
     <Modal
@@ -36,7 +37,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
         <>
           <Row>
             <Col span={13}>СМО:</Col>
-            <Col span={11}>{policy?.cmo || ''}</Col>
+            <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
           </Row>
           <Row>
             <Col span={13}>серия:</Col>
@@ -52,6 +53,18 @@ const PoliciesFound: React.FC<ModalProps> = ({
               <Col span={11}>с {format(policy.from, 'd.MM.yyyy')} до {format(policy.to, 'd.MM.yyyy')}</Col>
             ) : null}
           </Row>
+          {policy.attachList.length > 0 ? (
+            <>
+              <Row justify={'start'}>
+                <Typography.Text strong>Список прикреплений</Typography.Text>
+              </Row>
+              {policy?.attachList?.map((item, index) => (
+                <Row justify={'start'} key={index}>
+                  <Typography.Text>({item.net.code}) {item.mo.shortName} {item.net.name}</Typography.Text>
+                </Row>
+              ))}
+            </>
+          ) : null}
         </>
         ) : null}
     </Modal>
