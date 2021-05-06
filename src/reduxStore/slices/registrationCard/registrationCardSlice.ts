@@ -126,10 +126,14 @@ export const findPatientPolicy = createAsyncThunk(
       thunkAPI.dispatch(
         setFindPolicyLoading({ value: false, type: payload.type }),
       );
-      return {
-        data: response,
-        type: payload.type,
-      };
+      if (response.status === 200) {
+        return {
+          data: response,
+          type: payload.type,
+        };
+      } else if (response.status === 204) {
+        alert('Полисы не найдены');
+      }
     } catch (e) {
       alert(e)
     }
