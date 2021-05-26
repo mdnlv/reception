@@ -134,7 +134,7 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
       </div>*/}</>}
 
       {mode === 'day' && (<>
-        <div className='back' onClick={()=>{onModeChange('week')}} > <LeftOutlined style={{ fontSize: '14px'}}/> Назад </div>
+        <div className='back' onClick={()=>{onModeChange('week'); onDateChange();}} > <LeftOutlined style={{ fontSize: '14px'}}/> Назад </div>
         <div>{dateContent()}</div>
       </>)}
 
