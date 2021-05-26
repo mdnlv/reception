@@ -6,11 +6,12 @@ import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { RootState } from '../../reduxStore/store';
-// import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
 import {fetchSchedules} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
-
+import {fetchPersonTree} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
@@ -18,7 +19,8 @@ import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferred
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
-  // const schedules = useSelector(detailedSchedules);
+  const schedules = useSelector(detailedSchedules);
+  const person_tree = useSelector(detailedPersonTree);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const { loading } = useSelector((state: RootState) => state.patientCard);
@@ -32,14 +34,19 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
+  
+  const loadSchedule = useCallback((id: number, beg_date: string, end_date: string) => {
+    dispatch(fetchSchedules({
+      id: id,
+      beg_date: beg_date,
+      end_date: end_date
+    }));
+  }, []);
 
-  // useEffect(() => {
-  //   dispatch(fetchSchedules({
-  //     id: 1150,
-  //     year: 2019,
-  //     month: 12
-  //   }))
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchPersonTree({}))
+  }, [])
+
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
@@ -77,7 +84,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-           {/* <ScheduleTable schedules={schedules}/> */}
+          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule}/>
         </Col>
       </Row>
     </div>

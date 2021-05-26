@@ -1,28 +1,11 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../store';
 
-export const detailedSchedules = createSelector(
-  (state: RootState) => state.schedule.schedules,
-  (schedules) => {
-
-    /*for (const [key, value] of Object.entries(arr[0].schedule)) {
-      console.log(`${key}: ${value[0]}`);
-    }*/
-    /*if(arr[0]) {
-      arr = Object.entries(arr[0].schedule).map((item, index) => {
-
-        return {
-          id: 0,
-          date: item[0],
-          planned: item[1][0].planned,
-          begTime: item[1][0].begTime,
-          endTime: item[1][0].endTime,
-          personName: 'test test test',
-          items: item[1][0].tickets,
-        }
-      })
-    };*/
-    return schedules;
+export const detailedPersonTree = createSelector(
+  (state: RootState) => state.person_tree.person_tree,
+  (person_tree) => {
+    
+    return person_tree;
   }
 
 

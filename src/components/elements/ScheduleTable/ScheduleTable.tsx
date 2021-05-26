@@ -11,16 +11,17 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule}) => {
   const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
-  const [mode, setMode] = useState<ScheduleTableModeType>('day');
+  const ptIsLoading = useSelector((state: RootState) => state.person_tree.isLoading);
+  const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
+  const [currentDay, setCurrentDay] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(new Date(), 14));
-
-  useEffect(() => {
-    console.log('schedules', schedules);
-  }, [schedules]);
+  
+  const startHour = 8;
+  const endHour = 18;
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -47,8 +48,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
   );
 
   const onScheduleDateChange = useCallback(
-    (date: Date) => {
-      setCurrentDate(date);
+    (date?: Date) => {
+      date? setCurrentDate(date) : setCurrentDate(currentDay);
     },
     [currentDate, setCurrentDate],
   );
@@ -64,7 +65,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
 
   return (
     <div className={'schedule-table'}>
-      {isLoading ? (
+      {ptIsLoading ? (
         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
           <Spin/>
         </div>
@@ -85,20 +86,30 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({schedules}) => {
           <Row>
             <Col span={20} offset={4}>
             <ScheduleTimeline
-            rangeWeekNum={rangeWeekNum}
-            currentDate={currentDate}
-            mode={mode}
+              rangeWeekNum={rangeWeekNum}
+              currentDate={currentDate}
+              mode={mode}
+              startHour={startHour}
+              endHour={endHour}
             />
             </Col>
           </Row>
           <Row>
             <ScheduleTableList
-            selected={selected}
-            rangeWeekNum={rangeWeekNum}
-            onToggleRow={onToggleScheduleRow}
-            onNewScheduleItem={onNewScheduleItem}
-            list={schedules}
-            mode={mode}
+              selected={selected}
+              rangeWeekNum={rangeWeekNum}
+              onToggleRow={onToggleScheduleRow}
+              onNewScheduleItem={onNewScheduleItem}
+              list={schedules}
+              mode={mode}
+              person_tree={person_tree}
+              loadSchedule={loadSchedule} 
+              currentDate={currentDate}   
+              rangeWeekDate={rangeWeekDate}  
+              onDateChange={onScheduleDateChange}
+              onModeChange={onScheduleModeChange}
+              startHour={startHour}
+              endHour={endHour}
             />
           </Row>
         </>

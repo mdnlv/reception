@@ -1,6 +1,5 @@
 .schedule-action-item{
-  height: 50px;
-  min-width: 30px;
+  height: 50px; 
   border-right: 1px solid #E7E7E7;
   display: flex;
   align-items: center;
@@ -11,12 +10,11 @@
     border-left: 1px solid #E7E7E7;
   }
 
-
   &:hover{
     box-shadow: 0 0 4px 2px #E7E7E7;
   }
 }
 
 .action-description{
-  max-width: 500px;
+  max-width: 200px;
 }

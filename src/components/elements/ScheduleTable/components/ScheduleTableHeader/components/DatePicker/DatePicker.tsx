@@ -20,6 +20,7 @@ import {PickerProps, DateMode} from "./types";
 const ScheduleDatePicker: React.FC<PickerProps> = ({
   current,
   onDateChange,
+  onModeChange,
   onRangeWeekChange,
   mode,
   rangeWeekDate
@@ -34,7 +35,7 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
     if (mode === 'day') {
       return (
         <div>
-          {format(current, 'EEEEEE d MMMM', {
+          {format(current, 'd MMMM, EEEEEEE', {
             locale: ru,
           })}
         </div>
@@ -44,19 +45,19 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
       if (isSameMonth(current, lastDate)) {
         return `${getWeekOfMonth(current)}-${getWeekOfMonth(
           lastDate,
-        )} недели ${format(current, 'MMM', {
+        )} недели ${format(current, 'MMMM', {
           locale: ru,
         })}`;
       } else {
-        return `${getWeekOfMonth(current)} неделя(${format(
+        return `${getWeekOfMonth(current)} неделя ${format(
           current,
-          'MMM',
+          'MMMMMM',
           {
             locale: ru,
           },
-        )}) - ${getWeekOfMonth(lastDate)} неделя(${format(lastDate, 'MMM', {
+        )} - ${getWeekOfMonth(lastDate)} неделя ${format(lastDate, 'MMMM', {
           locale: ru,
-        })})`;
+        })}`;
       }
     } else {
       return null;
@@ -113,7 +114,7 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
 
   return (
     <Row justify={'center'} align={'middle'}>
-      {mode === 'day' && (
+      {/*mode === 'day' && (
         <div
           onClick={() => {
             onDateChange(subDays(current, 1));
@@ -121,16 +122,23 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
           className={'picker-action__wrapper'}>
           <LeftOutlined />
         </div>
-      )}
-      <div className={'schedule-date-picker__picker'}>
+        )*/}
+      
+      {mode === 'week' && <>{/*<div className={'schedule-date-picker__picker'}>
         <Popover
           placement={'bottom'}
           content={popoverContent()}
-          trigger="click">
-          <div>{dateContent()}</div>
+      trigger="click">*/}
+         <div>{dateContent()}</div> {/*
         </Popover>
-      </div>
-      {mode === 'day' && (
+      </div>*/}</>}
+
+      {mode === 'day' && (<>
+        <div className='back' onClick={()=>{onModeChange('week')}} > <LeftOutlined style={{ fontSize: '14px'}}/> Назад </div>
+        <div>{dateContent()}</div>
+      </>)}
+
+      {/*mode === 'day' && (
         <div
           onClick={() => {
             onDateChange(addDays(current, 1));
@@ -138,7 +146,7 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
           className={'picker-action__wrapper'}>
           <RightOutlined />
         </div>
-      )}
+        )*/}
     </Row>
   );
 };

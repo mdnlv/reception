@@ -1,10 +1,13 @@
+import { ScheduleTableDate, ScheduleListTicket, ScheduleTableModeType } from "../../types";
+
 export interface ItemProps {
-  type: 'default' | 'closed' | 'empty';
-  onClick?(): void;
-  info?: {
-    clientId: number;
-    name: string;
-  };
+  //onClick?(): void;
+  info?: ScheduleTableDate  | null ;
+  tickets?:  ScheduleListTicket | null ;
   onNewScheduleItem(): void;
   width: number;
+  mode: ScheduleTableModeType;
+  onModeChange(mode: ScheduleTableModeType): void;
+  onDateChange(date?: Date): void;
+  date? : Date;
 }

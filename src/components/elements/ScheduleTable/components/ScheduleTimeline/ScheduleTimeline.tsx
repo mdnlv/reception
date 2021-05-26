@@ -10,16 +10,17 @@ import ScheduleTimelineItem from './components/ScheduleTimilineItem/ScheduleTime
 const ScheduleTimeline: React.FC<TimeLineProps> = ({
   mode,
   currentDate,
-  rangeWeekNum
+  rangeWeekNum,
+  startHour,
+  endHour
 }) => {
   const content = () => {
     switch (mode) {
       case 'day':
-        const startHour = 9;
-        const endHour = 17;
+        
         const timeItems = [];
 
-        for (let i = startHour * 60; i <= 60 * endHour; i += 20) {
+        for (let i = startHour * 60; i <= 60 * endHour; i += 60) {
           const fullHours = Math.floor(i / 60);
           const minutesValue =
             i - fullHours * 60 === 0 ? '00' : `${i - fullHours * 60}`;
@@ -28,11 +29,11 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
               ? `0${fullHours}:${minutesValue}`
               : `${fullHours}:${minutesValue}`;
           timeItems.push(
-            <li key={i} className={'timeline-list__item'}>
-              {i % 20 === 0 && (
+            <div key={i} className={'timeline-list__item'}>
+              {i % 60 === 0 && (
                 <ScheduleTimelineItem mode={'day'} value={timeValue} />
               )}
-            </li>,
+            </div>,
           );
         }
 
@@ -41,7 +42,7 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
       case 'week':
         const dayItems = [];
         for (let i = 0; i < rangeWeekNum; i++) {
-          const dateString = format(addDays(currentDate, i), 'MM.dd');
+          const dateString = format(addDays(currentDate, i), 'dd.MM');
           const dayName = format(addDays(currentDate, i), 'EEEEEE');
           dayItems.push(
             <li key={i} className={'timeline-list__item--week'}>

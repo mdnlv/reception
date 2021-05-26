@@ -6,15 +6,29 @@
   }
 
   &__item{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    
     .item-title{
-      font-size: 16px;
+      font-size: 14px;
       height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      justify-content: left;
+      padding-left: 10px;
+      position: relative;
+
+      &__name-person{
+        text-align: right;
+      }
+
+      &__toggle{
+        cursor: pointer;
+      }
     }
   }
+
+  &__person {
+    display: flex;
+    flex-direction: row;
+  }
 }
-
-
-

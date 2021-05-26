@@ -8,11 +8,16 @@
 }
 
 .schedule-date-picker__picker{
-  font-size: 16px;
   padding: 0 4px;
-  text-transform: capitalize;
+  
 
   &:hover{
     cursor: pointer;
   }
+}
+
+.back {
+  position: absolute;
+  left: 0;
+  cursor: pointer;
 }

@@ -1,18 +1,12 @@
-.schedule-timeline{
-}
-
 .schedule-timeline__item{
   position: relative;
   height: 32px;
-  width: 100%;
 
   &--week{
     height: auto !important;
   }
 
   &-time{
-    position: absolute;
-    left: -16px;
     color: #686868;
     opacity: .7;
   }

@@ -11,10 +11,18 @@ const ScheduleTableList: React.FC<ListProps> = ({
   onToggleRow,
   selected,
   mode,
-  rangeWeekNum
+  rangeWeekNum,
+  person_tree,
+  loadSchedule,
+  currentDate, 
+  rangeWeekDate,
+  onDateChange,
+  onModeChange,
+  startHour,
+  endHour
 }) => {
   const listContent = useMemo(() => {
-    return list.map((item, index) => {
+    return person_tree.map((item, index) => {
       const toggle = selected.find((sitem) => sitem === item.id);
       return (
         <ListItem
@@ -25,13 +33,23 @@ const ScheduleTableList: React.FC<ListProps> = ({
           onToggle={onToggleRow}
           key={item.id + index}
           onNewScheduleItem={onNewScheduleItem}
-          name={item.personName}
-          planned={item.planned}
-          items={item.items}
+          name={item.name}
+          child={item.child}
+          person_list={item.person_list}  
+          selected={selected}
+          level={0} 
+          loadSchedule={loadSchedule}
+          schedule={list}
+          currentDate={currentDate}
+          rangeWeekDate={rangeWeekDate}
+          onDateChange={onDateChange}
+          onModeChange={onModeChange}
+          startHour={startHour}
+          endHour={endHour}
         />
       );
     });
-  }, [list, selected, mode, rangeWeekNum]);
+  }, [list, selected, mode, rangeWeekNum, person_tree]);
 
   return <div className={'schedule-list'}>{listContent}</div>;
 };
