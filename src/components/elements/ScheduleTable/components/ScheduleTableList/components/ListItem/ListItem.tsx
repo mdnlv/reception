@@ -26,7 +26,8 @@ const ListItem: React.FC<ItemProps> = ({
   onDateChange,
   onModeChange,
   startHour,
-  endHour
+  endHour,
+  speciality
 }) => {
   const [togg, setTogg] = useState(false);
   const onToggleHandler = useCallback(() => {
@@ -52,6 +53,7 @@ const ListItem: React.FC<ItemProps> = ({
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
             <div className={'item-title__name-person'}>{item.person.lastName + ' ' + item.person.firstName[0] + '.' + item.person.patrName[0] + '.'}</div>
+            <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
           </Col>
           <Col span={20}>
             {<ScheduleScrollContainer left={0}>
@@ -95,6 +97,7 @@ const ListItem: React.FC<ItemProps> = ({
             onModeChange={onModeChange}
             startHour={startHour}
             endHour={endHour}
+            speciality={speciality}
           />
         )
       })}

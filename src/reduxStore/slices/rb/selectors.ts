@@ -109,7 +109,16 @@ export const detailedOrgStructureSelector = createSelector(
   (orgs) =>
     orgs.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.name
+    })),
+);
+
+export const detailedSpecialitySelector = createSelector(
+  (state: RootState) => state.rb.rbSpecialities,
+  (spec) =>
+    spec.map((item) => ({
+      id: item.id,
+      name: item.name
     })),
 );
 

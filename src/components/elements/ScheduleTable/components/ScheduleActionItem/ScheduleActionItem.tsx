@@ -46,8 +46,8 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
             placement={'bottom'}
             content={
               <Descriptions column={1} className={'action-description'}>
-                <Descriptions.Item label={'Время начала'}>
-                  {tickets.begDateTime}
+                <Descriptions.Item label={'Время'}>
+                {`${tickets.begDateTime.slice(0,-3)} - ${tickets.endDateTime.slice(0,-3)}`}
                 </Descriptions.Item>
               </Descriptions>
             }>
@@ -63,8 +63,8 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
             placement={'bottom'}
             content={
               <Descriptions column={1} className={'action-description'}>
-                <Descriptions.Item label={'Время начала'}>
-                  {tickets.begDateTime}
+                <Descriptions.Item label={'Время '}>
+                {`${tickets.begDateTime.slice(0,-3)} - ${tickets.endDateTime.slice(0,-3)}`}
                 </Descriptions.Item>
                 <Descriptions.Item label={'Записан'}>
                   {tickets.client.lastName + ' ' + tickets.client.firstName[0] + '.' + tickets.client.patrName[0] + '.'}

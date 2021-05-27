@@ -20,8 +20,12 @@ import RbSocialClassResponse from '../interfaces/responses/rb/rbSocialClass';
 import RbHurtType from '../interfaces/responses/rb/rbHurtType';
 import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
+import RbSpecialityResponse from "../interfaces/responses/rb/rbSpeciality";
 
 export default {
+  fetchSpeciality(): Promise<AxiosResponse<RbSpecialityResponse[]>>{
+    return apiInstance.get(`/refBooks/rbSpeciality`)
+  },
   fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
     return apiInstance.get(`/refBooks/vrbSocStatusType`);
   },

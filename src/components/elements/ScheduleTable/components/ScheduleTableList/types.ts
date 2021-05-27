@@ -15,6 +15,9 @@ export interface ListProps {
   onModeChange(mode: ScheduleTableModeType): void;
   startHour: number;
   endHour: number;
+  speciality: {
+    [k: number]: string;
+  }
 }
 
 export interface PersonTree {

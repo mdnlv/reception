@@ -19,7 +19,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
   onDateChange,
   onModeChange,
   startHour,
-  endHour
+  endHour,
+  speciality
 }) => {
   const listContent = useMemo(() => {
     return person_tree.map((item, index) => {
@@ -46,6 +47,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
           onModeChange={onModeChange}
           startHour={startHour}
           endHour={endHour}
+          speciality={speciality}
         />
       );
     });

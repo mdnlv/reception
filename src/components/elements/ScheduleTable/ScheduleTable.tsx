@@ -11,7 +11,7 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality}) => {
   const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const ptIsLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
@@ -110,6 +110,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               onModeChange={onScheduleModeChange}
               startHour={startHour}
               endHour={endHour}
+              speciality={speciality}
             />
           </Row>
         </>

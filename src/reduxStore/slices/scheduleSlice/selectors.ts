@@ -47,3 +47,14 @@ export const detailedSchedules = createSelector(
       };
     })*/
 );
+
+export const getSpeciality = createSelector(
+  (state: RootState) => state.rb.rbSpecialities,
+  (orgs) => {
+    let obj = new Object({});
+    orgs.map((item) => {
+      obj = Object.assign(obj, {[item.id]: item.name});
+    });
+    return obj;
+  }  
+);

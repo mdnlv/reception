@@ -57,8 +57,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         });
         let kb = Math.floor((moment.duration(tickets.begTime).asMinutes() - startHour*60) / k);
         let ke = Math.floor((endHour*60 - moment.duration(tickets.endTime).asMinutes()) / k);
-        console.log(kb)
-        console.log(ke)
         return <>
           <ScheduleActionItem
             width={kb}

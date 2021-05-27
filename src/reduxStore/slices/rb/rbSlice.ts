@@ -22,7 +22,7 @@ import OrgStructure from "../../../types/data/OrgStructure";
 import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbDocumentType'
 import RbInvalidDocumentTypeResponse from "../../../../src/interfaces/responses/rb/rbInvalidDocumentType";
 import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
-
+import Speciality from "../../../types/data/Speciality";
 
 export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum',
 async (payload: { name:string }, thunkAPI) => {
@@ -150,6 +150,34 @@ export const fetchRbOrganisations = createAsyncThunk(
     }
   },
 );
+
+export const fetchRbSpecialities = createAsyncThunk(
+  'rb/fetchSpecialities',
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSpeciality"}))
+    const currentCheckSum =  await get('SpecialitySum') || ''
+    const isCheckSum = currentCheckSum === checksum.payload
+    thunkAPI.dispatch(setLoading({ type: 'specialities', value: true }));
+    try {
+      const response = isCheckSum ? await get('Speciality'):  await RbService.fetchSpeciality()
+      if (response.data) {
+        if(!isCheckSum){
+         await del('SpecialitySum')
+         await del('Speciality')
+         await set('SpecialitySum',checksum.payload)
+         await set('Speciality',{data:response.data})
+        }
+        return response.data;
+      }
+    } catch (e) {
+      alert(e);
+      thunkAPI.rejectWithValue(e);
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'specialities', value: false }));
+    }
+  },
+);
+
 
 export const fetchRbInvalidReasons = createAsyncThunk(
   'rb/fetchInvalidReasons',
@@ -550,6 +578,7 @@ const rbSlice = createSlice({
       rbDocumentTypes: '',
       rbSocialTypes: '',
       rbSocialClasses: '',
+      rbSpecialities: '',
       rbHurtTypes: '',
       rbHurtFactorTypes: ''
     },
@@ -567,6 +596,7 @@ const rbSlice = createSlice({
     rbDocumentTypes: [] as PatientDocumentType[],
     rbSocialTypes: [] as SocialType[],
     rbSocialClasses: [] as SocialClass[],
+    rbSpecialities: [] as Speciality[],
     rbHurtTypes: [] as HurtType[],
     rbHurtFactorTypes: [] as HurtFactorType[],
     rbRelationTypesDirectLink: [] as RelatiionsTypes[],
@@ -578,6 +608,7 @@ const rbSlice = createSlice({
       documentTypes: false,
       socialTypes: false,
       socialClasses: false,
+      specialities: false,
       hurtTypes: false,
       hurtFactorTypes: false,
     },
@@ -593,6 +624,7 @@ const rbSlice = createSlice({
           | 'documentTypes'
           | 'socialTypes'
           | 'socialClasses'
+          | 'specialities'
           | 'hurtTypes'
           | 'hurtFactorTypes';
         value: boolean;
@@ -631,6 +663,16 @@ const rbSlice = createSlice({
           isInsurer: !!item.isInsurer,
           inn: item.INN,
           ogrn: item.OGRN
+        }));
+      }
+    });
+    builder.addCase(fetchRbSpecialities.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSpecialities = action.payload.map((item:{  id: number;
+          name: string;
+        }) => ({
+          id: item.id,
+          name: item.name,
         }));
       }
     });

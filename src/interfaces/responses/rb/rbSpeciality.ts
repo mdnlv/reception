@@ -1,4 +1,4 @@
-export default interface InfoItemResponse {
+export default interface RbSpecialityResponse {
     OKSOCode: string
     OKSOName: string
     age: string

@@ -6,7 +6,7 @@ import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { RootState } from '../../reduxStore/store';
-import { detailedSchedules } from '../../reduxStore/slices/scheduleSlice/selectors';
+import { detailedSchedules, getSpeciality } from '../../reduxStore/slices/scheduleSlice/selectors';
 import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
@@ -23,6 +23,7 @@ const MainPage: FC = () => {
   const person_tree = useSelector(detailedPersonTree);
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
+  const specialities = useSelector(getSpeciality);
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
   const dispatch = useDispatch();
@@ -46,7 +47,6 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchPersonTree({}))
   }, [])
-
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
@@ -84,7 +84,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule}/>
+          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule} speciality={specialities}/>
         </Col>
       </Row>
     </div>
