@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import moment from 'moment';
 
 import apiInstance from '../api';
 import PatientResponse from '../../interfaces/responses/patients/patient';

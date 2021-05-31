@@ -1,5 +1,5 @@
 import apiInstance from './api';
-import moment from 'moment';
+import { ActionPost } from '../components/elements/ScheduleTable/types';
 
 export default {
   fetchSchedule(payload: { id: number; beg_date: string, end_date: string }) {
@@ -16,6 +16,19 @@ export default {
     return apiInstance.get(
       `/person_tree`,
     );
+  },
+
+  saveTicket(ticket: ActionPost) {
+    return apiInstance.post(`/schedule?user_id=${ticket.user_id}&person_id=${ticket.person_id}&client_id=${ticket.client_id}&action_id=${ticket.action_id}&idx=${ticket.idx}`);
+  },
+/*
+  editTicket(ticket: ActionPost) {
+    return apiInstance.post(`/schedule`, ticket);
+  },
+
+  deleteTicket(ticket: ActionPost) {
+    return apiInstance.post(`/schedule`, ticket);
   }
+*/
 };
  

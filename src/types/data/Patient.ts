@@ -7,6 +7,7 @@ export default interface Patient {
   fullName: string;
   birthDate: string;
   code: number;
+  id: string;
   quotes?: string[];
   medicalAttachment?: string;
   snils: string;

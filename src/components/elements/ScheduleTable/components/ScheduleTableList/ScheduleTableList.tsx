@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import './styles.scss';
 import {ListProps} from "./types";
-
+import moment from "moment";
 import ListItem from './components/ListItem/ListItem';
+import ScheduleAction from './components/ScheduleAction/ScheduleAction';
+import { ActionData, ActionPost } from "./components/ScheduleAction/types"
 
 const ScheduleTableList: React.FC<ListProps> = ({
   list,
@@ -20,8 +22,31 @@ const ScheduleTableList: React.FC<ListProps> = ({
   onModeChange,
   startHour,
   endHour,
-  speciality
+  speciality,
+  client,
+  postTicket
 }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalLoading, setIsModalLoading] = useState(false);
+  const [actionData, setActionData] = useState<ActionData | undefined>(undefined);
+
+  const showModal = (data: ActionData) => {
+    setActionData(data)
+    setIsModalVisible(true)
+  };
+
+  const handleOk = (data: ActionPost) => {
+    setIsModalLoading(true);
+    postTicket(data);
+    setIsModalLoading(false);
+    setIsModalVisible(false);
+    loadSchedule(68, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const listContent = useMemo(() => {
     return person_tree.map((item, index) => {
       const toggle = selected.find((sitem) => sitem === item.id);
@@ -48,12 +73,23 @@ const ScheduleTableList: React.FC<ListProps> = ({
           startHour={startHour}
           endHour={endHour}
           speciality={speciality}
+          showModal={showModal}
+          client={client}
         />
       );
     });
   }, [list, selected, mode, rangeWeekNum, person_tree]);
 
-  return <div className={'schedule-list'}>{listContent}</div>;
+  return <>
+    <div className={'schedule-list'}>{listContent}</div>
+    <ScheduleAction
+      data={actionData}
+      loading={isModalLoading}
+      visible={isModalVisible}
+      handleOk={handleOk}
+      handleCancel={handleCancel}
+    />
+  </>;
 };
 
 export default ScheduleTableList;

@@ -14,7 +14,10 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
   onModeChange,
   onDateChange,
   startHour,
-  endHour
+  endHour,
+  showModal,
+  speciality,
+  client
 }) => {
 
   const rowContent = useMemo(() => {
@@ -34,6 +37,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
               onModeChange={onModeChange} 
               onDateChange={onDateChange}   
               date={date}
+              client={client}
             />
           );
         });
@@ -42,18 +46,24 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         let tickets = items.schedule[moment(currentDate).format('YYYY-MM-DD')][0];
         let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
         let k = Math.floor(dur / tickets.planned);
+        let sdate = moment(currentDate).format('YYYY-MM-DD');
         let arr = new Array(tickets.planned).fill(0).map((item, index) => {
-            return (
-              <ScheduleActionItem
-                key={index}
-                width={1}
-                onNewScheduleItem={onNewScheduleItem}
-                tickets={tickets? tickets.tickets[index]: null}
-                mode={mode}
-                onModeChange={onModeChange}
-                onDateChange={onDateChange} 
-              />
-            );
+          return (
+            <ScheduleActionItem
+              key={index}
+              width={1}
+              onNewScheduleItem={onNewScheduleItem}
+              ticket={tickets? tickets.tickets[index]: null}
+              info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
+              date={currentDate}
+              mode={mode}
+              onModeChange={onModeChange}
+              onDateChange={onDateChange} 
+              showModal={showModal}
+              person={{fullName: items.person.lastName + ' ' + items.person.firstName + ' ' + items.person.patrName, id: items.person.id, speciality: speciality, org: items.person.orgStructure_id}}
+              client={client}
+            />
+          );
         });
         let kb = Math.floor((moment.duration(tickets.begTime).asMinutes() - startHour*60) / k);
         let ke = Math.floor((endHour*60 - moment.duration(tickets.endTime).asMinutes()) / k);
@@ -64,6 +74,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
             mode={mode}
             onModeChange={onModeChange}
             onDateChange={onDateChange} 
+            showModal={showModal}
           />
           {arr}
           <ScheduleActionItem
@@ -72,6 +83,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
             mode={mode}
             onModeChange={onModeChange}
             onDateChange={onDateChange} 
+            showModal={showModal}
           />
         </>
     }

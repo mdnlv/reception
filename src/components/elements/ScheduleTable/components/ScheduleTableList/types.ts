@@ -1,4 +1,5 @@
-import {Schedule, ScheduleTableModeType} from "../../types";
+import {ActionPost, Schedule, ScheduleTableModeType} from "../../types";
+import { ActionData } from "../../types"
 
 export interface ListProps {
   list: Schedule;
@@ -17,7 +18,12 @@ export interface ListProps {
   endHour: number;
   speciality: {
     [k: number]: string;
-  }
+  };
+  client : {
+    fullName: string;
+    id: number;
+  },
+  postTicket(data: ActionPost): void;
 }
 
 export interface PersonTree {

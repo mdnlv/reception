@@ -65,5 +65,39 @@ export interface ScheduleTableProps {
   schedules: Schedule;
   person_tree: PersonTree[];
   loadSchedule(id: number, beg_date: string, end_date: string): void;
-  speciality: any
+  speciality: any,
+  client: Client;
+  postTicket(data: ActionPost): void;
+}
+
+export interface Client {
+  fullName: string;
+  id: number;
+}
+
+export interface ActionProps {
+  data: ActionData;
+  visible: boolean;
+  loading: boolean;
+  handleOk(): void;
+  handleCancel(): void;
+}
+
+export interface ActionData {
+  date: string;
+  time: string;
+  client: string;
+  person: string;
+  speciality: string;
+  type: string;
+  data: ActionPost;
+}
+
+export interface ActionPost {
+  action_id: number;
+  idx: number;
+  client_id: number;
+  person_id: number;
+  user_id: number;
+  index: string;
 }

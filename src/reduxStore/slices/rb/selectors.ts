@@ -100,7 +100,7 @@ export const detailedSocialClassesSelector = createSelector(
   (types) =>
     types.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.name
     })),
 );
 

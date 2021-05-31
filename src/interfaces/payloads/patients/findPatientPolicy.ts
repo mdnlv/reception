@@ -1,5 +1,5 @@
 type FindPolicyParams = Partial<{
-  birthDate: string;
+  birthDate: string | Date;
   docSerial: string;
   docNumber: string;
   firstName: string;

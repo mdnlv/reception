@@ -1,4 +1,5 @@
 import { ScheduleTableModeType, Schedule} from "../../../../types";
+import { ActionData  } from "../../../../types"
 
 export interface ItemProps {
   id: number;
@@ -22,7 +23,12 @@ export interface ItemProps {
   endHour: number;
   speciality: {
     [k: number]: string;
-  }
+  };
+  showModal?(data: ActionData): void;
+  client : {
+    fullName: string;
+    id: number;
+  };
 }
 
 export interface PersonTree {

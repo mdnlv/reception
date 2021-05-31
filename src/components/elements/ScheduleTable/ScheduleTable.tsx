@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {useSelector} from "react-redux";
 import { addDays, eachDayOfInterval } from 'date-fns';
 import {Row, Col, Spin} from "antd";
@@ -11,9 +11,9 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality}) => {
-  const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
-  const ptIsLoading = useSelector((state: RootState) => state.person_tree.isLoading);
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, postTicket}) => {
+  const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
+  const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
   const [currentDay, setCurrentDay] = useState(new Date());
@@ -65,7 +65,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
 
   return (
     <div className={'schedule-table'}>
-      {ptIsLoading ? (
+      {(isLoading || postLoading)? (
         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
           <Spin/>
         </div>
@@ -111,6 +111,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               startHour={startHour}
               endHour={endHour}
               speciality={speciality}
+              client={client}
+              postTicket={postTicket}
             />
           </Row>
         </>

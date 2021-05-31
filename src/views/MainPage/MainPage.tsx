@@ -10,7 +10,7 @@ import { detailedSchedules, getSpeciality } from '../../reduxStore/slices/schedu
 import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
-import {fetchSchedules} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import {fetchSchedules, saveTicket} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import {fetchPersonTree} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
@@ -21,6 +21,7 @@ const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
   const schedules = useSelector(detailedSchedules);
   const person_tree = useSelector(detailedPersonTree);
+  const [client, setClient] = useState({fullName:'', id: 0})
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const specialities = useSelector(getSpeciality);
@@ -44,12 +45,16 @@ const MainPage: FC = () => {
     }));
   }, []);
 
+  const postTicket = useCallback((data) => {
+    dispatch(saveTicket(data));
+  }, []);
+
   useEffect(() => {
     dispatch(fetchPersonTree({}))
   }, [])
 
   const getInfoCard = useMemo(() => {
-    if (showUserInfo) {
+    if (showUserInfo) {  
       return !!currentPatientMemo;
     } else {
       return false;
@@ -68,7 +73,7 @@ const MainPage: FC = () => {
         <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
           <Row>
             <Col span={24}>
-              <PatientsSearchTable onOpenSearch={openSearchQuery} />
+              <PatientsSearchTable onOpenSearch={openSearchQuery}/>
             </Col>
           </Row>
         </Col>
@@ -84,7 +89,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule} speciality={specialities}/>
+          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule} speciality={specialities} client={client} postTicket={postTicket}/>
         </Col>
       </Row>
     </div>
