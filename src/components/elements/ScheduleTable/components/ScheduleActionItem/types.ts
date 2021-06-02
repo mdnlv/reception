@@ -16,7 +16,7 @@ export interface ItemProps {
     fullName: string;
     id: number;
     speciality: string;
-    orgStructure_id: number;
+    org: number;
   };
   client? : {
     fullName: string;

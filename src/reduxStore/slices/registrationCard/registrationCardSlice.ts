@@ -249,8 +249,10 @@ const registrationCardSlice = createSlice({
     },
     resetPoliciesFound: (state, action: PayloadAction<{value: 'oms' | 'dms';}>) => {
       if (action.payload.value === 'oms') {
+        //@ts-ignore
         state.form.foundPolicies.oms.items[0] = state.initialFormState.passportGeneral.policyOms;
       } else {
+        //@ts-ignore
         state.form.foundPolicies.dms.items[0] = state.initialFormState.passportGeneral.policyDms;
       }
     },

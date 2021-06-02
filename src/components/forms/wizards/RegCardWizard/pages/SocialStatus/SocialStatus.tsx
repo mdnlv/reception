@@ -18,6 +18,7 @@ const SocialStatus: React.FC = () => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const loadings = useSelector(socialLoadingsSelector);
 
+
   return (
     <form className={'wizard-step social-status-form'}>
       <Row>
@@ -25,6 +26,7 @@ const SocialStatus: React.FC = () => {
           <Status
             isLoadingClasses={loadings.classes}
             isLoadingTypes={loadings.types}
+            // @ts-ignore
             socialClassesList={socialClassesList}
             socialTypesList={socialTypesList}
           />

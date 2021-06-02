@@ -92,6 +92,7 @@ const PersonDocuments: React.FC = () => {
           <Status
             isLoadingClasses={loadings.classes}
             isLoadingTypes={loadings.types}
+            //@ts-ignore
             socialClassesList={socialClassesList}
             socialTypesList={socialTypesList}
           />

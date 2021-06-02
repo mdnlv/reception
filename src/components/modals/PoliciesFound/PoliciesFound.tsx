@@ -50,6 +50,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
           <Row>
             <Col span={13}>действителен:</Col>
             {policy?.from && policy?.to ? (
+              //@ts-ignore
               <Col span={11}>с {format(policy.from, 'd.MM.yyyy')} до {format(policy.to, 'd.MM.yyyy')}</Col>
             ) : null}
           </Row>

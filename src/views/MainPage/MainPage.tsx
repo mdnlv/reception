@@ -36,7 +36,7 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
-  
+
   const loadSchedule = useCallback((id: number, beg_date: string, end_date: string) => {
     dispatch(fetchSchedules({
       id: id,
@@ -54,7 +54,7 @@ const MainPage: FC = () => {
   }, [])
 
   const getInfoCard = useMemo(() => {
-    if (showUserInfo) {  
+    if (showUserInfo) {
       return !!currentPatientMemo;
     } else {
       return false;
@@ -89,6 +89,7 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
+          {/*@ts-ignore*/}
           <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule} speciality={specialities} client={client} postTicket={postTicket}/>
         </Col>
       </Row>
