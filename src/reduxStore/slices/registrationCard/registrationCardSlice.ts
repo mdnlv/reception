@@ -371,7 +371,7 @@ const registrationCardSlice = createSlice({
           })
         );
         state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
-          (item, index) => ({
+          (item, index) => (item.client_work_hurt_info && item.client_work_hurt_factor_info && {
             hazardDescription: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].hurtTypeId.toString() : '',
             hazardExp: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].stage : 0,
             factor: item.client_work_hurt_factor_info.length > 0 ? item.client_work_hurt_factor_info[index].factorTypeId.toString() : ''

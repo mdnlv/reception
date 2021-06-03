@@ -19,25 +19,25 @@ export const transformPatientResponse = (item: PatientResponse) => {
     notes: item.notes,
     chartBeginDate: item.chartBeginDate ? parseISO(item.chartBeginDate) : '',
 
-    work: item.client_work_info.map(item => ({
-      id: item.org_id,
-      freeInput: item.freeInput,
-      post: item.post,
-      stage: item.stage,
-      client_work_hurt_info:
-        item.client_work_hurt_info.length > 0
-          ? item.client_work_hurt_info.map(item => ({
+    work: item.client_work_info[0].org_id && item.client_work_info[0].freeInput
+      ? item.client_work_info.map(item => ({
+          id: item.org_id,
+          freeInput: item.freeInput,
+          post: item.post,
+          stage: item.stage,
+          ...(item.client_work_hurt_info.length > 0 && {
+            client_work_hurt_info: item.client_work_hurt_info.map(item => ({
               hurtTypeId: item.hurtType_id ? item.hurtType_id : '',
               stage: item.stage ? item.stage : 0
             }))
-          : [],
-      client_work_hurt_factor_info:
-        item.client_work_hurt_factor_info.length > 0
-          ? item.client_work_hurt_factor_info.map(item => ({
-            factorTypeId: item.factorType_id ? item.factorType_id : ''
-          }))
-          : []
-    })),
+          }),
+          ...(item.client_work_hurt_factor_info.length > 0 && {
+            client_work_hurt_factor_info: item.client_work_hurt_factor_info.map(item => ({
+              factorTypeId: item.factorType_id ? item.factorType_id : ''
+            }))
+          }),
+        }))
+      : [],
 
     client_document_info: item.client_document_info[0] && {
       givenBy: item.client_document_info[0].origin,

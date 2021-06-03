@@ -9,13 +9,11 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     firstName: Yup.string().required('Не введено имя пациента'),
     birthDate: Yup.string().required('Не введена дата рождения'),
     snils: Yup.string().required('Не введен СНИЛС'),
-    height: Yup.number().positive('Рост не является положительным значением'),
-    weight: Yup.number().positive('Вес не является положительным значением')
   }),
   passportGeneral: Yup.object({
     passportInfo: Yup.object({
       passportType: Yup.string().required('Не выбран тип документа'),
-      fromDate: Yup.string().required('Не введена дата выдачи')
+      fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
     }),
     contacts: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип телефона'),
