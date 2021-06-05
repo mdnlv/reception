@@ -113,40 +113,39 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
   };
 
   return (
-    <Row justify={'center'} align={'middle'}>
-      {/*mode === 'day' && (
-        <div
-          onClick={() => {
-            onDateChange(subDays(current, 1));
-          }}
-          className={'picker-action__wrapper'}>
-          <LeftOutlined />
-        </div>
-        )*/}
-      
-      {mode === 'week' && <>{/*<div className={'schedule-date-picker__picker'}>
+    <Row justify={'center'} align={'middle'}>   
+      <div
+        onClick={() => {
+          onDateChange(subDays(current, 1));
+        }}
+        className={'picker-action__wrapper'}>
+        <LeftOutlined style={{ fontSize: '12px'}}/>
+      </div>
+        
+      {mode === 'week' && <><div className={'schedule-date-picker__picker'}>
         <Popover
           placement={'bottom'}
           content={popoverContent()}
-      trigger="click">*/}
-         <div>{dateContent()}</div> {/*
+          trigger="click">
+         <div>{dateContent()}</div> 
         </Popover>
-      </div>*/}</>}
+      </div></>}
 
       {mode === 'day' && (<>
-        <div className='back' onClick={()=>{onModeChange('week'); onDateChange();}} > <LeftOutlined style={{ fontSize: '14px'}}/> Назад </div>
+        <div className='back' onClick={()=>{onModeChange('week'); onDateChange();}} > 
+        <LeftOutlined style={{ fontSize: '12px'}}/> 
+        Назад 
+        </div>
         <div>{dateContent()}</div>
       </>)}
 
-      {/*mode === 'day' && (
-        <div
-          onClick={() => {
-            onDateChange(addDays(current, 1));
-          }}
-          className={'picker-action__wrapper'}>
-          <RightOutlined />
-        </div>
-        )*/}
+      <div
+        onClick={() => {
+          onDateChange(addDays(current, 1));
+        }}
+        className={'picker-action__wrapper'}>
+        <RightOutlined style={{ fontSize: '12px'}}/>
+      </div>
     </Row>
   );
 };

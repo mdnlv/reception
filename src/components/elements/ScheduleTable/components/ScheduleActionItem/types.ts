@@ -5,7 +5,6 @@ export interface ItemProps {
   //onClick?(): void;
   info?: ScheduleTableDate  | null ;
   ticket?:  ScheduleListTicket | null ;
-  onNewScheduleItem(): void;
   width: number;
   mode: ScheduleTableModeType;
   onModeChange(mode: ScheduleTableModeType): void;

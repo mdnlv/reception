@@ -2,7 +2,6 @@ import {ScheduleOne, ScheduleTableModeType} from "../../types";
 import { ActionData } from "../../types"
 export interface RowProps {
   items: ScheduleOne;
-  onNewScheduleItem(): void;
   mode: ScheduleTableModeType;
   rangeWeekNum: number;
   currentDate: Date;
