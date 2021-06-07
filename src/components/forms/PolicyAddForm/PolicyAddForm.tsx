@@ -108,25 +108,27 @@ const PolicyAddForm: React.FC<FormProps> = ({
       }`}>
       <h2>{sectionTitle()}</h2>
       <Row className="form-row" align={'bottom'} gutter={16}>
-        <Col>
-          <Button
-            loading={isLoading}
-            onClick={() => {
-              onFindPolicyHandler({
-                birthDate: birthDate,
-                docNumber,
-                docSerial,
-                firstName,
-                lastName,
-                patrName,
-                policyNumber: formValues.number,
-                policySerial: formValues.serial,
-                sex: sex.toString(),
-              });
-            }}>
-            Искать
-          </Button>
-        </Col>
+        {policyKey === 'policyOms' && (
+          <Col>
+            <Button
+              loading={isLoading}
+              onClick={() => {
+                onFindPolicyHandler({
+                  birthDate: birthDate,
+                  docNumber,
+                  docSerial,
+                  firstName,
+                  lastName,
+                  patrName,
+                  policyNumber: formValues.number,
+                  policySerial: formValues.serial,
+                  sex: sex.toString(),
+                });
+              }}>
+              Искать
+            </Button>
+          </Col>
+        )}
         <Col span={4}>
           <FormField label={'Тип'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
