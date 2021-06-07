@@ -10,7 +10,7 @@ import { detailedSchedules, getSpeciality } from '../../reduxStore/slices/schedu
 import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
-import {fetchSchedules, saveTicket} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import {fetchSchedules, actionTicket} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import {fetchPersonTree} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
@@ -46,7 +46,7 @@ const MainPage: FC = () => {
   }, []);
 
   const postTicket = useCallback((data) => {
-    dispatch(saveTicket(data));
+    dispatch(actionTicket(data));
   }, []);
 
   useEffect(() => {
@@ -89,8 +89,14 @@ const MainPage: FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          {/*@ts-ignore*/}
-          <ScheduleTable person_tree={person_tree} schedules={schedules} loadSchedule={loadSchedule} speciality={specialities} client={client} postTicket={postTicket}/>
+          <ScheduleTable 
+            person_tree={person_tree} 
+            schedules={schedules} 
+            loadSchedule={loadSchedule} 
+            speciality={specialities} 
+            client={client} 
+            actionTicket={postTicket} 
+          />
         </Col>
       </Row>
     </div>

@@ -11,14 +11,14 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, postTicket}) => {
+const currentDay = new Date();
+
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
-  const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
-  const [currentDay, setCurrentDay] = useState(new Date());
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [rangeWeekDate, setRangeWeek] = useState(addDays(new Date(), 14));
+  const [currentDate, setCurrentDate] = useState(currentDay);
+  const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDay, 13));
   
   const startHour = 8;
   const endHour = 18;
@@ -28,9 +28,9 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
       eachDayOfInterval({
         start: currentDate,
         end: rangeWeekDate,
-      }).length - 1
+      }).length   
     );
-  }, [rangeWeekDate, currentDate]);
+  }, [rangeWeekDate]);
 
   const onRangeWeekChange = useCallback((date: Date) => {
     setRangeWeek(date);
@@ -61,11 +61,9 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     [setMode, mode],
   );
 
-  const onNewScheduleItem = useCallback(() => {}, []);
-
   return (
     <div className={'schedule-table'}>
-      {(isLoading || postLoading)? (
+      { isLoading ? (
         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
           <Spin/>
         </div>
@@ -99,7 +97,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               selected={selected}
               rangeWeekNum={rangeWeekNum}
               onToggleRow={onToggleScheduleRow}
-              onNewScheduleItem={onNewScheduleItem}
               list={schedules}
               mode={mode}
               person_tree={person_tree}
@@ -112,7 +109,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               endHour={endHour}
               speciality={speciality}
               client={client}
-              postTicket={postTicket}
+              actionTicket={actionTicket}
             />
           </Row>
         </>

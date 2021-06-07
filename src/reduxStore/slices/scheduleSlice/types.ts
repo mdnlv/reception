@@ -11,6 +11,7 @@ export interface ScheduleListTicket {
   action_id: number;
   planned: number;
   begDateTime: string;
+  endDateTime: string;
   client: ScheduleClient;
   idx: number;
   index: string;

@@ -4,7 +4,6 @@ import { ActionData  } from "../../../../types"
 export interface ItemProps {
   id: number;
   name: string;
-  onNewScheduleItem(): void;
   toggle: boolean;
   onToggle(id: number): void;
   mode: ScheduleTableModeType;

@@ -1,9 +1,7 @@
 import {ActionPost, Schedule, ScheduleTableModeType} from "../../types";
-import { ActionData } from "../../types"
 
 export interface ListProps {
   list: Schedule;
-  onNewScheduleItem(): void;
   onToggleRow(id: number): void;
   selected: number[];
   mode: ScheduleTableModeType;
@@ -23,7 +21,7 @@ export interface ListProps {
     fullName: string;
     id: number;
   },
-  postTicket(data: ActionPost): void;
+  actionTicket(data: ActionPost): void;
 }
 
 export interface PersonTree {

@@ -6,6 +6,8 @@ import moment from "moment"
 import './styles.scss';
 import {ItemProps} from "./types";
 import { ActionPost } from "../../types"
+import {RootState} from "../../../../../reduxStore/store";
+import {useSelector} from "react-redux";
 
 const ScheduleActionItem: React.FC<ItemProps> = ({
   info,
@@ -16,13 +18,11 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
   onDateChange,
   date,
   showModal,
-  person,
-  client
+  person
 }) => {
-
+  const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const onDayClick = (data: ActionPost)=>{
-    if(showModal)
-    showModal(  {
+    showModal && showModal(  {
       date: date? moment(date).format("DD.MM.YYYY") : '',
       time: ticket? ticket.begDateTime.slice(0,-3) + '-' + ticket.endDateTime.slice(0,-3): '',
       client: (ticket?.client && ticket.client.id)? ticket.client.lastName + ' ' + ticket.client.firstName[0] + '.' + ticket.client.patrName[0] + '.': '',
@@ -65,7 +65,17 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
               <div
                 style={{ backgroundColor: '#7fd3fd', cursor: 'pointer', ...widthStyle }}
                 className={'schedule-action-item'}
-                onClick={()=>{onDayClick({action_id: info? info.action_id : 0, idx:  ticket.idx, client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, person_id:  person? person.id : 0, user_id: 614, index: ticket? ticket.index: ''})}}
+                onClick={()=>{onDayClick({
+                  action_id: info? info.action_id : 0, 
+                  idx:  ticket.idx, 
+                  client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+                  person_id:  person? person.id : 0, 
+                  user_id: 614, 
+                  index: ticket? ticket.index: '',
+                  old_action_id: 0,
+                  old_idx: 0,
+                  type: 'new'
+                })}}
               ></div>
             </Popover>
           );
@@ -86,8 +96,18 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
               <div
                 style={{ backgroundColor: '#FFBC7D', cursor: 'pointer', ...widthStyle }}
                 className={'schedule-action-item'}
-                onClick={()=>{onDayClick({action_id: info? info.action_id : 0, idx:  ticket.idx, client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, person_id:  person? person.id : 0, user_id: 614, index: ticket? ticket.index: ''})}}
-              >
+                onClick={()=>{onDayClick({
+                  action_id: info? info.action_id : 0, 
+                  idx:  ticket.idx, 
+                  client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+                  person_id:  person? person.id : 0, 
+                  user_id: 614, 
+                  index: ticket? ticket.index: '',
+                  old_action_id: 0,
+                  old_idx: 0,
+                  type: 'new'
+                })}}
+              >                
               </div>
             </Popover>
           );
@@ -127,9 +147,9 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
         }
     }
 
-  }, [width]);
+  }, [width, ticket]);
 
-  return <>{getTypeAction}</>;
+  return <>{postLoading ? '' : getTypeAction}</>;
 };
 
 export default ScheduleActionItem;

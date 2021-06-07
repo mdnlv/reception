@@ -18,17 +18,13 @@ export default {
     );
   },
 
-  saveTicket(ticket: ActionPost) {
-    return apiInstance.post(`/schedule?user_id=${ticket.user_id}&person_id=${ticket.person_id}&client_id=${ticket.client_id}&action_id=${ticket.action_id}&idx=${ticket.idx}`);
-  },
-/*
-  editTicket(ticket: ActionPost) {
-    return apiInstance.post(`/schedule`, ticket);
-  },
-
-  deleteTicket(ticket: ActionPost) {
-    return apiInstance.post(`/schedule`, ticket);
+  actionTicket(ticket: ActionPost) {
+    if(ticket.type == 'new')
+      return apiInstance.post(`/schedule?user_id=${ticket.user_id}&person_id=${ticket.person_id}&client_id=${ticket.client_id}&action_id=${ticket.action_id}&idx=${ticket.idx}`);
+    if(ticket.type == 'edit')
+      return apiInstance.put(`/schedule?user_id=${ticket.user_id}&action_id=${ticket.old_action_id}&idx=${ticket.old_idx}&new_action_id=${ticket.action_id}&new_idx=${ticket.idx}`);
+    if(ticket.type == 'delete') 
+      return apiInstance.delete(`/schedule?user_id=${ticket.user_id}&client_id=${ticket.client_id}&action_id=${ticket.action_id}&idx=${ticket.idx}`);
   }
-*/
 };
  

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { addDays } from 'date-fns';
 import moment from 'moment';
 import './styles.scss';
@@ -7,7 +7,6 @@ import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
 
 const ScheduleActionsRow: React.FC<RowProps> = ({
   items,
-  onNewScheduleItem,
   mode,
   rangeWeekNum,
   currentDate,
@@ -22,15 +21,13 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
 
   const rowContent = useMemo(() => {
     switch (mode) {
-      
       case 'week':
-        return new Array(rangeWeekNum).fill(0).map((item, index) => {   
+        return new Array(rangeWeekNum).fill(0).map((_, index) => {   
           let date = addDays(new Date(), index);  
           let sdate = moment(date).format('YYYY-MM-DD');
           return (
             <ScheduleActionItem
               key={sdate}
-              onNewScheduleItem={onNewScheduleItem}
               width={1}
               info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
               mode={mode} 
@@ -47,12 +44,11 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
         let k = Math.floor(dur / tickets.planned);
         let sdate = moment(currentDate).format('YYYY-MM-DD');
-        let arr = new Array(tickets.planned).fill(0).map((item, index) => {
+        let arr = new Array(tickets.planned).fill(0).map((_, index) => {
           return (
             <ScheduleActionItem
               key={index}
               width={1}
-              onNewScheduleItem={onNewScheduleItem}
               ticket={tickets? tickets.tickets[index]: null}
               info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
               date={currentDate}
@@ -70,7 +66,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         return <>
           <ScheduleActionItem
             width={kb}
-            onNewScheduleItem={onNewScheduleItem}
             mode={mode}
             onModeChange={onModeChange}
             onDateChange={onDateChange} 
@@ -79,7 +74,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
           {arr}
           <ScheduleActionItem
             width={ke}
-            onNewScheduleItem={onNewScheduleItem}
             mode={mode}
             onModeChange={onModeChange}
             onDateChange={onDateChange} 

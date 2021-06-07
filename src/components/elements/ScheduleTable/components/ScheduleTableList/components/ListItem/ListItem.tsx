@@ -11,7 +11,6 @@ import ScheduleScrollContainer from '../../../ScheduleScrollContainer/ScheduleSc
 const ListItem: React.FC<ItemProps> = ({
   onToggle,
   toggle,
-  onNewScheduleItem,
   name,
   id,
   mode,
@@ -32,10 +31,10 @@ const ListItem: React.FC<ItemProps> = ({
   client
 }) => {
   const [togg, setTogg] = useState(false);
-  const onToggleHandler = useCallback(() => {
+/*  const onToggleHandler = useCallback(() => {
     onToggle(id);
   }, [onToggle]);
-
+*/
   return (<>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
@@ -62,7 +61,6 @@ const ListItem: React.FC<ItemProps> = ({
               <ScheduleActionsRow
                 mode={mode}
                 rangeWeekNum={rangeWeekNum}
-                onNewScheduleItem={onNewScheduleItem}
                 items={item}
                 currentDate={currentDate}   
                 rangeWeekDate={rangeWeekDate}  
@@ -88,7 +86,6 @@ const ListItem: React.FC<ItemProps> = ({
             id={item.id}
             onToggle={onToggle}
             key={item.id + index}
-            onNewScheduleItem={onNewScheduleItem}
             name={item.name}
             child={item.child}
             person_list={item.person_list}  

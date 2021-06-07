@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-//import Radio, { RadioChangeEvent } from 'antd/lib/radio';
+import Radio, { RadioChangeEvent } from 'antd/lib/radio';
 import Row from 'antd/lib/row';
 
 import './styles.scss';
@@ -15,12 +15,12 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
   mode,
   rangeWeekDate
 }) => {
-  /*const modeChangeHandler = useCallback(
+  const modeChangeHandler = useCallback(
     (e: RadioChangeEvent) => {
       onModeChange(e.target.value);
     },
     [onModeChange],
-  );*/
+  );
 
 
   return (
@@ -39,10 +39,10 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
         />
       </div>
       
-      {/*<Radio.Group onChange={modeChangeHandler} value={mode}>
+      <Radio.Group onChange={modeChangeHandler} value={mode}>
         <Radio value={'day'}>День</Radio>
         <Radio value={'week'}>Неделя</Radio>
-      </Radio.Group>*/}
+      </Radio.Group>
     </Row>
   );
 };

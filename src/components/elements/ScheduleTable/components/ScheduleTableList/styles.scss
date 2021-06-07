@@ -17,6 +17,10 @@
       padding-left: 10px;
       position: relative;
 
+      &__name {
+        margin-left: 3px;
+      }
+
       &__name-person{
         text-align: right;
       }

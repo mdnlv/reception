@@ -67,7 +67,7 @@ export interface ScheduleTableProps {
   loadSchedule(id: number, beg_date: string, end_date: string): void;
   speciality: any,
   client: Client;
-  postTicket(data: ActionPost): void;
+  actionTicket(data: ActionPost): void;
 }
 
 export interface Client {
@@ -96,8 +96,11 @@ export interface ActionData {
 export interface ActionPost {
   action_id: number;
   idx: number;
+  old_action_id: number;
+  old_idx: number;
   client_id: number;
   person_id: number;
   user_id: number;
   index: string;
+  type: 'edit' | 'new' | 'delete';
 }
