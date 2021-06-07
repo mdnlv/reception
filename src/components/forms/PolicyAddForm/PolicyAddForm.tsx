@@ -63,7 +63,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
     if (timeType === "1" || formValues.serial === 'ВС') {
       setPolicyMask('111111111')
     } else if (timeType === "3" || formValues.serial === 'ЕП') {
-      setPolicyMask('111111111111')
+      setPolicyMask('1111111111111111')
     } else {
       setPolicyMask('')
     }
