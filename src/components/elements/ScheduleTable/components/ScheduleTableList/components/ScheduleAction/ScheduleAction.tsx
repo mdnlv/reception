@@ -22,7 +22,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
   const { Option } = Select;
 
   useEffect(() => {
-    if(oldData && data.data.client_id > -1) {
+    if(oldData && data && data.data.client_id > -1) {
       Modal.error({
         title: 'Номерок занят',
         content: `Выберите свободный номерок`,
@@ -34,8 +34,8 @@ const ScheduleAction: React.FC<ActionProps> = ({
   }, [visible]);
 
   return <>{
-    oldData  === undefined ? (
-      (data.data.client_id == - 1) ?
+    oldData === undefined ? (
+      (data && data.data.client_id == - 1) ?
         <Modal 
           title={'Запись на приём'}
           visible={visible || (loading && postLoading)} 
@@ -46,6 +46,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
           okButtonProps={{style:{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}}
           cancelButtonProps={{style:{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}}
           onOk={()=>{
+            if(data)
             actionTicket({
               action_id: data.data.action_id,
               idx: data.data.idx,
@@ -63,24 +64,24 @@ const ScheduleAction: React.FC<ActionProps> = ({
         >
 
           ФИО пациента:
-          <Input value={data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data.client}/>
+          <Input value={data?.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data?.client}/>
           <div className='date-time'>
-            <DatePicker defaultValue={moment(data.date, "YYYY-MM-DD")}/>
+            <DatePicker defaultValue={moment(data?.date, "YYYY-MM-DD")}/>
           </div>
 
           <div>Врач:</div>
           <Select defaultValue="1" style={{ width: 200 }}>
-              <Option value="1">{data.person}</Option>
+              <Option value="1">{data?.person}</Option>
           </Select>
 
           <div>Специальность врача:</div>
           <Select defaultValue="1" style={{ width: 200 }}>
-              <Option value="1">{data.speciality}</Option>
+              <Option value="1">{data?.speciality}</Option>
           </Select>
         </Modal>
       : 
         <Modal 
-        title={data.date}
+        title={data?.date}
         visible={visible || (loading && postLoading)} 
         confirmLoading={postLoading}
         onCancel={()=>{setVisible(false)}}
@@ -93,6 +94,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
                 okText: 'Ок',
                 cancelText: 'Не отменять',
                 onOk: ()=>{  
+                  if(data)
                   actionTicket({
                     action_id: data.data.action_id,
                     idx: data.data.idx,
@@ -127,19 +129,19 @@ const ScheduleAction: React.FC<ActionProps> = ({
         ]}
       >
         <div className='date-time'>
-          <div>Дата приёма: {data.date}</div>
-          <div>Время приёма: {data.time}</div>
+          <div>Дата приёма: {data?.date}</div>
+          <div>Время приёма: {data?.time}</div>
         </div>
         ФИО пациента 
-        <Input value={data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data.client}/>
+        <Input value={data?.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data?.client}/>
         <div>Врач:</div>
         <Select defaultValue="1" style={{ width: 200 }}>
-            <Option value="1">{data.person}</Option>
+            <Option value="1">{data?.person}</Option>
         </Select>
 
         <div>Специальность врача:</div>
         <Select defaultValue="1" style={{ width: 200 }}>
-            <Option value="1">{data.speciality}</Option>
+            <Option value="1">{data?.speciality}</Option>
         </Select>
       </Modal>
     ) : 
@@ -156,6 +158,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
         okButtonProps={{style:{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}}
         cancelButtonProps={{style:{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}}
         onOk={()=>{
+          if(data)
           actionTicket({
             action_id: data.data.action_id,
             idx: data.data.idx,
@@ -171,17 +174,17 @@ const ScheduleAction: React.FC<ActionProps> = ({
       >
         <div className='date-time'>
           <div>ФИО пациента: {oldData.client}</div>
-          <div>Врач: {data.person}</div>
-          Специализация: {data.speciality}
+          <div>Врач: {data?.person}</div>
+          Специализация: {data?.speciality}
           <div>
             <h2>Текущая дата</h2>
-            <div>{data.date}</div>
-            <div>{data.time}</div>
+            <div>{data?.date}</div>
+            <div>{data?.time}</div>
           </div>
           <div>
             <h2>Новая дата</h2>
-            <div>{data.date}</div>
-            <div>{data.time}</div>
+            <div>{data?.date}</div>
+            <div>{data?.time}</div>
           </div>
         </div>
       </Modal>   
