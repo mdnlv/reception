@@ -33,6 +33,7 @@ const initialState: RegistrationCardStateType = {
     idPatient: false,
   },
   patientRegId: undefined,
+  policiesFoundMessage: false,
   initialFormState: {
     personal: {
       code: '',

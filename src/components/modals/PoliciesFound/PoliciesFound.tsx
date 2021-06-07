@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
 import {format} from "date-fns";
 
@@ -11,6 +11,12 @@ const PoliciesFound: React.FC<ModalProps> = ({
   onOk,
   cmoType
 }) => {
+  const [emptyPolicy, setEmptyPolicy] = useState(false);
+
+  useEffect(() => {
+    console.log('policy', policy);
+  }, [policy]);
+
   return (
     <Modal
       wrapClassName='app-modal'

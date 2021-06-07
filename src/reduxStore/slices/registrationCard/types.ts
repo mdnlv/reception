@@ -89,6 +89,7 @@ export interface RegistrationCardStateType {
     idPatient: boolean;
   };
   patientRegId?: number;
+  policiesFoundMessage: boolean;
   initialFormState: InitialRegFormState;
   form: FormState;
 }

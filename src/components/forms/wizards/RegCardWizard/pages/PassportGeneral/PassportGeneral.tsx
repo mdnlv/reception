@@ -7,7 +7,8 @@ import {
   fetchKladrNested,
   fetchKladrStreets,
   findPatientPolicy,
-  resetPoliciesFound
+  resetPoliciesFound,
+  setPoliciesFoundMessage,
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {
   kladrLoadingsSelector,
@@ -36,6 +37,9 @@ const PassportGeneral: React.FC = () => {
   const { dms, oms } = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
+  const {policiesFoundMessage} = useSelector(
+    (state: RootState) => state.registrationCard,
+  );
   const {
     rbKladrDocumented,
     rbKladrNestedDocumented,
@@ -60,17 +64,14 @@ const PassportGeneral: React.FC = () => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
-  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    console.log('policiesFoundMessage', policiesFoundMessage);
+  }, [policiesFoundMessage]);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
-
-  useEffect(() => {
-    if (oms.items.length > 0){
-      setShowModal(true);
-    }
-  }, [oms]);
 
   const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
@@ -100,11 +101,11 @@ const PassportGeneral: React.FC = () => {
 
   const onCloseModal = () => {
     dispatch(resetPoliciesFound());
-    setShowModal(false);
+    dispatch(setPoliciesFoundMessage(false));
   };
 
   const onOkModal = () => {
-    setShowModal(false);
+    dispatch(setPoliciesFoundMessage(false));
   };
 
   return (
@@ -177,10 +178,10 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <PoliciesFound
-        isVisible={showModal && !oms.isLoading}
+        isVisible={policiesFoundMessage && !oms.isLoading}
         policy={oms.items[0]}
-        onClose={() => onCloseModal()}
-        onOk={() => onOkModal()}
+        onClose={onCloseModal.bind(this)}
+        onOk={onOkModal.bind(this)}
         cmoType={cmoTypeList}
       />
     </form>

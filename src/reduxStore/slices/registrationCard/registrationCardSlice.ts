@@ -124,7 +124,7 @@ export const findPatientPolicy = createAsyncThunk(
     );
     try {
       //@ts-ignore
-      const birthDate = format(payload.params.birthDate, 'yyyy-MM-dd');
+      const birthDate = format(payload.birthDate, 'yyyy-MM-dd');
       const response = await PatientsService.findPatientPolicy({
         ...payload,
         birthDate,
@@ -133,12 +133,15 @@ export const findPatientPolicy = createAsyncThunk(
         setFindPolicyLoading(false),
       );
       if (response.status === 200) {
-        return {
-          data: response,
-          type: payload,
-        };
+        thunkAPI.dispatch(
+          setPoliciesFoundMessage(true),
+        );
+        return response.data;
       } else if (response.status === 204) {
-        alert('Полисы не найдены');
+        thunkAPI.dispatch(
+          setPoliciesFoundMessage(true),
+        );
+        return {};
       }
     } catch (e) {
       alert(e)
@@ -207,6 +210,12 @@ const registrationCardSlice = createSlice({
     ) => {
       state.form.foundPolicies.oms.isLoading =
         action.payload;
+    },
+    setPoliciesFoundMessage: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.policiesFoundMessage = action.payload;
     },
     setKladrLoading: (
       state,
@@ -460,16 +469,12 @@ const registrationCardSlice = createSlice({
       }
     });
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
-      if (action.payload && action.payload.type === 'oms') {
-        state.form.foundPolicies.oms.items = [
+      if (action.payload) {
+        state.form.foundPolicies.oms.items =
+          Object.keys(action.payload).length !== 0 && action.payload.constructor === Object ? [
           // @ts-ignore
-          transformPolicySearchResponse(action.payload.data.data),
-        ];
-      } else if (action.payload?.type === 'dms') {
-        state.form.foundPolicies.dms.items = [
-          // @ts-ignore
-          transformPolicySearchResponse(action.payload.data.data),
-        ];
+          transformPolicySearchResponse(action.payload),
+        ] : [];
       }
     });
   },
@@ -486,7 +491,8 @@ export const {
   fetchIdPatientError,
   setPatientReg,
   resetRegCard,
-  resetPoliciesFound
+  resetPoliciesFound,
+  setPoliciesFoundMessage,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;
