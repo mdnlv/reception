@@ -60,7 +60,6 @@ const PassportGeneral: React.FC = () => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
-  const [policyType, setPolicyType] = useState('' as 'oms' | 'dms' | '');
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -68,13 +67,10 @@ const PassportGeneral: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // dms.items.length > 0 && oms.items.length > 0 && setShowModal(true);
-    if (dms.items.length > 0 && policyType === 'dms') {
-      setShowModal(true);
-    } else if (oms.items.length > 0 && policyType === 'oms'){
+    if (oms.items.length > 0){
       setShowModal(true);
     }
-  }, [dms, oms]);
+  }, [oms]);
 
   const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
@@ -98,19 +94,12 @@ const PassportGeneral: React.FC = () => {
     dispatch(fetchKladrStreets({ id, type,value }));
   };
 
-  const onFindPatientPolicy = (
-    payload: FindPolicyParams,
-    type: 'oms' | 'dms',
-  ) => {
-    setPolicyType(type);
-    dispatch(findPatientPolicy({ params: payload, type }));
+  const onFindPatientPolicy = (payload: FindPolicyParams) => {
+    dispatch(findPatientPolicy(payload));
   };
 
   const onCloseModal = () => {
-    if (policyType === 'oms' || policyType === 'dms') {
-      setPolicyType('');
-      dispatch(resetPoliciesFound({value: policyType}));
-    }
+    dispatch(resetPoliciesFound());
     setShowModal(false);
   };
 
@@ -165,7 +154,6 @@ const PassportGeneral: React.FC = () => {
         <Col span={12}>
           <PolicyAddForm
             cmoType={cmoTypeList}
-            foundPolicy={dms.items[0]}
             isLoading={dms.isLoading}
             isCmoLoading={organisations}
             policyKey={'policyDms'}
@@ -189,8 +177,8 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <PoliciesFound
-        isVisible={showModal && !oms.isLoading && !dms.isLoading}
-        policy={policyType === 'oms' ? oms.items[0] : dms.items[0]}
+        isVisible={showModal && !oms.isLoading}
+        policy={oms.items[0]}
         onClose={() => onCloseModal()}
         onOk={() => onOkModal()}
         cmoType={cmoTypeList}

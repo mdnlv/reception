@@ -11,7 +11,7 @@ export interface FormProps {
   policyTimeType: ListOptionItem[];
   policyType: ListOptionItem[];
   cmoType: ListOptionItem[];
-  onFindPolicy(policy: FindPolicyParams, type: 'oms' | 'dms'): void;
+  onFindPolicy?: (policy: FindPolicyParams, type: 'oms' | 'dms') => void;
   isLoading: boolean;
   isCmoLoading: boolean;
   foundPolicy?: PassportPolicyType | any;

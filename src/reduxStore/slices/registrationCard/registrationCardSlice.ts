@@ -116,26 +116,26 @@ export const fetchKladrStreets = createAsyncThunk(
 export const findPatientPolicy = createAsyncThunk(
   'registrationCard/findPatientPolicy',
   async (
-    payload: { params: FindPolicyParams; type: 'oms' | 'dms' },
+    payload: FindPolicyParams,
     thunkAPI,
   ) => {
     thunkAPI.dispatch(
-      setFindPolicyLoading({ value: true, type: payload.type }),
+      setFindPolicyLoading(true),
     );
     try {
       //@ts-ignore
       const birthDate = format(payload.params.birthDate, 'yyyy-MM-dd');
       const response = await PatientsService.findPatientPolicy({
-        ...payload.params,
+        ...payload,
         birthDate,
       });
       thunkAPI.dispatch(
-        setFindPolicyLoading({ value: false, type: payload.type }),
+        setFindPolicyLoading(false),
       );
       if (response.status === 200) {
         return {
           data: response,
-          type: payload.type,
+          type: payload,
         };
       } else if (response.status === 204) {
         alert('Полисы не найдены');
@@ -203,10 +203,10 @@ const registrationCardSlice = createSlice({
     },
     setFindPolicyLoading: (
       state,
-      action: PayloadAction<{ value: boolean; type: 'oms' | 'dms' }>,
+      action: PayloadAction<boolean>,
     ) => {
-      state.form.foundPolicies[action.payload.type].isLoading =
-        action.payload.value;
+      state.form.foundPolicies.oms.isLoading =
+        action.payload;
     },
     setKladrLoading: (
       state,
@@ -253,14 +253,9 @@ const registrationCardSlice = createSlice({
       state.form = {...state.form, ...stateWithoutData};
       state.initialFormState = { ...initialState.initialFormState };
     },
-    resetPoliciesFound: (state, action: PayloadAction<{value: 'oms' | 'dms';}>) => {
-      if (action.payload.value === 'oms') {
-        //@ts-ignore
-        state.form.foundPolicies.oms.items[0] = state.initialFormState.passportGeneral.policyOms;
-      } else {
-        //@ts-ignore
-        state.form.foundPolicies.dms.items[0] = state.initialFormState.passportGeneral.policyDms;
-      }
+    resetPoliciesFound: (state) => {
+      //@ts-ignore
+      state.form.foundPolicies.oms.items[0] = state.initialFormState.passportGeneral.policyOms;
     },
   },
   extraReducers: (builder) => {

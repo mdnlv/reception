@@ -90,7 +90,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onFindPolicyHandler = useCallback(
     (values: FindPolicyParams) => {
-      onFindPolicy(values, policyKey === 'policyDms' ? 'dms' : 'oms');
+      onFindPolicy && onFindPolicy(values, policyKey === 'policyDms' ? 'dms' : 'oms');
     },
     [onFindPolicy],
   );
