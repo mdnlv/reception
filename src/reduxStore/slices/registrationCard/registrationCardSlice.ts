@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {format} from "date-fns";
 
 import initialState from './initialState';
 import RbService from '../../../services/RbService';
@@ -122,7 +123,12 @@ export const findPatientPolicy = createAsyncThunk(
       setFindPolicyLoading({ value: true, type: payload.type }),
     );
     try {
-      const response = await PatientsService.findPatientPolicy(payload.params);
+      //@ts-ignore
+      const birthDate = format(payload.params.birthDate, 'yyyy-MM-dd');
+      const response = await PatientsService.findPatientPolicy({
+        ...payload.params,
+        birthDate,
+      });
       thunkAPI.dispatch(
         setFindPolicyLoading({ value: false, type: payload.type }),
       );
@@ -370,6 +376,7 @@ const registrationCardSlice = createSlice({
             experience: item.stage
           })
         );
+        //@ts-ignore
         state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
           (item, index) => (item.client_work_hurt_info && item.client_work_hurt_factor_info && {
             hazardDescription: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].hurtTypeId.toString() : '',
