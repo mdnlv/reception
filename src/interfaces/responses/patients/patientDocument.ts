@@ -4,7 +4,7 @@ export default interface PatientDocumentResponse {
   createPerson_id: number;
   modifyDatetime: string;
   modifyPerson_id: number;
-  deleted: number;
+  deleted: 0 | 1;
   client_id: number;
   documentType_id: number;
   serial: string;

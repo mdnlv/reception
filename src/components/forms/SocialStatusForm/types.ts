@@ -6,6 +6,7 @@ export interface SocialStatus {
   fromDate: any;
   endDate: any;
   class?: string;
+  deleted?: 0 | 1;
 }
 
 export interface TrustedDoc {
@@ -15,7 +16,7 @@ export interface TrustedDoc {
   number?: string;
   date?: any;
   givenBy?: string;
- 
+
 }
 
 export interface FormState {

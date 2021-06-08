@@ -9,4 +9,5 @@ export default interface PatientPolicyResponse {
   endDate: string;
   name: string;
   note: string;
+  deleted: 0 | 1;
 }

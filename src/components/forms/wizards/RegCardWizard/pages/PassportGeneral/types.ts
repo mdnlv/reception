@@ -3,6 +3,7 @@ export interface PassportContactType {
   number: string;
   type: string;
   note: string;
+  deleted?: 0 | 1;
 }
 
 export interface PolicyAttachesType {
@@ -28,6 +29,7 @@ export interface PassportPolicyType {
   name?: string;
   note?: string;
   attachList?: PolicyAttachesType[];
+  deleted?: 0 | 1;
 }
 
 export interface PassportAddressType {
@@ -68,6 +70,7 @@ export default interface FormState {
     type: string;
     name?: string;
     note?: string;
+    deleted?: 0 | 1;
   };
   policyDms: {
     id?: number;
@@ -80,5 +83,6 @@ export default interface FormState {
     type: string;
     name?: string;
     note?: string;
+    deleted?: 0 | 1;
   };
 }

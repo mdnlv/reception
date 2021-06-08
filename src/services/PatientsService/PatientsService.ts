@@ -24,6 +24,10 @@ export default {
     return apiInstance.post(`/client/save`, patient);
   },
 
+  editPatient(patient: NewPatientPayload) {
+    return apiInstance.put(`/client/save`, patient);
+  },
+
   fetchIdPatient(id: number): Promise<AxiosResponse<PatientResponse[]>> {
     return apiInstance.get(`/client/save?id=${id}`);
   },

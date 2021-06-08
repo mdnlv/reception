@@ -51,6 +51,7 @@ export default interface NewPatientPayload {
     contact: string;
     isPrimary: 0 | 1;
     notes: string;
+    deleted?: 0 | 1;
   }[],
 
   client_soc_status_info: {
@@ -59,6 +60,7 @@ export default interface NewPatientPayload {
     begDate: string;
     endDate: string;
     notes: string | null;
+    deleted?: 0 | 1;
   }[];
 
   client_work_info: {
@@ -73,6 +75,7 @@ export default interface NewPatientPayload {
     client_work_hurt_factor_info: {
       factorType_id?: number;
     }[];
+    deleted?: 0 | 1;
   }[];
 
   client_policy_info: {
@@ -85,6 +88,7 @@ export default interface NewPatientPayload {
     note?: string;
     number: string;
     serial: string;
+    deleted?: 0 | 1;
   }[];
 
   client_document_info: {
@@ -124,11 +128,13 @@ export default interface NewPatientPayload {
     begDate: string;
     orgStructure_id: number;
     reason: number;
+    deleted?: 0 | 1;
   }[];
 
   client_identification_info?: {
     accountingSystem_id: number;
     checkDate: string;
     identifier: string;
+    deleted?: 0 | 1;
   }[];
 }

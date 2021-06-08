@@ -13,7 +13,8 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     to: item.endDate ? parseISO(item.endDate) : '',
     type: item.policyType_id?.toString() ?? '',
     name: item.name,
-    note: item.note
+    note: item.note,
+    deleted: item.deleted,
   };
 };
 

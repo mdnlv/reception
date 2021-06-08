@@ -5,6 +5,7 @@ export default interface PatientWorkResponse {
   stage: number;
   client_work_hurt_info: PatientWorkHurtInfo[];
   client_work_hurt_factor_info: PatientWorkHurtFactorInfo[];
+  deleted: 0 | 1;
 }
 
 interface PatientWorkHurtInfo {

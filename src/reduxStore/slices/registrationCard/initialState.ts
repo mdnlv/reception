@@ -125,7 +125,8 @@ const initialState: RegistrationCardStateType = {
         serial: "",
         timeType: "",
         to: '',
-        type: ''
+        type: '',
+        deleted: 0,
       },
       policyDms: {
         id: undefined,
@@ -137,7 +138,8 @@ const initialState: RegistrationCardStateType = {
         serial: "",
         timeType: "",
         to: '',
-        type: ''
+        type: '',
+        deleted: 0,
       }
     },
     personDocs: {
@@ -253,7 +255,8 @@ const initialState: RegistrationCardStateType = {
         serial: "",
         timeType: "",
         to: "",
-        type: ''
+        type: '',
+        deleted: 0,
       },
       policyDms: {
         cmo: "",
@@ -264,7 +267,8 @@ const initialState: RegistrationCardStateType = {
         serial: "",
         timeType: "",
         to: "",
-        type: ''
+        type: '',
+        deleted: 0,
       }
     },
     personDocs: {

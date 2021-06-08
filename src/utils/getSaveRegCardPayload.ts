@@ -32,6 +32,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     weight,
     height,
     startCardDate,
+    code,
     // hasImplants,
     // hasProsthesis,
     // docPersonId,
@@ -41,6 +42,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {trustedDoc} = state.registrationCard.form.socialStatus;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
+    id: code,
     firstName,
     lastName,
     patrName,
@@ -89,7 +91,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       contactType_id: parseInt(item.type),
       contact: item.number,
       isPrimary: item.isMain ? 1 : 0,
-      notes: item.note
+      notes: item.note,
+      deleted: item.deleted,
     })),
 
     client_policy_info: [
@@ -103,6 +106,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         name: policyOms.name,
         number: policyOms.number,
         serial: policyOms.serial,
+        deleted: policyOms.deleted,
       }
     ],
       // policyDms.concat(policyOms).map((item) => ({
@@ -166,6 +170,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         begDate: toServerFormat(item.fromDate),
         endDate: toServerFormat(item.endDate),
         notes: item.note ?? '',
+        deleted: item.deleted,
       })),
 
     client_relation_info: [
@@ -190,7 +195,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       })),
       client_work_hurt_factor_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
         factorType_id: parseInt(item.factor)
-      }))
+      })),
+      deleted: item.deleted,
     })),
 
     client_attach_info: state.registrationCard.form.attachments.attachments.map(
@@ -199,7 +205,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         attachType_id: parseInt(item.type),
         begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
         orgStructure_id: parseInt(item.unit),
-        reason: 0
+        reason: 0,
+        deleted: item.deleted,
       }),
     ),
 
@@ -208,6 +215,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         accountingSystem_id: parseInt(item.outsideSchema),
         identifier: 'Да',
         checkDate: format(item.date, 'yyyy-MM-dd'),
+        deleted: item.deleted,
       })
     ),
 

@@ -359,6 +359,7 @@ const registrationCardSlice = createSlice({
             type: item.type,
             fromDate: item.fromDate,
             endDate: item.endDate,
+            deleted: item.deleted,
           }));
           // @ts-ignore
         state.initialFormState.socialStatus.trustedDoc =
@@ -377,7 +378,8 @@ const registrationCardSlice = createSlice({
           (item) => ({
             organization: item.id ? item.id.toString() : item.freeInput,
             position: item.post,
-            experience: item.stage
+            experience: item.stage,
+            deleted: item.deleted,
           })
         );
         //@ts-ignore
@@ -394,6 +396,7 @@ const registrationCardSlice = createSlice({
             number: item.contact,
             type: item.contactTypeId.toString(),
             note: item.note,
+            deleted: item.deleted,
           }),
         );
         state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =
@@ -405,6 +408,7 @@ const registrationCardSlice = createSlice({
             outsideSchema: item.outsideSchema.toString(),
             idRef: item.idRef,
             date: new Date(item.date),
+            deleted: item.deleted,
           })
         );
       }

@@ -36,6 +36,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
               factorTypeId: item.factorType_id ? item.factorType_id : ''
             }))
           }),
+          deleted: item.deleted,
         }))
       : [],
 
@@ -64,7 +65,8 @@ export const transformPatientResponse = (item: PatientResponse) => {
             number: item.document?.number,
             date: item.document?.date ? parseISO(item.document?.date) : '',
             origin: item.document?.origin
-          } : null
+          } : null,
+        deleted: item.deleted,
       })) || [],
 
     policy:
@@ -80,6 +82,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
           contactTypeId: item.contactType_id,
           note: item.notes,
           contact: item.contact,
+          deleted: item.deleted,
         })) || [],
 
     address:
@@ -105,6 +108,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
       outsideSchema: item.accountingSystem_id,
       idRef: item.identifier,
       date: item.checkDate,
+      deleted: item.deleted,
     })),
   };
 }
