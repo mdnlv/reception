@@ -21,6 +21,8 @@ import {
   fetchRbOrgStructure,
   fetchRbPost
 } from '../slices/rb/rbSlice';
+import {fetchPersonTree} from '../slices/personTree/personTreeSlice'
+
 
 export default function useInitialFetch() {
   const dispatch = useDispatch();
@@ -45,5 +47,8 @@ export default function useInitialFetch() {
     dispatch(fetchRbHurtFactorTypes());
     dispatch(fetchRbOrgStructure());
     dispatch(fetchRbPost());
+    dispatch(fetchPersonTree({}));
+
+    
   };
 }
