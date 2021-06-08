@@ -5,9 +5,9 @@ import { Select } from 'antd';
 import { SearchSelectProps } from './types';
 
 const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
+ 
   const [field, meta, form] = useField(props.name);
 
-    
     const value = props.loading? '':field.value;
         
   return (

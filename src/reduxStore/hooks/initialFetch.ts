@@ -6,6 +6,7 @@ import {
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbEventTypes,
+  fetchRbSpeciality,
   fetchRbHurtFactorTypes,
   fetchRbHurtType,
   fetchRbInvalidDocumentsTypes,
@@ -27,6 +28,7 @@ export default function useInitialFetch() {
   return () => {
     dispatch(fetchRbPersons());
     dispatch(fetchRbEventTypes());
+    dispatch(fetchRbSpeciality());
     dispatch(fetchRbInvalidReasons());
     dispatch(fetchRbOrganisations());
     dispatch(fetchRbInvalidDocumentsTypes());

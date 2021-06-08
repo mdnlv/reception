@@ -25,3 +25,4 @@ export default interface RbSpecialityResponse {
     syncGUID: null
     versSpec: string
 }
+
