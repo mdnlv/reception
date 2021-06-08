@@ -470,6 +470,7 @@ const registrationCardSlice = createSlice({
     });
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload) {
+        // @ts-ignore
         state.form.foundPolicies.oms.items =
           Object.keys(action.payload).length !== 0 && action.payload.constructor === Object ? [
           // @ts-ignore

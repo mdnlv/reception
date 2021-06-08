@@ -11,10 +11,6 @@ const PoliciesFound: React.FC<ModalProps> = ({
   onOk,
   cmoType
 }) => {
-  useEffect(() => {
-    console.log('modalPolicy', policy)
-  }, [policy]);
-
   return (
     <Modal
       wrapClassName='app-modal'
@@ -36,13 +32,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Button>
             </Row>
           </>
-        ) : (
-          <Row>
-            <Button type="primary" onClick={onClose} danger>
-              ОК
-            </Button>
-          </Row>
-        )
+        ) : null
       }
     >
       {policy && isVisible ? (

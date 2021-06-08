@@ -66,14 +66,6 @@ const PassportGeneral: React.FC = () => {
   );
 
   useEffect(() => {
-    console.log('policiesFoundMessage', policiesFoundMessage);
-  }, [policiesFoundMessage]);
-
-  useEffect(() => {
-    console.log('sended policy', oms.items[0]);
-  }, [oms]);
-
-  useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
 
@@ -95,7 +87,6 @@ const PassportGeneral: React.FC = () => {
   };
 
   const fetchKladrStreetsItems = (id: string, type: KladrDocType,value:string) => {
-
     dispatch(fetchKladrStreets({ id, type,value }));
   };
 

@@ -5,13 +5,14 @@ import { useParams } from 'react-router';
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
+import {WizardStateType} from "../wizards/RegCardWizard/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
 import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInput";
-import {WizardStateType} from "../wizards/RegCardWizard/types";
+import PolSearchValidation from "../../modals/PolSearchValidation/PolSearchValidation";
 
 const PolicyAddForm: React.FC<FormProps> = ({
   policyKey,
@@ -40,6 +41,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const docNumber = form.values.passportGeneral.passportInfo.number;
 
   const [policyMask, setPolicyMask] = useState('' as string);
+  const [showModal, setShowModal] = useState(false);
+  const [errorsData, setErrorsData] = useState([] as string[]);
 
   useEffect(() => {
     if (foundPolicy) {
@@ -69,6 +72,14 @@ const PolicyAddForm: React.FC<FormProps> = ({
     }
   }, [formValues.timeType, formValues.serial]);
 
+  useEffect(() => {
+    errorsData.length > 0 && setShowModal(true);
+  }, [errorsData]);
+
+  useEffect(() => {
+    console.log('errorsData', errorsData);
+  }, [errorsData]);
+
   const sectionTitle = () => {
     switch (policyKey) {
       case 'policyDms':
@@ -90,9 +101,32 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onFindPolicyHandler = useCallback(
     (values: FindPolicyParams) => {
-      onFindPolicy && onFindPolicy(values, policyKey === 'policyDms' ? 'dms' : 'oms');
+      let fields = [
+        {
+          name: 'lastName',
+          value: values.lastName
+        },
+        {
+          name: 'birthDate',
+          value: values.birthDate
+        },
+        {
+          name: 'docNumber',
+          value: values.docNumber
+        }
+      ];
+      let data = [] as string[];
+      fields.map((item) => {
+        if (!item.value) {
+          item.name === 'lastName' && data.push('Не заполнена фамилия!');
+          item.name === 'birthDate' && data.push('Не заполнена дата рождения!');
+          item.name === 'docNumber' && data.push('Не заполнен номер паспорта!');
+        }
+      });
+      setErrorsData(data);
+      onFindPolicy && data.length === 0 && onFindPolicy(values, 'oms');
     },
-    [onFindPolicy],
+    [onFindPolicy, errorsData],
   );
 
   const cleanFields = () => {
@@ -100,6 +134,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
       form.setFieldValue(`${sectionValuePath}.${item}`, '')
     })
   };
+
+  const onCloseModal = () => {
+    setShowModal(false);
+  }
 
   return (
     <div
@@ -245,6 +283,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </Space>
         </Col>
       </Row>
+      <PolSearchValidation isVisible={showModal} errors={errorsData} onClose={onCloseModal}/>
     </div>
   );
 };
