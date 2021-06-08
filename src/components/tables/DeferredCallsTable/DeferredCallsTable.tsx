@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import TableSearchHeader from "../wrappers/TableSearchHeader/TableSearchHeader";
-import {Table} from "antd";
+import {Table, Button} from "antd";
+import { saveDeferredCall } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 
+
+import JosAppointment from '../../modals/JosAppointment/JosAppointment'
 interface DeferredCallsTableProps {
     data: {
         key: number
@@ -15,6 +18,12 @@ interface DeferredCallsTableProps {
 }
 
 const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}) => {
+
+
+    const [isOpenModal, setOpenModal] = useState(false)
+
+
+
 
     const columns = [
         {
@@ -45,7 +54,9 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
     ]
 
     return (
-        <TableSearchHeader title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
+        <>
+        <TableSearchHeader  title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
+            <Button onClick={()=>setOpenModal(true)}>Записаться на примем</Button>
             <Table
                 loading={isLoading}
                 dataSource={data}
@@ -54,6 +65,11 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
 
             </Table>
         </TableSearchHeader>
+            <JosAppointment 
+            isVisible={isOpenModal}
+            onClose={() => setOpenModal(false)}
+            />
+        </>
     )
 }
 

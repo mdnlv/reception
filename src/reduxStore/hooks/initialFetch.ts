@@ -6,6 +6,7 @@ import {
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbEventTypes,
+  fetchRbSpeciality,
   fetchRbHurtFactorTypes,
   fetchRbHurtType,
   fetchRbInvalidDocumentsTypes,
@@ -20,6 +21,8 @@ import {
   fetchRbOrgStructure,
   fetchRbPost
 } from '../slices/rb/rbSlice';
+import {fetchPersonTree} from '../slices/personTree/personTreeSlice'
+
 
 export default function useInitialFetch() {
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ export default function useInitialFetch() {
   return () => {
     dispatch(fetchRbPersons());
     dispatch(fetchRbEventTypes());
+    dispatch(fetchRbSpeciality());
     dispatch(fetchRbInvalidReasons());
     dispatch(fetchRbOrganisations());
     dispatch(fetchRbInvalidDocumentsTypes());
@@ -43,5 +47,8 @@ export default function useInitialFetch() {
     dispatch(fetchRbHurtFactorTypes());
     dispatch(fetchRbOrgStructure());
     dispatch(fetchRbPost());
+    dispatch(fetchPersonTree({}));
+
+    
   };
 }

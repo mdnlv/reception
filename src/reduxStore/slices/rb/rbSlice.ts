@@ -4,6 +4,8 @@ import {get, set, del } from  '../../../services/IndexDbService';
 
 import Person from '../../../types/data/Person';
 import EventType from '../../../types/data/EventType';
+import SpecialityType from '../../../types/data/SpecialityType';
+
 import Organisation from '../../../types/data/Organisation';
 import InvalidReason from '../../../types/data/InvalidReason';
 import InvalidDocument from '../../../types/data/InvalidDocument';
@@ -68,6 +70,7 @@ async (payload: { query:string }, thunkAPI) => {
     if (response.data) {
       return response.data.map((item) => ({
         id: item.id,
+        fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
         createDatetime: item.createDatetime,
         createPersonId: item.createPerson_id,
         modifyDatetime: item.modifyDatetime,
@@ -106,6 +109,28 @@ export const fetchRbEventTypes = createAsyncThunk(
     }
   },
 );
+
+
+export const fetchRbSpeciality = createAsyncThunk(
+  'rb/fetchSpeciality',
+  async () => {
+    try {
+      const response = await RbService.fetchSpeciality();
+      if (response.data) {
+        const formattedData: SpecialityType[] = response.data.map((item) => ({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+        }));
+        return formattedData;
+      }
+    } catch (e) {
+    } finally {
+    }
+  },
+);
+
+
 
 export const fetchRbRelationTypes = createAsyncThunk(
   'rb/fetchRelationTypes',
@@ -625,6 +650,7 @@ const rbSlice = createSlice({
     rbAttachTypes: [] as AttachType[],
     rbPolicyTypes: [] as PolicyType[],
     rbPolicyKinds: [] as PolicyKind[],
+    rbSpeciality: [] as SpecialityType[],
     rbContactTypes: [] as PatientContactType[],
     rbOrgStructure: [] as OrgStructure[],
     rbPost: [] as Post[],
@@ -686,6 +712,12 @@ const rbSlice = createSlice({
         state.rbEventTypes = action.payload;
       }
     });
+    builder.addCase(fetchRbSpeciality.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSpeciality = action.payload;
+      }
+    });
+
     builder.addCase(fetchRbOrganisations.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbOrganisations = action.payload.map((item:{  id: number;

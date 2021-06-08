@@ -61,12 +61,12 @@ const AppHeaderBar: FC = () => {
               <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">
                 {Labels.Journal}
               </Button>
-              {/* <Button
+              <Button
                 size={'small'}
                 className="header__button"
                 onClick={showAppointment}>
                 {Labels.Appointment}
-              </Button> */}
+              </Button>
               <Button
                 onClick={onNewPatientClick}
                 size={'small'}

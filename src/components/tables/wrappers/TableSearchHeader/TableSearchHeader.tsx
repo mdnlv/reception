@@ -68,6 +68,9 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
               }}
               className="find-filters__wrapper">
               <CloseOutlined />
+
+
+              щалпаджлвлджвалджвпдж
             </div>
           </div>
         );

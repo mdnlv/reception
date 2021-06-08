@@ -1,5 +1,6 @@
 export default interface Person {
   id: number;
+  fullName: string;
   createDatetime: string;
   createPersonId: number;
   modifyDatetime: string;

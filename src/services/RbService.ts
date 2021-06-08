@@ -23,6 +23,7 @@ import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbSpecialityResponse from "../interfaces/responses/rb/rbSpeciality";
 import RbPostResponse from "../interfaces/responses/rb/rbPost";
 
+
 export default {
   fetchSpeciality(): Promise<AxiosResponse<RbSpecialityResponse[]>>{
     return apiInstance.get(`/refBooks/rbSpeciality`)
@@ -112,4 +113,5 @@ export default {
   fetchPolicyKind(): Promise<AxiosResponse<RbPolicyKindResponse[]>> {
     return apiInstance.get('/refBooks/rbPolicyKind');
   },
-};
+}
+
