@@ -70,6 +70,10 @@ const PassportGeneral: React.FC = () => {
   }, [policiesFoundMessage]);
 
   useEffect(() => {
+    console.log('sended policy', oms.items[0]);
+  }, [oms]);
+
+  useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
 

@@ -11,10 +11,8 @@ const PoliciesFound: React.FC<ModalProps> = ({
   onOk,
   cmoType
 }) => {
-  const [emptyPolicy, setEmptyPolicy] = useState(false);
-
   useEffect(() => {
-    console.log('policy', policy);
+    console.log('modalPolicy', policy)
   }, [policy]);
 
   return (
@@ -22,21 +20,29 @@ const PoliciesFound: React.FC<ModalProps> = ({
       wrapClassName='app-modal'
       onCancel={onClose}
       visible={isVisible}
-      title='Найден полис'
+      title={policy ? 'Найден полис' : undefined}
       footer={
-        <>
-          <Row justify={'start'}>
-            <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о полисе?</Typography.Text>
-          </Row>
-          <Row justify={'end'}>
-            <Button type="primary" onClick={onOk} className={'save-btn'}>
-              Да
-            </Button>
+        policy ? (
+          <>
+            <Row justify={'start'}>
+              <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о полисе?</Typography.Text>
+            </Row>
+            <Row justify={'end'}>
+              <Button type="primary" onClick={onOk} className={'save-btn'}>
+                Да
+              </Button>
+              <Button type="primary" onClick={onClose} danger>
+                Нет
+              </Button>
+            </Row>
+          </>
+        ) : (
+          <Row>
             <Button type="primary" onClick={onClose} danger>
-              Нет
+              ОК
             </Button>
           </Row>
-        </>
+        )
       }
     >
       {policy && isVisible ? (
@@ -73,7 +79,11 @@ const PoliciesFound: React.FC<ModalProps> = ({
             </>
           ) : null}
         </>
-        ) : null}
+        ) : (
+        <Row justify={'center'}>
+          <Typography.Text strong style={{fontSize: 18}}>Полис не найден</Typography.Text>
+        </Row>
+      )}
     </Modal>
   );
 };
