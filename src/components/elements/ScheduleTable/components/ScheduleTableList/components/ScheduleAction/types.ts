@@ -1,3 +1,8 @@
+export interface Post {
+  id: number;
+  name: string;
+};
+
 export interface ActionProps {
   data: ActionData | undefined;
   oldData: ActionData | undefined;
@@ -9,6 +14,10 @@ export interface ActionProps {
   postLoading: boolean;
   edit: boolean;
   setPacient(arg: string): void;
+  speciality: {
+    [k: number]: string;
+  };
+  post: Post[];
 }
 
 export interface ActionData {

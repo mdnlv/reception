@@ -15,5 +15,5 @@ export interface PatientPolicyPane {
   serial: string;
   timeType?: string;
   to: number | Date ;
-  type?: number;
+  type?: number | undefined;
 }

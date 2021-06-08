@@ -15,7 +15,9 @@ const ScheduleAction: React.FC<ActionProps> = ({
   setVisible,
   setOldData,
   oldData,
-  setPacient
+  setPacient,
+  speciality,
+  post
 }) => { 
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
@@ -63,20 +65,30 @@ const ScheduleAction: React.FC<ActionProps> = ({
           }
         >
 
-          ФИО пациента:
+          <h4>ФИО пациента:</h4>
           <Input value={data?.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data?.client}/>
+
+          <h4>Дата приёма:</h4>
           <div className='date-time'>
             <DatePicker defaultValue={moment(data?.date, "YYYY-MM-DD")}/>
           </div>
 
-          <div>Врач:</div>
+          <div>Отделение:</div>
           <Select defaultValue="1" style={{ width: 200 }}>
-              <Option value="1">{data?.person}</Option>
+            {post.map((one, index) => 
+              <Option key={index} value={one.id}>{one.name}</Option>
+            )}
           </Select>
 
           <div>Специальность врача:</div>
+          
           <Select defaultValue="1" style={{ width: 200 }}>
               <Option value="1">{data?.speciality}</Option>
+          </Select>
+
+          <div>Врач:</div>
+          <Select defaultValue="1" style={{ width: 200 }}>
+              <Option value="1">{data?.person}</Option>
           </Select>
         </Modal>
       : 

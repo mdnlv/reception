@@ -21,10 +21,14 @@ import RbHurtType from '../interfaces/responses/rb/rbHurtType';
 import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbSpecialityResponse from "../interfaces/responses/rb/rbSpeciality";
+import RbPostResponse from "../interfaces/responses/rb/rbPost";
 
 export default {
   fetchSpeciality(): Promise<AxiosResponse<RbSpecialityResponse[]>>{
     return apiInstance.get(`/refBooks/rbSpeciality`)
+  },
+  fetchPost(): Promise<AxiosResponse<RbPostResponse[]>>{
+    return apiInstance.get(`/refBooks/rbPost`)
   },
   fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
     return apiInstance.get(`/refBooks/vrbSocStatusType`);

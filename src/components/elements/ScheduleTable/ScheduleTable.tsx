@@ -13,7 +13,7 @@ import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
 const currentDay = new Date();
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, post, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
@@ -108,6 +108,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               startHour={startHour}
               endHour={endHour}
               speciality={speciality}
+              post={post}
               client={client}
               actionTicket={actionTicket}
             />
