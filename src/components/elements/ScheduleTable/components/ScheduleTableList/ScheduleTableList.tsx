@@ -24,6 +24,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   startHour,
   endHour,
   speciality,
+  post,
   client,
   actionTicket
 }) => {
@@ -126,6 +127,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
       postLoading={postLoading}
       edit={edit}
       setPacient={setPacient}
+      speciality={speciality}
+      post={post}
     /> : null}
   </>;
 };

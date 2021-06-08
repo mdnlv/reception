@@ -80,7 +80,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
           {getAddress(patient, 1, rbKladrRegistration, rbKladrStreetsRegistration)}
         </Descriptions.Item>
         <Descriptions.Item label={'Занятость'}>
-          {patient?.work ? patient?.work[0].post : ''}
+          {patient?.work && patient?.work[0] ? patient?.work[0].post : ''}
         </Descriptions.Item>
         <Descriptions.Item label={'Телефоны'}>
           {getContactPhones()}

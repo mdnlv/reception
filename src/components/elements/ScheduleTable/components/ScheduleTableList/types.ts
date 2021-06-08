@@ -1,5 +1,10 @@
 import {ActionPost, Schedule, ScheduleTableModeType} from "../../types";
 
+export interface Post {
+  id: number;
+  name: string;
+};
+
 export interface ListProps {
   list: Schedule;
   onToggleRow(id: number): void;
@@ -17,6 +22,7 @@ export interface ListProps {
   speciality: {
     [k: number]: string;
   };
+  post: Post[];
   client : {
     fullName: string;
     id: number;

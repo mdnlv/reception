@@ -58,3 +58,12 @@ export const getSpeciality = createSelector(
     return obj;
   }  
 );
+
+export const getPost = createSelector(
+  (state: RootState) => state.rb.rbPost,
+  (orgs) => {
+    let obj = new Object({});
+    console.log(orgs)
+    return orgs;
+  }  
+);
