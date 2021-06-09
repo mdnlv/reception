@@ -6,16 +6,16 @@ export interface Post {
 };
 
 export interface ListProps {
+  isLoading: boolean;
   list: Schedule;
   onToggleRow(id: number): void;
   selected: number[];
   mode: ScheduleTableModeType;
   rangeWeekNum: number;
   person_tree: PersonTree[];
-  loadSchedule(id: number, beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string): void;
   currentDate: Date;
   rangeWeekDate: Date;
-  onDateChange(date: Date): void;
   onModeChange(mode: ScheduleTableModeType): void;
   startHour: number;
   endHour: number;
@@ -28,6 +28,8 @@ export interface ListProps {
     id: number;
   },
   actionTicket(data: ActionPost): void;
+  setCurrentDay(date?: Date): void;
+  currentDay? : Date | undefined;
 }
 
 export interface PersonTree {

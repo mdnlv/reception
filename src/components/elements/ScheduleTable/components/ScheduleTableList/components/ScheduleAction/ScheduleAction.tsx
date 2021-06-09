@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button, Input, Select, DatePicker } from 'antd';
@@ -59,7 +60,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
               old_action_id: 0,
               old_idx: 0,
               type: 'new'
-            })
+            }, data.org)
             setPacient(currentPatientMemo.fullName)
             }
           }
@@ -117,7 +118,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
                     old_action_id: 0,
                     old_idx: 0,
                     type: 'delete'
-                  })
+                  }, data.org)
                 }
               });
             }}
@@ -181,7 +182,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
             old_action_id: oldData.data.action_id,
             old_idx: oldData.data.idx,
             type: 'edit'
-          })
+          }, data.org)
         }}
       >
         <div className='date-time'>

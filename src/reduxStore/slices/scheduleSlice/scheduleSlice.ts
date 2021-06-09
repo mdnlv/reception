@@ -5,7 +5,7 @@ import {Schedule} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
-  async (payload: { id: number; beg_date: string, end_date: string}, thunkAPI) => {
+  async (payload: { id: number[]; beg_date: string, end_date: string}, thunkAPI) => {
     thunkAPI.dispatch(setLoading(true));
     try {
       const response = await ScheduleService.fetchSchedule(payload);
@@ -27,7 +27,7 @@ export const actionTicket = createAsyncThunk(
     try {
       const response = await ScheduleService.actionTicket(payload);
       thunkAPI.dispatch(setPostLoading(false));
-    } catch (e) {
+    } catch (e: any) {
       alert(JSON.stringify(e.response.data));
     } finally {
       thunkAPI.dispatch(setPostLoading(false));
@@ -53,14 +53,19 @@ const scheduleSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSchedules.fulfilled, (state, action) => {
-      if(state.schedules[action.meta.arg.id]) {
-        state.schedules[action.meta.arg.id] = action.payload;
-      } else {
-        let org = {} as Schedule;
-        org[action.meta.arg.id] = action.payload;
-        let obj = Object.assign(state.schedules, org);
-        state.schedules = obj;
+      for(let id of action.meta.arg.id) {
+        if(action.payload && action.payload[id]) {
+          if(state.schedules[id]) {
+            state.schedules[id] = action.payload[id];
+          } else {
+            let obj = Object.assign(state.schedules, action.payload);
+            state.schedules = obj;
+          }
+        } else {
+          delete state.schedules[id];
+        }
       }
+
     });
   },
 });

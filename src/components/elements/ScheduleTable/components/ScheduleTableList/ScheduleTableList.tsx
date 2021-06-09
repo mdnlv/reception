@@ -10,6 +10,7 @@ import {RootState} from "../../../../../reduxStore/store";
 import { Modal } from 'antd';
 
 const ScheduleTableList: React.FC<ListProps> = ({
+  isLoading,
   list,
   onToggleRow,
   selected,
@@ -19,14 +20,15 @@ const ScheduleTableList: React.FC<ListProps> = ({
   loadSchedule,
   currentDate, 
   rangeWeekDate,
-  onDateChange,
   onModeChange,
   startHour,
   endHour,
   speciality,
   post,
   client,
-  actionTicket
+  actionTicket,
+  currentDay,
+  setCurrentDay
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -67,19 +69,18 @@ const ScheduleTableList: React.FC<ListProps> = ({
   },[postLoading])
 
   const showModal = (data: ActionData) => {
-    console.log(data)
     setActionData(data)
     setIsModalVisible(true)
   };
 
-  const actTicket = (data: ActionPost) => {
+  const actTicket = (data: ActionPost, id: number) => {
     if(data.type == 'new') setOk(true);
     if(data.type == 'edit') setEdit(true);
     if(data.type == 'delete') setDel(true);
     actionTicket(data);
     setIsModalLoading(true);
-    setIsModalVisible(false);
-    loadSchedule(68, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
+    setIsModalVisible(false); 
+    loadSchedule([id], moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
   };
 
   const listContent = useMemo(() => {
@@ -87,6 +88,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       const toggle = selected.find((sitem) => sitem === item.id);
       return (
         <ListItem
+          isLoading={isLoading}
           rangeWeekNum={rangeWeekNum}
           mode={mode}
           toggle={!!toggle}
@@ -102,17 +104,18 @@ const ScheduleTableList: React.FC<ListProps> = ({
           schedule={list}
           currentDate={currentDate}
           rangeWeekDate={rangeWeekDate}
-          onDateChange={onDateChange}
           onModeChange={onModeChange}
           startHour={startHour}
           endHour={endHour}
           speciality={speciality}
           showModal={showModal}
           client={client}
+          currentDay={currentDay}
+          setCurrentDay={setCurrentDay}
         />
       );
-    });
-  }, [list, selected, mode, rangeWeekNum, person_tree]);
+    })
+  }, [list, selected, mode, rangeWeekNum, person_tree, isLoading]);
 
   return <>
     <div className={'schedule-list'}>{listContent}</div>

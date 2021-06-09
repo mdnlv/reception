@@ -15,10 +15,11 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
   width,
   mode,
   onModeChange,
-  onDateChange,
+  setDay,
   date,
   showModal,
-  person
+  person,
+  orgId
 }) => {
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const onDayClick = (data: ActionPost)=>{
@@ -29,12 +30,13 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
       person: person? person.fullName : '',
       speciality:  person? person.speciality : '',
       type: "1",
-      data: data
+      data: data,
+      org: orgId? orgId : -1
     })
   }
 
   const onWeekClick = useCallback(()=>{
-    date? onDateChange(date) : onDateChange();
+    setDay(date);
     onModeChange('day')
   },[])
 
@@ -43,7 +45,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
       flex: `${width}`
     };
 
-    if(mode=='day' && showModal) {
+    if(mode=='day' && showModal && orgId) {
         if(!ticket) {
           return (
             <div
@@ -113,7 +115,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
           );
         }
       } else if (mode=='week') {
-        if(!info) {
+        if(!info /*|| moment(date).isBefore(new Date())*/) {
           return (
             <div
               style={{ backgroundColor: '#ddd',  ...widthStyle }}
@@ -146,9 +148,8 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
           );
         }
     }
-
   }, [width, ticket]);
-
+  
   return <>{postLoading ? '' : getTypeAction}</>;
 };
 

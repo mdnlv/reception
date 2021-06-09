@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import moment from 'moment';
 import {ItemProps} from "./types";
+import {Spin} from "antd";
 
 import ScheduleActionsRow from '../../../ScheduleActionsRow/ScheduleActionsRow';
-import ScheduleScrollContainer from '../../../ScheduleScrollContainer/ScheduleScrollContainer';
 
 const ListItem: React.FC<ItemProps> = ({
+  isLoading,
   onToggle,
   toggle,
   name,
@@ -22,26 +23,26 @@ const ListItem: React.FC<ItemProps> = ({
   schedule,
   currentDate, 
   rangeWeekDate,
-  onDateChange,
   onModeChange,
   startHour,
   endHour,
   speciality,
   showModal,
-  client
+  client,
+  currentDay,
+  setCurrentDay
 }) => {
   const [togg, setTogg] = useState(false);
-/*  const onToggleHandler = useCallback(() => {
-    onToggle(id);
-  }, [onToggle]);
-*/
+
   return (<>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
         <div className="item-title" style={{paddingLeft: `${level * 14}px`}}>
           <div onClick={()=> {
+              let ids = [id];
               setTogg(!togg)
-              loadSchedule(id, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
+              loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
+              onToggle(id);
             }} className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
           </div>  
@@ -57,22 +58,28 @@ const ListItem: React.FC<ItemProps> = ({
             <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
           </Col>
           <Col span={20}>
-            {<ScheduleScrollContainer left={0}>
-              <ScheduleActionsRow
+            
+              {/* isLoading ? (
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                  <Spin/>
+                </div>
+              ) : (*/}<ScheduleActionsRow
                 mode={mode}
                 rangeWeekNum={rangeWeekNum}
                 items={item}
                 currentDate={currentDate}   
-                rangeWeekDate={rangeWeekDate}  
-                onDateChange={onDateChange}
+                rangeWeekDate={rangeWeekDate} 
                 onModeChange={onModeChange}
                 startHour={startHour}
                 endHour={endHour}
                 showModal={showModal}
                 speciality={speciality[item.person.speciality_id]}
                 client={client}
+                orgId={id}
+                currentDay={currentDay}
+                setCurrentDay={setCurrentDay}
               />
-            </ScheduleScrollContainer>}
+            
           </Col>
         </div>)
       })}
@@ -80,6 +87,7 @@ const ListItem: React.FC<ItemProps> = ({
       {togg && child.length > 0 && child.map((item, index) => {
         return (
           <ListItem
+            isLoading={isLoading}
             rangeWeekNum={rangeWeekNum}
             mode={mode}
             toggle={toggle}
@@ -95,13 +103,14 @@ const ListItem: React.FC<ItemProps> = ({
             schedule={schedule}
             currentDate={currentDate}
             rangeWeekDate={rangeWeekDate}
-            onDateChange={onDateChange}
             onModeChange={onModeChange}
             startHour={startHour}
             endHour={endHour}
             speciality={speciality}
             showModal={showModal}
             client={client}
+            currentDay={currentDay}
+            setCurrentDay={setCurrentDay}
           />
         )
       })}
