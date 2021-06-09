@@ -8,8 +8,7 @@ import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
 import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 import {getPersonList } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import TreeSelectField from "../components/fields/TreeSelect";
-import {useFormikContext} from 'formik';
-
+import Textarea from '../components/fields/Textarea'
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
 
@@ -130,6 +129,12 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     {getPropsOptionsSpecialty(specialty)}
                                 </FastSearchSelect>
                             </FormField>
+                            <FormField label={'Комментарий'} name={'comment'}>
+                                <Textarea
+                                      name={'comment'} />
+                        
+                            </FormField>
+                
                         </Col>
                     </Row>
                 </form>

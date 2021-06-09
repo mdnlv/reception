@@ -11,6 +11,7 @@ export interface DeferredCallsState {
     patient:string,
     doctor:string,
     organisation:string,
-    specialty:string
+    specialty:string,
+    сomment: string,
 }
 }

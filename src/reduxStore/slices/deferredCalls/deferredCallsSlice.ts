@@ -1,4 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { notification } from "antd";
+
 
 import DeferredCallsService from "../../../services/DeferredCallsService";
 import {DeferredCallsState} from "./types";
@@ -6,11 +8,12 @@ import {DeferredCallsState} from "./types";
 const initialState: DeferredCallsState = {
     queue: [],
     josForm:{
-    date: null ,
+    date: null,
     patient:"",
     doctor:"",
     organisation:"",
     specialty:"",
+    сomment: ""
     },
     patientList: [],
     doctors: [],
@@ -39,14 +42,23 @@ export const saveDeferredCall = createAsyncThunk(
     async (payload: { data:any }, thunkAPI) => {
         thunkAPI.dispatch(setLoading(true));
         try {
-
-
             const response = await DeferredCallsService.saveDeferredCall(payload.data);
             if(response.data && response.status === 200){
+
+                notification.success({
+                    message: `Успех`,
+                    description: "форма сохранена",
+                  });
+          
+
                 return response.data;
             }
         } catch (e) {
-            alert(e)
+            notification.error({
+                message: `Ошибка`,
+                description: "не удалось сохранить форму",
+              });
+      
         } finally {
             thunkAPI.dispatch(setLoading(false));
         }
@@ -102,7 +114,7 @@ const deferredCallsSlice = createSlice({
             if(action.payload){
                 state.queue = action.payload.map(item => ({
                     id: item.action_id,
-                    fullName: item.patient_fullname,
+                    fullName: `${item.client.firstName} ${item.client.patrName} ${item.client.lastName}`,
                     patientId: item.client_id,
                     contact: item.contact || "",
                     netrica: item.netrica_code,

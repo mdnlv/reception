@@ -19,6 +19,10 @@ interface DeferredCallsTableProps {
 const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}) => {
 
 
+
+    console.log(data)
+
+
     const [isOpenModal, setOpenModal] = useState(false)
 
 
@@ -26,7 +30,6 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
     margin: 0.5rem  0;
 
 `  
-
     const columns = [
         {
             title: 'ФИО',
@@ -59,14 +62,12 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
         <>
         <TableSearchHeader  title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
             <WrapButton>
-            <Button onClick={()=>setOpenModal(true)} >Записаться на примем</Button>
+            <Button onClick={()=>setOpenModal(true)} >Записаться на прием</Button>
             </WrapButton>
             <Table
                 loading={isLoading}
                 dataSource={data}
-                columns={columns}
-            >
-
+                columns={columns}>
             </Table>
         </TableSearchHeader>
             <JosAppointment 
