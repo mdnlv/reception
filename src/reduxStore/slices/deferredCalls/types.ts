@@ -8,17 +8,9 @@ export interface DeferredCallsState {
   specialty: [],
   josForm:{
     date: Date | null,
-    patient:{
-        id: string,
-    },
-    doctor:{
-      id: string,
-  },
-  organisation:{
-    id:string
-},
-  specialty:{
-  id:string
-  }
-    }
+    patient:string,
+    doctor:string,
+    organisation:string,
+    specialty:string
+}
 }
