@@ -12,7 +12,6 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
-import {PassportContactType} from "../../../PassportGeneral/types";
 
 const Status: React.FC<StatusProps> = ({
   socialTypesList,
@@ -30,6 +29,10 @@ const Status: React.FC<StatusProps> = ({
     const result = formValues.filter((item) => item.deleted !== 1);
     setFiltered(result);
   }, [formValues]);
+
+  useEffect(() => {
+    form.setFieldValue(`${sectionValuePath}.[${index}].type`, '');
+  }, [formValues && formValues[index] && formValues[index].class]);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
     return `${sectionValuePath}.${indexData}.${fieldChain}`;
