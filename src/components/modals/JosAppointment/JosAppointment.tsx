@@ -9,11 +9,7 @@ import { AppointmentProps } from "./types";
 import  validation from './validation'
 import JosAppointmentForm from "../../forms/JosAppointmentForm/JosAppointmentForm"
 
-const JosAppointment: React.FC<AppointmentProps> = ({
-  isVisible,
-  onClose,
-  onSubmit
-}) => {
+const JosAppointment: React.FC<AppointmentProps> = (props) => {
 
   const dispatch = useDispatch()
 
@@ -28,9 +24,9 @@ const JosAppointment: React.FC<AppointmentProps> = ({
     <Formik
       initialValues={josForm}
       validationSchema={validation}
-      onSubmit={(values,d) => {
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-        console.log(values,d)
+      onSubmit={(values) => {
+
+        console.log(values,'val')
         const data = {
           "client_id": Number(values.patient),
           "comment": "",
@@ -44,21 +40,21 @@ const JosAppointment: React.FC<AppointmentProps> = ({
           "speciality_id": Number(values.specialty),
           "status_id": 1
         }
-
         dispatch(saveDeferredCall({ data: data }))
+        props.onClose &&  props.onClose()
       }}
     >
 
       {propsForm => (
         <Modal
           wrapClassName={'app-modal'}
-          onCancel={onClose}
-          onOk={onClose}
-          visible={isVisible}
+          onCancel={props.onClose}
+          onOk={props.onClose}
+          visible={props.isVisible}
           title={'Записать на прием'}
           footer={
             <Row justify={'end'}>
-              <Button type="primary" onClick={onClose} danger>
+              <Button type="primary" onClick={props.onClose} danger>
                 Отмена
           </Button>
               <Button type="primary" onClick={() => propsForm.handleSubmit()} className={'save-btn'}>
