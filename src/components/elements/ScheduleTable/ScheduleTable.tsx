@@ -19,7 +19,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const [selected, setSelected] = useState<number[]>([]);
   const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
-  const [currentDay, setCurrentDay] = useState<Date>();
+  const [currentDay, setCurrentDay] = useState(new Date());
   const startHour = 8;
   const endHour = 18;
 
@@ -47,11 +47,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     (date: Date, endDate: Date) => {
       setCurrentDate(date);
       setRangeWeek(endDate);
-      console.log('!!')
-      console.log(date);
-      console.log(endDate);
-      console.log(currentDate);
-      console.log(rangeWeekDate);
       loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'));    
     };
 

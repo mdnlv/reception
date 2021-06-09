@@ -28,7 +28,7 @@ export interface ListProps {
     id: number;
   },
   actionTicket(data: ActionPost): void;
-  setCurrentDay(date?: Date): void;
+  setCurrentDay(date: Date): void;
   currentDay? : Date | undefined;
 }
 
