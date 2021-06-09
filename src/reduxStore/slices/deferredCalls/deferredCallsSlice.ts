@@ -7,18 +7,10 @@ const initialState: DeferredCallsState = {
     queue: [],
     josForm:{
     date: null ,
-    patient:{
-        id: '',
-    },
-    doctor:{
-        id: '',
-    },
-    organisation:{
-        id:''
-    },
-    specialty:{
-        id:''
-    }
+    patient:"",
+    doctor:"",
+    organisation:"",
+    specialty:"",
     },
     patientList: [],
     doctors: [],

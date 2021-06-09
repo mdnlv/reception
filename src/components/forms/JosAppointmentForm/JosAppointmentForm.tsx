@@ -7,12 +7,13 @@ import { RootState } from '../../../reduxStore/store';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
 import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 import {getPersonList } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
-import TreeSelectField from "../components/fields/TreeSelect"
+import TreeSelectField from "../components/fields/TreeSelect";
+import {useFormikContext} from 'formik';
+
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
 
 const JosAppointmentForm: React.FC = (props:any) => {
-    
     const dispatch = useDispatch()
     const patients = useSelector((state: RootState) => state.patients.foundPatients);
     const doctors = useSelector((state: RootState) => state.deferredCalls.doctors);
@@ -29,7 +30,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
   const renderTreeNodes = (data:PersonTree[]) =>
     data.map((item: PersonTree) => {
       return (
-        <TreeSelect.TreeNode  value={item.id}  title={item.name}  {...item}>
+        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
           {item.child.length && renderTreeNodes(item.child)}
         </TreeSelect.TreeNode>
       );
@@ -63,7 +64,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
             <form className={'appointment-form'}>
                     <Row gutter={16}>
                         <Col>
-                            <FormField label={'Дата приема'}>
+                            <FormField label={'Дата приема'}  name={'date'} >
                                 <FastDatePicker  name={'date'} />
                             </FormField>
                         </Col>
@@ -71,7 +72,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                     <Divider />
                     <Row>
                         <Col span={24}>
-                            <FormField label={'Пациент'}>
+                            <FormField label={'Пациент'} name={'patient'}>
                                 <FastSearchSelect
                                     onInput={(e) => {
                                         const value = e.target.value
@@ -81,7 +82,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     })}
                                     id={'patient.id'}
                                     placeholder={'Пациент'}
-                                    name={'patient.id'}
+                                    name={'patient'}
                                     showSearch
                                     filterOption
                                     optionFilterProp={'name'}>
@@ -93,9 +94,9 @@ const JosAppointmentForm: React.FC = (props:any) => {
                     <Divider />
                     <Row>
                         <Col span={24}>
-                            <FormField label={'Подразделение'}>
+                            <FormField label={'Подразделение'} name={'organisation'}>
                                 <TreeSelectField 
-                                name={'organisation.id'}
+                                name={'organisation'}
                                 onSelect={onSelectTreeNode}>
                                 {renderTreeNodes(personTree)}
                                 </TreeSelectField>
@@ -105,10 +106,10 @@ const JosAppointmentForm: React.FC = (props:any) => {
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <FormField label={'Врач'}>
+                            <FormField label={'Врач'}  name={'doctor'}>
                                 <FastSearchSelect
                                     placeholder={'Врач'}
-                                    name={'doctor.id'}
+                                    name={'doctor'}
                                     showSearch
                                     filterOption
                                     optionFilterProp={'name'}>
@@ -119,10 +120,10 @@ const JosAppointmentForm: React.FC = (props:any) => {
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <FormField label={'Специальность врача'}>
+                            <FormField label={'Специальность врача'} name={'specialty'}>
                                 <FastSearchSelect
                                     placeholder={'Специальность'}
-                                    name={'specialty.id'}
+                                    name={'specialty'}
                                     showSearch
                                     filterOption
                                     optionFilterProp={'name'}>

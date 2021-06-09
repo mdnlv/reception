@@ -59,6 +59,7 @@ function* asyncFetchPersons() {
       RbService.fetchPersons,
     );
     if (persons.data) {
+      // @ts-ignore
       const formattedData: Person[] = persons.data.map((item) => ({
         id: item.id,
         createDatetime: item.createDatetime,

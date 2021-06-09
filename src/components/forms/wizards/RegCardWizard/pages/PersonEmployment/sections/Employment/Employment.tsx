@@ -22,6 +22,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
 
   useEffect(() => {
     const result = formValues.filter((item) => item.deleted !== 1);
+    //@ts-ignore
     setFiltered(result);
   }, [formValues]);
 

@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import TableSearchHeader from "../wrappers/TableSearchHeader/TableSearchHeader";
 import {Table, Button} from "antd";
-import { saveDeferredCall } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
-
+import  styled from 'styled-components';
 
 import JosAppointment from '../../modals/JosAppointment/JosAppointment'
 interface DeferredCallsTableProps {
@@ -23,7 +22,10 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
     const [isOpenModal, setOpenModal] = useState(false)
 
 
+    const WrapButton = styled.div`
+    margin: 0.5rem  0;
 
+`  
 
     const columns = [
         {
@@ -56,7 +58,9 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
     return (
         <>
         <TableSearchHeader  title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
-            <Button onClick={()=>setOpenModal(true)}>Записаться на примем</Button>
+            <WrapButton>
+            <Button onClick={()=>setOpenModal(true)} >Записаться на примем</Button>
+            </WrapButton>
             <Table
                 loading={isLoading}
                 dataSource={data}

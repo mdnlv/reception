@@ -699,6 +699,7 @@ const rbSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchRbPersons.fulfilled, (state, action) => {
       if (action.payload) {
+        // @ts-ignore
         state.rbPersons = action.payload;
       }
     });
