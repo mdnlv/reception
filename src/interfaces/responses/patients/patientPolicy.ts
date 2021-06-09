@@ -1,4 +1,5 @@
 export default interface PatientPolicyResponse {
+  id: number;
   client_id: number;
   insurer_id: number;
   serial: string;

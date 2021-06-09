@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -18,6 +18,12 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const formValues = form.values.employment.employment;
   const formInitialValues = form.initialValues.employment.employment;
   const sectionValuePath = `employment.employment`;
+  const [filtered, setFiltered] = useState([] as EmploymentItem[]);
+
+  useEffect(() => {
+    const result = formValues.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formValues]);
 
   useEffect(() => {
     changeFieldsById(formInitialValues)
@@ -47,12 +53,13 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
       experience: 0,
       inn: '',
       ogrn: '',
+      deleted: 0,
     };
     form.setFieldValue(sectionValuePath, [...formValues, employment]);
   }, [formValues]);
 
   const onRemoveEmployment = useCallback(() => {
-    form.setFieldValue(sectionValuePath, formValues.slice(0, formValues.length - 1));
+    form.setFieldValue(`${sectionValuePath}[${formValues.length - 1}].deleted`, 1);
   }, [formValues]);
 
   const propsList = useCallback((items: ListOptionProps[]) => {
@@ -66,7 +73,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const EmploymentValue = useMemo(() => {
     return (
       <ArrayFieldWrapper
-        values={formValues}
+        values={filtered}
         name={sectionValuePath}
         onAddItem={onAddEmployment}
         onRemoveItem={onRemoveEmployment}

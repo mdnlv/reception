@@ -15,7 +15,8 @@ import {
   saveCardPatient,
   setFormSection,
   resetRegCard,
-  setPatientReg
+  setPatientReg,
+  editCardPatient,
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import validation from "./validation";
 
@@ -59,7 +60,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   }, [params]);
 
 const fetchDoctors = (value:string) =>{
-dispatch(fetchRbPersonsSearch({query:value})) 
+dispatch(fetchRbPersonsSearch({query:value}))
 }
 
   return isLoading ? (
@@ -79,6 +80,8 @@ dispatch(fetchRbPersonsSearch({query:value}))
           dispatch(resetRegCard());
         } else {
           dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
+          dispatch(setFormSection(values));
+          dispatch(editCardPatient());
           navigation.push('/');
           dispatch(resetRegCard());
         }

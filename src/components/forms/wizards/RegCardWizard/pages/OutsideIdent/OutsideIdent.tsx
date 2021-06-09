@@ -1,4 +1,4 @@
-import React, {useMemo, useCallback} from 'react';
+import React, {useMemo, useCallback, useState, useEffect} from 'react';
 import {Col, Row, Select} from 'antd';
 import {useSelector} from 'react-redux';
 import {useFormikContext} from 'formik';
@@ -6,6 +6,7 @@ import {useFormikContext} from 'formik';
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {detailedAccountingSystemSelector} from "../../../../../../reduxStore/slices/rb/selectors";
 import {WizardStateType} from "../../types";
+import {PersonOutsideId} from "../../../../OutsideIdentificationForm/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -18,6 +19,12 @@ const OutsideIdent: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.outsideIdentification.outsideIds;
   const accountingSystemTypes = useSelector(detailedAccountingSystemSelector);
+  const [filtered, setFiltered] = useState([] as PersonOutsideId[]);
+
+  useEffect(() => {
+    const result = formValues.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formValues]);
 
   const accountingSystemTypesOptions = useMemo(() => {
     return accountingSystemTypes.map((item) => (
@@ -32,15 +39,15 @@ const OutsideIdent: React.FC = () => {
       outsideSchema: '',
       idRef: '',
       date: '',
+      deleted: 0,
     };
-
     const newArr = [...formValues, item];
     form.setFieldValue('outsideIdentification.outsideIds', newArr);
   }, [formValues]);
 
   const onRemoveAttachment = useCallback(() => {
     if (formValues.length > 0) {
-      form.setFieldValue('outsideIdentification.outsideIds', formValues.slice(0, formValues.length - 1));
+      form.setFieldValue(`outsideIdentification.outsideIds[${formValues.length - 1}].deleted`, 1);
     }
   }, [formValues]);
 
@@ -53,7 +60,7 @@ const OutsideIdent: React.FC = () => {
       <div className={'form-section'}>
         <DropDownContent title={DROPDOWN_TITLE}>
           <ArrayFieldWrapper<any>
-            values={formValues}
+            values={filtered}
             onAddItem={() => onAddAttachment()}
             onRemoveItem={() => onRemoveAttachment()}
             showActions

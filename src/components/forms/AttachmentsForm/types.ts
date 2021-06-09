@@ -1,4 +1,5 @@
 export interface PersonAttachment {
+  id?: number;
   type: string;
   lpu: string;
   unit: string;

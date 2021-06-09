@@ -1,4 +1,5 @@
 export interface SocialStatus {
+  id?: number;
   type?: string;
   serialNumber?: string;
   number?: string;
@@ -16,7 +17,7 @@ export interface TrustedDoc {
   number?: string;
   date?: any;
   givenBy?: string;
-
+  deleted?: 0 | 1;
 }
 
 export interface FormState {

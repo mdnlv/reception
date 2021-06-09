@@ -85,6 +85,7 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
+        id: undefined,
         passportType: '',
         serialFirst: '',
         serialSecond: '',
@@ -92,6 +93,7 @@ const initialState: RegistrationCardStateType = {
         fromDate: '',
         givenBy: '',
         addressRegistration: {
+          id: undefined,
           isKLADR: true,
           city: '',
           area: '',
@@ -103,6 +105,7 @@ const initialState: RegistrationCardStateType = {
           freeInput: '',
         },
         documentedAddress: {
+          id: undefined,
           isKLADR: true,
           city: '',
           area: '',
@@ -216,6 +219,7 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
+        id: undefined,
         passportType: '',
         serialFirst: '',
         serialSecond: '',
@@ -247,6 +251,7 @@ const initialState: RegistrationCardStateType = {
       },
       contacts: [] as PassportContactType[],
       policyOms: {
+        id: undefined,
         cmo: "",
         from: "",
         name: "",
@@ -259,6 +264,7 @@ const initialState: RegistrationCardStateType = {
         deleted: 0,
       },
       policyDms: {
+        id: undefined,
         cmo: "",
         from: "",
         name: "",

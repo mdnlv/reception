@@ -1,4 +1,4 @@
-import React,{useCallback, useEffect} from 'react';
+import React,{useCallback, useEffect, useState} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { RootState } from '../../../../../../reduxStore/store';
@@ -10,13 +10,14 @@ import {
 import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
-import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
+import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType'
+import {PersonLink} from "../../../../PersonLinksForm/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
 import FastSearchSelect from "../../../../components/fields/FastSearchSelect/FastSearchSelect";
 import AutoCompleteInput from '../../../../components/fields/AutoSelect'
-import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType'
+import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 
 const Links: React.FC = () => {
   const dispatch = useDispatch()
@@ -26,40 +27,49 @@ const Links: React.FC = () => {
   const patientSex = form.values.personal.sex
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const  patients = useSelector((state: RootState) => state.patients.foundPatients );
+  const [directFiltered, setDirectFiltered] = useState([] as PersonLink[]);
+  const [backFiltered, setBackFiltered] = useState([] as PersonLink[]);
 
+  useEffect(() => {
+    const result = formValues.directLinks.filter((item) => item.deleted !== 1);
+    setDirectFiltered(result);
+  }, [formValues.directLinks]);
 
+  useEffect(() => {
+    const result = formValues.backLinks.filter((item) => item.deleted !== 1);
+    setBackFiltered(result);
+  }, [formValues.backLinks]);
 
   useEffect(()=>{
- dispatch(fetchRbRelationTypes({sex:patientSex}))
- form.setFieldValue(
-  `links.directLinks`,
-  formValues.directLinks.slice(formValues.directLinks.length, formValues.directLinks.length - 1),
-);
-form.setFieldValue(
-  `links.backLinks`,
-  formValues.directLinks.slice(formValues.backLinks.length, formValues.backLinks.length - 1),
-);
-},[patientSex])
+    dispatch(fetchRbRelationTypes({sex:patientSex}))
+    form.setFieldValue(
+      `links.directLinks`,
+      formValues.directLinks.slice(formValues.directLinks.length, formValues.directLinks.length - 1),
+    );
+    form.setFieldValue(
+      `links.backLinks`,
+      formValues.directLinks.slice(formValues.backLinks.length, formValues.backLinks.length - 1),
+    );
+  },[patientSex])
 
-const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
-  const links  = {
-    forwardRef: '',
-    patientLink: ''
-  };
-
+  const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
+    const links  = {
+      forwardRef: '',
+      patientLink: '',
+      deleted: 0,
+    };
     const newArr = [...formValues[type], links];
     form.setFieldValue(`links.${type}`, newArr);
+  }, [formValues,patientSex]);
 
-}, [formValues,patientSex]);
-
-const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
-  if (formValues[type].length > 0) {
-    form.setFieldValue(
-      `links.${type}`,
-      formValues[type].slice(0, formValues[type].length - 1),
-    );
-  }
-}, [formValues,patientSex]);
+  const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
+    if (formValues[type].length > 0) {
+      form.setFieldValue(
+        `links.${type}[${formValues[type].length - 1}].deleted`,
+        1,
+      );
+    }
+  }, [formValues,patientSex]);
 
 
   const getPropsOptions = useCallback(
@@ -100,7 +110,7 @@ const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
           <Row>
             <Col span={24}>
                <ArrayFieldWrapper<any>
-               values={formValues['directLinks']}
+               values={directFiltered}
                onAddItem={()=>onAddAttachment('directLinks')}
                onRemoveItem={()=>onRemoveAttachment('directLinks')}
                showActions
@@ -140,7 +150,7 @@ const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
           <Row>
             <Col span={24}>
             <ArrayFieldWrapper<any>
-               values={formValues['backLinks']}
+               values={backFiltered}
                onAddItem={()=>onAddAttachment('backLinks')}
                onRemoveItem={()=>onRemoveAttachment('backLinks')}
                showActions

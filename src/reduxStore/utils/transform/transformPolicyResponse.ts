@@ -4,6 +4,7 @@ import PatientPolicyResponse from '../../../interfaces/responses/patients/patien
 
 const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
+    itemId: item.id,
     id: item.client_id,
     cmo: item.insurer_id?.toString() ?? '',
     serial: item.serial,

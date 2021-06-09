@@ -1,4 +1,5 @@
 export interface PersonOutsideId {
+    id?: number;
     outsideSchema: string;
     idRef: string;
     date: Date;

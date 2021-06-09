@@ -6,6 +6,7 @@ export interface PersonAttachment {
   fromDate: string;
   endDate: string;
   detachmentReason: string;
+  deleted?: 0 | 1;
 }
 
 export default interface FormState {

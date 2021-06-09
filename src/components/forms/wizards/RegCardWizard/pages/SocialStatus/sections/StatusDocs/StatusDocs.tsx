@@ -1,4 +1,4 @@
-import React, { FC, useCallback} from 'react';
+import React, { FC, useCallback, useState, useEffect} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -17,6 +17,12 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.trustedDoc;
   const sectionValuePath = `socialStatus.trustedDoc`;
+  const [filtered, setFiltered] = useState([] as TrustedDoc[]);
+
+  useEffect(() => {
+    const result = formValues.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formValues]);
 
   const getSectionPath = (index: number, fieldChain: string) => {
     return `${sectionValuePath}[${index}].${fieldChain}`;
@@ -30,14 +36,15 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
       serialFirst: '',
       serialSecond: '',
       date: '',
+      deleted: 0,
     };
     form.setFieldValue(sectionValuePath, [...formValues, newDoc]);
   }, [formValues, form.setFieldValue]);
 
   const onRemoveDoc = useCallback(() => {
     form.setFieldValue(
-      sectionValuePath,
-      formValues.slice(0, formValues.length - 1),
+      `${sectionValuePath}[${formValues.length - 1}].deleted`,
+      1,
     );
   }, [formValues, form.setFieldValue]);
 
@@ -56,7 +63,7 @@ const StatusDocs: FC<SectionProps> = ({documentTypesList, isLoadingDocuments}) =
     <div className={'form-section social-status-doc'}>
       <DropDownContent title={DROPDOWN_TITLE}>
         <ArrayFieldWrapper<TrustedDoc>
-          values={formValues}
+          values={filtered}
           name={sectionValuePath}
           showActions
           onAddItem={onAddDoc}

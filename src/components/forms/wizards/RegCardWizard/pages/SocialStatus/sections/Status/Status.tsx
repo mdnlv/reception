@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo} from 'react';
+import React, {useState, useCallback, useMemo, useEffect} from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -12,6 +12,7 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 import FastDatePicker from '../../../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
+import {PassportContactType} from "../../../PassportGeneral/types";
 
 const Status: React.FC<StatusProps> = ({
   socialTypesList,
@@ -22,7 +23,13 @@ const Status: React.FC<StatusProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
   const sectionValuePath = `socialStatus.socialStatus`;
+  const [filtered, setFiltered] = useState([] as SocialStatus[]);
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const result = formValues.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formValues]);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
     return `${sectionValuePath}.${indexData}.${fieldChain}`;
@@ -34,15 +41,16 @@ const Status: React.FC<StatusProps> = ({
       type: '',
       fromDate: '',
       endDate: '',
-      note: ''
+      note: '',
+      deleted: 0,
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);
   }, [form.setFieldValue, formValues]);
 
   const onRemoveStatus = useCallback(() => {
     form.setFieldValue(
-      sectionValuePath,
-      formValues.slice(0, formValues.length - 1),
+      `${sectionValuePath}[${formValues.length - 1}].deleted`,
+      1,
     );
   }, [form.setFieldValue, formValues]);
 
@@ -72,7 +80,7 @@ const Status: React.FC<StatusProps> = ({
     return (
       <ArrayFieldWrapper
         name={sectionValuePath}
-        values={formValues}
+        values={filtered}
         onAddItem={onAddStatus}
         onRemoveItem={onRemoveStatus}
         showActions

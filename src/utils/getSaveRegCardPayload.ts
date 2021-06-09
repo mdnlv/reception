@@ -7,6 +7,7 @@ import {toServerFormat} from "./date/toServerFormat";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
+    id,
     passportType,
     serialFirst,
     serialSecond,
@@ -42,12 +43,12 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {trustedDoc} = state.registrationCard.form.socialStatus;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
-    id: code,
+    ...(code && {id: parseInt(code)}),
     firstName,
     lastName,
     patrName,
     birthPlace,
-    birthDate: toServerFormat(birthDate),
+    birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
     birthTime,
     chartBeginDate: toServerFormat(startCardDate),
     // ...hasImplants && {hasImplants},
@@ -69,7 +70,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         number:any;
         date:any;
         givenBy:any;
+        id:any;
       }) => ({
+        ...(item.id && {id: item.id}),
         documentType_id: item.type,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
@@ -78,6 +81,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         endDate: '2200-12-12',
       })),
       {
+        ...(id && {id}),
         documentType_id: passportType,
         serial: serialFirst?.concat(serialSecond),
         number,
@@ -88,6 +92,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ],
 
     client_contact_info: state.registrationCard.form.passportGeneral.contacts.map((item) => ({
+      ...(item.id && {id: item.id}),
       contactType_id: parseInt(item.type),
       contact: item.number,
       isPrimary: item.isMain ? 1 : 0,
@@ -97,6 +102,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_policy_info: [
       {
+        ...(policyOms.id && {id: policyOms.id}),
         insurer_id: parseInt(policyOms.cmo),
         policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
         policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
@@ -123,6 +129,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_address_info: [
       {
+        ...(addressRegistration.id && {id: addressRegistration.id}),
         address: {
           address_house: {
             KLADRCode: (addressRegistration.area === '7800000000000'
@@ -143,6 +150,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         type: 0,
       },
       ...(!state.registrationCard.form.passportGeneral.passportInfo.addressRegistration.isDocumentedAddress ? [{
+        ...(documentedAddress.id && {id: documentedAddress.id}),
         address: {
           address_house: {
             KLADRCode: (documentedAddress.area === '7800000000000'
@@ -165,6 +173,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_soc_status_info:
       state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
+        ...(item.id && {id: item.id}),
         socStatusType_id: item.type ? parseInt(item.type) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
@@ -175,16 +184,19 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_relation_info: [
       ...directLinks.map((item) => ({
+        ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.forwardRef),
         relative_id: parseInt(item.patientLink)
       })),
       ...backLinks.map((item) => ({
+        ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.forwardRef),
         relative_id: parseInt(item.patientLink)
       }))
     ],
 
     client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
+      ...(item.id && {id: item.id}),
       ...(item.organization && {org_id: parseInt(item.organization)}),
       post: item.position,
       stage: item.experience,
@@ -201,6 +213,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_attach_info: state.registrationCard.form.attachments.attachments.map(
       (item) => ({
+        ...(item.id && {id: item.id}),
         LPU_id: parseInt(item.lpu),
         attachType_id: parseInt(item.type),
         begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
@@ -212,6 +225,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_identification_info: state.registrationCard.form.outsideIdentification.outsideIds.map(
       (item) => ({
+        ...(item.id && {id: item.id}),
         accountingSystem_id: parseInt(item.outsideSchema),
         identifier: 'Да',
         checkDate: format(item.date, 'yyyy-MM-dd'),

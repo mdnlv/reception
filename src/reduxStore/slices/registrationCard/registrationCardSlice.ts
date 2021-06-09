@@ -169,6 +169,26 @@ export const saveCardPatient = createAsyncThunk(
   },
 );
 
+export const editCardPatient = createAsyncThunk(
+  'registrationCard/saveCardPatient',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const payload = getSaveRegCardPayload(state);
+      console.log('payload', payload);
+      const response = await PatientsService.editPatient(payload);
+      const responceData: PatientAddedResponse = response.data;
+      const patientId = responceData.last_insert_id;
+      thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
+    } catch (e) {
+      alert(JSON.stringify(e.response.data));
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: false }));
+    }
+  },
+);
+
 const registrationCardSlice = createSlice({
   name: 'registrationCard',
   initialState: initialState,
@@ -296,9 +316,9 @@ const registrationCardSlice = createSlice({
         state.initialFormState.passportGeneral.passportInfo = {
           ...(transformedPatient.address.length > 0) ? {
             addressRegistration: {
+              id: transformedPatient.address[0].address.id,
               isKLADR: Boolean(!transformedPatient.address[0].freeInput),
-              city:
-              state.form.passportGeneral.passportInfo.addressRegistration.city,
+              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
               area: transformedPatient.address[0].address.KLADRCode,
               street: transformedPatient.address[0].address.KLADRStreetCode,
               houseNumber: transformedPatient.address[0].address.house,
@@ -311,9 +331,9 @@ const registrationCardSlice = createSlice({
               freeInput: transformedPatient.address[0].freeInput,
             },
             documentedAddress: {
+              id: transformedPatient.address[1].address.id,
               isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
-              city:
-              state.form.passportGeneral.passportInfo.addressRegistration.city,
+              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
               area: transformedPatient.address[1]?.address.KLADRCode,
               street: transformedPatient.address[1]?.address.KLADRStreetCode,
               houseNumber: transformedPatient.address[1]?.address.house,
@@ -365,6 +385,7 @@ const registrationCardSlice = createSlice({
         state.initialFormState.socialStatus.trustedDoc =
           transformedPatient.socialStatus.map((item) => (
             item.document ? {
+              id: item.id,
               type: item.document.id && item.document.id.toString(),
               serialFirst: item.document.serial && item.document.serial.substring(0, item.document.serial.length/2),
               serialSecond: item.document.serial && item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
@@ -376,6 +397,7 @@ const registrationCardSlice = createSlice({
           // @ts-ignore
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
+            id: item.id,
             organization: item.id ? item.id.toString() : item.freeInput,
             position: item.post,
             experience: item.stage,
@@ -385,6 +407,7 @@ const registrationCardSlice = createSlice({
         //@ts-ignore
         state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
           (item, index) => (item.client_work_hurt_info && item.client_work_hurt_factor_info && {
+            id: item.id,
             hazardDescription: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].hurtTypeId.toString() : '',
             hazardExp: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].stage : 0,
             factor: item.client_work_hurt_factor_info.length > 0 ? item.client_work_hurt_factor_info[index].factorTypeId.toString() : ''
@@ -392,6 +415,7 @@ const registrationCardSlice = createSlice({
         );
         state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
           (item) => ({
+            id: item.id,
             isMain: item.isPrimary === 1,
             number: item.contact,
             type: item.contactTypeId.toString(),
@@ -405,6 +429,7 @@ const registrationCardSlice = createSlice({
           transformedPatient.address[1]?.address.KLADRCode || '';
         state.initialFormState.outsideIdentification.outsideIds = transformedPatient.outsideIds.map(
           (item) => ({
+            id: item.id,
             outsideSchema: item.outsideSchema.toString(),
             idRef: item.idRef,
             date: new Date(item.date),

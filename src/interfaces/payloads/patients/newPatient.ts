@@ -12,6 +12,7 @@ import {EtcItem} from "../../../components/forms/EtcForm/types";
 import {NamedDoc, PassportDoc, PolicyDoc, SocialStatus} from "../../../components/forms/PersonDocumentsForm/types";
 
 export default interface NewPatientPayload {
+  id?: number;
   lastName: string;
   firstName: string;
   patrName: string;

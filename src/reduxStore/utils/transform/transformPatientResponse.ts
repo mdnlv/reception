@@ -21,6 +21,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
 
     work: item.client_work_info[0].org_id && item.client_work_info[0].freeInput
       ? item.client_work_info.map(item => ({
+          itemId: item.id,
           id: item.org_id,
           freeInput: item.freeInput,
           post: item.post,
@@ -41,6 +42,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
       : [],
 
     client_document_info: item.client_document_info[0] && {
+      id: item.id,
       givenBy: item.client_document_info[0].origin,
       fromDate: item.client_document_info[0].date ? parseISO(item.client_document_info[0].date) : null,
       serial: item.client_document_info[0].serial,
@@ -105,6 +107,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
       })) || [],
 
     outsideIds: item.client_identification_info.map((item) => ({
+      id: item.id,
       outsideSchema: item.accountingSystem_id,
       idRef: item.identifier,
       date: item.checkDate,

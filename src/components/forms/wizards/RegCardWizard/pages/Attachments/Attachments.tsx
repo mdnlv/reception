@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import { Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,12 @@ const Attachments: React.FC = () => {
     attachTypes: loadingAttachTypes,
     orgStructure: loadingOrgStructure,
   } = useSelector((state: RootState) => state.rb.loading);
+  const [filtered, setFiltered] = useState([] as PersonAttachment[]);
+
+  useEffect(() => {
+    const result = formValues.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
@@ -50,6 +56,7 @@ const Attachments: React.FC = () => {
       type: '',
       unit: '',
       detachmentReason: '',
+      deleted: 0,
     };
     const newArr = [...formValues, attachment];
     form.setFieldValue('attachments.attachments', newArr);
@@ -58,8 +65,8 @@ const Attachments: React.FC = () => {
   const onRemoveAttachment = useCallback(() => {
     if (formValues.length > 0) {
       form.setFieldValue(
-        'attachments.attachments',
-        formValues.slice(0, formValues.length - 1),
+        `attachments.attachments[${formValues.length - 1}].deleted`,
+        1,
       );
     }
   }, [formValues]);
@@ -69,7 +76,7 @@ const Attachments: React.FC = () => {
       <div className="form-section">
         <DropDownContent title={DROPDOWN_TITLE}>
           <ArrayFieldWrapper<PersonAttachment>
-            values={formValues}
+            values={filtered}
             name={'attachments'}
             onAddItem={onAddAttachment}
             onRemoveItem={onRemoveAttachment}

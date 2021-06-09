@@ -1,4 +1,5 @@
 export interface PassportContactType {
+  id?: number;
   isMain: boolean;
   number: string;
   type: string;
@@ -19,6 +20,7 @@ export interface PolicyAttachesType {
 }
 
 export interface PassportPolicyType {
+  id?: number;
   timeType?: string;
   from: string;
   to: string;
@@ -34,6 +36,7 @@ export interface PassportPolicyType {
 
 export interface PassportAddressType {
   [key: string]: any;
+  id?: number;
   isKLADR: boolean;
   city: string;
   area: string;
@@ -47,6 +50,7 @@ export interface PassportAddressType {
 
 export default interface FormState {
   passportInfo: {
+    id?: number;
     passportType: string;
     serialFirst?: string;
     serialSecond: string;

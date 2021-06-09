@@ -5,6 +5,7 @@ export interface EmploymentItem {
   experience: number;
   inn: string;
   ogrn: string;
+  deleted?: 0 | 1;
 }
 
 export interface EmploymentHazardItem {

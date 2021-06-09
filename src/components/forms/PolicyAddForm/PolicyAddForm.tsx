@@ -76,10 +76,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
     errorsData.length > 0 && setShowModal(true);
   }, [errorsData]);
 
-  useEffect(() => {
-    console.log('errorsData', errorsData);
-  }, [errorsData]);
-
   const sectionTitle = () => {
     switch (policyKey) {
       case 'policyDms':

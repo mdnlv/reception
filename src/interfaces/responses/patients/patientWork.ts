@@ -1,4 +1,5 @@
 export default interface PatientWorkResponse {
+  id: number;
   org_id: number;
   freeInput: string;
   post: string;

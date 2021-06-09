@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -15,6 +15,12 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts;
+  const [filtered, setFiltered] = useState([] as PassportContactType[]);
+
+  useEffect(() => {
+    const result = formProps.filter((item) => item.deleted !== 1);
+    setFiltered(result);
+  }, [formProps]);
 
   const getSelectionItem = (index: number, fieldChain: string) => {
     return `passportGeneral.contacts[${index}].${fieldChain}`;
@@ -52,6 +58,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
       number: '',
       type: '',
       note: '',
+      deleted: 0,
     };
     const newArr = [...form.values.passportGeneral.contacts, item];
     form.setFieldValue('passportGeneral.contacts', newArr);
@@ -60,8 +67,8 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const onRemoveContact = useCallback(() => {
     if (formProps && formProps.length > 0) {
       form.setFieldValue(
-          'passportGeneral.contacts',
-          formProps.slice(0, formProps.length - 1),
+          `passportGeneral.contacts[${formProps.length - 1}].deleted`,
+          1,
       );
     }
   }, [formProps]);
@@ -70,7 +77,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     <div className={'form-section personal-contacts'}>
       <h2>Контакты</h2>
       <ArrayFieldWrapper<PassportContactType>
-        values={formProps}
+        values={filtered}
         name={'contacts'}
         onAddItem={onAddContact}
         onRemoveItem={onRemoveContact}
