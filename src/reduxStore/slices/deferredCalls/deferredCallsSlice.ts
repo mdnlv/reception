@@ -114,7 +114,7 @@ const deferredCallsSlice = createSlice({
             if(action.payload){
                 state.queue = action.payload.map(item => ({
                     id: item.action_id,
-                    fullName: item.patient_fullname,
+                    fullName: `${item.client.firstName} ${item.client.patrName} ${item.client.lastName}`,
                     patientId: item.client_id,
                     contact: item.contact || "",
                     netrica: item.netrica_code,

@@ -10,4 +10,11 @@ export default interface DeferredCallsResponse {
     person_id: number
     speciality_id: number
     status_id: number
+    client: {
+        firstName: string, 
+        lastName: string, 
+        patrName: string, 
+        birthDate: string, 
+        SNILS: string
+        },
 }

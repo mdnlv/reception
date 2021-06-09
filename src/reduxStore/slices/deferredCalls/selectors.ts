@@ -7,8 +7,10 @@ const orgs = (state: RootState) => state.rb.rbOrganisations
 
 export const detailedDeferredCalls = createSelector([orgs, persons, deferredSelector], (orgs, persons, calls) => {
 
-  return calls.queue.map(item => {
+    console.log(calls,'**')
 
+
+  return calls.queue.map(item => {
       let person, org;
       if(persons.length > 0){
           person = persons.find(person => person.id === item.personId)

@@ -62,7 +62,7 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
         <>
         <TableSearchHeader  title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
             <WrapButton>
-            <Button onClick={()=>setOpenModal(true)} >Записаться на примем</Button>
+            <Button onClick={()=>setOpenModal(true)} >Записаться на прием</Button>
             </WrapButton>
             <Table
                 loading={isLoading}
