@@ -26,12 +26,12 @@ const ViewType: React.FC = () => {
                   </FormField>
                 </Col>
                 <Col span={3}>
-                  <FormField label={'Дата прикрепления'}>
+                  <FormField label={'Дата начала'}>
                     <DatePicker />
                   </FormField>
                 </Col>
                 <Col span={3}>
-                  <FormField label={'Дата открепления'}>
+                  <FormField label={'Дата окончания'}>
                     <DatePicker />
                   </FormField>
                 </Col>
