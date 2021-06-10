@@ -9,7 +9,7 @@ export interface ActionProps {
   visible: boolean;
   loading: boolean;
   setVisible(arg: boolean): void;
-  actionTicket(data: ActionPost): void;
+  actionTicket(data: ActionPost, id: number): void;
   setOldData(date?: ActionData): void;
   postLoading: boolean;
   edit: boolean;
@@ -28,6 +28,7 @@ export interface ActionData {
   speciality: string;
   type: string;
   data: ActionPost;
+  org: number;
 }
   
 export interface ActionPost {

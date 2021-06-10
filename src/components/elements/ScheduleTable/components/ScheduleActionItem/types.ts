@@ -2,14 +2,13 @@ import { ScheduleTableDate, ScheduleListTicket, ScheduleTableModeType } from "..
 import { ActionData } from "../../types"
 
 export interface ItemProps {
-  //onClick?(): void;
   info?: ScheduleTableDate  | null ;
   ticket?:  ScheduleListTicket | null ;
   width: number;
   mode: ScheduleTableModeType;
   onModeChange(mode: ScheduleTableModeType): void;
-  onDateChange(date?: Date): void;
-  date? : Date;
+  setDay(date?: Date): void;
+  date? : Date | undefined;
   showModal?(data: ActionData): void;
   person?: {
     fullName: string;
@@ -21,4 +20,5 @@ export interface ItemProps {
     fullName: string;
     id: number;
   };
+  orgId?: number;
 }

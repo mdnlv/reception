@@ -38,7 +38,7 @@ const MainPage: FC = () => {
     dispatch(fetchKladr({}));
   }, []);
 
-  const loadSchedule = useCallback((id: number, beg_date: string, end_date: string) => {
+  const loadSchedule = useCallback((id: number[], beg_date: string, end_date: string) => {
     dispatch(fetchSchedules({
       id: id,
       beg_date: beg_date,

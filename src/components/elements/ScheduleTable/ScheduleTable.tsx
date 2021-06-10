@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {useSelector} from "react-redux";
 import { addDays, eachDayOfInterval } from 'date-fns';
 import {Row, Col, Spin} from "antd";
+import moment from "moment";
 
 import './styles.scss';
 import { ScheduleTableModeType, ScheduleTableProps } from './types';
@@ -11,15 +12,14 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const currentDay = new Date();
-
 const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, post, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
+  const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
-  const [currentDate, setCurrentDate] = useState(currentDay);
-  const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDay, 13));
-  
+  const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
+  const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
+  const [currentDay, setCurrentDay] = useState(new Date());
   const startHour = 8;
   const endHour = 18;
 
@@ -32,10 +32,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     );
   }, [rangeWeekDate]);
 
-  const onRangeWeekChange = useCallback((date: Date) => {
-    setRangeWeek(date);
-  }, []);
-
   const onToggleScheduleRow = useCallback(
     (id: number) => {
       if (!!selected.find((item) => item === id)) {
@@ -47,12 +43,12 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     [setSelected, selected],
   );
 
-  const onScheduleDateChange = useCallback(
-    (date?: Date) => {
-      date? setCurrentDate(date) : setCurrentDate(currentDay);
-    },
-    [currentDate, setCurrentDate],
-  );
+  const onScheduleDateChange = 
+    (date: Date, endDate: Date) => {
+      setCurrentDate(date);
+      setRangeWeek(endDate);
+      loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'));    
+    };
 
   const onScheduleModeChange = useCallback(
     (mode: ScheduleTableModeType) => {
@@ -73,11 +69,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
             <Col span={20} offset={4}>
               <ScheduleTableHeader
                 mode={mode}
-                rangeWeekDate={rangeWeekDate}
                 onModeChange={onScheduleModeChange}
                 onDateChange={onScheduleDateChange}
-                onRangeWeekChange={onRangeWeekChange}
                 currentDate={currentDate}
+                currentDay={currentDay}
               />
             </Col>
           </Row>
@@ -93,7 +88,9 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
             </Col>
           </Row>
           <Row>
+          
             <ScheduleTableList
+              isLoading={isScheduleLoading}
               selected={selected}
               rangeWeekNum={rangeWeekNum}
               onToggleRow={onToggleScheduleRow}
@@ -102,8 +99,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               person_tree={person_tree}
               loadSchedule={loadSchedule} 
               currentDate={currentDate}   
-              rangeWeekDate={rangeWeekDate}  
-              onDateChange={onScheduleDateChange}
+              rangeWeekDate={rangeWeekDate}
               onModeChange={onScheduleModeChange}
               startHour={startHour}
               endHour={endHour}
@@ -111,6 +107,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               post={post}
               client={client}
               actionTicket={actionTicket}
+              currentDay={currentDay}
+              setCurrentDay={setCurrentDay}
             />
           </Row>
         </>

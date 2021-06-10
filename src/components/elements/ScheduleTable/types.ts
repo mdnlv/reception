@@ -64,7 +64,7 @@ export interface Person {
 export interface ScheduleTableProps {
   schedules: Schedule;
   person_tree: PersonTree[];
-  loadSchedule(id: number, beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string): void;
   speciality: any,
   post: any,
   client: Client;
@@ -92,6 +92,7 @@ export interface ActionData {
   speciality: string;
   type: string;
   data: ActionPost;
+  org: number;
 }
 
 export interface ActionPost {

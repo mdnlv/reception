@@ -11,19 +11,20 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
   rangeWeekNum,
   currentDate,
   onModeChange,
-  onDateChange,
   startHour,
   endHour,
   showModal,
   speciality,
-  client
+  client,
+  orgId,
+  currentDay,
+  setCurrentDay
 }) => {
-
   const rowContent = useMemo(() => {
     switch (mode) {
       case 'week':
         return new Array(rangeWeekNum).fill(0).map((_, index) => {   
-          let date = addDays(new Date(), index);  
+          let date = addDays(currentDate, index);  
           let sdate = moment(date).format('YYYY-MM-DD');
           return (
             <ScheduleActionItem
@@ -31,19 +32,19 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
               width={1}
               info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
               mode={mode} 
-              onModeChange={onModeChange} 
-              onDateChange={onDateChange}   
+              onModeChange={onModeChange}    
               date={date}
               client={client}
+              setDay={setCurrentDay}
             />
           );
         });
       
       case 'day': 
-        let tickets = items.schedule[moment(currentDate).format('YYYY-MM-DD')][0];
+        let tickets = items.schedule[moment(currentDay).format('YYYY-MM-DD')][0];
         let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
         let k = Math.floor(dur / tickets.planned);
-        let sdate = moment(currentDate).format('YYYY-MM-DD');
+        let sdate = moment(currentDay).format('YYYY-MM-DD');
         let arr = new Array(tickets.planned).fill(0).map((_, index) => {
           return (
             <ScheduleActionItem
@@ -51,13 +52,14 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
               width={1}
               ticket={tickets? tickets.tickets[index]: null}
               info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
-              date={currentDate}
+              date={currentDay}
               mode={mode}
               onModeChange={onModeChange}
-              onDateChange={onDateChange} 
               showModal={showModal}
               person={{fullName: items.person.lastName + ' ' + items.person.firstName + ' ' + items.person.patrName, id: items.person.id, speciality: speciality, org: items.person.orgStructure_id}}
               client={client}
+              orgId={orgId}
+              setDay={setCurrentDay}
             />
           );
         });
@@ -68,15 +70,15 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
             width={kb}
             mode={mode}
             onModeChange={onModeChange}
-            onDateChange={onDateChange} 
+            setDay={setCurrentDay}
             showModal={showModal}
           />
           {arr}
           <ScheduleActionItem
             width={ke}
             mode={mode}
-            onModeChange={onModeChange}
-            onDateChange={onDateChange} 
+            setDay={setCurrentDay}
+            onModeChange={onModeChange} 
             showModal={showModal}
           />
         </>

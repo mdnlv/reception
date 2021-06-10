@@ -2,6 +2,7 @@ import { ScheduleTableModeType, Schedule} from "../../../../types";
 import { ActionData  } from "../../../../types"
 
 export interface ItemProps {
+  isLoading: boolean;
   id: number;
   name: string;
   toggle: boolean;
@@ -12,11 +13,10 @@ export interface ItemProps {
   child: PersonTree[];
   selected: any;
   level: number;
-  loadSchedule(id: number, beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string): void;
   schedule: Schedule;
   currentDate: Date;
   rangeWeekDate: Date;
-  onDateChange(date: Date): void;
   onModeChange(mode: ScheduleTableModeType): void;
   startHour: number;
   endHour: number;
@@ -28,6 +28,8 @@ export interface ItemProps {
     fullName: string;
     id: number;
   };
+  setCurrentDay(date?: Date): void;
+  currentDay? : Date | undefined;
 }
 
 export interface PersonTree {

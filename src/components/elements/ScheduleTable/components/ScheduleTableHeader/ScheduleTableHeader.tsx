@@ -1,27 +1,30 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Radio, { RadioChangeEvent } from 'antd/lib/radio';
 import Row from 'antd/lib/row';
+import moment from "moment";
 
 import './styles.scss';
 import {HeaderProps} from "./types";
 
 import DatePicker from './components/DatePicker/DatePicker';
+import { addDays } from 'date-fns';
 
 const ScheduleTableHeader: React.FC<HeaderProps> = ({
+  mode,
   currentDate,
   onDateChange,
   onModeChange,
-  onRangeWeekChange,
-  mode,
-  rangeWeekDate
+  currentDay
 }) => {
+  const [value, setValue] = useState('week');
   const modeChangeHandler = useCallback(
     (e: RadioChangeEvent) => {
-      onModeChange(e.target.value);
+      e.target.value == 'month' ? onDateChange(moment().clone().startOf(e.target.value).toDate(), moment().clone().endOf(e.target.value).toDate())
+      : onDateChange(moment().clone().startOf(e.target.value).toDate(), addDays(moment().clone().endOf(e.target.value).toDate(), 7));
+      setValue(e.target.value)
     },
     [onModeChange],
   );
-
 
   return (
     <Row
@@ -30,18 +33,18 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
       align={'middle'}>
       <div className={'schedule-date-picker'}>
         <DatePicker
-          onRangeWeekChange={onRangeWeekChange}
-          rangeWeekDate={rangeWeekDate}
           mode={mode}
           current={currentDate}
           onDateChange={onDateChange}
           onModeChange={onModeChange}
+          length={value}
+          currentDay={currentDay}
         />
       </div>
       
-      <Radio.Group onChange={modeChangeHandler} value={mode}>
-        <Radio value={'day'}>День</Radio>
-        <Radio value={'week'}>Неделя</Radio>
+      <Radio.Group onChange={modeChangeHandler} value={value}>
+        <Radio value={'week'}>2 недели</Radio>
+        <Radio value={'month'}>месяц</Radio>
       </Radio.Group>
     </Row>
   );

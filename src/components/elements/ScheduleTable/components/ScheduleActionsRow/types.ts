@@ -6,7 +6,6 @@ export interface RowProps {
   rangeWeekNum: number;
   currentDate: Date;
   rangeWeekDate: Date;
-  onDateChange(date: Date): void;
   onModeChange(mode: ScheduleTableModeType): void;
   startHour: number;
   endHour: number;
@@ -16,4 +15,7 @@ export interface RowProps {
     fullName: string;
     id: number;
   };
+  orgId: number;
+  setCurrentDay(date?: Date): void;
+  currentDay? : Date | undefined;
 }
