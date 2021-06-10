@@ -109,7 +109,8 @@ export const initialState: RegistrationCardState = {
         street: '',
         isDocumentedAddress: false,
         freeInput: '',
-        flatNumber: ''
+        flatNumber: '',
+        isVillager: false
       },
       documentedAddress: {
         isKLADR: true,
@@ -118,7 +119,7 @@ export const initialState: RegistrationCardState = {
         street: '',
         isDocumentedAddress: false,
         freeInput: '',
-
+        isVillager: false
       },
     },
     contacts: [] as PassportContactType[],

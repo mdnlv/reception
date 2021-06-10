@@ -14,6 +14,10 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     passportInfo: Yup.object({
       passportType: Yup.string().required('Не выбран тип документа'),
       fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
+      serialFirst: Yup.string().required('Не введена серия документа'),
+      serialSecond: Yup.string().required('Не введена серия документа'),
+      number: Yup.string().required('Не введен номер документа'),
+      givenBy: Yup.string().required('Не введено кем выдан документ'),
     }),
     contacts: Yup.array().of(Yup.object({
       type: Yup.string().required('Не выбран тип телефона'),
@@ -26,6 +30,8 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       timeType: Yup.string().required('Не выбран тип времени полиса'),
       from: Yup.string().required('Не задана дата начала действия полиса'),
       to: Yup.string().required('Не задана дата окончания действия полиса'),
+      serial: Yup.string().required('Не введена серия полиса'),
+      number: Yup.string().required('Не введен номер полиса'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
     })
