@@ -27,7 +27,7 @@ export const detailedCMOSelector = createSelector(
   (orgs) =>
     orgs
       .filter((item) => item.isInsurer)
-      .map((item) => ({ id: item.id, name: item.shortName })),
+      .map((item) => ({ id: item.id, name: item.shortName, extraData: item.area})),
 );
 
 export const detailedPersonsSelector = createSelector(

@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
+import {KladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/Address/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -22,7 +23,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   foundPolicy,
   isLoading,
   isCmoLoading,
-  cmoType
+  cmoType,
+  kladr
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
@@ -43,6 +45,27 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
   const [errorsData, setErrorsData] = useState([] as string[]);
+  const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
+
+  // useEffect(() => {
+  //   console.log('formValues.cmo', formValues.cmo);
+  // }, [formValues.cmo]);
+
+  useEffect(() => {
+    id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
+  }, [id]);
+
+  useEffect(() => {
+    const result = cmoType.filter((item) => item.extraData === formValues.cmoArea);
+    setCmoFiltered(result);
+  }, [formValues.cmoArea, cmoType]);
+
+  useEffect(() => {
+    if (!formValues.cmoArea) {
+      const result = cmoType.find((item) => item.id === parseInt(formValues.cmo));
+      form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
+    }
+  }, [formValues.cmo]);
 
   useEffect(() => {
     if (foundPolicy) {
@@ -92,8 +115,19 @@ const PolicyAddForm: React.FC<FormProps> = ({
           {item.name}
         </Select.Option>
       )),
-    [policyTimeType, policyType, cmoType],
+    [policyTimeType, policyType, cmoFiltered],
   );
+
+  const getKladrDetailed = (kladrArr: KladrItem[]) => {
+    return kladrArr.map((item) => (
+      <Select.Option
+        key={item.id}
+        name={`${item.socr}. ${item.name}`}
+        value={item.id}>
+        {`${item.socr}. ${item.name}`}
+      </Select.Option>
+    ));
+  };
 
   const onFindPolicyHandler = useCallback(
     (values: FindPolicyParams) => {
@@ -218,6 +252,22 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
       </Row>
       <Row className="form-row" gutter={16}>
+        <Col span={24}>
+          <FormField labelPosition="left" label="Территория страхования">
+            <FastSearchSelect
+              filterOption
+              loading={isLoading || isCmoLoading}
+              optionFilterProp={'name'}
+              showSearch
+              disabled={isLoading}
+              name={`${sectionValuePath}.cmoArea`}
+            >
+              {getKladrDetailed(kladr)}
+            </FastSearchSelect>
+          </FormField>
+        </Col>
+      </Row>
+      <Row className="form-row" gutter={16}>
         <Col span={14}>
           <FormField label="СМО" labelPosition="left" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
@@ -228,7 +278,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               disabled={isLoading}
               name={`${sectionValuePath}.cmo`}
             >
-              {getPropsOptions(cmoType)}
+              {getPropsOptions(cmoFiltered)}
             </FastSearchSelect>
           </FormField>
         </Col>

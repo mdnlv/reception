@@ -721,7 +721,9 @@ const rbSlice = createSlice({
 
     builder.addCase(fetchRbOrganisations.fulfilled, (state, action) => {
       if (action.payload) {
-        state.rbOrganisations = action.payload.map((item:{  id: number;
+        state.rbOrganisations = action.payload.map((item:{
+          area: string;
+          id: number;
           fullName: string;
           shortName: string;
           isInsurer: 0 | 1;
@@ -732,7 +734,8 @@ const rbSlice = createSlice({
           shortName: item.shortName,
           isInsurer: !!item.isInsurer,
           inn: item.INN,
-          ogrn: item.OGRN
+          ogrn: item.OGRN,
+          area: item.area,
         }));
       }
     });

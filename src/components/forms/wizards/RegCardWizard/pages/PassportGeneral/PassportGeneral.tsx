@@ -145,6 +145,7 @@ const PassportGeneral: React.FC = () => {
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
+            kladr={rbKladrDocumented}
           />
         </Col>
         <Col span={12}>
@@ -156,6 +157,7 @@ const PassportGeneral: React.FC = () => {
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
+            kladr={rbKladrDocumented}
           />
         </Col>
       </Row>

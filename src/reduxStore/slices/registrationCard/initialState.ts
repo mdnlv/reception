@@ -120,6 +120,7 @@ const initialState: RegistrationCardStateType = {
       contacts: [] as PassportContactType[],
       policyOms: {
         id: undefined,
+        cmoArea: '',
         cmo: "",
         from: '',
         name: "",
@@ -133,6 +134,7 @@ const initialState: RegistrationCardStateType = {
       },
       policyDms: {
         id: undefined,
+        cmoArea: '',
         cmo: "",
         from: '',
         name: "",
@@ -252,6 +254,7 @@ const initialState: RegistrationCardStateType = {
       contacts: [] as PassportContactType[],
       policyOms: {
         id: undefined,
+        cmoArea: '',
         cmo: "",
         from: "",
         name: "",
@@ -265,6 +268,7 @@ const initialState: RegistrationCardStateType = {
       },
       policyDms: {
         id: undefined,
+        cmoArea: '',
         cmo: "",
         from: "",
         name: "",

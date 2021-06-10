@@ -5,4 +5,5 @@ export default interface Organisation {
   isInsurer: 0 | 1;
   INN: string;
   OGRN: string;
+  area?: string;
 }

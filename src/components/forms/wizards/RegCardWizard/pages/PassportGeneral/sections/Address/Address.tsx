@@ -215,7 +215,7 @@ const Address: FC<SectionProps> = ({
                   onFocus={() => setCleanable(true)}
                   showSearch
                   filterOption
-                  isDisabled={setDisabled()}
+                  disabled={setDisabled()}
                   optionFilterProp={'name'}>
                   {getKladrDetailed(kladr)}
                 </FastSearchSelect>
@@ -225,7 +225,7 @@ const Address: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
-                  isDisabled={
+                  disabled={
                     setDisabled() ||
                     !formValues.passportInfo[passportType].area ||
                     formValues.passportInfo[passportType].area ===
@@ -259,7 +259,7 @@ const Address: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrStreets}
-                  isDisabled={
+                  disabled={
                     setDisabled() ||
                     (formValues.passportInfo[passportType].area !==
                       '7800000000000' &&

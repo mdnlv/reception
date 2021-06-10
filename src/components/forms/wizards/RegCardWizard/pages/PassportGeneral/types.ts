@@ -66,6 +66,7 @@ export default interface FormState {
   policyOms: {
     id?: number;
     timeType?: string;
+    cmoArea?: string;
     from: string | Date;
     to: string | Date;
     serial: string;
@@ -79,6 +80,7 @@ export default interface FormState {
   policyDms: {
     id?: number;
     timeType?: string;
+    cmoArea?: string;
     from: string | Date;
     to: string | Date;
     serial: string;

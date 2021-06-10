@@ -1,9 +1,11 @@
 import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
+import {PrefixKladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/Address/types";
 
 export interface ListOptionItem {
   id: number;
   name: string;
+  extraData?: number | string;
 }
 
 export interface FormProps {
@@ -20,4 +22,5 @@ export interface FormProps {
     cmo: string;
     type: string;
   }
+  kladr: PrefixKladrItem[];
 }
