@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, DatePicker, Input, Row, Select} from 'antd';
+import {Col, Input, Row} from 'antd';
 
 import {DROPDOWN_TITLE, LABELS} from "./types";
 
@@ -20,7 +20,7 @@ const Etc: React.FC = () => {
                 <Row>
                   <Col>
                     <FormField label={LABELS.NOTE}>
-                      <Input.TextArea />
+                      <Input.TextArea cols={80} rows={10}/>
                     </FormField>
                   </Col>
                 </Row>
