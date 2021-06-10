@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useFormikContext } from 'formik';
 import {
   Button,
@@ -12,6 +12,7 @@ import {
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import {WizardStateType} from '../../types';
 import { detailedPersonsFindSelector } from '../../../../../../reduxStore/slices/rb/selectors';
@@ -25,6 +26,7 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
+  const navigation = useHistory();
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsFindSelector);
   const formValues = formProps.values.personal;
@@ -55,6 +57,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
 
     return checkDigit === parseInt(valueInt.slice(-2))
   };
+
+  const onCancel = useCallback(() => {
+    navigation.push('/');
+  }, []);
 
   const snilsAlert = () => (
     <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
@@ -200,7 +206,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
       </div>
       <Divider />
       <div className="registration-form__actions">
-        <Button type="link" danger>
+        <Button type="link" danger onClick={onCancel}>
           Отмена
         </Button>
         <Button
