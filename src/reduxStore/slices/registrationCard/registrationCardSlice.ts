@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 
 import initialState from './initialState';
 import RbService from '../../../services/RbService';
@@ -124,7 +124,7 @@ export const findPatientPolicy = createAsyncThunk(
     );
     try {
       //@ts-ignore
-      const birthDate = format(payload.birthDate, 'yyyy-MM-dd');
+      const birthDate = format(parseISO(payload.birthDate), 'yyyy-MM-dd');
       const response = await PatientsService.findPatientPolicy({
         ...payload,
         birthDate,
