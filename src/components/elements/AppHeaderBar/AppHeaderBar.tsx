@@ -13,7 +13,6 @@ const BarLogoAlt = 'Logo';
 enum Labels {
   Print = 'Печать',
   Journal = 'ЖОС',
-  K = 'Кэр',
   Appointment = 'Записать на прием',
   NewPatient = 'Новый пациент',
   Info = 'Справка',
@@ -54,9 +53,6 @@ const AppHeaderBar: FC = () => {
             <Space>
               <Button size={'small'} className="header__button">
                 {Labels.Print}
-              </Button>
-              <Button size={'small'} className="header__button">
-                {Labels.K}
               </Button>
               <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">
                 {Labels.Journal}
