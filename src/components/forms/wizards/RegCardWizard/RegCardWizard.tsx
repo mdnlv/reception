@@ -88,6 +88,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
       }}
     >
       {({errors}) => {
+        console.log('errors', errors);
         return (
           <Row>
             <Col span={5}>

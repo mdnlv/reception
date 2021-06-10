@@ -228,7 +228,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       </Row>
       <Row className="form-row" gutter={16}>
         <Col span={6}>
-          <FormField label={'Серия'}>
+          <FormField label={'Серия'} name={`${sectionValuePath}.serial`}>
             <FastInput
               disabled={isLoading}
               name={`${sectionValuePath}.serial`}
@@ -236,7 +236,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
         <Col span={18}>
-          <FormField label={'Номер'}>
+          <FormField label={'Номер'} name={`${sectionValuePath}.number`}>
             {policyMask
               ? (<FastMaskedInput
                   mask={policyMask}

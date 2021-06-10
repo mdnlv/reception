@@ -39,17 +39,17 @@ const PersonalDocument: FC<SectionProps> = ({
           </FormField>
         </Col>
         <Col span={2}>
-          <FormField label={LABELS.SERIAL}>
+          <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialFirst`}>
             <FastInput name={`${selectionValuePath}.serialFirst`} />
           </FormField>
         </Col>
         <Col span={2}>
-          <FormField label={LABELS.SERIAL}>
+          <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialSecond`}>
             <FastInput name={`${selectionValuePath}.serialSecond`} />
           </FormField>
         </Col>
         <Col span={7}>
-          <FormField label={LABELS.NUMBER}>
+          <FormField label={LABELS.NUMBER} name={`${selectionValuePath}.number`}>
             <FastInput name={`${selectionValuePath}.number`} />
           </FormField>
         </Col>
@@ -63,7 +63,7 @@ const PersonalDocument: FC<SectionProps> = ({
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <FormField label={LABELS.GIVEN_BY}>
+          <FormField label={LABELS.GIVEN_BY} name={`${selectionValuePath}.givenBy`}>
             <FastInput name={`${selectionValuePath}.givenBy`} />
           </FormField>
         </Col>
