@@ -24,6 +24,7 @@ const Status: React.FC<StatusProps> = ({
   const sectionValuePath = `socialStatus.socialStatus`;
   const [filtered, setFiltered] = useState([] as SocialStatus[]);
   const [index, setIndex] = useState(0);
+  const [cleanable, setCleanable] = useState(false);
 
   useEffect(() => {
     const result = formValues.filter((item) => item.deleted !== 1);
@@ -31,7 +32,7 @@ const Status: React.FC<StatusProps> = ({
   }, [formValues]);
 
   useEffect(() => {
-    form.setFieldValue(`${sectionValuePath}.[${index}].type`, '');
+    cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].type`, '');
   }, [formValues && formValues[index] && formValues[index].class]);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
@@ -99,6 +100,7 @@ const Status: React.FC<StatusProps> = ({
                       showSearch
                       filterOption
                       optionFilterProp={'name'}
+                      onFocus={setCleanable.bind(this, true)}
                       name={getSelectionPath(indexData, 'class')}>
                       {propsList(socialClassesList)}
                     </FastSearchSelect>
