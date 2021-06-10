@@ -24,12 +24,12 @@ const JosAppointment: React.FC<AppointmentProps> = (props) => {
     <Formik
       initialValues={josForm}
       validationSchema={validation}
-      onSubmit={(values) => {
+      onSubmit={(values,events) => {
 
-        console.log(values,'val')
+
         const data = {
           "client_id": Number(values.patient),
-          "comment": "",
+          "comment": values.сomment || '',
           "contact": "",
           "createPerson_id": 0,
           "id": 0,
@@ -41,6 +41,7 @@ const JosAppointment: React.FC<AppointmentProps> = (props) => {
           "status_id": 1
         }
         dispatch(saveDeferredCall({ data: data }))
+        events.resetForm()
         props.onClose &&  props.onClose()
       }}
     >

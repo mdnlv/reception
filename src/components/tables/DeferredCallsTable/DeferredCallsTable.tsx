@@ -9,9 +9,14 @@ interface DeferredCallsTableProps {
         key: number
         fullName: string
         person: string
+        code: number
         org: string
+        createdDate: string,
         netrica: string | number | null
-        contact: string
+        contact: string,
+        comment: string,
+        maxDate: string,
+        birthday?: string,
     }[]
     isLoading: boolean
 }
@@ -20,7 +25,7 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
 
 
 
-    console.log(data)
+        console.log(data)
 
 
     const [isOpenModal, setOpenModal] = useState(false)
@@ -32,29 +37,61 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
 `  
     const columns = [
         {
-            title: 'ФИО',
+            title: 'Дата создания',
+            dataIndex: 'createdDate',
+            key: 'createdDate',
+        },
+        {
+            title: 'Код',
+            dataIndex: 'code',
+            key: 'code',
+        },
+        {
+            title: 'Номер заявки',
+            dataIndex: 'netrica',
+            key: 'netrica',
+        },
+        {
+            title: 'Статус',
+            dataIndex: 'status',
+            key: 'status',
+        },
+        {
+            
+            title: 'ФИО пациента',
             dataIndex: 'fullName',
             key: 'fullName',
+        },
+        {
+            title: 'Возраст',
+            dataIndex: 'birthday',
+            key: 'birthday',
+        },
+        {
+            title: 'Подразделение',
+            dataIndex: 'org',
+            key: 'org',
+        },
+        {
+            title: 'Специальность',
+            dataIndex: 'specialty',
+            key: 'specialty',
         },
         {
             title: 'Врач',
             dataIndex: 'person',
             key: 'person',
         },
+       
         {
-            title: 'Организация',
-            dataIndex: 'org',
-            key: 'org',
+            title: 'Максимальная дата',
+            dataIndex: 'maxDate',
+            key: 'maxDate',
         },
         {
-            title: 'Отделение',
-            dataIndex: 'netrica',
-            key: 'netrica',
-        },
-        {
-            title: 'Контакты',
-            dataIndex: 'contact',
-            key: 'contact',
+            title: 'комментарий',
+            dataIndex: 'comment',
+            key: 'comment',
         },
     ]
 
@@ -62,7 +99,7 @@ const DeferredCallsTable: React.FC<DeferredCallsTableProps> = ({data, isLoading}
         <>
         <TableSearchHeader  title={'ЖОС'} onTableModeChange={() => {}} mode={'default'}>
             <WrapButton>
-            <Button onClick={()=>setOpenModal(true)} >Записаться на прием</Button>
+            <Button onClick={()=>setOpenModal(true)} >Добавить</Button>
             </WrapButton>
             <Table
                 loading={isLoading}

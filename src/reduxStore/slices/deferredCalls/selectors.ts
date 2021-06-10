@@ -3,30 +3,33 @@ import {createSelector} from "reselect";
 
 const deferredSelector = (state: RootState) => state.deferredCalls
 const persons = (state: RootState) => state.rb.rbPersons
-const orgs = (state: RootState) => state.rb.rbOrganisations
+const orgs = (state: RootState) => state.rb.rbOrgStructure
+const specialties = (state: RootState) => state.rb.rbSpecialities
 
-export const detailedDeferredCalls = createSelector([orgs, persons, deferredSelector], (orgs, persons, calls) => {
-
-    console.log(calls,'**')
+export const detailedDeferredCalls = createSelector([orgs, persons, deferredSelector,specialties], (orgs, persons, calls,specialties) => {
 
 
   return calls.queue.map(item => {
-      let person, org;
-      if(persons.length > 0){
-          person = persons.find(person => person.id === item.personId)
-      }
+      let person, org,specialty
 
       if(orgs.length > 0){
-          org = orgs.find(org => org.id === item.id)
+          org = orgs.find(org => org.id === item.orgId)
       }
+      specialty = specialties.find(({id})=>id===item.specialityId)
 
       return {
           key: item.id,
+          code: item.clientId,
+          createdDate: item.createdDate,
           fullName: item.fullName,
-          person: person ? `${person.lastName} ${person.firstName}` : '',
+          comment: item.comment,
+          maxDate: item.maxDate,
+          person: item.person,
           netrica: item.netrica,
-          org: org ? org.shortName : '',
-          contact: item.contact
+          org: org ? org.name : '',
+          contact: item.contact,
+          birthday: item.birthday,
+          specialty: specialty?.name
       }
   })
 })

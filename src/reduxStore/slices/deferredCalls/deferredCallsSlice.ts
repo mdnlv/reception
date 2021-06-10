@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { notification } from "antd";
-
-
+import { format } from "date-fns";
 import DeferredCallsService from "../../../services/DeferredCallsService";
 import {DeferredCallsState} from "./types";
 
@@ -16,8 +15,9 @@ const initialState: DeferredCallsState = {
     сomment: ""
     },
     patientList: [],
-    doctors: [],
+    doctors: []  as any,
     specialty:[],
+    filteredDoctors: [],
     loading: false
 }
 
@@ -49,7 +49,7 @@ export const saveDeferredCall = createAsyncThunk(
                     message: `Успех`,
                     description: "форма сохранена",
                   });
-          
+                  thunkAPI.dispatch(fetchDeferredQueue())
 
                 return response.data;
             }
@@ -68,7 +68,6 @@ export const saveDeferredCall = createAsyncThunk(
 export const getPersonList = createAsyncThunk(
     'deferredQueue/getPersonList',
     async (payload: { data:any }, thunkAPI) => {
-        thunkAPI.dispatch(setLoading(true));
         try {
 
            const { rb }:any = thunkAPI.getState()
@@ -93,12 +92,33 @@ export const getPersonList = createAsyncThunk(
                     doctors: doctors,
                     specialty: specialty 
                 };
+
         } catch (e) {
             alert(e)
         } finally {
         }
     }
 )
+
+export const filterDoctors = createAsyncThunk(
+    'deferredQueue/filterDoctors',
+    async (payload: { id:number }, thunkAPI) => {
+        
+        const { deferredCalls }:any = thunkAPI.getState()
+
+
+      const  filteredDoctors =  deferredCalls.doctors.filter((doctor:any)=>doctor.speciality_id === payload.id)
+
+        try {
+            return  {filteredDoctors:filteredDoctors}
+            
+        } catch (e) {
+            alert(e)
+        } finally {
+        }
+    }
+)
+
 
 
 const deferredCallsSlice = createSlice({
@@ -112,14 +132,20 @@ const deferredCallsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchDeferredQueue.fulfilled, (state, action) => {
             if(action.payload){
+
                 state.queue = action.payload.map(item => ({
                     id: item.action_id,
                     fullName: `${item.client.firstName} ${item.client.patrName} ${item.client.lastName}`,
+                    person: item.person ?`${item.person.firstName} ${item.person.patrName} ${item.person.lastName}`:'',
                     patientId: item.client_id,
                     contact: item.contact || "",
+                    clientId: item.client_id,
                     netrica: item.netrica_code,
+                    comment: item.comment,
+                    birthday:  item.client.birthDate,
                     orgId: item.orgStructure_id,
-                    maxDate: item.maxDate,
+                    maxDate: format(Date.parse(item.maxDate), "dd.MM.yyyy"),
+                    createdDate:format(Date.parse(item.createDatetime), "dd.MM.yyyy"),
                     specialityId: item.speciality_id,
                     personId: item.person_id,
                 }))
@@ -128,6 +154,9 @@ const deferredCallsSlice = createSlice({
         builder.addCase(getPersonList.fulfilled, (state, action) => {
             state.doctors = action.payload?.doctors       
             state.specialty = action.payload?.specialty
+        })
+        builder.addCase(filterDoctors.fulfilled, (state, action) => {
+            state.filteredDoctors = action.payload?.filteredDoctors       
         })
     }
 })
