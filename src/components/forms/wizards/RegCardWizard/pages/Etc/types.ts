@@ -11,7 +11,5 @@ export default interface FormState {
 export const DROPDOWN_TITLE = 'Прочее';
 
 export enum LABELS {
-  INFO = 'Вы получили информацию о нашем учереждении',
-  DATA = 'Дата',
   NOTE = 'Примечание',
 }

@@ -17,18 +17,6 @@ const Etc: React.FC = () => {
             name={'items'}
             renderChild={(key, index) => (
               <div key={index}>
-                <Row gutter={16}>
-                  <Col>
-                    <FormField label={LABELS.INFO}>
-                      <Select />
-                    </FormField>
-                  </Col>
-                  <Col>
-                    <FormField label={LABELS.DATA}>
-                      <DatePicker />
-                    </FormField>
-                  </Col>
-                </Row>
                 <Row>
                   <Col>
                     <FormField label={LABELS.NOTE}>
