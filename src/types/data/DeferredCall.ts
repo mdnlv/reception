@@ -13,4 +13,5 @@ export default interface DeferredCall {
     orgId: number
     personId: number | null
     specialityId: number
+    status: number
 }

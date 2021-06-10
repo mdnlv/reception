@@ -11,6 +11,7 @@ import InvalidReason from '../../../types/data/InvalidReason';
 import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
+import DeferredQueueStatus from '../../../types/data/DeferredQueueStatus'
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';
@@ -557,6 +558,28 @@ export const fetchRbSocialStatusClass = createAsyncThunk(
   },
 );
 
+export const fetchDeferredQueueStatus = createAsyncThunk(
+  'rb/fetchDeferredQueueStatus',
+  async (arg, thunkAPI) => {
+    try {
+
+    const response = await  RbService.fetchDeferredQueueStatus();
+      if (response.data) {
+        console.log(response.data,'+++++__')
+        return response.data;
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: false }));
+    }
+  },
+);
+
+
+
+
+
 export const fetchRbHurtType = createAsyncThunk(
   'rb/fetchRbHurtType',
   async (arg, thunkAPI) => {
@@ -642,6 +665,7 @@ const rbSlice = createSlice({
       rbHurtFactorTypes: ''
     },
     rbPersons: [] as Person[],
+    rbDeferredQueueStatus: [] as DeferredQueueStatus[],
     rbEventTypes: [] as EventType[],
     rbOrganisations: [] as Organisation[],
     rbInvalidReasons: [] as InvalidReason[],
@@ -764,6 +788,13 @@ const rbSlice = createSlice({
         state.rbInvalidReasons = action.payload;
       }
     });
+    
+    builder.addCase(fetchDeferredQueueStatus.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbDeferredQueueStatus = action.payload;
+      }
+    });
+
     builder.addCase(fetchRbRelationTypes.fulfilled, (state, action) => {
       if (action.payload) {
          const personSex = action.meta.arg.sex+1

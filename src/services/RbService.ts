@@ -22,7 +22,7 @@ import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbSpecialityResponse from "../interfaces/responses/rb/rbSpeciality";
 import RbPostResponse from "../interfaces/responses/rb/rbPost";
-
+import RbDeferredQueueStatus from '../interfaces/responses/rb/rbDeferredQueueStatus'
 
 export default {
   fetchSpeciality(): Promise<AxiosResponse<RbSpecialityResponse[]>>{
@@ -71,6 +71,9 @@ export default {
     return apiInstance.get('/refBooks/rbRelationType');
   },
 
+  fetchDeferredQueueStatus(): Promise<AxiosResponse<RbDeferredQueueStatus[]>> {
+    return apiInstance.get('/refBooks/rbDeferredQueueStatus');
+  },
 
   fetchInvalidDocumentTypes(): Promise<
     AxiosResponse<RbInvalidDocumentTypeResponse[]>

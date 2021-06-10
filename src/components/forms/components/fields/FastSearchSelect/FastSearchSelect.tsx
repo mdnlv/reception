@@ -8,7 +8,7 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
  
   const [field, meta, form] = useField(props.name);
 
-    const value = props.loading? '':field.value;
+    const value = field.value ? field.value:undefined ;
         
   return (
     <Select

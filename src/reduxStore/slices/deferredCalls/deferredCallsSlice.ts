@@ -141,6 +141,7 @@ const deferredCallsSlice = createSlice({
                     contact: item.contact || "",
                     clientId: item.client_id,
                     netrica: item.netrica_code,
+                    status: item.status_id,
                     comment: item.comment,
                     birthday:  item.client.birthDate,
                     orgId: item.orgStructure_id,

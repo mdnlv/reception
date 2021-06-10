@@ -53,6 +53,18 @@ const JosAppointmentForm: React.FC = (props:any) => {
             )
         });
 
+    const getPropsOptionsDoctors = (props: any) =>
+    props.map((item: any) => {
+        return (
+            <Select.Option key={item.code} name={item.fullName} value={item.id}>
+                {item.fullName}
+            </Select.Option>
+        )
+    });
+
+
+
+
         const getPropsOptionsSpecialty = (props: any) =>
         props.map((item: any) => {
             return (
@@ -131,7 +143,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     showSearch
                                     filterOption
                                     optionFilterProp={'name'}>
-                                    {getPropsOptions(doctors)}
+                                    {getPropsOptionsDoctors(doctors)}
                                 </FastSearchSelect>
                             </FormField>
                         </Col>
