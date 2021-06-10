@@ -46,6 +46,7 @@ export interface PassportAddressType {
   flatNumber?: string | null | number;
   isDocumentedAddress: boolean;
   freeInput: string;
+  isVillager: boolean;
 }
 
 export default interface FormState {

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Checkbox, Col, Radio, Row, Select } from 'antd';
+import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -36,7 +36,7 @@ const Address: FC<SectionProps> = ({
   const formValues = form.values.passportGeneral;
   const formInitialValues = form.initialValues.passportGeneral.passportInfo[passportType];
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
-  const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput'];
+  const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
   useEffect(() => {
     id === 'new' &&  form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
@@ -193,14 +193,24 @@ const Address: FC<SectionProps> = ({
       <h2>{getTitle()}</h2>
       <Row gutter={16} className="form-row">
         <Col span={8}>
-          <Radio.Group
-            disabled={setDisabled()}
-            name={`${sectionValuePath}.isKLADR`}
-            onChange={form.handleChange}
-            value={formValues.passportInfo[passportType].isKLADR}>
-            <Radio value={true}>КЛАДР</Radio>
-            <Radio value={false}>Сельский житель</Radio>
-          </Radio.Group>
+          <FormField>
+            <Checkbox
+              disabled={setDisabled()}
+              checked={formValues.passportInfo[passportType].isKLADR}
+              name={`${sectionValuePath}.isKLADR`}
+              onChange={form.handleChange}>
+              КЛАДР
+            </Checkbox>
+          </FormField>
+          <FormField>
+            <Checkbox
+              disabled={setDisabled()}
+              checked={formValues.passportInfo[passportType].isVillager}
+              name={`${sectionValuePath}.isVillager`}
+              onChange={form.handleChange}>
+              Сельский житель
+            </Checkbox>
+          </FormField>
         </Col>
       </Row>
       {formValues.passportInfo[passportType].isKLADR && (

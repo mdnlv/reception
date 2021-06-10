@@ -103,6 +103,7 @@ const initialState: RegistrationCardStateType = {
           flatNumber: '',
           isDocumentedAddress: false,
           freeInput: '',
+          isVillager: false,
         },
         documentedAddress: {
           id: undefined,
@@ -115,6 +116,7 @@ const initialState: RegistrationCardStateType = {
           flatNumber: '',
           isDocumentedAddress: false,
           freeInput: '',
+          isVillager: false,
         },
       },
       contacts: [] as PassportContactType[],
@@ -238,6 +240,7 @@ const initialState: RegistrationCardStateType = {
           flatNumber: '',
           isDocumentedAddress: false,
           freeInput: '',
+          isVillager: false
         },
         documentedAddress: {
           isKLADR: true,
@@ -249,6 +252,7 @@ const initialState: RegistrationCardStateType = {
           flatNumber: '',
           isDocumentedAddress: false,
           freeInput: '',
+          isVillager: false
         },
       },
       contacts: [] as PassportContactType[],
@@ -322,6 +326,7 @@ const initialState: RegistrationCardStateType = {
             flatNumber: "",
             isDocumentedAddress: false,
             freeInput: '',
+            isVillager: false
           }
         },
         addressRegistration: {
