@@ -26,10 +26,8 @@ import PersonDocuments from './pages/PersonDocuments/PersonDocuments';
 import SocialStatus from './pages/SocialStatus/SocialStatus';
 import PersonEmployment from './pages/PersonEmployment/PersonEmployment';
 import Attachments from './pages/Attachments/Attachments';
-import ViewType from './pages/ViewType/ViewType';
 import Features from './pages/Features/Features';
 import Privileges from './pages/Privileges/Privileges';
-import Offences from './pages/Offences/Offences';
 import Links from './pages/Links/Links';
 import AdditionalHospitalization from './pages/AdditionalHospitalization/AdditionalHospitalization';
 import OutsideIdent from './pages/OutsideIdent/OutsideIdent';
@@ -88,7 +86,6 @@ dispatch(fetchRbPersonsSearch({query:value}))
       }}
     >
       {({errors}) => {
-        console.log('errors', errors);
         return (
           <Row>
             <Col span={5}>
@@ -133,11 +130,8 @@ dispatch(fetchRbPersonsSearch({query:value}))
                   key={'attachments'}>
                   <Attachments/>
                 </Tabs.TabPane>
-                <Tabs.TabPane
-                  forceRender={false}
-                  tab={'Вид наблюдения'}
-                  key={'views-type'}>
-                  <ViewType/>
+                <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
+                  <Links/>
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   forceRender={false}
@@ -150,15 +144,6 @@ dispatch(fetchRbPersonsSearch({query:value}))
                   tab={'Льготы'}
                   key={'privileges'}>
                   <Privileges/>
-                </Tabs.TabPane>
-                <Tabs.TabPane
-                  forceRender={false}
-                  tab={'Правонарушения'}
-                  key={'offences'}>
-                  <Offences/>
-                </Tabs.TabPane>
-                <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
-                  <Links/>
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   forceRender={false}
