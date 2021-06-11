@@ -91,14 +91,24 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }
     ],
 
-    client_contact_info: state.registrationCard.form.passportGeneral.contacts.map((item) => ({
-      ...(item.id && {id: item.id}),
-      contactType_id: parseInt(item.type),
-      contact: item.number,
-      isPrimary: item.isMain ? 1 : 0,
-      notes: item.note,
-      deleted: item.deleted,
-    })),
+    client_contact_info: [
+      ...state.registrationCard.form.passportGeneral.contacts.contacts.map((item) => ({
+        ...(item.id && {id: item.id}),
+        contactType_id: parseInt(item.type),
+        contact: item.number,
+        isPrimary: item.isMain ? 1 : 0,
+        notes: item.note,
+        deleted: 0,
+      })),
+      ...state.registrationCard.form.passportGeneral.contacts.deleted.map((item) => ({
+        ...(item.id && {id: item.id}),
+        contactType_id: parseInt(item.type),
+        contact: item.number,
+        isPrimary: item.isMain ? 1 : 0,
+        notes: item.note,
+        deleted: 1,
+      })),
+    ],
 
     client_policy_info: [
       {

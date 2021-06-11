@@ -421,14 +421,14 @@ const registrationCardSlice = createSlice({
             factor: item.client_work_hurt_factor_info.length > 0 ? item.client_work_hurt_factor_info[index].factorTypeId.toString() : ''
           })
         );
-        state.initialFormState.passportGeneral.contacts = transformedPatient.contacts.map(
+        state.initialFormState.passportGeneral.contacts.contacts = transformedPatient.contacts.map(
           (item) => ({
             id: item.id,
             isMain: item.isPrimary === 1,
             number: item.contact,
             type: item.contactTypeId.toString(),
             note: item.note,
-            deleted: item.deleted,
+            deleted: 0,
           }),
         );
         state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =

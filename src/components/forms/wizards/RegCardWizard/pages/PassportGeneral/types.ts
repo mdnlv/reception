@@ -1,11 +1,18 @@
+import {Modify} from "../../../../../../types/modify";
+
 export interface PassportContactType {
+  [key: string]: any;
   id?: number;
   isMain: boolean;
   number: string;
   type: string;
   note: string;
-  deleted?: 0 | 1;
+  deleted?: 0;
 }
+
+export interface PassportContactTypeDeleted extends Modify<PassportContactType, {
+  deleted?: 1;
+}> {}
 
 export interface PolicyAttachesType {
   mo: {
@@ -63,7 +70,10 @@ export default interface FormState {
     documentedAddress: PassportAddressType;
 
   };
-  contacts: PassportContactType[];
+  contacts: {
+    contacts: PassportContactType[];
+    deleted: PassportContactTypeDeleted[];
+  };
   policyOms: {
     id?: number;
     timeType?: string;

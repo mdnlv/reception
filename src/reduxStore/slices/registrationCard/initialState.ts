@@ -12,7 +12,7 @@ import {
 import {PersonOffence} from '../../../components/forms/OffencesForm/types';
 import {PersonHospitalization} from '../../../components/forms/OutsideHospitalizationForm/types';
 import {PersonOutsideId} from '../../../components/forms/OutsideIdentificationForm/types';
-import {PassportContactType, PassportPolicyType} from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
+import {PassportContactType, PassportPolicyType, PassportContactTypeDeleted} from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import {
   NamedDoc,
   PassportDoc,
@@ -120,7 +120,10 @@ const initialState: RegistrationCardStateType = {
           isVillager: false,
         },
       },
-      contacts: [] as PassportContactType[],
+      contacts: {
+        contacts: [] as PassportContactType[],
+        deleted: [] as PassportContactTypeDeleted[]
+      },
       policyOms: {
         id: undefined,
         cmoArea: '',

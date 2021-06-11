@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Checkbox, Col, Row, Select } from 'antd';
+import { Checkbox, Col, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
 import { PassportContactType } from '../../types';
 import { WizardStateType } from '../../../../types';
@@ -14,17 +15,36 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
-  const formProps = form.values.passportGeneral.contacts;
-  const [filtered, setFiltered] = useState([] as PassportContactType[]);
+  const formProps = form.values.passportGeneral.contacts.contacts;
 
   useEffect(() => {
-    const result = formProps.filter((item) => item.deleted !== 1);
-    setFiltered(result);
+    console.log('contacts', form.values.passportGeneral.contacts);
+  }, [form.values.passportGeneral.contacts]);
+
+  const onAddContact = useCallback(() => {
+    const item: PassportContactType = {
+      isMain: false,
+      number: '',
+      type: '',
+      note: '',
+      deleted: 0,
+    };
+    const newArr = [...form.values.passportGeneral.contacts.contacts, item];
+    form.setFieldValue('passportGeneral.contacts.contacts', newArr);
+  }, [form.values.passportGeneral.contacts]);
+
+  const onRemoveContact = useCallback((index: number) => {
+    const result = formProps[index];
+    console.log('result', result);
+    const newArr = [...form.values.passportGeneral.contacts.deleted, {...result, deleted: 1}];
+    console.log('newArr', newArr);
+    form.setFieldValue(`passportGeneral.contacts.deleted`, newArr);
+    formProps.splice(index, 1);
   }, [formProps]);
 
-  const getSelectionItem = (index: number, fieldChain: string) => {
-    return `passportGeneral.contacts[${index}].${fieldChain}`;
-  };
+  const getSelectionItem = useCallback((index: number, fieldChain: string) => {
+    return `passportGeneral.contacts.contacts[${index}].${fieldChain}`;
+  }, [formProps, onAddContact, onRemoveContact]);
 
   const typesOptions = contactTypes.map((item) => (
       <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
@@ -32,7 +52,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
       </Select.Option>
   ));
 
-  const getTypeInput = (index: number, mask: string) => {
+  const getTypeInput = useCallback((index: number, mask: string) => {
     if (!mask) {
       return <FastInput name={getSelectionItem(index, 'number')} />;
     } else {
@@ -40,7 +60,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
           <FastMaskedInput name={getSelectionItem(index, 'number')} mask={mask} />
       );
     }
-  }
+  }, [formProps, onAddContact, onRemoveContact]);
 
   const findMaskByType = (typeId: number) => {
     if (typeId) {
@@ -52,35 +72,13 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     }
   }
 
-  const onAddContact = useCallback(() => {
-    const item: PassportContactType = {
-      isMain: false,
-      number: '',
-      type: '',
-      note: '',
-      deleted: 0,
-    };
-    const newArr = [...form.values.passportGeneral.contacts, item];
-    form.setFieldValue('passportGeneral.contacts', newArr);
-  }, [form.values.passportGeneral.contacts]);
-
-  const onRemoveContact = useCallback(() => {
-    if (formProps && formProps.length > 0) {
-      form.setFieldValue(
-          `passportGeneral.contacts[${formProps.length - 1}].deleted`,
-          1,
-      );
-    }
-  }, [formProps]);
-
   return (
     <div className={'form-section personal-contacts'}>
       <h2>Контакты</h2>
       <ArrayFieldWrapper<PassportContactType>
-        values={filtered}
+        values={formProps}
         name={'contacts'}
         onAddItem={onAddContact}
-        onRemoveItem={onRemoveContact}
         showActions={true}
         renderChild={(key, index) => (
           <Row gutter={16} key={index}>
@@ -115,10 +113,19 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 )}
               </FormField>
             </Col>
-            <Col span={10}>
+            <Col span={9}>
               <FormField label={LABELS.NOTE}>
                 <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>
+            </Col>
+            <Col span={1}>
+              <Button
+                type={'link'}
+                size={'small'}
+                shape="circle"
+                icon={<CloseCircleOutlined className={'fields-btn__icon'}/>}
+                onClick={onRemoveContact.bind(this, index)}
+              />
             </Col>
           </Row>
         )}
