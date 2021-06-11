@@ -360,7 +360,7 @@ export const fetchRbPolicyTypes = createAsyncThunk(
 
     const isCheckSum = currentCheckSum === checksum.payload
     try {
-      const response = isCheckSum? await get('rbPolicyType'): await RbService.fetchAttachTypes()
+      const response = isCheckSum? await get('rbPolicyType'): await RbService.fetchPolicyTypes()
       if (response.data) {
       if(!isCheckSum){
         await del('rbPolicyTypeSum')
@@ -788,7 +788,7 @@ const rbSlice = createSlice({
         state.rbInvalidReasons = action.payload;
       }
     });
-    
+
     builder.addCase(fetchDeferredQueueStatus.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbDeferredQueueStatus = action.payload;

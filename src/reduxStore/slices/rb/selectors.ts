@@ -71,7 +71,11 @@ export const detailedDocumentTypesSelector = createSelector(
 );
 
 export const detailedPolicyTypesSelector = createSelector(
-  (state: RootState) => state.rb.rbPolicyTypes,
+  (state: RootState) => {
+   return state.rb.rbPolicyTypes.filter(
+      (item) => item.id === 1 || item.id === 2 || item.id === 4
+    )
+  },
   (types) => types,
 );
 
