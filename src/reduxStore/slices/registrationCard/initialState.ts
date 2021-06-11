@@ -53,6 +53,7 @@ const initialState: RegistrationCardStateType = {
       hasCard: false,
       onlyTempRegistration: false,
       birthPlace: '',
+      isSedentary: false,
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],
@@ -191,6 +192,7 @@ const initialState: RegistrationCardStateType = {
       hasCard: false,
       onlyTempRegistration: false,
       docPersonId: '',
+      isSedentary: false,
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],

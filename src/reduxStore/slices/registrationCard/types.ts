@@ -52,6 +52,7 @@ interface InitialRegFormState {
     hasCard: boolean;
     onlyTempRegistration: boolean;
     docPersonId: string;
+    isSedentary: boolean;
   };
 }
 
