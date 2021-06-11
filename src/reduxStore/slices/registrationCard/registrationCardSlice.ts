@@ -371,22 +371,30 @@ const registrationCardSlice = createSlice({
             : state.initialFormState.passportGeneral.policyOms;
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
-            id: item.id,
-            serialNumber: item.serialNumber,
-            number: item.number,
+            statusId: item.id,
             note: item.note,
             class: item.class,
-            type: item.type,
+            statusType: item.type,
             fromDate: item.fromDate,
             endDate: item.endDate,
             deleted: item.deleted,
+            docId: item.document ? item.document.id : undefined,
+            serialFirst: item.document && item.document.serial
+              ? item.document.serial?.substring(0, item.document.serial.length/2)
+              : undefined,
+            serialSecond: item.document && item.document.serial
+              ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
+              : undefined,
+            number: item.document ? item.document.number : undefined,
+            date: item.document ? item.document.date : undefined,
+            givenBy: item.document ? item.document.origin : undefined,
           }));
           // @ts-ignore
         state.initialFormState.socialStatus.trustedDoc =
           transformedPatient.socialStatus.map((item) => (
             item.document ? {
               id: item.id,
-              type: item.document.id && item.document.id.toString(),
+              docType: item.document.id && item.document.id.toString(),
               serialFirst: item.document.serial && item.document.serial.substring(0, item.document.serial.length/2),
               serialSecond: item.document.serial && item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
               number: item.document.number,

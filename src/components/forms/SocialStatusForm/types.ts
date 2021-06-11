@@ -1,17 +1,12 @@
 export interface SocialStatus {
-  id?: number;
-  type?: string;
-  serialNumber?: string;
-  number?: string;
+  statusId?: number;
+  statusType?: string;
   note?: string;
   fromDate: any;
   endDate: any;
   class?: string;
-  deleted?: 0 | 1;
-}
-
-export interface TrustedDoc {
-  type?: string;
+  docId?: number;
+  docType?: string;
   serialFirst?: string;
   serialSecond?: string;
   number?: string;
@@ -22,5 +17,4 @@ export interface TrustedDoc {
 
 export interface FormState {
   socialStatus: SocialStatus[];
-  trustedDoc: TrustedDoc[] | [];
 }

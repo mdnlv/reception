@@ -40,7 +40,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     // hasCard,
     // onlyTempRegistration
   } = state.registrationCard.form.personal;
-  const {trustedDoc} = state.registrationCard.form.socialStatus;
+  const {socialStatus} = state.registrationCard.form.socialStatus;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
     ...(code && {id: parseInt(code)}),
@@ -63,17 +63,17 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_document_info: [
       // @ts-ignore
-      ...trustedDoc.map((item:{
-        type:any;
+      ...socialStatus.map((item:{
+        docType:any;
         serialFirst:any;
         serialSecond: any;
         number:any;
         date:any;
         givenBy:any;
-        id:any;
+        docId:any;
       }) => ({
-        ...(item.id && {id: item.id}),
-        documentType_id: item.type,
+        ...(item.docId && {id: item.docId}),
+        documentType_id: item.docType,
         serial: item.serialFirst.concat(item.serialSecond),
         number: item.number,
         date: toServerFormat(item.date),
@@ -172,9 +172,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ],
 
     client_soc_status_info:
-      state.registrationCard.form.socialStatus.socialStatus.map((item) => ({
-        ...(item.id && {id: item.id}),
-        socStatusType_id: item.type ? parseInt(item.type) : null,
+      socialStatus.map((item) => ({
+        ...(item.statusId && {id: item.statusId}),
+        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
         endDate: toServerFormat(item.endDate),

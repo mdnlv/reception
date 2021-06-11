@@ -53,8 +53,6 @@ export const transformPatientResponse = (item: PatientResponse) => {
     socialStatus:
       item.client_soc_status_info.map((item) => ({
         id: item.id,
-        serialNumber: '',
-        number: '',
         note: item.notes ?? '',
         class: item.socStatusClass_id?.toString(),
         type: item.socStatusType_id?.toString(),

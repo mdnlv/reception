@@ -9,7 +9,6 @@ import {
   socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 
-import StatusDocs from './sections/StatusDocs/StatusDocs';
 import Status from './sections/Status/Status';
 
 const SocialStatus: React.FC = () => {
@@ -18,7 +17,6 @@ const SocialStatus: React.FC = () => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const loadings = useSelector(socialLoadingsSelector);
 
-
   return (
     <form className={'wizard-step social-status-form'}>
       <Row>
@@ -26,16 +24,10 @@ const SocialStatus: React.FC = () => {
           <Status
             isLoadingClasses={loadings.classes}
             isLoadingTypes={loadings.types}
+            isLoadingDocuments={loadings.documents}
             // @ts-ignore
             socialClassesList={socialClassesList}
             socialTypesList={socialTypesList}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <StatusDocs
-            isLoadingDocuments={loadings.documents}
             documentTypesList={documentTypesList}
           />
         </Col>

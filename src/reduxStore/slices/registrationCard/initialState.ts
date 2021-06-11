@@ -21,7 +21,7 @@ import {
 } from '../../../components/forms/PersonDocumentsForm/types';
 import {PersonLink} from '../../../components/forms/PersonLinksForm/types';
 import {PrivilegeInvalidity, PrivilegeItem} from '../../../components/forms/PrivilegesForm/types';
-import {SocialStatus, TrustedDoc} from '../../../components/forms/SocialStatusForm/types';
+import {SocialStatus} from '../../../components/forms/SocialStatusForm/types';
 import {PersonViewType} from '../../../components/forms/PersonViewTypeForm/types';
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
@@ -167,7 +167,6 @@ const initialState: RegistrationCardStateType = {
     quotas: {},
     socialStatus: {
       socialStatus: [] as SocialStatus[],
-      trustedDoc: [] as TrustedDoc[],
     },
     viewTypes: {
       viewTypes: [] as PersonViewType[],
@@ -304,7 +303,6 @@ const initialState: RegistrationCardStateType = {
     quotas: {},
     socialStatus: {
       socialStatus: [] as SocialStatus[],
-      trustedDoc: [] as TrustedDoc[],
     },
     viewTypes: {
       viewTypes: [] as PersonViewType[],

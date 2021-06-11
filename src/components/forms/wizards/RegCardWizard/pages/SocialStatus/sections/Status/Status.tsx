@@ -16,8 +16,10 @@ import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 const Status: React.FC<StatusProps> = ({
   socialTypesList,
   socialClassesList,
+  documentTypesList,
   isLoadingClasses,
-  isLoadingTypes
+  isLoadingTypes,
+  isLoadingDocuments
 }) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
@@ -41,11 +43,17 @@ const Status: React.FC<StatusProps> = ({
 
   const onAddStatus = useCallback(() => {
     const status: SocialStatus = {
-      class: '',
-      type: '',
+      statusType: '',
+      note: '',
       fromDate: '',
       endDate: '',
-      note: '',
+      class: '',
+      docType: '',
+      serialFirst: '',
+      serialSecond: '',
+      number: '',
+      date: '',
+      givenBy: '',
       deleted: 0,
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);
@@ -107,13 +115,13 @@ const Status: React.FC<StatusProps> = ({
                   </FormField>
                 </Col>
                 <Col span={6}>
-                  <FormField label={LABELS.TYPE} name={getSelectionPath(indexData, 'type')}>
+                  <FormField label={LABELS.STATUS_TYPE} name={getSelectionPath(indexData, 'statusType')}>
                     <FastSearchSelect
                       loading={isLoadingTypes}
                       showSearch
                       filterOption
                       optionFilterProp={'name'}
-                      name={getSelectionPath(indexData, 'type')}>
+                      name={getSelectionPath(indexData, 'statusType')}>
                       {propsList(socialTypesList, 'types')}
                     </FastSearchSelect>
                   </FormField>
@@ -135,6 +143,48 @@ const Status: React.FC<StatusProps> = ({
                 </Col>
               </Row>
               <Divider/>
+              <Row gutter={16} align={'bottom'}>
+                <Col span={3}>
+                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(index, 'docType')}>
+                    <FastSearchSelect
+                      filterOption
+                      loading={isLoadingDocuments}
+                      optionFilterProp={'name'}
+                      showSearch
+                      name={getSelectionPath(index, 'docType')}
+                    >
+                      {propsList(documentTypesList)}
+                    </FastSearchSelect>
+                  </FormField>
+                </Col>
+                <Col span={1}>
+                  <FormField label={LABELS.SERIAL}>
+                    <FastInput name={getSelectionPath(index, 'serialFirst')} />
+                  </FormField>
+                </Col>
+                <Col span={1}>
+                  <FormField label={LABELS.SERIAL}>
+                    <FastInput name={getSelectionPath(index, 'serialSecond')} />
+                  </FormField>
+                </Col>
+                <Col span={3}>
+                  <FormField label={LABELS.NUMBER}>
+                    <FastInput name={getSelectionPath(index, 'number')} />
+                  </FormField>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={3}>
+                  <FormField label={LABELS.DATE}>
+                    <FastDatePicker name={getSelectionPath(index, 'date')} />
+                  </FormField>
+                </Col>
+                <Col span={5}>
+                  <FormField label={LABELS.GIVEN}>
+                    <FastInput name={getSelectionPath(index, 'givenBy')} />
+                  </FormField>
+                </Col>
+              </Row>
             </div>
           )
         }}
