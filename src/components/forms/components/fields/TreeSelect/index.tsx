@@ -17,7 +17,6 @@ const TreeSelectField: React.FC<any> = (props) => {
             showCheckedStrategy={SHOW_PARENT}
             style={{ width: '100%' }}
             value={props.value}
-            showArrow = {true}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder="Выберите подразделение"
             allowClear

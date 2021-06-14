@@ -19,7 +19,6 @@ import {
   fetchRbSocialStatusType,
   fetchRbSpecialities,
   fetchRbOrgStructure,
-  fetchRbPost,
   fetchDeferredQueueStatus
 } from '../slices/rb/rbSlice';
 import {fetchPersonTree} from '../slices/personTree/personTreeSlice'
@@ -47,7 +46,6 @@ export default function useInitialFetch() {
     dispatch(fetchRbHurtType());
     dispatch(fetchRbHurtFactorTypes());
     dispatch(fetchRbOrgStructure());
-    dispatch(fetchRbPost());
     dispatch(fetchPersonTree({}));
     dispatch(fetchDeferredQueueStatus())
     

@@ -8,13 +8,13 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
  
   const [field, meta, form] = useField(props.name);
 
-    const value = field.value ? field.value:undefined ;
-        
+    const value = props.loading? '':field.value;
+    
   return (
     <Select
       {...props}
       value={value}
-      disabled={props.isDisabled}
+      disabled={props.isDisabled? props.isDisabled: false}
       onSearch={(val) => {
       props.onSearch && props?.onSearch(val)
       }}

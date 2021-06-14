@@ -3,7 +3,7 @@ import {useField} from 'formik';
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
 import { MaskedInput } from 'antd-mask-input';
 import ru from "date-fns/locale/ru";
-
+import moment from 'moment';
 import {PickerProps} from "./types";
 import "react-datepicker/dist/react-datepicker.css";
 

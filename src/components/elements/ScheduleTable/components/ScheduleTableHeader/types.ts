@@ -6,4 +6,6 @@ export interface HeaderProps {
   onDateChange(date: Date, endDate: Date): void;
   onModeChange(mode: ScheduleTableModeType): void;
   mode: ScheduleTableModeType;
+  length: string;
+  setLength(l: string): void;
 }

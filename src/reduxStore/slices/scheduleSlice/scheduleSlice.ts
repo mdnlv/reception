@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActionPost } from '../../../components/elements/ScheduleTable/types';
 import ScheduleService from '../../../services/ScheduleService';
-import {Schedule} from "./types";
+import {Schedule, ScheduleOne} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
@@ -9,6 +9,23 @@ export const fetchSchedules = createAsyncThunk(
     thunkAPI.dispatch(setLoading(true));
     try {
       const response = await ScheduleService.fetchSchedule(payload);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading(false));
+    }
+  },  
+);
+
+export const fetchItem = createAsyncThunk(
+  'schedule/fetchItem',
+  async (payload: { id: number; date: string}, thunkAPI) => {
+    thunkAPI.dispatch(setLoading(true));
+    try {
+      const response = await ScheduleService.fetchItem(payload);
       if (response.data) {
         return response.data;
       }
@@ -39,6 +56,7 @@ export const actionTicket = createAsyncThunk(
 const scheduleSlice = createSlice({
   name: 'schedule',
   initialState: {
+    schedule: {} as ScheduleOne,
     schedules: {} as Schedule,
     isLoading: false,
     postLoading: false
@@ -66,6 +84,10 @@ const scheduleSlice = createSlice({
         }
       }
 
+    });
+
+    builder.addCase(fetchItem.fulfilled, (state, action) => {
+      state.schedule = action.payload;
     });
   },
 });

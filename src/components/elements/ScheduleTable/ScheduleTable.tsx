@@ -12,7 +12,7 @@ import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList'
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, post, client, actionTicket}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
@@ -20,6 +20,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
   const [currentDay, setCurrentDay] = useState(new Date());
+  const [length, setLength] = useState('week');
   const startHour = 8;
   const endHour = 18;
 
@@ -73,6 +74,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
                 onDateChange={onScheduleDateChange}
                 currentDate={currentDate}
                 currentDay={currentDay}
+                length={length}
+                setLength={setLength}
               />
             </Col>
           </Row>
@@ -84,6 +87,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               mode={mode}
               startHour={startHour}
               endHour={endHour}
+              length={length}
             />
             </Col>
           </Row>
@@ -104,7 +108,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               startHour={startHour}
               endHour={endHour}
               speciality={speciality}
-              post={post}
               client={client}
               actionTicket={actionTicket}
               currentDay={currentDay}

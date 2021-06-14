@@ -1,10 +1,5 @@
 import {ActionPost, Schedule, ScheduleTableModeType} from "../../types";
 
-export interface Post {
-  id: number;
-  name: string;
-};
-
 export interface ListProps {
   isLoading: boolean;
   list: Schedule;
@@ -22,7 +17,6 @@ export interface ListProps {
   speciality: {
     [k: number]: string;
   };
-  post: Post[];
   client : {
     fullName: string;
     id: number;

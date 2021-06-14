@@ -1,12 +1,11 @@
 
 import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { Modal, Button, Input, Select, DatePicker } from 'antd';
+import { Modal, Button, Input, Select } from 'antd';
 import { ActionProps } from './types';
-import './styles.scss';
 import { currentPatientInfoSelector } from '../../../../../../../reduxStore/slices/patients/selectors';
 import {RootState} from "../../../../../../../reduxStore/store";
-import moment from "moment"
+import NewAppointment from '../../../../../../modals/NewAppointment/NewAppointment';
 
 const ScheduleAction: React.FC<ActionProps> = ({
   data,
@@ -16,9 +15,8 @@ const ScheduleAction: React.FC<ActionProps> = ({
   setVisible,
   setOldData,
   oldData,
-  setPacient,
-  speciality,
-  post
+  setResult,
+  speciality
 }) => { 
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
@@ -35,63 +33,20 @@ const ScheduleAction: React.FC<ActionProps> = ({
       setVisible(false);
     }
   }, [visible]);
-
+  
   return <>{
     oldData === undefined ? (
       (data && data.data.client_id == - 1) ?
-        <Modal 
-          title={'Запись на приём'}
-          visible={visible || (loading && postLoading)} 
-          confirmLoading={postLoading}
-          onCancel={()=>{setVisible(false)}}
-          okText={'Записать'}
-          cancelText={'Отмена'}
-          okButtonProps={{style:{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}}
-          cancelButtonProps={{style:{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}}
-          onOk={()=>{
-            if(data)
-            actionTicket({
-              action_id: data.data.action_id,
-              idx: data.data.idx,
-              client_id:  data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.code : 0) : data.data.client_id,
-              person_id: data.data.person_id,
-              user_id: data.data.user_id,
-              index: data.data.index,
-              old_action_id: 0,
-              old_idx: 0,
-              type: 'new'
-            }, data.org)
-            setPacient(currentPatientMemo.fullName)
-            }
-          }
-        >
-
-          <h4>ФИО пациента:</h4>
-          <Input value={data?.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data?.client}/>
-
-          <h4>Дата приёма:</h4>
-          <div className='date-time'>
-            <DatePicker defaultValue={moment(data?.date, "YYYY-MM-DD")}/>
-          </div>
-
-          <div>Отделение:</div>
-          <Select defaultValue="1" style={{ width: 200 }}>
-            {post.map((one, index) => 
-              <Option key={index} value={one.id}>{one.name}</Option>
-            )}
-          </Select>
-
-          <div>Специальность врача:</div>
-          
-          <Select defaultValue="1" style={{ width: 200 }}>
-              <Option value="1">{data?.speciality}</Option>
-          </Select>
-
-          <div>Врач:</div>
-          <Select defaultValue="1" style={{ width: 200 }}>
-              <Option value="1">{data?.person}</Option>
-          </Select>
-        </Modal>
+        <NewAppointment
+          visible={visible}
+          loading={loading}
+          postLoading={postLoading}
+          setVisible={setVisible}
+          data={data}
+          actionTicket={actionTicket}
+          currentPatientMemo={currentPatientMemo}
+          setResult={setResult}
+        />
       : 
         <Modal 
         title={data?.date}

@@ -6,7 +6,7 @@ import './styles.scss';
 import { currentPatientInfoSelector } from '../../reduxStore/slices/patients/selectors';
 import { eventsAppointments } from '../../reduxStore/slices/patientCard/selectors';
 import { RootState } from '../../reduxStore/store';
-import { detailedSchedules, getSpeciality, getPost } from '../../reduxStore/slices/scheduleSlice/selectors';
+import { detailedSchedules, getSpeciality } from '../../reduxStore/slices/scheduleSlice/selectors';
 import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors';
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
@@ -25,7 +25,6 @@ const MainPage: FC = () => {
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const specialities = useSelector(getSpeciality);
-  const posts = useSelector(getPost);
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
   const dispatch = useDispatch();
@@ -95,7 +94,6 @@ const MainPage: FC = () => {
             schedules={schedules} 
             loadSchedule={loadSchedule} 
             speciality={specialities} 
-            post={posts} 
             client={client} 
             actionTicket={postTicket} 
           />

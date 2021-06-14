@@ -6,4 +6,5 @@ export interface TimeLineProps {
   rangeWeekNum: number;
   startHour: number;
   endHour: number;
+  length: string;
 }

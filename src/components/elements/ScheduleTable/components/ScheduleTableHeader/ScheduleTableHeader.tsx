@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Radio, { RadioChangeEvent } from 'antd/lib/radio';
 import Row from 'antd/lib/row';
 import moment from "moment";
@@ -14,14 +14,15 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
   currentDate,
   onDateChange,
   onModeChange,
-  currentDay
+  currentDay,
+  length,
+  setLength
 }) => {
-  const [value, setValue] = useState('week');
   const modeChangeHandler = useCallback(
     (e: RadioChangeEvent) => {
       e.target.value == 'month' ? onDateChange(moment().clone().startOf(e.target.value).toDate(), moment().clone().endOf(e.target.value).toDate())
       : onDateChange(moment().clone().startOf(e.target.value).toDate(), addDays(moment().clone().endOf(e.target.value).toDate(), 7));
-      setValue(e.target.value)
+      setLength(e.target.value)
     },
     [onModeChange],
   );
@@ -37,12 +38,12 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
           current={currentDate}
           onDateChange={onDateChange}
           onModeChange={onModeChange}
-          length={value}
+          length={length}
           currentDay={currentDay}
         />
       </div>
       
-      <Radio.Group onChange={modeChangeHandler} value={value}>
+      <Radio.Group onChange={modeChangeHandler} value={length}>
         <Radio value={'week'}>2 недели</Radio>
         <Radio value={'month'}>месяц</Radio>
       </Radio.Group>

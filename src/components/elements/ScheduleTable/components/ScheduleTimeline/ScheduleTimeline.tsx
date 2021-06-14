@@ -12,7 +12,8 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
   currentDate,
   rangeWeekNum,
   startHour,
-  endHour
+  endHour,
+  length
 }) => {
   const content = () => {
     switch (mode) {
@@ -42,7 +43,8 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
       case 'week':
         const dayItems = [];
         for (let i = 0; i < rangeWeekNum; i++) {
-          const dateString = format(addDays(currentDate, i), 'dd.MM');
+
+          const dateString = format(addDays(currentDate, i), length == 'week'? 'dd.MM' : 'dd');
           const dayName = format(addDays(currentDate, i), 'EEEEEE');
           dayItems.push(
             <li key={i} className={'timeline-list__item--week'}>

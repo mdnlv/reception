@@ -31,7 +31,8 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
       speciality:  person? person.speciality : '',
       type: "1",
       data: data,
-      org: orgId? orgId : -1
+      org: orgId? orgId : -1,
+      tickets: info && info.tickets ? info.tickets: []
     })
   }
 

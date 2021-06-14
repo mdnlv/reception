@@ -24,7 +24,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
   startHour,
   endHour,
   speciality,
-  post,
   client,
   actionTicket,
   currentDay,
@@ -37,14 +36,20 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const [edit, setEdit] = useState(false);
   const [ok, setOk] = useState(false);
   const [del, setDel] = useState(false);
-  const [pacient, setPacient] = useState('');
+  const [result, setResult] = useState({
+    pacient: '',
+    date: '',
+    time: '',
+    person: '',
+    speciality: ''
+  });
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
 
   useEffect(() => {
     if(ok && !postLoading) {
       Modal.success({
         title: 'Успешно добавлена запись на приём',
-        content: `Пациент ${pacient} записан на ${actionData?.date} ${actionData?.time} ко врачу ${actionData?.person} (${actionData?.speciality}).`,
+        content: `Пациент ${result.pacient} записан на ${actionData?.date} ${actionData?.time} ко врачу ${actionData?.person} (${actionData?.speciality}).`,
         okText: 'ОК'
       });
       setOk(false);
@@ -129,9 +134,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
       oldData={oldData}
       postLoading={postLoading}
       edit={edit}
-      setPacient={setPacient}
+      setResult={setResult}
       speciality={speciality}
-      post={post}
     /> : null}
   </>;
 };

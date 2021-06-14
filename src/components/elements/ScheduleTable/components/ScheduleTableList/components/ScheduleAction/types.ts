@@ -1,3 +1,5 @@
+import { ScheduleListTicket } from "../../../../types";
+
 export interface Post {
   id: number;
   name: string;
@@ -13,11 +15,18 @@ export interface ActionProps {
   setOldData(date?: ActionData): void;
   postLoading: boolean;
   edit: boolean;
-  setPacient(arg: string): void;
+  setResult(arg: Result): void;
   speciality: {
     [k: number]: string;
   };
-  post: Post[];
+}
+
+export interface Result {
+  pacient: string,
+  date: string,
+  time: string,
+  person: string,
+  speciality: string
 }
 
 export interface ActionData {
@@ -29,6 +38,7 @@ export interface ActionData {
   type: string;
   data: ActionPost;
   org: number;
+  tickets: ScheduleListTicket[];
 }
   
 export interface ActionPost {
