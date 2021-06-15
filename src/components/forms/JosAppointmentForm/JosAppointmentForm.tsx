@@ -96,8 +96,6 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                         const value = e.target.value
                                         searchPatients(value)
                                     }}
-                                    onSelect={((val, selected) => {
-                                    })}
                                     id={'patient.id'}
                                     placeholder={'Пациент'}
                                     name={'patient'}
