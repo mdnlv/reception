@@ -6,9 +6,10 @@ import FormField from "../components/FormField/FormField";
 import { RootState } from '../../../reduxStore/store';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
 import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
-import {getPersonList,filterDoctors } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
+import {getPersonList,filterDoctors,clearLists } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import TreeSelectField from "../components/fields/TreeSelect";
 import Textarea from '../components/fields/Textarea';
+import { useFormikContext } from 'formik';
 
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
@@ -19,19 +20,23 @@ const JosAppointmentForm: React.FC = (props:any) => {
     const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
     const specialty = useSelector((state: RootState) => state.deferredCalls.specialty);
     const personTree = useSelector((state:RootState) => state.person_tree.person_tree)
-
-
-
+    const { setFieldValue } = useFormikContext();
     const searchPatients = (query: string) => {
         dispatch(fetchQueryPatients({ query: query, limit: 10 }))
     }
 
 
     const onSelectTreeNode = (value:number,tree:PersonTree) =>{
+       
+        setFieldValue('specialty','');
+        setFieldValue('doctor','');
+        dispatch(clearLists())
         dispatch(getPersonList({data:tree.person_list}))
     }
     const onSelectSpecialityId  = (id:number) =>{
+        setFieldValue('doctor','');
         dispatch(filterDoctors({id:id}))
+
     }
 
 
@@ -101,6 +106,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     name={'patient'}
                                     showSearch
                                     filterOption
+                                    allowClear
                                     optionFilterProp={'name'}>
                                     {getPropsOptions(patients)}
                                 </FastSearchSelect>
@@ -126,6 +132,8 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     placeholder={'Специальность'}
                                     name={'specialty'}
                                     showSearch
+                                    allowClear
+
                                     onSelect={onSelectSpecialityId}
                                     filterOption
                                     optionFilterProp={'name'}>
@@ -139,6 +147,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     placeholder={'Врач'}
                                     name={'doctor'}
                                     showSearch
+                                    allowClear
                                     filterOption
                                     optionFilterProp={'name'}>
                                     {getPropsOptionsDoctors(doctors)}
@@ -147,8 +156,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                         </Col>
                     </Row>
                             <FormField label={'Комментарий'} name={'сomment'}>
-                                <Textarea name={'сomment'} />
-
+                                <Textarea name={'сomment'}  />
                             </FormField>
                 
                         </Col>

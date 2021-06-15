@@ -3,10 +3,10 @@ import {FormikErrors} from "formik";
 
 
 const validation = Yup.object<FormikErrors<any>>().shape({
-    date:   Yup.date().required('Не выбрана дата'),
+    date:   Yup.string().nullable().required('Не выбрана дата'),
     patient: Yup.number().required('Не выбран пациент'),
     doctor: Yup.string().required('Не указан врач'),
-    organisation: Yup.string().required('Не выбрана организация'),
+    organisation: Yup.number().required('Не выбрана организация'),
     specialty: Yup.string().required('Не введена специальность'),
   })
 export default validation

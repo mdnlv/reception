@@ -2,12 +2,13 @@ import React from 'react'
 import { Button, Modal, Row } from "antd";
 import { Formik } from "formik";
 import { useDispatch, useSelector } from 'react-redux';
-import { saveDeferredCall } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
+import { saveDeferredCall,clearLists } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import { format } from "date-fns";
 import { RootState } from '../../../reduxStore/store';
 import { AppointmentProps } from "./types";
 import  validation from './validation'
 import JosAppointmentForm from "../../forms/JosAppointmentForm/JosAppointmentForm"
+import { clearFoundPatients } from '../../../reduxStore/slices/patients/patientsSlice';
 
 const JosAppointment: React.FC<AppointmentProps> = (props) => {
 
@@ -25,8 +26,6 @@ const JosAppointment: React.FC<AppointmentProps> = (props) => {
       initialValues={josForm}
       validationSchema={validation}
       onSubmit={(values,events) => {
-
-
         const data = {
           "client_id": Number(values.patient),
           "comment": values.сomment || '',
@@ -41,6 +40,8 @@ const JosAppointment: React.FC<AppointmentProps> = (props) => {
           "status_id": 1
         }
         dispatch(saveDeferredCall({ data: data }))
+        dispatch(clearLists())
+        dispatch(clearFoundPatients([]))
         events.resetForm()
         props.onClose &&  props.onClose()
       }}
