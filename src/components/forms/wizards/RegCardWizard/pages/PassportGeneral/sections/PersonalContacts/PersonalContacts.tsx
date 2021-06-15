@@ -17,10 +17,6 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
 
-  useEffect(() => {
-    console.log('contacts', form.values.passportGeneral.contacts);
-  }, [form.values.passportGeneral.contacts]);
-
   const onAddContact = useCallback(() => {
     const item: PassportContactType = {
       isMain: false,
@@ -35,11 +31,10 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
 
   const onRemoveContact = useCallback((index: number) => {
     const result = formProps[index];
-    console.log('result', result);
-    const newArr = [...form.values.passportGeneral.contacts.deleted, {...result, deleted: 1}];
-    console.log('newArr', newArr);
-    form.setFieldValue(`passportGeneral.contacts.deleted`, newArr);
-    formProps.splice(index, 1);
+    const newRemovedArr = [...form.values.passportGeneral.contacts.deleted, {...result, deleted: 1}];
+    const newArr = formProps.filter((item, i) => i !== index);
+    form.setFieldValue(`passportGeneral.contacts.deleted`, newRemovedArr);
+    form.setFieldValue(`passportGeneral.contacts.contacts`, newArr);
   }, [formProps]);
 
   const getSelectionItem = useCallback((index: number, fieldChain: string) => {
@@ -123,7 +118,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 type={'link'}
                 size={'small'}
                 shape="circle"
-                icon={<CloseCircleOutlined className={'fields-btn__icon'}/>}
+                icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
                 onClick={onRemoveContact.bind(this, index)}
               />
             </Col>

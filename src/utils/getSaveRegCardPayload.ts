@@ -40,7 +40,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     // hasCard,
     // onlyTempRegistration
   } = state.registrationCard.form.personal;
-  const {socialStatus} = state.registrationCard.form.socialStatus;
+  const {socialStatus} = state.registrationCard.form;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
     ...(code && {id: parseInt(code)}),
@@ -63,7 +63,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_document_info: [
       // @ts-ignore
-      ...socialStatus.map((item:{
+      ...socialStatus.socialStatus.map((item:{
         docType:any;
         serialFirst:any;
         serialSecond: any;
@@ -181,28 +181,52 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }] : []),
     ],
 
-    client_soc_status_info:
-      socialStatus.map((item) => ({
+    client_soc_status_info: [
+      ...socialStatus.socialStatus.map((item) => ({
         ...(item.statusId && {id: item.statusId}),
         socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
         endDate: toServerFormat(item.endDate),
         notes: item.note ?? '',
-        deleted: item.deleted,
+        deleted: 0 as 0,
       })),
+      ...socialStatus.deleted.map((item) => ({
+        ...(item.statusId && {id: item.statusId}),
+        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
+        socStatusClass_id: item.class ? parseInt(item.class) : null,
+        begDate: toServerFormat(item.fromDate),
+        endDate: toServerFormat(item.endDate),
+        notes: item.note ?? '',
+        deleted: 1 as 1,
+      })),
+    ],
 
     client_relation_info: [
-      ...directLinks.map((item) => ({
+      ...directLinks.directLinks.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink)
+        relative_id: parseInt(item.patientLink),
+        deleted: 0,
       })),
-      ...backLinks.map((item) => ({
+      ...directLinks.deleted.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink)
-      }))
+        relative_id: parseInt(item.patientLink),
+        deleted: 1,
+      })),
+      ...backLinks.backLinks.map((item) => ({
+        ...(item.id && {id: item.id}),
+        relativeType_id: parseInt(item.forwardRef),
+        relative_id: parseInt(item.patientLink),
+        deleted: 0,
+      })),
+      ...backLinks.deleted.map((item) => ({
+        ...(item.id && {id: item.id}),
+        relativeType_id: parseInt(item.forwardRef),
+        relative_id: parseInt(item.patientLink),
+        deleted: 1,
+      })),
     ],
 
     client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
@@ -221,27 +245,51 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       deleted: item.deleted,
     })),
 
-    client_attach_info: state.registrationCard.form.attachments.attachments.map(
-      (item) => ({
-        ...(item.id && {id: item.id}),
-        LPU_id: parseInt(item.lpu),
-        attachType_id: parseInt(item.type),
-        begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
-        orgStructure_id: parseInt(item.unit),
-        reason: 0,
-        deleted: item.deleted,
-      }),
-    ),
+    client_attach_info: [
+      ...state.registrationCard.form.attachments.attachments.map(
+        (item) => ({
+          ...(item.id && {id: item.id}),
+          LPU_id: parseInt(item.lpu),
+          attachType_id: parseInt(item.type),
+          begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+          orgStructure_id: parseInt(item.unit),
+          reason: 0,
+          deleted: 0 as 0,
+        }),
+      ),
+      ...state.registrationCard.form.attachments.deleted.map(
+        (item) => ({
+          ...(item.id && {id: item.id}),
+          LPU_id: parseInt(item.lpu),
+          attachType_id: parseInt(item.type),
+          begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+          orgStructure_id: parseInt(item.unit),
+          reason: 0,
+          deleted: 1 as 1,
+        }),
+      ),
+    ],
 
-    client_identification_info: state.registrationCard.form.outsideIdentification.outsideIds.map(
-      (item) => ({
-        ...(item.id && {id: item.id}),
-        accountingSystem_id: parseInt(item.outsideSchema),
-        identifier: 'Да',
-        checkDate: format(item.date, 'yyyy-MM-dd'),
-        deleted: item.deleted,
-      })
-    ),
+    client_identification_info: [
+      ...state.registrationCard.form.outsideIdentification.outsideIds.map(
+        (item) => ({
+          ...(item.id && {id: item.id}),
+          accountingSystem_id: parseInt(item.outsideSchema),
+          identifier: 'Да',
+          checkDate: format(item.date, 'yyyy-MM-dd'),
+          deleted: 0 as 0,
+        })
+      ),
+      ...state.registrationCard.form.outsideIdentification.deleted.map(
+        (item) => ({
+          ...(item.id && {id: item.id}),
+          accountingSystem_id: parseInt(item.outsideSchema),
+          identifier: 'Да',
+          checkDate: format(item.date, 'yyyy-MM-dd'),
+          deleted: 1 as 1,
+        })
+      )
+    ],
 
     // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
     //   client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(

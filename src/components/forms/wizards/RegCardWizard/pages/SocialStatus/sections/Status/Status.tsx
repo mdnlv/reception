@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useMemo, useEffect} from 'react';
-import { Col, Divider, Row, Select } from 'antd';
+import { Col, Divider, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
@@ -23,15 +24,11 @@ const Status: React.FC<StatusProps> = ({
 }) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
+  const formValuesRemoved = form.values.socialStatus.deleted;
   const sectionValuePath = `socialStatus.socialStatus`;
-  const [filtered, setFiltered] = useState([] as SocialStatus[]);
+  const removedValuePath = `socialStatus.deleted`;
   const [index, setIndex] = useState(0);
   const [cleanable, setCleanable] = useState(false);
-
-  useEffect(() => {
-    const result = formValues.filter((item) => item.deleted !== 1);
-    setFiltered(result);
-  }, [formValues]);
 
   useEffect(() => {
     cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].type`, '');
@@ -59,11 +56,12 @@ const Status: React.FC<StatusProps> = ({
     form.setFieldValue(sectionValuePath, [...formValues, status]);
   }, [form.setFieldValue, formValues]);
 
-  const onRemoveStatus = useCallback(() => {
-    form.setFieldValue(
-      `${sectionValuePath}[${formValues.length - 1}].deleted`,
-      1,
-    );
+  const onRemoveStatus = useCallback((index: number) => {
+    const result = formValues[index];
+    const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
+    const newArr = formValues.filter((item, i) => i !== index);
+    form.setFieldValue(removedValuePath, newRemovedArr);
+    form.setFieldValue(sectionValuePath, newArr);
   }, [form.setFieldValue, formValues]);
 
   const propsList = useCallback(
@@ -92,9 +90,8 @@ const Status: React.FC<StatusProps> = ({
     return (
       <ArrayFieldWrapper
         name={sectionValuePath}
-        values={filtered}
+        values={formValues}
         onAddItem={onAddStatus}
-        onRemoveItem={onRemoveStatus}
         showActions
         renderChild={(status, indexData) => {
           setIndex(indexData);
@@ -136,10 +133,19 @@ const Status: React.FC<StatusProps> = ({
                     <FastDatePicker name={getSelectionPath(indexData, 'endDate')}/>
                   </FormField>
                 </Col>
-                <Col span={6}>
+                <Col span={5}>
                   <FormField label={LABELS.NOTE}>
                     <FastInput name={getSelectionPath(indexData, 'note')}/>
                   </FormField>
+                </Col>
+                <Col span={1}>
+                  <Button
+                    type={'link'}
+                    size={'small'}
+                    shape="circle"
+                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                    onClick={onRemoveStatus.bind(this, indexData)}
+                  />
                 </Col>
               </Row>
               <Divider/>

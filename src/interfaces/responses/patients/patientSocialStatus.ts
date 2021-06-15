@@ -12,5 +12,5 @@ export default interface PatientSocialStatusResponse {
     date?: string;
     origin?: string;
   }
-  deleted: 0 | 1;
+  deleted: 0;
 }

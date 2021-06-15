@@ -1,8 +1,9 @@
-import React,{useCallback, useEffect, useState} from 'react';
-import { Col, Divider, Row, Select } from 'antd';
+import React,{useCallback, useEffect} from 'react';
+import { Col, Divider, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
 import { RootState } from '../../../../../../reduxStore/store';
 import { useSelector, useDispatch } from 'react-redux';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
 import {
   fetchRbRelationTypes
@@ -11,7 +12,6 @@ import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/p
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
 import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType'
-import {PersonLink} from "../../../../PersonLinksForm/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -27,28 +27,20 @@ const Links: React.FC = () => {
   const patientSex = form.values.personal.sex
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const  patients = useSelector((state: RootState) => state.patients.foundPatients );
-  const [directFiltered, setDirectFiltered] = useState([] as PersonLink[]);
-  const [backFiltered, setBackFiltered] = useState([] as PersonLink[]);
-
-  useEffect(() => {
-    const result = formValues.directLinks.filter((item) => item.deleted !== 1);
-    setDirectFiltered(result);
-  }, [formValues.directLinks]);
-
-  useEffect(() => {
-    const result = formValues.backLinks.filter((item) => item.deleted !== 1);
-    setBackFiltered(result);
-  }, [formValues.backLinks]);
 
   useEffect(()=>{
     dispatch(fetchRbRelationTypes({sex:patientSex}))
     form.setFieldValue(
-      `links.directLinks`,
-      formValues.directLinks.slice(formValues.directLinks.length, formValues.directLinks.length - 1),
+      `links.directLinks.directLinks`,
+      formValues.directLinks.directLinks.slice(
+        formValues.directLinks.directLinks.length, formValues.directLinks.directLinks.length - 1
+      ),
     );
     form.setFieldValue(
-      `links.backLinks`,
-      formValues.directLinks.slice(formValues.backLinks.length, formValues.backLinks.length - 1),
+      `links.backLinks.backLinks`,
+      formValues.backLinks.backLinks.slice(
+        formValues.backLinks.backLinks.length, formValues.backLinks.backLinks.length - 1
+      ),
     );
   },[patientSex])
 
@@ -58,17 +50,22 @@ const Links: React.FC = () => {
       patientLink: '',
       deleted: 0,
     };
-    const newArr = [...formValues[type], links];
-    form.setFieldValue(`links.${type}`, newArr);
+    const valueArr = type === 'directLinks'
+      ? formValues.directLinks.directLinks
+      : formValues.backLinks.backLinks;
+    const newArr = [...valueArr, links];
+    form.setFieldValue(`links.${type}.${type}`, newArr);
   }, [formValues,patientSex]);
 
-  const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
-    if (formValues[type].length > 0) {
-      form.setFieldValue(
-        `links.${type}[${formValues[type].length - 1}].deleted`,
-        1,
-      );
-    }
+  const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks', index: number ) => {
+    const valueArr = type === 'directLinks'
+      ? formValues.directLinks.directLinks
+      : formValues.backLinks.backLinks;
+    const result = valueArr[index];
+    const newRemovedArr = [...formValues[type].deleted, {...result, deleted: 1}];
+    const newArr = valueArr.filter((item, i) => i !== index);
+    form.setFieldValue(`links.${type}.deleted`, newRemovedArr);
+    form.setFieldValue(`links.${type}.${type}`, newArr);
   }, [formValues,patientSex]);
 
 
@@ -110,9 +107,8 @@ const Links: React.FC = () => {
           <Row>
             <Col span={24}>
                <ArrayFieldWrapper<any>
-               values={directFiltered}
+               values={formValues.directLinks.directLinks}
                onAddItem={()=>onAddAttachment('directLinks')}
-               onRemoveItem={()=>onRemoveAttachment('directLinks')}
                showActions
                 name={'directLinks'}
                 renderChild={(_, index:number) => {
@@ -141,6 +137,15 @@ const Links: React.FC = () => {
 
                       </FormField>
                     </Col>
+                    <Col span={1}>
+                      <Button
+                        type={'link'}
+                        size={'small'}
+                        shape="circle"
+                        icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                        onClick={onRemoveAttachment.bind(this, 'directLinks', index)}
+                      />
+                    </Col>
                   </Row>
                 )}}
               />
@@ -150,16 +155,15 @@ const Links: React.FC = () => {
           <Row>
             <Col span={24}>
             <ArrayFieldWrapper<any>
-               values={backFiltered}
+               values={formValues.backLinks.backLinks}
                onAddItem={()=>onAddAttachment('backLinks')}
-               onRemoveItem={()=>onRemoveAttachment('backLinks')}
                showActions
                 name={'backLinks'}
                 renderChild={(_, index:number) => {
                   return (
                   <Row key={index} gutter={16}>
                     <Col span={5}>
-                      <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'backLinks', 'patientLink')}>
+                      <FormField label={LABELS.BACK_LINK}  name={getSelectionPath(index, 'backLinks', 'patientLink')}>
                       <FastSearchSelect
                       loading={false}
                       showSearch
@@ -179,6 +183,15 @@ const Links: React.FC = () => {
                         name={getSelectionPath(index, 'backLinks', 'forwardRef')}
                         />
                       </FormField>
+                    </Col>
+                    <Col span={1}>
+                      <Button
+                        type={'link'}
+                        size={'small'}
+                        shape="circle"
+                        icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                        onClick={onRemoveAttachment.bind(this, 'backLinks', index)}
+                      />
                     </Col>
                   </Row>
                 )}}

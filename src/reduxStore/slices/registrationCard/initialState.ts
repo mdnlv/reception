@@ -1,5 +1,5 @@
 import {PersonAddHospitalization} from '../../../components/forms/AdditionalHospitalizationForm/types';
-import {PersonAttachment} from '../../../components/forms/AttachmentsForm/types';
+import {PersonAttachment, PersonAttachmentDeleted} from '../../../components/forms/AttachmentsForm/types';
 import {EmploymentHazardItem, EmploymentItem} from '../../../components/forms/EmploymentForm/types';
 import {EtcItem} from '../../../components/forms/EtcForm/types';
 import {
@@ -11,7 +11,7 @@ import {
 } from '../../../components/forms/FeaturesForm/types';
 import {PersonOffence} from '../../../components/forms/OffencesForm/types';
 import {PersonHospitalization} from '../../../components/forms/OutsideHospitalizationForm/types';
-import {PersonOutsideId} from '../../../components/forms/OutsideIdentificationForm/types';
+import {PersonOutsideId, PersonOutsideIdDeleted} from '../../../components/forms/OutsideIdentificationForm/types';
 import {PassportContactType, PassportPolicyType, PassportContactTypeDeleted} from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import {
   NamedDoc,
@@ -19,9 +19,9 @@ import {
   PolicyDoc,
   SocialStatus as DocsSocialStatus,
 } from '../../../components/forms/PersonDocumentsForm/types';
-import {PersonLink} from '../../../components/forms/PersonLinksForm/types';
+import {PersonLink, PersonLinkDeleted} from '../../../components/forms/PersonLinksForm/types';
 import {PrivilegeInvalidity, PrivilegeItem} from '../../../components/forms/PrivilegesForm/types';
-import {SocialStatus} from '../../../components/forms/SocialStatusForm/types';
+import {SocialStatus, SocialStatusDeleted} from '../../../components/forms/SocialStatusForm/types';
 import {PersonViewType} from '../../../components/forms/PersonViewTypeForm/types';
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
@@ -60,6 +60,7 @@ const initialState: RegistrationCardStateType = {
     },
     attachments: {
       attachments: [] as PersonAttachment[],
+      deleted: [] as PersonAttachmentDeleted[],
     },
     employment: {
       employment: [] as EmploymentItem[],
@@ -83,6 +84,7 @@ const initialState: RegistrationCardStateType = {
     },
     outsideIdentification: {
       outsideIds: [] as PersonOutsideId[],
+      deleted: [] as PersonOutsideIdDeleted[],
     },
     passportGeneral: {
       passportInfo: {
@@ -160,8 +162,14 @@ const initialState: RegistrationCardStateType = {
       namedDoc: [] as NamedDoc[],
     },
     links: {
-      directLinks: [] as PersonLink[],
-      backLinks: [] as PersonLink[],
+      directLinks: {
+        directLinks: [] as PersonLink[],
+        deleted: [] as PersonLinkDeleted[],
+      },
+      backLinks: {
+        backLinks: [] as PersonLink[],
+        deleted: [] as PersonLinkDeleted[],
+      }
     },
     privileges: {
       invalidity: [] as PrivilegeInvalidity[],
@@ -170,6 +178,7 @@ const initialState: RegistrationCardStateType = {
     quotas: {},
     socialStatus: {
       socialStatus: [] as SocialStatus[],
+      deleted: [] as SocialStatusDeleted[],
     },
     viewTypes: {
       viewTypes: [] as PersonViewType[],
@@ -201,6 +210,7 @@ const initialState: RegistrationCardStateType = {
     },
     attachments: {
       attachments: [] as PersonAttachment[],
+      deleted: [] as PersonAttachmentDeleted[],
     },
     employment: {
       employment: [] as EmploymentItem[],
@@ -224,6 +234,7 @@ const initialState: RegistrationCardStateType = {
     },
     outsideIdentification: {
       outsideIds: [] as PersonOutsideId[],
+      deleted: [] as PersonOutsideIdDeleted[],
     },
     passportGeneral: {
       passportInfo: {
@@ -259,7 +270,10 @@ const initialState: RegistrationCardStateType = {
           isVillager: false
         },
       },
-      contacts: [] as PassportContactType[],
+      contacts: {
+        contacts: [] as PassportContactType[],
+        deleted: [] as PassportContactTypeDeleted[]
+      },
       policyOms: {
         id: undefined,
         cmoArea: '',
@@ -296,8 +310,14 @@ const initialState: RegistrationCardStateType = {
       namedDoc: [] as NamedDoc[],
     },
     links: {
-      directLinks: [] as PersonLink[],
-      backLinks: [] as PersonLink[],
+      directLinks: {
+        directLinks: [] as PersonLink[],
+        deleted: [] as PersonLinkDeleted[],
+      },
+      backLinks: {
+        backLinks: [] as PersonLink[],
+        deleted: [] as PersonLinkDeleted[],
+      }
     },
     privileges: {
       invalidity: [] as PrivilegeInvalidity[],
@@ -306,6 +326,7 @@ const initialState: RegistrationCardStateType = {
     quotas: {},
     socialStatus: {
       socialStatus: [] as SocialStatus[],
+      deleted: [] as SocialStatusDeleted[],
     },
     viewTypes: {
       viewTypes: [] as PersonViewType[],

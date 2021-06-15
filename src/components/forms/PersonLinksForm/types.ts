@@ -1,11 +1,23 @@
+import {Modify} from "../../../types/modify";
+
 export interface PersonLink {
     id?: number;
     forwardRef: string
     patientLink: string;
-    deleted?: 0 | 1;
+    deleted?: 0;
 }
 
+export interface PersonLinkDeleted extends Modify<PersonLink, {
+    deleted?: 1;
+}> {}
+
 export default interface FormState {
-    directLinks: PersonLink[],
-    backLinks: PersonLink[]
+    directLinks: {
+        directLinks: PersonLink[];
+        deleted: PersonLinkDeleted[];
+    }
+    backLinks: {
+        backLinks: PersonLink[];
+        deleted: PersonLinkDeleted[];
+    }
 }

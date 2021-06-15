@@ -68,7 +68,6 @@ export default interface FormState {
     serial?:string;
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
-
   };
   contacts: {
     contacts: PassportContactType[];

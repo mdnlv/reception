@@ -21,8 +21,12 @@
   color: #fff !important;
 }
 
-.fields-btn{
-  &__icon{
+.fields-btn {
+  &__icon {
     font-size: 22px !important;
+
+    &-remove {
+      color: red !important;
+    }
   }
 }

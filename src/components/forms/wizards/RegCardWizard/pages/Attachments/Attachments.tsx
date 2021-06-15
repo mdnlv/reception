@@ -1,7 +1,8 @@
-import React, {useCallback, useState, useEffect} from 'react';
-import { Col, Row, Select } from 'antd';
+import React, {useCallback} from 'react';
+import { Col, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
 import { DROPDOWN_TITLE, LABELS, PersonAttachment } from './types';
 import { WizardStateType } from '../../types';
@@ -21,6 +22,7 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 const Attachments: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.attachments.attachments;
+  const formValuesRemoved = form.values.attachments.deleted;
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const orgStructure = useSelector(detailedOrgStructureSelector);
@@ -29,12 +31,6 @@ const Attachments: React.FC = () => {
     attachTypes: loadingAttachTypes,
     orgStructure: loadingOrgStructure,
   } = useSelector((state: RootState) => state.rb.loading);
-  const [filtered, setFiltered] = useState([] as PersonAttachment[]);
-
-  useEffect(() => {
-    const result = formValues.filter((item) => item.deleted !== 1);
-    setFiltered(result);
-  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
@@ -62,13 +58,12 @@ const Attachments: React.FC = () => {
     form.setFieldValue('attachments.attachments', newArr);
   }, [formValues]);
 
-  const onRemoveAttachment = useCallback(() => {
-    if (formValues.length > 0) {
-      form.setFieldValue(
-        `attachments.attachments[${formValues.length - 1}].deleted`,
-        1,
-      );
-    }
+  const onRemoveAttachment = useCallback((index: number) => {
+    const result = formValues[index];
+    const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
+    const newArr = formValues.filter((item, i) => i !== index);
+    form.setFieldValue('attachments.deleted', newRemovedArr);
+    form.setFieldValue('attachments.attachments', newArr);
   }, [formValues]);
 
   return (
@@ -76,10 +71,9 @@ const Attachments: React.FC = () => {
       <div className="form-section">
         <DropDownContent title={DROPDOWN_TITLE}>
           <ArrayFieldWrapper<PersonAttachment>
-            values={filtered}
+            values={formValues}
             name={'attachments'}
             onAddItem={onAddAttachment}
-            onRemoveItem={onRemoveAttachment}
             showActions
             renderChild={(key, index) => (
               <Row gutter={16} key={index}>
@@ -131,10 +125,19 @@ const Attachments: React.FC = () => {
                     <FastDatePicker name={getSelectionPath(index, 'endDate')} />
                   </FormField>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                   <FormField label={LABELS.DETACH_REASON}>
                     <FastSearchSelect name={getSelectionPath(index, 'detachmentReason')} />
                   </FormField>
+                </Col>
+                <Col span={1}>
+                  <Button
+                    type={'link'}
+                    size={'small'}
+                    shape="circle"
+                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                    onClick={onRemoveAttachment.bind(this, index)}
+                  />
                 </Col>
               </Row>
             )}

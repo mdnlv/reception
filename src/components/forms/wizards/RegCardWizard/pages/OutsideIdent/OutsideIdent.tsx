@@ -1,12 +1,12 @@
-import React, {useMemo, useCallback, useState, useEffect} from 'react';
-import {Col, Row, Select} from 'antd';
+import React, {useMemo, useCallback} from 'react';
+import {Col, Row, Select, Button} from 'antd';
 import {useSelector} from 'react-redux';
 import {useFormikContext} from 'formik';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {detailedAccountingSystemSelector} from "../../../../../../reduxStore/slices/rb/selectors";
 import {WizardStateType} from "../../types";
-import {PersonOutsideId} from "../../../../OutsideIdentificationForm/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -18,13 +18,8 @@ import FastDatePicker from "../../../../components/fields/FastDatePicker/FastDat
 const OutsideIdent: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.outsideIdentification.outsideIds;
+  const formValuesRemoved = form.values.outsideIdentification.deleted;
   const accountingSystemTypes = useSelector(detailedAccountingSystemSelector);
-  const [filtered, setFiltered] = useState([] as PersonOutsideId[]);
-
-  useEffect(() => {
-    const result = formValues.filter((item) => item.deleted !== 1);
-    setFiltered(result);
-  }, [formValues]);
 
   const accountingSystemTypesOptions = useMemo(() => {
     return accountingSystemTypes.map((item) => (
@@ -45,10 +40,12 @@ const OutsideIdent: React.FC = () => {
     form.setFieldValue('outsideIdentification.outsideIds', newArr);
   }, [formValues]);
 
-  const onRemoveAttachment = useCallback(() => {
-    if (formValues.length > 0) {
-      form.setFieldValue(`outsideIdentification.outsideIds[${formValues.length - 1}].deleted`, 1);
-    }
+  const onRemoveAttachment = useCallback((index: number) => {
+    const result = formValues[index];
+    const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
+    const newArr = formValues.filter((item, i) => i !== index);
+    form.setFieldValue('outsideIdentification.deleted', newRemovedArr);
+    form.setFieldValue('outsideIdentification.outsideIds', newArr);
   }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
@@ -60,9 +57,8 @@ const OutsideIdent: React.FC = () => {
       <div className={'form-section'}>
         <DropDownContent title={DROPDOWN_TITLE}>
           <ArrayFieldWrapper<any>
-            values={filtered}
+            values={formValues}
             onAddItem={() => onAddAttachment()}
-            onRemoveItem={() => onRemoveAttachment()}
             showActions
             name={'outsideIds'}
             renderChild={(_, index:number) => (
@@ -80,7 +76,7 @@ const OutsideIdent: React.FC = () => {
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                   <FormField label={LABELS.IDENTS} name={getSelectionPath(index, 'idRef')}>
                     <FastInput name={getSelectionPath(index, 'idRef')} />
                   </FormField>
@@ -90,6 +86,15 @@ const OutsideIdent: React.FC = () => {
                     <FastDatePicker name={getSelectionPath(index, 'date')}/>
                   </FormField>
                 </Col>
+                  <Col span={1}>
+                    <Button
+                      type={'link'}
+                      size={'small'}
+                      shape="circle"
+                      icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                      onClick={onRemoveAttachment.bind(this, index)}
+                    />
+                  </Col>
               </Row>
             )}
           />

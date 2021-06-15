@@ -7,15 +7,10 @@ import {
   detailedDocumentTypesSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
-  detailedSocialClassesSelector,
-  detailedSocialTypesSelector,
-  socialLoadingsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import {RootState} from '../../../../../../reduxStore/store';
 
 import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
-import NamedContract from '../../../../PersonDocumentsForm/components/sections/NamedContract/NamedContract';
-import Status from '../SocialStatus/sections/Status/Status';
 import PersonalDocument from '../PassportGeneral/sections/PersonalDocument/PersonalDocument';
 
 const PersonDocuments: React.FC = () => {
@@ -23,10 +18,7 @@ const PersonDocuments: React.FC = () => {
   const policyKinds = useSelector(detailedPolicyKindsSelector);
   const cmoTypes = useSelector(detailedCMOSelector);
 
-  const socialTypesList = useSelector(detailedSocialTypesSelector);
-  const socialClassesList = useSelector(detailedSocialClassesSelector);
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
-  const loadings = useSelector(socialLoadingsSelector);
 
   const { documentTypes } = useSelector((state: RootState) => state.rb.loading);
 
@@ -84,24 +76,6 @@ const PersonDocuments: React.FC = () => {
             getPolicyKindId={getPolicyIdKind}
             getCmoTypeId={getCmoType}
           />
-        </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col span={24}>
-          <Status
-            isLoadingClasses={loadings.classes}
-            isLoadingTypes={loadings.types}
-            //@ts-ignore
-            socialClassesList={socialClassesList}
-            socialTypesList={socialTypesList}
-          />
-        </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col span={24}>
-          <NamedContract />
         </Col>
       </Row>
     </form>
