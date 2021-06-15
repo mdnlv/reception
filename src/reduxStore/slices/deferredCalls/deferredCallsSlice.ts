@@ -46,8 +46,7 @@ export const saveDeferredCall = createAsyncThunk(
             if(response.data && response.status === 200){
 
                 notification.success({
-                    message: `Успех`,
-                    description: "форма сохранена",
+                    message: `Форма успешно сохранена`,
                   });
                   thunkAPI.dispatch(fetchDeferredQueue())
 
@@ -71,7 +70,7 @@ export const getPersonList = createAsyncThunk(
         try {
 
            const { rb }:any = thunkAPI.getState()
-
+                    
                   let specialty:any = []
                   payload.data.forEach((item:any) => {
                       const filteredSpeciality = rb.rbSpeciality.filter((s:any)=> item.speciality_id === s.id)
@@ -128,6 +127,18 @@ const deferredCallsSlice = createSlice({
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload
         },
+        clearLists: (state) => {
+            state.doctors = []
+            state.specialty = []
+            state.filteredDoctors = []
+        },
+        clearAllLists: (state)=>{
+            state.doctors = []
+            state.specialty = []
+            state.filteredDoctors = []
+            state.patientList = []
+  
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchDeferredQueue.fulfilled, (state, action) => {
@@ -162,5 +173,5 @@ const deferredCallsSlice = createSlice({
     }
 })
 
-export const {setLoading} = deferredCallsSlice.actions
+export const {setLoading,clearLists,clearAllLists} = deferredCallsSlice.actions
 export default deferredCallsSlice

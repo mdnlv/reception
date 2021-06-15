@@ -12,10 +12,9 @@ const Textarea: React.FC<any> = (props) => {
     }
 
     return (
-        <TextArea onChange={onChange} />
+        <TextArea value={field.value} onChange={onChange} />
     );
 };
-
 export default Textarea;
 
 
