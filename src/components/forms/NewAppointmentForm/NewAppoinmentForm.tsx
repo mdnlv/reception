@@ -82,8 +82,6 @@ const NewAppointmentForm: React.FC<FormState> = ({
                     const value = e.target.value
                     searchPatients(value)
                   }}
-                  onSelect={((val, selected) => {
-                  })}
                   
                   placeholder={'Пациент'}
                   name={'client'}
