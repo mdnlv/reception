@@ -20,6 +20,10 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
       }}
       onChange={(val) => {
         form.setValue(val);
+        if(!val){
+          props.onClear &&  props.onClear()
+        }
+
       }}
     >
       {props.children}

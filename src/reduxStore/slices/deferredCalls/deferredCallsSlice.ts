@@ -132,13 +132,9 @@ const deferredCallsSlice = createSlice({
             state.specialty = []
             state.filteredDoctors = []
         },
-        clearAllLists: (state)=>{
-            state.doctors = []
-            state.specialty = []
+        clearDoctors: (state) => {
             state.filteredDoctors = []
-            state.patientList = []
-  
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchDeferredQueue.fulfilled, (state, action) => {
@@ -173,5 +169,5 @@ const deferredCallsSlice = createSlice({
     }
 })
 
-export const {setLoading,clearLists,clearAllLists} = deferredCallsSlice.actions
+export const {setLoading,clearLists,clearDoctors} = deferredCallsSlice.actions
 export default deferredCallsSlice

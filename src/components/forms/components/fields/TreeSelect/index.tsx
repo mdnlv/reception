@@ -9,6 +9,9 @@ const TreeSelectField: React.FC<any> = (props) => {
 
     const onChange = (val: string) => {
         form.setValue(val)
+        if(!val){
+            props.onClear()
+        }
     }
 
     return (

@@ -6,7 +6,7 @@ import FormField from "../components/FormField/FormField";
 import { RootState } from '../../../reduxStore/store';
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
 import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
-import {getPersonList,filterDoctors,clearLists } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
+import {getPersonList,filterDoctors,clearLists,clearDoctors } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import TreeSelectField from "../components/fields/TreeSelect";
 import Textarea from '../components/fields/Textarea';
 import { useFormikContext } from 'formik';
@@ -25,12 +25,17 @@ const JosAppointmentForm: React.FC = (props:any) => {
         dispatch(fetchQueryPatients({ query: query, limit: 10 }))
     }
 
-
-    const onSelectTreeNode = (value:number,tree:PersonTree) =>{
-       
+    const  clearDoctorsAndSpeciality = () =>{
         setFieldValue('specialty','');
         setFieldValue('doctor','');
         dispatch(clearLists())
+    }
+
+
+    const onSelectTreeNode = (value:number,tree:PersonTree) =>{
+        
+        clearDoctorsAndSpeciality()
+        
         dispatch(getPersonList({data:tree.person_list}))
     }
     const onSelectSpecialityId  = (id:number) =>{
@@ -39,29 +44,32 @@ const JosAppointmentForm: React.FC = (props:any) => {
 
     }
 
+    const clearDoctor = (() => { setFieldValue('doctor','');dispatch(clearDoctors())})
+    const clearSpeciality = () => setFieldValue('specialty','')
+
 
   const renderTreeNodes = (data:PersonTree[]) =>
     data.map((item: PersonTree) => {
       return (
-        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
+        <TreeSelect.TreeNode  value={item.id}  title={item.name}  {...item}>
           {item.child.length && renderTreeNodes(item.child)}
         </TreeSelect.TreeNode>
       );
     });
 
     const getPropsOptions = (props: any) =>
-        props.map((item: any) => {
+        props.map((item: any,index:number) => {
             return (
-                <Select.Option key={item.code} name={item.fullName} value={item.code}>
+                <Select.Option key={index} name={item.fullName} value={item.code}>
                     {item.fullName}
                 </Select.Option>
             )
         });
 
     const getPropsOptionsDoctors = (props: any) =>
-    props.map((item: any) => {
+    props.map((item: any, index:number) => {
         return (
-            <Select.Option key={item.code} name={item.fullName} value={item.id}>
+            <Select.Option key={index} name={item.fullName} value={item.id}>
                 {item.fullName}
             </Select.Option>
         )
@@ -119,6 +127,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                             <FormField label={'Подразделение'} name={'organisation'}>
                                 <TreeSelectField 
                                 name={'organisation'}
+                                onClear={clearDoctorsAndSpeciality}
                                 onSelect={onSelectTreeNode}>
                                 {renderTreeNodes(personTree)}
                                 </TreeSelectField>
@@ -133,7 +142,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     name={'specialty'}
                                     showSearch
                                     allowClear
-
+                                    onClear={clearDoctor}
                                     onSelect={onSelectSpecialityId}
                                     filterOption
                                     optionFilterProp={'name'}>
@@ -148,6 +157,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
                                     name={'doctor'}
                                     showSearch
                                     allowClear
+                                    onClear={clearSpeciality}
                                     filterOption
                                     optionFilterProp={'name'}>
                                     {getPropsOptionsDoctors(doctors)}
