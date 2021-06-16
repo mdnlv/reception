@@ -7,7 +7,7 @@ export interface PersonAttachment {
   unit: string;
   fromDate: string;
   endDate: string;
-  detachmentReason: string;
+  detachmentReason: string | null;
   deleted?: 0;
 }
 

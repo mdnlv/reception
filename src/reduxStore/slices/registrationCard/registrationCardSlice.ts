@@ -435,6 +435,18 @@ const registrationCardSlice = createSlice({
             deleted: 0,
           }),
         );
+        state.initialFormState.attachments.attachments = transformedPatient.attachments.map(
+          (item) => ({
+            id: item.id,
+            type: item.type.toString(),
+            lpu: item.lpu.toString(),
+            unit: item.unit.toString(),
+            fromDate: item.fromDate || '',
+            endDate: item.endDate || '',
+            detachmentReason: item.detachmentReason?.toString() || '',
+            deleted: 0,
+          })
+        )
         state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =
           transformedPatient.address[0]?.address.KLADRCode || '';
         state.initialFormState.passportGeneral.passportInfo.addressRegistration.area =
