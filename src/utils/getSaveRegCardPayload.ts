@@ -50,7 +50,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     birthPlace,
     birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
     birthTime,
-    chartBeginDate: toServerFormat(startCardDate),
+    chartBeginDate: startCardDate ? toServerFormat(startCardDate) : '',
     // ...hasImplants && {hasImplants},
     // ...hasProsthesis && {hasProsthesis},
     // ...docPersonId && {docPersonId},
