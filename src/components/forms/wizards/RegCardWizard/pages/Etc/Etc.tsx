@@ -20,7 +20,7 @@ const Etc: React.FC = () => {
                 <Row>
                   <Col>
                     <FormField label={LABELS.NOTE}>
-                      <Input.TextArea cols={80} rows={10}/>
+                      <Input.TextArea cols={120} rows={10}/>
                     </FormField>
                   </Col>
                 </Row>

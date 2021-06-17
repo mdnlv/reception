@@ -35,7 +35,7 @@ const Status: React.FC<StatusProps> = ({
   }, [formValues && formValues[index] && formValues[index].class]);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
-    return `${sectionValuePath}.${indexData}.${fieldChain}`;
+    return `${sectionValuePath}[${indexData}].${fieldChain}`;
   };
 
   const onAddStatus = useCallback(() => {
@@ -151,13 +151,13 @@ const Status: React.FC<StatusProps> = ({
               <Divider/>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(index, 'docType')}>
+                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docType')}>
                     <FastSearchSelect
                       filterOption
                       loading={isLoadingDocuments}
                       optionFilterProp={'name'}
                       showSearch
-                      name={getSelectionPath(index, 'docType')}
+                      name={getSelectionPath(indexData, 'docType')}
                     >
                       {propsList(documentTypesList)}
                     </FastSearchSelect>
@@ -165,32 +165,33 @@ const Status: React.FC<StatusProps> = ({
                 </Col>
                 <Col span={1}>
                   <FormField label={LABELS.SERIAL}>
-                    <FastInput name={getSelectionPath(index, 'serialFirst')} />
+                    <FastInput name={getSelectionPath(indexData, 'serialFirst')} />
                   </FormField>
                 </Col>
                 <Col span={1}>
                   <FormField label={LABELS.SERIAL}>
-                    <FastInput name={getSelectionPath(index, 'serialSecond')} />
+                    <FastInput name={getSelectionPath(indexData, 'serialSecond')} />
                   </FormField>
                 </Col>
                 <Col span={3}>
                   <FormField label={LABELS.NUMBER}>
-                    <FastInput name={getSelectionPath(index, 'number')} />
+                    <FastInput name={getSelectionPath(indexData, 'number')} />
                   </FormField>
                 </Col>
               </Row>
               <Row>
                 <Col span={3}>
                   <FormField label={LABELS.DATE}>
-                    <FastDatePicker name={getSelectionPath(index, 'date')} />
+                    <FastDatePicker name={getSelectionPath(indexData, 'date')} />
                   </FormField>
                 </Col>
                 <Col span={5}>
                   <FormField label={LABELS.GIVEN}>
-                    <FastInput name={getSelectionPath(index, 'givenBy')} />
+                    <FastInput name={getSelectionPath(indexData, 'givenBy')} />
                   </FormField>
                 </Col>
               </Row>
+              <Divider/>
             </div>
           )
         }}

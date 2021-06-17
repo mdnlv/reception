@@ -385,13 +385,13 @@ const registrationCardSlice = createSlice({
             docId: item.document ? item.document.id : undefined,
             serialFirst: item.document && item.document.serial
               ? item.document.serial?.substring(0, item.document.serial.length/2)
-              : undefined,
+              : '',
             serialSecond: item.document && item.document.serial
               ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
-              : undefined,
-            number: item.document ? item.document.number : undefined,
-            date: item.document ? item.document.date : undefined,
-            givenBy: item.document ? item.document.origin : undefined,
+              : '',
+            number: item.document ? item.document.number : '',
+            date: item.document ? item.document.date : '',
+            givenBy: item.document ? item.document.origin : '',
           }));
           // @ts-ignore
         state.initialFormState.socialStatus.trustedDoc =

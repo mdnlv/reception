@@ -102,27 +102,6 @@ const Hazard: React.FC<SectionProps> = ({
                 </Col>
               </Row>
               <Divider />
-              <Row gutter={16} align={'bottom'}>
-                <Col span={8}>
-                  <FormField label={LABELS.ORG}>
-                    <FastSearchSelect
-                      loading={isLoadingOrgs}
-                      name={getSectionPath(index, 'organisation')}>
-                      {propsList(orgsList)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={8}>
-                  <FormField label={LABELS.POSITION}>
-                    <FastInput name={getSectionPath(index, 'post')} />
-                  </FormField>
-                </Col>
-                <Col>
-                  <FormField label={LABELS.EXPERIENCE}>
-                    <FastInput name={getSectionPath(index, 'exp')} />
-                  </FormField>
-                </Col>
-              </Row>
             </div>
           )}
         />
