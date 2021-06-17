@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { Col, Divider, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 
@@ -11,13 +11,10 @@ import FormField from '../../../../../../components/FormField/FormField';
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 import FastInputNumber from '../../../../../../components/fields/FastInputNumber/FastInpuNumber';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
-import FastInput from '../../../../../../components/fields/FastInput/FastInput';
 
 const Hazard: React.FC<SectionProps> = ({
   hurtTypesList,
   hurtFactorTypesList,
-  orgsList,
-  isLoadingOrgs,
   isLoadingHurtTypes,
   isLoadingHurtFactorTypes
 }) => {

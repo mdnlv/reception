@@ -31,7 +31,7 @@ const Status: React.FC<StatusProps> = ({
   const [cleanable, setCleanable] = useState(false);
 
   useEffect(() => {
-    cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].type`, '');
+    cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].statusType`, '');
   }, [formValues && formValues[index] && formValues[index].class]);
 
   const getSelectionPath = (indexData: number, fieldChain: string) => {
