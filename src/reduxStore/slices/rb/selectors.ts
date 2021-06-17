@@ -174,3 +174,12 @@ export const detailedAttachTypesSelector = createSelector(
       name: item.name,
     })),
 );
+
+export const detailedDetachmentReasonsSelector = createSelector(
+  (state: RootState) => state.rb.rbDetachmentReasons,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);

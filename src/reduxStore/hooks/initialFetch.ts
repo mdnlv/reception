@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   fetchRbAccountingSystem,
   fetchRbAttachTypes,
+  fetchRbDetachmentReasons,
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbEventTypes,
@@ -36,6 +37,7 @@ export default function useInitialFetch() {
     dispatch(fetchRbInvalidDocumentsTypes());
     dispatch(fetchRbAccountingSystem());
     dispatch(fetchRbAttachTypes());
+    dispatch(fetchRbDetachmentReasons());
     dispatch(fetchRbContactTypes());
     dispatch(fetchRbDocumentTypes());
     dispatch(fetchRbPolicyKind());
@@ -47,7 +49,6 @@ export default function useInitialFetch() {
     dispatch(fetchRbHurtFactorTypes());
     dispatch(fetchRbOrgStructure());
     dispatch(fetchPersonTree({}));
-    dispatch(fetchDeferredQueueStatus())
-    
+    dispatch(fetchDeferredQueueStatus());
   };
 }

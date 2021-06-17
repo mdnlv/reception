@@ -1,6 +1,7 @@
 import {
   FETCH_ACCOUNTING_SYSTEM,
   FETCH_ATTACH_TYPES,
+  FETCH_DETACHMENT_REASONS,
   FETCH_CONTACT_TYPES,
   FETCH_EVENT_TYPES,
   FETCH_INVALID_DOCUMENTS,
@@ -19,6 +20,7 @@ import RbPersonResponse from '../../interfaces/responses/rb/rbPerson';
 import {
   fetchAccountingSystemError,
   fetchAttachTypesError,
+  fetchDetachmentReasonsError,
   fetchContactTypesError,
   fetchContactTypesSuccess,
   fetchEventTypesError,
@@ -32,6 +34,7 @@ import {
   fetchPolicyTypesSuccess,
   setRbAccountingSystem,
   setRbAttachTypes,
+  setRbDetachmentReasons,
   setRbEventTypes,
   setRbInvalidDocuments,
   setRbInvalidReasons,
@@ -46,6 +49,7 @@ import RbInvalidReasonResponse from '../../interfaces/responses/rb/rbInvalidReas
 import RbInvalidDocumentTypeResponse from '../../interfaces/responses/rb/rbInvalidDocumentType';
 import RbAccountingSystemResponse from '../../interfaces/responses/rb/rbAccountingSystem';
 import RbAttachTypeResponse from '../../interfaces/responses/rb/rbAttachType';
+import RbDetachmentReasonResponse from "../../interfaces/responses/rb/rbDetachmentReason";
 import RbKladrResponse from '../../interfaces/responses/rb/rbKladr';
 import KladrStreet from '../../types/data/KladrStreet';
 import RbPolicyTypeResponse from '../../interfaces/responses/rb/rbPolicyType';
@@ -188,6 +192,23 @@ function* asyncFetchAttachTypes() {
   }
 }
 
+function* asyncFetchDetachmentReasons() {
+  try {
+    const detachmentReasons: AxiosResponse<RbDetachmentReasonResponse[]> = yield call(
+      RbService.fetchDetachmentReasons,
+    );
+    if (detachmentReasons.data) {
+      const formattedData = detachmentReasons.data.map((item) => ({
+        id: item.id,
+        name: item.name,
+      }));
+      yield put(setRbDetachmentReasons(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchDetachmentReasonsError());
+  }
+}
+
 function* asyncFetchPolicyTypes() {
   try {
     const policyTypes: AxiosResponse<RbPolicyTypeResponse[]> = yield call(
@@ -262,6 +283,7 @@ function* watchAsync() {
   yield takeEvery(FETCH_INVALID_DOCUMENTS, asyncFetchInvalidDocuments);
   yield takeEvery(FETCH_ACCOUNTING_SYSTEM, asyncFetchAccountingSystem);
   yield takeEvery(FETCH_ATTACH_TYPES, asyncFetchAttachTypes);
+  yield takeEvery(FETCH_DETACHMENT_REASONS, asyncFetchDetachmentReasons);
   yield takeEvery(FETCH_POLICY_KINDS, asyncFetchPolicyKinds);
   yield takeEvery(FETCH_POLICY_TYPES, asyncFetchPolicyTypes);
   yield takeEvery(FETCH_CONTACT_TYPES, asyncFetchContactTypes);

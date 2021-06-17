@@ -11,6 +11,7 @@ import InvalidReason from '../../../types/data/InvalidReason';
 import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
+import DetachmentReason from "../../../types/data/DetachmentReason";
 import DeferredQueueStatus from '../../../types/data/DeferredQueueStatus'
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
@@ -351,6 +352,35 @@ export const fetchRbAttachTypes = createAsyncThunk(
   },
 );
 
+export const fetchRbDetachmentReasons = createAsyncThunk(
+  'rb/fetchDetachmentReasons',
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbDetachmentReason"}))
+
+    const currentCheckSum =  await get('rbDetachmentReasonSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
+    try {
+      const response = isCheckSum? await get('rbDetachmentReason'): await RbService.fetchDetachmentReasons()
+      if(!isCheckSum){
+        await del('rbDetachmentReasonSum')
+        await del('rbDetachmentReason')
+        await set('rbDetachmentReasonSum',checksum.payload)
+        await set('rbDetachmentReason',{data:response.data})
+      }
+      if (response.data) {
+        return response.data.map((item:{ id: number;
+          name: string;}) => ({
+          id: item.id,
+          name: item.name,
+        }));
+      }
+    } catch (e) {
+      alert(e)
+    }
+  },
+);
+
 export const fetchRbPolicyTypes = createAsyncThunk(
   'rb/fetchPolicyTypes',
   async (arg, thunkAPI) => {
@@ -639,6 +669,7 @@ const rbSlice = createSlice({
     rbInvalidDocuments: [] as InvalidDocument[],
     rbAccountingSystem: [] as AccountingSystemItem[],
     rbAttachTypes: [] as AttachType[],
+    rbDetachmentReasons: [] as DetachmentReason[],
     rbPolicyTypes: [] as PolicyType[],
     rbPolicyKinds: [] as PolicyKind[],
     rbSpeciality: [] as SpecialityType[],
@@ -663,6 +694,7 @@ const rbSlice = createSlice({
       specialities: false,
       hurtTypes: false,
       hurtFactorTypes: false,
+      detachmentReasons: false,
     },
   },
   reducers: {
@@ -671,6 +703,7 @@ const rbSlice = createSlice({
       action: PayloadAction<{
         type:
           | 'attachTypes'
+          | 'detachmentReasons'
           | 'orgStructure'
           | 'post'
           | 'organisations'
@@ -774,6 +807,11 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbAttachTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbAttachTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbDetachmentReasons.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbDetachmentReasons = action.payload;
       }
     });
     builder.addCase(fetchRbPolicyTypes.fulfilled, (state, action) => {

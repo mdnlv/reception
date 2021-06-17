@@ -21,7 +21,8 @@ import RbHurtType from '../interfaces/responses/rb/rbHurtType';
 import RbHurtFactorType from '../interfaces/responses/rb/rbHurtFactorType';
 import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbSpecialityResponse from "../interfaces/responses/rb/rbSpeciality";
-import RbDeferredQueueStatus from '../interfaces/responses/rb/rbDeferredQueueStatus'
+import RbDeferredQueueStatus from '../interfaces/responses/rb/rbDeferredQueueStatus';
+import RbDetachmentReasonResponse from "../interfaces/responses/rb/rbDetachmentReason";
 
 export default {
   fetchSpeciality(): Promise<AxiosResponse<RbSpecialityResponse[]>>{
@@ -83,6 +84,9 @@ export default {
   },
   fetchAttachTypes(): Promise<AxiosResponse<RbAttachTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbAttachType');
+  },
+  fetchDetachmentReasons(): Promise<AxiosResponse<RbDetachmentReasonResponse[]>> {
+    return apiInstance.get('/refBooks/rbDetachmentReason');
   },
   fetchCityDistricts(): Promise<AxiosResponse<any>> {
     return apiInstance.get('/refBooks/rbDistrict');

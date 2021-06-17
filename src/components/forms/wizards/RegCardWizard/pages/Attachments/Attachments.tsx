@@ -9,7 +9,8 @@ import { WizardStateType } from '../../types';
 import {
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
-  detailedOrgStructureSelector
+  detailedOrgStructureSelector,
+  detailedDetachmentReasonsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import { RootState } from '../../../../../../reduxStore/store';
 
@@ -26,10 +27,12 @@ const Attachments: React.FC = () => {
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const orgStructure = useSelector(detailedOrgStructureSelector);
+  const detachmentReasons = useSelector(detailedDetachmentReasonsSelector);
   const {
     organisations: loadingOrgs,
     attachTypes: loadingAttachTypes,
     orgStructure: loadingOrgStructure,
+    detachmentReasons: loadingDetachmentReasons,
   } = useSelector((state: RootState) => state.rb.loading);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
@@ -127,7 +130,14 @@ const Attachments: React.FC = () => {
                 </Col>
                 <Col span={4}>
                   <FormField label={LABELS.DETACH_REASON}>
-                    <FastSearchSelect name={getSelectionPath(index, 'detachmentReason')} />
+                    <FastSearchSelect
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
+                      loading={loadingDetachmentReasons}
+                      name={getSelectionPath(index, 'detachmentReason')}>
+                      {getPropsList(detachmentReasons)}
+                    </FastSearchSelect>
                   </FormField>
                 </Col>
                 <Col span={1}>

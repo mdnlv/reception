@@ -5,6 +5,9 @@ import {
   FETCH_ATTACH_TYPES,
   FETCH_ATTACH_TYPES_ERROR,
   FETCH_ATTACH_TYPES_SUCCESS,
+  FETCH_DETACHMENT_REASONS,
+  FETCH_DETACHMENT_REASONS_ERROR,
+  FETCH_DETACHMENT_REASONS_SUCCESS,
   FETCH_CONTACT_TYPES,
   FETCH_CONTACT_TYPES_ERROR,
   FETCH_CONTACT_TYPES_SUCCESS,
@@ -34,6 +37,7 @@ import {
   FETCH_POLICY_TYPES_SUCCESS,
   SET_RB_ACCOUNTING_SYSTEM,
   SET_RB_ATTACH_TYPES,
+  SET_RB_DETACHMENT_REASONS,
   SET_RB_EVENT_TYPES,
   SET_RB_INVALID_DOCUMENTS,
   SET_RB_INVALID_REASONS,
@@ -50,6 +54,7 @@ import PatientContactType from '../../types/data/PatientContactType';
 import PolicyKind from '../../types/data/PolicyKind';
 import PolicyType from '../../types/data/PolicyType';
 import PatientDocumentType from '../../types/data/PatientDocumentType';
+import DetachmentReason from "../../types/data/DetachmentReason";
 
 export function fetchPersons() {
   return {
@@ -223,6 +228,31 @@ export function setRbAttachTypes(accountItems: AccountingSystemItem[]) {
   return {
     type: SET_RB_ATTACH_TYPES,
     payload: accountItems,
+  };
+}
+
+export function fetchDetachmentReasons() {
+  return {
+    type: FETCH_DETACHMENT_REASONS,
+  };
+}
+
+export function fetchDetachmentReasonsError() {
+  return {
+    type: FETCH_DETACHMENT_REASONS_ERROR,
+  };
+}
+
+export function fetchDetachmentReasonsSuccess() {
+  return {
+    type: FETCH_DETACHMENT_REASONS_SUCCESS,
+  };
+}
+
+export function setRbDetachmentReasons(detachmentItems: DetachmentReason[]) {
+  return {
+    type: SET_RB_DETACHMENT_REASONS,
+    payload: detachmentItems,
   };
 }
 

@@ -11,6 +11,7 @@ import {
   SET_RB_INVALID_REASONS,
   SET_RB_ORGANISATIONS,
   SET_RB_PERSONS,
+  SET_RB_DETACHMENT_REASONS,
 } from './types';
 import Person from '../../types/data/Person';
 import EventType from '../../types/data/EventType';
@@ -23,6 +24,7 @@ import PolicyType from '../../types/data/PolicyType';
 import PolicyKind from '../../types/data/PolicyKind';
 import PatientContactType from '../../types/data/PatientContactType';
 import PatientDocumentType from '../../types/data/PatientDocumentType';
+import DetachmentReason from "../../types/data/DetachmentReason";
 
 const initialState = {
   rbPersons: [] as Person[],
@@ -36,6 +38,7 @@ const initialState = {
   rbPolicyKinds: [] as PolicyKind[],
   rbContactTypes: [] as PatientContactType[],
   rbPatientDocumentsTypes: [] as PatientDocumentType[],
+  rbDetachmentReason: [] as DetachmentReason[],
 };
 
 export default function RbReducer(state = initialState, action: RbActionsType) {
@@ -74,6 +77,11 @@ export default function RbReducer(state = initialState, action: RbActionsType) {
       return {
         ...state,
         rbAttachTypes: action.payload,
+      };
+    case SET_RB_DETACHMENT_REASONS:
+      return {
+        ...state,
+        rbDetachmentReason: action.payload,
       };
     case FETCH_POLICY_KINDS_SUCCESS:
       return {
