@@ -117,7 +117,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
       deleted: 0,
       type: item.attachType_id,
       lpu: item.LPU_id,
-      unit: item.orgStructure_id,
+      unit: item.orgStructure_id || '',
       fromDate: item.begDate,
       endDate: item.endDate,
       detachmentReason: item.detachment_id,
