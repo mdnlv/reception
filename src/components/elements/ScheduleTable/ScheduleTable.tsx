@@ -26,7 +26,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const endHour = 20;
   const dispatch = useDispatch()
 
-
   useEffect(()=>{
     dispatch(setDates({cd: currentDate, ed: rangeWeekDate}));
   },[rangeWeekDate])
@@ -51,11 +50,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     [setSelected, selected],
   );
 
-  const onScheduleDateChange = 
-    (date: Date, endDate: Date) => {
+  const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
       setCurrentDate(date);
       setRangeWeek(endDate);
-      loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'));    
+      selected.length > 0 && loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'));    
     };
 
   const onScheduleModeChange = useCallback(
@@ -83,6 +81,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
                 currentDay={currentDay}
                 length={length}
                 setLength={setLength}
+                selected={selected}
               />
             </Col>
           </Row>

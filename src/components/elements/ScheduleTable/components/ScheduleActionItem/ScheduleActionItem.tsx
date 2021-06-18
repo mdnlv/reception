@@ -149,7 +149,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
           );
         }
     }
-  }, [width, ticket]);
+  }, [width, ticket, info]);
   
   return <>{postLoading ? '' : getTypeAction}</>;
 };

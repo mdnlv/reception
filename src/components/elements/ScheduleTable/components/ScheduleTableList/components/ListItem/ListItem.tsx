@@ -59,11 +59,11 @@ const ListItem: React.FC<ItemProps> = ({
           </Col>
           <Col span={20}>
             
-              {/* isLoading ? (
+              {isLoading ? (
                 <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                   <Spin/>
                 </div>
-              ) : (*/}<ScheduleActionsRow
+              ) : (<ScheduleActionsRow
                 mode={mode}
                 rangeWeekNum={rangeWeekNum}
                 items={item}
@@ -79,7 +79,7 @@ const ListItem: React.FC<ItemProps> = ({
                 currentDay={currentDay}
                 setCurrentDay={setCurrentDay}
               />
-            
+              )}
           </Col>
         </div>)
       })}

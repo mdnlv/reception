@@ -19,7 +19,8 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
   onDateChange,
   onModeChange,
   mode,
-  length
+  length,
+  selected
 }) => {
   const dateContent = () => {
     if (mode === 'day') {
@@ -64,9 +65,9 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
       <div
         onClick={() => {
           if(length == 'week') {
-            onDateChange(subDays(current, 14), subDays(current,1));
+            onDateChange(subDays(current, 14), subDays(current,1), selected);
           } else {
-            onDateChange(moment(subDays(current,1)).clone().startOf('month').toDate(), moment(subDays(current,1)).clone().endOf('month').toDate());
+            onDateChange(moment(subDays(current,1)).clone().startOf('month').toDate(), moment(subDays(current,1)).clone().endOf('month').toDate(), selected);
           }
         }}
         className={'picker-action__wrapper'}>
@@ -80,9 +81,9 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
       <div
         onClick={() => {
           if(length == 'week') {
-            onDateChange(addDays(current, 14), addDays(current,27));
+            onDateChange(addDays(current, 14), addDays(current,27), selected);
           } else {
-            onDateChange(moment(addDays(current,32)).clone().startOf('month').toDate(), moment(addDays(current,32)).clone().endOf('month').toDate());
+            onDateChange(moment(addDays(current,32)).clone().startOf('month').toDate(), moment(addDays(current,32)).clone().endOf('month').toDate(), selected);
           }
         }}
         className={'picker-action__wrapper'}>

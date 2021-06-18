@@ -95,7 +95,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
           orgId={orgId}
         /></>
     }
-  }, [items, mode, rangeWeekNum]);
+  }, [items, mode, rangeWeekNum, currentDate]);
 
   return <div className={'schedule-action-row'}>{rowContent}</div>;
 };

@@ -16,16 +16,15 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
   onModeChange,
   currentDay,
   length,
-  setLength
+  setLength,
+  selected
 }) => {
-  const modeChangeHandler = useCallback(
+  const modeChangeHandler = 
     (e: RadioChangeEvent) => {
-      e.target.value == 'month' ? onDateChange(moment().clone().startOf(e.target.value).toDate(), moment().clone().endOf(e.target.value).toDate())
-      : onDateChange(moment().clone().startOf(e.target.value).toDate(), addDays(moment().clone().endOf(e.target.value).toDate(), 7));
+      e.target.value == 'month' ? onDateChange(moment().clone().startOf(e.target.value).toDate(), moment().clone().endOf(e.target.value).toDate(), selected)
+      : onDateChange(moment().clone().startOf(e.target.value).toDate(), addDays(moment().clone().endOf(e.target.value).toDate(), 7), selected);
       setLength(e.target.value)
-    },
-    [onModeChange],
-  );
+    };
 
   return (
     <Row
@@ -40,6 +39,7 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
           onModeChange={onModeChange}
           length={length}
           currentDay={currentDay}
+          selected={selected}
         />
       </div>
       
