@@ -30,6 +30,10 @@ const Status: React.FC<StatusProps> = ({
   const [index, setIndex] = useState(0);
   const [cleanable, setCleanable] = useState(false);
 
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
+
   useEffect(() => {
     cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].statusType`, '');
   }, [formValues && formValues[index] && formValues[index].class]);
@@ -151,13 +155,13 @@ const Status: React.FC<StatusProps> = ({
               <Divider/>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docType')}>
+                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docId')}>
                     <FastSearchSelect
                       filterOption
                       loading={isLoadingDocuments}
                       optionFilterProp={'name'}
                       showSearch
-                      name={getSelectionPath(indexData, 'docType')}
+                      name={getSelectionPath(indexData, 'docId')}
                     >
                       {propsList(documentTypesList)}
                     </FastSearchSelect>

@@ -10,10 +10,14 @@ export default interface PatientWorkResponse {
 }
 
 interface PatientWorkHurtInfo {
+  id: number;
+  master_id: number;
   hurtType_id: number;
   stage: number;
 }
 
 interface PatientWorkHurtFactorInfo {
+  id: number;
+  master_id: number;
   factorType_id: number;
 }

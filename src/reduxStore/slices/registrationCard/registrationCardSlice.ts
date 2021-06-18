@@ -375,14 +375,14 @@ const registrationCardSlice = createSlice({
             : state.initialFormState.passportGeneral.policyOms;
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
-            statusId: item.id,
+            id: item.id,
             note: item.note,
             class: item.class,
             statusType: item.type,
             fromDate: item.fromDate,
             endDate: item.endDate,
-            deleted: item.deleted,
-            docId: item.document ? item.document.id : undefined,
+            deleted: 0,
+            docId: item.document ? item.document.id?.toString() : undefined,
             serialFirst: item.document && item.document.serial
               ? item.document.serial?.substring(0, item.document.serial.length/2)
               : '',
@@ -415,10 +415,14 @@ const registrationCardSlice = createSlice({
             freeInput: item.freeInput,
             deleted: 0,
             hazardHistory: item.client_work_hurt_info ? item.client_work_hurt_info.map((a) => ({
+              master_id: a.master_id,
+              id: a.id,
               hazardDescription: a.hurtTypeId.toString(),
               hazardExp: a.stage
             })) : [],
             hazardFactors: item.client_work_hurt_factor_info ? item.client_work_hurt_factor_info.map((b) => ({
+              master_id: b.master_id,
+              id: b.id,
               factor: b.factorTypeId.toString()
             })) : [],
           })

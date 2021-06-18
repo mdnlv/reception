@@ -27,14 +27,18 @@ export const transformPatientResponse = (item: PatientResponse) => {
           post: item.post,
           stage: item.stage,
           ...(item.client_work_hurt_info.length > 0 && {
-            client_work_hurt_info: item.client_work_hurt_info.map(item => ({
-              hurtTypeId: item.hurtType_id ? item.hurtType_id : '',
-              stage: item.stage ? item.stage : 0
+            client_work_hurt_info: item.client_work_hurt_info.map(a => ({
+              master_id: a.master_id,
+              id: a.id,
+              hurtTypeId: a.hurtType_id ? a.hurtType_id : '',
+              stage: a.stage ? a.stage : 0
             }))
           }),
           ...(item.client_work_hurt_factor_info.length > 0 && {
-            client_work_hurt_factor_info: item.client_work_hurt_factor_info.map(item => ({
-              factorTypeId: item.factorType_id ? item.factorType_id : ''
+            client_work_hurt_factor_info: item.client_work_hurt_factor_info.map(b => ({
+              master_id: b.master_id,
+              id: b.id,
+              factorTypeId: b.factorType_id ? b.factorType_id : ''
             }))
           }),
           deleted: item.deleted,
@@ -51,22 +55,28 @@ export const transformPatientResponse = (item: PatientResponse) => {
     },
 
     socialStatus:
-      item.client_soc_status_info.map((item) => ({
-        id: item.id,
-        note: item.notes ?? '',
-        class: item.socStatusClass_id?.toString(),
-        type: item.socStatusType_id?.toString(),
-        fromDate: item.begDate ? parseISO(item.begDate) : '',
-        endDate: item.endDate ? parseISO(item.endDate) : '',
-        document: Object.keys(item.document).length
+      item.client_soc_status_info.map((i) => ({
+        id: i.id,
+        note: i.notes ?? '',
+        class: i.socStatusClass_id?.toString(),
+        type: i.socStatusType_id?.toString(),
+        fromDate: i.begDate ? parseISO(i.begDate) : '',
+        endDate: i.endDate ? parseISO(i.endDate) : '',
+        document: Object.keys(i.document).length
           ? {
-            id: item.document?.documentType_id,
-            serial: item.document?.serial,
-            number: item.document?.number,
-            date: item.document?.date ? parseISO(item.document?.date) : '',
-            origin: item.document?.origin
-          } : null,
-        deleted: item.deleted,
+            id: i.document?.documentType_id,
+            serial: i.document?.serial,
+            number: i.document?.number,
+            date: i.document?.date ? parseISO(i.document?.date) : '',
+            origin: i.document?.origin
+          } : {
+            id: 1,
+            serial: '',
+            number: '',
+            date: '',
+            origin: ''
+          },
+        deleted: 0,
       })) || [],
 
     policy:

@@ -19,11 +19,15 @@ export interface EmploymentItemDeleted extends Modify<EmploymentItem, {
 }> {}
 
 export interface EmploymentHazardItem {
+  masterId?: number;
+  id?: number;
   hazardDescription: string;
   hazardExp: number;
 }
 
 export interface HazardFactorItem {
+  masterId?: number;
+  id?: number;
   factor: string;
 }
 

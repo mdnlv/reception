@@ -44,7 +44,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       statusType: Yup.string().required('Не выбран тип статуса'),
       fromDate: Yup.string().required('Не введена дата начала'),
       endDate: Yup.string().required('Не введена дата окончания'),
-      docType: Yup.string().required('Не выбран тип документа')
+      docId: Yup.string().required('Не выбран тип документа')
     })),
   }),
   employment: Yup.object({

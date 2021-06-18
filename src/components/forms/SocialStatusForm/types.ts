@@ -2,13 +2,13 @@ import {Modify} from "../../../types/modify";
 
 export interface SocialStatus {
   [key: string]: any;
-  statusId?: number;
+  id?: number;
   statusType?: string;
   note?: string;
   fromDate: any;
   endDate: any;
   class?: string;
-  docId?: number;
+  docId?: string;
   docType?: string;
   serialFirst?: string;
   serialSecond?: string;
