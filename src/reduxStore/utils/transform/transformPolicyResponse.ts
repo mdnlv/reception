@@ -6,7 +6,7 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
   return {
     itemId: item.id,
     id: item.client_id,
-    cmoArea: item.insuranceArea || '7800000000000',
+    cmoArea: item.insuranceArea,
     cmo: item.insurer_id?.toString() ?? '',
     serial: item.serial,
     number: item.number,

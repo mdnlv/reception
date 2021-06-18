@@ -47,16 +47,18 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
-  // useEffect(() => {
-  //   console.log('formValues.cmo', formValues.cmo);
-  // }, [formValues.cmo]);
+  useEffect(() => {
+    console.log('cmoType', cmoType);
+  }, [cmoType]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
   }, [id]);
 
   useEffect(() => {
-    const result = cmoType.filter((item) => item.extraData === formValues.cmoArea);
+    const result = formValues.cmoArea
+      ? cmoType.filter((item) => item.extraData === formValues.cmoArea)
+      : cmoType;
     setCmoFiltered(result);
   }, [formValues.cmoArea, cmoType]);
 
