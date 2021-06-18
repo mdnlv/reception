@@ -118,14 +118,6 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
                   />
                 </FormField>
               </Col>
-              <Col span={7}>
-                <FormField label={LABELS.INN}>
-                  <FastInput name={getSelectionPath(index, 'inn')} />
-                </FormField>
-                <FormField label={LABELS.OGRN}>
-                  <FastInput name={getSelectionPath(index, 'ogrn')} />
-                </FormField>
-              </Col>
               <Col span={1}>
                 <Button
                   type={'link'}
