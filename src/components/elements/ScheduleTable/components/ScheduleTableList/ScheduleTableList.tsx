@@ -44,6 +44,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
     speciality: ''
   });
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
+  const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
+  const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
 
   useEffect(() => {
     if(ok && !postLoading) {
@@ -73,19 +75,33 @@ const ScheduleTableList: React.FC<ListProps> = ({
     }
   },[postLoading])
 
+  useEffect(() => {
+    if(errorStatus) {
+      Modal.error({
+        title: 'Ошибка',
+        content: `Не удалось выполнить действие. Дополнительные сведения: "${errorMessage}".`,
+        okText: 'ОК'
+      });
+      setOk(false);
+      setEdit(false);
+      setDel(false);
+    }
+  },[errorStatus, errorMessage])
+
+
   const showModal = (data: ActionData) => {
     setActionData(data)
     setIsModalVisible(true)
+    setIsModalLoading(false)
   };
 
   const actTicket = (data: ActionPost, id: number) => {
     if(data.type == 'new') setOk(true);
     if(data.type == 'edit') setEdit(true);
     if(data.type == 'delete') setDel(true);
-    actionTicket(data);
+    actionTicket(data, [id], moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
     setIsModalLoading(true);
-    setIsModalVisible(false); 
-    loadSchedule([id], moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
+    setIsModalVisible(false);   
   };
 
   const listContent = useMemo(() => {

@@ -41,47 +41,59 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         });
       
       case 'day': 
-        let tickets = items.schedule[moment(currentDay).format('YYYY-MM-DD')][0];
-        let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
-        let k = Math.floor(dur / tickets.planned);
-        let sdate = moment(currentDay).format('YYYY-MM-DD');
-        let arr = new Array(tickets.planned).fill(0).map((_, index) => {
-          return (
+        if(items.schedule[moment(currentDay).format('YYYY-MM-DD')]) {
+          let tickets = items.schedule[moment(currentDay).format('YYYY-MM-DD')][0];
+          let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
+          let k = Math.floor(dur / tickets.planned);
+          let sdate = moment(currentDay).format('YYYY-MM-DD');
+          let arr = new Array(tickets.planned).fill(0).map((_, index) => {
+            return (
+              <ScheduleActionItem
+                key={index}
+                width={1}
+                ticket={tickets? tickets.tickets[index]: null}
+                info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
+                date={currentDay}
+                mode={mode}
+                onModeChange={onModeChange}
+                showModal={showModal}
+                person={{fullName: items.person.lastName + ' ' + items.person.firstName + ' ' + items.person.patrName, id: items.person.id, speciality: speciality, org: items.person.orgStructure_id}}
+                client={client}
+                orgId={orgId}
+                setDay={setCurrentDay}
+              />
+            );
+          });
+          let kb = Math.floor((moment.duration(tickets.begTime).asMinutes() - startHour*60) / k);
+          let ke = Math.floor((endHour*60 - moment.duration(tickets.endTime).asMinutes()) / k);
+          return <>
             <ScheduleActionItem
-              key={index}
-              width={1}
-              ticket={tickets? tickets.tickets[index]: null}
-              info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
-              date={currentDay}
+              width={kb}
               mode={mode}
               onModeChange={onModeChange}
-              showModal={showModal}
-              person={{fullName: items.person.lastName + ' ' + items.person.firstName + ' ' + items.person.patrName, id: items.person.id, speciality: speciality, org: items.person.orgStructure_id}}
-              client={client}
-              orgId={orgId}
               setDay={setCurrentDay}
+              showModal={showModal}
+              orgId={orgId}
             />
-          );
-        });
-        let kb = Math.floor((moment.duration(tickets.begTime).asMinutes() - startHour*60) / k);
-        let ke = Math.floor((endHour*60 - moment.duration(tickets.endTime).asMinutes()) / k);
-        return <>
-          <ScheduleActionItem
-            width={kb}
-            mode={mode}
-            onModeChange={onModeChange}
-            setDay={setCurrentDay}
-            showModal={showModal}
-          />
-          {arr}
-          <ScheduleActionItem
-            width={ke}
-            mode={mode}
-            setDay={setCurrentDay}
-            onModeChange={onModeChange} 
-            showModal={showModal}
-          />
-        </>
+            {arr}
+            <ScheduleActionItem
+              width={ke}
+              mode={mode}
+              setDay={setCurrentDay}
+              onModeChange={onModeChange} 
+              showModal={showModal}
+              orgId={orgId}
+            />
+          </>
+      } else return <>       
+        <ScheduleActionItem
+          width={1}
+          mode={mode}
+          setDay={setCurrentDay}
+          onModeChange={onModeChange} 
+          showModal={showModal}
+          orgId={orgId}
+        /></>
     }
   }, [items, mode, rangeWeekNum]);
 

@@ -67,7 +67,7 @@ export interface ScheduleTableProps {
   loadSchedule(id: number[], beg_date: string, end_date: string): void;
   speciality: any,
   client: Client;
-  actionTicket(data: ActionPost): void;
+  actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;
 }
 
 export interface Client {

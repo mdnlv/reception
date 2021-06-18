@@ -9,6 +9,7 @@ import ExitIcon from '../../../assets/icons/exit.svg';
 import './styles.scss';
 import { Modal } from 'antd';
 import {actionTicket, fetchItem} from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import moment from 'moment';
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 import { ActionPost } from '../ScheduleTable/types';
@@ -38,6 +39,8 @@ const AppHeaderBar: FC = () => {
   });
   const [ok, setOk] = useState(false);
   const dispatch = useDispatch()
+  const cd = useSelector((state: RootState) => state.schedule.currentDate);
+  const ed = useSelector((state: RootState) => state.schedule.rangeWeekDate);
 
   const logoClickHandler = useCallback(() => {
     navigation.push('/');
@@ -61,7 +64,7 @@ const AppHeaderBar: FC = () => {
 
   const actTicket = (data: ActionPost, id: number) => {
     setOk(true);
-    dispatch(actionTicket(data));
+    dispatch(actionTicket({data: data, id: [id], beg_date: moment(cd).format('YYYY-MM-DD'), end_date:  moment(ed).format('YYYY-MM-DD')}));
     setIsModalLoading(true);
     setShowAppointment(false); 
   };

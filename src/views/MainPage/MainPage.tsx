@@ -16,6 +16,7 @@ import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoC
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
 import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferredCallsSlice";
+import { ActionPost } from '../../components/elements/ScheduleTable/types';
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
@@ -45,8 +46,13 @@ const MainPage: FC = () => {
     }));
   }, []);
 
-  const postTicket = useCallback((data) => {
-    dispatch(actionTicket(data));
+  const postTicket = useCallback((data: ActionPost, id:number[], beg_date: string, end_date: string) => {
+    dispatch(actionTicket({
+      data: data,
+      id: id,
+      beg_date: beg_date,
+      end_date: end_date
+    }));
   }, []);
 
   useEffect(() => {

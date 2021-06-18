@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import {useSelector} from "react-redux";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { addDays, eachDayOfInterval } from 'date-fns';
 import {Row, Col, Spin} from "antd";
 import moment from "moment";
@@ -11,6 +11,7 @@ import {RootState} from "../../../reduxStore/store";
 import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
 import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
+import { setDates } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
@@ -22,7 +23,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const [currentDay, setCurrentDay] = useState(new Date());
   const [length, setLength] = useState('week');
   const startHour = 8;
-  const endHour = 18;
+  const endHour = 20;
+  const dispatch = useDispatch()
+
+
+  useEffect(()=>{
+    dispatch(setDates({cd: currentDate, ed: rangeWeekDate}));
+  },[rangeWeekDate])
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -61,7 +68,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   return (
     <div className={'schedule-table'}>
       { isLoading ? (
-        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '30px'}}>
           <Spin/>
         </div>
       ) : (
