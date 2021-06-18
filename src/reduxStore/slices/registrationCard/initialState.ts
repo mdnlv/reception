@@ -1,6 +1,6 @@
 import {PersonAddHospitalization} from '../../../components/forms/AdditionalHospitalizationForm/types';
 import {PersonAttachment, PersonAttachmentDeleted} from '../../../components/forms/AttachmentsForm/types';
-import {EmploymentHazardItem, EmploymentItem} from '../../../components/forms/EmploymentForm/types';
+import {EmploymentItem, EmploymentItemDeleted} from '../../../components/forms/EmploymentForm/types';
 import {EtcItem} from '../../../components/forms/EtcForm/types';
 import {
   AnthropometricDataItem,
@@ -64,7 +64,7 @@ const initialState: RegistrationCardStateType = {
     },
     employment: {
       employment: [] as EmploymentItem[],
-      hazardHistory: [] as EmploymentHazardItem[],
+      deleted: [] as EmploymentItemDeleted[],
     },
     etc: {
       items: [] as EtcItem[],
@@ -214,7 +214,7 @@ const initialState: RegistrationCardStateType = {
     },
     employment: {
       employment: [] as EmploymentItem[],
-      hazardHistory: [] as EmploymentHazardItem[],
+      deleted: [] as EmploymentItemDeleted[],
     },
     etc: {
       items: [] as EtcItem[],

@@ -6,11 +6,16 @@ export interface EmploymentItem {
   inn: string;
   ogrn: string;
   deleted?: 0 | 1;
+  hazardHistory: EmploymentHazardItem[];
+  hazardFactors: HazardFactorItem[];
 }
 
 export interface EmploymentHazardItem {
   hazardDescription: string;
   exp: number;
+}
+
+export interface HazardFactorItem {
   factor: string;
 }
 

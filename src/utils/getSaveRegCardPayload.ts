@@ -229,21 +229,38 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       })),
     ],
 
-    client_work_info: state.registrationCard.form.employment.employment.map((item) => ({
-      ...(item.id && {id: item.id}),
-      ...(item.organization && {org_id: parseInt(item.organization)}),
-      post: item.position,
-      stage: item.experience,
-      freeInput: item.freeInput || "",
-      client_work_hurt_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
-        hurtType_id: parseInt(item.hazardDescription),
-        stage: item.hazardExp
+    client_work_info: [
+      ...state.registrationCard.form.employment.employment.map((item) => ({
+        ...(item.id && {id: item.id}),
+        ...(item.organization && {org_id: parseInt(item.organization)}),
+        post: item.position,
+        stage: item.experience,
+        freeInput: item.freeInput || "",
+        client_work_hurt_info: item.hazardHistory.map((a) => ({
+          hurtType_id: parseInt(a.hazardDescription),
+          stage: a.hazardExp
+        })),
+        client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
+          factorType_id: parseInt(b.factor)
+        })),
+        deleted: 0 as 0,
       })),
-      client_work_hurt_factor_info: state.registrationCard.form.employment.hazardHistory.map((item) => ({
-        factorType_id: parseInt(item.factor)
-      })),
-      deleted: item.deleted,
-    })),
+      ...state.registrationCard.form.employment.deleted.map((item) => ({
+        ...(item.id && {id: item.id}),
+        ...(item.organization && {org_id: parseInt(item.organization)}),
+        post: item.position,
+        stage: item.experience,
+        freeInput: item.freeInput || "",
+        client_work_hurt_info: item.hazardHistory.map((a) => ({
+          hurtType_id: parseInt(a.hazardDescription),
+          stage: a.hazardExp
+        })),
+        client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
+          factorType_id: parseInt(b.factor)
+        })),
+        deleted: 1 as 1,
+      }))
+    ],
 
     client_attach_info: [
       ...state.registrationCard.form.attachments.attachments.map(

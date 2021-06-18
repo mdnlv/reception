@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
-import { Col, Divider, Row, Select } from 'antd';
+import React, { useCallback, useEffect } from 'react';
+import { Col, Row, Select, Button} from 'antd';
 import { useFormikContext } from 'formik';
+import {CloseCircleOutlined} from "@ant-design/icons";
 
-import { DROPDOWN_TITLE, LABELS, ListOptionProps, SectionProps } from './types';
-import { EmploymentHazardItem } from '../../types';
+import {DROPDOWN_TITLE_HAZARD, DROPDOWN_TITLE_FACTOR, LABELS, ListOptionProps, SectionProps} from './types';
+import { EmploymentHazardItem, HazardFactorItem } from '../../types';
 import { WizardStateType } from '../../../../types';
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
@@ -13,33 +14,49 @@ import FastInputNumber from '../../../../../../components/fields/FastInputNumber
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 
 const Hazard: React.FC<SectionProps> = ({
+  index,
   hurtTypesList,
   hurtFactorTypesList,
   isLoadingHurtTypes,
   isLoadingHurtFactorTypes
 }) => {
   const form = useFormikContext<WizardStateType>();
-  const formValues = form.values.employment.hazardHistory;
-  const selectionValuePath = `employment.hazardHistory`;
+  const formValuesHazard = form.values.employment.employment[index].hazardHistory;
+  const formValuesFactors = form.values.employment.employment[index].hazardFactors;
+  const selectionValuePathHazard = `employment.employment[${index}].hazardHistory`;
+  const selectionValuePathFactors = `employment.employment[${index}].hazardFactors`;
 
   const onAddHazard = useCallback(() => {
     const hazardItem: EmploymentHazardItem = {
       hazardDescription: '',
       exp: 0,
+    };
+    form.setFieldValue(selectionValuePathHazard, [...formValuesHazard, hazardItem]);
+  }, [formValuesHazard]);
+
+  const onAddFactor = useCallback(() => {
+    const factorItem: HazardFactorItem = {
       factor: ''
     };
-    form.setFieldValue(selectionValuePath, [...formValues, hazardItem]);
-  }, [formValues]);
+    form.setFieldValue(selectionValuePathFactors, [...formValuesFactors, factorItem]);
+  }, [formValuesFactors]);
 
-  const onRemoveHazard = useCallback(() => {
-    form.setFieldValue(
-      selectionValuePath,
-      formValues.slice(0, formValues.length - 1),
-    );
-  }, [formValues]);
+  const onRemoveHazard = useCallback((index: number) => {
+    const newArr = formValuesHazard.filter((item, i) => i !== index);
+    form.setFieldValue(selectionValuePathHazard, newArr);
+  }, [formValuesHazard]);
 
-  const getSectionPath = useCallback((index: number, fieldChain: string) => {
-    return `${selectionValuePath}[${index}].${fieldChain}`;
+  const onRemoveFactor = useCallback((index: number) => {
+    const newArr = formValuesFactors.filter((item, i) => i !== index);
+    form.setFieldValue(selectionValuePathFactors, newArr);
+  }, [formValuesFactors]);
+
+  const getSectionPathHazard = useCallback((index: number, fieldChain: string) => {
+    return `${selectionValuePathHazard}[${index}].${fieldChain}`;
+  }, []);
+
+  const getSectionPathFactors = useCallback((index: number, fieldChain: string) => {
+    return `${selectionValuePathFactors}[${index}].${fieldChain}`;
   }, []);
 
   const propsList = useCallback((items: ListOptionProps[]) => {
@@ -55,50 +72,77 @@ const Hazard: React.FC<SectionProps> = ({
 
   return (
     <div className={'form-section person-hazard'}>
-      <DropDownContent title={DROPDOWN_TITLE}>
+      <DropDownContent title={DROPDOWN_TITLE_HAZARD}>
         <ArrayFieldWrapper
-          values={formValues}
-          name={selectionValuePath}
+          values={formValuesHazard}
+          name={selectionValuePathHazard}
           onAddItem={onAddHazard}
-          onRemoveItem={onRemoveHazard}
           showActions
           renderChild={(hazard, index) => (
             <div key={index}>
               <Row gutter={16}>
-                <Col span={16}>
-                  <FormField label={LABELS.HAZARD} name={getSectionPath(index, 'hazardDescription')}>
+                <Col span={15}>
+                  <FormField label={LABELS.HAZARD} name={getSectionPathHazard(index, 'hazardDescription')}>
                     <FastSearchSelect
                       filterOption
                       optionFilterProp={'name'}
                       showSearch
                       loading={isLoadingHurtTypes}
-                      name={getSectionPath(index, 'hazardDescription')}>
+                      name={getSectionPathHazard(index, 'hazardDescription')}>
                       {propsList(hurtTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
                 <Col span={4}>
                   <FormField label={LABELS.EXPERIENCE}>
-                    <FastInputNumber name={getSectionPath(index, 'exp')} />
+                    <FastInputNumber name={getSectionPathHazard(index, 'exp')} />
                   </FormField>
                 </Col>
+                <Col span={1}>
+                  <Button
+                    type={'link'}
+                    size={'small'}
+                    shape="circle"
+                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                    onClick={onRemoveHazard.bind(this, index)}
+                  />
+                </Col>
               </Row>
-              <Divider />
+            </div>
+          )}
+        />
+      </DropDownContent>
+      <DropDownContent title={DROPDOWN_TITLE_FACTOR}>
+        <ArrayFieldWrapper
+          values={formValuesFactors}
+          name={selectionValuePathFactors}
+          onAddItem={onAddFactor}
+          showActions
+          renderChild={(factor, index) => (
+            <div key={index}>
               <Row>
-                <Col span={12}>
-                  <FormField label={LABELS.FACTOR} name={getSectionPath(index, 'factor')}>
+                <Col span={11}>
+                  <FormField label={LABELS.FACTOR} name={getSectionPathFactors(index, 'factor')}>
                     <FastSearchSelect
                       filterOption
                       optionFilterProp={'name'}
                       showSearch
                       loading={isLoadingHurtFactorTypes}
-                      name={getSectionPath(index, 'factor')}>
+                      name={getSectionPathFactors(index, 'factor')}>
                       {propsList(hurtFactorTypesList)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
+                <Col span={1}>
+                  <Button
+                    type={'link'}
+                    size={'small'}
+                    shape="circle"
+                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                    onClick={onRemoveFactor.bind(this, index)}
+                  />
+                </Col>
               </Row>
-              <Divider />
             </div>
           )}
         />

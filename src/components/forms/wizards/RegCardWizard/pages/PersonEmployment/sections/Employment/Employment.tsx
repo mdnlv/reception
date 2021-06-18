@@ -1,11 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Col, Row, Select } from 'antd';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { Col, Row, Select, Button, Divider} from 'antd';
 import { useFormikContext } from 'formik';
+import {CloseCircleOutlined} from "@ant-design/icons";
+import {useSelector} from "react-redux";
 
 import { LABELS, ListOptionProps, SectionProps } from './types';
 import { EmploymentItem } from '../../types';
 import { WizardStateType } from '../../../../types';
+import {
+  detailedHurtFactorTypesSelector,
+  detailedHurtTypesSelector,
+  hazardLoadingsSelector,
+} from "../../../../../../../../reduxStore/slices/rb/selectors";
 
+import Hazard from "../Hazard/Hazard";
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
 import FastInput from '../../../../../../components/fields/FastInput/FastInput';
@@ -14,17 +22,14 @@ import FastInputNumber from '../../../../../../components/fields/FastInputNumber
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 
 const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
+  const hurtTypesList = useSelector(detailedHurtTypesSelector);
+  const hurtFactorTypesList = useSelector(detailedHurtFactorTypesSelector);
+  const loadings = useSelector(hazardLoadingsSelector);
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.employment.employment;
+  const formValuesRemoved = form.values.employment.deleted;
   const formInitialValues = form.initialValues.employment.employment;
   const sectionValuePath = `employment.employment`;
-  const [filtered, setFiltered] = useState([] as EmploymentItem[]);
-
-  useEffect(() => {
-    const result = formValues.filter((item) => item.deleted !== 1);
-    //@ts-ignore
-    setFiltered(result);
-  }, [formValues]);
 
   useEffect(() => {
     changeFieldsById(formInitialValues)
@@ -55,12 +60,19 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
       inn: '',
       ogrn: '',
       deleted: 0,
+      hazardHistory: [],
+      hazardFactors: [],
     };
     form.setFieldValue(sectionValuePath, [...formValues, employment]);
   }, [formValues]);
 
-  const onRemoveEmployment = useCallback(() => {
+  const onRemoveEmployment = useCallback((index: number) => {
+    const result = formValues[index];
+    const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
+    const newArr = formValues.filter((item, i) => i !== index);
     form.setFieldValue(`${sectionValuePath}[${formValues.length - 1}].deleted`, 1);
+    form.setFieldValue('employment.deleted', newRemovedArr);
+    form.setFieldValue('employment.employment', newArr);
   }, [formValues]);
 
   const propsList = useCallback((items: ListOptionProps[]) => {
@@ -74,10 +86,9 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const EmploymentValue = useMemo(() => {
     return (
       <ArrayFieldWrapper
-        values={filtered}
+        values={formValues}
         name={sectionValuePath}
         onAddItem={onAddEmployment}
-        onRemoveItem={onRemoveEmployment}
         showActions
         renderChild={(key, index) => (
           <div key={index}>
@@ -107,7 +118,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
                   />
                 </FormField>
               </Col>
-              <Col span={8}>
+              <Col span={7}>
                 <FormField label={LABELS.INN}>
                   <FastInput name={getSelectionPath(index, 'inn')} />
                 </FormField>
@@ -115,7 +126,24 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
                   <FastInput name={getSelectionPath(index, 'ogrn')} />
                 </FormField>
               </Col>
+              <Col span={1}>
+                <Button
+                  type={'link'}
+                  size={'small'}
+                  shape="circle"
+                  icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                  onClick={onRemoveEmployment.bind(this, index)}
+                />
+              </Col>
             </Row>
+            <Hazard
+              hurtTypesList={hurtTypesList}
+              hurtFactorTypesList={hurtFactorTypesList}
+              isLoadingHurtTypes={loadings.types}
+              isLoadingHurtFactorTypes={loadings.factorTypes}
+              index={index}
+            />
+            <Divider />
           </div>
         )}
       />

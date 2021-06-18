@@ -406,14 +406,21 @@ const registrationCardSlice = createSlice({
               givenBy: item.document.origin,
             } : {}
           ));
-          // @ts-ignore
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
             id: item.id,
             organization: item.id ? item.id.toString() : item.freeInput,
             position: item.post,
             experience: item.stage,
-            deleted: item.deleted,
+            freeInput: item.freeInput,
+            deleted: 0,
+            hazardHistory: item.client_work_hurt_info ? item.client_work_hurt_info.map((a) => ({
+              hazardDescription: a.hurtTypeId.toString(),
+              hazardExp: a.stage
+            })) : [],
+            hazardFactors: item.client_work_hurt_factor_info ? item.client_work_hurt_factor_info.map((b) => ({
+              factor: b.factorTypeId.toString()
+            })) : [],
           })
         );
         //@ts-ignore

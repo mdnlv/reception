@@ -1,11 +1,10 @@
-export const DROPDOWN_TITLE = 'Вредность';
+export const DROPDOWN_TITLE_HAZARD = 'Вредность';
+export const DROPDOWN_TITLE_FACTOR = 'Фактор';
 
 export enum LABELS {
   HAZARD = 'Вредность',
   EXPERIENCE = 'Опыт',
   FACTOR = 'Фактор',
-  ORG = 'Организация',
-  POSITION = 'Должность',
 }
 
 export interface ListOptionProps {
@@ -16,8 +15,7 @@ export interface ListOptionProps {
 export interface SectionProps {
   hurtTypesList: ListOptionProps[];
   hurtFactorTypesList: ListOptionProps[];
-  orgsList: ListOptionProps[];
-  isLoadingOrgs: boolean;
   isLoadingHurtTypes: boolean;
   isLoadingHurtFactorTypes: boolean;
+  index: number;
 }
