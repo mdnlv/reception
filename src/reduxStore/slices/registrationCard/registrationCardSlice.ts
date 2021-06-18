@@ -423,15 +423,6 @@ const registrationCardSlice = createSlice({
             })) : [],
           })
         );
-        //@ts-ignore
-        state.initialFormState.employment.hazardHistory = transformedPatient.work.map(
-          (item, index) => (item.client_work_hurt_info && item.client_work_hurt_factor_info && {
-            id: item.id,
-            hazardDescription: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].hurtTypeId.toString() : '',
-            hazardExp: item.client_work_hurt_info.length > 0 ? item.client_work_hurt_info[index].stage : 0,
-            factor: item.client_work_hurt_factor_info.length > 0 ? item.client_work_hurt_factor_info[index].factorTypeId.toString() : ''
-          })
-        );
         state.initialFormState.passportGeneral.contacts.contacts = transformedPatient.contacts.map(
           (item) => ({
             id: item.id,

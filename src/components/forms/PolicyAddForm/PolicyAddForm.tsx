@@ -48,10 +48,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   useEffect(() => {
-    console.log('cmoType', cmoType);
-  }, [cmoType]);
-
-  useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
   }, [id]);
 

@@ -19,7 +19,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     notes: item.notes,
     chartBeginDate: item.chartBeginDate ? parseISO(item.chartBeginDate) : '',
 
-    work: item.client_work_info[0].org_id && item.client_work_info[0].freeInput
+    work: item.client_work_info[0].org_id || item.client_work_info[0].freeInput
       ? item.client_work_info.map(item => ({
           itemId: item.id,
           id: item.org_id,
