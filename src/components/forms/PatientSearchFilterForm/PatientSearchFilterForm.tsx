@@ -136,9 +136,7 @@ const PatientSearchFilterForm: React.FC<FormProps> = ({
               <Button
                 type={'primary'}
                 onClick={() => {
-                  if (onClearForm) {
-                    onClearForm();
-                  }
+                  formProps.resetForm();
                 }}
                 danger>
                 Сбросить
