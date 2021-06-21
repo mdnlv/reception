@@ -32,10 +32,6 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const sectionValuePath = `employment.employment`;
 
   useEffect(() => {
-    console.log('form.values', form.values.employment)
-  }, [form.values]);
-
-  useEffect(() => {
     changeFieldsById(formInitialValues)
   }, [orgsList.length > 0 && orgsList]);
 

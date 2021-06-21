@@ -133,7 +133,7 @@ export default interface NewPatientPayload {
     attachType_id: number;
     begDate: string;
     orgStructure_id: number;
-    reason: number;
+    detachment_id: number | null;
     deleted?: 0 | 1;
   }[];
 
