@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Descriptions, List } from 'antd/lib';
 import { useSelector } from 'react-redux';
 import {format} from 'date-fns';
@@ -6,12 +6,28 @@ import {format} from 'date-fns';
 import './styles.scss';
 import { PaneProps, PatientPolicyPane } from './types';
 import {kladrSelector} from '../../../../../../reduxStore/slices/registrationCard/selectors';
+import {
+  detailedDocumentTypesSelector,
+  detailedAttachTypesSelector,
+  detailedOrganisationsSelector,
+  detailedOrgStructureSelector,
+} from "../../../../../../reduxStore/slices/rb/selectors";
 import {getAddress} from "../../../../../../utils/getAddress";
+import PatientAttach from "../../../../../../types/data/PatientAttach";
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
     kladrSelector,
   );
+  const documentTypesList = useSelector(detailedDocumentTypesSelector);
+  const attachTypes = useSelector(detailedAttachTypesSelector);
+  const orgs = useSelector(detailedOrganisationsSelector);
+  const orgStructure = useSelector(detailedOrgStructureSelector);
+
+  const getDocumentType = (type: string) => {
+    const typeData = parseInt(type);
+    return documentTypesList.find((item) => item.id === typeData)?.name;
+  }
 
   const getMainPolicy = () => {
     let policyOms: PatientPolicyPane;
@@ -58,6 +74,17 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     );
   };
 
+  const getAttaches = (data: PatientAttach[]) => {
+    const result = data.map((item, index) => (
+      `${getAttachData(item.type, attachTypes)} ${getAttachData(item.lpu, orgs)} ${getAttachData(item.unit, orgStructure)}${index + 1 !== data.length ? ', ' : ''}`
+    ));
+    return result.join('');
+  };
+
+  const getAttachData = (id: number, data: {id: number; name: string}[]) => {
+    return data.find((item) => item.id === id)?.name;
+  };
+
   return (
     <div className={'person-info-tabs__pane person-info-pane'}>
       <Descriptions column={1}>
@@ -70,8 +97,14 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
         <Descriptions.Item label={'Код'}>
           {patient?.code}
         </Descriptions.Item>
+        <Descriptions.Item label={'Прикрепление'}>
+          {getAttaches(patient?.attachments || [])}
+        </Descriptions.Item>
         <Descriptions.Item label={'Полис ОМС'}>
           {getPolicyString()}
+        </Descriptions.Item>
+        <Descriptions.Item label={'Документ'}>
+          {getDocumentType(patient?.client_document_info?.passportType || '1')} {patient?.client_document_info?.serial} {patient?.client_document_info?.number}
         </Descriptions.Item>
         <Descriptions.Item label={'Адрес проживания'}>
           {getAddress(patient, 0, rbKladrRegistration, rbKladrStreetsRegistration)}
