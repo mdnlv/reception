@@ -94,8 +94,8 @@ const Hazard: React.FC<SectionProps> = ({
                   </FormField>
                 </Col>
                 <Col span={4}>
-                  <FormField label={LABELS.EXPERIENCE}>
-                    <FastInputNumber name={getSectionPathHazard(index, 'exp')} />
+                  <FormField label={LABELS.EXPERIENCE} name={getSectionPathHazard(index, 'hazardExp')}>
+                    <FastInputNumber name={getSectionPathHazard(index, 'hazardExp')}/>
                   </FormField>
                 </Col>
                 <Col span={1}>

@@ -21,8 +21,8 @@ export const transformPatientResponse = (item: PatientResponse) => {
 
     work: item.client_work_info[0].org_id || item.client_work_info[0].freeInput
       ? item.client_work_info.map(item => ({
-          itemId: item.id,
-          id: item.org_id,
+          id: item.id,
+          orgId: item.org_id,
           freeInput: item.freeInput,
           post: item.post,
           stage: item.stage,

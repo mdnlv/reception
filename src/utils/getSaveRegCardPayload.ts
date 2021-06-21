@@ -257,13 +257,13 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         freeInput: item.freeInput || "",
         client_work_hurt_info: item.hazardHistory.map((a) => ({
           ...(a.id && {id: a.id}),
-          ...(item.id && {master_id: item.id}),
+          ...(a.master_id && {master_id: a.master_id}),
           hurtType_id: parseInt(a.hazardDescription),
           stage: a.hazardExp
         })),
         client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
           ...(b.id && {id: b.id}),
-          ...(item.id && {master_id: item.id}),
+          ...(b.master_id && {master_id: b.master_id}),
           factorType_id: parseInt(b.factor)
         })),
         deleted: 1 as 1,

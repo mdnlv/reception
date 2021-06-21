@@ -409,7 +409,7 @@ const registrationCardSlice = createSlice({
         state.initialFormState.employment.employment = transformedPatient.work.map(
           (item) => ({
             id: item.id,
-            organization: item.id ? item.id.toString() : item.freeInput,
+            organization: item.orgId ? item.orgId.toString() : '',
             position: item.post,
             experience: item.stage,
             freeInput: item.freeInput,

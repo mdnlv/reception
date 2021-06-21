@@ -32,6 +32,10 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
   const sectionValuePath = `employment.employment`;
 
   useEffect(() => {
+    console.log('form.values', form.values.employment)
+  }, [form.values]);
+
+  useEffect(() => {
     changeFieldsById(formInitialValues)
   }, [orgsList.length > 0 && orgsList]);
 
@@ -96,6 +100,7 @@ const Employment: React.FC<SectionProps> = ({orgsList, isLoadingOrgs}) => {
               <Col span={8} className={'col--border-right'}>
                 <FormField label={LABELS.ORG} name={getSelectionPath(index, 'organization')}>
                   <FastSearchSelect
+                    allowClear
                     filterOption
                     optionFilterProp={'name'}
                     loading={isLoadingOrgs}
