@@ -62,23 +62,23 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
 
     client_document_info: [
       // @ts-ignore
-      ...socialStatus.socialStatus.map((item:{
-        docType:any;
-        serialFirst:any;
-        serialSecond: any;
-        number:any;
-        date:any;
-        givenBy:any;
-        docId:any;
-      }) => ({
-        ...(item.docId && {id: item.docId}),
-        documentType_id: item.docType,
-        serial: item.serialFirst.concat(item.serialSecond),
-        number: item.number,
-        date: toServerFormat(item.date),
-        origin: item.givenBy,
-        endDate: '2200-12-12',
-      })),
+      // ...socialStatus.socialStatus.map((item:{
+      //   docType:any;
+      //   serialFirst:any;
+      //   serialSecond: any;
+      //   number:any;
+      //   date:any;
+      //   givenBy:any;
+      //   docId:any;
+      // }) => ({
+      //   ...(item.docId && {id: item.docId}),
+      //   documentType_id: item.docType,
+      //   serial: item.serialFirst.concat(item.serialSecond),
+      //   number: item.number,
+      //   date: toServerFormat(item.date),
+      //   origin: item.givenBy,
+      //   endDate: '2200-12-12',
+      // })),
       {
         ...(id && {id}),
         documentType_id: passportType,

@@ -23,25 +23,31 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
     }
   };
 
+  const getNameItem = (item: string) => {
+    const itemArr = item.match(/[^ ]+/g);
+    itemArr?.splice(0, 2);
+    return itemArr?.join(' ');
+  };
+
   const getErrorNames = useCallback((obj) => {
     const errNameArr = [] as string[];
     for (let key in obj) {
       const item = obj[key];
       if (typeof item === 'string') {
-        errNameArr.push(item.charAt(0).toLowerCase() + item.slice(1));
+        errNameArr.push(getNameItem(item) || '');
       } else if (Array.isArray(item)) {
         for (let i = 0; i < item.length; i++) {
           for (let innerKey in item[i]) {
             const innerItem = item[i][innerKey];
             !errNameArr.includes(innerItem)
-            && errNameArr.push(innerItem.charAt(0).toLowerCase() + innerItem.slice(1));
+              && errNameArr.push(getNameItem(innerItem) || '');
           }
         }
       } else if (typeof item === 'object' && item !== null) {
         for (let innerKey in item) {
           const innerItem = item[innerKey];
           if (typeof innerItem === 'string') {
-            errNameArr.push(innerItem.charAt(0).toLowerCase() + innerItem.slice(1));
+            errNameArr.push(getNameItem(innerItem) || '');
           }
         }
       }
