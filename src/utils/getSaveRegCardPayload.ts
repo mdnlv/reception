@@ -1,5 +1,4 @@
-import moment from 'moment';
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
@@ -276,7 +275,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           ...(item.id && {id: item.id}),
           LPU_id: parseInt(item.lpu),
           attachType_id: parseInt(item.type),
-          begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+          begDate: item.fromDate ? format(item.fromDate, 'yyyy-MM-dd') : null,
+          endDate: item.endDate ? format(item.endDate, 'yyyy-MM-dd') : null,
           orgStructure_id: parseInt(item.unit),
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 0 as 0,
@@ -287,7 +287,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           ...(item.id && {id: item.id}),
           LPU_id: parseInt(item.lpu),
           attachType_id: parseInt(item.type),
-          begDate: moment(item.fromDate, 'DD.MM.YYYY').format('YYYY-MM-DD'),
+          begDate: item.fromDate ? format(item.fromDate, 'yyyy-MM-dd') : null,
+          endDate: item.endDate ? format(item.endDate, 'yyyy-MM-dd') : null,
           orgStructure_id: parseInt(item.unit),
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 1 as 1,

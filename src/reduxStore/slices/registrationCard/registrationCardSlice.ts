@@ -182,6 +182,7 @@ export const editCardPatient = createAsyncThunk(
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
     } catch (e) {
+      console.log(e)
       alert(JSON.stringify(e.response.data));
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: false }));
