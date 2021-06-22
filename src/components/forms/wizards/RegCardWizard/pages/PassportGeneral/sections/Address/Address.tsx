@@ -79,7 +79,9 @@ const Address: FC<SectionProps> = ({
         '9200000000000') {
         getKladrStreets(formValues.passportInfo[passportType].area, getType());
       } else {
-        getKladrStreets(formValues.passportInfo[passportType].city, getType());
+        formValues.passportInfo[passportType].city
+          && getType()
+          && getKladrStreets(formValues.passportInfo[passportType].city, getType());
       }
     }
   },[
