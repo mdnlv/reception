@@ -89,7 +89,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
         return (
           <Row>
             <Col span={5}>
-              <Card>
+              <Card className={'card-userInfo'}>
                 <UserInfo
                 // @ts-ignore
                   errors={errors}
