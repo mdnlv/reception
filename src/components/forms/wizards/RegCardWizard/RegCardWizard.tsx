@@ -94,7 +94,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
                 // @ts-ignore
                   errors={errors}
                   fetchDoctors={fetchDoctors}
-                  onOpen={() => setShowValidError(true)}
+                  onOpen={setShowValidError.bind(this, true)}
                 />
               </Card>
             </Col>

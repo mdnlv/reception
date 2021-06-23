@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Modal, Descriptions} from "antd";
+import {Modal, Descriptions, List} from "antd";
 
 import {ValidationModalProps} from "./types";
 
@@ -52,7 +52,14 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
         }
       }
     }
-    return errNameArr.join(', ')
+    console.log('errNameArr', errNameArr);
+    return (
+      <List
+        dataSource={errNameArr}
+        size="small"
+        renderItem={(item) => <List.Item style={{paddingTop: 0, paddingBottom: 0}}>{item}</List.Item>}
+      />
+    )
   }, [isVisible]);
 
   const modalContent = useCallback(() => {
@@ -73,6 +80,7 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
       visible={isVisible}
       title={'Незаполненные поля!'}
       footer={null}
+      bodyStyle={{overflowY: 'scroll', height: 500}}
     >
       <Descriptions column={1}>
         {modalContent()}
