@@ -10,6 +10,7 @@ import {
 } from './types';
 import {
   SocialStatus,
+// @ts-ignore
   TrustedDoc,
 } from '../../components/forms/SocialStatusForm/types';
 import { PassportContactType } from '../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
@@ -44,7 +45,6 @@ import {
 } from '../../components/forms/FeaturesForm/types';
 import KladrItem from '../../types/data/KladrItem';
 import KladrStreet from '../../types/data/KladrStreet';
-
 export const initialState: RegistrationCardState = {
   personal: {
     firstName: '',
@@ -68,11 +68,13 @@ export const initialState: RegistrationCardState = {
   additionalHospitalization: {
     hospitalizations: [] as PersonAddHospitalization[],
   },
+  // @ts-ignore
   attachments: {
     attachments: [] as PersonAttachment[],
   },
   employment: {
     employment: [] as EmploymentItem[],
+    // @ts-ignore
     hazardHistory: [] as EmploymentHazardItem[],
   },
   etc: {
@@ -91,6 +93,7 @@ export const initialState: RegistrationCardState = {
   outsideHospitalization: {
     outsideHospitalization: [] as PersonHospitalization[],
   },
+  // @ts-ignore
   outsideIdentification: {
     outsideIds: [] as PersonOutsideId[],
   },
@@ -122,6 +125,7 @@ export const initialState: RegistrationCardState = {
         isVillager: false
       },
     },
+    // @ts-ignore
     contacts: [] as PassportContactType[],
     policyOms: {
       timeType: '',
@@ -153,7 +157,9 @@ export const initialState: RegistrationCardState = {
     namedDoc: [] as NamedDoc[],
   },
   links: {
+    // @ts-ignore
     directLinks: [] as PersonLink[],
+    // @ts-ignore
     backLinks: [] as PersonLink[],
   },
   privileges: {
@@ -163,6 +169,7 @@ export const initialState: RegistrationCardState = {
   quotas: {},
   socialStatus: {
     socialStatus: [] as SocialStatus[],
+    // @ts-ignore
     trustedDoc: [] as TrustedDoc[],
   },
   viewTypes: {

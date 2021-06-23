@@ -6,6 +6,7 @@ import PatientWorkResponse from "./patientWork";
 import PatientOutsideIdsResponse from "./patientOutsideIds";
 import PatientDocumentResponse from './patientDocument';
 import PatientAttachResponse from "./patientAttach";
+import PatientRelationResponse from "./patientRelation";
 
 export default interface PatientResponse {
   id: number;
@@ -50,4 +51,5 @@ export default interface PatientResponse {
   client_work_info: PatientWorkResponse[];
   client_identification_info: PatientOutsideIdsResponse[];
   client_attach_info: PatientAttachResponse[];
+  client_relation_info: PatientRelationResponse[];
 }

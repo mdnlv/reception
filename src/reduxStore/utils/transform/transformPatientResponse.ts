@@ -131,6 +131,14 @@ export const transformPatientResponse = (item: PatientResponse) => {
       fromDate: item.begDate,
       endDate: item.endDate,
       detachmentReason: item.detachment_id,
-    }))
+    })),
+
+    relations: item.client_relation_info.map((item) => ({
+      id: item.id,
+      deleted: 0,
+      relativeTypeId: item.relativeType_id,
+      relativeId: item.relative_id,
+      clientId: item.client_id,
+    })),
   };
 }

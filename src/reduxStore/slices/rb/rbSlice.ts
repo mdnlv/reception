@@ -12,7 +12,6 @@ import InvalidDocument from '../../../types/data/InvalidDocument';
 import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
 import DetachmentReason from "../../../types/data/DetachmentReason";
-import DeferredQueueStatus from '../../../types/data/DeferredQueueStatus'
 import RbService from '../../../services/RbService';
 import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';
@@ -662,7 +661,7 @@ const rbSlice = createSlice({
       rbHurtFactorTypes: ''
     },
     rbPersons: [] as Person[],
-    rbDeferredQueueStatus: [] as DeferredQueueStatus[],
+    rbDeferredQueueStatus: [],
     rbEventTypes: [] as EventType[],
     rbOrganisations: [] as Organisation[],
     rbInvalidReasons: [] as InvalidReason[],
@@ -780,6 +779,7 @@ const rbSlice = createSlice({
 
     builder.addCase(fetchDeferredQueueStatus.fulfilled, (state, action) => {
       if (action.payload) {
+        // @ts-ignore
         state.rbDeferredQueueStatus = action.payload;
       }
     });

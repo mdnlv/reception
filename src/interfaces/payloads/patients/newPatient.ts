@@ -125,7 +125,7 @@ export default interface NewPatientPayload {
 
   client_relation_info?: {
     relativeType_id: number;
-    relative_id: number;
+    relative_id: number | null;
   }[];
 
   client_attach_info?: {

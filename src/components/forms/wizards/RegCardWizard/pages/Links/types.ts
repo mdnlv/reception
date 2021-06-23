@@ -1,5 +1,5 @@
 export interface PersonLink {
-  forwardRef: string;
+  forwardRef: number | null;
   patientLink: string;
 }
 

@@ -70,7 +70,7 @@ export const fetchFiltersPatients = createAsyncThunk(
 
 export const fetchQueryPatients = createAsyncThunk(
   'patients/fetchQueryPatients',
- 
+
   async (payload:{query:string,limit:number}, thunkAPI) => {
     thunkAPI.dispatch(setLoadingFound(true));
     try {
@@ -90,12 +90,12 @@ export const fetchQueryPatients = createAsyncThunk(
 const patientSlice = createSlice({
   name: 'patients',
   initialState: {
-    patients: [] as Patient[] | any,
+    patients: [] as Patient[],
     currentPatient: 0,
     isSearching: false,
     isLoading: false,
     isLoadingFound: false,
-    foundPatients: [] as Patient[] | any,
+    foundPatients: [] as Patient[],
   },
   reducers: {
     setCurrentPatient: (state, action: PayloadAction<number>) => {
@@ -117,22 +117,26 @@ const patientSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPatients.fulfilled, (state, action) => {
+      // @ts-ignore
       state.patients =
         action.payload?.map((item) => ({
           ...transformPatientResponse(item),
         })) || [];
     });
     builder.addCase(fetchRegPatient.fulfilled, (state, action) => {
+      // @ts-ignore
       state.patients = action.payload?.map((item) => ({
         ...transformPatientResponse(item)
       })) || [];
     });
     builder.addCase(fetchFiltersPatients.fulfilled, (state, action) => {
+      // @ts-ignore
       state.foundPatients =
         action.payload?.map((item) => transformFilterPatientResponse(item)) ||
         [];
     });
     builder.addCase(fetchQueryPatients.fulfilled, (state, action) => {
+      // @ts-ignore
       state.foundPatients =
         action.payload?.map((item) => transformFilterPatientResponse(item)) ||
         [];

@@ -61,31 +61,13 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     growth: height.toString(),
 
     client_document_info: [
-      // @ts-ignore
-      // ...socialStatus.socialStatus.map((item:{
-      //   docType:any;
-      //   serialFirst:any;
-      //   serialSecond: any;
-      //   number:any;
-      //   date:any;
-      //   givenBy:any;
-      //   docId:any;
-      // }) => ({
-      //   ...(item.docId && {id: item.docId}),
-      //   documentType_id: item.docType,
-      //   serial: item.serialFirst.concat(item.serialSecond),
-      //   number: item.number,
-      //   date: toServerFormat(item.date),
-      //   origin: item.givenBy,
-      //   endDate: '2200-12-12',
-      // })),
       {
         ...(id && {id}),
         documentType_id: passportType,
-        serial: serialFirst?.concat(serialSecond),
-        number,
+        serial: serialFirst?.concat(serialSecond) || '',
+        number: number || '',
         date: toServerFormat(fromDate),
-        origin: givenBy,
+        origin: givenBy || '',
         endDate: '2200-12-12',
       }
     ],
@@ -153,7 +135,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           },
           flat: addressRegistration.flatNumber?.toString() || '',
         },
-        isVillager: +addressRegistration.isVillager,
+        isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager : 0,
         isIdenticalAddresses: addressRegistration.isDocumentedAddress ? 1 : 0,
         freeInput: addressRegistration.freeInput,
         type: 0,
@@ -174,7 +156,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           },
           flat: documentedAddress.flatNumber?.toString() || '',
         },
-        isVillager: +documentedAddress.isVillager,
+        isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager : 0,
         freeInput: documentedAddress.freeInput,
         type: 1,
       }] : []),
@@ -204,26 +186,26 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     client_relation_info: [
       ...directLinks.directLinks.map((item) => ({
         ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink),
+        relativeType_id: parseInt(item.patientLink),
+        relative_id: item.forwardRef,
         deleted: 0,
       })),
       ...directLinks.deleted.map((item) => ({
         ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink),
+        relativeType_id: parseInt(item.patientLink),
+        relative_id: item.forwardRef,
         deleted: 1,
       })),
       ...backLinks.backLinks.map((item) => ({
         ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink),
+        relativeType_id: parseInt(item.patientLink),
+        relative_id: item.forwardRef,
         deleted: 0,
       })),
       ...backLinks.deleted.map((item) => ({
         ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.forwardRef),
-        relative_id: parseInt(item.patientLink),
+        relativeType_id: parseInt(item.patientLink),
+        relative_id: item.forwardRef,
         deleted: 1,
       })),
     ],
@@ -254,12 +236,14 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         post: item.position,
         stage: item.experience,
         freeInput: item.freeInput || "",
+        //@ts-ignore
         client_work_hurt_info: item.hazardHistory.map((a) => ({
           ...(a.id && {id: a.id}),
           ...(a.master_id && {master_id: a.master_id}),
           hurtType_id: parseInt(a.hazardDescription),
           stage: a.hazardExp
         })),
+        //@ts-ignore
         client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
           ...(b.id && {id: b.id}),
           ...(b.master_id && {master_id: b.master_id}),
@@ -275,8 +259,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           ...(item.id && {id: item.id}),
           LPU_id: parseInt(item.lpu),
           attachType_id: parseInt(item.type),
-          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : null,
-          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : null,
+          //@ts-ignore
+          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
+          //@ts-ignore
+          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
           orgStructure_id: parseInt(item.unit),
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 0 as 0,
@@ -287,8 +273,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           ...(item.id && {id: item.id}),
           LPU_id: parseInt(item.lpu),
           attachType_id: parseInt(item.type),
-          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : null,
-          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : null,
+          //@ts-ignore
+          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
+          //@ts-ignore
+          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
           orgStructure_id: parseInt(item.unit),
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 1 as 1,

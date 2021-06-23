@@ -2,7 +2,8 @@ import {Modify} from "../../../types/modify";
 
 export interface PersonLink {
     id?: number;
-    forwardRef: string
+    forwardRef: number | null;
+    refName: string;
     patientLink: string;
     deleted?: 0;
 }

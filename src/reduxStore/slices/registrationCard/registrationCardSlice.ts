@@ -13,6 +13,7 @@ import { transformPatientResponse } from '../../utils/transform/transformPatient
 import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
+import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -463,6 +464,30 @@ const registrationCardSlice = createSlice({
             deleted: item.deleted,
           })
         );
+        state.initialFormState.links.directLinks.directLinks = transformedPatient.relations.reduce((res: PersonLink[], item) => {
+            if (item.clientId === transformedPatient.code) {
+              res.push({
+                id: item.id,
+                forwardRef: item.relativeId,
+                refName: '',
+                patientLink: item.relativeTypeId < 10 ? '0' + item.relativeTypeId.toString() : item.relativeTypeId.toString(),
+                deleted: 0
+              });
+            }
+            return res
+          }, []);
+        state.initialFormState.links.backLinks.backLinks = transformedPatient.relations.reduce((res: PersonLink[], item) => {
+          if (item.clientId !== transformedPatient.code) {
+            res.push({
+              id: item.id,
+              forwardRef: item.relativeId,
+              refName: '',
+              patientLink: item.relativeTypeId < 10 ? '0' + item.relativeTypeId.toString() : item.relativeTypeId.toString(),
+              deleted: 0
+            });
+          }
+          return res
+        }, []);
       }
     });
     builder.addCase(fetchKladr.fulfilled, (state, action) => {

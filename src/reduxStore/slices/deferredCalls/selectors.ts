@@ -29,6 +29,7 @@ export const detailedDeferredCalls = createSelector([orgs, persons, deferredSele
           maxDate: item.maxDate,
           person: item.person,
           netrica: item.netrica,
+          // @ts-ignore
           status: status?.name,
           org: org ? org.name : '',
           contact: item.contact,

@@ -14,7 +14,7 @@ const PersonHazard: FC = () => {
     return (
         <div className={'form-section person-hazard'}>
             <DropDownContent title={'Вредность'}>
-                <FormArrayField values={form.values.hazardHistory} name={'hazardHistory'} renderChild={
+                <FormArrayField values={form.values.employment[0].hazardHistory} name={'hazardHistory'} renderChild={
                     (key: string, index) => (
                        <Row gutter={16} key={key}>
                            <Col span={16}>

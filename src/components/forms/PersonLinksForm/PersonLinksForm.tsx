@@ -21,7 +21,7 @@ const PersonLinksForm: FC = () => {
               <Row>
                 <Col span={24}>
                   <FormArrayField
-                    values={formProps.values.directLinks}
+                    values={formProps.values.directLinks.directLinks}
                     name={'directLinks'}
                     renderChild={(key, index) => (
                       <Row gutter={16}>
@@ -44,7 +44,7 @@ const PersonLinksForm: FC = () => {
               <Row>
                 <Col span={24}>
                   <FormArrayField
-                    values={formProps.values.backLinks}
+                    values={formProps.values.backLinks.backLinks}
                     name={'backLinksn'}
                     renderChild={(key, index) => (
                       <Row gutter={16}>

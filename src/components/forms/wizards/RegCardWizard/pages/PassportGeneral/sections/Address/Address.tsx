@@ -38,6 +38,14 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
+  // useEffect(() => {
+  //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);
+  // }, [formValues.passportInfo.documentedAddress]);
+  //
+  // useEffect(() => {
+  //   console.log('formValues.addressRegistration', formValues.passportInfo.addressRegistration);
+  // }, [formValues.passportInfo.addressRegistration]);
+
   useEffect(() => {
     id === 'new' &&  form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
   }, [id]);

@@ -3,7 +3,7 @@ import {Col, DatePicker, Input, Row, Select} from 'antd'
 import {useFormikContext} from "formik";
 import moment from "moment";
 
-import {FormState, TrustedDoc} from "../../../types";
+import {FormState} from "../../../types";
 
 import FormField from "../../../../components/FormField/FormField";
 import DropDownContent from "../../../../../elements/DropDownContent/DropDownContent";
@@ -15,7 +15,7 @@ const SocialStatusDoc: FC = () => {
     return (
         <div className={'form-section social-status-doc'}>
             <DropDownContent title={'Документ, подтверждающий соц.статус'}>
-                <FormArrayField<TrustedDoc>
+                <FormArrayField<any>
                 // @ts-ignore
                   values={form.values.trustedDoc}
                   name={'trustedDoc'}
@@ -49,7 +49,7 @@ const SocialStatusDoc: FC = () => {
                                 <Col span={3}>
                                     <FormField label={'Дата'}>
                                         <DatePicker
-                                           // @ts-ignore 
+                                           // @ts-ignore
                                           value={moment(form?.values?.trustedDoc[index]?.date)}
                                           onChange={(_,date) => {
                                             form.setFieldValue(`trustedDoc[${index}].date`, date)

@@ -11,7 +11,8 @@ import {
 import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
-import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType'
+import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType';
+import Patient from "../../../../../../types/data/Patient";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -26,27 +27,40 @@ const Links: React.FC = () => {
   const sectionValuePath = `links`;
   const patientSex = form.values.personal.sex
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
-  const  patients = useSelector((state: RootState) => state.patients.foundPatients );
+  const patients = useSelector((state: RootState) => state.patients.foundPatients );
+
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
+
+  useEffect(() => {
+    console.log('patients', patients);
+  }, [patients]);
+
+  useEffect(() => {
+    console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
+  }, [rbRelationTypesDirectLink]);
 
   useEffect(()=>{
     dispatch(fetchRbRelationTypes({sex:patientSex}))
-    form.setFieldValue(
-      `links.directLinks.directLinks`,
-      formValues.directLinks.directLinks.slice(
-        formValues.directLinks.directLinks.length, formValues.directLinks.directLinks.length - 1
-      ),
-    );
-    form.setFieldValue(
-      `links.backLinks.backLinks`,
-      formValues.backLinks.backLinks.slice(
-        formValues.backLinks.backLinks.length, formValues.backLinks.backLinks.length - 1
-      ),
-    );
+    // form.setFieldValue(
+    //   `links.directLinks.directLinks`,
+    //   formValues.directLinks.directLinks.slice(
+    //     formValues.directLinks.directLinks.length, formValues.directLinks.directLinks.length - 1
+    //   ),
+    // );
+    // form.setFieldValue(
+    //   `links.backLinks.backLinks`,
+    //   formValues.backLinks.backLinks.slice(
+    //     formValues.backLinks.backLinks.length, formValues.backLinks.backLinks.length - 1
+    //   ),
+    // );
   },[patientSex])
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
-      forwardRef: '',
+      forwardRef: null,
+      refName: '',
       patientLink: '',
       deleted: 0,
     };
@@ -87,7 +101,7 @@ const Links: React.FC = () => {
     [],
   );
 
-  const getSearchOptions = ((props:[]) =>{
+  const getSearchOptions = ((props: Patient[]) =>{
      return props.map(({fullName})=>{return {value:fullName}})
        })
 
@@ -97,7 +111,7 @@ const Links: React.FC = () => {
 
   const getSelectionPath = (index: number, linkType:string, fieldChain: string) => {
 
-    return `${sectionValuePath}.${linkType}[${index}].${fieldChain}`;
+    return `${sectionValuePath}.${linkType}.${linkType}[${index}].${fieldChain}`;
   };
 
   return (
@@ -116,25 +130,28 @@ const Links: React.FC = () => {
                   <Row key={index} gutter={16}>
                     <Col span={5}>
                       <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'directLinks', 'patientLink')}>
-                      <FastSearchSelect
-                      loading={false}
-                      showSearch
-                      filterOption
-                      optionFilterProp={'directLinks'}
-                    name={getSelectionPath(index, 'directLinks', 'patientLink')}
-                      >
-                        {getPropsOptions(rbRelationTypesDirectLink, 'directConnection')}
+                        <FastSearchSelect
+                          loading={false}
+                          showSearch
+                          filterOption
+                          optionFilterProp={'directLinks'}
+                          name={getSelectionPath(index, 'directLinks', 'patientLink')}
+                        >
+                          {getPropsOptions(rbRelationTypesDirectLink, 'directConnection')}
                         </FastSearchSelect>
                       </FormField>
                     </Col>
                     <Col span={7}>
-                      <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'directLinks', 'forwardRef')}>
+                      <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'directLinks', 'refName')}>
                         <AutoCompleteInput
-                        onSearch={searchPatients}
-                        options={getSearchOptions(patients)}
-                        name={getSelectionPath(index, 'directLinks', 'forwardRef')}
+                          onSearch={searchPatients}
+                          options={getSearchOptions(patients)}
+                          name={getSelectionPath(index, 'directLinks', 'refName')}
+                          onChangeValue={(value: string) => {
+                            const result = patients.find((item) => item.fullName === value);
+                            form.setFieldValue(`links.directLinks.directLinks[${index}].forwardRef`, result?.code);
+                          }}
                         />
-
                       </FormField>
                     </Col>
                     <Col span={1}>
@@ -176,11 +193,15 @@ const Links: React.FC = () => {
                       </FormField>
                     </Col>
                     <Col span={7}>
-                      <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'backLinks', 'forwardRef')}>
+                      <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'backLinks', 'refName')}>
                         <AutoCompleteInput
                         onSearch={searchPatients}
                         options={getSearchOptions(patients)}
-                        name={getSelectionPath(index, 'backLinks', 'forwardRef')}
+                        name={getSelectionPath(index, 'backLinks', 'refName')}
+                        onChangeValue={(value: string) => {
+                          const result = patients.find((item) => item.fullName === value);
+                          form.setFieldValue(`links.backLinks.backLinks[${index}].forwardRef`, result?.code);
+                        }}
                         />
                       </FormField>
                     </Col>

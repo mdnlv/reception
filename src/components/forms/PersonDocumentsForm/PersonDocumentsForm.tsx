@@ -11,7 +11,6 @@ import {
 import PersonalIdent from './components/sections/PersonalIdent/PersonalIdent';
 import PersonPolicy from './components/sections/PersonPolicy/PersonPolicy';
 import SocialStatus from './components/sections/SocialStatus/SocialStatus';
-import NamedContract from './components/sections/NamedContract/NamedContract';
 
 const PersonDocumentsForm: FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
@@ -76,12 +75,6 @@ const PersonDocumentsForm: FC = () => {
         <Row>
           <Col span={24}>
             <SocialStatus />
-          </Col>
-        </Row>
-        <Divider />
-        <Row>
-          <Col span={24}>
-            <NamedContract />
           </Col>
         </Row>
       </form>

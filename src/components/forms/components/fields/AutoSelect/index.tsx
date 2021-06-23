@@ -12,13 +12,14 @@ const AutoCompleteInput: React.FC<any> = (props) => {
     props.onSearch(value)
   },500);
 
-        
+
   return (
     <AutoComplete
       options={props.options}
       disabled={props.isDisabled}
       onChange={(val) => {
         debounced.callback(val)
+        props.onChangeValue(val)
       }}
     />
   );
