@@ -4,6 +4,11 @@ import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
 import {toServerFormat} from "./date/toServerFormat";
 import PatientRelation from "../interfaces/payloads/regCard/PatientRelation";
+import PatientContact from "../interfaces/payloads/regCard/PatientContact";
+import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
+import PatientWork from "../interfaces/payloads/regCard/PatientWork";
+import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
+import PatientIdInfo from "../interfaces/payloads/regCard/PatientIdInfo";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -78,18 +83,23 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         ...(item.id && {id: item.id}),
         contactType_id: parseInt(item.type),
         contact: item.number,
-        isPrimary: item.isMain ? 1 : 0,
+        isPrimary: item.isMain ? 1 as 1 : 0 as 0,
         notes: item.note,
-        deleted: 0,
+        deleted: 0 as 0,
       })),
-      ...state.registrationCard.form.passportGeneral.contacts.deleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        contactType_id: parseInt(item.type),
-        contact: item.number,
-        isPrimary: item.isMain ? 1 : 0,
-        notes: item.note,
-        deleted: 1,
-      })),
+      ...state.registrationCard.form.passportGeneral.contacts.deleted.reduce((res: PatientContact[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            contactType_id: parseInt(item.type),
+            contact: item.number,
+            isPrimary: item.isMain ? 1 as 1 : 0 as 0,
+            notes: item.note,
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
     ],
 
     client_policy_info: [
@@ -173,15 +183,20 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         notes: item.note ?? '',
         deleted: 0 as 0,
       })),
-      ...socialStatus.deleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
-        socStatusClass_id: item.class ? parseInt(item.class) : null,
-        begDate: toServerFormat(item.fromDate),
-        endDate: toServerFormat(item.endDate),
-        notes: item.note ?? '',
-        deleted: 1 as 1,
-      })),
+      ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
+            socStatusClass_id: item.class ? parseInt(item.class) : null,
+            begDate: toServerFormat(item.fromDate),
+            endDate: toServerFormat(item.endDate),
+            notes: item.note ?? '',
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
     ],
 
     client_relation_info: [
@@ -243,27 +258,30 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         })),
         deleted: 0 as 0,
       })),
-      ...state.registrationCard.form.employment.deleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        ...(item.organization && {org_id: parseInt(item.organization)}),
-        post: item.position,
-        stage: item.experience,
-        freeInput: item.freeInput || "",
-        //@ts-ignore
-        client_work_hurt_info: item.hazardHistory.map((a) => ({
-          ...(a.id && {id: a.id}),
-          ...(a.master_id && {master_id: a.master_id}),
-          hurtType_id: parseInt(a.hazardDescription),
-          stage: a.hazardExp
-        })),
-        //@ts-ignore
-        client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
-          ...(b.id && {id: b.id}),
-          ...(b.master_id && {master_id: b.master_id}),
-          factorType_id: parseInt(b.factor)
-        })),
-        deleted: 1 as 1,
-      }))
+      ...state.registrationCard.form.employment.deleted.reduce((res: PatientWork[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            ...(item.organization && {org_id: parseInt(item.organization)}),
+            post: item.position,
+            stage: item.experience,
+            freeInput: item.freeInput || "",
+            client_work_hurt_info: item.hazardHistory.map((a) => ({
+              ...(item.id && {master_id: item.id}),
+              ...(a.id && {id: a.id}),
+              hurtType_id: parseInt(a.hazardDescription),
+              stage: a.hazardExp
+            })),
+            client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
+              ...(b.id && {id: b.id}),
+              ...(item.id && {master_id: item.id}),
+              factorType_id: parseInt(b.factor)
+            })),
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, [])
     ],
 
     client_attach_info: [
@@ -281,20 +299,23 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           deleted: 0 as 0,
         }),
       ),
-      ...state.registrationCard.form.attachments.deleted.map(
-        (item) => ({
-          ...(item.id && {id: item.id}),
-          LPU_id: parseInt(item.lpu),
-          attachType_id: parseInt(item.type),
-          //@ts-ignore
-          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
-          //@ts-ignore
-          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
-          orgStructure_id: parseInt(item.unit),
-          detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
-          deleted: 1 as 1,
-        }),
-      ),
+      ...state.registrationCard.form.attachments.deleted.reduce((res: PatientAttach[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            LPU_id: parseInt(item.lpu),
+            attachType_id: parseInt(item.type),
+            //@ts-ignore
+            begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
+            //@ts-ignore
+            endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
+            orgStructure_id: parseInt(item.unit),
+            detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
     ],
 
     client_identification_info: [
@@ -307,15 +328,18 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           deleted: 0 as 0,
         })
       ),
-      ...state.registrationCard.form.outsideIdentification.deleted.map(
-        (item) => ({
-          ...(item.id && {id: item.id}),
-          accountingSystem_id: parseInt(item.outsideSchema),
-          identifier: 'Да',
-          checkDate: format(item.date, 'yyyy-MM-dd'),
-          deleted: 1 as 1,
-        })
-      )
+      ...state.registrationCard.form.outsideIdentification.deleted.reduce((res: PatientIdInfo[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            accountingSystem_id: parseInt(item.outsideSchema),
+            identifier: 'Да',
+            checkDate: format(item.date, 'yyyy-MM-dd'),
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, [])
     ],
 
     // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {

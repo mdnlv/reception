@@ -1,4 +1,9 @@
 import PatientRelation from "../regCard/PatientRelation";
+import PatientContact from "../regCard/PatientContact";
+import PatientSocStatus from "../regCard/PatientSocStatus";
+import PatientWork from "../regCard/PatientWork";
+import PatientAttach from "../regCard/PatientAttach";
+import PatientIdInfo from "../regCard/PatientIdInfo";
 
 export default interface NewPatientPayload {
   id?: number;
@@ -36,42 +41,9 @@ export default interface NewPatientPayload {
   // client_policy: PolicyDoc[];
   // client_named_doc: NamedDoc[];
 
-  client_contact_info: {
-    contactType_id: number;
-    contact: string;
-    isPrimary: 0 | 1;
-    notes: string;
-    deleted?: 0 | 1;
-  }[],
-
-  client_soc_status_info: {
-    socStatusType_id: number | null;
-    socStatusClass_id: number | null;
-    begDate: string;
-    endDate: string;
-    notes: string | null;
-    deleted?: 0 | 1;
-  }[];
-
-  client_work_info: {
-    id?: number;
-    org_id?: number;
-    post?: string;
-    stage?: number;
-    freeInput?: string;
-    client_work_hurt_info: {
-      master_id?: number;
-      id?: number;
-      hurtType_id?: number;
-      stage?: number;
-    }[];
-    client_work_hurt_factor_info: {
-      master_id?: number;
-      id?: number;
-      factorType_id?: number;
-    }[];
-    deleted?: 0 | 1;
-  }[];
+  client_contact_info: PatientContact[];
+  client_soc_status_info: PatientSocStatus[];
+  client_work_info: PatientWork[];
 
   client_policy_info: {
     insurer_id: number | null;
@@ -113,20 +85,6 @@ export default interface NewPatientPayload {
   }[];
 
   client_relation_info?: PatientRelation[];
-
-  client_attach_info?: {
-    LPU_id: number;
-    attachType_id: number;
-    begDate: string;
-    orgStructure_id: number;
-    detachment_id: number | null;
-    deleted?: 0 | 1;
-  }[];
-
-  client_identification_info?: {
-    accountingSystem_id: number;
-    checkDate: string;
-    identifier: string;
-    deleted?: 0 | 1;
-  }[];
+  client_attach_info?: PatientAttach[];
+  client_identification_info?: PatientIdInfo[];
 }
