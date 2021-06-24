@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal } from "antd";
 import {Formik} from "formik";
+import validation from './validation'
 import {AppointmentProps} from "./types";
 import moment from 'moment';
 import NewAppointmentForm from "../../forms/NewAppointmentForm/NewAppoinmentForm";
@@ -17,9 +18,11 @@ const NewAppointment: React.FC<AppointmentProps> = ({
     currentPatientMemo,
     setResult
   }) => {
-  const patients = useSelector((state: RootState) => state.patients.patients);
+  //const patients = useSelector((state: RootState) => state.patients.patients);
+  const foundPatients = useSelector((state: RootState) => state.patients.foundPatients);
   return (
     <Formik
+      validationSchema={validation}
       initialValues={data?  
         {
           action_id: data.data.action_id,
@@ -32,28 +35,29 @@ const NewAppointment: React.FC<AppointmentProps> = ({
           type: 'new',
           pacient: data.client,
           person: data.person,
+          doctor: data.person,
           date: moment(data.date, "DD.MM.YYYY").format('MM DD YYYY'),
           speciality: data.speciality,
-          time: '',
+          time: data.time,
           organisation: data.org
         }: {}
       }
       onSubmit={(values) => {
         actionTicket({
           action_id: values.action_id ? values.action_id : -1,
-          idx: values.idx ? values.idx : 0,
+          idx: values.idx != undefined && values.idx > -1 ? values.idx : -1,
           old_action_id: 0,
           old_idx: 0,
           client_id: values.client.length > 6 ? values.client_id : Number(values.client),
-          person_id: values.person_id ? values.person_id : -1,
-          user_id: values.user_id ? values.user_id : -1,
+          person_id: values.person_id ? values.person_id : Number(values.person),
+          user_id: values.user_id ? values.user_id : 614,
           type: 'new'
         }, values.organisation? values.organisation: -1)
         setResult({
-          pacient: values.client.length > 6 ? values.client : patients[values.client].fullName,
-          date: values.date ? values.date :'',
+          pacient: values.client.length > 10 ? values.client : foundPatients.filter((v: any) => v.code == values.client)[0].fullName,
+          date: values.date ? moment(values.date).format('DD.MM.YYYY') :'',
           time: values.time ? values.time :'',
-          person: values.person ? values.person: '',
+          person: values.doctor ? values.doctor: '', 
           speciality: values.speciality ? values.speciality : ''
         })
       }}
@@ -62,7 +66,7 @@ const NewAppointment: React.FC<AppointmentProps> = ({
         <Modal 
           wrapClassName={'app-modal'}
           title={'Запись на приём'}
-          visible={visible || loading}  
+          visible={visible}  
           onCancel={()=>{setVisible(false)}}
           okText={'Записать'}
           cancelText={'Отмена'}

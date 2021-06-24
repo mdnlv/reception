@@ -16,7 +16,11 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
 
   return (
     <ReactDatePicker
-      onChange={(date: Date) => form.setValue(date)}
+      onChange={(date: Date) => {
+        props.setDate && props.setDate(date); 
+        props.onSelectDate && props.onSelectDate();
+        return form.setValue(date)
+      }}
       locale='ru'
       selected={selectedDate}
       placeholderText="ДД.ММ.ГГГГ"

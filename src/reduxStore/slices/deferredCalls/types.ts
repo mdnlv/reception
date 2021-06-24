@@ -5,8 +5,8 @@ export interface DeferredCallsState {
   loading: boolean
   patientList: [],
   doctors: [],
-  specialty: [],
-  filteredDoctors: [],
+  specialty: any[],
+  filteredDoctors: any[],
   josForm:{
     date: Date | null,
     patient:string,

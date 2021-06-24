@@ -97,7 +97,7 @@ export interface ActionData {
 
 export interface ActionPost {
   action_id: number;
-  idx: number;
+  idx: number
   old_action_id: number;
   old_idx: number;
   client_id: number;

@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react'
-import { Col, Divider, Row, Select, TreeSelect } from "antd";
+import React, { Suspense, useEffect, useState } from 'react'
+import { Col, Row, Select, TreeSelect } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import { PersonTree } from '../../../reduxStore/slices/personTree/types'
 import FormField from "../components/FormField/FormField";
@@ -7,30 +7,72 @@ import { RootState } from '../../../reduxStore/store';
 import { FormState } from "./types";
 import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
 import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
-import { getPersonList } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
-import { detailedSchedule } from '../../../reduxStore/slices/scheduleSlice/selectors';
+import { getPersonList,filterDoctors,clearLists,clearDoctors  } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import TreeSelectField from "../components/fields/TreeSelect";
-
 import moment from 'moment';
 import { useFormikContext } from 'formik';
 import { fetchItem } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import TicketSelect from '../components/fields/TicketSelect.tsx/TicketSelect';
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
-const NewAppointmentForm: React.FC<FormState> = ({
-    data,
-    currentPatientMemo
-  }) => {
+const NewAppointmentForm: React.FC<FormState> = ({data}) => {
     const dispatch = useDispatch()
     const patients = useSelector((state: RootState) => state.patients.foundPatients);
-    const doctors = useSelector((state: RootState) => state.deferredCalls.doctors);
+    const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
     const specialty = useSelector((state: RootState) => state.deferredCalls.specialty);
     const personTree = useSelector((state:RootState) => state.person_tree.person_tree);
-    const schedule = useSelector(detailedSchedule);
-    const { values }  = useFormikContext<{[u: string]: number}>();
+    const schedule = useSelector((state:RootState) => state.schedule.schedule);
+    const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
+    const { values }  = useFormikContext<{[u: string]: any}>();
+    const [date, setDate] = useState(values.date);
+    const [person_id, setDoctor] = useState(values.person_id);
+    const [org, setOrg] = useState(values.organisation);
+    const { setFieldValue } = useFormikContext();
+
     const searchPatients = (query: string) => {
       dispatch(fetchQueryPatients({ query: query, limit: 10 }))
     }
+
+    const clearDoctorsAndSpeciality = () =>{
+      setFieldValue('speciality','');
+      setFieldValue('person_id','');
+      setFieldValue('person','');
+      dispatch(clearLists())
+    }
+
+    const onSelectTreeNode = (value:number,tree:PersonTree) =>{
+      clearDoctorsAndSpeciality()
+      dispatch(getPersonList({data:tree.person_list}))
+      setOrg(value)
+    }
+    
+    const onSelectSpecialityId  = (id:number) =>{
+      setFieldValue('person_id','');
+      setFieldValue('person','');
+      dispatch(filterDoctors({id:id}))
+    }
+
+    const onSelectDoctor  = (id:number) =>{
+      setDoctor(id)
+      if(values.person_id != id) {
+        setFieldValue('doctor',doctors[0].fullName);
+        setFieldValue('speciality',specialty.filter((v:any)=> v.id == doctors[0].speciality_id)[0].name);
+      }
+      onSelectDate();
+    }
+
+    const onSelectDate = () =>{
+      setFieldValue('idx', undefined);
+      setFieldValue('action_id', -1);
+      setFieldValue('time', '');
+    }
+
+    const clearDoctor = (() => { 
+      setFieldValue('person_id','');
+      setFieldValue('person','');
+      dispatch(clearDoctors())
+    })
+    const clearSpeciality = () => setFieldValue('speciality','')
   
     const renderTreeNodes = (data:PersonTree[]) =>
       data.map((item: PersonTree) => {
@@ -40,15 +82,11 @@ const NewAppointmentForm: React.FC<FormState> = ({
           </TreeSelect.TreeNode>
         );
       });
-    
-    const onSelectTreeNode = (value:number,tree:PersonTree) =>{
-        dispatch(getPersonList({data:tree.person_list}))
-    }
-  
+
     const getPropsOptions = (props: any) =>
-      props.map((item: any) => {
+      props.map((item: any,index:number) => {
         return (
-          <Select.Option key={item.code} name={item.fullName} value={item.id}>
+          <Select.Option key={index} name={item.fullName} value={item.code}>
               {item.fullName}
           </Select.Option>
         )
@@ -62,31 +100,40 @@ const NewAppointmentForm: React.FC<FormState> = ({
         </Select.Option>
       )
     });
+    
+
+    const getPropsOptionsDoctors = (props: any) =>
+    props.map((item: any, index:number) => {
+        return (
+            <Select.Option key={index} name={item.fullName} value={item.id}>
+                {item.fullName}
+            </Select.Option>
+        )
+    });
 
     useEffect(()=>{
-      if(values.date && values.doctor)
-        dispatch(fetchItem({
-          id: values.doctor,
-          date: moment(values.date).format('YYYY-MM-DD')
-        }));
-    },[values])
+      dispatch(fetchItem({
+        id: person_id,
+        date: moment(date).format('YYYY-MM-DD')
+      }));
+    },[person_id, date]);
 
     return (   
         <form className={'appointment-form'}>
             <Row>
               <Col span={24}>
-              <FormField label={'ФИО пациента:'} name={'client_id'}>
+              <FormField label={'ФИО пациента:'} name={'client'}>
               <Suspense fallback={<div>Загрузка...</div>}>
                 <FastSearchSelect
                   onInput={(e) => {
                     const value = e.target.value
                     searchPatients(value)
                   }}
-                  
                   placeholder={'Пациент'}
                   name={'client'}
                   showSearch
                   filterOption
+                  allowClear
                   optionFilterProp={'name'}
                 >
                   {getPropsOptions(patients)}
@@ -100,7 +147,8 @@ const NewAppointmentForm: React.FC<FormState> = ({
                 <FormField label={'Дата приема'}  name={'date'} >
                   <FastDatePicker 
                     name={'date'} 
-
+                    setDate={setDate}
+                    onSelectDate={onSelectDate}
                   />
                 </FormField>
               </Col>
@@ -109,8 +157,9 @@ const NewAppointmentForm: React.FC<FormState> = ({
                 <Col span={24}>
                   <FormField label={'Подразделение:'} name={'organisation'}>
                     <TreeSelectField 
-                      value={data && data.org ? data.org : null}
+                      defaultValue={data && data.org ? data.org : null}
                       name={'organisation'}
+                      onClear={clearDoctorsAndSpeciality}
                       onSelect={onSelectTreeNode}>
                       {renderTreeNodes(personTree)}
                     </TreeSelectField>
@@ -119,15 +168,19 @@ const NewAppointmentForm: React.FC<FormState> = ({
             </Row>
             <Row>
                 <Col span={24}>
-                <FormField label={'Специальность врача:'} name={'specialty'}>
+                <FormField label={'Специальность врача:'} name={'speciality'}>
                 <Suspense fallback={<div>Загрузка...</div>}>
                   <FastSearchSelect
                     defaultValue={data && data.speciality ? data.speciality: ''}
                     placeholder={'Специальность'}
                     name={'speciality'}
                     showSearch
+                    allowClear
+                    onClear={clearDoctor}
+                    onSelect={onSelectSpecialityId}
                     filterOption
-                    optionFilterProp={'name'}>
+                    optionFilterProp={'name'}
+                  >
                     {getPropsOptionsSpecialty(specialty)}
                   </FastSearchSelect>
                   </Suspense>
@@ -136,27 +189,37 @@ const NewAppointmentForm: React.FC<FormState> = ({
             </Row>
             <Row>
               <Col span={24}>
-                <FormField label={'Врач:'}  name={'person_id'}>
+                <FormField label={'Врач:'}  name={'person'}>
                 <Suspense fallback={<div>Загрузка...</div>}>
                   <FastSearchSelect
                     defaultValue={data && data.person ? data.person: ''}
                     placeholder={'Врач'}
                     name={'person'}
                     showSearch
+                    allowClear
+                    onClear={clearSpeciality}
                     filterOption
                     optionFilterProp={'name'}
+                    onSelect={onSelectDoctor}
                   >
-                    {getPropsOptions(doctors)}
+                    {getPropsOptionsDoctors(doctors)}
                   </FastSearchSelect>
                   </Suspense>
                 </FormField>
               </Col>
             </Row>
-            <Divider/>
+
             <Row>
               <Col span={24}>
-                <FormField label={'Номерки:'}  name={'ticket'}>
-                  <TicketSelect schedule={schedule} data={data}/>
+                <FormField name={'idx'}>
+                  <TicketSelect 
+                    name={'idx'}
+                    schedule={schedule} 
+                    date={date}
+                    person_id={person_id}
+                    org={org}
+                    isLoading={isLoading}
+                  />
                 </FormField>
               </Col>
             </Row>

@@ -51,7 +51,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(ok && !postLoading) {
       Modal.success({
         title: 'Успешно добавлена запись на приём',
-        content: `Пациент ${result.pacient} записан на ${actionData?.date} ${actionData?.time} ко врачу ${actionData?.person} (${actionData?.speciality}).`,
+        content: `Пациент ${result.pacient} записан на ${result?.date} ${result?.time} ко врачу ${result?.person} (${result?.speciality.toLowerCase()}).`,
         okText: 'ОК'
       });
       setOk(false);
@@ -59,7 +59,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(del && !postLoading) {
       Modal.success({
         title: 'Приём отменён',
-        content: `Приём ${actionData?.client} ${actionData?.date} ко врачу ${actionData?.person} (${actionData?.speciality}) отменён.`,
+        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} ко врачу ${actionData?.person} (${actionData?.speciality.toLowerCase()}) отменён.`,
         okText: 'ОК'
       });
       setDel(false)
@@ -67,7 +67,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(edit && !postLoading) { 
       Modal.success({
         title: 'Приём перенесен',
-        content: `Приём ${oldData?.client} ${oldData?.date} ко врачу ${oldData?.person} (${actionData?.speciality}) перенесён на ${actionData?.date}.`,
+        content: `Приём ${oldData?.client} ${oldData?.date} в ${oldData?.time} ко врачу ${oldData?.person} (${actionData?.speciality.toLowerCase()}) перенесён на ${actionData?.date} в ${actionData?.time}.`,
         okText: 'ОК'
       });
       setEdit(false)
@@ -87,7 +87,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
       setDel(false);
     }
   },[errorStatus, errorMessage])
-
 
   const showModal = (data: ActionData) => {
     setActionData(data)
@@ -136,7 +135,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
         />
       );
     })
-  }, [list, selected, mode, rangeWeekNum, person_tree, isLoading]);
+  }, [list, selected, mode, currentDate, rangeWeekNum, person_tree, isLoading]);
 
   return <>
     <div className={'schedule-list'}>{listContent}</div>

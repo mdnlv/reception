@@ -1,6 +1,5 @@
 import React from 'react';
 import { useField } from 'formik';
-
 import { TreeSelect } from 'antd'
 
 const TreeSelectField: React.FC<any> = (props) => {
@@ -19,6 +18,7 @@ const TreeSelectField: React.FC<any> = (props) => {
             showSearch
             showCheckedStrategy={SHOW_PARENT}
             style={{ width: '100%' }}
+            defaultValue={props.defaultValue}
             value={props.value}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder="Выберите подразделение"
