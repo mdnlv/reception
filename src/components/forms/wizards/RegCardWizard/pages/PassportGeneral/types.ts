@@ -44,6 +44,8 @@ export interface PassportPolicyType {
 export interface PassportAddressType {
   [key: string]: any;
   id?: number;
+  addressId?: number;
+  addressHouseId?: number;
   isKLADR: boolean;
   city: string;
   area: string;

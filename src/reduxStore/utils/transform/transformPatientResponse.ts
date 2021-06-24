@@ -104,7 +104,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
         type: item.type,
 
         address: {
-          id: item.address.id,
+          addressHouseId: item.address.address_house.id,
           KLADRCode: item.address.address_house.KLADRCode,
           KLADRStreetCode: item.address.address_house.KLADRStreetCode,
           house: item.address.address_house.number,
