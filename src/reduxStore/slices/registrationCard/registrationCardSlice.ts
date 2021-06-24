@@ -469,8 +469,8 @@ const registrationCardSlice = createSlice({
               res.push({
                 id: item.id,
                 forwardRef: item.relativeId,
-                refName: '',
-                patientLink: item.relativeTypeId < 10 ? '0' + item.relativeTypeId.toString() : item.relativeTypeId.toString(),
+                refName: 'здесь будет ФИО',
+                patientLink: item.relativeTypeId.toString(),
                 deleted: 0
               });
             }
@@ -481,8 +481,8 @@ const registrationCardSlice = createSlice({
             res.push({
               id: item.id,
               forwardRef: item.relativeId,
-              refName: '',
-              patientLink: item.relativeTypeId < 10 ? '0' + item.relativeTypeId.toString() : item.relativeTypeId.toString(),
+              refName: 'здесь будет ФИО',
+              patientLink: item.relativeTypeId.toString(),
               deleted: 0
             });
           }

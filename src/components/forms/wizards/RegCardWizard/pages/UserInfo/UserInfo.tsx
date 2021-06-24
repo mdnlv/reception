@@ -11,12 +11,13 @@ import {
   TimePicker
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
-import { useSelector } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import {WizardStateType} from '../../types';
 import { detailedPersonsFindSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import UserInfoTypes from "./types";
+import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -26,12 +27,17 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
+  const dispatch = useDispatch();
   const navigation = useHistory();
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsFindSelector);
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
   const [snilsWarning, setSnilsWarning] = useState('');
+
+  useEffect(() => {
+    formValues.code && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
+  }, [formValues.code]);
 
   useEffect(() => {
     const checking = snilsCheck(formValues.snils)

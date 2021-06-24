@@ -5,9 +5,6 @@ import { RootState } from '../../../../../../reduxStore/store';
 import { useSelector, useDispatch } from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
 
-import {
-  fetchRbRelationTypes
-} from '../../../../../../reduxStore/slices/rb/rbSlice';
 import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
@@ -21,7 +18,7 @@ import AutoCompleteInput from '../../../../components/fields/AutoSelect'
 import ArrayFieldWrapper from '../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
 
 const Links: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.links;
   const sectionValuePath = `links`;
@@ -32,30 +29,6 @@ const Links: React.FC = () => {
   useEffect(() => {
     console.log('formValues', formValues);
   }, [formValues]);
-
-  useEffect(() => {
-    console.log('patients', patients);
-  }, [patients]);
-
-  useEffect(() => {
-    console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
-  }, [rbRelationTypesDirectLink]);
-
-  useEffect(()=>{
-    dispatch(fetchRbRelationTypes({sex:patientSex}))
-    // form.setFieldValue(
-    //   `links.directLinks.directLinks`,
-    //   formValues.directLinks.directLinks.slice(
-    //     formValues.directLinks.directLinks.length, formValues.directLinks.directLinks.length - 1
-    //   ),
-    // );
-    // form.setFieldValue(
-    //   `links.backLinks.backLinks`,
-    //   formValues.backLinks.backLinks.slice(
-    //     formValues.backLinks.backLinks.length, formValues.backLinks.backLinks.length - 1
-    //   ),
-    // );
-  },[patientSex])
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
@@ -83,34 +56,32 @@ const Links: React.FC = () => {
   }, [formValues,patientSex]);
 
 
-  const getPropsOptions = useCallback(
-    (props, type?) =>
-      props.map((item:RbRelationTypeResponse) => {
-        let name = ''
-        if(type === 'directConnection' ){
-           name = `${item.leftName} => ${item.rightName}`
-        }
-        else{
-           name = `${item.leftName} <= ${item.rightName}`
-        }
+  const getPropsOptions = (props, type?) => {
+    return props.map((item:RbRelationTypeResponse) => {
+      let name = ''
+      if (type === 'directConnection' ) {
+         name = `${item.leftName} => ${item.rightName}`
+      }
+      else {
+         name = `${item.leftName} <= ${item.rightName}`
+      }
        return  (
-        <Select.Option key={item.code} name={item.code} value={item.code.toString()}>
+        <Select.Option key={item.id} name={name} value={item.id.toString()}>
           {name}
         </Select.Option>
-      )}),
-    [],
-  );
+       )
+    })
+  };
 
-  const getSearchOptions = ((props: Patient[]) =>{
-     return props.map(({fullName})=>{return {value:fullName}})
-       })
+  const getSearchOptions = (props: Patient[]) => {
+    return props.map(({fullName}) => ({value:fullName}))
+  }
 
   const searchPatients = async (query:string) =>{
-   await dispatch(fetchQueryPatients({query:query,limit:5}))
+    await dispatch(fetchQueryPatients({query:query,limit:5}))
   }
 
   const getSelectionPath = (index: number, linkType:string, fieldChain: string) => {
-
     return `${sectionValuePath}.${linkType}.${linkType}[${index}].${fieldChain}`;
   };
 
@@ -144,6 +115,7 @@ const Links: React.FC = () => {
                     <Col span={7}>
                       <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'directLinks', 'refName')}>
                         <AutoCompleteInput
+                          defaultValue={formValues.directLinks.directLinks[index].refName}
                           onSearch={searchPatients}
                           options={getSearchOptions(patients)}
                           name={getSelectionPath(index, 'directLinks', 'refName')}
@@ -195,13 +167,14 @@ const Links: React.FC = () => {
                     <Col span={7}>
                       <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'backLinks', 'refName')}>
                         <AutoCompleteInput
-                        onSearch={searchPatients}
-                        options={getSearchOptions(patients)}
-                        name={getSelectionPath(index, 'backLinks', 'refName')}
-                        onChangeValue={(value: string) => {
-                          const result = patients.find((item) => item.fullName === value);
-                          form.setFieldValue(`links.backLinks.backLinks[${index}].forwardRef`, result?.code);
-                        }}
+                          defaultValue={formValues.backLinks.backLinks[index].refName}
+                          onSearch={searchPatients}
+                          options={getSearchOptions(patients)}
+                          name={getSelectionPath(index, 'backLinks', 'refName')}
+                          onChangeValue={(value: string) => {
+                            const result = patients.find((item) => item.fullName === value);
+                            form.setFieldValue(`links.backLinks.backLinks[${index}].forwardRef`, result?.code);
+                          }}
                         />
                       </FormField>
                     </Col>
