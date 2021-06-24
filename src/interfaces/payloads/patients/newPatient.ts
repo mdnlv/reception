@@ -1,15 +1,4 @@
-import { PersonAttachment } from '../../../components/forms/wizards/RegCardWizard/pages/Attachments/types';
-import {EmploymentItem, EmploymentHazardItem} from "../../../components/forms/EmploymentForm/types";
-import {PersonViewType} from "../../../components/forms/PersonViewTypeForm/types";
-import {PersonFeatureItem, PersonAllergyItem, MedIntoleranceItem, InspectionItem, AnthropometricDataItem} from "../../../components/forms/FeaturesForm/types";
-import {PrivilegeItem, PrivilegeInvalidity} from "../../../components/forms/PrivilegesForm/types";
-import {PersonOffence} from "../../../components/forms/OffencesForm/types";
-import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
-import {PersonAddHospitalization} from "../../../components/forms/AdditionalHospitalizationForm/types";
-import {PersonHospitalization} from "../../../components/forms/OutsideHospitalizationForm/types";
-import {PersonOutsideId} from "../../../components/forms/OutsideIdentificationForm/types";
-import {EtcItem} from "../../../components/forms/EtcForm/types";
-import {NamedDoc, PassportDoc, PolicyDoc, SocialStatus} from "../../../components/forms/PersonDocumentsForm/types";
+import PatientRelation from "../regCard/PatientRelation";
 
 export default interface NewPatientPayload {
   id?: number;
@@ -123,10 +112,7 @@ export default interface NewPatientPayload {
     type: number;
   }[];
 
-  client_relation_info?: {
-    relativeType_id: number;
-    relative_id: number | null;
-  }[];
+  client_relation_info?: PatientRelation[];
 
   client_attach_info?: {
     LPU_id: number;

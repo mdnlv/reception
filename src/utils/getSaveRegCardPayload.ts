@@ -3,6 +3,7 @@ import {format, parseISO} from "date-fns";
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
 import {toServerFormat} from "./date/toServerFormat";
+import PatientRelation from "../interfaces/payloads/regCard/PatientRelation";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -188,26 +189,38 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.patientLink),
         relative_id: item.forwardRef,
-        deleted: 0,
+        deleted: 0 as 0,
       })),
-      ...directLinks.deleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.patientLink),
-        relative_id: item.forwardRef,
-        deleted: 1,
-      })),
+      ...directLinks.deleted.reduce((res: PatientRelation[], item) => {
+        if (item.id) {
+          res.push({
+              id: item.id,
+              relativeType_id: parseInt(item.patientLink),
+              relative_id: item.forwardRef,
+              deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
       ...backLinks.backLinks.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.patientLink),
         relative_id: item.forwardRef,
-        deleted: 0,
+        client_id: item.forwardRef,
+        deleted: 0 as 0,
       })),
-      ...backLinks.deleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        relativeType_id: parseInt(item.patientLink),
-        relative_id: item.forwardRef,
-        deleted: 1,
-      })),
+      ...backLinks.deleted.reduce((res: PatientRelation[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            relativeType_id: parseInt(item.patientLink),
+            relative_id: item.forwardRef,
+            client_id: item.forwardRef,
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
     ],
 
     client_work_info: [
