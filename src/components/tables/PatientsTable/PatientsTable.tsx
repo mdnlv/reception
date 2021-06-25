@@ -50,11 +50,6 @@ const PatientsTable: FC<TableProps> = ({
       key: 'address',
     },
     {
-      title: 'Вид наблюдения',
-      dataIndex: 'viewType',
-      key: 'viewType',
-    },
-    {
       dataIndex: 'route',
       key: 'route',
     },

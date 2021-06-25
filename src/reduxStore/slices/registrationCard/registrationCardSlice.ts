@@ -334,6 +334,7 @@ const registrationCardSlice = createSlice({
                 transformedPatient.address[1]?.addressId,
               ),
               freeInput: transformedPatient.address[0].freeInput,
+              isVillager: Boolean(transformedPatient.address[0].isVillager),
             },
             documentedAddress: {
               id: transformedPatient.address[1].id,
@@ -352,6 +353,7 @@ const registrationCardSlice = createSlice({
                 transformedPatient.address[1]?.addressId,
               ),
               freeInput: transformedPatient.address[1]?.freeInput,
+              isVillager: Boolean(transformedPatient.address[1].isVillager),
             }
           } : {
             addressRegistration: {

@@ -102,6 +102,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
         freeInput: item.freeInput,
         districtId: item.district_id,
         type: item.type,
+        isVillager: item.isVillager,
 
         address: {
           addressHouseId: item.address.address_house.id,

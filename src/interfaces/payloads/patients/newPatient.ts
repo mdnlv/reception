@@ -84,7 +84,7 @@ export default interface NewPatientPayload {
     id?: number;
     isIdenticalAddresses?: 1 | 0;
     freeInput: string;
-    isVillager: number,
+    isVillager: 1 | 0,
     type: number;
   }[];
 
