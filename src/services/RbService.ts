@@ -104,7 +104,7 @@ export default {
     id: string,
     query?: string
   ): Promise<AxiosResponse<RbKladrStreetResponse[]>> {
-    return apiInstance.get(`/kladr/street?code=${id}&name=${query}&limit=${10}`);
+    return apiInstance.get(`/kladr/street?code=${id}&name=${query}&limit=${3500}`);
   },
   fetchContactTypes(): Promise<AxiosResponse<RbContactTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbContactType');
