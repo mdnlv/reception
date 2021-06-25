@@ -38,6 +38,10 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
+  useEffect(() => {
+    console.log('kladrStreets', kladrStreets);
+  }, [kladrStreets]);
+
   // useEffect(() => {
   //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);
   // }, [formValues.passportInfo.documentedAddress]);
@@ -61,9 +65,9 @@ const Address: FC<SectionProps> = ({
   }, [formValues.passportInfo.documentedAddress]);
 
   useEffect(() => {
-    if (!isDocumentedAddress || passportType === 'documentedAddress') {
-      return;
-    }
+    // if (!isDocumentedAddress || passportType === 'documentedAddress') {
+    //   return;
+    // }
     const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
     const area = formValues.passportInfo[passportType].area;
     if (streetsAreas.includes(area)) {
@@ -98,7 +102,7 @@ const Address: FC<SectionProps> = ({
   ]);
 
   useEffect(() => {
-    if (formInitialValues.street) {
+    if (formInitialValues.street && formValues.passportInfo['documentedAddress'].city) {
       if (formValues.passportInfo[passportType].area ===
         '7800000000000' ||
         formValues.passportInfo[passportType].area ===
@@ -223,7 +227,7 @@ const Address: FC<SectionProps> = ({
           </FormField>
         </Col>
       </Row>
-      {formValues.passportInfo[passportType].isKLADR && (
+      {formValues.passportInfo[passportType].isKLADR ? (
         <>
           <Row gutter={16} className="form-row">
             <Col span={8}>
@@ -360,8 +364,7 @@ const Address: FC<SectionProps> = ({
             </Col>
           </Row>
         </>
-      )}
-      {!formValues.passportInfo[passportType].isKLADR && (
+      ) : (
         <>
           <Row gutter={8}>
             <Col span={16}>
