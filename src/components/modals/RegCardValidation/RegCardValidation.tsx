@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Modal, Descriptions, List} from "antd";
 
 import {ValidationModalProps} from "./types";
@@ -48,14 +48,22 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
           const innerItem = item[innerKey];
           if (typeof innerItem === 'string') {
             errNameArr.push(getNameItem(innerItem) || '');
+          } else if (Array.isArray(innerItem)) {
+            for (let i = 0; i < innerItem.length; i++) {
+              for (let nestedKey in innerItem[i]) {
+                const nestedItem = innerItem[i][nestedKey];
+                !errNameArr.includes(nestedItem)
+                && errNameArr.push(getNameItem(nestedItem) || '');
+              }
+            }
           }
         }
       }
     }
-    console.log('errNameArr', errNameArr);
+    const errNameArrFiltered = errNameArr.filter((a, pos, self) => self.indexOf(a) == pos);
     return (
       <List
-        dataSource={errNameArr}
+        dataSource={errNameArrFiltered}
         size="small"
         renderItem={(item) => <List.Item style={{paddingTop: 0, paddingBottom: 0}}>{item}</List.Item>}
       />

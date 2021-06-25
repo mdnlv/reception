@@ -134,6 +134,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         ...(addressRegistration.id && {id: addressRegistration.id}),
         address: {
           address_house: {
+            id: addressRegistration.addressHouseId,
             KLADRCode: (addressRegistration.area === '7800000000000'
               || addressRegistration.area === '7700000000000'
               || addressRegistration.area === '9200000000000')
@@ -144,9 +145,11 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             corpus: '',
             litera: addressRegistration.houseCharacter?.toString() || '',
           },
+          id: addressRegistration.addressId,
+          house_id: addressRegistration.houseId,
           flat: addressRegistration.flatNumber?.toString() || '',
         },
-        isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager : 0,
+        isVillager: addressRegistration.isVillager ? +addressRegistration.isVillager : 0,
         isIdenticalAddresses: addressRegistration.isDocumentedAddress ? 1 : 0,
         freeInput: addressRegistration.freeInput,
         type: 0,
@@ -155,6 +158,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         ...(documentedAddress.id && {id: documentedAddress.id}),
         address: {
           address_house: {
+            id: documentedAddress.addressHouseId,
             KLADRCode: (documentedAddress.area === '7800000000000'
               || documentedAddress.area === '7700000000000'
               || documentedAddress.area === '9200000000000')
@@ -165,6 +169,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             corpus: '',
             number: documentedAddress.houseNumber?.toString() || '',
           },
+          id: documentedAddress.addressId,
+          house_id: documentedAddress.houseId,
           flat: documentedAddress.flatNumber?.toString() || '',
         },
         isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager : 0,

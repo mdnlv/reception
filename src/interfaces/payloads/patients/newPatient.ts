@@ -70,6 +70,7 @@ export default interface NewPatientPayload {
   client_address_info?: {
     address?: {
       address_house: {
+        id?: number;
         KLADRCode: string;
         KLADRStreetCode?: string;
         number: string;
@@ -77,7 +78,10 @@ export default interface NewPatientPayload {
         litera: string;
       };
       flat: string;
+      house_id?: number;
+      id?: number;
     };
+    id?: number;
     isIdenticalAddresses?: 1 | 0;
     freeInput: string;
     isVillager: number,

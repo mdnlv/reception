@@ -318,11 +318,14 @@ const registrationCardSlice = createSlice({
         state.initialFormState.passportGeneral.passportInfo = {
           ...(transformedPatient.address.length > 0) ? {
             addressRegistration: {
-              id: transformedPatient.address[0].address.id,
+              id: transformedPatient.address[0].id,
+              addressId: transformedPatient.address[0].addressId,
+              addressHouseId: transformedPatient.address[0].address.addressHouseId,
               isKLADR: Boolean(!transformedPatient.address[0].freeInput),
               city: state.form.passportGeneral.passportInfo.addressRegistration.city,
               area: transformedPatient.address[0].address.KLADRCode,
               street: transformedPatient.address[0].address.KLADRStreetCode,
+              houseId: transformedPatient.address[0].address.houseId,
               houseNumber: transformedPatient.address[0].address.house,
               houseCharacter: transformedPatient.address[0].address.litera,
               flatNumber: transformedPatient.address[0].address.flat,
@@ -333,11 +336,14 @@ const registrationCardSlice = createSlice({
               freeInput: transformedPatient.address[0].freeInput,
             },
             documentedAddress: {
-              id: transformedPatient.address[1].address.id,
+              id: transformedPatient.address[1].id,
+              addressId: transformedPatient.address[1].addressId,
+              addressHouseId: transformedPatient.address[1].address.addressHouseId,
               isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
               city: state.form.passportGeneral.passportInfo.addressRegistration.city,
               area: transformedPatient.address[1]?.address.KLADRCode,
               street: transformedPatient.address[1]?.address.KLADRStreetCode,
+              houseId: transformedPatient.address[1].address.houseId,
               houseNumber: transformedPatient.address[1]?.address.house,
               houseCharacter: transformedPatient.address[1]?.address.litera,
               flatNumber: transformedPatient.address[1]?.address.flat,
