@@ -56,6 +56,7 @@ const Links: React.FC = () => {
   }, [formValues,patientSex]);
 
 
+  //@ts-ignore
   const getPropsOptions = (props, type?) => {
     return props.map((item:RbRelationTypeResponse) => {
       let name = ''

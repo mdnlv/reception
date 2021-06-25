@@ -272,12 +272,14 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             post: item.position,
             stage: item.experience,
             freeInput: item.freeInput || "",
+            //@ts-ignore
             client_work_hurt_info: item.hazardHistory.map((a) => ({
               ...(item.id && {master_id: item.id}),
               ...(a.id && {id: a.id}),
               hurtType_id: parseInt(a.hazardDescription),
               stage: a.hazardExp
             })),
+            //@ts-ignore
             client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
               ...(b.id && {id: b.id}),
               ...(item.id && {master_id: item.id}),
