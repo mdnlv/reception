@@ -17,11 +17,11 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
   onSubmitForm,
   onClearSearch,
   searchCount,
-  className,
-  children
+  children,
+  searchQuery,
+  onSearchQuery
 }) => {
   const [showSearchForm, setShowForm] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (onOpenSearch) {
@@ -93,7 +93,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                  onSearchQuery(e.target.value);
                 }}
                 onKeyPress={submitQueryOnPress}
               />

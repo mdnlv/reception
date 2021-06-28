@@ -16,7 +16,6 @@ import PatientsTable from '../PatientsTable/PatientsTable';
 import TableSearchHeader from '../wrappers/TableSearchHeader/TableSearchHeader';
 
 const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
-  const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
   const dispatch = useDispatch();
   //selectors
   const {
@@ -29,6 +28,9 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   } = useSelector((state: RootState) => state.patients);
   const {saveNewPatient, idPatient} = useSelector((state: RootState) => state.registrationCard.loading);
   const {patientRegId} = useSelector((state: RootState) => state.registrationCard);
+  const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     console.log('patientRegId', patientRegId)
@@ -48,10 +50,13 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     }
   }, [patientRegId]);
 
+  useEffect(() => {
+    dispatch(fetchQueryPatients({query: searchQuery.trim(), limit: 5, offset}))
+  }, [offset]);
+
   const onSearchButtonClick = (query: string) => {
     dispatch(setIsSearchingPatients(true));
     dispatch(fetchQueryPatients({query:query,limit:5}))
-
   }
 
   const onTableRowClick = (id: number) => {
@@ -106,7 +111,9 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
       title={'Пациенты'}
       onOpenSearch={onOpenSearch}
       mode={tableMode}
+      searchQuery={searchQuery}
       searchCount={tablePatientsCount}
+      onSearchQuery={setSearchQuery}
       onSubmitForm={onSubmitForm}
       onCloseClick={onCloseForm}
       onSearchButtonClick={onSearchButtonClick}
@@ -117,6 +124,7 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
         isLoading={tableLoading}
         patients={getTypePatients}
         currentPatient={currentPatient}
+        onChangeOffset={setOffset}
       />
     </TableSearchHeader>
   );

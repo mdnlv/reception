@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { Checkbox, Col, Row, Select } from 'antd';
 import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 
 import { KladrDocType } from '../../../../../../../../reduxStore/slices/registrationCard/types';
 import { WizardStateType } from '../../../../types';
@@ -25,7 +24,6 @@ const Address: FC<SectionProps> = ({
   getKladrNested,
   getKladrStreets,
 }) => {
-  const { id } = useParams<{ id: string }>();
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
 
@@ -38,9 +36,9 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
-  useEffect(() => {
-    console.log('kladrStreets', kladrStreets);
-  }, [kladrStreets]);
+  // useEffect(() => {
+  //   console.log('kladrStreets', kladrStreets);
+  // }, [kladrStreets]);
 
   // useEffect(() => {
   //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);
@@ -49,10 +47,6 @@ const Address: FC<SectionProps> = ({
   // useEffect(() => {
   //   console.log('formValues.addressRegistration', formValues.passportInfo.addressRegistration);
   // }, [formValues.passportInfo.addressRegistration]);
-
-  useEffect(() => {
-    id === 'new' &&  form.setFieldValue(`${sectionValuePath}.area`, '7800000000000');
-  }, [id]);
 
   useEffect(() => {
     if (formValues.passportInfo['addressRegistration'].isDocumentedAddress && documentedBuffer.area) {
@@ -71,8 +65,10 @@ const Address: FC<SectionProps> = ({
     const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
     const area = formValues.passportInfo[passportType].area;
     if (streetsAreas.includes(area)) {
+      console.log('biba');
       getKladrStreets(area, getType());
     } else {
+      console.log('boba');
       getKladrNested(area, getType());
     }
   },[

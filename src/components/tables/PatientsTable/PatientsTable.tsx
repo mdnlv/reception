@@ -15,7 +15,8 @@ const PatientsTable: FC<TableProps> = ({
   patients,
   isLoading,
   onPatientClick,
-  currentPatient
+  currentPatient,
+  onChangeOffset
 }) => {
   const dispatch = useDispatch();
   const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
@@ -193,6 +194,13 @@ const PatientsTable: FC<TableProps> = ({
             },
           };
         }}
+        onChange={(page) => {
+          if (page.current) {
+            const offsetData = (page.current - 1) * 5;
+            onChangeOffset(offsetData);
+          }
+        }}
+        pagination={{ total: 100, showSizeChanger: false }}
       />
     )
 };

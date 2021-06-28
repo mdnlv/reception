@@ -9,4 +9,6 @@ export type SearchHeaderProps = {
   onClearSearch?(): void;
   searchCount?: number;
   className?: string;
+  onSearchQuery(value: string): void;
+  searchQuery: string;
 };

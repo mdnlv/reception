@@ -71,11 +71,11 @@ export const fetchFiltersPatients = createAsyncThunk(
 export const fetchQueryPatients = createAsyncThunk(
   'patients/fetchQueryPatients',
 
-  async (payload:{query:string,limit:number}, thunkAPI) => {
+  async (payload: {query: string, limit: number, offset?: number}, thunkAPI) => {
     thunkAPI.dispatch(setLoadingFound(true));
     try {
-      const { query,limit } = payload
-      const response = await PatientsService.queryPatients(query,limit);
+      const {query, limit, offset} = payload
+      const response = await PatientsService.queryPatients(query, limit, offset);
       if (response.data) {
         return response.data;
       }

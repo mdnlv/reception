@@ -5,6 +5,7 @@ export type TableProps = {
   isLoading: boolean;
   onPatientClick: (id: number) => void;
   currentPatient?: number;
+  onChangeOffset: (value: number) => void;
 };
 
 export type ToolTipInfo = {
