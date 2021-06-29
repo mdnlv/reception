@@ -1,5 +1,5 @@
 import Speciality from "../../../types/data/Speciality";
-import { ActionData, ActionPost } from "../../elements/ScheduleTable/types";
+import { ActionData, ActionPost } from "../../elements/Schedule/types";
 
 export interface AppointmentProps {
   data?: ActionData | undefined;

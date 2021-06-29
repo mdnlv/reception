@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActionPost } from '../../../components/elements/ScheduleTable/types';
+import { ActionPost } from '../../../components/elements/Schedule/types';
 import ScheduleService from '../../../services/ScheduleService';
 import {Schedule, ScheduleOne} from "./types";
 

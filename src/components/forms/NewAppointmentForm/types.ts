@@ -1,4 +1,4 @@
-import { ActionData } from "../../elements/ScheduleTable/types";
+import { ActionData } from "../../elements/Schedule/types";
 
 export interface FormState {
   data: ActionData | undefined;

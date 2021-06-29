@@ -1,5 +1,5 @@
 import apiInstance from './api';
-import { ActionPost } from '../components/elements/ScheduleTable/types';
+import { ActionPost } from '../components/elements/Schedule/types';
 
 export default {
   fetchSchedule(payload: { id: number[]; beg_date: string, end_date: string }) {

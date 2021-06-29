@@ -12,7 +12,7 @@ import {actionTicket, fetchItem} from "../../../reduxStore/slices/scheduleSlice/
 import moment from 'moment';
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
-import { ActionPost } from '../ScheduleTable/types';
+import { ActionPost } from '../Schedule/types';
 
 const BarLogoAlt = 'Logo';
 
