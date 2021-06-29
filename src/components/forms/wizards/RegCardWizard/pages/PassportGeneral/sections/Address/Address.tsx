@@ -14,16 +14,16 @@ const FastInput = React.lazy(() => import('../../../../../../components/fields/F
 const FastSearchSelect = React.lazy(() => import('../../../../../../components/fields/FastSearchSelect/FastSearchSelect'));
 
 const Address: FC<SectionProps> = ({
-  passportType,
-  kladr,
-  nestedKladr,
-  kladrStreets,
-  isLoadingKladr,
-  isLoadingKladrNested,
-  isLoadingKladrStreets,
-  getKladrNested,
-  getKladrStreets,
-}) => {
+                                     passportType,
+                                     kladr,
+                                     nestedKladr,
+                                     kladrStreets,
+                                     isLoadingKladr,
+                                     isLoadingKladrNested,
+                                     isLoadingKladrStreets,
+                                     getKladrNested,
+                                     getKladrStreets,
+                                   }) => {
   const [isDocumentedAddress, setIsDocumentedAddress] = useState(false);
   const [prevCity, setPrevCity] = useState('');
 
@@ -36,9 +36,9 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
-  // useEffect(() => {
-  //   console.log('nestedKladr', nestedKladr);
-  // }, [nestedKladr]);
+  useEffect(() => {
+    console.log('nestedKladr', nestedKladr);
+  }, [nestedKladr]);
 
   // useEffect(() => {
   //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);

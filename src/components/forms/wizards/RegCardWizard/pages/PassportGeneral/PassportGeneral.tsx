@@ -31,6 +31,8 @@ import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 import PoliciesFound from "../../../../../modals/PoliciesFound/PoliciesFound";
+import DocumentedAddress from "./sections/DocumentedAddress/DocumentedAddress";
+import AddressRegistration from "./sections/AddressRegistration/AddressRegistration";
 
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
@@ -107,8 +109,7 @@ const PassportGeneral: React.FC = () => {
     <form className="wizard-step passport-general-form">
       <Row align={'stretch'}>
         <Col span={12}>
-          <Address
-            passportType="documentedAddress"
+          <DocumentedAddress
             isLoadingKladr={isLoadingKladrDocumented}
             isLoadingKladrNested={isLoadingKladrNestedDocumented}
             isLoadingKladrStreets={isLoadingKladrStreetsDocumented}
@@ -118,10 +119,20 @@ const PassportGeneral: React.FC = () => {
             nestedKladr={rbKladrNestedDocumented}
             kladrStreets={rbKladrStreetsDocumented}
           />
+          {/*<AddressRegistration*/}
+          {/*  passportType="documentedAddress"*/}
+          {/*  isLoadingKladr={isLoadingKladrDocumented}*/}
+          {/*  isLoadingKladrNested={isLoadingKladrNestedDocumented}*/}
+          {/*  isLoadingKladrStreets={isLoadingKladrStreetsDocumented}*/}
+          {/*  getKladrNested={fetchNestedKladr}*/}
+          {/*  getKladrStreets={fetchKladrStreetsItems}*/}
+          {/*  kladr={rbKladrDocumented}*/}
+          {/*  nestedKladr={rbKladrNestedDocumented}*/}
+          {/*  kladrStreets={rbKladrStreetsDocumented}*/}
+          {/*/>*/}
         </Col>
         <Col span={12} className={'col--border-right'}>
-          <Address
-            passportType="addressRegistration"
+          <AddressRegistration
             isLoadingKladr={isLoadingKladrRegistration}
             isLoadingKladrNested={isLoadingKladrNestedRegistration}
             isLoadingKladrStreets={isLoadingKladrStreetsRegistration}

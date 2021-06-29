@@ -1,7 +1,7 @@
 import Patient from "../types/data/Patient";
 import KladrItem from "../types/data/KladrItem";
 import KladrStreet from "../types/data/KladrStreet";
-import {PrefixKladrItem} from "../components/forms/wizards//RegCardWizard/pages/PassportGeneral/sections/Address/types";
+import {PrefixKladrItem} from "../components/forms/wizards//RegCardWizard/pages/PassportGeneral/sections/DocumentedAddress/types";
 
 
 export const getAddress = (patient: Partial<Patient> | undefined, type: 0|1, kladr: PrefixKladrItem[], kladrStreets: KladrStreet[]) => {

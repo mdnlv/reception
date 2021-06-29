@@ -293,6 +293,7 @@ const registrationCardSlice = createSlice({
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
+        console.log('transformedPatient', transformedPatient);
         // console.log('BIRTH DATE', transformedPatient.birthDate);
         const dmsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) === 3,
