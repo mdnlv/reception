@@ -65,10 +65,8 @@ const Address: FC<SectionProps> = ({
     const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
     const area = formValues.passportInfo[passportType].area;
     if (streetsAreas.includes(area)) {
-      console.log('biba');
       getKladrStreets(area, getType());
     } else {
-      console.log('boba');
       getKladrNested(area, getType());
     }
   },[
