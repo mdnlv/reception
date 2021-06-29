@@ -45,7 +45,7 @@ export const actionTicket = createAsyncThunk(
     thunkAPI.dispatch(setErrorStatus(false));
     try {
       const res = await ScheduleService.actionTicket(payload.data);
-      if (res && res.status != 200) {
+      if (res && res.status !== 200) {
         thunkAPI.dispatch(setErrorStatus(true));
         res && thunkAPI.dispatch(setErrorMessage(res.status + ': ' + res.statusText));
       }

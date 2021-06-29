@@ -146,8 +146,8 @@ const ScheduleAction: React.FC<ActionProps> = ({
           Специализация: {data?.speciality}
           <div>
             <h2>Текущая дата</h2>
-            <div>{data?.date}</div>
-            <div>{data?.time}</div>
+            <div>{oldData?.date}</div>
+            <div>{oldData?.time}</div>
           </div>
           <div>
             <h2>Новая дата</h2>

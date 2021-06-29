@@ -51,7 +51,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(ok && !postLoading) {
       Modal.success({
         title: 'Успешно добавлена запись на приём',
-        content: `Пациент ${result.pacient} записан на ${result?.date} ${result?.time} ко врачу ${result?.person} (${result?.speciality.toLowerCase()}).`,
+        content: `Пациент ${result.pacient} записан на ${result?.date} в ${result?.time} к врачу ${result?.person} (${result?.speciality.toLowerCase()}).`,
         okText: 'ОК'
       });
       setOk(false);
@@ -59,7 +59,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(del && !postLoading) {
       Modal.success({
         title: 'Приём отменён',
-        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} ко врачу ${actionData?.person} (${actionData?.speciality.toLowerCase()}) отменён.`,
+        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality.toLowerCase()}) отменён.`,
         okText: 'ОК'
       });
       setDel(false)
@@ -67,7 +67,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(edit && !postLoading) { 
       Modal.success({
         title: 'Приём перенесен',
-        content: `Приём ${oldData?.client} ${oldData?.date} в ${oldData?.time} ко врачу ${oldData?.person} (${actionData?.speciality.toLowerCase()}) перенесён на ${actionData?.date} в ${actionData?.time}.`,
+        content: `Приём ${oldData?.client} ${oldData?.date} в ${oldData?.time} к врачу ${oldData?.person} (${actionData?.speciality && actionData?.speciality.toLowerCase()}) перенесён на ${actionData?.date}, ${actionData?.time}.`,
         okText: 'ОК'
       });
       setEdit(false)

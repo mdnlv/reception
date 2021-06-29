@@ -31,6 +31,7 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
       className={'schedule-table__header'}
       justify={'space-between'}
       align={'middle'}>
+      
       <div className={'schedule-date-picker'}>
         <DatePicker
           mode={mode}
@@ -43,10 +44,10 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
         />
       </div>
       
-      <Radio.Group onChange={modeChangeHandler} value={length}>
+    {mode == 'week' && <Radio.Group onChange={modeChangeHandler} value={length}>
         <Radio value={'week'}>2 недели</Radio>
         <Radio value={'month'}>месяц</Radio>
-      </Radio.Group>
+      </Radio.Group>}
     </Row>
   );
 };

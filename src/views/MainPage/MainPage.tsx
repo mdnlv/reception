@@ -14,9 +14,10 @@ import {fetchSchedules, actionTicket} from "../../reduxStore/slices/scheduleSlic
 import {fetchPersonTree} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
-import ScheduleTable from '../../components/elements/ScheduleTable/ScheduleTable';
+
 import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferredCallsSlice";
-import { ActionPost } from '../../components/elements/ScheduleTable/types';
+import { ActionPost } from '../../components/elements/Schedule/types';
+import Schedule from '../../components/elements/Schedule/Schedule';
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
@@ -84,13 +85,14 @@ const MainPage: FC = () => {
           </Row>
           <Row>
             <Col span={24}>
-              <ScheduleTable
+              <Schedule 
                 person_tree={person_tree}
-                schedules={schedules}
-                loadSchedule={loadSchedule}
-                speciality={specialities}
-                client={client}
-                actionTicket={postTicket}
+                schedules={schedules} 
+                loadSchedule={loadSchedule} 
+                speciality={specialities} 
+                client={client} 
+                actionTicket={postTicket} 
+                onOpenSearch={openSearchQuery}
               />
             </Col>
           </Row>

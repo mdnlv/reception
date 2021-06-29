@@ -6,12 +6,12 @@ import moment from "moment";
 
 import './styles.scss';
 import { ScheduleTableModeType, ScheduleTableProps } from './types';
-import {RootState} from "../../../reduxStore/store";
+import {RootState} from "../../../../../reduxStore/store";
 
-import ScheduleTableList from './components/ScheduleTableList/ScheduleTableList';
-import ScheduleTableHeader from './components/ScheduleTableHeader/ScheduleTableHeader';
-import ScheduleTimeline from './components/ScheduleTimeline/ScheduleTimeline';
-import { setDates } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import ScheduleTableList from '../ScheduleTableList/ScheduleTableList';
+import ScheduleTableHeader from '../ScheduleTableHeader/ScheduleTableHeader';
+import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
+import { setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
@@ -98,7 +98,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
             </Col>
           </Row>
           <Row>
-          
             <ScheduleTableList
               isLoading={isScheduleLoading}
               selected={selected}

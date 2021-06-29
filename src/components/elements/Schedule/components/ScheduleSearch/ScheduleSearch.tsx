@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import Radio, { RadioChangeEvent } from 'antd/lib/radio';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import { Button, Card, Input, Row } from 'antd/lib';
 
 import './style.scss';
 import {SearchHeaderProps} from "./types";
-
-import PatientSearchFilterForm from '../../../forms/PatientSearchFilterForm/PatientSearchFilterForm';
+import DoctorSearchFilterForm from '../../../../forms/DoctorSearchFilterForm/DoctorSearchFilterForm';
 
 const TableSearchHeader: React.FC<SearchHeaderProps> = ({
   onOpenSearch,
@@ -17,11 +17,11 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
   onSubmitForm,
   onClearSearch,
   searchCount,
-  children,
-  searchQuery,
-  onSearchQuery
+  className,
+  children
 }) => {
   const [showSearchForm, setShowForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (onOpenSearch) {
@@ -31,19 +31,19 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
-      onSearchButtonClick(searchQuery ? searchQuery.trim() : '');
+      onSearchButtonClick(searchQuery.trim());
     }
   }
 
   const submitQueryOnPress = (event: React.KeyboardEvent) => {
-    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery ? searchQuery.trim() : '');
+    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery.trim());
   }
 
   const tableBody = useMemo(() => {
     if (mode === 'search') {
       return (
         <Card>
-          <PatientSearchFilterForm
+          <DoctorSearchFilterForm
             onClose={onCloseClick}
             onSubmit={onSubmitForm}
           />
@@ -90,7 +90,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  onSearchQuery && onSearchQuery(e.target.value);
+                  setSearchQuery(e.target.value);
                 }}
                 onKeyPress={submitQueryOnPress}
               />
@@ -127,7 +127,13 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
 
   return (
     <div>
-      <Row align={'stretch'}>{getHeaderByType}</Row>
+      <Row align={'stretch'}>
+        {getHeaderByType}      
+        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'org'}>
+          <Radio value={'org'}>по отделениям</Radio>
+          <Radio value={'spec'}>по специальностям</Radio>
+        </Radio.Group>
+      </Row>
       <div>{tableBody}</div>
     </div>
   );

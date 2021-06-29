@@ -25,7 +25,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
   const onDayClick = (data: ActionPost)=>{
     showModal && showModal(  {
       date: date? moment(date).format("DD.MM.YYYY") : '',
-      time: ticket && ticket.begDateTime ? ticket.begDateTime.slice(0,-3) + '-' + ticket.endDateTime.slice(0,-3): '',
+      time: ticket && ticket.begDateTime ? ticket.begDateTime.slice(0,-3): '',
       client: (ticket?.client && ticket.client.id)? ticket.client.lastName + ' ' + ticket.client.firstName[0] + '.' + ticket.client.patrName[0] + '.': '',
       person: person? person.fullName : '',
       speciality:  person? person.speciality : '',

@@ -1,0 +1,36 @@
+.table-top__logo{
+  display: flex;
+  padding: 0 5px;
+  align-items: center;
+  justify-content: center;
+  background: #4C86C8;
+  border-radius: 2px 0px 0px 0px;
+  text-transform: none;
+  color: #fff;
+}
+
+.table-top__search{
+  color: #000000;
+  background: #A9D1FF;
+}
+
+.table__top-search-wrapper{
+  max-height: 24px;
+  display: flex;
+  .ant-input{
+    height: 100%;
+  }
+}
+
+.table__top-search-results{
+  color: #4C86C8;
+  padding: 0 8px;
+}
+
+.find-filters__wrapper{
+  padding: 0 15px;
+  &:hover{
+    cursor: pointer;
+    opacity: .7;
+  }
+}

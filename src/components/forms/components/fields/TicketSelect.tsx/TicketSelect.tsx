@@ -12,7 +12,7 @@ const TicketSelect: React.FC<any> = (props) => {
     if(item.status == "free") {
       formIdx.setValue(item.idx);
       formAi.setValue(props.schedule[props.org][props.person_id].schedule[moment(props.date).format('YYYY-MM-DD')][0].action_id);
-      formT.setValue(item.begDateTime.slice(0,-3) + '-' + item.endDateTime.slice(0,-3));
+      formT.setValue(item.begDateTime.slice(0,-3));
     }
   };
 

@@ -27,7 +27,7 @@ const NewAppointment: React.FC<AppointmentProps> = ({
         {
           action_id: data.data.action_id,
           idx: data.data.idx,
-          client_id:  data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.code : 0) : data.data.client_id,
+          client_id:  data.data.client_id === - 1? (currentPatientMemo ? currentPatientMemo.code : 0) : data.data.client_id,
           client: currentPatientMemo ? currentPatientMemo.fullName: '',
           person_id: data.data.person_id,
           user_id: data.data.user_id,

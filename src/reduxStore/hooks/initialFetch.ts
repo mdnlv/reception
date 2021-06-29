@@ -20,7 +20,8 @@ import {
   fetchRbSocialStatusType,
   fetchRbSpecialities,
   fetchRbOrgStructure,
-  fetchDeferredQueueStatus
+  fetchDeferredQueueStatus,
+  fetchRbPost
 } from '../slices/rb/rbSlice';
 import {fetchPersonTree} from '../slices/personTree/personTreeSlice'
 
@@ -50,5 +51,6 @@ export default function useInitialFetch() {
     dispatch(fetchRbOrgStructure());
     dispatch(fetchPersonTree({}));
     dispatch(fetchDeferredQueueStatus());
+    dispatch(fetchRbPost());
   };
 }

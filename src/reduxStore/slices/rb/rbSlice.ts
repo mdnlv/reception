@@ -441,6 +441,38 @@ export const fetchRbOrgStructure = createAsyncThunk(
   },
 );
 
+export const fetchRbPost = createAsyncThunk(
+  'rb/fetchPost',
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Post"}))
+
+    const currentCheckSum =  await get('OrgPost') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
+
+    thunkAPI.dispatch(setLoading({ type: 'post', value: true }));
+    try {
+      const response = isCheckSum? await get('Post'): await RbService.fetchPost()
+      if (response.data) {
+      if(!isCheckSum){
+        await del('PostSum')
+        await del('Post')
+        await set('PostSum',checksum.payload)
+        await set('Post',{data:response.data})
+      }
+        return response.data.map((item:Post) => ({
+          id: item.id,
+          name: item.name
+        }));
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'post', value: false }));
+    }
+  },
+);
+
 export const fetchRbPolicyKind = createAsyncThunk(
   'rb/fetchPolicyKind',
   async (arg, thunkAPI) => {
@@ -653,6 +685,7 @@ const rbSlice = createSlice({
       rbPolicyTypes: '',
       rbContactTypes: '',
       rbOrgStructure: '',
+      rbPost: '',
       rbDocumentTypes: '',
       rbSocialTypes: '',
       rbSocialClasses: '',
@@ -674,6 +707,7 @@ const rbSlice = createSlice({
     rbSpeciality: [] as SpecialityType[],
     rbContactTypes: [] as PatientContactType[],
     rbOrgStructure: [] as OrgStructure[],
+    rbPost: [] as Post[],
     rbDocumentTypes: [] as PatientDocumentType[],
     rbSocialTypes: [] as SocialType[],
     rbSocialClasses: [] as SocialClass[],
@@ -771,6 +805,18 @@ const rbSlice = createSlice({
         }));
       }
     });
+
+    builder.addCase(fetchRbPost.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbPost = action.payload.map((item:{  id: number;
+          name: string;
+        }) => ({
+          id: item.id,
+          name: item.name,
+        }));
+      }
+    });
+    
     builder.addCase(fetchRbInvalidReasons.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbInvalidReasons = action.payload;
