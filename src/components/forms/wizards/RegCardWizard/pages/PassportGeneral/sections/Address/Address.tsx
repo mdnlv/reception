@@ -36,9 +36,9 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
-  // useEffect(() => {
-  //   console.log('kladrStreets', kladrStreets);
-  // }, [kladrStreets]);
+  useEffect(() => {
+    console.log('nestedKladr', nestedKladr);
+  }, [nestedKladr]);
 
   // useEffect(() => {
   //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);

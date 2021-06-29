@@ -95,7 +95,7 @@ export default {
   },
   getRegionList(parent?: string, query?: string): Promise<AxiosResponse<RbKladrResponse[]>> {
     if (parent) {
-      return apiInstance.get(`/kladr?parent=${parent}&name=${query}&limit=${10}`);
+      return apiInstance.get(`/kladr?parent=${parent}&name=${query}&limit=${10000}`);
     } else {
       return apiInstance.get(`/kladr`);
     }

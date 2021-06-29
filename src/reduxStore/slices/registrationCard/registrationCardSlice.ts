@@ -66,7 +66,7 @@ export const fetchKladrNested = createAsyncThunk(
       setKladrNestedLoading({ value: true, type: payload.type }),
     );
     try {
-      const response = await RbService.getRegionList(payload.id,payload.value);
+      const response = await RbService.getRegionList(payload.id,payload.value || '');
       if (response.data) {
         const formattedData = response.data.map((item) => ({
           id: item.CODE,
