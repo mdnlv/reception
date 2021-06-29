@@ -31,12 +31,12 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
-      onSearchButtonClick(searchQuery.trim());
+      onSearchButtonClick(searchQuery ? searchQuery.trim() : '');
     }
   }
 
   const submitQueryOnPress = (event: React.KeyboardEvent) => {
-    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery.trim());
+    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery ? searchQuery.trim() : '');
   }
 
   const tableBody = useMemo(() => {
@@ -93,7 +93,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  onSearchQuery(e.target.value);
+                  onSearchQuery && onSearchQuery(e.target.value);
                 }}
                 onKeyPress={submitQueryOnPress}
               />
