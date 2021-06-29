@@ -36,9 +36,9 @@ const Address: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.${passportType}`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
-  useEffect(() => {
-    console.log('nestedKladr', nestedKladr);
-  }, [nestedKladr]);
+  // useEffect(() => {
+  //   console.log('nestedKladr', nestedKladr);
+  // }, [nestedKladr]);
 
   // useEffect(() => {
   //   console.log('formValues.documentedAddress', formValues.passportInfo.documentedAddress);
@@ -86,8 +86,8 @@ const Address: FC<SectionProps> = ({
         getKladrStreets(formValues.passportInfo[passportType].area, getType());
       } else {
         formValues.passportInfo[passportType].city
-          && getType()
-          && getKladrStreets(formValues.passportInfo[passportType].city, getType());
+        && getType()
+        && getKladrStreets(formValues.passportInfo[passportType].city, getType());
       }
     }
   },[
@@ -291,7 +291,7 @@ const Address: FC<SectionProps> = ({
 
                   onInput={(e) => {
                     const value =  e.target.value
-                     getKladrStreets(
+                    getKladrStreets(
                       formValues.passportInfo[passportType].area ===
                       '7800000000000' ||
                       formValues.passportInfo[passportType].area ===
