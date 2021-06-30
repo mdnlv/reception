@@ -32,9 +32,9 @@ const AddressRegistration: FC<SectionProps> = ({
   const sectionValuePath = `passportGeneral.passportInfo.addressRegistration`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
-  useEffect(() => {
-    console.log('formValues registration', formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   console.log('formValues registration', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     if (formValues.isDocumentedAddress && documentedBuffer.area) {
@@ -87,7 +87,7 @@ const AddressRegistration: FC<SectionProps> = ({
     if (!formValues.street) {
       const toEmptyFields = ['houseNumber', 'flatNumber', 'houseCharacter'];
       toEmptyFields.map((item) => {
-        form.setFieldValue(`${sectionValuePath}.${item}`, '');
+        formValues[item] && form.setFieldValue(`${sectionValuePath}.${item}`, '');
       });
     }
   }, [formValues.street]);
