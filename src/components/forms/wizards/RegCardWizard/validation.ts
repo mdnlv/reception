@@ -13,10 +13,10 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   passportGeneral: Yup.object({
     passportInfo: Yup.object({
       passportType: Yup.string().required('Не выбран тип документа'),
-      fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
       serialFirst: Yup.string().required('Не введена серия документа'),
       serialSecond: Yup.string().required('Не введена серия документа'),
       number: Yup.string().required('Не введен номер документа'),
+      fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
       givenBy: Yup.string().required('Не введено кем выдан документ'),
     }),
     contacts: Yup.object({

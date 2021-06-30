@@ -293,7 +293,7 @@ const registrationCardSlice = createSlice({
     builder.addCase(fetchIdPatient.fulfilled, (state, action) => {
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
-        // console.log('BIRTH DATE', transformedPatient.birthDate);
+        // console.log('transformedPatient', transformedPatient);
         const dmsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) === 3,
         );
@@ -364,12 +364,6 @@ const registrationCardSlice = createSlice({
             }
           },
           ...transformedPatient.client_document_info,
-          serialFirst: transformedPatient.client_document_info
-            ? transformedPatient.client_document_info.serial.substr(0,2)
-            : '',
-          serialSecond: transformedPatient.client_document_info
-            ? transformedPatient.client_document_info.serial.substr(2)
-            : '',
         };
         // @ts-ignore
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];

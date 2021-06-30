@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 
@@ -26,7 +26,6 @@ import FindPolicyParams from '../../../../../../interfaces/payloads/patients/fin
 import { RootState } from '../../../../../../reduxStore/store';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
 
-import Address from './sections/Address/Address';
 import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
 import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
@@ -119,17 +118,6 @@ const PassportGeneral: React.FC = () => {
             nestedKladr={rbKladrNestedDocumented}
             kladrStreets={rbKladrStreetsDocumented}
           />
-          {/*<AddressRegistration*/}
-          {/*  passportType="documentedAddress"*/}
-          {/*  isLoadingKladr={isLoadingKladrDocumented}*/}
-          {/*  isLoadingKladrNested={isLoadingKladrNestedDocumented}*/}
-          {/*  isLoadingKladrStreets={isLoadingKladrStreetsDocumented}*/}
-          {/*  getKladrNested={fetchNestedKladr}*/}
-          {/*  getKladrStreets={fetchKladrStreetsItems}*/}
-          {/*  kladr={rbKladrDocumented}*/}
-          {/*  nestedKladr={rbKladrNestedDocumented}*/}
-          {/*  kladrStreets={rbKladrStreetsDocumented}*/}
-          {/*/>*/}
         </Col>
         <Col span={12} className={'col--border-right'}>
           <AddressRegistration

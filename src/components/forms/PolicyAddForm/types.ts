@@ -1,6 +1,6 @@
 import { PassportPolicyType } from '../wizards/RegCardWizard/pages/PassportGeneral/types';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import {PrefixKladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/Address/types";
+import {PrefixKladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/AddressRegistration/types";
 
 export interface ListOptionItem {
   id: number;

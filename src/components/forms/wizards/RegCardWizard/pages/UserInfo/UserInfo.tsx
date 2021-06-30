@@ -35,6 +35,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   const sectionValuePath = `personal`;
   const [snilsWarning, setSnilsWarning] = useState('');
 
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
+
   useEffect(() => {
     formValues.code && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
   }, [formValues.code]);

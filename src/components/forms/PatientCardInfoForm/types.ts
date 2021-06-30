@@ -1,6 +1,5 @@
 import Patient from "../../../types/data/Patient";
-import {KladrDocType} from "../../../reduxStore/slices/registrationCard/types";
-import {KladrItem, PrefixKladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/Address/types";
+import {PrefixKladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/DocumentedAddress/types";
 
 export type FormProps = {
     patient: Patient;

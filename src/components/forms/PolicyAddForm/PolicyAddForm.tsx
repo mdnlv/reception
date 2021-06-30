@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
-import {KladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/Address/types";
+import {KladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/AddressRegistration/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
