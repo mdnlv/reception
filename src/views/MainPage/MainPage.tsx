@@ -85,14 +85,14 @@ const MainPage: FC = () => {
           </Row>
           <Row>
             <Col span={24}>
-              <Schedule 
+              <Schedule
                 person_tree={person_tree}
-                schedules={schedules} 
-                loadSchedule={loadSchedule} 
-                speciality={specialities} 
-                client={client} 
-                actionTicket={postTicket} 
-                onOpenSearch={openSearchQuery}
+                schedules={schedules}
+                loadSchedule={loadSchedule}
+                speciality={specialities}
+                client={client}
+                actionTicket={postTicket}
+                // onOpenSearch={openSearchQuery}
               />
             </Col>
           </Row>

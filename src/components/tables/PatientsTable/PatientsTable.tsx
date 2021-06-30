@@ -9,6 +9,7 @@ import {TableProps} from "./types";
 import Patient from "../../../types/data/Patient";
 import {kladrSelector, kladrLoadingsSelector} from "../../../reduxStore/slices/registrationCard/selectors";
 import {fetchKladrStreets} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {isSearching} from "../../../reduxStore/slices/patients/selectors";
 import {resetCurrentPatient} from '../../../reduxStore/slices/patientCard/patientCardSlice'
 
 const PatientsTable: FC<TableProps> = ({
@@ -23,6 +24,7 @@ const PatientsTable: FC<TableProps> = ({
     kladrSelector,
   );
   const {isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
+  const isSearch = useSelector(isSearching);
   const [cityArr, setCityArr] = useState([] as string[]);
   const columns = [
     {
@@ -200,7 +202,7 @@ const PatientsTable: FC<TableProps> = ({
             onChangeOffset(offsetData);
           }
         }}
-        pagination={{ total: 100, showSizeChanger: false }}
+        pagination={isSearch ? {total: 100, showSizeChanger: false} : false}
       />
     )
 };

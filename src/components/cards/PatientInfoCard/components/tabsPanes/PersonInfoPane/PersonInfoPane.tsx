@@ -41,7 +41,9 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
     if (mainPolicy !== undefined) {
-      return `${mainPolicy.serial} ${mainPolicy.number} выдан с ${format(mainPolicy.from, "d.MM.yyyy")} до ${format(mainPolicy.to, "d.MM.yyyy")}`;
+      return `
+        ${mainPolicy.serial} ${mainPolicy.number} выдан ${mainPolicy.from ? `с ${format(mainPolicy.from, "d.MM.yyyy")}` : ''} ${mainPolicy.to ? `до ${format(mainPolicy.to, "d.MM.yyyy")}` : ''}
+      `;
     } else {
       return '';
     }

@@ -21,3 +21,8 @@ export const currentPatientInfoSelector = createSelector(
     return patientsRef.find((item: Patient) => item.code === currentPatient);
   },
 );
+
+export const isSearching = createSelector(
+  [(state: RootState) => state.patients.isSearching],
+  (isSearching) => isSearching
+);
