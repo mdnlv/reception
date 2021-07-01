@@ -10,10 +10,10 @@ const Schedule: React.FC<any> = (props) => {
   const dispatch = useDispatch();
 
   const {
-    foundPatients,
+    foundDoctors,
     isSearching,
-    currentPatient,
-  } = useSelector((state: RootState) => state.patients);
+    currentDoctor,
+  } = useSelector((state: RootState) => state.person_tree);
 
   const onSearchButtonClick = (query: string) => {
   }
@@ -30,24 +30,27 @@ const Schedule: React.FC<any> = (props) => {
 
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
-    props.onOpenSearch();
+    onOpenSearch();
   }, []);
 
-  const tablePatientsCount = useMemo(() => {
-    if (isSearching && foundPatients) {
-      return foundPatients.length;
+  const tableDoctorsCount = useMemo(() => {
+    if (isSearching && foundDoctors) {
+      return foundDoctors.length;
     } else {
       return undefined;
     }
-  }, [isSearching, foundPatients]);
+  }, [isSearching, foundDoctors]);
+
+  const onOpenSearch = useCallback(() => {
+  }, []);
 
 
   return <>
     <ScheduleSearch
       title={'Врачи'}
       mode={tableMode}
-      onOpenSearch={props.onOpenSearch}
-      searchCount={tablePatientsCount}
+      onOpenSearch={onOpenSearch}
+      searchCount={tableDoctorsCount}
       onSubmitForm={onSubmitForm}
       onCloseClick={onCloseForm}
       onSearchButtonClick={onSearchButtonClick}

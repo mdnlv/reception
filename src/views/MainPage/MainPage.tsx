@@ -92,7 +92,6 @@ const MainPage: FC = () => {
                 speciality={specialities}
                 client={client}
                 actionTicket={postTicket}
-                // onOpenSearch={openSearchQuery}
               />
             </Col>
           </Row>

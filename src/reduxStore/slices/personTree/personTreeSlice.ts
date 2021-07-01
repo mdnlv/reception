@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import ScheduleService from '../../../services/ScheduleService';
-import Schedule from '../../../types/data/Schedule';
-import {PersonTree} from "./types";
+import {PersonTree, Person} from "./types";
 
 export const fetchPersonTree = createAsyncThunk(
   'schedule/fetchPersonTree',
@@ -27,6 +26,9 @@ const personTreeSlice = createSlice({
   initialState: {
     person_tree: [] as PersonTree[],
     isLoading: false,
+    foundDoctors: [] as  Person[],
+    currentDoctor: 0,
+    isSearching: false,
   },
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
