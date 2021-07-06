@@ -180,7 +180,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               loading={isLoading}
               onClick={() => {
                 onFindPolicyHandler({
-                  birthDate: birthDate,
+                  birthDate,
                   docNumber,
                   docSerial,
                   firstName,

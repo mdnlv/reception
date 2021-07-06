@@ -125,7 +125,7 @@ export const findPatientPolicy = createAsyncThunk(
     );
     try {
       //@ts-ignore
-      const birthDate = format(parseISO(payload.birthDate), 'yyyy-MM-dd');
+      const birthDate = format(payload.birthDate, 'yyyy-MM-dd');
       const response = await PatientsService.findPatientPolicy({
         ...payload,
         birthDate,
