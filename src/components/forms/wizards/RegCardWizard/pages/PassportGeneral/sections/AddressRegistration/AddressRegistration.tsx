@@ -204,7 +204,12 @@ const AddressRegistration: FC<SectionProps> = ({
                   showSearch
                   filterOption
                   optionFilterProp={'name'}>
-                  {getKladrDetailed(nestedKladr)}
+                  {getKladrDetailed(
+                    formValues.area === '7800000000000' ||
+                    formValues.area === '7700000000000' ||
+                    formValues.area === '9200000000000'
+                      ? [] : nestedKladr
+                  )}
                 </FastSearchSelect>
               </FormField>
             </Col>
