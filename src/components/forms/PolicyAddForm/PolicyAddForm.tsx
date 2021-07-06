@@ -179,6 +179,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <Button
               loading={isLoading}
               onClick={() => {
+                console.log('birthDate', birthDate);
                 onFindPolicyHandler({
                   birthDate,
                   docNumber,
