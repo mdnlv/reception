@@ -6,7 +6,6 @@ import { useParams } from 'react-router';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
-import {KladrItem} from "../wizards/RegCardWizard/pages/PassportGeneral/sections/AddressRegistration/types";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -14,6 +13,7 @@ import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../components/fields/FastSearchSelect/FastSearchSelect';
 import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInput";
 import PolSearchValidation from "../../modals/PolSearchValidation/PolSearchValidation";
+import SmoParams from "../../modals/SmoParams/SmoParams";
 
 const PolicyAddForm: React.FC<FormProps> = ({
   policyKey,
@@ -44,8 +44,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
+  const [showOrgChoice, setShowOrgChoice] = useState(false);
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
+
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
@@ -116,8 +121,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
     [policyTimeType, policyType, cmoFiltered],
   );
 
-  const getKladrDetailed = (kladrArr: KladrItem[]) => {
-    return kladrArr.map((item) => (
+  const getKladrDetailed = () => {
+    return kladr.map((item) => (
       <Select.Option
         key={item.id}
         name={`${item.socr}. ${item.name}`}
@@ -165,7 +170,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onCloseModal = () => {
     setShowModal(false);
-  }
+  };
+
+  const onCloseOrgsChoice = () => {
+    setShowOrgChoice(false);
+  };
 
   return (
     <div
@@ -250,24 +259,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </FormField>
         </Col>
       </Row>
-      <Row className="form-row" gutter={16}>
-        <Col span={24}>
-          <FormField labelPosition="left" label="Территория страхования">
-            <FastSearchSelect
-              filterOption
-              loading={isLoading || isCmoLoading}
-              optionFilterProp={'name'}
-              showSearch
-              disabled={isLoading}
-              name={`${sectionValuePath}.cmoArea`}
-            >
-              {getKladrDetailed(kladr)}
-            </FastSearchSelect>
-          </FormField>
-        </Col>
-      </Row>
-      <Row className="form-row" gutter={16}>
-        <Col span={14}>
+      <Row className="form-row" gutter={16} align={'bottom'}>
+        <Col span={13}>
           <FormField label="СМО" labelPosition="left" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
               filterOption
@@ -281,7 +274,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
             </FastSearchSelect>
           </FormField>
         </Col>
-        <Col span={10}>
+        <Col>
+          <Button onClick={() => setShowOrgChoice(true)}>...</Button>
+        </Col>
+        <Col span={8}>
           <FormField name={`${sectionValuePath}.type`}>
             <FastSearchSelect
               disabled={isLoading}
@@ -329,6 +325,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
       </Row>
       <PolSearchValidation isVisible={showModal} errors={errorsData} onClose={onCloseModal}/>
+      <SmoParams
+        isVisible={showOrgChoice}
+        policyKey={policyKey}
+        getKladrDetailed={getKladrDetailed}
+        onClose={onCloseOrgsChoice}
+      />
     </div>
   );
 };

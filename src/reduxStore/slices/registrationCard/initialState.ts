@@ -139,6 +139,9 @@ const initialState: RegistrationCardStateType = {
         to: '',
         type: '',
         deleted: 0,
+        inn: '',
+        ogrn: '',
+        infisCode: '',
       },
       policyDms: {
         id: undefined,
@@ -153,6 +156,9 @@ const initialState: RegistrationCardStateType = {
         to: '',
         type: '',
         deleted: 0,
+        inn: '',
+        ogrn: '',
+        infisCode: '',
       }
     },
     personDocs: {

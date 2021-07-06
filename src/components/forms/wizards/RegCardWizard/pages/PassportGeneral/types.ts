@@ -29,16 +29,19 @@ export interface PolicyAttachesType {
 export interface PassportPolicyType {
   id?: number;
   timeType?: string;
-  from: string;
-  to: string;
+  cmoArea?: string;
+  from: string | Date;
+  to: string | Date;
   serial: string;
   number: string;
   cmo: string;
   type: string;
   name?: string;
   note?: string;
-  attachList?: PolicyAttachesType[];
   deleted?: 0 | 1;
+  inn?: string;
+  ogrn?: string;
+  infisCode?: string;
 }
 
 export interface PassportAddressType {
@@ -76,32 +79,6 @@ export default interface FormState {
     contacts: PassportContactType[];
     deleted: PassportContactTypeDeleted[];
   };
-  policyOms: {
-    id?: number;
-    timeType?: string;
-    cmoArea?: string;
-    from: string | Date;
-    to: string | Date;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name?: string;
-    note?: string;
-    deleted?: 0 | 1;
-  };
-  policyDms: {
-    id?: number;
-    timeType?: string;
-    cmoArea?: string;
-    from: string | Date;
-    to: string | Date;
-    serial: string;
-    number: string;
-    cmo: string;
-    type: string;
-    name?: string;
-    note?: string;
-    deleted?: 0 | 1;
-  };
+  policyOms: PassportPolicyType;
+  policyDms: PassportPolicyType;
 }

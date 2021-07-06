@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
 import {format} from "date-fns";
 
