@@ -18,7 +18,7 @@ export enum LABELS {
   TYPE = 'Тип',
   LPU = 'ЛПУ',
   UNIT = 'Подразделение',
-  ATTACHMENT_DATE = 'Дата прикрепления',
-  DETACH_DATE = 'Дата открепления',
+  ATTACHMENT_DATE = 'Дата начала',
+  DETACH_DATE = 'Дата окончания',
   DETACH_REASON = 'Причина открепления',
 }
