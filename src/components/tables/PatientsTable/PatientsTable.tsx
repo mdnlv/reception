@@ -3,6 +3,7 @@ import {Table, Spin} from 'antd/lib';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
+import {format, parseISO} from "date-fns";
 
 import './styles.scss';
 import {TableProps} from "./types";
@@ -159,7 +160,7 @@ const PatientsTable: FC<TableProps> = ({
         address: getTypeAddress(item),
         viewType: '',
         sex: getSexName(item.sex),
-        birthDate: item.birthDate,
+        birthDate: format(parseISO(item.birthDate), 'd.MM.yyyy'),
         medExamination: item.medExamination
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
