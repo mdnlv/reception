@@ -142,6 +142,7 @@ const initialState: RegistrationCardStateType = {
         inn: '',
         ogrn: '',
         infisCode: '',
+        smoShort: '',
       },
       policyDms: {
         id: undefined,
@@ -159,6 +160,7 @@ const initialState: RegistrationCardStateType = {
         inn: '',
         ogrn: '',
         infisCode: '',
+        smoShort: '',
       }
     },
     personDocs: {

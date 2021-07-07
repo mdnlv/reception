@@ -6,6 +6,8 @@ export interface ListOptionItem {
   id: number;
   name: string;
   extraData?: number | string;
+  inn?: string;
+  ogrn?: string;
 }
 
 export interface FormProps {

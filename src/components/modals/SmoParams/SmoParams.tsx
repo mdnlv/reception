@@ -7,7 +7,13 @@ import FormField from "../../forms/components/FormField/FormField";
 import FastSearchSelect from "../../forms/components/fields/FastSearchSelect/FastSearchSelect";
 import FastInput from "../../forms/components/fields/FastInput/FastInput";
 
-const SmoParams: React.FC<ModalProps> = ({isVisible, onClose, policyKey, getKladrDetailed}) => {
+const SmoParams: React.FC<ModalProps> = ({
+  isVisible,
+  onClose,
+  policyKey,
+  getKladrDetailed,
+  onCancel
+}) => {
   const sectionValuePath = `passportGeneral.${policyKey}`;
 
   return (
@@ -18,17 +24,24 @@ const SmoParams: React.FC<ModalProps> = ({isVisible, onClose, policyKey, getKlad
       title="Выбор организации"
       footer={(
         <Row justify={'end'}>
-          <Button type="primary" className={'save-btn'}>
+          <Button type="primary" className={'save-btn'} onClick={onClose}>
             ОК
           </Button>
-          <Button type="primary" danger>
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              onCancel && onCancel();
+              onClose && onClose()
+            }}
+          >
             Отмена
           </Button>
         </Row>
       )}
     >
-      <FormField label="Название содержит" name={`${sectionValuePath}.name`} labelPosition="left">
-        <FastInput name={`${sectionValuePath}.name`}/>
+      <FormField label="Название содержит" name={`${sectionValuePath}.smoShort`} labelPosition="left">
+        <FastInput name={`${sectionValuePath}.smoShort`}/>
       </FormField>
       <FormField label="ИНН" name={`${sectionValuePath}.inn`} labelPosition="left">
         <FastInput name={`${sectionValuePath}.inn`}/>

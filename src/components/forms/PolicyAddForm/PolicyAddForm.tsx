@@ -31,6 +31,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const formValues = form.values.passportGeneral[policyKey];
   const sectionValuePath = `passportGeneral.${policyKey}`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
+  const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
@@ -48,9 +49,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
+
   useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
+    cmoType.length > 0 && setCmoFiltered(cmoType);
+  }, [cmoType]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
@@ -58,10 +63,38 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     const result = formValues.cmoArea
-      ? cmoType.filter((item) => item.extraData === formValues.cmoArea)
-      : cmoType;
+      ? cmoFiltered.filter((item) => item.extraData === formValues.cmoArea)
+      : cmoFiltered;
     setCmoFiltered(result);
-  }, [formValues.cmoArea, cmoType]);
+  }, [formValues.cmoArea, cmoFiltered]);
+
+  useEffect(() => {
+    const result = formValues.smoShort
+      ? cmoFiltered.filter(
+        (item) => formValues.smoShort && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
+      )
+      : cmoFiltered;
+    setCmoFiltered(result);
+  }, [formValues.smoShort, cmoFiltered]);
+
+  useEffect(() => {
+    const result = formValues.inn
+      ? cmoFiltered.filter(
+        (item) => formValues.inn && item.inn?.includes(formValues.inn || '')
+      )
+      : cmoFiltered;
+    setCmoFiltered(result);
+  }, [formValues.inn, cmoFiltered]);
+
+  useEffect(() => {
+    const result = formValues.ogrn
+      ? cmoFiltered.filter(
+        (item) =>
+          formValues.ogrn && item.ogrn?.includes(formValues.ogrn || '')
+      )
+      : cmoFiltered;
+    setCmoFiltered(result);
+  }, [formValues.ogrn, cmoFiltered]);
 
   useEffect(() => {
     if (!formValues.cmoArea) {
@@ -174,6 +207,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onCloseOrgsChoice = () => {
     setShowOrgChoice(false);
+  };
+
+  const onCancelCmoFilter = () => {
+    setCmoFiltered(cmoType);
+    filterNames.map((item) => {
+      form.setFieldValue(`${sectionValuePath}.${item}`, '')
+    })
   };
 
   return (
@@ -330,6 +370,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         policyKey={policyKey}
         getKladrDetailed={getKladrDetailed}
         onClose={onCloseOrgsChoice}
+        onCancel={onCancelCmoFilter}
       />
     </div>
   );
