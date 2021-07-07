@@ -12,7 +12,8 @@ const SmoParams: React.FC<ModalProps> = ({
   onClose,
   policyKey,
   getKladrDetailed,
-  onCancel
+  onCancel,
+  onOk
 }) => {
   const sectionValuePath = `passportGeneral.${policyKey}`;
 
@@ -24,7 +25,14 @@ const SmoParams: React.FC<ModalProps> = ({
       title="Выбор организации"
       footer={(
         <Row justify={'end'}>
-          <Button type="primary" className={'save-btn'} onClick={onClose}>
+          <Button
+            type="primary"
+            className={'save-btn'}
+            onClick={() => {
+              onOk && onOk();
+              onClose && onClose();
+            }}
+          >
             ОК
           </Button>
           <Button
@@ -32,7 +40,7 @@ const SmoParams: React.FC<ModalProps> = ({
             danger
             onClick={() => {
               onCancel && onCancel();
-              onClose && onClose()
+              onClose && onClose();
             }}
           >
             Отмена
@@ -54,6 +62,7 @@ const SmoParams: React.FC<ModalProps> = ({
       </FormField>
       <FormField label="Территория страхования" name={`${sectionValuePath}.cmoArea`} labelPosition="left">
         <FastSearchSelect
+          allowClear
           filterOption
           optionFilterProp={'name'}
           showSearch

@@ -52,49 +52,21 @@ const PolicyAddForm: React.FC<FormProps> = ({
   // useEffect(() => {
   //   console.log('formValues', formValues);
   // }, [formValues]);
+  //
+  // useEffect(() => {
+  //   console.log('cmoFiltered', cmoFiltered);
+  // }, [cmoFiltered]);
 
   useEffect(() => {
-    cmoType.length > 0 && setCmoFiltered(cmoType);
+    console.log('cmoType', cmoType);
+    if (cmoType.length > 0) {
+      setCmoFiltered(cmoType);
+    }
   }, [cmoType]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
   }, [id]);
-
-  useEffect(() => {
-    const result = formValues.cmoArea
-      ? cmoFiltered.filter((item) => item.extraData === formValues.cmoArea)
-      : cmoFiltered;
-    setCmoFiltered(result);
-  }, [formValues.cmoArea, cmoFiltered]);
-
-  useEffect(() => {
-    const result = formValues.smoShort
-      ? cmoFiltered.filter(
-        (item) => formValues.smoShort && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
-      )
-      : cmoFiltered;
-    setCmoFiltered(result);
-  }, [formValues.smoShort, cmoFiltered]);
-
-  useEffect(() => {
-    const result = formValues.inn
-      ? cmoFiltered.filter(
-        (item) => formValues.inn && item.inn?.includes(formValues.inn || '')
-      )
-      : cmoFiltered;
-    setCmoFiltered(result);
-  }, [formValues.inn, cmoFiltered]);
-
-  useEffect(() => {
-    const result = formValues.ogrn
-      ? cmoFiltered.filter(
-        (item) =>
-          formValues.ogrn && item.ogrn?.includes(formValues.ogrn || '')
-      )
-      : cmoFiltered;
-    setCmoFiltered(result);
-  }, [formValues.ogrn, cmoFiltered]);
 
   useEffect(() => {
     if (!formValues.cmoArea) {
@@ -207,6 +179,17 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onCloseOrgsChoice = () => {
     setShowOrgChoice(false);
+  };
+
+  const onSubmitCmoFilter = () => {
+    const result = cmoType.filter(
+      (item) =>
+        formValues.cmoArea ? item.extraData === formValues.cmoArea : item
+        && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
+        && item.inn?.includes(formValues.inn || '')
+        && item.ogrn?.includes(formValues.ogrn || '')
+    );
+    setCmoFiltered(result);
   };
 
   const onCancelCmoFilter = () => {
@@ -366,10 +349,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
       </Row>
       <PolSearchValidation isVisible={showModal} errors={errorsData} onClose={onCloseModal}/>
       <SmoParams
-        isVisible={showOrgChoice}
+        isVisible={showOrgChoice && !isCmoLoading && !isLoading}
         policyKey={policyKey}
         getKladrDetailed={getKladrDetailed}
         onClose={onCloseOrgsChoice}
+        onOk={onSubmitCmoFilter}
         onCancel={onCancelCmoFilter}
       />
     </div>
