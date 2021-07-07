@@ -116,6 +116,7 @@ function* asyncFetchOrganisations(action: FETCH_ORGANISATIONS) {
       const formattedData = organisations.data.map((item) => ({
         ...item,
       }));
+      // @ts-ignore
       yield put(setRbOrganisations(formattedData));
     }
   } catch (e) {

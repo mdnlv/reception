@@ -43,6 +43,7 @@ export interface PassportPolicyType {
   ogrn?: string;
   infisCode?: string;
   smoShort?: string;
+  attachList?: PolicyAttachesType[];
 }
 
 export interface PassportAddressType {

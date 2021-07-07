@@ -11,8 +11,8 @@ export interface ListOptionProps {
   id: number;
   name: string;
   freeInput?: string;
-  inn: string;
-  ogrn: string;
+  inn?: string;
+  ogrn?: string;
 }
 
 export interface SectionProps {

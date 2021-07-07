@@ -6,4 +6,6 @@ export default interface Organisation {
   inn: string;
   ogrn: string;
   area?: string;
+  INN?: string;
+  OGRN?: string;
 }
