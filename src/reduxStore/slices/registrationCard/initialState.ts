@@ -88,13 +88,18 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
-        id: undefined,
-        passportType: '',
-        serialFirst: '',
-        serialSecond: '',
-        number: '',
-        fromDate: '',
-        givenBy: '',
+        documents: [
+          {
+            id: undefined,
+            passportType: '',
+            serialFirst: '',
+            serialSecond: '',
+            number: '',
+            fromDate: '',
+            givenBy: '',
+          }
+        ],
+        documentsDeleted: [],
         addressRegistration: {
           id: undefined,
           isKLADR: true,
@@ -246,13 +251,18 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
-        id: undefined,
-        passportType: '',
-        serialFirst: '',
-        serialSecond: '',
-        number: '',
-        fromDate: '',
-        givenBy: '',
+        documents: [
+          {
+            id: undefined,
+            passportType: '',
+            serialFirst: '',
+            serialSecond: '',
+            number: '',
+            fromDate: '',
+            givenBy: '',
+          }
+        ],
+        documentsDeleted: [], //не создаются
         addressRegistration: {
           isKLADR: true,
           city: '',

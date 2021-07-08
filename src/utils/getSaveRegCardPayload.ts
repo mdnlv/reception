@@ -12,13 +12,8 @@ import PatientIdInfo from "../interfaces/payloads/regCard/PatientIdInfo";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
-    id,
-    passportType,
-    serialFirst,
-    serialSecond,
-    number,
-    fromDate,
-    givenBy,
+    documents,
+    documentsDeleted,
     addressRegistration,
     documentedAddress,
   } = state.registrationCard.form.passportGeneral.passportInfo;
@@ -67,15 +62,26 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     growth: height.toString(),
 
     client_document_info: [
-      {
-        ...(id && {id}),
-        documentType_id: passportType,
-        serial: serialFirst?.concat(serialSecond) || '',
-        number: number || '',
-        date: toServerFormat(fromDate),
-        origin: givenBy || '',
+      ...documents.map((item) => ({
+        ...(item.id && {id: item.id}),
+        documentType_id: item.passportType,
+        serial: item.serialFirst?.concat(item.serialSecond) || '',
+        number: item.number || '',
+        date: toServerFormat(item.fromDate),
+        origin: item.givenBy || '',
         endDate: '2200-12-12',
-      }
+        deleted: 0 as 0,
+      })),
+      ...documentsDeleted.map((item) => ({
+        ...(item.id && {id: item.id}),
+        documentType_id: item.passportType,
+        serial: item.serialFirst?.concat(item.serialSecond) || '',
+        number: item.number || '',
+        date: toServerFormat(item.fromDate),
+        origin: item.givenBy || '',
+        endDate: '2200-12-12',
+        deleted: 1 as 1,
+      })),
     ],
 
     client_contact_info: [

@@ -365,7 +365,7 @@ const registrationCardSlice = createSlice({
               ...initialState.initialFormState.passportGeneral.passportInfo.documentedAddress
             }
           },
-          ...transformedPatient.client_document_info,
+          documents: [transformedPatient.client_document_info],
         };
         // @ts-ignore
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];

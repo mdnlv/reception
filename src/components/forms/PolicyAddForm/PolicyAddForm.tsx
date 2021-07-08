@@ -39,9 +39,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
   // @ts-ignore
-  const docSerial = form.values.passportGeneral.passportInfo.serialFirst
-    .concat(form.values.passportGeneral.passportInfo.serialSecond);
-  const docNumber = form.values.passportGeneral.passportInfo.number;
+  const docSerial = form.values.passportGeneral.passportInfo.documents[0].serialFirst
+    .concat(form.values.passportGeneral.passportInfo.documents[0].serialSecond);
+  const docNumber = form.values.passportGeneral.passportInfo.documents[0].number;
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);

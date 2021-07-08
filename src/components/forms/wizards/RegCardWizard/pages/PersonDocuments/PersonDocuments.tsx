@@ -11,7 +11,7 @@ import {
 import {RootState} from '../../../../../../reduxStore/store';
 
 import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
-import PersonalDocument from '../PassportGeneral/sections/PersonalDocument/PersonalDocument';
+import PersonalDocuments from './sections/PersonalDocuments/PersonalDocuments';
 
 const PersonDocuments: React.FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);
@@ -62,10 +62,7 @@ const PersonDocuments: React.FC = () => {
     <form className={'wizard-step person-documents-page card-page'}>
       <Row>
         <Col span={24}>
-          <PersonalDocument
-            isLoadingDocuments={documentTypes}
-            documentTypes={documentTypesList}
-          />
+          <PersonalDocuments />
         </Col>
       </Row>
       <Divider />

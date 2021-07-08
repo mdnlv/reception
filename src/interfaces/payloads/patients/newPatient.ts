@@ -65,6 +65,7 @@ export default interface NewPatientPayload {
     date: string;
     endDate: string;
     origin: string;
+    deleted?: 0 | 1;
   }[];
 
   client_address_info?: {

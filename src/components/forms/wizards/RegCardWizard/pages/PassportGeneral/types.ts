@@ -64,16 +64,26 @@ export interface PassportAddressType {
   isVillager: boolean;
 }
 
+export interface PassportInfoType {
+  id?: number | null;
+  passportType: string;
+  serialFirst?: string;
+  serialSecond: string;
+  number?: string;
+  fromDate?: any;
+  givenBy?: string;
+  serial?:string;
+  deleted?: 0;
+}
+
+export interface PassportInfoTypeDeleted extends Modify<PassportInfoType, {
+  deleted?: 1;
+}> {}
+
 export default interface FormState {
   passportInfo: {
-    id?: number;
-    passportType: string;
-    serialFirst?: string;
-    serialSecond: string;
-    number?: string;
-    fromDate?: any;
-    givenBy?: string;
-    serial?:string;
+    documents: PassportInfoType[];
+    documentsDeleted: PassportInfoTypeDeleted[];
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
   };
