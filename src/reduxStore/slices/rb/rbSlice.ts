@@ -444,22 +444,23 @@ export const fetchRbOrgStructure = createAsyncThunk(
 export const fetchRbPost = createAsyncThunk(
   'rb/fetchPost',
   async (arg, thunkAPI) => {
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Post"}))
-
-    const currentCheckSum =  await get('OrgPost') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
+    // const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Post"}))
+    //
+    // const currentCheckSum =  await get('OrgPost') || ''
+    //
+    // const isCheckSum = currentCheckSum === checksum.payload
 
     thunkAPI.dispatch(setLoading({ type: 'post', value: true }));
     try {
-      const response = isCheckSum? await get('Post'): await RbService.fetchPost()
+      // const response = isCheckSum? await get('Post'): await RbService.fetchPost()
+      const response = await RbService.fetchPost();
       if (response.data) {
-      if(!isCheckSum){
+      // if(!isCheckSum){
         await del('PostSum')
         await del('Post')
-        await set('PostSum',checksum.payload)
+        // await set('PostSum',checksum.payload)
         await set('Post',{data:response.data})
-      }
+      // }
         return response.data.map((item:Post) => ({
           id: item.id,
           name: item.name
@@ -816,7 +817,7 @@ const rbSlice = createSlice({
         }));
       }
     });
-    
+
     builder.addCase(fetchRbInvalidReasons.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbInvalidReasons = action.payload;

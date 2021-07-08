@@ -52,17 +52,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   // useEffect(() => {
   //   console.log('formValues', formValues);
   // }, [formValues]);
-  //
-  // useEffect(() => {
-  //   console.log('cmoFiltered', cmoFiltered);
-  // }, [cmoFiltered]);
-
-  useEffect(() => {
-    console.log('cmoType', cmoType);
-    if (cmoType.length > 0) {
-      setCmoFiltered(cmoType);
-    }
-  }, [cmoType]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
