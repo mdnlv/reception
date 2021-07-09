@@ -38,13 +38,17 @@ export interface PassportPolicyType {
   type: string;
   name?: string;
   note?: string;
-  deleted?: 0 | 1;
+  deleted?: 0;
   inn?: string;
   ogrn?: string;
   infisCode?: string;
   smoShort?: string;
   attachList?: PolicyAttachesType[];
 }
+
+export interface PassportPolicyTypeDeleted extends Modify<PassportPolicyType, {
+  deleted?: 1;
+}> {}
 
 export interface PassportAddressType {
   [key: string]: any;
@@ -93,4 +97,6 @@ export default interface FormState {
   };
   policyOms: PassportPolicyType;
   policyDms: PassportPolicyType;
+  policies: PassportPolicyType[];
+  policiesDeleted: PassportPolicyTypeDeleted[];
 }

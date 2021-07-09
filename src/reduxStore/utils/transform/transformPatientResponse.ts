@@ -63,6 +63,18 @@ export const transformPatientResponse = (item: PatientResponse) => {
       passportType: '',
     },
 
+    documents: item.client_document_info.length > 0
+      ? item.client_document_info.map((item) => ({
+          id: item.id,
+          givenBy: item.origin,
+          fromDate: item.date ? parseISO(item.date) : null,
+          serialFirst: item.serial.substr(0,2),
+          serialSecond: item.serial.substr(2),
+          number: item.number,
+          passportType: item.documentType_id.toString(),
+        }))
+      : [],
+
     socialStatus:
       item.client_soc_status_info.map((i) => ({
         id: i.id,

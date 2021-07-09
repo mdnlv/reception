@@ -17,10 +17,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     addressRegistration,
     documentedAddress,
   } = state.registrationCard.form.passportGeneral.passportInfo;
-  const {
-    // policyDms,
-    policyOms,
-  } = state.registrationCard.form.passportGeneral;
+  const {policies, policiesDeleted} = state.registrationCard.form.passportGeneral;
   const {
     firstName,
     lastName,
@@ -109,31 +106,33 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ],
 
     client_policy_info: [
-      {
-        ...(policyOms.id && {id: policyOms.id}),
-        insurer_id: parseInt(policyOms.cmo),
-        policyType_id: policyOms.type ? parseInt(policyOms.type) : null,
-        policyKind_id: policyOms.timeType ? parseInt(policyOms.timeType) : null,
-        begDate: toServerFormat(policyOms.from),
-        endDate: toServerFormat(policyOms.to),
-        note: policyOms.note,
-        name: policyOms.name,
-        number: policyOms.number,
-        serial: policyOms.serial,
-        deleted: policyOms.deleted,
-      }
+      ...policies.map((item) => ({
+        ...(item.id && {id: item.id}),
+        insurer_id: parseInt(item.cmo),
+        policyType_id: item.type ? parseInt(item.type) : null,
+        policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+        begDate: toServerFormat(item.from),
+        endDate: toServerFormat(item.to),
+        note: item.note,
+        name: item.name,
+        number: item.number,
+        serial: item.serial,
+        deleted: 0 as 0,
+      })),
+      ...policiesDeleted.map((item) => ({
+        ...(item.id && {id: item.id}),
+        insurer_id: parseInt(item.cmo),
+        policyType_id: item.type ? parseInt(item.type) : null,
+        policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+        begDate: toServerFormat(item.from),
+        endDate: toServerFormat(item.to),
+        note: item.note,
+        name: item.name,
+        number: item.number,
+        serial: item.serial,
+        deleted: 1 as 1,
+      }))
     ],
-      // policyDms.concat(policyOms).map((item) => ({
-      //   insurer_id: parseInt(item.cmo),
-      //   policyType_id: item.type ? parseInt(item.type) : null,
-      //   policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-      //   begDate: item.from,
-      //   endDate: item.to,
-      //   note: item.note,
-      //   name: item.name,
-      //   number: item.number,
-      //   serial: item.serial,
-      // })) || [],
 
     client_address_info: [
       {

@@ -12,7 +12,14 @@ import {
 import {PersonOffence} from '../../../components/forms/OffencesForm/types';
 import {PersonHospitalization} from '../../../components/forms/OutsideHospitalizationForm/types';
 import {PersonOutsideId, PersonOutsideIdDeleted} from '../../../components/forms/OutsideIdentificationForm/types';
-import {PassportContactType, PassportPolicyType, PassportContactTypeDeleted} from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
+import {
+  PassportContactType,
+  PassportPolicyType,
+  PassportPolicyTypeDeleted,
+  PassportContactTypeDeleted,
+  PassportInfoType,
+  PassportInfoTypeDeleted
+} from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import {
   NamedDoc,
   PassportDoc,
@@ -98,8 +105,8 @@ const initialState: RegistrationCardStateType = {
             fromDate: '',
             givenBy: '',
           }
-        ],
-        documentsDeleted: [],
+        ] as PassportInfoType[],
+        documentsDeleted: [] as PassportInfoTypeDeleted[],
         addressRegistration: {
           id: undefined,
           isKLADR: true,
@@ -166,7 +173,9 @@ const initialState: RegistrationCardStateType = {
         ogrn: '',
         infisCode: '',
         smoShort: '',
-      }
+      },
+      policies: [],
+      policiesDeleted: [],
     },
     personDocs: {
       idDoc: [] as PassportDoc[],
@@ -261,8 +270,8 @@ const initialState: RegistrationCardStateType = {
             fromDate: '',
             givenBy: '',
           }
-        ],
-        documentsDeleted: [], //не создаются
+        ] as PassportInfoType[],
+        documentsDeleted: [] as PassportInfoTypeDeleted[],
         addressRegistration: {
           isKLADR: true,
           city: '',
@@ -319,7 +328,9 @@ const initialState: RegistrationCardStateType = {
         to: "",
         type: '',
         deleted: 0,
-      }
+      },
+      policies: [],
+      policiesDeleted: [],
     },
     personDocs: {
       idDoc: [] as PassportDoc[],

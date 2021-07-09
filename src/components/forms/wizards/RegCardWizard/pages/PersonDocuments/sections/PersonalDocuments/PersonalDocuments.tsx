@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect} from 'react';
-import {Col, DatePicker, Input, Row, Select, Button, Divider} from 'antd';
+import {Col, Row, Select, Button, Divider} from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
@@ -23,6 +23,10 @@ const PersonalDocuments: FC = () => {
   const formValuesRemoved = form.values.passportGeneral.passportInfo.documentsDeleted;
   const docTypes = useSelector(detailedDocumentTypesSelector);
   const {documentTypes: loadingDocTypes} = useSelector((state: RootState) => state.rb.loading);
+
+  useEffect(() => {
+    console.log('form.values.passportGeneral.passportInfo', form.values.passportGeneral.passportInfo);
+  }, [form.values.passportGeneral.passportInfo]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `passportGeneral.passportInfo.documents[${index}].${fieldChain}`;
