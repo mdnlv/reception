@@ -3,30 +3,22 @@ import {Col, Row, Select, TreeSelect} from 'antd/lib';
 import {RootState} from "../../../../../reduxStore/store";
 import FormField from '../../../components/FormField/FormField';
 import FastSearchSelect from '../../../components/fields/FastSearchSelect/FastSearchSelect';
+import FastInput from '../../../components/fields/FastInput/FastInput';
 import TreeSelectField from '../../../components/fields/TreeSelect';
 import { useDispatch, useSelector } from 'react-redux';
-import { PersonTree } from '../../../../elements/Schedule/types';
+import { Person, PersonTree } from '../../../../elements/Schedule/types';
+import { useFormikContext } from 'formik';
+import { fetchFiltersDoctors } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
 
 const Fields: React.FC<any> = (props) => {
   const dispatch = useDispatch()
-  const personTree = useSelector((state:RootState) => state.person_tree.person_tree);
-  const specialty = useSelector((state: RootState) => state.deferredCalls.specialty);
-  const post =  useSelector((state: RootState) => state.deferredCalls.specialty);
-  const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
+  const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
+  const specialty = useSelector((state: RootState) => state.rb.rbSpeciality);
+  const post = useSelector((state: RootState) => state.rb.rbPost);
+  const person = useSelector((state: RootState) => state.person_tree.foundDoctors);
+  const { values }  = useFormikContext<{[u: string]: any}>();
 
-  const getPropsOptionsSpecialty = (props: any) =>
-  props.map((item: any) => {
-    return (
-      <Select.Option key={item.id} name={item.name} value={item.id}>
-          {item.name}
-      </Select.Option>
-    )
-  });
-
-  const getPropsOptionsPost = (props: any) => ({
-  });
-
-  const renderTreeNodes = (data:PersonTree[]) =>
+  const renderTreeNodes = (data: any) =>
   data.map((item: PersonTree) => {
     return (
       <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
@@ -38,40 +30,58 @@ const Fields: React.FC<any> = (props) => {
   const getPropsOptions = (props: any) =>
     props.map((item: any,index:number) => {
       return (
-        <Select.Option key={index} name={item.fullName} value={item.code}>
-            {item.fullName}
+        <Select.Option key={item.id} name={item.name} value={item.id}>
+            {item.name}
         </Select.Option>
       )
   });
 
-  const getPropsOptionsDoctors = (props: any) =>
-  props.map((item: any, index:number) => {
-      return (
-          <Select.Option key={index} name={item.fullName} value={item.id}>
-              {item.fullName}
-          </Select.Option>
-      )
-  });
+  const getPropsOptionsPerson = (props: any) =>
+  props.map((item: any,index:number) => {
+    return (
+      <Select.Option key={item.id} name={item.name} value={item.id}>
+          {item.lastName}
+      </Select.Option>
+    )
+});
 
-  const searchPatients = (query: string) => {
+  const onSelectOrg = (v?: any) => {
+    dispatch(
+      fetchFiltersDoctors({
+        limit: 100,
+        offset: 0,
+        orgStructure_id: v ? v : 0,
+        speciality_id: !values.speciality? 0: values.speciality,
+        post_id: !values.post? 0: values.post
+      }),
+    );
   }
 
-  const clearDoctor = (() => { 
-  })
-
-  const clearDoctorsAndSpeciality = () =>{
+  const onSelectSpec = (v?: any) => {
+    dispatch(
+      fetchFiltersDoctors({
+        limit: 100,
+        offset: 0,
+        orgStructure_id: values.organisation,
+        speciality_id: v ? v: 0,
+        post_id: !values.post? 0: values.post
+      }),
+    );
   }
 
-  const clearSpeciality = () => {
-  }
-
-  const onSelectTreeNode = (value:number,tree:PersonTree) =>{
+  const onSelectPost = (v?: any) => {
+    dispatch(
+      fetchFiltersDoctors({
+        limit: 100,
+        offset: 0,
+        orgStructure_id: values.organisation,
+        speciality_id: !values.speciality? 0: values.speciality,
+        post_id: v? v: 0
+      }),
+    );
   }
   
-  const onSelectSpecialityId  = (id:number) =>{
-  }
-
-  const onSelectDoctor  = (id:number) =>{
+  const onSelectDoctor = (v?: any) => {
   }
 
   return (
@@ -81,8 +91,8 @@ const Fields: React.FC<any> = (props) => {
           <FormField label={'Подразделение:'} name={'organisation'}>
             <TreeSelectField 
               name={'organisation'}
-              onClear={clearDoctorsAndSpeciality}
-              onSelect={onSelectTreeNode}>
+              onClear={onSelectOrg}
+              onSelect={onSelectOrg}>
               {renderTreeNodes(personTree)}
             </TreeSelectField>
           </FormField>
@@ -92,16 +102,16 @@ const Fields: React.FC<any> = (props) => {
           <FormField label={'Специальность врача:'} name={'speciality'}>
           <Suspense fallback={<div>Загрузка...</div>}>
             <FastSearchSelect
-              placeholder={'Специальность'}
+              placeholder='Специальность'
               name={'speciality'}
               showSearch
               allowClear
-              onClear={clearDoctor}
-              onSelect={onSelectSpecialityId}
+              onClear={onSelectSpec}
+              onSelect={onSelectSpec}
               filterOption
               optionFilterProp={'name'}
             >
-              {getPropsOptionsSpecialty(specialty)}
+              {getPropsOptions(specialty)}
             </FastSearchSelect>
             </Suspense>
           </FormField>
@@ -111,16 +121,16 @@ const Fields: React.FC<any> = (props) => {
           <FormField label={'Должность:'} name={'post'}>
           <Suspense fallback={<div>Загрузка...</div>}>
             <FastSearchSelect
-              placeholder={'Должность'}
+              placeholder='Должность'
               name={'post'}
               showSearch
               allowClear
-              onClear={clearDoctor}
-              onSelect={onSelectSpecialityId}
+              onClear={onSelectPost}
+              onSelect={onSelectPost}
               filterOption
               optionFilterProp={'name'}
             >
-              {getPropsOptionsSpecialty(specialty)}
+              {getPropsOptions(post)}
             </FastSearchSelect>
             </Suspense>
           </FormField>
@@ -129,17 +139,18 @@ const Fields: React.FC<any> = (props) => {
         <Col span={6}>
           <FormField label={'Врач:'}  name={'person'}>
           <Suspense fallback={<div>Загрузка...</div>}>
-            <FastSearchSelect
-              placeholder={'Врач'}
+          <FastSearchSelect
+              placeholder='Врач'
               name={'person'}
               showSearch
               allowClear
-              onClear={clearSpeciality}
+              onClear={onSelectDoctor}
+              onSelect={onSelectDoctor}
               filterOption
               optionFilterProp={'name'}
-              onSelect={onSelectDoctor}
+              mode="multiple"
             >
-              {getPropsOptionsDoctors(doctors)}
+              {getPropsOptionsPerson(person)}
             </FastSearchSelect>
             </Suspense>
           </FormField>

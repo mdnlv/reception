@@ -5,7 +5,7 @@ import {Schedule, ScheduleOne} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
-  async (payload: { id: number[]; beg_date: string, end_date: string}, thunkAPI) => {
+  async (payload: { id: number[]; beg_date: string, end_date: string, showEmpty?: boolean}, thunkAPI) => {
     thunkAPI.dispatch(setLoading(true));
     try {
       const response = await ScheduleService.fetchSchedule(payload);
@@ -36,6 +36,24 @@ export const fetchItem = createAsyncThunk(
     }
   },  
 );
+
+export const fetchItems = createAsyncThunk(
+  'schedule/fetchItems',
+  async (payload: { ids: number[], beg_date: string, end_date: string, showEmpty?: boolean}, thunkAPI) => {
+    thunkAPI.dispatch(setLoading(true));
+    try {
+      const response = await ScheduleService.fetchItems(payload);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      thunkAPI.dispatch(setLoading(false));
+    }
+  },  
+);
+
 
 export const actionTicket = createAsyncThunk(
   'schedule/actionTicket',
@@ -119,7 +137,20 @@ const scheduleSlice = createSlice({
           delete state.schedules[id];
         }
       }
+    });
 
+    builder.addCase(fetchItems.fulfilled, (state, action) => {
+      if(action.payload) {
+
+        let key =  Object.keys(action.payload)[0];
+        let value: any = Object.values(action.payload)[0];
+        if(state.schedules[Number(key)]) {
+          state.schedules[Number(key)] = value;
+        } else {
+          let obj = Object.assign(state.schedules, action.payload);
+          state.schedules = obj;
+        }
+      }
     });
 
     builder.addCase(actionTicket.fulfilled, (state, action) => {

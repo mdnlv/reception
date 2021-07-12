@@ -1,33 +1,35 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Radio, { RadioChangeEvent } from 'antd/lib/radio';
+import React, { useMemo, useState } from 'react';
+import Radio from 'antd/lib/radio';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
-import { Button, Card, Input, Row } from 'antd/lib';
+import { Button, Card, Input, Row, Checkbox } from 'antd/lib';
 
 import './style.scss';
 import {SearchHeaderProps} from "./types";
 import DoctorSearchFilterForm from '../../../../forms/DoctorSearchFilterForm/DoctorSearchFilterForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../reduxStore/store';
+import { fetchPersonTree, postFiltersDoctors } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
 
-const TableSearchHeader: React.FC<SearchHeaderProps> = ({
-  onOpenSearch,
+const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   title,
   onCloseClick,
   onSearchButtonClick,
   onTableModeChange,
   mode,
-  onSubmitForm,
   onClearSearch,
   searchCount,
-  className,
-  children
+  children,
+  person_tree,
+  setShowEmpty,
+  showEmpty,
+  groupBy,
+  setGroupBy,
+  setFilter,
+  filter
 }) => {
-  const [showSearchForm, setShowForm] = useState(false);
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    if (onOpenSearch) {
-      onOpenSearch();
-    }
-  }, [showSearchForm]);
+  const { isFiltered } = useSelector((state: RootState) => state.person_tree);
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
@@ -39,13 +41,23 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
     event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery.trim());
   }
 
+  const onChangePersonTree = (e: any) => {
+    if(isFiltered) {
+      dispatch(postFiltersDoctors(Object.assign(filter, {group_by: e.target.value})))
+    } else {
+      dispatch(fetchPersonTree({group_by: e.target.value}))
+    }
+    setGroupBy(e.target.value)
+  }
+
   const tableBody = useMemo(() => {
     if (mode === 'search') {
       return (
         <Card>
           <DoctorSearchFilterForm
             onClose={onCloseClick}
-            onSubmit={onSubmitForm}
+            groupBy={groupBy}
+            setFilter={setFilter}
           />
         </Card>
       );
@@ -54,7 +66,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
     } else {
       return null;
     }
-  }, [mode, onCloseClick, onSubmitForm, children]);
+  }, [mode, onCloseClick, children]);
 
   const getHeaderByType = useMemo(() => {
     switch (mode) {
@@ -98,7 +110,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 Поиск
               </Button>
             </div>
-            {searchCount !== undefined ? (
+            {searchCount !== undefined && isFiltered? (
               <div className={'table__top-search-results'}>
                 {`Найдено: (${searchCount})`}
                 <Button
@@ -123,15 +135,17 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
     onClearSearch,
     onTableModeChange,
     searchQuery,
+    person_tree
   ]);
 
   return (
     <div>
       <Row align={'stretch'}>
-        {getHeaderByType}      
-        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'org'}>
-          <Radio value={'org'}>по отделениям</Radio>
-          <Radio value={'spec'}>по специальностям</Radio>
+        {getHeaderByType}    
+        {isFiltered && <Checkbox checked={showEmpty} onChange={()=>{setShowEmpty(!showEmpty)}}>показать врачей без расписания</Checkbox>}  
+        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={groupBy} onChange={onChangePersonTree}>
+          <Radio value={'orgStructure_id'}>по отделениям</Radio>
+          <Radio value={'speciality_id'}>по специальностям</Radio>
         </Radio.Group>
       </Row>
       <div>{tableBody}</div>
@@ -139,4 +153,4 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
   );
 };
 
-export default TableSearchHeader;
+export default ScheduleSearch;

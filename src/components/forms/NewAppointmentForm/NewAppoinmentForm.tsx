@@ -20,7 +20,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
     const patients = useSelector((state: RootState) => state.patients.foundPatients);
     const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
     const specialty = useSelector((state: RootState) => state.deferredCalls.specialty);
-    const personTree = useSelector((state:RootState) => state.person_tree.person_tree);
+    const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
     const schedule = useSelector((state:RootState) => state.schedule.schedule);
     const isLoading = useSelector((state: RootState) => state.schedule.isLoading);
     const { values }  = useFormikContext<{[u: string]: any}>();
@@ -101,14 +101,13 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       )
     });
     
-
     const getPropsOptionsDoctors = (props: any) =>
     props.map((item: any, index:number) => {
-        return (
-            <Select.Option key={index} name={item.fullName} value={item.id}>
-                {item.fullName}
-            </Select.Option>
-        )
+      return (
+        <Select.Option key={index} name={item.fullName} value={item.id}>
+            {item.fullName}
+        </Select.Option>
+      )
     });
 
     useEffect(()=>{

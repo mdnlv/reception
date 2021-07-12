@@ -14,9 +14,9 @@ const ScheduleTableList: React.FC<ListProps> = ({
   list,
   onToggleRow,
   selected,
+  selectedPerson,
   mode,
   rangeWeekNum,
-  person_tree,
   loadSchedule,
   currentDate, 
   rangeWeekDate,
@@ -27,7 +27,10 @@ const ScheduleTableList: React.FC<ListProps> = ({
   client,
   actionTicket,
   currentDay,
-  setCurrentDay
+  setCurrentDay,
+  showEmpty,
+  groupBy,
+  person_tree
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -46,6 +49,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
   const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
+  const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
 
   useEffect(() => {
     if(ok && !postLoading) {
@@ -103,42 +107,82 @@ const ScheduleTableList: React.FC<ListProps> = ({
     setIsModalVisible(false);   
   };
 
-  const listContent = useMemo(() => {
-    return person_tree.map((item, index) => {
-      const toggle = selected.find((sitem) => sitem === item.id);
-      return (
-        <ListItem
-          isLoading={isLoading}
-          rangeWeekNum={rangeWeekNum}
-          mode={mode}
-          toggle={!!toggle}
-          id={item.id}
-          onToggle={onToggleRow}
-          key={item.id + index}
-          name={item.name}
-          child={item.child}
-          person_list={item.person_list}  
-          selected={selected}
-          level={0} 
-          loadSchedule={loadSchedule}
-          schedule={list}
-          currentDate={currentDate}
-          rangeWeekDate={rangeWeekDate}
-          onModeChange={onModeChange}
-          startHour={startHour}
-          endHour={endHour}
-          speciality={speciality}
-          showModal={showModal}
-          client={client}
-          currentDay={currentDay}
-          setCurrentDay={setCurrentDay}
-        />
-      );
+  const listContent = useMemo(()=>{
+    if(groupBy == 'orgStructure_id' && Array.isArray(person_tree)) {
+      return !isLoading && person_tree && person_tree.map((item: any) => {
+        const toggle = selected.find((sitem) => sitem === item.id);
+        return (
+          <ListItem
+            isLoading={isLoading}
+            rangeWeekNum={rangeWeekNum}
+            mode={mode}
+            toggle={!!toggle}
+            id={item.id}
+            onToggle={onToggleRow}
+            key={item.id}
+            name={item.name}
+            child={item.child}
+            person_list={item.person_list}  
+            selected={selected}
+            selectedPerson={selectedPerson}
+            level={0} 
+            loadSchedule={loadSchedule}
+            schedule={list}
+            currentDate={currentDate}
+            rangeWeekDate={rangeWeekDate}
+            onModeChange={onModeChange}
+            startHour={startHour}
+            endHour={endHour}
+            speciality={speciality}
+            showModal={showModal}
+            client={client}
+            currentDay={currentDay}
+            setCurrentDay={setCurrentDay}
+            showEmpty={showEmpty}
+            groupBy={groupBy}
+          />
+        );
     })
-  }, [list, selected, mode, currentDate, rangeWeekNum, person_tree, isLoading]);
-
+  }  else if(groupBy != 'orgStructure_id' && !Array.isArray(person_tree)) {
+    return !isLoading && person_tree && Object.keys(person_tree).map((item: any) => {
+      const toggle = selected.find((sitem) => sitem === item.id);
+        return (
+          <ListItem
+            isLoading={isLoading}
+            rangeWeekNum={rangeWeekNum}
+            mode={mode}
+            toggle={!!toggle}
+            id={Number(item)}
+            onToggle={onToggleRow}
+            key={Number(item)}
+            name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
+            child={[]}
+            person_list={person_tree[item]}  
+            selected={selected}
+            selectedPerson={selectedPerson}
+            level={0} 
+            loadSchedule={loadSchedule}
+            schedule={list}
+            currentDate={currentDate}
+            rangeWeekDate={rangeWeekDate}
+            onModeChange={onModeChange}
+            startHour={startHour}
+            endHour={endHour}
+            speciality={speciality}
+            showModal={showModal}
+            client={client}
+            currentDay={currentDay}
+            setCurrentDay={setCurrentDay}
+            showEmpty={showEmpty}
+            groupBy={groupBy}
+          />
+        );
+    }); 
+  }},[person_tree, list, mode])
   return <>
-    <div className={'schedule-list'}>{listContent}</div>
+    <div className={'schedule-list'}>
+      {listContent}
+    </div>
     {isModalVisible ? <ScheduleAction
       data={actionData}
       loading={isModalLoading}

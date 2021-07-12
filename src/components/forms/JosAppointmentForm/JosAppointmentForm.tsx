@@ -19,7 +19,7 @@ const JosAppointmentForm: React.FC = (props:any) => {
     const patients = useSelector((state: RootState) => state.patients.foundPatients);
     const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
     const specialty = useSelector((state: RootState) => state.deferredCalls.specialty);
-    const personTree = useSelector((state:RootState) => state.person_tree.person_tree)
+    const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full)
     const { setFieldValue } = useFormikContext();
     const searchPatients = (query: string) => {
         dispatch(fetchQueryPatients({ query: query, limit: 10 }))

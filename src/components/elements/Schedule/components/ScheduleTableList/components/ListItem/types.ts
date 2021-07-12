@@ -6,14 +6,15 @@ export interface ItemProps {
   id: number;
   name: string;
   toggle: boolean;
-  onToggle(id: number): void;
+  onToggle(id: number, person_ids: number[]): void;
   mode: ScheduleTableModeType;
   rangeWeekNum: number;
-  person_list: Person[];
+  person_list: any;
   child: PersonTree[];
   selected: any;
+  selectedPerson: any;
   level: number;
-  loadSchedule(id: number[], beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   schedule: Schedule;
   currentDate: Date;
   rangeWeekDate: Date;
@@ -30,6 +31,8 @@ export interface ItemProps {
   };
   setCurrentDay(date?: Date): void;
   currentDay? : Date | undefined;
+  showEmpty: boolean;
+  groupBy?: 'speciality_id' | 'orgStructure_id';
 }
 
 export interface PersonTree {

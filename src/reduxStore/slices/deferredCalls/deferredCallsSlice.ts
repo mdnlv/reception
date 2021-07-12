@@ -17,6 +17,7 @@ const initialState: DeferredCallsState = {
     patientList: [],
     doctors: []  as any,
     specialty:[],
+    post:[],
     filteredDoctors: [],
     loading: false
 }
@@ -72,6 +73,7 @@ export const getPersonList = createAsyncThunk(
            const { rb }:any = thunkAPI.getState()
                     
                   let specialty:any = []
+                  let post:any = []
                   payload.data.forEach((item:any) => {
                       const filteredSpeciality = rb.rbSpeciality.filter((s:any)=> item.speciality_id === s.id)
                       specialty =  [...specialty,...filteredSpeciality].filter((thing, index, self) =>
@@ -79,7 +81,15 @@ export const getPersonList = createAsyncThunk(
                         t.code === thing.code 
                       ))
                     )
-                });   
+                  });   
+                  payload.data.forEach((item:any) => {
+                    const filteredPost = rb.rbPost.filter((s:any)=> item.post_id === s.id)
+                    post =  [...post,...filteredPost].filter((thing, index, self) =>
+                    index === self.findIndex((t) => (
+                      t.id === thing.id 
+                    ))
+                  )
+                }); 
           const doctors =  payload.data.map((item:any) => {
             return {
                 ...item,
@@ -89,7 +99,8 @@ export const getPersonList = createAsyncThunk(
 
                 return {
                     doctors: doctors,
-                    specialty: specialty 
+                    specialty: specialty,
+                    post: post
                 };
 
         } catch (e) {

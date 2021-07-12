@@ -12,4 +12,10 @@ export type SearchHeaderProps = {
   searchCount?: number;
   className?: string;
   person_tree: PersonTree;
+  setShowEmpty(arg:boolean): void;
+  showEmpty: boolean;
+  groupBy: 'speciality_id' | 'orgStructure_id';
+  setGroupBy(arg: 'speciality_id' | 'orgStructure_id'): void;
+  setFilter(arg: any): void;
+  filter: any;
 };

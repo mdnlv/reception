@@ -3,12 +3,13 @@ import {ActionPost, Schedule, ScheduleTableModeType} from "../../types";
 export interface ListProps {
   isLoading: boolean;
   list: Schedule;
-  onToggleRow(id: number): void;
+  onToggleRow(id: number, person_ids: number[]): void;
   selected: number[];
+  selectedPerson: number[];
   mode: ScheduleTableModeType;
   rangeWeekNum: number;
   person_tree: PersonTree[];
-  loadSchedule(id: number[], beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   currentDate: Date;
   rangeWeekDate: Date;
   onModeChange(mode: ScheduleTableModeType): void;
@@ -24,6 +25,8 @@ export interface ListProps {
   actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;
   setCurrentDay(date: Date): void;
   currentDay? : Date | undefined;
+  showEmpty: boolean;
+  groupBy: 'speciality_id' | 'orgStructure_id';
 }
 
 export interface PersonTree {

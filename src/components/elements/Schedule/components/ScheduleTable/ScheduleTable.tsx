@@ -11,13 +11,14 @@ import {RootState} from "../../../../../reduxStore/store";
 import ScheduleTableList from '../ScheduleTableList/ScheduleTableList';
 import ScheduleTableHeader from '../ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
-import { setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import { fetchItems, setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket, showEmpty, groupBy}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
   const [selected, setSelected] = useState<number[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<number[]>([]);
   const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
   const [currentDay, setCurrentDay] = useState(new Date());
@@ -25,10 +26,21 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const startHour = 8;
   const endHour = 20;
   const dispatch = useDispatch()
+  const { isFiltered } = useSelector((state: RootState) => state.person_tree);
 
   useEffect(()=>{
     dispatch(setDates({cd: currentDate, ed: rangeWeekDate}));
   },[rangeWeekDate])
+
+  useEffect(()=>{
+    if(selectedPerson.length > 0)
+      dispatch(fetchItems({
+        ids: selectedPerson,
+        beg_date: moment(currentDate).format('YYYY-MM-DD'),
+        end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
+        showEmpty: showEmpty
+      })); 
+  },[showEmpty])
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -40,11 +52,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   }, [rangeWeekDate]);
 
   const onToggleScheduleRow = useCallback(
-    (id: number) => {
+    (id: number, person_ids: number[]) => {
       if (!!selected.find((item) => item === id)) {
         setSelected((prevState) => prevState.filter((item) => item !== id));
+        person_ids.map((person_id: number) => {setSelectedPerson((prevState) => prevState.filter((item) => item !== person_id))});
       } else {
         setSelected((prevState) => [...prevState, id]);
+        setSelectedPerson((prevState) => [...prevState, ...person_ids]);
       }
     },
     [setSelected, selected],
@@ -53,7 +67,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
       setCurrentDate(date);
       setRangeWeek(endDate);
-      selected.length > 0 && loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'));    
+      selected.length > 0 && !isFiltered ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
+      : dispatch(fetchItems({
+        ids: selectedPerson,
+        beg_date: moment(date).format('YYYY-MM-DD'),
+        end_date: moment(endDate).format('YYYY-MM-DD'),
+        showEmpty: showEmpty
+      }));    
     };
 
   const onScheduleModeChange = useCallback(
@@ -101,6 +121,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
             <ScheduleTableList
               isLoading={isScheduleLoading}
               selected={selected}
+              selectedPerson={selectedPerson}
               rangeWeekNum={rangeWeekNum}
               onToggleRow={onToggleScheduleRow}
               list={schedules}
@@ -117,6 +138,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
               actionTicket={actionTicket}
               currentDay={currentDay}
               setCurrentDay={setCurrentDay}
+              showEmpty={showEmpty}
+              groupBy={groupBy}
             />
           </Row>
         </>

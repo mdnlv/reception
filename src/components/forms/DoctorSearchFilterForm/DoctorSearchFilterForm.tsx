@@ -1,53 +1,47 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Button, Col, Row } from 'antd/lib';
-import { useDispatch, useSelector } from 'react-redux';
-
-import './styles.scss';
-import PartialFormState from './types';
+import { Button, Col, Row  } from 'antd/lib';
+import { useDispatch } from 'react-redux';
 import { FormProps } from './types';
-import validation from './validation';
-import { fetchFiltersPatients } from '../../../reduxStore/slices/patients/patientsSlice';
-import {
-  detailedOrganisationsSelector,
-  detailedPersonsSelector,
-} from '../../../reduxStore/slices/rb/selectors';
 import Fields from './components/Fields/Fields';
-
-const initialStore = {
-  organisation: '',
-  speciality: '',
-  post: '',
-  person: '',
-};
+import './styles.scss';
+import { postFiltersDoctors, fetchPersonTree } from '../../../reduxStore/slices/personTree/personTreeSlice';
 
 const DoctorSearchFilterForm: React.FC<FormProps> = ({
   onClose,
-  onSubmit,
+  groupBy,
+  setFilter
 }) => {
   const dispatch = useDispatch();
-  const rbPersons = useSelector(detailedPersonsSelector);
-  const rbOrgs = useSelector(detailedOrganisationsSelector);
-
-  const onFormSubmit = (values: PartialFormState) => {
-    if (onSubmit) {
-      onSubmit();
-    }
-    dispatch(
-      fetchFiltersPatients({
-        ...values,
-      }),
-    );
-    if (onClose) {
-      onClose();
-    }
-  };
 
   return (
     <Formik
-      initialValues={{ ...initialStore }}
-      validationSchema={validation}
-      onSubmit={onFormSubmit}>
+      initialValues={{
+        organisation: undefined,
+        speciality: undefined,
+        post: undefined,
+        person: undefined,
+      }}
+      onSubmit={(values:any) => {
+        dispatch(values.organisation || values.speciality || values.post ?
+          postFiltersDoctors({
+            orgStructure_id: !values.organisation ? undefined : values.organisation,
+            speciality_id: !values.speciality? undefined: values.speciality,
+            post_id: !values.post? undefined: values.post,
+            person_id_list: !values.person? undefined: values.person,
+            group_by: groupBy
+          }) : fetchPersonTree({group_by: groupBy})
+        );
+        setFilter({
+          orgStructure_id: !values.organisation ? undefined : values.organisation,
+          speciality_id: !values.speciality? undefined: values.speciality,
+          post_id: !values.post? undefined: values.post,
+          person_id_list: !values.person? undefined: values.person,
+        })
+        if (onClose) {
+          onClose();
+        }
+      }}>
       {(formProps) => (
         <form className={'patient-search-filter-form'}>
           <Fields/>

@@ -30,7 +30,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
             <ScheduleActionItem
               key={sdate}
               width={1}
-              info={items.schedule[sdate] ? items.schedule[sdate][0]: null}
+              info={items.schedule && items.schedule[sdate] ? items.schedule[sdate][0]: null}
               mode={mode} 
               onModeChange={onModeChange}    
               date={date}

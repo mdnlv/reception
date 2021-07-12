@@ -11,7 +11,7 @@ import { detailedPersonTree } from '../../reduxStore/slices/personTree/selectors
 import {fetchKladr, fetchKladrStreets} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {kladrLoadingsSelector} from "../../reduxStore/slices/registrationCard/selectors";
 import {fetchSchedules, actionTicket} from "../../reduxStore/slices/scheduleSlice/scheduleSlice";
-import {fetchPersonTree} from "../../reduxStore/slices/personTree/personTreeSlice";
+import {fetchPersonTreeFull} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientInfoCard from '../../components/cards/PatientInfoCard/PatientInfoCard';
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 
@@ -39,11 +39,12 @@ const MainPage: FC = () => {
     dispatch(fetchKladr({}));
   }, []);
 
-  const loadSchedule = useCallback((id: number[], beg_date: string, end_date: string) => {
+  const loadSchedule = useCallback((id: number[], beg_date: string, end_date: string, showEmpty: boolean) => {
     dispatch(fetchSchedules({
       id: id,
       beg_date: beg_date,
-      end_date: end_date
+      end_date: end_date,
+      showEmpty: showEmpty
     }));
   }, []);
 
@@ -57,7 +58,7 @@ const MainPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchPersonTree({}))
+    dispatch(fetchPersonTreeFull({}))
   }, [])
 
   const getInfoCard = useMemo(() => {

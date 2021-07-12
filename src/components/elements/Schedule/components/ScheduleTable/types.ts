@@ -64,10 +64,12 @@ export interface Person {
 export interface ScheduleTableProps {
   schedules: Schedule;
   person_tree: PersonTree[];
-  loadSchedule(id: number[], beg_date: string, end_date: string): void;
+  loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   speciality: any,
   client: Client;
   actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;
+  showEmpty: boolean;
+  groupBy: 'speciality_id' | 'orgStructure_id';
 }
 
 export interface Client {

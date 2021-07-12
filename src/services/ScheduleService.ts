@@ -2,11 +2,12 @@ import apiInstance from './api';
 import { ActionPost } from '../components/elements/Schedule/types';
 
 export default {
-  fetchSchedule(payload: { id: number[]; beg_date: string, end_date: string }) {
+  fetchSchedule(payload: { id: number[]; beg_date: string, end_date: string, showEmpty?: boolean }) {
     let s =  `/schedule?beg_date=${payload.beg_date}&end_date=${payload.end_date}`
     for(let v of payload.id) {
       s += `&orgStructure_id=${v}`
     }
+    if(payload.showEmpty) s += `&isShowEmptySchedule=1`;
     return apiInstance.get(s);
   },
   
@@ -15,10 +16,33 @@ export default {
     return apiInstance.get(s);
   },
 
-  fetchPersonTree() {
+  fetchItems(payload: { ids: number[]; beg_date: string, end_date: string, showEmpty?: boolean}) {
+    let s =  `/schedule?beg_date=${payload.beg_date}&end_date=${payload.end_date}`
+    payload.ids.map((item: number)=>{
+      s += `&person_id=${item}`
+    })
+    if(payload.showEmpty) s += `&isShowEmptySchedule=1`;
+    return apiInstance.get(s);
+  },
+
+  fetchPersonTree(payload: {group_by?: 'speciality_id' | 'orgStructure_id'}) {
+    let s ='';
+    if (payload.group_by) {
+      s = '?group_by=' + payload.group_by;
+    }
     return apiInstance.get(
-      `/person_tree`,
+      `/person_tree${s}`,
     );
+  },
+
+  postPersonTree(payload: {person_id_list?: [number], orgStructure_id?: number, post_id?: number, speciality_id?: number, value?: string, group_by?: 'speciality_id' | 'orgStructure_id'}) {
+    return apiInstance.post(
+      `/person_tree`, payload
+    );
+  },
+
+  fetchDoctors(payload: {limit: number,offset: number,orgStructure_id: number,post_id: number,speciality_id: number, value?: string}) {
+    return apiInstance.post(`/person/find`, payload);
   },
 
   actionTicket(ticket: ActionPost) {
