@@ -13,9 +13,10 @@ const SmoParams: React.FC<ModalProps> = ({
   policyKey,
   getKladrDetailed,
   onCancel,
-  onOk
+  onOk,
+  index
 }) => {
-  const sectionValuePath = `passportGeneral.${policyKey}`;
+  const sectionValuePath = policyKey ? `passportGeneral.${policyKey}` : `passportGeneral.policies[${index}]`;
 
   return (
     <Modal

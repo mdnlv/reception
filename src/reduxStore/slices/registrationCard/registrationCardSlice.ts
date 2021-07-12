@@ -302,6 +302,28 @@ const registrationCardSlice = createSlice({
         const omsFound = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
+        const restPolicies = transformedPatient.policy.filter(
+          (item) => omsFound.length > 0 && item.id !== omsFound[omsFound.length - 1].itemId
+            && dmsFound.length > 0 && item.id !== dmsFound[dmsFound.length - 1].itemId
+        );
+        const policyInitial = {
+          id: undefined,
+          cmoArea: '',
+          cmo: "",
+          from: '',
+          name: "",
+          note: "",
+          number: "",
+          serial: "",
+          timeType: "",
+          to: '',
+          type: '',
+          deleted: 0,
+          inn: '',
+          ogrn: '',
+          infisCode: '',
+          smoShort: '',
+        };
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),
@@ -372,15 +394,11 @@ const registrationCardSlice = createSlice({
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
         // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
-        state.initialFormState.passportGeneral.policies = transformedPatient.policy;
-        state.initialFormState.passportGeneral.policyDms =
-          dmsFound.length > 0
-            ? dmsFound[dmsFound.length - 1]
-            : state.initialFormState.passportGeneral.policyDms;
-        state.initialFormState.passportGeneral.policyOms =
-          omsFound.length > 0
-            ? omsFound[omsFound.length - 1]
-            : state.initialFormState.passportGeneral.policyOms;
+        state.initialFormState.passportGeneral.policies = [
+          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [policyInitial],
+          ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [policyInitial],
+          ...restPolicies
+        ];
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
             id: item.id,

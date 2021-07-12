@@ -28,7 +28,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
-  const formValues = form.values.passportGeneral[policyKey];
+  const formValues = policyKey === 'policyOms'
+    ? form.values.passportGeneral.policies[0]
+    : form.values.passportGeneral.policies[1];
   const sectionValuePath = `passportGeneral.${policyKey}`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
@@ -39,9 +41,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
   // @ts-ignore
-  const docSerial = form.values.passportGeneral.passportInfo.documents[0].serialFirst
-    .concat(form.values.passportGeneral.passportInfo.documents[0].serialSecond);
-  const docNumber = form.values.passportGeneral.passportInfo.documents[0].number;
+  const docSerial = form.values.passportGeneral.passportInfo.documents[0]
+    ? form.values.passportGeneral.passportInfo.documents[0].serialFirst?.concat(form.values.passportGeneral.passportInfo.documents[0].serialSecond)
+    : '';
+  const docNumber = form.values.passportGeneral.passportInfo.documents[0]
+    ? form.values.passportGeneral.passportInfo.documents[0].number
+    : '';
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
@@ -49,9 +54,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    cmoType.length > 0 && setCmoFiltered(cmoType);
+  }, [cmoType]);
 
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');

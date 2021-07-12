@@ -25,8 +25,8 @@ const PersonalDocuments: FC = () => {
   const {documentTypes: loadingDocTypes} = useSelector((state: RootState) => state.rb.loading);
 
   useEffect(() => {
-    console.log('form.values.passportGeneral.passportInfo', form.values.passportGeneral.passportInfo);
-  }, [form.values.passportGeneral.passportInfo]);
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `passportGeneral.passportInfo.documents[${index}].${fieldChain}`;

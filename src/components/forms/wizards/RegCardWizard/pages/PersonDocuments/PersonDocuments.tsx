@@ -10,8 +10,8 @@ import {
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import {RootState} from '../../../../../../reduxStore/store';
 
-import PersonPolicy from '../../../../PersonDocumentsForm/components/sections/PersonPolicy/PersonPolicy';
 import PersonalDocuments from './sections/PersonalDocuments/PersonalDocuments';
+import PersonPolicy from "./sections/PersonPolicy/PersonPolicy";
 
 const PersonDocuments: React.FC = () => {
   const policyTypes = useSelector(detailedPolicyTypesSelector);

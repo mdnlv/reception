@@ -27,6 +27,7 @@ export interface PolicyAttachesType {
 }
 
 export interface PassportPolicyType {
+  [key: string]: any;
   id?: number;
   timeType?: string;
   cmoArea?: string;
@@ -95,8 +96,6 @@ export default interface FormState {
     contacts: PassportContactType[];
     deleted: PassportContactTypeDeleted[];
   };
-  policyOms: PassportPolicyType;
-  policyDms: PassportPolicyType;
   policies: PassportPolicyType[];
   policiesDeleted: PassportPolicyTypeDeleted[];
 }

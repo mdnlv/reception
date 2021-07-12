@@ -3,6 +3,7 @@ export interface ModalProps {
   onClose?(): void;
   onCancel?(): void;
   onOk?(): void;
-  policyKey: 'policyOms' | 'policyDms';
+  policyKey?: 'policyOms' | 'policyDms';
+  index?: number;
   getKladrDetailed(): JSX.Element[];
 }
