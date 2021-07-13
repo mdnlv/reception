@@ -100,11 +100,6 @@ export const initialState: RegistrationCardState = {
   passportGeneral: {
     // @ts-ignore
     passportInfo: {
-      passportType: '',
-      serial: '',
-      number: '',
-      fromDate: new Date(),
-      givenBy: '',
       addressRegistration: {
         isKLADR: true,
         city: '',

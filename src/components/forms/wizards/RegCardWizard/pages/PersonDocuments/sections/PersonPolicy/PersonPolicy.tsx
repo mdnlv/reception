@@ -29,7 +29,6 @@ import FastMaskedInput from "../../../../../../components/fields/FastMaskedInput
 import SmoParams from "../../../../../../../modals/SmoParams/SmoParams";
 
 const PersonPolicy: FC = () => {
-  const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.passportGeneral.policies;
   const formValuesRemoved = form.values.passportGeneral.policiesDeleted;
@@ -44,10 +43,26 @@ const PersonPolicy: FC = () => {
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showOrgChoice, setShowOrgChoice] = useState(false);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
+  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
+  const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
   // useEffect(() => {
   //   console.log('formValues', formValues);
   // }, [formValues]);
+
+  useEffect(() => {
+    const data = formValues.find((item) => item.type !== '3');
+    if (data && !Object.keys(data).every((k) => !data[k])) {
+      fieldNames.map((item) => form.setFieldValue(`passportGeneral.policyOms.${item}`, data[item]))
+    }
+  }, [formValues]);
+
+  useEffect(() => {
+    const data = formValues.find((item) => item.type === '3');
+    if (data && !Object.keys(data).every((k) => !data[k])) {
+      fieldNames.map((item) => form.setFieldValue(`passportGeneral.policyDms.${item}`, data[item]))
+    }
+  }, [formValues]);
 
   useEffect(() => {
     cmoTypeList.length > 0 && setCmoFiltered(cmoTypeList);

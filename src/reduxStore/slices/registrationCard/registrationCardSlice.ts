@@ -394,9 +394,19 @@ const registrationCardSlice = createSlice({
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
         // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
+        state.initialFormState.passportGeneral.policyDms =
+          dmsFound.length > 0
+            ? dmsFound[dmsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyDms;
+        // @ts-ignore
+        state.initialFormState.passportGeneral.policyOms =
+          omsFound.length > 0
+            ? omsFound[omsFound.length - 1]
+            : state.initialFormState.passportGeneral.policyOms;
+        // @ts-ignore
         state.initialFormState.passportGeneral.policies = [
-          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [policyInitial],
-          ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [policyInitial],
+          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [],
+          ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [],
           ...restPolicies
         ];
         state.initialFormState.socialStatus.socialStatus =

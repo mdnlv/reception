@@ -28,9 +28,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
-  const formValues = policyKey === 'policyOms'
-    ? form.values.passportGeneral.policies[0]
-    : form.values.passportGeneral.policies[1];
+  const formValues = form.values.passportGeneral[policyKey];
   const sectionValuePath = `passportGeneral.${policyKey}`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
@@ -61,6 +59,16 @@ const PolicyAddForm: React.FC<FormProps> = ({
   useEffect(() => {
     id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
   }, [id]);
+
+  useEffect(() => {
+    if (!Object.keys(formValues).every((k) => !formValues[k])) {
+      if (policyKey === "policyOms") {
+        fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[0].${item}`, formValues[item]))
+      } else {
+        fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[1].${item}`, formValues[item]))
+      }
+    }
+  }, [formValues]);
 
   useEffect(() => {
     if (!formValues.cmoArea) {

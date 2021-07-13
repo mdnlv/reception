@@ -11,14 +11,14 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     snils: Yup.string().required('Не введен СНИЛС'),
   }),
   passportGeneral: Yup.object({
-    passportInfo: Yup.object({
+    documents: Yup.array().of(Yup.object({
       passportType: Yup.string().required('Не выбран тип документа'),
       serialFirst: Yup.string().required('Не введена серия документа'),
       serialSecond: Yup.string().required('Не введена серия документа'),
       number: Yup.string().required('Не введен номер документа'),
       fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
       givenBy: Yup.string().required('Не введено кем выдан документ'),
-    }),
+    })),
     contacts: Yup.object({
       contacts: Yup.array().of(Yup.object({
         type: Yup.string().required('Не выбран тип телефона'),
@@ -36,7 +36,16 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       number: Yup.string().required('Не введен номер полиса'),
       cmo: Yup.string().required('Не выбрана СМО'),
       type: Yup.string().required('Не выбран тип полиса')
-    })
+    }),
+    policies: Yup.array().of(Yup.object({
+      timeType: Yup.string().required('Не выбран тип времени полиса'),
+      from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
+      to: Yup.string().required('Не задана дата окончания действия полиса').nullable(),
+      serial: Yup.string().required('Не введена серия полиса'),
+      number: Yup.string().required('Не введен номер полиса'),
+      cmo: Yup.string().required('Не выбрана СМО'),
+      type: Yup.string().required('Не выбран тип полиса')
+    })),
   }),
   socialStatus: Yup.object({
     socialStatus: Yup.array().of(Yup.object({

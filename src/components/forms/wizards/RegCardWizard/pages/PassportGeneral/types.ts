@@ -96,6 +96,8 @@ export default interface FormState {
     contacts: PassportContactType[];
     deleted: PassportContactTypeDeleted[];
   };
+  policyOms: PassportPolicyType;
+  policyDms: PassportPolicyType;
   policies: PassportPolicyType[];
   policiesDeleted: PassportPolicyTypeDeleted[];
 }
