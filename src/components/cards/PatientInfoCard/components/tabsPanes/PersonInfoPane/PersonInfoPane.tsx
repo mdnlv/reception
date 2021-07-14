@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Descriptions, List } from 'antd/lib';
+import { Descriptions, List, Table, Radio, Row, Col, Dropdown, Menu } from 'antd/lib';
 import { useSelector } from 'react-redux';
 import {format} from 'date-fns';
 
@@ -23,6 +23,48 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const orgStructure = useSelector(detailedOrgStructureSelector);
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      width: 100,
+      render: () => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div>jhgj</div></Dropdown>)
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      width: 100,
+      render: () => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div>jhgj</div></Dropdown>)
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      render: () => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div>jhgj</div></Dropdown>)
+    },
+  ];
+ 
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">Удалить запись ( видно только для занятых)</Menu.Item>
+      <Menu.Item key="2">Перенести запись ( видно только для занятых)</Menu.Item>
+      <Menu.Item key="3"> Перейти в расписание ( видно только для занятых) - по нажатию на эту запись необходимо переводить фокус в запись в расписании</Menu.Item>
+      <Menu.Item key="4"> Изменить жалобы/ примечания (видно только для занятых) - дать возможность регистратору изменить поля в записи</Menu.Item>
+      <Menu.Item key="5">Напечатать направление ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+      <Menu.Item key="6">   Печать предварительной записи ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+      <Menu.Item key="7">Свойства записи ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+    </Menu>
+  );  
+  
+  const data = [];
+  for (let i = 0; i < 100; i++) {
+    data.push({
+      key: i,
+      name: `Edward King ${i}`,
+      age: 32,
+      address: `London, Park Lane no. ${i}`,
+    });
+  }
 
   const getDocumentType = (type: string) => {
     const typeData = parseInt(type);
@@ -87,6 +129,8 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     return data.find((item) => item.id === id)?.name;
   };
 
+
+
   return (
     <div className={'person-info-tabs__pane person-info-pane'}>
       <Descriptions column={1}>
@@ -124,7 +168,18 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
           {patient?.birthPlace}
         </Descriptions.Item>
         <Descriptions.Item label={'Примечания'}>
-          {patient?.notes}
+        {patient?.notes}
+        </Descriptions.Item>
+        <Descriptions.Item>
+        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'pre'}>
+          <Radio value={'pre'}>Предварительная запись</Radio>
+          <Radio value={'post'}>Выполнение записи</Radio>
+        </Radio.Group>
+        </Descriptions.Item>
+        <Descriptions.Item contentStyle={{margin: 0, padding: 0, border: 0}}>
+          
+            <Table columns={columns} dataSource={data} pagination={false} scroll={{ y: 240 }} style={{marginTop: -16}}  />
+          
         </Descriptions.Item>
       </Descriptions>
     </div>

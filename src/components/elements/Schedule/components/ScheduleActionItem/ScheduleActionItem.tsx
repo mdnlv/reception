@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { LockOutlined } from '@ant-design/icons';
 import Popover from 'antd/lib/popover';
 import Descriptions from 'antd/lib/descriptions';
+import { Menu, Dropdown } from 'antd';
 import moment from "moment"
 import './styles.scss';
 import {ItemProps} from "./types";
@@ -36,6 +37,20 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
     })
   }
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">Записать на прием ( видно только для свободных записей)</Menu.Item>
+      <Menu.Item key="2">Зарезервировать ( видно только для свободных записей)</Menu.Item>
+      <Menu.Item key="3">Удалить запись ( видно только для занятых)</Menu.Item>
+      <Menu.Item key="4">Перенести запись ( видно только для занятых)</Menu.Item>
+      <Menu.Item key="5">Перейти в картотеку ( видно только для занятых) - по нажатию на эту запись необходимо переводить фокус в картотеке на записанного пациента</Menu.Item>
+      <Menu.Item key="6">Изменить жалобы/ примечания (видно только для занятых) - дать возможность регистратору изменить поля в записи</Menu.Item>
+      <Menu.Item key="7">Напечатать направление ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+      <Menu.Item key="8">Напечатать полный список ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+      <Menu.Item key="9">Свойства записи ( видно только для занятых) - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
+    </Menu>
+  );  
+
   const onWeekClick = useCallback(()=>{
     setDay(date);
     onModeChange('day')
@@ -65,21 +80,23 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
                 </Descriptions.Item>
               </Descriptions>
             }>
-              <div
-                style={{ backgroundColor: '#7fd3fd', cursor: 'pointer', ...widthStyle }}
-                className={'schedule-action-item'}
-                onClick={()=>{onDayClick({
-                  action_id: info? info.action_id : 0, 
-                  idx:  ticket.idx, 
-                  client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
-                  person_id:  person? person.id : 0, 
-                  user_id: 614, 
-                  index: ticket? ticket.index: '',
-                  old_action_id: 0,
-                  old_idx: 0,
-                  type: 'new'
-                })}}
-              ></div>
+              <Dropdown overlay={menu} trigger={['contextMenu']}>
+                <div
+                  style={{ backgroundColor: '#7fd3fd', cursor: 'pointer', ...widthStyle }}
+                  className={'schedule-action-item'}
+                  onClick={()=>{onDayClick({
+                    action_id: info? info.action_id : 0, 
+                    idx:  ticket.idx, 
+                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+                    person_id:  person? person.id : 0, 
+                    user_id: 614, 
+                    index: ticket? ticket.index: '',
+                    old_action_id: 0,
+                    old_idx: 0,
+                    type: 'new'
+                  })}}
+                ></div>
+              </Dropdown>
             </Popover>
           );
         } else if(ticket.client != null) {

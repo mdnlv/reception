@@ -45,7 +45,7 @@ const Schedule: React.FC<any> = (props) => {
   const tableDoctorsCount = useMemo(() => {
     let count = 0;
     function calc(arr: any) {
-      arr.map((item: any)=>{
+      arr && arr.length > 0 && arr.map((item: any)=>{
         count += item.person_list.length;
         item.child.length > 0 && calc(item.child)
       })
@@ -55,11 +55,9 @@ const Schedule: React.FC<any> = (props) => {
         count += item.length;
       })
     }
-    if(groupBy == 'orgStructure_id') {
-      calc(personTree)
-    } else {
+    (groupBy == 'orgStructure_id') ?
+      calc(personTree) :
       calcS(personTree)
-    }
     return count;
   }, [personTree]);
 
