@@ -2,6 +2,6 @@ import {ScheduleTableModeType} from "../../../../types";
 
 export interface ItemProps {
   mode: ScheduleTableModeType;
-  value: string;
+  value: number | string;
   dayName?: string;
 }

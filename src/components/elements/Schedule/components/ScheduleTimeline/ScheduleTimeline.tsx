@@ -50,7 +50,7 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
             <li key={i} className={'timeline-list__item--week'}>
               <ScheduleTimelineItem
                 mode={'week'}
-                value={dateString}
+                value={Number(dateString)}
                 dayName={dayName}
               />
             </li>,
