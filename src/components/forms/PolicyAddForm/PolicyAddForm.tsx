@@ -68,7 +68,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[1].${item}`, formValues[item]))
       }
     }
-  }, [formValues]);
+  }, [formValues, policyKey]);
 
   useEffect(() => {
     if (!formValues.cmoArea) {

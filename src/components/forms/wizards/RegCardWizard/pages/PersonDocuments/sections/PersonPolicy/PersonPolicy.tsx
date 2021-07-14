@@ -8,10 +8,7 @@ import {LABELS, DROPDOWN_TITLE} from "./types";
 import {WizardStateType} from "../../../../types";
 import {RootState} from "../../../../../../../../reduxStore/store";
 import {PassportPolicyType} from "../../../PassportGeneral/types";
-import {
-  kladrSelector,
-  kladrLoadingsSelector
-} from "../../../../../../../../reduxStore/slices/registrationCard/selectors";
+import {kladrSelector} from "../../../../../../../../reduxStore/slices/registrationCard/selectors";
 import {
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
