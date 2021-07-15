@@ -288,6 +288,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         <Col span={13}>
           <FormField label="СМО" labelPosition="left" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
+              style={{width: '17vw'}}
               filterOption
               loading={isLoading || isCmoLoading}
               optionFilterProp={'name'}
