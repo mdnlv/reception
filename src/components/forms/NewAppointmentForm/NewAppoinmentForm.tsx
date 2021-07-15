@@ -1,18 +1,21 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { Col, Row, Select, TreeSelect } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
-import { PersonTree } from '../../../reduxStore/slices/personTree/types'
-import FormField from "../components/FormField/FormField";
-import { RootState } from '../../../reduxStore/store';
-import { FormState } from "./types";
-import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
-import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
-import { getPersonList,filterDoctors,clearLists,clearDoctors  } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
-import TreeSelectField from "../components/fields/TreeSelect";
 import moment from 'moment';
 import { useFormikContext } from 'formik';
+
+import { PersonTree } from '../../../reduxStore/slices/personTree/types'
+import { RootState } from '../../../reduxStore/store';
+import { FormState } from "./types";
+import { fetchQueryPatients } from '../../../reduxStore/slices/patients/patientsSlice';
+import { getPersonList,filterDoctors,clearLists,clearDoctors  } from '../../../reduxStore/slices/deferredCalls/deferredCallsSlice';
 import { fetchItem } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+
+import FormField from "../components/FormField/FormField";
+import FastDatePicker from '../components/fields/FastDatePicker/FastDatePicker'
+import TreeSelectField from "../components/fields/TreeSelect";
 import TicketSelect from '../components/fields/TicketSelect.tsx/TicketSelect';
+
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
 const NewAppointmentForm: React.FC<FormState> = ({data}) => {
@@ -45,7 +48,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       dispatch(getPersonList({data:tree.person_list}))
       setOrg(value)
     }
-    
+
     const onSelectSpecialityId  = (id:number) =>{
       setFieldValue('person_id','');
       setFieldValue('person','');
@@ -67,13 +70,13 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       setFieldValue('time', '');
     }
 
-    const clearDoctor = (() => { 
+    const clearDoctor = (() => {
       setFieldValue('person_id','');
       setFieldValue('person','');
       dispatch(clearDoctors())
     })
     const clearSpeciality = () => setFieldValue('speciality','')
-  
+
     const renderTreeNodes = (data:PersonTree[]) =>
       data.map((item: PersonTree) => {
         return (
@@ -91,7 +94,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
           </Select.Option>
         )
     });
-  
+
     const getPropsOptionsSpecialty = (props: any) =>
     props.map((item: any) => {
       return (
@@ -100,7 +103,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
         </Select.Option>
       )
     });
-    
+
     const getPropsOptionsDoctors = (props: any) =>
     props.map((item: any, index:number) => {
       return (
@@ -117,7 +120,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       }));
     },[person_id, date]);
 
-    return (   
+    return (
         <form className={'appointment-form'}>
             <Row>
               <Col span={24}>
@@ -144,8 +147,8 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
             <Row gutter={16}>
               <Col>
                 <FormField label={'Дата приема'}  name={'date'} >
-                  <FastDatePicker 
-                    name={'date'} 
+                  <FastDatePicker
+                    name={'date'}
                     setDate={setDate}
                     onSelectDate={onSelectDate}
                   />
@@ -155,7 +158,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
             <Row>
                 <Col span={24}>
                   <FormField label={'Подразделение:'} name={'organisation'}>
-                    <TreeSelectField 
+                    <TreeSelectField
                       defaultValue={data && data.org ? data.org : null}
                       name={'organisation'}
                       onClear={clearDoctorsAndSpeciality}
@@ -211,9 +214,9 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
             <Row>
               <Col span={24}>
                 <FormField name={'idx'}>
-                  <TicketSelect 
+                  <TicketSelect
                     name={'idx'}
-                    schedule={schedule} 
+                    schedule={schedule}
                     date={date}
                     person_id={person_id}
                     org={org}
@@ -223,7 +226,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
               </Col>
             </Row>
         </form>
-    )  
+    )
 }
 
 export default NewAppointmentForm
