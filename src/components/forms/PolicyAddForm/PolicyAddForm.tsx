@@ -28,8 +28,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
-  const formValues = form.values.passportGeneral[policyKey];
-  const sectionValuePath = `passportGeneral.${policyKey}`;
+  const formValues = policyKey === 'policyOms' ? form.values.passportGeneral.policies[0] : form.values.passportGeneral.policyDms;
+  const sectionValuePath = policyKey === 'policyOms' ? `passportGeneral.policies[0]` : `passportGeneral.policyDms`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
@@ -53,6 +53,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
+
+  useEffect(() => {
     cmoType.length > 0 && setCmoFiltered(cmoType);
   }, [cmoType]);
 
@@ -61,21 +65,17 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [id]);
 
   useEffect(() => {
-    if (!Object.keys(formValues).every((k) => !formValues[k])) {
-      if (policyKey === "policyOms") {
-        fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[0].${item}`, formValues[item]))
-      } else {
-        fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[1].${item}`, formValues[item]))
-      }
+    if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
+      fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[1].${item}`, formValues[item]))
     }
   }, [formValues, policyKey]);
 
   useEffect(() => {
-    if (!formValues.cmoArea) {
-      const result = cmoType.find((item) => item.id === parseInt(formValues.cmo));
+    if (!formValues?.cmoArea) {
+      const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
       form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
     }
-  }, [formValues.cmo]);
+  }, [formValues?.cmo]);
 
   useEffect(() => {
     if (foundPolicy) {
@@ -84,26 +84,26 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [foundPolicy]);
 
   useEffect(() => {
-    if (formValues.timeType === '1') {
+    if (formValues?.timeType === '1') {
       form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
-    } else if (formValues.timeType === '3') {
+    } else if (formValues?.timeType === '3') {
       form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
       form.setFieldValue(`${sectionValuePath}.to`, new Date('01.01.2200'));
     } else {
       form.setFieldValue(`${sectionValuePath}.serial`, '');
     }
-  }, [formValues.timeType]);
+  }, [formValues?.timeType]);
 
   useEffect(() => {
-    const timeType = formValues.timeType;
-    if (timeType === "1" || formValues.serial === 'ВС') {
+    const timeType = formValues?.timeType;
+    if (timeType === "1" || formValues?.serial === 'ВС') {
       setPolicyMask('111111111')
-    } else if (timeType === "3" || formValues.serial === 'ЕП') {
+    } else if (timeType === "3" || formValues?.serial === 'ЕП') {
       setPolicyMask('1111111111111111')
     } else {
       setPolicyMask('')
     }
-  }, [formValues.timeType, formValues.serial]);
+  }, [formValues?.timeType, formValues?.serial]);
 
   useEffect(() => {
     errorsData.length > 0 && setShowModal(true);

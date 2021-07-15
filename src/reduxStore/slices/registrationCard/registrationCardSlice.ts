@@ -399,11 +399,6 @@ const registrationCardSlice = createSlice({
             ? dmsFound[dmsFound.length - 1]
             : state.initialFormState.passportGeneral.policyDms;
         // @ts-ignore
-        state.initialFormState.passportGeneral.policyOms =
-          omsFound.length > 0
-            ? omsFound[omsFound.length - 1]
-            : state.initialFormState.passportGeneral.policyOms;
-        // @ts-ignore
         state.initialFormState.passportGeneral.policies = [
           ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [],
           ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [],

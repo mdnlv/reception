@@ -48,13 +48,6 @@ const PersonPolicy: FC = () => {
   // }, [formValues]);
 
   useEffect(() => {
-    const data = formValues.find((item) => item.type !== '3');
-    if (data && !Object.keys(data).every((k) => !data[k])) {
-      fieldNames.map((item) => form.setFieldValue(`passportGeneral.policyOms.${item}`, data[item]))
-    }
-  }, [formValues]);
-
-  useEffect(() => {
     const data = formValues.find((item) => item.type === '3');
     if (data && !Object.keys(data).every((k) => !data[k])) {
       fieldNames.map((item) => form.setFieldValue(`passportGeneral.policyDms.${item}`, data[item]))

@@ -30,15 +30,6 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
         })
       })),
     }),
-    policyOms: Yup.object({
-      timeType: Yup.string().required('Не выбран вид полиса'),
-      from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
-      to: Yup.string().required('Не задана дата окончания действия полиса').nullable(),
-      serial: Yup.string().required('Не введена серия полиса'),
-      number: Yup.string().required('Не введен номер полиса'),
-      cmo: Yup.string().required('Не выбрана СМО'),
-      type: Yup.string().required('Не выбран тип полиса')
-    }),
     policies: Yup.array().of(Yup.object({
       timeType: Yup.string().required('Не выбран тип времени полиса'),
       from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
