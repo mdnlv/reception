@@ -11,7 +11,8 @@ import Patient from "../../../types/data/Patient";
 import {kladrSelector, kladrLoadingsSelector} from "../../../reduxStore/slices/registrationCard/selectors";
 import {fetchKladrStreets} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {isSearching} from "../../../reduxStore/slices/patients/selectors";
-import {resetCurrentPatient} from '../../../reduxStore/slices/patientCard/patientCardSlice'
+import {resetCurrentPatient} from '../../../reduxStore/slices/patientCard/patientCardSlice';
+import {setIsSearchingPatients} from '../../../reduxStore/slices/patients/patientsSlice';
 
 const PatientsTable: FC<TableProps> = ({
   patients,
@@ -165,7 +166,7 @@ const PatientsTable: FC<TableProps> = ({
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
         route: <Link to={`/card/${item.code}`}>Мед. карта</Link>,
-        regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
+        regCard: <Link to={`/regCard/${item.code}`} onClick={() => dispatch(setIsSearchingPatients(false))}>Рег. карта</Link>,
       };
     });
   }, [patients, rbKladrStreetsRegistration]);

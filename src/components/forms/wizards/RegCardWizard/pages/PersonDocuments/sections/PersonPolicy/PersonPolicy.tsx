@@ -226,15 +226,18 @@ const PersonPolicy: FC = () => {
                       }
                     </FormField>
                   </Col>
-                  <Col span={1}>
-                    <Button
-                      type={'link'}
-                      size={'small'}
-                      shape="circle"
-                      icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                      onClick={onRemovePolicy.bind(this, indexData)}
-                    />
-                  </Col>
+                  {formValues.length !== 1
+                    && (
+                      <Col span={1}>
+                        <Button
+                          type={'link'}
+                          size={'small'}
+                          shape="circle"
+                          icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                          onClick={onRemovePolicy.bind(this, indexData)}
+                        />
+                      </Col>
+                  )}
                 </Row>
                 <Row className="form-row" gutter={16} align={'bottom'}>
                   <Col span={9}>
