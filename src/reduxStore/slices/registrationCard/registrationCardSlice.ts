@@ -306,6 +306,15 @@ const registrationCardSlice = createSlice({
           (item) => omsFound.length > 0 && item.id !== omsFound[omsFound.length - 1].itemId
             && dmsFound.length > 0 && item.id !== dmsFound[dmsFound.length - 1].itemId
         );
+        const documentInitial = {
+          id: undefined,
+          passportType: '',
+          serialFirst: '',
+          serialSecond: '',
+          number: '',
+          fromDate: '',
+          givenBy: '',
+        };
         const policyInitial = {
           id: undefined,
           cmoArea: '',
@@ -387,7 +396,7 @@ const registrationCardSlice = createSlice({
               ...initialState.initialFormState.passportGeneral.passportInfo.documentedAddress
             }
           },
-          documents: transformedPatient.documents,
+          documents: transformedPatient.documents.length > 0 ? transformedPatient.documents : [documentInitial],
           documentsDeleted: [],
         };
         // @ts-ignore
@@ -400,7 +409,7 @@ const registrationCardSlice = createSlice({
             : state.initialFormState.passportGeneral.policyDms;
         // @ts-ignore
         state.initialFormState.passportGeneral.policies = [
-          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [],
+          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [policyInitial],
           ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [],
           ...restPolicies
         ];

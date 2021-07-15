@@ -31,7 +31,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       })),
     }),
     policies: Yup.array().of(Yup.object({
-      timeType: Yup.string().required('Не выбран тип времени полиса'),
+      timeType: Yup.string().required('Не выбран вид полиса'),
       from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
       to: Yup.string().required('Не задана дата окончания действия полиса').nullable(),
       serial: Yup.string().required('Не введена серия полиса'),

@@ -100,15 +100,17 @@ const PersonalDocuments: FC = () => {
                     <FastInput name={getSelectionPath(index, 'number')} />
                   </FormField>
                 </Col>
-                <Col span={1}>
-                  <Button
-                    type={'link'}
-                    size={'small'}
-                    shape="circle"
-                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                    onClick={onRemoveDocument.bind(this, index)}
-                  />
-                </Col>
+                {formValues.length !== 1 && (
+                  <Col span={1}>
+                    <Button
+                      type={'link'}
+                      size={'small'}
+                      shape="circle"
+                      icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                      onClick={onRemoveDocument.bind(this, index)}
+                    />
+                  </Col>
+                )}
               </Row>
               <Row gutter={16}>
                 <Col span={3}>
