@@ -1,7 +1,7 @@
 export const DROPDOWN_TITLE = 'Полис';
 
 export enum LABELS {
-  TYPE = 'Тип',
+  TYPE = 'Вид',
   FROM = 'С',
   TO = 'До',
   SERIAL = 'Серия',

@@ -231,11 +231,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
           </Col>
         )}
         <Col span={4}>
-          <FormField label={'Тип'} name={`${sectionValuePath}.timeType`}>
+          <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
               allowClear
               loading={isLoading}
-              placeholder={"Тип"}
+              placeholder={"Вид"}
               name={`${sectionValuePath}.timeType`}
             >
               {getPropsOptions(policyTimeType)}
