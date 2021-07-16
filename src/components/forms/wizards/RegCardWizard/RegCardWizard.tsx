@@ -18,6 +18,7 @@ import {
   setPatientReg,
   editCardPatient,
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {fetchPersonTreeFull} from "../../../../reduxStore/slices/personTree/personTreeSlice";
 import validation from "./validation";
 
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
@@ -56,6 +57,10 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       dispatch(resetRegCard());
     }
   }, [params]);
+
+  useEffect(() => {
+    dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
+  }, []);
 
 const fetchDoctors = (value:string) =>{
 dispatch(fetchRbPersonsSearch({query:value}))

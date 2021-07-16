@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import { Col, Row, Select, Button, TreeSelect } from 'antd';
 import { useFormikContext } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
 
 import { DROPDOWN_TITLE, LABELS, PersonAttachment } from './types';
@@ -9,12 +9,10 @@ import { WizardStateType } from '../../types';
 import {
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
-  detailedOrgStructureSelector,
   detailedDetachmentReasonsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import { RootState } from '../../../../../../reduxStore/store';
 import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
-import {fetchPersonTreeFull} from "../../../../../../reduxStore/slices/personTree/personTreeSlice";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -24,29 +22,22 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 import TreeSelectField from "../../../../components/fields/TreeSelect";
 
 const Attachments: React.FC = () => {
-  const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.attachments.attachments;
   const formValuesRemoved = form.values.attachments.deleted;
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
-  const orgStructure = useSelector(detailedOrgStructureSelector);
   const detachmentReasons = useSelector(detailedDetachmentReasonsSelector);
   const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
   const {
     organisations: loadingOrgs,
     attachTypes: loadingAttachTypes,
-    orgStructure: loadingOrgStructure,
     detachmentReasons: loadingDetachmentReasons,
   } = useSelector((state: RootState) => state.rb.loading);
 
-  useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
-
-  useEffect(() => {
-    dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
-  }, []);
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
@@ -63,7 +54,7 @@ const Attachments: React.FC = () => {
   const renderTreeNodes = (data:PersonTree[]) =>
     data.map((item: PersonTree) => {
       return (
-        <TreeSelect.TreeNode  value={item.id.toString()} key={item.id}  title={item.name}  {...item}>
+        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
           {item.child.length && renderTreeNodes(item.child)}
         </TreeSelect.TreeNode>
       );
@@ -128,16 +119,10 @@ const Attachments: React.FC = () => {
                 </Col>
                 <Col span={4}>
                   <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
-                    {/*<FastSearchSelect*/}
-                    {/*  showSearch*/}
-                    {/*  filterOption*/}
-                    {/*  optionFilterProp={'name'}*/}
-                    {/*  loading={loadingOrgStructure}*/}
-                    {/*  name={getSelectionPath(index, 'unit')}>*/}
-                    {/*  {getPropsList(orgStructure)}*/}
-                    {/*</FastSearchSelect>*/}
                     <TreeSelectField
+                      defaultValue={parseInt(formValues[index].unit)}
                       name={getSelectionPath(index, 'unit')}
+                      onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
                     >
                       {renderTreeNodes(personTree)}
                     </TreeSelectField>
