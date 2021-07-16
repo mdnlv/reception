@@ -9,6 +9,7 @@ import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
 import PatientWork from "../interfaces/payloads/regCard/PatientWork";
 import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
 import PatientIdInfo from "../interfaces/payloads/regCard/PatientIdInfo";
+import PatientDocument from "../interfaces/payloads/regCard/PatientDocument";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -61,7 +62,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     client_document_info: [
       ...documents.map((item) => ({
         ...(item.id && {id: item.id}),
-        documentType_id: item.passportType,
+        documentType_id: parseInt(item.passportType),
         serial: item.serialFirst?.concat(item.serialSecond) || '',
         number: item.number || '',
         date: toServerFormat(item.fromDate),
@@ -69,16 +70,21 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         endDate: '2200-12-12',
         deleted: 0 as 0,
       })),
-      ...documentsDeleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        documentType_id: item.passportType,
-        serial: item.serialFirst?.concat(item.serialSecond) || '',
-        number: item.number || '',
-        date: toServerFormat(item.fromDate),
-        origin: item.givenBy || '',
-        endDate: '2200-12-12',
-        deleted: 1 as 1,
-      })),
+      ...documentsDeleted.reduce((res: PatientDocument[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            documentType_id: parseInt(item.passportType),
+            serial: item.serialFirst?.concat(item.serialSecond) || '',
+            number: item.number || '',
+            date: toServerFormat(item.fromDate),
+            origin: item.givenBy || '',
+            endDate: '2200-12-12',
+            deleted: 1 as 1,
+          });
+        }
+        return res;
+      }, []),
     ],
 
     client_contact_info: [

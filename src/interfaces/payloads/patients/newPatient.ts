@@ -59,7 +59,7 @@ export default interface NewPatientPayload {
   }[];
 
   client_document_info: {
-    documentType_id: string;
+    documentType_id: number;
     serial: string;
     number: string;
     date: string;
