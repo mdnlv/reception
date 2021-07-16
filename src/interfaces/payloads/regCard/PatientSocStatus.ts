@@ -6,5 +6,13 @@ export default interface PatientSocStatus {
   endDate: string;
   notes: string | null;
   deleted?: 0 | 1;
+  document: {
+    id?: number;
+    date: string;
+    documentType_id: number | null;
+    number: string;
+    origin: string;
+    serial: string;
+  }
 }
 

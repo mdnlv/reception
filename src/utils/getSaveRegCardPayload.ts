@@ -199,6 +199,13 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         endDate: toServerFormat(item.endDate),
         notes: item.note ?? '',
         deleted: 0 as 0,
+        document: {
+          documentType_id: parseInt(item.docId || ''),
+          serial: item.serialFirst?.concat(item.serialSecond || '') || '',
+          number: item.number || '',
+          origin: item.givenBy || '',
+          date: item.date,
+        }
       })),
       ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
         if (item.id) {
@@ -210,6 +217,13 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             endDate: toServerFormat(item.endDate),
             notes: item.note ?? '',
             deleted: 1 as 1,
+            document: {
+              documentType_id: parseInt(item.docId || ''),
+              serial: item.serialFirst?.concat(item.serialSecond || '') || '',
+              number: item.number || '',
+              origin: item.givenBy || '',
+              date: item.date,
+            }
           })
         }
         return res;

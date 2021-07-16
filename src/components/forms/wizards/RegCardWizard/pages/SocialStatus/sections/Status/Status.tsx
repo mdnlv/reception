@@ -49,7 +49,6 @@ const Status: React.FC<StatusProps> = ({
       fromDate: '',
       endDate: '',
       class: '',
-      docType: '',
       serialFirst: '',
       serialSecond: '',
       number: '',
