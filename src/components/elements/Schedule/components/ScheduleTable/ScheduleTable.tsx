@@ -13,12 +13,22 @@ import ScheduleTableHeader from '../ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
 import { fetchItems, setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
-const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, loadSchedule, speciality, client, actionTicket, showEmpty, groupBy}) => {
+const ScheduleTable: React.FC<ScheduleTableProps> = ({
+  person_tree, 
+  schedules, 
+  loadSchedule, 
+  speciality, 
+  client, 
+  actionTicket, 
+  showEmpty, 
+  groupBy,
+  selected,
+  selectedPerson,
+  onToggleScheduleRow
+}) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
-  const [selected, setSelected] = useState<number[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState<number[]>([]);
   const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
   const [currentDay, setCurrentDay] = useState(new Date());
@@ -51,18 +61,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({person_tree, schedules, lo
     );
   }, [rangeWeekDate]);
 
-  const onToggleScheduleRow = useCallback(
-    (id: number, person_ids: number[]) => {
-      if (!!selected.find((item) => item === id)) {
-        setSelected((prevState) => prevState.filter((item) => item !== id));
-        person_ids.map((person_id: number) => {setSelectedPerson((prevState) => prevState.filter((item) => item !== person_id))});
-      } else {
-        setSelected((prevState) => [...prevState, id]);
-        setSelectedPerson((prevState) => [...prevState, ...person_ids]);
-      }
-    },
-    [setSelected, selected],
-  );
 
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
       setCurrentDate(date);

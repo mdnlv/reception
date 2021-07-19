@@ -10,7 +10,9 @@ import { postFiltersDoctors, fetchPersonTree } from '../../../reduxStore/slices/
 const DoctorSearchFilterForm: React.FC<FormProps> = ({
   onClose,
   groupBy,
-  setFilter
+  setFilter,
+  setSelectedPerson,
+  setSelected
 }) => {
   const dispatch = useDispatch();
 
@@ -23,6 +25,8 @@ const DoctorSearchFilterForm: React.FC<FormProps> = ({
         person: undefined,
       }}
       onSubmit={(values:any) => {
+        setSelectedPerson([])
+        setSelected([])
         dispatch(values.organisation || values.speciality || values.post ?
           postFiltersDoctors({
             orgStructure_id: !values.organisation ? undefined : values.organisation,

@@ -53,15 +53,17 @@ const ListItem: React.FC<ItemProps> = ({
       <Col span={4} style={{padding: '4px'}}>
         <div className="item-title" style={{paddingLeft: `${level * 14}px`}}>
           <div onClick={()=> {
-              let ids = [id];
+              if(!togg) {
+                  let ids = [id];
+                  (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
+                  : personIds.length > 0 && dispatch(fetchItems({
+                      ids: personIds,
+                      beg_date: moment(currentDate).format('YYYY-MM-DD'),
+                      end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
+                      showEmpty: showEmpty
+                  }));
+              }
               setTogg(!togg);
-              (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
-              : personIds.length > 0 && dispatch(fetchItems({
-                ids: personIds,
-                beg_date: moment(currentDate).format('YYYY-MM-DD'),
-                end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
-                showEmpty: showEmpty
-              }));
               onToggle(id, personIds);
             }} className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}

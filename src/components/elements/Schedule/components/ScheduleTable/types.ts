@@ -70,6 +70,9 @@ export interface ScheduleTableProps {
   actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;
   showEmpty: boolean;
   groupBy: 'speciality_id' | 'orgStructure_id';
+  selected: number[];
+  selectedPerson: number[];
+  onToggleScheduleRow(id: number, person_ids: number[]): void;
 }
 
 export interface Client {

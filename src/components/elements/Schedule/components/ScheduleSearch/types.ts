@@ -18,4 +18,6 @@ export type SearchHeaderProps = {
   setGroupBy(arg: 'speciality_id' | 'orgStructure_id'): void;
   setFilter(arg: any): void;
   filter: any;
+  setSelected(arg: number[]): void;
+  setSelectedPerson(arg: number[]): void;
 };

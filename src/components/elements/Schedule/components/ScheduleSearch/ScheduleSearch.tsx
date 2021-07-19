@@ -25,7 +25,9 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   groupBy,
   setGroupBy,
   setFilter,
-  filter
+  filter,
+  setSelectedPerson,
+  setSelected
 }) => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,6 +60,8 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
             onClose={onCloseClick}
             groupBy={groupBy}
             setFilter={setFilter}
+            setSelectedPerson={setSelectedPerson}
+            setSelected={setSelected}
           />
         </Card>
       );
