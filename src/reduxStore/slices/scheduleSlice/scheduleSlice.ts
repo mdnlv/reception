@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActionPost } from '../../../components/elements/Schedule/types';
 import ScheduleService from '../../../services/ScheduleService';
-import {Schedule, ScheduleOne} from "./types";
+import {Schedule, ScheduleOne, Ticket} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
@@ -54,6 +54,22 @@ export const fetchItems = createAsyncThunk(
   },  
 );
 
+export const clientAppointment = createAsyncThunk(
+  'schedule/clientAppointment',
+  async (payload: { client_id: number; beg_date?: string, end_date?: string, is_past_records?: boolean }, thunkAPI) => {
+    thunkAPI.dispatch(setTicketsLoading(true));
+    try {
+      const response = await ScheduleService.clientAppointment(payload);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      thunkAPI.dispatch(setTicketsLoading(false));
+    }
+  },  
+);
 
 export const actionTicket = createAsyncThunk(
   'schedule/actionTicket',
@@ -94,12 +110,14 @@ const scheduleSlice = createSlice({
   initialState: {
     schedule: {} as ScheduleOne,
     schedules: {} as Schedule,
+    tickets: [] as Ticket[],
     isLoading: false,
     postLoading: false,
     errorMessage: '',
     errorStatus: false,
     currentDate: new Date,
     rangeWeekDate: new Date,
+    ticketsLoading: false
   },
 
   reducers: {
@@ -120,7 +138,10 @@ const scheduleSlice = createSlice({
     },
     setRangeWeekDate: (state, action: PayloadAction<Date>) => {
       state.rangeWeekDate = action.payload;
-    }
+    },
+    setTicketsLoading: (state, action: PayloadAction<boolean>) => {
+      state.ticketsLoading = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -166,7 +187,25 @@ const scheduleSlice = createSlice({
           delete state.schedules[id];
         }
       }
+    });
 
+    builder.addCase(clientAppointment.fulfilled, (state, action) => {
+      if(action.payload) {
+        Object.values(action.payload).map((person: any) => {
+          Object.values(person.schedule).map((date: any)=>{
+            date[0].tickets.map((ticket: any) => {
+              state.tickets.push({
+                person:person.person.lastName,
+                office: date[0].office,
+                date: '',
+                time: ticket.begDateTime 
+              })
+            })
+          })
+        })
+      } else {
+        state.tickets = [];
+      }
     });
 
     builder.addCase(fetchItem.fulfilled, (state, action) => {
@@ -176,5 +215,5 @@ const scheduleSlice = createSlice({
   },
 });
 
-export const { setLoading, setPostLoading, setErrorStatus, setErrorMessage, setCurrentDate, setRangeWeekDate } = scheduleSlice.actions;
+export const { setLoading, setPostLoading, setErrorStatus, setErrorMessage, setCurrentDate, setRangeWeekDate, setTicketsLoading } = scheduleSlice.actions;
 export default scheduleSlice;

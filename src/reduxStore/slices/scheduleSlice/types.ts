@@ -44,3 +44,10 @@ export interface ScheduleTable {
 export interface Schedule {
   [k1: number]: ScheduleTable;
 }
+
+export interface Ticket {
+  office: string;
+  date: string;
+  time: number;
+  person: string;
+}

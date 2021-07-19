@@ -52,6 +52,14 @@ export default {
       return apiInstance.put(`/schedule?user_id=${ticket.user_id}&action_id=${ticket.old_action_id}&idx=${ticket.old_idx}&new_action_id=${ticket.action_id}&new_idx=${ticket.idx}`);
     if(ticket.type == 'delete') 
       return apiInstance.delete(`/schedule?user_id=${ticket.user_id}&client_id=${ticket.client_id}&action_id=${ticket.action_id}&idx=${ticket.idx}`);
-  }
+  },
+
+  clientAppointment(payload: { client_id: number; beg_date?: string, end_date?: string, is_past_records?: boolean }) {
+    let s =  `/schedule/client_appointment?client_id=${payload.client_id}`;
+    if(payload.beg_date) s += `&beg_date=${payload.beg_date}`;
+    if(payload.end_date) s += `&end_date=${payload.end_date}`;
+    if(payload.is_past_records) s += `&is_past_records=1`;
+    return apiInstance.get(s);
+  },
 };
  
