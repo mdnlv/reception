@@ -8,7 +8,8 @@ export interface SocialStatus {
   fromDate: any;
   endDate: any;
   class?: string;
-  docId?: string;
+  docId?: number | null;
+  docType?: string;
   serialFirst?: string;
   serialSecond?: string;
   number?: string;

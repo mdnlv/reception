@@ -422,7 +422,8 @@ const registrationCardSlice = createSlice({
             fromDate: item.fromDate,
             endDate: item.endDate,
             deleted: 0,
-            docId: item.document ? item.document.id?.toString() : undefined,
+            docId: item.document.id,
+            docType: item.document ? item.document.type?.toString() : undefined,
             serialFirst: item.document && item.document.serial
               ? item.document.serial?.substring(0, item.document.serial.length/2)
               : '',

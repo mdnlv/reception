@@ -1,4 +1,4 @@
-import {format, parseISO} from "date-fns";
+import {format} from "date-fns";
 
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
@@ -193,6 +193,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     client_soc_status_info: [
       ...socialStatus.socialStatus.map((item) => ({
         ...(item.id && {id: item.id}),
+        ...(item.docId && {document_id: item.docId}),
         socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
@@ -200,11 +201,12 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         notes: item.note ?? '',
         deleted: 0 as 0,
         document: {
-          documentType_id: parseInt(item.docId || ''),
+          ...(item.docId && {id: item.docId}),
+          documentType_id: parseInt(item.docType || ''),
           serial: item.serialFirst?.concat(item.serialSecond || '') || '',
           number: item.number || '',
           origin: item.givenBy || '',
-          date: item.date,
+          date: format(item.date, 'yyyy-MM-dd'),
         }
       })),
       ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
@@ -222,7 +224,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
               serial: item.serialFirst?.concat(item.serialSecond || '') || '',
               number: item.number || '',
               origin: item.givenBy || '',
-              date: item.date,
+              date: format(item.date, 'yyyy-MM-dd'),
             }
           })
         }

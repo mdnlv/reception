@@ -85,13 +85,15 @@ export const transformPatientResponse = (item: PatientResponse) => {
         endDate: i.endDate ? parseISO(i.endDate) : '',
         document: Object.keys(i.document).length
           ? {
-            id: i.document?.documentType_id,
+            id: i.document?.id,
+            type: i.document?.documentType_id,
             serial: i.document?.serial,
             number: i.document?.number,
             date: i.document?.date ? parseISO(i.document?.date) : '',
             origin: i.document?.origin
           } : {
-            id: 1,
+            id: null,
+            type: 1,
             serial: '',
             number: '',
             date: '',

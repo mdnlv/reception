@@ -44,11 +44,12 @@ const Status: React.FC<StatusProps> = ({
 
   const onAddStatus = useCallback(() => {
     const status: SocialStatus = {
+      class: '',
       statusType: '',
-      note: '',
       fromDate: '',
       endDate: '',
-      class: '',
+      note: '',
+      docType: '',
       serialFirst: '',
       serialSecond: '',
       number: '',
@@ -154,13 +155,13 @@ const Status: React.FC<StatusProps> = ({
               <Divider/>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docId')}>
+                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docType')}>
                     <FastSearchSelect
                       filterOption
                       loading={isLoadingDocuments}
                       optionFilterProp={'name'}
                       showSearch
-                      name={getSelectionPath(indexData, 'docId')}
+                      name={getSelectionPath(indexData, 'docType')}
                     >
                       {propsList(documentTypesList)}
                     </FastSearchSelect>

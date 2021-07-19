@@ -6,6 +6,7 @@ export default interface PatientSocialStatusResponse {
   endDate: string;
   notes: string | null;
   document: {
+    id: number;
     documentType_id?: number;
     serial?: string;
     number?: string;
