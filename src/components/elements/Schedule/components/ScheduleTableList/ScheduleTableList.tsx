@@ -109,7 +109,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
 
   const listContent = useMemo(()=>{
     if(groupBy == 'orgStructure_id' && Array.isArray(person_tree)) {
-      return !isLoading && person_tree && person_tree.map((item: any) => {
+      return person_tree && person_tree.map((item: any) => {
         const toggle = selected.find((sitem) => sitem === item.id);
         return (
           <ListItem
@@ -144,7 +144,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
         );
     })
   }  else if(groupBy != 'orgStructure_id' && !Array.isArray(person_tree)) {
-    return !isLoading && person_tree && Object.keys(person_tree).map((item: any) => {
+    return person_tree && Object.keys(person_tree).map((item: any) => {
       const toggle = selected.find((sitem) => sitem === item.id);
         return (
           <ListItem
@@ -178,7 +178,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
           />
         );
     }); 
-  }},[person_tree, list, mode])
+  }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum, selectedPerson])
+   
   return <>
     <div className={'schedule-list'}>
       {listContent}

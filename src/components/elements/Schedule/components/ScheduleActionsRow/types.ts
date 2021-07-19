@@ -18,4 +18,5 @@ export interface RowProps {
   orgId: number;
   setCurrentDay(date?: Date): void;
   currentDay? : Date | undefined;
+  isLoading: boolean;
 }

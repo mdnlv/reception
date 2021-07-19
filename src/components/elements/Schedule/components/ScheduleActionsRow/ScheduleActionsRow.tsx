@@ -4,6 +4,7 @@ import moment from 'moment';
 import './styles.scss';
 import {RowProps} from "./types";
 import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
+import {Spin} from "antd";
 
 const ScheduleActionsRow: React.FC<RowProps> = ({
   items,
@@ -18,7 +19,8 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
   client,
   orgId,
   currentDay,
-  setCurrentDay
+  setCurrentDay,
+  isLoading
 }) => {
   const rowContent = useMemo(() => {
     switch (mode) {
@@ -97,7 +99,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
     }
   }, [items, mode, rangeWeekNum, currentDate]);
 
-  return <div className={'schedule-action-row'}>{rowContent}</div>;
+  return <div className={'schedule-action-row'}>{ rowContent}</div>;
 };
 
 export default ScheduleActionsRow;

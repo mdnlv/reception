@@ -55,8 +55,8 @@ const ListItem: React.FC<ItemProps> = ({
           <div onClick={()=> {
               let ids = [id];
               setTogg(!togg);
-              (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) :
-              dispatch(fetchItems({
+              (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
+              : personIds.length > 0 && dispatch(fetchItems({
                 ids: personIds,
                 beg_date: moment(currentDate).format('YYYY-MM-DD'),
                 end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
@@ -97,6 +97,7 @@ const ListItem: React.FC<ItemProps> = ({
                 orgId={Number(org)}
                 currentDay={currentDay}
                 setCurrentDay={setCurrentDay}
+                isLoading={isLoading}
               />
             )}
           </Col>
@@ -130,13 +131,14 @@ const ListItem: React.FC<ItemProps> = ({
                 orgId={id}
                 currentDay={currentDay}
                 setCurrentDay={setCurrentDay}
+                isLoading={isLoading}
               />
             )}
           </Col>
         </div>)
       })}
 
-      {togg && child.length > 0 && child.map((item, index) => {
+      {togg && child.length > 0 && child.map((item) => {
         return (
           <ListItem
             isLoading={isLoading}
@@ -145,7 +147,7 @@ const ListItem: React.FC<ItemProps> = ({
             toggle={toggle}
             id={item.id}
             onToggle={onToggle}
-            key={item.id + index}
+            key={item.id}
             name={item.name}
             child={item.child}
             person_list={item.person_list}  
@@ -165,6 +167,7 @@ const ListItem: React.FC<ItemProps> = ({
             currentDay={currentDay}
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}
+            groupBy={groupBy}
           />
         )
       })}
