@@ -66,7 +66,7 @@ const Attachments: React.FC = () => {
       fromDate: '',
       endDate: '',
       type: '',
-      unit: '',
+      unit: 68,
       detachmentReason: '',
       deleted: 0,
     };

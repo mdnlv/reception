@@ -2,7 +2,7 @@ export interface PersonAttachment {
   id?: number;
   type: string;
   lpu: string;
-  unit: string;
+  unit: number;
   fromDate: string;
   endDate: string;
   detachmentReason: string | null;
