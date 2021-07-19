@@ -50,11 +50,11 @@ const Schedule: React.FC<any> = (props) => {
   }, []);
 
   const onClearSearch = useCallback(() => {
-    dispatch(fetchPersonTree({}))
+    dispatch(fetchPersonTree({group_by: groupBy}))
     setFilter({})
     setSelected([]);
     setSelectedPerson([]);
-  }, []);
+  }, [groupBy]);
 
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
