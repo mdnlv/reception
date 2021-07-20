@@ -296,15 +296,19 @@ const registrationCardSlice = createSlice({
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
         // console.log('transformedPatient', transformedPatient);
-        const dmsFound = transformedPatient.policy.filter(
+        const dms = transformedPatient.policy.filter(
           (item) => parseInt(item.type) === 3,
         );
-        const omsFound = transformedPatient.policy.filter(
+        const oms = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
-        const restPolicies = transformedPatient.policy.filter(
-          (item) => omsFound.length > 0 && item.id !== omsFound[omsFound.length - 1].itemId
-            && dmsFound.length > 0 && item.id !== dmsFound[dmsFound.length - 1].itemId
+        const omsFound = oms[oms.length - 1];
+        const dmsFound = dms[dms.length - 1];
+        const restOmsPolicies = oms.filter(
+          (item) => item.itemId !== omsFound.itemId
+        );
+        const restDmsPolicies = dms.filter(
+          (item) => item.itemId !== dmsFound.itemId
         );
         const documentInitial = {
           id: undefined,
@@ -404,14 +408,15 @@ const registrationCardSlice = createSlice({
         // @ts-ignore
         // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
         state.initialFormState.passportGeneral.policyDms =
-          dmsFound.length > 0
-            ? dmsFound[dmsFound.length - 1]
+          dmsFound
+            ? dmsFound
             : state.initialFormState.passportGeneral.policyDms;
         // @ts-ignore
         state.initialFormState.passportGeneral.policies = [
-          ...(omsFound.length > 0) ? [omsFound[omsFound.length - 1]] : [policyInitial],
-          ...(dmsFound.length > 0) ? [dmsFound[dmsFound.length - 1]] : [],
-          ...restPolicies
+          ...omsFound ? [omsFound] : [policyInitial],
+          ...dmsFound ? [dmsFound] : [],
+          ...restOmsPolicies,
+          ...restDmsPolicies,
         ];
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
