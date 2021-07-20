@@ -206,7 +206,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           serial: item.serialFirst?.concat(item.serialSecond || '') || '',
           number: item.number || '',
           origin: item.givenBy || '',
-          date: format(item.date, 'yyyy-MM-dd'),
+          date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
         }
       })),
       ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
