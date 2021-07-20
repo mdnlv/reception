@@ -15,8 +15,8 @@ const PersonalDocument: FC<SectionProps> = ({
   isLoadingDocuments,
 }) => {
   const formProps = useFormikContext<WizardStateType>();
-  const formValues = formProps.values.passportGeneral.passportInfo.documents[0];
-  const selectionValuePath = 'passportGeneral.passportInfo.documents[0]';
+  const formValues = formProps.values.personDocs.documents[0];
+  const selectionValuePath = 'personDocs.documents[0]';
 
   // useEffect(() => {
   //   console.log('formValues', formValues);

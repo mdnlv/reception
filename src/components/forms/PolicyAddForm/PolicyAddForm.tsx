@@ -28,8 +28,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
-  const formValues = policyKey === 'policyOms' ? form.values.passportGeneral.policies[0] : form.values.passportGeneral.policyDms;
-  const sectionValuePath = policyKey === 'policyOms' ? `passportGeneral.policies[0]` : `passportGeneral.policyDms`;
+  const formValues = policyKey === 'policyOms' ? form.values.personDocs.policies[0] : form.values.passportGeneral.policyDms;
+  const sectionValuePath = policyKey === 'policyOms' ? `personDocs.policies[0]` : `passportGeneral.policyDms`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
@@ -39,12 +39,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
   // @ts-ignore
-  const docSerial = form.values.passportGeneral.passportInfo.documents[0]
-    ? form.values.passportGeneral.passportInfo.documents[0].serialFirst?.concat(form.values.passportGeneral.passportInfo.documents[0].serialSecond)
+  const docSerial = form.values.personDocs.documents[0]
+    ? form.values.personDocs.documents[0].serialFirst?.concat(form.values.personDocs.documents[0].serialSecond)
     : '';
-  const docNumber = form.values.passportGeneral.passportInfo.documents[0]
-    ? form.values.passportGeneral.passportInfo.documents[0].number
-    : '';
+  const docNumber = form.values.personDocs.documents[0] ? form.values.personDocs.documents[0].number : '';
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
@@ -61,17 +59,20 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [cmoType]);
 
   useEffect(() => {
-    id === 'new' && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
+    formValues
+      && Object.keys(formValues).length > 2
+      && id === 'new'
+      && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
   }, [id]);
 
   useEffect(() => {
     if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
-      fieldNames.map((item) => form.setFieldValue(`passportGeneral.policies[1].${item}`, formValues[item]))
+      fieldNames.map((item) => form.setFieldValue(`personDocs.policies[1].${item}`, formValues[item]))
     }
   }, [formValues, policyKey]);
 
   useEffect(() => {
-    if (!formValues?.cmoArea) {
+    if (formValues && !formValues?.cmoArea && Object.keys(formValues).length > 2) {
       const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
       form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
     }
@@ -84,13 +85,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [foundPolicy]);
 
   useEffect(() => {
-    if (formValues?.timeType === '1') {
-      form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
-    } else if (formValues?.timeType === '3') {
-      form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
-      form.setFieldValue(`${sectionValuePath}.to`, new Date('01.01.2200'));
-    } else {
-      !formValues?.timeType && form.setFieldValue(`${sectionValuePath}.serial`, '');
+    if (formValues && Object.keys(formValues).length > 2) {
+      if (formValues?.timeType === '1') {
+        form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
+      } else if (formValues?.timeType === '3') {
+        form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
+        form.setFieldValue(`${sectionValuePath}.to`, new Date('01.01.2200'));
+      } else {
+        !formValues?.timeType && form.setFieldValue(`${sectionValuePath}.serial`, '');
+      }
     }
   }, [formValues?.timeType]);
 
@@ -286,9 +289,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
       </Row>
       <Row className="form-row" gutter={16} align={'bottom'}>
         <Col span={13}>
-          <FormField label="СМО" labelPosition="left" name={`${sectionValuePath}.cmo`}>
+          <FormField label="СМО" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
-              style={{width: '17vw'}}
+              style={{width: '19vw'}}
               filterOption
               loading={isLoading || isCmoLoading}
               optionFilterProp={'name'}

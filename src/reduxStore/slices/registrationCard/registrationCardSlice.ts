@@ -400,9 +400,17 @@ const registrationCardSlice = createSlice({
               ...initialState.initialFormState.passportGeneral.passportInfo.documentedAddress
             }
           },
-          documents: transformedPatient.documents.length > 0 ? transformedPatient.documents : [documentInitial],
-          documentsDeleted: [],
         };
+        state.initialFormState.personDocs.documents = transformedPatient.documents.length > 0 ? transformedPatient.documents : [documentInitial];
+        state.initialFormState.personDocs.documentsDeleted = [];
+        // @ts-ignore
+        state.initialFormState.personDocs.policies = [
+          ...omsFound ? [omsFound] : [policyInitial],
+          ...dmsFound ? [dmsFound] : [],
+          ...restOmsPolicies,
+          ...restDmsPolicies,
+        ];
+        state.initialFormState.personDocs.policiesDeleted = [];
         // @ts-ignore
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
@@ -411,13 +419,6 @@ const registrationCardSlice = createSlice({
           dmsFound
             ? dmsFound
             : state.initialFormState.passportGeneral.policyDms;
-        // @ts-ignore
-        state.initialFormState.passportGeneral.policies = [
-          ...omsFound ? [omsFound] : [policyInitial],
-          ...dmsFound ? [dmsFound] : [],
-          ...restOmsPolicies,
-          ...restDmsPolicies,
-        ];
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
             id: item.id,

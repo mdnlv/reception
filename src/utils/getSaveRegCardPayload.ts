@@ -13,12 +13,15 @@ import PatientDocument from "../interfaces/payloads/regCard/PatientDocument";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
-    documents,
-    documentsDeleted,
     addressRegistration,
     documentedAddress,
   } = state.registrationCard.form.passportGeneral.passportInfo;
-  const {policies, policiesDeleted} = state.registrationCard.form.passportGeneral;
+  const {
+    documents,
+    documentsDeleted,
+    policies,
+    policiesDeleted
+  } = state.registrationCard.form.personDocs;
   const {
     firstName,
     lastName,

@@ -27,8 +27,8 @@ import SmoParams from "../../../../../../../modals/SmoParams/SmoParams";
 
 const PersonPolicy: FC = () => {
   const form = useFormikContext<WizardStateType>();
-  const formValues = form.values.passportGeneral.policies;
-  const formValuesRemoved = form.values.passportGeneral.policiesDeleted;
+  const formValues = form.values.personDocs.policies;
+  const formValuesRemoved = form.values.personDocs.policiesDeleted;
   const policyTypesList = useSelector(detailedPolicyTypesSelector);
   const policyKindsList = useSelector(detailedPolicyKindsSelector);
   const {rbKladrDocumented: kladr} = useSelector(kladrSelector);
@@ -43,9 +43,9 @@ const PersonPolicy: FC = () => {
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     const data = formValues.find((item) => item.type === '3');
@@ -62,7 +62,7 @@ const PersonPolicy: FC = () => {
     const data = formValues[index];
     if (data && !data?.cmoArea && !Object.keys(data).every((k) => !data[k])) {
       const result = cmoTypeList.find((item) => item.id === parseInt(formValues[index]?.cmo));
-      form.setFieldValue(`passportGeneral.policies[${index}].cmoArea`, result?.extraData || '');
+      form.setFieldValue(`personDocs.policies[${index}].cmoArea`, result?.extraData || '');
     }
   }, [formValues[index]?.cmo]);
 
@@ -70,12 +70,12 @@ const PersonPolicy: FC = () => {
     const data = formValues[index];
     if (data && !Object.keys(data).every((k) => !data[k])) {
       if (data?.timeType === '1') {
-        form.setFieldValue(`passportGeneral.policies[${index}].serial`, 'ВС');
+        form.setFieldValue(`personDocs.policies[${index}].serial`, 'ВС');
       } else if (data?.timeType === '3') {
-        form.setFieldValue(`passportGeneral.policies[${index}].serial`, 'ЕП');
-        form.setFieldValue(`passportGeneral.policies[${index}].to`, new Date('01.01.2200'));
+        form.setFieldValue(`personDocs.policies[${index}].serial`, 'ЕП');
+        form.setFieldValue(`personDocs.policies[${index}].to`, new Date('01.01.2200'));
       } else {
-        form.setFieldValue(`passportGeneral.policies[${index}].serial`, '');
+        form.setFieldValue(`personDocs.policies[${index}].serial`, '');
       }
     }
   }, [formValues[index]?.timeType]);
@@ -92,7 +92,7 @@ const PersonPolicy: FC = () => {
   }, [formValues[index]?.timeType, formValues[index]?.serial]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
-    return `passportGeneral.policies[${index}].${fieldChain}`;
+    return `personDocs.policies[${index}].${fieldChain}`;
   };
 
   const getPropsOptions = useCallback(
@@ -135,15 +135,15 @@ const PersonPolicy: FC = () => {
       smoShort: '',
     };
     const newArr = [...formValues, policy];
-    form.setFieldValue('passportGeneral.policies', newArr);
+    form.setFieldValue('personDocs.policies', newArr);
   }, [formValues]);
 
   const onRemovePolicy = useCallback((index: number) => {
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
-    form.setFieldValue('passportGeneral.policiesDeleted', newRemovedArr);
-    form.setFieldValue('passportGeneral.policies', newArr);
+    form.setFieldValue('personDocs.policiesDeleted', newRemovedArr);
+    form.setFieldValue('personDocs.policies', newArr);
   }, [formValues]);
 
   const onCloseOrgsChoice = () => {
@@ -164,7 +164,7 @@ const PersonPolicy: FC = () => {
   const onCancelCmoFilter = () => {
     setCmoFiltered(cmoTypeList);
     filterNames.map((item) => {
-      form.setFieldValue(`passportGeneral.policies[${index}].${item}`, '')
+      form.setFieldValue(`personDocs.policies[${index}].${item}`, '')
     })
   };
 
@@ -172,7 +172,7 @@ const PersonPolicy: FC = () => {
     <div className={'form-section person-policy'}>
       <DropDownContent title={DROPDOWN_TITLE}>
         <ArrayFieldWrapper<PassportPolicyType>
-          name={'passportGeneral'}
+          name={'personDocs'}
           values={formValues}
           onAddItem={onAddPolicy}
           showActions

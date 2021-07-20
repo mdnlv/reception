@@ -87,8 +87,6 @@ export interface PassportInfoTypeDeleted extends Modify<PassportInfoType, {
 
 export default interface FormState {
   passportInfo: {
-    documents: PassportInfoType[];
-    documentsDeleted: PassportInfoTypeDeleted[];
     addressRegistration: PassportAddressType;
     documentedAddress: PassportAddressType;
   };
@@ -97,6 +95,4 @@ export default interface FormState {
     deleted: PassportContactTypeDeleted[];
   };
   policyDms: PassportPolicyType;
-  policies: PassportPolicyType[];
-  policiesDeleted: PassportPolicyTypeDeleted[];
 }

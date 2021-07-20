@@ -19,8 +19,8 @@ import FastInput from "../../../../../../components/fields/FastInput/FastInput";
 
 const PersonalDocuments: FC = () => {
   const form = useFormikContext<WizardStateType>();
-  const formValues = form.values.passportGeneral.passportInfo.documents;
-  const formValuesRemoved = form.values.passportGeneral.passportInfo.documentsDeleted;
+  const formValues = form.values.personDocs.documents;
+  const formValuesRemoved = form.values.personDocs.documentsDeleted;
   const docTypes = useSelector(detailedDocumentTypesSelector);
   const {documentTypes: loadingDocTypes} = useSelector((state: RootState) => state.rb.loading);
 
@@ -29,7 +29,7 @@ const PersonalDocuments: FC = () => {
   // }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
-    return `passportGeneral.passportInfo.documents[${index}].${fieldChain}`;
+    return `personDocs.documents[${index}].${fieldChain}`;
   };
 
   const getPropsList = (props: { id: number; name: string }[]) => {
@@ -50,15 +50,15 @@ const PersonalDocuments: FC = () => {
       givenBy: '',
     };
     const newArr = [...formValues, document];
-    form.setFieldValue('passportGeneral.passportInfo.documents', newArr);
+    form.setFieldValue('personDocs.documents', newArr);
   }, [formValues]);
 
   const onRemoveDocument = useCallback((index: number) => {
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
-    form.setFieldValue('passportGeneral.passportInfo.documentsDeleted', newRemovedArr);
-    form.setFieldValue('passportGeneral.passportInfo.documents', newArr);
+    form.setFieldValue('personDocs.documentsDeleted', newRemovedArr);
+    form.setFieldValue('personDocs.documents', newArr);
   }, [formValues]);
 
   return (
@@ -86,17 +86,17 @@ const PersonalDocuments: FC = () => {
                   </FormField>
                 </Col>
                 <Col span={1}>
-                  <FormField label={LABELS.SERIAL}>
+                  <FormField label={LABELS.SERIAL} name={getSelectionPath(index, 'serialFirst')} >
                     <FastInput name={getSelectionPath(index, 'serialFirst')} />
                   </FormField>
                 </Col>
                 <Col span={1}>
-                  <FormField label={LABELS.SERIAL}>
+                  <FormField label={LABELS.SERIAL} name={getSelectionPath(index, 'serialSecond')} >
                     <FastInput name={getSelectionPath(index, 'serialSecond')} />
                   </FormField>
                 </Col>
                 <Col span={3}>
-                  <FormField label={LABELS.NUMBER}>
+                  <FormField label={LABELS.NUMBER} name={getSelectionPath(index, 'number')} >
                     <FastInput name={getSelectionPath(index, 'number')} />
                   </FormField>
                 </Col>
@@ -114,12 +114,12 @@ const PersonalDocuments: FC = () => {
               </Row>
               <Row gutter={16}>
                 <Col span={3}>
-                  <FormField label={LABELS.DATE}>
+                  <FormField label={LABELS.DATE} name={getSelectionPath(index, 'fromDate')} >
                     <FastDatePicker name={getSelectionPath(index, 'fromDate')} />
                   </FormField>
                 </Col>
                 <Col span={5}>
-                  <FormField label={LABELS.ORIGIN}>
+                  <FormField label={LABELS.ORIGIN} name={getSelectionPath(index, 'givenBy')} >
                     <FastInput name={getSelectionPath(index, 'givenBy')} />
                   </FormField>
                 </Col>

@@ -20,12 +20,6 @@ import {
   PassportInfoType,
   PassportInfoTypeDeleted
 } from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
-import {
-  NamedDoc,
-  PassportDoc,
-  PolicyDoc,
-  SocialStatus as DocsSocialStatus,
-} from '../../../components/forms/PersonDocumentsForm/types';
 import {PersonLink, PersonLinkDeleted} from '../../../components/forms/PersonLinksForm/types';
 import {PrivilegeInvalidity, PrivilegeItem} from '../../../components/forms/PrivilegesForm/types';
 import {SocialStatus, SocialStatusDeleted} from '../../../components/forms/SocialStatusForm/types';
@@ -95,18 +89,6 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
-        documents: [
-          {
-            id: undefined,
-            passportType: '',
-            serialFirst: '',
-            serialSecond: '',
-            number: '',
-            fromDate: '',
-            givenBy: '',
-          }
-        ] as PassportInfoType[],
-        documentsDeleted: [] as PassportInfoTypeDeleted[],
         addressRegistration: {
           id: undefined,
           isKLADR: true,
@@ -156,14 +138,41 @@ const initialState: RegistrationCardStateType = {
         infisCode: '',
         smoShort: '',
       },
-      policies: [] as PassportPolicyType[],
-      policiesDeleted: [] as PassportPolicyTypeDeleted[],
     },
     personDocs: {
-      idDoc: [] as PassportDoc[],
-      policy: [] as PolicyDoc[],
-      socialStatus: [] as DocsSocialStatus[],
-      namedDoc: [] as NamedDoc[],
+      documents: [
+        {
+          id: undefined,
+          passportType: '',
+          serialFirst: '',
+          serialSecond: '',
+          number: '',
+          fromDate: '',
+          givenBy: '',
+        }
+      ] as PassportInfoType[],
+      policies: [
+        {
+          id: undefined,
+          timeType: '',
+          cmoArea: '',
+          from: '',
+          to: '',
+          serial: '',
+          number: '',
+          cmo: '',
+          type: '',
+          name: '',
+          note: '',
+          deleted: 0,
+          inn: '',
+          ogrn: '',
+          infisCode: '',
+          smoShort: '',
+        }
+      ] as PassportPolicyType[],
+      documentsDeleted: [] as PassportInfoTypeDeleted[],
+      policiesDeleted: [] as PassportPolicyTypeDeleted[],
     },
     links: {
       directLinks: {
@@ -242,18 +251,6 @@ const initialState: RegistrationCardStateType = {
     },
     passportGeneral: {
       passportInfo: {
-        documents: [
-          {
-            id: undefined,
-            passportType: '',
-            serialFirst: '',
-            serialSecond: '',
-            number: '',
-            fromDate: '',
-            givenBy: '',
-          }
-        ] as PassportInfoType[],
-        documentsDeleted: [] as PassportInfoTypeDeleted[],
         addressRegistration: {
           isKLADR: true,
           city: '',
@@ -301,14 +298,41 @@ const initialState: RegistrationCardStateType = {
         infisCode: '',
         smoShort: '',
       },
-      policies: [] as PassportPolicyType[],
-      policiesDeleted: [] as PassportPolicyTypeDeleted[],
     },
     personDocs: {
-      idDoc: [] as PassportDoc[],
-      policy: [] as PolicyDoc[],
-      socialStatus: [] as DocsSocialStatus[],
-      namedDoc: [] as NamedDoc[],
+      documents: [
+        {
+          id: undefined,
+          passportType: '',
+          serialFirst: '',
+          serialSecond: '',
+          number: '',
+          fromDate: '',
+          givenBy: '',
+        }
+      ] as PassportInfoType[],
+      policies: [
+        {
+          id: undefined,
+          timeType: '',
+          cmoArea: '',
+          from: '',
+          to: '',
+          serial: '',
+          number: '',
+          cmo: '',
+          type: '',
+          name: '',
+          note: '',
+          deleted: 0,
+          inn: '',
+          ogrn: '',
+          infisCode: '',
+          smoShort: '',
+        }
+      ] as PassportPolicyType[],
+      documentsDeleted: [] as PassportInfoTypeDeleted[],
+      policiesDeleted: [] as PassportPolicyTypeDeleted[],
     },
     links: {
       directLinks: {
