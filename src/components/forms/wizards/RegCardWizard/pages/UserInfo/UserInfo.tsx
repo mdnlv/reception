@@ -44,6 +44,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   }, [formValues.code]);
 
   useEffect(() => {
+    formValues.lastName && formProps.setFieldValue(`${sectionValuePath}.lastName`, dataCapitalize(formValues.lastName));
+    formValues.firstName && formProps.setFieldValue(`${sectionValuePath}.firstName`, dataCapitalize(formValues.firstName));
+    formValues.patrName && formProps.setFieldValue(`${sectionValuePath}.patrName`, dataCapitalize(formValues.patrName));
+  }, [formValues.lastName, formValues.firstName, formValues.patrName]);
+
+  useEffect(() => {
     const checking = snilsCheck(formValues.snils)
     !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
   }, [formValues.snils]);
@@ -81,6 +87,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
       {snilsWarning}
     </p>
   );
+
+  const dataCapitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
   return (
     <form className="wizard-step registration-form">
