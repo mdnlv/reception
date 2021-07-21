@@ -6,6 +6,7 @@ import {CloseCircleOutlined} from "@ant-design/icons";
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
 import {StatusProps, ListOptionProps, LABELS, DROPDOWN_TITLE} from "./types";
+import {PassportInfoType} from "../../../PassportGeneral/types";
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
@@ -25,14 +26,18 @@ const Status: React.FC<StatusProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.socialStatus.socialStatus;
   const formValuesRemoved = form.values.socialStatus.deleted;
+  const docs = form.values.personDocs.documents;
+  const docsRemoved = form.values.personDocs.documentsDeleted;
   const sectionValuePath = `socialStatus.socialStatus`;
   const removedValuePath = `socialStatus.deleted`;
+  const docsValuePath = `personDocs.documents`;
+  const removedDocsValuePath = `personDocs.documentsDeleted`;
   const [index, setIndex] = useState(0);
   const [cleanable, setCleanable] = useState(false);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].statusType`, '');
@@ -49,20 +54,31 @@ const Status: React.FC<StatusProps> = ({
       fromDate: '',
       endDate: '',
       note: '',
-      docType: '',
+      deleted: 0,
+      document: {
+        passportType: '',
+        serialFirst: '',
+        serialSecond: '',
+        number: '',
+        fromDate: '',
+        givenBy: '',
+        deleted: 0,
+      }
+    };
+    const doc: PassportInfoType = {
+      passportType: '',
       serialFirst: '',
       serialSecond: '',
       number: '',
-      date: '',
+      fromDate: '',
       givenBy: '',
       deleted: 0,
     };
     form.setFieldValue(sectionValuePath, [...formValues, status]);
+    form.setFieldValue(docsValuePath, [...docs, doc]);
   }, [form.setFieldValue, formValues]);
 
   const onRemoveStatus = useCallback((index: number) => {
-    const docs = form.values.personDocs.documents;
-    const docsRemoved = form.values.personDocs.documentsDeleted;
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
@@ -162,13 +178,13 @@ const Status: React.FC<StatusProps> = ({
               <Divider/>
               <Row gutter={16} align={'bottom'}>
                 <Col span={3}>
-                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'docType')}>
+                  <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'document.passportType')}>
                     <FastSearchSelect
                       filterOption
                       loading={isLoadingDocuments}
                       optionFilterProp={'name'}
                       showSearch
-                      name={getSelectionPath(indexData, 'docType')}
+                      name={getSelectionPath(indexData, 'document.passportType')}
                     >
                       {propsList(documentTypesList)}
                     </FastSearchSelect>
@@ -176,29 +192,29 @@ const Status: React.FC<StatusProps> = ({
                 </Col>
                 <Col span={1}>
                   <FormField label={LABELS.SERIAL}>
-                    <FastInput name={getSelectionPath(indexData, 'serialFirst')} />
+                    <FastInput name={getSelectionPath(indexData, 'document.serialFirst')} />
                   </FormField>
                 </Col>
                 <Col span={1}>
                   <FormField label={LABELS.SERIAL}>
-                    <FastInput name={getSelectionPath(indexData, 'serialSecond')} />
+                    <FastInput name={getSelectionPath(indexData, 'document.serialSecond')} />
                   </FormField>
                 </Col>
                 <Col span={3}>
                   <FormField label={LABELS.NUMBER}>
-                    <FastInput name={getSelectionPath(indexData, 'number')} />
+                    <FastInput name={getSelectionPath(indexData, 'document.number')} />
                   </FormField>
                 </Col>
               </Row>
               <Row>
                 <Col span={3}>
                   <FormField label={LABELS.DATE}>
-                    <FastDatePicker name={getSelectionPath(indexData, 'date')} />
+                    <FastDatePicker name={getSelectionPath(indexData, 'document.fromDate')} />
                   </FormField>
                 </Col>
                 <Col span={5}>
                   <FormField label={LABELS.GIVEN}>
-                    <FastInput name={getSelectionPath(indexData, 'givenBy')} />
+                    <FastInput name={getSelectionPath(indexData, 'document.givenBy')} />
                   </FormField>
                 </Col>
               </Row>

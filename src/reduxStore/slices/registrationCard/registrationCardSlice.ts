@@ -305,10 +305,10 @@ const registrationCardSlice = createSlice({
         const omsFound = oms[oms.length - 1];
         const dmsFound = dms[dms.length - 1];
         const restOmsPolicies = oms.filter(
-          (item) => item.itemId !== omsFound.itemId
+          (item) => item.id !== omsFound.id
         );
         const restDmsPolicies = dms.filter(
-          (item) => item.itemId !== dmsFound.itemId
+          (item) => item.id !== dmsFound.id
         );
         const documentInitial = {
           id: undefined,
@@ -428,17 +428,20 @@ const registrationCardSlice = createSlice({
             fromDate: item.fromDate,
             endDate: item.endDate,
             deleted: 0,
-            docId: item.document.id,
-            docType: item.document ? item.document.type?.toString() : undefined,
-            serialFirst: item.document && item.document.serial
-              ? item.document.serial?.substring(0, item.document.serial.length/2)
-              : '',
-            serialSecond: item.document && item.document.serial
-              ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
-              : '',
-            number: item.document ? item.document.number : '',
-            date: item.document ? item.document.date : '',
-            givenBy: item.document ? item.document.origin : '',
+            document: {
+              id: item.document.id,
+              passportType: item.document ? item.document.type?.toString() : '',
+              serialFirst: item.document && item.document.serial
+                ? item.document.serial?.substring(0, item.document.serial.length/2)
+                : '',
+              serialSecond: item.document && item.document.serial
+                ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
+                : '',
+              number: item.document ? item.document.number : '',
+              fromDate: item.document ? item.document.date : '',
+              givenBy: item.document ? item.document.origin : '',
+              deleted: 0,
+            },
           }));
           // @ts-ignore
         state.initialFormState.socialStatus.trustedDoc =

@@ -1,4 +1,5 @@
 import {Modify} from "../../../types/modify";
+import {PassportInfoType} from "../wizards/RegCardWizard/pages/PassportGeneral/types";
 
 export interface SocialStatus {
   [key: string]: any;
@@ -8,14 +9,7 @@ export interface SocialStatus {
   fromDate: any;
   endDate: any;
   class?: string;
-  docId?: number | null;
-  docType?: string;
-  serialFirst?: string;
-  serialSecond?: string;
-  number?: string;
-  date?: any;
-  givenBy?: string;
-  deleted?: 0;
+  document: PassportInfoType;
 }
 
 export interface SocialStatusDeleted extends Modify<SocialStatus, {

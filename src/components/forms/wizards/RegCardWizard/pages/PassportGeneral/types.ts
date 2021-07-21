@@ -77,7 +77,6 @@ export interface PassportInfoType {
   number?: string;
   fromDate?: any;
   givenBy?: string;
-  serial?:string;
   deleted?: 0;
 }
 

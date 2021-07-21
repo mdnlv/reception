@@ -201,16 +201,16 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
         endDate: toServerFormat(item.endDate),
-        notes: item.note ?? '',
+        notes: item.note || '',
         deleted: 0 as 0,
-        document: item.docType
+        document: !(Object.keys(item.document).length === 0 && item.document.constructor === Object)
           ? {
-            ...(item.docId && {id: item.docId}),
-            documentType_id: parseInt(item.docType || ''),
-            serial: item.serialFirst?.concat(item.serialSecond || '') || '',
-            number: item.number || '',
-            origin: item.givenBy || '',
-            date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
+            ...(item.document.id && {id: item.document.id}),
+            documentType_id: parseInt(item.document.passportType || ''),
+            serial: item.document.serialFirst?.concat(item.document.serialSecond || '') || '',
+            number: item.document.number || '',
+            origin: item.document.givenBy || '',
+            date: item.document.fromDate ? format(item.document.fromDate, 'yyyy-MM-dd') : '',
           }
           : {}
       })),
@@ -222,7 +222,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             socStatusClass_id: item.class ? parseInt(item.class) : null,
             begDate: toServerFormat(item.fromDate),
             endDate: toServerFormat(item.endDate),
-            notes: item.note ?? '',
+            notes: item.note || '',
             deleted: 1 as 1,
             document: item.docType
               ? {

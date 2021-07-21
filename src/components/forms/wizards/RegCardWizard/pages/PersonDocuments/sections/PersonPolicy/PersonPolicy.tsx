@@ -75,7 +75,7 @@ const PersonPolicy: FC = () => {
         form.setFieldValue(`personDocs.policies[${index}].serial`, 'ЕП');
         form.setFieldValue(`personDocs.policies[${index}].to`, new Date('01.01.2200'));
       } else {
-        form.setFieldValue(`personDocs.policies[${index}].serial`, '');
+        !formValues[index]?.timeType && form.setFieldValue(`personDocs.policies[${index}].serial`, '');
       }
     }
   }, [formValues[index]?.timeType]);
