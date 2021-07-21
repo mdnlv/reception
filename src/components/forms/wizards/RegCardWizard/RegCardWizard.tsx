@@ -72,8 +72,10 @@ dispatch(fetchRbPersonsSearch({query:value}))
     </Row>
   ) : (
     <Formik
-      enableReinitialize={true}
+      enableReinitialize
       initialValues={store}
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={validation}
       onSubmit={(values) => {
         if (params.id === 'new') {
@@ -91,6 +93,7 @@ dispatch(fetchRbPersonsSearch({query:value}))
       }}
     >
       {({errors}) => {
+        // console.log('errors', errors);
         return (
           <Row>
             <Col span={5}>

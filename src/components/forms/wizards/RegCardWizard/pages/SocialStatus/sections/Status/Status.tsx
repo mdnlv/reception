@@ -61,11 +61,18 @@ const Status: React.FC<StatusProps> = ({
   }, [form.setFieldValue, formValues]);
 
   const onRemoveStatus = useCallback((index: number) => {
+    const docs = form.values.personDocs.documents;
+    const docsRemoved = form.values.personDocs.documentsDeleted;
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
+    const docResult = docs.find((item) => item.id === result.docId);
+    const newDocsRemovedArr = [...docsRemoved, {...docResult, deleted: 1}];
+    const newDocsArr = docs.filter((item) => item.id !== docResult?.id);
     form.setFieldValue(removedValuePath, newRemovedArr);
     form.setFieldValue(sectionValuePath, newArr);
+    form.setFieldValue('personDocs.documentsDeleted', newDocsRemovedArr);
+    form.setFieldValue('personDocs.documents', newDocsArr);
   }, [form.setFieldValue, formValues]);
 
   const propsList = useCallback(

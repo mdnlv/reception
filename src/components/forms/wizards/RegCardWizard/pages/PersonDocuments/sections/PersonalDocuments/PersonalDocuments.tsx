@@ -24,9 +24,9 @@ const PersonalDocuments: FC = () => {
   const docTypes = useSelector(detailedDocumentTypesSelector);
   const {documentTypes: loadingDocTypes} = useSelector((state: RootState) => state.rb.loading);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `personDocs.documents[${index}].${fieldChain}`;
@@ -100,7 +100,7 @@ const PersonalDocuments: FC = () => {
                     <FastInput name={getSelectionPath(index, 'number')} />
                   </FormField>
                 </Col>
-                {formValues.length !== 1 && (
+                {index !== 0 && (
                   <Col span={1}>
                     <Button
                       type={'link'}
