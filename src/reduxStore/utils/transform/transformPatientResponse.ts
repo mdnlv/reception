@@ -93,7 +93,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
             origin: i.document?.origin
           } : {
             id: null,
-            type: 1,
+            type: '',
             serial: '',
             number: '',
             date: '',
