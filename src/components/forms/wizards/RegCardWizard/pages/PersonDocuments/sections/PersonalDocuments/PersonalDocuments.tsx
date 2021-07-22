@@ -21,12 +21,17 @@ const PersonalDocuments: FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.personDocs.documents;
   const formValuesRemoved = form.values.personDocs.documentsDeleted;
+  const statuses = form.values.socialStatus.socialStatus;
   const docTypes = useSelector(detailedDocumentTypesSelector);
   const {documentTypes: loadingDocTypes} = useSelector((state: RootState) => state.rb.loading);
 
-  useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   console.log('formValues docs', formValues);
+  // }, [formValues]);
+  //
+  // useEffect(() => {
+  //   console.log('formValues docsRemoved', formValuesRemoved);
+  // }, [formValuesRemoved]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `personDocs.documents[${index}].${fieldChain}`;
@@ -57,8 +62,14 @@ const PersonalDocuments: FC = () => {
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
+    const statusRes = statuses.find((item) => item.document.id === result.id);
+    const statusResIndex = statuses.findIndex((item) => item.document.id === result.id);
     form.setFieldValue('personDocs.documentsDeleted', newRemovedArr);
     form.setFieldValue('personDocs.documents', newArr);
+    form.setFieldValue(
+      `socialStatus.socialStatus[${statusResIndex}]`,
+      {...statusRes, document: {...statusRes?.document, deleted: 1}}
+    );
   }, [formValues]);
 
   return (

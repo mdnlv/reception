@@ -193,10 +193,11 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }] : []),
     ],
 
+    //@ts-ignore
     client_soc_status_info: [
       ...socialStatus.socialStatus.map((item) => ({
         ...(item.id && {id: item.id}),
-        ...(item.docId && {document_id: item.docId}),
+        ...(item.document.id && {document_id: item.document.id}),
         socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),

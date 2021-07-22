@@ -18,12 +18,6 @@ import { PersonAttachment } from '../../components/forms/AttachmentsForm/types';
 import { PersonViewType } from '../../components/forms/PersonViewTypeForm/types';
 import { PersonLink } from '../../components/forms/PersonLinksForm/types';
 import { PersonOffence } from '../../components/forms/OffencesForm/types';
-import {
-  NamedDoc,
-  PassportDoc,
-  PolicyDoc,
-  SocialStatus as DocsSocialStatus,
-} from '../../components/forms/PersonDocumentsForm/types';
 import { PersonOutsideId } from '../../components/forms/OutsideIdentificationForm/types';
 import { PersonHospitalization } from '../../components/forms/OutsideHospitalizationForm/types';
 import { PersonAddHospitalization } from '../../components/forms/AdditionalHospitalizationForm/types';
@@ -45,6 +39,13 @@ import {
 } from '../../components/forms/FeaturesForm/types';
 import KladrItem from '../../types/data/KladrItem';
 import KladrStreet from '../../types/data/KladrStreet';
+import {
+  PassportInfoType,
+  PassportInfoTypeDeleted,
+  PassportPolicyType,
+  PassportPolicyTypeDeleted
+} from "../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
+
 export const initialState: RegistrationCardState = {
   personal: {
     firstName: '',
@@ -146,10 +147,10 @@ export const initialState: RegistrationCardState = {
     },
   },
   personDocs: {
-    idDoc: [] as PassportDoc[],
-    policy: [] as PolicyDoc[],
-    socialStatus: [] as DocsSocialStatus[],
-    namedDoc: [] as NamedDoc[],
+    documents: [] as PassportInfoType[],
+    documentsDeleted: [] as PassportInfoTypeDeleted[],
+    policies: [] as PassportPolicyType[],
+    policiesDeleted: [] as PassportPolicyTypeDeleted[],
   },
   links: {
     // @ts-ignore

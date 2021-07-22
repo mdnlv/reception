@@ -419,6 +419,7 @@ const registrationCardSlice = createSlice({
           dmsFound
             ? dmsFound
             : state.initialFormState.passportGeneral.policyDms;
+        // @ts-ignore
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
             id: item.id,

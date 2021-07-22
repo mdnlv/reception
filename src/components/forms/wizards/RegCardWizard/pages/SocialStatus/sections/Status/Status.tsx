@@ -6,7 +6,6 @@ import {CloseCircleOutlined} from "@ant-design/icons";
 import { WizardStateType } from '../../../../types';
 import { SocialStatus } from '../../../../../../SocialStatusForm/types';
 import {StatusProps, ListOptionProps, LABELS, DROPDOWN_TITLE} from "./types";
-import {PassportInfoType} from "../../../PassportGeneral/types";
 
 import DropDownContent from '../../../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../../../components/FormField/FormField';
@@ -30,14 +29,12 @@ const Status: React.FC<StatusProps> = ({
   const docsRemoved = form.values.personDocs.documentsDeleted;
   const sectionValuePath = `socialStatus.socialStatus`;
   const removedValuePath = `socialStatus.deleted`;
-  const docsValuePath = `personDocs.documents`;
-  const removedDocsValuePath = `personDocs.documentsDeleted`;
   const [index, setIndex] = useState(0);
   const [cleanable, setCleanable] = useState(false);
 
-  useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   console.log('formValues status', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].statusType`, '');
@@ -65,24 +62,14 @@ const Status: React.FC<StatusProps> = ({
         deleted: 0,
       }
     };
-    const doc: PassportInfoType = {
-      passportType: '',
-      serialFirst: '',
-      serialSecond: '',
-      number: '',
-      fromDate: '',
-      givenBy: '',
-      deleted: 0,
-    };
     form.setFieldValue(sectionValuePath, [...formValues, status]);
-    form.setFieldValue(docsValuePath, [...docs, doc]);
   }, [form.setFieldValue, formValues]);
 
   const onRemoveStatus = useCallback((index: number) => {
     const result = formValues[index];
     const newRemovedArr = [...formValuesRemoved, {...result, deleted: 1}];
     const newArr = formValues.filter((item, i) => i !== index);
-    const docResult = docs.find((item) => item.id === result.docId);
+    const docResult = docs.find((item) => item.id === result.document.id);
     const newDocsRemovedArr = [...docsRemoved, {...docResult, deleted: 1}];
     const newDocsArr = docs.filter((item) => item.id !== docResult?.id);
     form.setFieldValue(removedValuePath, newRemovedArr);

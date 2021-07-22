@@ -68,8 +68,8 @@ export const transformPatientResponse = (item: PatientResponse) => {
           id: item.id,
           givenBy: item.origin,
           fromDate: item.date ? parseISO(item.date) : null,
-          serialFirst: item.serial.substr(0,2),
-          serialSecond: item.serial.substr(2),
+          serialFirst: item.serial.substring(0, item.serial.length/2),
+          serialSecond: item.serial.substring(item.serial.length/2, item.serial.length),
           number: item.number,
           passportType: item.documentType_id.toString(),
         }))
