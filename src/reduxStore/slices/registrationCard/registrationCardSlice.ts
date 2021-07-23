@@ -321,7 +321,7 @@ const registrationCardSlice = createSlice({
         };
         const policyInitial = {
           id: undefined,
-          cmoArea: '',
+          cmoArea: '7800000000000',
           cmo: "",
           from: '',
           name: "",

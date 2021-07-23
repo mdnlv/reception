@@ -59,13 +59,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [cmoType]);
 
   useEffect(() => {
-    formValues
-      && Object.keys(formValues).length > 2
-      && id === 'new'
-      && form.setFieldValue(`${sectionValuePath}.cmoArea`, '7800000000000');
-  }, [id]);
-
-  useEffect(() => {
     if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
       fieldNames.map((item) => form.setFieldValue(`personDocs.policies[1].${item}`, formValues[item]))
     }
@@ -189,7 +182,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const onSubmitCmoFilter = () => {
     const result = cmoType.filter(
       (item) =>
-        formValues.cmoArea ? item.extraData === formValues.cmoArea : item
+        item.extraData === formValues.cmoArea
         && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
         && item.inn?.includes(formValues.inn || '')
         && item.ogrn?.includes(formValues.ogrn || '')
@@ -361,6 +354,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         onClose={onCloseOrgsChoice}
         onOk={onSubmitCmoFilter}
         onCancel={onCancelCmoFilter}
+        index={0}
       />
     </div>
   );

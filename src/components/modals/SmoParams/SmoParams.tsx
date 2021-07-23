@@ -16,7 +16,9 @@ const SmoParams: React.FC<ModalProps> = ({
   onOk,
   index
 }) => {
-  const sectionValuePath = policyKey ? `passportGeneral.${policyKey}` : `passportGeneral.policies[${index}]`;
+  const sectionValuePath = policyKey !== 'policyDms'
+    ? `personDocs.policies[${index}]`
+    : `passportGeneral.policyDms`;
 
   return (
     <Modal
