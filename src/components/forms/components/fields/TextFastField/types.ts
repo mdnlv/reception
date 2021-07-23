@@ -6,4 +6,5 @@ export interface FieldProps extends InputProps {
   value?: any;
   onChange?(event: React.ChangeEvent<HTMLInputElement>): unknown;
   placeholder?: string;
+  error?: boolean;
 }

@@ -74,8 +74,6 @@ dispatch(fetchRbPersonsSearch({query:value}))
     <Formik
       enableReinitialize
       initialValues={store}
-      validateOnChange={false}
-      validateOnBlur={false}
       validationSchema={validation}
       onSubmit={(values) => {
         if (params.id === 'new') {

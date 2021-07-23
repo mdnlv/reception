@@ -3,7 +3,6 @@ import {useField} from 'formik';
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
 import { MaskedInput } from 'antd-mask-input';
 import ru from "date-fns/locale/ru";
-import moment from 'moment';
 import {PickerProps} from "./types";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,7 +16,7 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
   return (
     <ReactDatePicker
       onChange={(date: Date) => {
-        props.setDate && props.setDate(date); 
+        props.setDate && props.setDate(date);
         props.onSelectDate && props.onSelectDate();
         return form.setValue(date)
       }}
@@ -47,6 +46,7 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
       }}
       customInput={
         <MaskedInput
+          style={Boolean(meta.error) ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.2)'} : {}}
           name={props.name}
           type="text"
           mask='11.11.1111'

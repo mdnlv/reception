@@ -54,9 +54,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
     !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
   }, [formValues.snils]);
 
-  useEffect(() => {
-    Object.keys(errors).length > 0 && onOpen();
-  }, [errors]);
+  // useEffect(() => {
+  //   Object.keys(errors).length > 0 && onOpen();
+  // }, []);
 
   const snilsCheck = (value: string) => {
     const valueInt = value ? value.replace(/-/g, "").replace(/\s/g, "") : '';
@@ -241,7 +241,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
         </Button>
         <Button
           onClick={() => {
-            formProps.handleSubmit()
+            Object.keys(errors).length > 0 && onOpen();
+            formProps.handleSubmit();
           }}
           className="save-btn">
           Сохранить

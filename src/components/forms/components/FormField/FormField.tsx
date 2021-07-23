@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
-import {ErrorMessage} from "formik";
+import React from 'react';
 
 import './styles.scss';
 import {FieldProps} from "./types";
 
-const FormField: FC<FieldProps> = (props) => {
+const FormField: React.FC<FieldProps> = (props) => {
   const getFieldLabel = () => {
     if (!props.label) {
       return null;
@@ -30,7 +29,6 @@ const FormField: FC<FieldProps> = (props) => {
         <div
           className={`form-field__content`}
         >{props.children}</div>
-        {props.name && <ErrorMessage component="div" className="form-field__error" name={props.name}/>}
       </div>
     );
   }

@@ -8,12 +8,13 @@ import MaskedInputFastField from '../MaskedInputFastField/MaskedInputFastField';
 const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
   return (
     <FastField name={props.name}>
-      {({ field, form }: FastFieldProps) => (
+      {({ field, form, meta }: FastFieldProps) => (
         <MaskedInputFastField
           {...props}
           value={field.value}
           name={props.name}
           onChange={form.handleChange}
+          error={Boolean(meta.error)}
         />
       )}
     </FastField>

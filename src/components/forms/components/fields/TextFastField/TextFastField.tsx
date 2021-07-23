@@ -42,6 +42,7 @@ const TextFastField: React.FC<FieldProps> = (props) => {
       value={innerValue}
       name={props.name}
       onChange={handleOnChange}
+      style={props.error ? {borderColor: 'red', backgroundColor: 'rgba(255, 0, 0, 0.2)'} : {}}
     />
   );
 };

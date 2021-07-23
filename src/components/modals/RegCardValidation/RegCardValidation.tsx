@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Modal, Descriptions, List} from "antd";
 
 import {ValidationModalProps} from "./types";
@@ -26,6 +26,7 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
   };
 
   const getNameItem = (item: string) => {
+    // console.log('item', item);
     const itemArr = item.match(/[^ ]+/g);
     itemArr?.splice(0, 2);
     return itemArr?.join(' ');
@@ -41,8 +42,15 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
         for (let i = 0; i < item.length; i++) {
           for (let innerKey in item[i]) {
             const innerItem = item[i][innerKey];
-            !errNameArr.includes(innerItem)
+            if (typeof innerItem === 'string') {
+              !errNameArr.includes(innerItem)
               && errNameArr.push(getNameItem(innerItem) || '');
+            } else if (typeof innerItem === 'object' && innerItem !== null) {
+              for (let nestedKey in innerItem) {
+                const nestedItem = innerItem[nestedKey];
+                errNameArr.push(getNameItem(nestedItem) || '');
+              }
+            }
           }
         }
       } else if (typeof item === 'object' && item !== null) {
