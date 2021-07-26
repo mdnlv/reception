@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import moment from 'moment';
 import { ActionPost } from '../../../components/elements/Schedule/types';
 import ScheduleService from '../../../services/ScheduleService';
-import {Schedule, ScheduleOne, Ticket} from "./types";
+import {Schedule, ScheduleOne, Ticket, ActionData} from "./types";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
@@ -117,7 +118,8 @@ const scheduleSlice = createSlice({
     errorStatus: false,
     currentDate: new Date,
     rangeWeekDate: new Date,
-    ticketsLoading: false
+    ticketsLoading: false,
+    actionData: {} as any
   },
 
   reducers: {
@@ -141,6 +143,9 @@ const scheduleSlice = createSlice({
     },
     setTicketsLoading: (state, action: PayloadAction<boolean>) => {
       state.ticketsLoading = action.payload;
+    },
+    setStoreActionData: (state, action: PayloadAction<any>) => {
+      state.actionData = action.payload;
     },
   },
 
@@ -190,21 +195,40 @@ const scheduleSlice = createSlice({
     });
 
     builder.addCase(clientAppointment.fulfilled, (state, action) => {
+      state.tickets = [];
       if(action.payload) {
         Object.values(action.payload).map((person: any) => {
-          Object.values(person.schedule).map((date: any)=>{
-            date[0].tickets.map((ticket: any) => {
+          Object.keys(person.schedule).map((date: any)=>{
+            person.schedule[date][0].tickets.map((ticket: any) => {
               state.tickets.push({
                 person:person.person.lastName,
-                office: date[0].office,
-                date: '',
-                time: ticket.begDateTime 
+                office: person.schedule[date][0].office,
+                date: date,
+                time: ticket.begDateTime,
+                actionData: {
+                  date: date? moment(date).format("DD.MM.YYYY") : '',
+                  time: ticket && ticket.begDateTime ? ticket.begDateTime.slice(0,-3): '',
+                  client: (ticket?.client && ticket.client.id)? ticket.client.lastName + ' ' + ticket.client.firstName[0] + '.' + ticket.client.patrName[0] + '.': '',
+                  person: person? person.person.lastName + ' ' + person.person.firstName[0] + '.' + person.person.patrName[0] + '.': '',
+                  speciality:  person? person.person.speciality_id : '',
+                  type: "1",
+                  data: {
+                    action_id: person.schedule[date][0].action_id, 
+                    idx:  ticket.idx, 
+                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+                    person_id:  person? person.person.id : 0, 
+                    user_id: 614, 
+                    index: ticket? ticket.index: '',
+                    old_action_id: 0,
+                    old_idx: 0,
+                    type: 'new'
+                  },
+                  org: person.person.orgStructure_id
+                }
               })
             })
           })
         })
-      } else {
-        state.tickets = [];
       }
     });
 
@@ -215,5 +239,5 @@ const scheduleSlice = createSlice({
   },
 });
 
-export const { setLoading, setPostLoading, setErrorStatus, setErrorMessage, setCurrentDate, setRangeWeekDate, setTicketsLoading } = scheduleSlice.actions;
+export const { setLoading, setPostLoading, setErrorStatus, setErrorMessage, setCurrentDate, setRangeWeekDate, setTicketsLoading, setStoreActionData } = scheduleSlice.actions;
 export default scheduleSlice;

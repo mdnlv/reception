@@ -8,7 +8,8 @@ import './styles.scss';
 import {ItemProps} from "./types";
 import { ActionPost } from "../../types"
 import {RootState} from "../../../../../reduxStore/store";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import { setIsSearchingWithCurrent, fetchPatientById } from "../../../../../reduxStore/slices/patients/patientsSlice";
 
 const ScheduleActionItem: React.FC<ItemProps> = ({
   info,
@@ -23,6 +24,9 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
   orgId
 }) => {
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
+
+  const dispatch = useDispatch();
+  
   const onDayClick = (data: ActionPost)=>{
     showModal && showModal(  {
       date: date? moment(date).format("DD.MM.YYYY") : '',
@@ -30,25 +34,74 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
       client: (ticket?.client && ticket.client.id)? ticket.client.lastName + ' ' + ticket.client.firstName[0] + '.' + ticket.client.patrName[0] + '.': '',
       person: person? person.fullName : '',
       speciality:  person? person.speciality : '',
-      type: "1",
+      type: data.type != 'new' ? data.type : "1",
       data: data,
       org: orgId? orgId : -1,
       tickets: info && info.tickets ? info.tickets: []
     })
   }
 
+  const newRecord = () => {
+    ticket && onDayClick({
+      action_id: info? info.action_id : 0, 
+      idx:  ticket.idx, 
+      client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+      person_id:  person? person.id : 0, 
+      user_id: 614, 
+      index: ticket? ticket.index: '',
+      old_action_id: 0,
+      old_idx: 0,
+      type: 'new'
+    })
+  }  
+
+  const deleteRecord = () => {
+    ticket && onDayClick({
+      action_id: info? info.action_id : 0, 
+      idx:  ticket.idx, 
+      client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+      person_id:  person? person.id : 0, 
+      user_id: 614, 
+      index: ticket? ticket.index: '',
+      old_action_id: 0,
+      old_idx: 0,
+      type: 'delete'
+    })
+  }  
+
+  const editRecord = () => {
+    ticket && onDayClick({
+      action_id: info? info.action_id : 0, 
+      idx:  ticket.idx, 
+      client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
+      person_id:  person? person.id : 0, 
+      user_id: 614, 
+      index: ticket? ticket.index: '',
+      old_action_id: 0,
+      old_idx: 0,
+      type: 'edit'
+    })
+  }  
+
+  const patientSearch = () => {
+    if(ticket) {
+      dispatch(setIsSearchingWithCurrent(ticket.client.id)); 
+      dispatch(fetchPatientById({id: ticket.client.id}));
+    }
+  }  
+
   const menu_free = (
     <Menu>
-      <Menu.Item key="1">Записать на прием</Menu.Item>
+      <Menu.Item key="1" onClick={newRecord}>Записать на прием</Menu.Item>
       <Menu.Item key="2">Зарезервировать</Menu.Item>
     </Menu>
   );  
 
   const menu_busy = (
     <Menu>
-      <Menu.Item key="1">Удалить запись</Menu.Item>
-      <Menu.Item key="2">Перенести запись</Menu.Item>
-      <Menu.Item key="3">Перейти в картотеку - по нажатию на эту запись необходимо переводить фокус в картотеке на записанного пациента</Menu.Item>
+      <Menu.Item key="1" onClick={deleteRecord}>Удалить запись</Menu.Item>
+      <Menu.Item key="2" onClick={editRecord}>Перенести запись</Menu.Item>
+      <Menu.Item key="3" onClick={patientSearch}>Перейти в картотеку</Menu.Item>
       <Menu.Item key="4">Изменить жалобы/ примечания - дать возможность регистратору изменить поля в записи</Menu.Item>
       <Menu.Item key="5">Напечатать направление</Menu.Item>
       <Menu.Item key="6">Напечатать полный список</Menu.Item>
@@ -89,17 +142,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
                 <div
                   style={{ backgroundColor: '#7fd3fd', cursor: 'pointer', ...widthStyle }}
                   className={'schedule-action-item'}
-                  onClick={()=>{onDayClick({
-                    action_id: info? info.action_id : 0, 
-                    idx:  ticket.idx, 
-                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
-                    person_id:  person? person.id : 0, 
-                    user_id: 614, 
-                    index: ticket? ticket.index: '',
-                    old_action_id: 0,
-                    old_idx: 0,
-                    type: 'new'
-                  })}}
+                  onClick={newRecord}
                 ></div>
               </Dropdown>
             </Popover>
@@ -122,17 +165,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
                 <div
                   style={{ backgroundColor: '#FFBC7D', cursor: 'pointer', ...widthStyle }}
                   className={'schedule-action-item'}
-                  onClick={()=>{onDayClick({
-                    action_id: info? info.action_id : 0, 
-                    idx:  ticket.idx, 
-                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
-                    person_id:  person? person.id : 0, 
-                    user_id: 614, 
-                    index: ticket? ticket.index: '',
-                    old_action_id: 0,
-                    old_idx: 0,
-                    type: 'new'
-                  })}}
+                  onClick={newRecord}
                 >                
                 </div>
               </Dropdown>

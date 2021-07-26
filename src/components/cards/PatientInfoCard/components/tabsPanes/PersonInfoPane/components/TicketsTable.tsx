@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Table,Dropdown, Menu, Checkbox } from 'antd/lib';
 import './styles.scss';
 import { TicketsTableProps } from './types';
-import { clientAppointment } from "../../../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import { clientAppointment, setStoreActionData } from "../../../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../../reduxStore/store';
 
 const TicketsTable: React.FC<TicketsTableProps> = ({ client_id, type }) => {
+  const [actionData, setActionData] = useState<any>({});
 
   const dispatch = useDispatch();
   const tickets = useSelector((state:RootState) => state.schedule.tickets);
@@ -17,6 +18,29 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ client_id, type }) => {
       is_past_records: type == 'pre' ? true: undefined
     }))
   },[client_id, type])
+
+  const showModal = (a: any) => {
+    dispatch(setStoreActionData({
+      date: actionData.date,
+      time: actionData.time,
+      client: actionData.client,
+      person: actionData.person,
+      speciality:  actionData.speciality,
+      type: a,
+      data: {
+        action_id: actionData.data.action_id, 
+        idx:  actionData.data.idx, 
+        client_id: actionData.data.client_id, 
+        person_id:  actionData.data.person_id, 
+        user_id: 614, 
+        index: actionData.data.index,
+        old_action_id: 0,
+        old_idx: 0,
+        type: a
+      },
+      org: actionData.org
+    }))
+  }
   
   const columns = [
     {
@@ -59,9 +83,11 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ client_id, type }) => {
  
   const menu = (
     <Menu>
-      <Menu.Item key="1">Удалить запись</Menu.Item>
-      <Menu.Item key="2">Перенести запись</Menu.Item>
-      <Menu.Item key="3">Перейти в расписание - по нажатию на эту запись необходимо переводить фокус в запись в расписании</Menu.Item>
+      {type == 'post' && <>
+        <Menu.Item key="1" onClick={()=>{showModal('delete')}}>Удалить запись</Menu.Item>
+        <Menu.Item key="2" onClick={()=>{showModal('edit')}}>Перенести запись</Menu.Item>
+      </>}
+      <Menu.Item key="3" onClick={()=>{showModal('show')}}>Перейти в расписание</Menu.Item>
       <Menu.Item key="4">Изменить жалобы/ примечания - дать возможность регистратору изменить поля в записи</Menu.Item>
       <Menu.Item key="5">Напечатать направление - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
       <Menu.Item key="6">Печать предварительной записи - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
@@ -76,11 +102,26 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ client_id, type }) => {
       date: item.date + ' ' + item.time,
       person: item.person,
       office: item.office,
+      actionData: item.actionData
     });
   })
 
   return <div className='tickets-table' >
-    <Table columns={columns} dataSource={data} pagination={false} scroll={{ x: true, y: 300 }} style={{marginTop: -16, width: 500}} />    
+    <Table 
+      onRow={(record, rowIndex) => {
+        return {
+          onContextMenu: event => {
+            console.log(data[Number(rowIndex)].actionData)
+            setActionData(data[Number(rowIndex)].actionData)
+          },
+        };
+      }}
+      columns={columns} 
+      dataSource={data} 
+      pagination={false} 
+      scroll={{ x: true, y: 300 }} 
+      style={{marginTop: -16, width: 500}}
+    />    
   </div>
 };
 

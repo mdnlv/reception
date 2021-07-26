@@ -87,6 +87,23 @@ export const fetchQueryPatients = createAsyncThunk(
   },
 );
 
+export const fetchPatientById = createAsyncThunk(
+  'patients/fetchPatientById',
+  async (payload: {id: number}, thunkAPI) => {
+    thunkAPI.dispatch(setLoadingFound(true));
+    try {
+      const response = await PatientsService.fetchPatientById(payload.id);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoadingFound(false));
+    }
+  },
+);
+
 const patientSlice = createSlice({
   name: 'patients',
   initialState: {
@@ -113,6 +130,10 @@ const patientSlice = createSlice({
     setIsSearchingPatients: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload;
       state.currentPatient = 0;
+    },
+    setIsSearchingWithCurrent: (state, action: PayloadAction<number>) => {
+      state.isSearching = true;
+      state.currentPatient = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -141,6 +162,12 @@ const patientSlice = createSlice({
         action.payload?.map((item) => transformFilterPatientResponse(item)) ||
         [];
     });
+    builder.addCase(fetchPatientById.fulfilled, (state, action) => {
+      // @ts-ignore
+      state.foundPatients =
+        action.payload?.map((item) => transformFilterPatientResponse(item)) ||
+        [];
+    });
   },
 });
 
@@ -150,5 +177,6 @@ export const {
   setCurrentPatient,
   clearFoundPatients,
   setIsSearchingPatients,
+  setIsSearchingWithCurrent
 } = patientSlice.actions;
 export default patientSlice;

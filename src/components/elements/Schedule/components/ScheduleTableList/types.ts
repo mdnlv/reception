@@ -27,6 +27,7 @@ export interface ListProps {
   currentDay? : Date | undefined;
   showEmpty: boolean;
   groupBy: 'speciality_id' | 'orgStructure_id';
+  setSelected(arg: number[]): void;
 }
 
 export interface PersonTree {

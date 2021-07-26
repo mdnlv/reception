@@ -73,6 +73,7 @@ export interface ScheduleTableProps {
   selected: number[];
   selectedPerson: number[];
   onToggleScheduleRow(id: number, person_ids: number[]): void;
+  setSelected(arg: number[]): void;
 }
 
 export interface Client {

@@ -17,7 +17,7 @@ import PatientAttach from "../../../../../../types/data/PatientAttach";
 import TicketsTable from './components/TicketsTable';
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
-  const [type, setType] = useState<'pre' | 'post'>('pre');
+  const [type, setType] = useState<'pre' | 'post'>('post');
   const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
     kladrSelector,
   );
@@ -130,9 +130,9 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
         {patient?.notes}
         </Descriptions.Item>
         <Descriptions.Item>
-        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'pre'} onChange={(e)=>{setType(e.target.value)}}>
-          <Radio value={'pre'}>Предварительная запись</Radio>
-          <Radio value={'post'}>Выполнение записи</Radio>
+        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'post'} onChange={(e)=>{setType(e.target.value)}}>
+          <Radio value={'post'}>Предварительная запись</Radio>
+          <Radio value={'pre'}>Выполнение записи</Radio>
         </Radio.Group>
         </Descriptions.Item>
         <Descriptions.Item contentStyle={{margin: 0, padding: 0, border: 0}}>

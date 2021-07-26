@@ -38,7 +38,7 @@ export interface ActionData {
   type: string;
   data: ActionPost;
   org: number;
-  tickets: ScheduleListTicket[];
+  tickets?: ScheduleListTicket[];
 }
   
 export interface ActionPost {
@@ -50,6 +50,6 @@ export interface ActionPost {
   index: string;
   old_action_id: number;
   old_idx: number;
-  type: 'edit' | 'new' | 'delete';
+  type: 'edit' | 'new' | 'delete' | 'show';
 }
   

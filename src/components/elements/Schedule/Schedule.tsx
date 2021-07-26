@@ -113,6 +113,7 @@ const Schedule: React.FC<any> = (props) => {
         showEmpty={showEmpty}
         groupBy={groupBy}
         selected={selected}
+        setSelected={setSelected}
         selectedPerson={selectedPerson}
         onToggleScheduleRow={onToggleScheduleRow}
       />
