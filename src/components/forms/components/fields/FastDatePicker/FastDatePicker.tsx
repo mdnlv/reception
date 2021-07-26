@@ -46,7 +46,14 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
       }}
       customInput={
         <MaskedInput
-          style={Boolean(meta.error) ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.1)'} : {}}
+          style={
+            Boolean(meta.error && meta.touched)
+            ? {
+                border: '1px solid red',
+                backgroundColor: 'rgba(255, 0, 0, 0.1)'
+              }
+            : {}
+          }
           name={props.name}
           type="text"
           mask='11.11.1111'

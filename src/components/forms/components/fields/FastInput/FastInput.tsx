@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useField } from 'formik';
 
 import { FastInputProps } from './types';
@@ -17,7 +17,7 @@ const FastInput: React.FC<FastInputProps> = (props) => {
       onChange={(event) => {
         form.setValue(event.target.value);
       }}
-      error={Boolean(meta.error)}
+      error={Boolean(meta.error && meta.touched)}
     />
   );
 };
