@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from 'react';
+import React, { FC, useState, useEffect, useCallback, useMemo } from 'react';
 import { Col, Divider, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
@@ -39,7 +39,7 @@ const PersonPolicy: FC = () => {
   const [index, setIndex] = useState(0);
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showOrgChoice, setShowOrgChoice] = useState(false);
-  const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
+  const [cmoFiltered, setCmoFiltered] = useState(cmoTypeList as ListOptionItem[]);
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
@@ -48,15 +48,18 @@ const PersonPolicy: FC = () => {
   // }, [formValues]);
 
   useEffect(() => {
+    if (cmoTypeList.length > 0) {
+      const result = cmoTypeList.filter((item) => item.extraData === '7800000000000');
+      setCmoFiltered(result);
+    }
+  }, []);
+
+  useEffect(() => {
     const data = formValues.find((item) => item.type === '3');
     if (data && !Object.keys(data).every((k) => !data[k])) {
       fieldNames.map((item) => form.setFieldValue(`passportGeneral.policyDms.${item}`, data[item]))
     }
   }, [formValues]);
-
-  useEffect(() => {
-    cmoTypeList.length > 0 && setCmoFiltered(cmoTypeList);
-  }, [cmoTypeList]);
 
   useEffect(() => {
     const data = formValues[index];
@@ -153,7 +156,7 @@ const PersonPolicy: FC = () => {
   const onSubmitCmoFilter = () => {
     const result = cmoTypeList.filter(
       (item) =>
-        formValues[index].cmoArea ? item.extraData === formValues[index].cmoArea : item
+          item.extraData === formValues[index].cmoArea
           && item.name.toLowerCase().includes(formValues[index].smoShort?.toLowerCase() || '')
           && item.inn?.includes(formValues[index].inn || '')
           && item.ogrn?.includes(formValues[index].ogrn || '')
@@ -168,126 +171,132 @@ const PersonPolicy: FC = () => {
     })
   };
 
+  const renderFormItem = useCallback((values: PassportPolicyType, indexData: number) => {
+    setIndex(indexData);
+    return (
+      <div key={indexData}>
+        <Row className="form-row" gutter={16} key={indexData}>
+          <Col span={3}>
+            <FormField label={LABELS.TYPE} name={getSelectionPath(indexData, 'timeType')}>
+              <FastSearchSelect
+                allowClear
+                placeholder={"Тип"}
+                name={getSelectionPath(indexData, 'timeType')}
+              >
+                {getPropsOptions(policyKindsList)}
+              </FastSearchSelect>
+            </FormField>
+          </Col>
+          <Col span={3}>
+            <FormField label={LABELS.FROM} name={getSelectionPath(indexData, 'from')}>
+              <FastDatePicker
+                name={getSelectionPath(indexData, 'from')}
+              />
+            </FormField>
+          </Col>
+          <Col span={3}>
+            <FormField label={LABELS.TO} name={getSelectionPath(indexData, 'to')}>
+              <FastDatePicker
+                name={getSelectionPath(indexData, 'to')}
+              />
+            </FormField>
+          </Col>
+          <Col span={3}>
+            <FormField label={LABELS.SERIAL} name={getSelectionPath(indexData, 'serial')}>
+              <FastInput
+                name={getSelectionPath(indexData, 'serial')}
+              />
+            </FormField>
+          </Col>
+          <Col span={3}>
+            <FormField label={LABELS.NUMBER} name={getSelectionPath(indexData, 'number')}>
+              {policyMask
+                ? (<FastMaskedInput
+                  mask={policyMask}
+                  name={getSelectionPath(indexData, 'number')}
+                />)
+                : (<FastInput
+                  name={getSelectionPath(indexData, 'number')}
+                />)
+              }
+            </FormField>
+          </Col>
+          {formValues.length !== 1
+          && (
+            <Col span={1}>
+              <Button
+                type={'link'}
+                size={'small'}
+                shape="circle"
+                icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                onClick={onRemovePolicy.bind(this, indexData)}
+              />
+            </Col>
+          )}
+        </Row>
+        <Row className="form-row" gutter={16} align={'bottom'}>
+          <Col span={9}>
+            <FormField label="СМО" labelPosition="left" name={getSelectionPath(indexData, 'cmo')}>
+              <FastSearchSelect
+                filterOption
+                loading={isCmoLoading}
+                optionFilterProp={'name'}
+                showSearch
+                name={getSelectionPath(indexData, 'cmo')}
+              >
+                {getPropsOptions(cmoFiltered)}
+              </FastSearchSelect>
+            </FormField>
+          </Col>
+          <Col span={1}>
+            <Button onClick={() => setShowOrgChoice(true)}>...</Button>
+          </Col>
+          <Col span={5}>
+            <FormField name={getSelectionPath(indexData, 'type')}>
+              <FastSearchSelect
+                name={getSelectionPath(indexData, 'type')}
+              >
+                {getPropsOptions(policyTypesList)}
+              </FastSearchSelect>
+            </FormField>
+          </Col>
+        </Row>
+        <Row className="form-row" gutter={16}>
+          <Col span={8}>
+            <FormField labelPosition="left" label={LABELS.NAME}>
+              <FastInput
+                name={getSelectionPath(indexData, 'name')}
+              />
+            </FormField>
+          </Col>
+          <Col span={7}>
+            <FormField labelPosition="left" label={LABELS.NOTE}>
+              <FastInput
+                name={getSelectionPath(indexData, 'note')}
+              />
+            </FormField>
+          </Col>
+        </Row>
+        <Divider/>
+      </div>
+    )
+  }, [cmoFiltered]);
+
+  const renderForm = useMemo(() => (
+    <DropDownContent title={DROPDOWN_TITLE}>
+      <ArrayFieldWrapper<PassportPolicyType>
+        name={'personDocs'}
+        values={formValues}
+        onAddItem={onAddPolicy}
+        showActions
+        renderChild={renderFormItem}
+      />
+    </DropDownContent>
+  ), [cmoFiltered]);
+
   return (
     <div className={'form-section person-policy'}>
-      <DropDownContent title={DROPDOWN_TITLE}>
-        <ArrayFieldWrapper<PassportPolicyType>
-          name={'personDocs'}
-          values={formValues}
-          onAddItem={onAddPolicy}
-          showActions
-          renderChild={(values, indexData) => {
-            setIndex(indexData);
-            return (
-              <div key={indexData}>
-                <Row className="form-row" gutter={16} key={indexData}>
-                  <Col span={3}>
-                    <FormField label={LABELS.TYPE} name={getSelectionPath(indexData, 'timeType')}>
-                      <FastSearchSelect
-                        allowClear
-                        placeholder={"Тип"}
-                        name={getSelectionPath(indexData, 'timeType')}
-                      >
-                        {getPropsOptions(policyKindsList)}
-                      </FastSearchSelect>
-                    </FormField>
-                  </Col>
-                  <Col span={3}>
-                    <FormField label={LABELS.FROM} name={getSelectionPath(indexData, 'from')}>
-                      <FastDatePicker
-                        name={getSelectionPath(indexData, 'from')}
-                      />
-                    </FormField>
-                  </Col>
-                  <Col span={3}>
-                    <FormField label={LABELS.TO} name={getSelectionPath(indexData, 'to')}>
-                      <FastDatePicker
-                        name={getSelectionPath(indexData, 'to')}
-                      />
-                    </FormField>
-                  </Col>
-                  <Col span={3}>
-                    <FormField label={LABELS.SERIAL} name={getSelectionPath(indexData, 'serial')}>
-                      <FastInput
-                        name={getSelectionPath(indexData, 'serial')}
-                      />
-                    </FormField>
-                  </Col>
-                  <Col span={3}>
-                    <FormField label={LABELS.NUMBER} name={getSelectionPath(indexData, 'number')}>
-                      {policyMask
-                        ? (<FastMaskedInput
-                          mask={policyMask}
-                          name={getSelectionPath(indexData, 'number')}
-                        />)
-                        : (<FastInput
-                          name={getSelectionPath(indexData, 'number')}
-                        />)
-                      }
-                    </FormField>
-                  </Col>
-                  {formValues.length !== 1
-                    && (
-                      <Col span={1}>
-                        <Button
-                          type={'link'}
-                          size={'small'}
-                          shape="circle"
-                          icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                          onClick={onRemovePolicy.bind(this, indexData)}
-                        />
-                      </Col>
-                  )}
-                </Row>
-                <Row className="form-row" gutter={16} align={'bottom'}>
-                  <Col span={9}>
-                    <FormField label="СМО" labelPosition="left" name={getSelectionPath(indexData, 'cmo')}>
-                      <FastSearchSelect
-                        filterOption
-                        loading={isCmoLoading}
-                        optionFilterProp={'name'}
-                        showSearch
-                        name={getSelectionPath(indexData, 'cmo')}
-                      >
-                        {getPropsOptions(cmoFiltered)}
-                      </FastSearchSelect>
-                    </FormField>
-                  </Col>
-                  <Col span={1}>
-                    <Button onClick={() => setShowOrgChoice(true)}>...</Button>
-                  </Col>
-                  <Col span={5}>
-                    <FormField name={getSelectionPath(indexData, 'type')}>
-                      <FastSearchSelect
-                        name={getSelectionPath(indexData, 'type')}
-                      >
-                        {getPropsOptions(policyTypesList)}
-                      </FastSearchSelect>
-                    </FormField>
-                  </Col>
-                </Row>
-                <Row className="form-row" gutter={16}>
-                  <Col span={8}>
-                    <FormField labelPosition="left" label={LABELS.NAME}>
-                      <FastInput
-                        name={getSelectionPath(indexData, 'name')}
-                      />
-                    </FormField>
-                  </Col>
-                  <Col span={7}>
-                    <FormField labelPosition="left" label={LABELS.NOTE}>
-                      <FastInput
-                        name={getSelectionPath(indexData, 'note')}
-                      />
-                    </FormField>
-                  </Col>
-                </Row>
-                <Divider/>
-              </div>
-            )
-          }}
-        />
-      </DropDownContent>
+      {renderForm}
       <SmoParams
         isVisible={showOrgChoice && !isCmoLoading}
         index={index}

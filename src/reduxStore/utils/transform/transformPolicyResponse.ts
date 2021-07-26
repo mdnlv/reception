@@ -16,6 +16,10 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     name: item.name,
     note: item.note,
     deleted: item.deleted,
+    inn: '',
+    ogrn: '',
+    infisCode: '',
+    smoShort: '',
   };
 };
 

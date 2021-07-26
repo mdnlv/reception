@@ -19,10 +19,10 @@ const SmoParams: React.FC<ModalProps> = ({
   index
 }) => {
   const form = useFormikContext<WizardStateType>();
-  const formValues = policyKey === 'policyOms'
+  const formValues = policyKey === 'policyOms' || index
     ? form.values.personDocs.policies[index || 0]
     : form.values.passportGeneral.policyDms;
-  const sectionValuePath = policyKey !== 'policyDms'
+  const sectionValuePath = policyKey !== 'policyDms' || index
     ? `personDocs.policies[${index}]`
     : `passportGeneral.policyDms`;
 
