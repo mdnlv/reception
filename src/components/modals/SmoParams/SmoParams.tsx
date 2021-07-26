@@ -33,8 +33,10 @@ const SmoParams: React.FC<ModalProps> = ({
         onClose && onClose();
       }
     };
+    //@ts-ignore
     window.addEventListener('keydown', handleEnter);
     return () => {
+      //@ts-ignore
       window.removeEventListener('keydown', handleEnter);
     };
   }, [formValues]);
