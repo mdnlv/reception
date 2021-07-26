@@ -71,7 +71,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         date: toServerFormat(item.fromDate),
         origin: item.givenBy || '',
         endDate: '2200-12-12',
-        deleted: 0 as 0,
       })),
       ...documentsDeleted.reduce((res: PatientDocument[], item) => {
         if (item.id) {

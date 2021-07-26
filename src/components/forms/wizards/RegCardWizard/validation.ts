@@ -47,7 +47,8 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       fromDate: Yup.string().required('Не введена дата начала'),
       endDate: Yup.string().required('Не введена дата окончания'),
       document: Yup.object({
-        passportType: Yup.string().required('Не выбран тип документа')
+        passportType: Yup.string().required('Не выбран тип документа'),
+        fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
       }),
     })),
   }),
