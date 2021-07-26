@@ -122,7 +122,7 @@ const initialState: RegistrationCardStateType = {
       },
       policyDms: {
         id: undefined,
-        cmoArea: '7800000000000',
+        cmoArea: '',
         cmo: "",
         from: '',
         name: "",
@@ -282,7 +282,7 @@ const initialState: RegistrationCardStateType = {
       },
       policyDms: {
         id: undefined,
-        cmoArea: '7800000000000',
+        cmoArea: '',
         cmo: "",
         from: '',
         name: "",
