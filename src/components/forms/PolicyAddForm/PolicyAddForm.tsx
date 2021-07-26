@@ -50,9 +50,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     if (cmoType.length > 0) {
@@ -184,13 +184,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   const onSubmitCmoFilter = () => {
     if (policyKey === 'policyOms') {
-      const result = cmoType.filter(
-        (item) =>
-          item.extraData === formValues.cmoArea
-          && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
-          && item.inn?.includes(formValues.inn || '')
-          && item.ogrn?.includes(formValues.ogrn || '')
-      );
+      const result = formValues.cmoArea
+        ? cmoType.filter(
+          (item) =>
+            item.extraData === formValues.cmoArea
+            && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
+            && item.inn?.includes(formValues.inn || '')
+            && item.ogrn?.includes(formValues.ogrn || '')
+          )
+        : cmoType;
       setCmoFiltered(result);
     }
   };

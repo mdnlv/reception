@@ -14,7 +14,7 @@ const FastMaskedInput: React.FC<FastMaskedProps> = (props) => {
           value={field.value}
           name={props.name}
           onChange={form.handleChange}
-          error={Boolean(meta.error && meta.touched)}
+          error={meta.error && meta.touched || undefined}
         />
       )}
     </FastField>
