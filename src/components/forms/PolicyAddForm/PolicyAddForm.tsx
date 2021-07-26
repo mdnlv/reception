@@ -55,7 +55,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
   // }, [formValues]);
 
   useEffect(() => {
-    cmoType.length > 0 && setCmoFiltered(cmoType);
+    if (cmoType.length > 0) {
+      const result = cmoType.filter((item) => item.extraData === '7800000000000');
+      setCmoFiltered(result);
+    }
   }, [cmoType]);
 
   useEffect(() => {
@@ -180,14 +183,16 @@ const PolicyAddForm: React.FC<FormProps> = ({
   };
 
   const onSubmitCmoFilter = () => {
-    const result = cmoType.filter(
-      (item) =>
-        item.extraData === formValues.cmoArea
-        && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
-        && item.inn?.includes(formValues.inn || '')
-        && item.ogrn?.includes(formValues.ogrn || '')
-    );
-    setCmoFiltered(result);
+    if (policyKey === 'policyOms') {
+      const result = cmoType.filter(
+        (item) =>
+          item.extraData === formValues.cmoArea
+          && item.name.toLowerCase().includes(formValues.smoShort?.toLowerCase() || '')
+          && item.inn?.includes(formValues.inn || '')
+          && item.ogrn?.includes(formValues.ogrn || '')
+      );
+      setCmoFiltered(result);
+    }
   };
 
   const onCancelCmoFilter = () => {

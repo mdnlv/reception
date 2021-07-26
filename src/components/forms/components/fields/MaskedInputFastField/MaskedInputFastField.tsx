@@ -42,7 +42,7 @@ const MaskedInputFastField: React.FC<FieldProps> = (props) => {
       onChange={handleOnChange}
       mask={props.mask}
       name={props.name}
-      style={props.error ? {borderColor: 'red', backgroundColor: 'rgba(255, 0, 0, 0.2)'} : {}}
+      style={props.error ? {borderColor: 'red', backgroundColor: 'rgba(255, 0, 0, 0.1)'} : {}}
     />
   );
 };

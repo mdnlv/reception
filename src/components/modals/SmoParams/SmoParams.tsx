@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect, KeyboardEvent} from 'react';
 import {Modal, Row, Button} from "antd";
+import { useFormikContext } from 'formik';
 
 import {ModalProps} from "./types";
+import {WizardStateType} from "../../forms/wizards/RegCardWizard/types";
 
 import FormField from "../../forms/components/FormField/FormField";
 import FastSearchSelect from "../../forms/components/fields/FastSearchSelect/FastSearchSelect";
@@ -16,9 +18,26 @@ const SmoParams: React.FC<ModalProps> = ({
   onOk,
   index
 }) => {
+  const form = useFormikContext<WizardStateType>();
+  const formValues = policyKey === 'policyOms'
+    ? form.values.personDocs.policies[index || 0]
+    : form.values.passportGeneral.policyDms;
   const sectionValuePath = policyKey !== 'policyDms'
     ? `personDocs.policies[${index}]`
     : `passportGeneral.policyDms`;
+
+  useEffect(() => {
+    const handleEnter = (event: KeyboardEvent) => {
+      if (event.keyCode === 13) {
+        onOk && onOk();
+        onClose && onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEnter);
+    return () => {
+      window.removeEventListener('keydown', handleEnter);
+    };
+  }, [formValues]);
 
   return (
     <Modal
