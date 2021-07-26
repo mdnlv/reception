@@ -104,5 +104,5 @@ export interface ActionPost {
   person_id: number;
   user_id: number;
   index?: string;
-  type: 'edit' | 'new' | 'delete';
+  type: 'edit' | 'new' | 'delete' | 'show';
 }

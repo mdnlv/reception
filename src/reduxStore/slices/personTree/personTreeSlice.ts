@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { setStoreActionData } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import ScheduleService from '../../../services/ScheduleService';
 import {PersonTree, Person} from "./types";
 
@@ -17,6 +17,7 @@ export const fetchPersonTree = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setLoading(false));
       thunkAPI.dispatch(setIsFiltered(false)); 
+      thunkAPI.dispatch(setStoreActionData({})); 
     }
   },
 );
@@ -52,6 +53,7 @@ export const fetchFiltersDoctors = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoadingFound(false));
+      thunkAPI.dispatch(setStoreActionData({})); 
     }
   },
 );

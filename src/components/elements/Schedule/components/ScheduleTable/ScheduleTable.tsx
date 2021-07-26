@@ -24,7 +24,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   groupBy,
   selected,
   selectedPerson,
-  onToggleScheduleRow
+  onToggleScheduleRow,
+  setSelected
 }) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
@@ -37,6 +38,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const endHour = 20;
   const dispatch = useDispatch()
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
+  const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
 
   useEffect(()=>{
     dispatch(setDates({cd: currentDate, ed: rangeWeekDate}));
@@ -51,6 +53,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         showEmpty: showEmpty
       })); 
   },[showEmpty])
+
+  useEffect(()=>{
+    if(storeActionData.data && storeActionData.data.type == 'show') {
+      setCurrentDay(moment(storeActionData.date, 'DD.MM.YYYY').toDate())
+      setMode('day')
+    }
+  },[storeActionData])
 
   const rangeWeekNum = useMemo(() => {
     return (
@@ -119,6 +128,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
             <ScheduleTableList
               isLoading={isScheduleLoading}
               selected={selected}
+              setSelected={setSelected}
               selectedPerson={selectedPerson}
               rangeWeekNum={rangeWeekNum}
               onToggleRow={onToggleScheduleRow}

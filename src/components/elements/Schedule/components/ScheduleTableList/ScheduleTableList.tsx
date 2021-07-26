@@ -30,7 +30,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
   setCurrentDay,
   showEmpty,
   groupBy,
-  person_tree
+  person_tree,
+  setSelected
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -39,6 +40,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const [edit, setEdit] = useState(false);
   const [ok, setOk] = useState(false);
   const [del, setDel] = useState(false);
+  const [open, setOpen] = useState<any>([])
   const [result, setResult] = useState({
     pacient: '',
     date: '',
@@ -47,6 +49,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     speciality: ''
   });
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
+  const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
   const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
   const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
   const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
@@ -91,6 +94,10 @@ const ScheduleTableList: React.FC<ListProps> = ({
       setDel(false);
     }
   },[errorStatus, errorMessage])
+
+  useEffect(()=>{
+    storeActionData.data && (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') && showModal(storeActionData)
+  },[storeActionData])
 
   const showModal = (data: ActionData) => {
     setActionData(data)
@@ -140,43 +147,48 @@ const ScheduleTableList: React.FC<ListProps> = ({
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}
             groupBy={groupBy}
+            parents={[]}
+            showOrg={storeActionData.org}
+            setOpen={setOpen}
+            open={open}
           />
         );
     })
   }  else if(groupBy != 'orgStructure_id' && !Array.isArray(person_tree)) {
     return person_tree && Object.keys(person_tree).map((item: any) => {
       const toggle = selected.find((sitem) => sitem === item.id);
-        return (
-          <ListItem
-            isLoading={isLoading}
-            rangeWeekNum={rangeWeekNum}
-            mode={mode}
-            toggle={!!toggle}
-            id={Number(item)}
-            onToggle={onToggleRow}
-            key={Number(item)}
-            name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
-            child={[]}
-            person_list={person_tree[item]}  
-            selected={selected}
-            selectedPerson={selectedPerson}
-            level={0} 
-            loadSchedule={loadSchedule}
-            schedule={list}
-            currentDate={currentDate}
-            rangeWeekDate={rangeWeekDate}
-            onModeChange={onModeChange}
-            startHour={startHour}
-            endHour={endHour}
-            speciality={speciality}
-            showModal={showModal}
-            client={client}
-            currentDay={currentDay}
-            setCurrentDay={setCurrentDay}
-            showEmpty={showEmpty}
-            groupBy={groupBy}
-          />
-        );
+      return (
+        <ListItem
+          isLoading={isLoading}
+          rangeWeekNum={rangeWeekNum}
+          mode={mode}
+          toggle={!!toggle}
+          id={Number(item)}
+          onToggle={onToggleRow}
+          key={Number(item)}
+          name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
+          child={[]}
+          person_list={person_tree[item]}  
+          selected={selected}
+          selectedPerson={selectedPerson}
+          level={0} 
+          loadSchedule={loadSchedule}
+          schedule={list}
+          currentDate={currentDate}
+          rangeWeekDate={rangeWeekDate}
+          onModeChange={onModeChange}
+          startHour={startHour}
+          endHour={endHour}
+          speciality={speciality}
+          showModal={showModal}
+          client={client}
+          currentDay={currentDay}
+          setCurrentDay={setCurrentDay}
+          showEmpty={showEmpty}
+          groupBy={groupBy}
+          parents={[]}
+        />
+      );
     }); 
   }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum, selectedPerson])
    

@@ -37,9 +37,14 @@ const ListItem: React.FC<ItemProps> = ({
   setCurrentDay,
   person_list,
   showEmpty,
-  groupBy
+  groupBy,
+  parents,
+  showOrg,
+  open,
+  setOpen,
+  setParentTogg
 }) => {
-  const [togg, setTogg] = useState(false);
+  const [togg, setTogg] = useState(showOrg == id ? true : undefined);
   const [personIds, setPersonIds] = useState<number[]>([]);
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
@@ -48,24 +53,41 @@ const ListItem: React.FC<ItemProps> = ({
     setPersonIds(person_list.map((item: any) => item.id))
   },[person_list])
 
+  useEffect(()=>{
+    if(togg) {
+      let ids = [id];
+      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
+      : personIds.length > 0 && dispatch(fetchItems({
+          ids: personIds,
+          beg_date: moment(currentDate).format('YYYY-MM-DD'),
+          end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
+          showEmpty: showEmpty
+      })); 
+      console.log('ok')
+      setParentTogg && setParentTogg(true)
+    }
+  },[togg])
+  
+  useEffect(()=>{
+    if(togg) console.log('ok')
+  },[])
+
+  if(showOrg == id && setOpen) {
+    setOpen([...parents, id])
+
+  }
+ // (open && open.indexOf(id) != -1)
+ 
   return (<>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
         <div className="item-title" style={{paddingLeft: `${level * 14}px`}}>
-          <div onClick={()=> {
-              if(!togg) {
-                  let ids = [id];
-                  (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
-                  : personIds.length > 0 && dispatch(fetchItems({
-                      ids: personIds,
-                      beg_date: moment(currentDate).format('YYYY-MM-DD'),
-                      end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
-                      showEmpty: showEmpty
-                  }));
-              }
+          <div 
+            onClick={() => {
               setTogg(!togg);
               onToggle(id, personIds);
-            }} className="item-title__toggle">
+            }} 
+            className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
           </div>  
           <div className={'item-title__name'}>{name}</div>
@@ -170,6 +192,11 @@ const ListItem: React.FC<ItemProps> = ({
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}
             groupBy={groupBy}
+            parents={[...parents, id]}
+            open={open}
+            setOpen={setOpen}
+            showOrg={showOrg}
+            setParentTogg={setTogg}
           />
         )
       })}

@@ -50,4 +50,28 @@ export interface Ticket {
   date: string;
   time: number;
   person: string;
+  actionData: ActionData
+}
+
+export interface ActionData {
+  date: string;
+  time: string;
+  client: string;
+  person: string;
+  speciality: string;
+  type: string;
+  data: ActionPost;
+  org: number;
+}
+  
+export interface ActionPost {
+  action_id: number;
+  idx: number;
+  client_id: number;
+  person_id: number;
+  user_id: number;
+  index: string;
+  old_action_id: number;
+  old_idx: number;
+  type: 'edit' | 'new' | 'delete' | 'show';
 }

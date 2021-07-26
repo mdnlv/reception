@@ -28,6 +28,7 @@ const MainPage: FC = () => {
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const specialities = useSelector(getSpeciality);
   const { loading } = useSelector((state: RootState) => state.patientCard);
+  const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
   const dispatch = useDispatch();
 
@@ -60,6 +61,10 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchPersonTreeFull({}))
   }, [])
+
+  useEffect(()=>{
+    storeActionData.data && storeActionData.data.type == 'show' && dispatch(fetchPersonTreeFull({}))
+  },[storeActionData])
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {

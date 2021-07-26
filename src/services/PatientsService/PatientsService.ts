@@ -42,6 +42,10 @@ export default {
     }
   },
 
+  fetchPatientById(id: number): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
+    return apiInstance.get(`/client?id=${id}`)
+  },
+
   queryPatients(
     query: string,
     limit = 20,

@@ -32,9 +32,48 @@ const ScheduleAction: React.FC<ActionProps> = ({
       })
       setVisible(false);
     }
+
+    if(data?.type == 'delete') delRecord();
+    if(data?.type == 'edit') chgRecord();
   }, [visible]);
+
+  const delRecord = () => {
+    Modal.confirm({
+      title: 'Отменить приём?',
+      content: `Информация о приёме будет удалена без возможности восстановления`,
+      okText: 'Ок',
+      cancelText: 'Не отменять',
+      onOk: ()=>{  
+        if(data)
+        actionTicket({
+          action_id: data.data.action_id,
+          idx: data.data.idx,
+          client_id:  data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.code : 0) : data.data.client_id,
+          person_id: 0,
+          user_id: data.data.user_id,
+          index: data.data.index,
+          old_action_id: 0,
+          old_idx: 0,
+          type: 'delete'
+        }, data.org)
+      }
+    });
+  }
+
+  const chgRecord = () => {
+    Modal.confirm({
+      title: 'Перенести приём',
+      content: `Выберите свободную ячейку в расписании чтобы перенести приём`,
+      okText: 'Выбрать',
+      cancelText: 'Отмена',
+      onOk: ()=>{
+        setOldData(data)
+        setVisible(false)
+      }
+    });
+  }
   
-  return <>{
+ return <>{
     oldData === undefined ? (
       (data && data.data.client_id == - 1) ?
         <NewAppointment
@@ -48,50 +87,18 @@ const ScheduleAction: React.FC<ActionProps> = ({
           setResult={setResult}
         />
       : 
-        <Modal 
+      <Modal 
         title={data?.date}
         visible={visible || (loading && postLoading)} 
         confirmLoading={postLoading}
         onCancel={()=>{setVisible(false)}}
         footer={[
           <Button
-            onClick={()=>{
-              Modal.confirm({
-                title: 'Отменить приём?',
-                content: `Информация о приёме будет удалена без возможности восстановления`,
-                okText: 'Ок',
-                cancelText: 'Не отменять',
-                onOk: ()=>{  
-                  if(data)
-                  actionTicket({
-                    action_id: data.data.action_id,
-                    idx: data.data.idx,
-                    client_id:  data.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.code : 0) : data.data.client_id,
-                    person_id: 0,
-                    user_id: data.data.user_id,
-                    index: data.data.index,
-                    old_action_id: 0,
-                    old_idx: 0,
-                    type: 'delete'
-                  }, data.org)
-                }
-              });
-            }}
+            onClick={delRecord}
             style={{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}
           >Отменить приём</Button>,
           <Button
-            onClick={()=>{
-              Modal.confirm({
-                title: 'Перенести приём',
-                content: `Выберите свободную ячейку в расписании чтобы перенести приём`,
-                okText: 'Выбрать',
-                cancelText: 'Отмена',
-                onOk: ()=>{
-                  setOldData(data)
-                  setVisible(false)
-                }
-              });
-            }}
+            onClick={chgRecord}
             style={{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}
           >Перенести приём</Button>
         ]}
