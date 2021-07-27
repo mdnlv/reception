@@ -50,16 +50,20 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     if (cmoType.length > 0) {
-      const result = cmoType.filter((item) => item.extraData === '7800000000000');
+      const result = formValues?.cmoArea && id
+        ? cmoType.filter((item) => item.extraData === formValues?.cmoArea)
+        : !id
+          ? cmoType.filter((item) => item.extraData === '7800000000000')
+          : cmoType;
       setCmoFiltered(result);
     }
-  }, [cmoType]);
+  }, [cmoType, formValues?.cmoArea]);
 
   useEffect(() => {
     if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
