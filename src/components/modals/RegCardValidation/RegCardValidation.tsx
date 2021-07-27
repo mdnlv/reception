@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Modal, Descriptions, List} from "antd";
 
 import {ValidationModalProps} from "./types";
@@ -6,7 +6,8 @@ import {ValidationModalProps} from "./types";
 const RegCardValidation: React.FC<ValidationModalProps> = ({
   isVisible,
   onClose,
-  errors
+  errors,
+  setActiveTab,
 }) => {
   const getTabName = (name: string) => {
     switch (name) {
@@ -26,11 +27,16 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
   };
 
   const getNameItem = (item: string) => {
-    // console.log('item', item);
     const itemArr = item.match(/[^ ]+/g);
     itemArr?.splice(0, 2);
     return itemArr?.join(' ');
   };
+
+  const onModalClose = () => {
+    const keyNames = Object.keys(errors);
+    setActiveTab(keyNames[0]);
+    onClose && onClose();
+  }
 
   const getErrorNames = useCallback((obj) => {
     const errNameArr = [] as string[];
@@ -94,7 +100,7 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
   return (
     <Modal
       wrapClassName={'app-modal'}
-      onCancel={onClose}
+      onCancel={onModalClose}
       visible={isVisible}
       title={'Незаполненные поля!'}
       footer={null}
