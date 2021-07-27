@@ -51,10 +51,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   const [activeTab, setActiveTab] = useState('passportGeneral');
 
   useEffect(() => {
-    console.log('activeTab', activeTab);
-  }, [activeTab]);
-
-  useEffect(() => {
     if (params.id !== 'new') {
       dispatch(resetRegCard());
       dispatch(fetchIdPatient(parseInt(params.id)));
@@ -72,7 +68,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   }
 
   const getTabs = useCallback(() => (
-    <Tabs activeKey={activeTab}>
+    <Tabs defaultActiveKey="passportGeneral" activeKey={activeTab} onChange={setActiveTab}>
       <Tabs.TabPane
         forceRender={false}
         key={'passportGeneral'}
