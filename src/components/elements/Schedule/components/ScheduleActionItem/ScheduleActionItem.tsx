@@ -102,7 +102,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
       <Menu.Item key="1" onClick={deleteRecord}>Удалить запись</Menu.Item>
       <Menu.Item key="2" onClick={editRecord}>Перенести запись</Menu.Item>
       <Menu.Item key="3" onClick={patientSearch}>Перейти в картотеку</Menu.Item>
-      <Menu.Item key="4">Изменить жалобы/ примечания - дать возможность регистратору изменить поля в записи</Menu.Item>
+      <Menu.Item key="4">Изменить жалобы/примечания</Menu.Item>
       <Menu.Item key="5">Напечатать направление</Menu.Item>
       <Menu.Item key="6">Напечатать полный список</Menu.Item>
       <Menu.Item key="7">Свойства записи</Menu.Item>

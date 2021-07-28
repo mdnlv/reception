@@ -56,7 +56,7 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
   };
 
   const getOrganization = useCallback(() => {
-    const organization = orgsList.find((item) => item.id === patient.work[0].id);
+    const organization = orgsList.find((item) => item.id && patient.work[0] && item.id === patient.work[0].id);
     return organization?.name
   }, [orgsList.length > 0 && orgsList]);
 
@@ -128,10 +128,10 @@ const PatientCardInfoForm: React.FC<FormProps> = ({
           <div className="form-section">
             <Descriptions column={1}>
               <Descriptions.Item label={'Место работы'}>
-                {getOrganization() || patient.work[0].freeInput || ''}
+                {getOrganization() || patient.work[0] && patient.work[0].freeInput || ''}
               </Descriptions.Item>
               <Descriptions.Item label={'Специлизация'}>
-                {patient.work[0].post || ''}
+                {patient.work[0] && patient.work[0].post || ''}
               </Descriptions.Item>
             </Descriptions>
           </div>
