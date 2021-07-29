@@ -1,9 +1,6 @@
-import React, { FC, useEffect, useCallback } from 'react';
-import { Route, Switch, BrowserRouter as Router, Redirect } from 'react-router-dom';
+import React from 'react';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import { Result } from 'antd';
-import {useSelector} from "react-redux";
-
-import {RootState} from "../reduxStore/store";
 
 import DeferredCallsPage from "../views/DeferredCallsPage/DeferredCallsPage";
 import AuthPage from "../views/AuthPage/AuthPage";
@@ -17,37 +14,37 @@ const PatientCard = React.lazy(() =>
 );
 const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
-const AppRouter: FC = () => {
+const AppRouter: React.FC = () => {
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    console.log('token', token);
-  }, [token]);
-
-  const getRedirect = useCallback(() => token ? <MainPage /> : <Redirect to="/auth"/>, [token]);
+  const getRedirect = (page) => token ? page : <Redirect to="/auth"/>;
 
   return (
     <Switch>
       <Route
         exact
         path="/"
-        render={getRedirect}
+        render={() => getRedirect(<MainPage/>)}
       />
       <Route path={"/auth"}>
         <AuthPage/>
       </Route>
-      <Route path="/regCard/:id">
-        <RegistrationCard />
-      </Route>
-      <Route path="/deferred-calls">
-        <DeferredCallsPage/>
-      </Route>
-      <Route path="/info">
-        <InfoPage />
-      </Route>
-      <Route path="/card/:id">
-        <PatientCard />
-      </Route>
+      <Route
+        path="/regCard/:id"
+        render={() => getRedirect(<RegistrationCard />)}
+      />
+      <Route
+        path="/deferred-calls"
+        render={() => getRedirect(<DeferredCallsPage/>)}
+      />
+      <Route
+        path="/info"
+        render={() => getRedirect(<InfoPage />)}
+      />
+      <Route
+        path="/card/:id"
+        render={() => getRedirect(<PatientCard />)}
+      />
       <Route path="*">
         <Result
           status="404"
