@@ -1,18 +1,20 @@
 import React, { FC, useCallback, useState, useEffect } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd/lib';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Modal } from 'antd';
+import moment from 'moment';
+
 import { currentPatientInfoSelector } from '../../../reduxStore/slices/patients/selectors';
 import {RootState} from "../../../reduxStore/store";
 import Logo from '../../../assets/icons/app-logo.svg';
 import ExitIcon from '../../../assets/icons/exit.svg';
 import './styles.scss';
-import { Modal } from 'antd';
 import {actionTicket, fetchItem} from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
-import moment from 'moment';
+import { ActionPost } from '../Schedule/types';
+import {logout} from "../../../reduxStore/slices/auth/authSlice";
 
 import NewAppointment from '../../modals/NewAppointment/NewAppointment';
-import { ActionPost } from '../Schedule/types';
 
 const BarLogoAlt = 'Logo';
 
@@ -25,9 +27,12 @@ enum Labels {
 }
 
 const AppHeaderBar: FC = () => {
+  const dispatch = useDispatch();
+  const navigation = useHistory();
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
-  const navigation = useHistory();
+  const cd = useSelector((state: RootState) => state.schedule.currentDate);
+  const ed = useSelector((state: RootState) => state.schedule.rangeWeekDate);
   const [showNewAppointment, setShowAppointment] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [result, setResult] = useState({
@@ -38,9 +43,17 @@ const AppHeaderBar: FC = () => {
     speciality: ''
   });
   const [ok, setOk] = useState(false);
-  const dispatch = useDispatch()
-  const cd = useSelector((state: RootState) => state.schedule.currentDate);
-  const ed = useSelector((state: RootState) => state.schedule.rangeWeekDate);
+
+  useEffect(() => {
+    if(ok && !postLoading) {
+      Modal.success({
+        title: 'Успешно добавлена запись на приём',
+        content: `Пациент ${result.pacient} записан на ${result.date} ${result.time} ко врачу ${result.person} (${result.speciality}).`,
+        okText: 'ОК'
+      });
+      setOk(false);
+    }
+  },[postLoading]);
 
   const logoClickHandler = useCallback(() => {
     navigation.push('/');
@@ -62,23 +75,16 @@ const AppHeaderBar: FC = () => {
     goPath('info');
   }, []);
 
+  const onLogout = useCallback(() => {
+    dispatch(logout());
+  }, []);
+
   const actTicket = (data: ActionPost, id: number) => {
     setOk(true);
     dispatch(actionTicket({data: data, id: [id], beg_date: moment(cd).format('YYYY-MM-DD'), end_date:  moment(ed).format('YYYY-MM-DD')}));
     setIsModalLoading(true);
-    setShowAppointment(false); 
+    setShowAppointment(false);
   };
-
-  useEffect(() => {
-    if(ok && !postLoading) {
-      Modal.success({
-        title: 'Успешно добавлена запись на приём',
-        content: `Пациент ${result.pacient} записан на ${result.date} ${result.time} ко врачу ${result.person} (${result.speciality}).`,
-        okText: 'ОК'
-      });
-      setOk(false);
-    }
-  },[postLoading])
 
   return (
     <Row align="stretch">
@@ -128,7 +134,9 @@ const AppHeaderBar: FC = () => {
           <Col span={4} md={4} xs={24}>
             <Row justify={'end'} align={'middle'}>
               <Col>
-                <img src={ExitIcon} alt="" />
+                <a href="/" onClick={onLogout}>
+                  <img src={ExitIcon} alt=""/>
+                </a>
               </Col>
             </Row>
           </Col>

@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { FC, useEffect, useCallback } from 'react';
+import { Route, Switch, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { Result } from 'antd';
 import {useSelector} from "react-redux";
 
@@ -18,32 +18,35 @@ const PatientCard = React.lazy(() =>
 const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
 const AppRouter: FC = () => {
-  const isAuth = useSelector((state: RootState) => state.auth.isLogining);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    console.log('token', token);
+  }, [token]);
+
+  const getRedirect = useCallback(() => token ? <MainPage /> : <Redirect to="/auth"/>, [token]);
 
   return (
     <Switch>
       <Route
         exact
         path="/"
-        render={() => isAuth ? <Redirect to="/home"/> : <Redirect to="/auth"/>}
+        render={getRedirect}
       />
       <Route path={"/auth"}>
         <AuthPage/>
       </Route>
-      <Route exact path="/regCard/:id">
+      <Route path="/regCard/:id">
         <RegistrationCard />
       </Route>
       <Route path="/deferred-calls">
         <DeferredCallsPage/>
       </Route>
-      <Route exact path="/info">
+      <Route path="/info">
         <InfoPage />
       </Route>
       <Route path="/card/:id">
         <PatientCard />
-      </Route>
-      <Route path={'/home'}>
-        <MainPage />
       </Route>
       <Route path="*">
         <Result

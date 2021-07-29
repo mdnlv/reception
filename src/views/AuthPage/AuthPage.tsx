@@ -1,6 +1,6 @@
 import React from 'react';
-import {Redirect} from "react-router";
 import {useSelector} from "react-redux";
+import {Row, Spin} from "antd";
 
 import './styles.scss';
 import {RootState} from "../../reduxStore/store";
@@ -8,13 +8,13 @@ import {RootState} from "../../reduxStore/store";
 import AuthForm from "../../components/forms/AuthForm/AuthForm";
 
 const AuthPage: React.FC = () => {
-  const isAuth = useSelector((state: RootState) => state.auth.isLogining);
+  const isLogining = useSelector((state: RootState) => state.auth.isLogining);
 
-  if (isAuth) {
-    return <Redirect to="/home"/>
-  }
-
-  return (
+  return isLogining ? (
+    <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
+      <Spin />
+    </Row>
+  ) : (
     <div className={'auth-page'}>
       <AuthForm/>
     </div>

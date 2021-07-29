@@ -1,16 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useFormik, FormikProvider} from "formik";
-import {Button, Checkbox} from "antd/lib";
-import {useDispatch} from "react-redux";
+import {Button, Checkbox, message} from "antd/lib";
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory} from "react-router";
 
 import {Labels} from "./types";
 import {login} from "../../../reduxStore/slices/auth/authSlice";
+import {RootState} from "../../../reduxStore/store";
 
 import FormField from "../components/FormField/FormField";
 import FastInput from "../components/fields/FastInput/FastInput";
 
 const AuthForm: React.FC = () => {
+  const navigation = useHistory();
   const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const isLoginError = useSelector((state: RootState) => state.auth.isLoginError);
   const formik = useFormik({
     initialValues: {
       login: "",
@@ -26,6 +31,14 @@ const AuthForm: React.FC = () => {
     }
   });
 
+  useEffect(() => {
+    token && navigation.replace('/');
+  }, [token]);
+
+  useEffect(() => {
+    isLoginError && message.error('Не удалось войти');
+  }, [isLoginError]);
+
   return (
     <FormikProvider value={formik}>
       <form className={'auth-form'}>
@@ -40,7 +53,7 @@ const AuthForm: React.FC = () => {
             value={formik.values.password}
           />
           <Checkbox
-            value={formik.values.showPass}
+            checked={formik.values.showPass}
             name={"showPass"}
             onChange={formik.handleChange}
           >
