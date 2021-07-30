@@ -38,7 +38,8 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ client_id, type }) => {
         old_idx: 0,
         type: a
       },
-      org: actionData.org
+      org: actionData.org,
+      orgs: actionData.orgs
     }))
   }
   

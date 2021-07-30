@@ -25,7 +25,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   selected,
   selectedPerson,
   onToggleScheduleRow,
-  setSelected
+  setSelected,
+  searchCount
 }) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
@@ -74,13 +75,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
       setCurrentDate(date);
       setRangeWeek(endDate);
-      selected.length > 0 && !isFiltered ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
-      : dispatch(fetchItems({
-        ids: selectedPerson,
-        beg_date: moment(date).format('YYYY-MM-DD'),
-        end_date: moment(endDate).format('YYYY-MM-DD'),
-        showEmpty: showEmpty
-      }));    
+      if(selected.length > 0)
+        !isFiltered ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
+        : dispatch(fetchItems({
+          ids: selectedPerson,
+          beg_date: moment(date).format('YYYY-MM-DD'),
+          end_date: moment(endDate).format('YYYY-MM-DD'),
+          showEmpty: showEmpty
+        }));    
     };
 
   const onScheduleModeChange = useCallback(
@@ -148,6 +150,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               setCurrentDay={setCurrentDay}
               showEmpty={showEmpty}
               groupBy={groupBy}
+              searchCount={searchCount}
             />
           </Row>
         </>

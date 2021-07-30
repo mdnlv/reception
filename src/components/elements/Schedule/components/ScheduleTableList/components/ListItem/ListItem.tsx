@@ -21,7 +21,6 @@ const ListItem: React.FC<ItemProps> = ({
   rangeWeekNum,
   child,
   selected,
-  selectedPerson,
   level,
   loadSchedule,
   schedule,
@@ -41,10 +40,9 @@ const ListItem: React.FC<ItemProps> = ({
   parents,
   showOrg,
   open,
-  setOpen,
   setParentTogg
 }) => {
-  const [togg, setTogg] = useState(showOrg == id ? true : undefined);
+  const [togg, setTogg] = useState(toggle ? true : undefined);
   const [personIds, setPersonIds] = useState<number[]>([]);
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
@@ -63,20 +61,9 @@ const ListItem: React.FC<ItemProps> = ({
           end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
           showEmpty: showEmpty
       })); 
-      console.log('ok')
       setParentTogg && setParentTogg(true)
     }
-  },[togg])
-  
-  useEffect(()=>{
-    if(togg) console.log('ok')
-  },[])
-
-  if(showOrg == id && setOpen) {
-    setOpen([...parents, id])
-
-  }
- // (open && open.indexOf(id) != -1)
+  },[togg]);
  
   return (<>
     <Row className={'schedule-list__item'}>
@@ -163,12 +150,13 @@ const ListItem: React.FC<ItemProps> = ({
       })}
 
       {togg && child.length > 0 && child.map((item) => {
+        const t = selected.find((sitem: number) => sitem === item.id) || open?.find((sitem: number) => sitem === item.id);
         return (
           <ListItem
             isLoading={isLoading}
             rangeWeekNum={rangeWeekNum}
             mode={mode}
-            toggle={toggle}
+            toggle={t}
             id={item.id}
             onToggle={onToggle}
             key={item.id}
@@ -176,7 +164,6 @@ const ListItem: React.FC<ItemProps> = ({
             child={item.child}
             person_list={item.person_list}  
             selected={selected} 
-            selectedPerson={selectedPerson} 
             level={level+1}
             loadSchedule={loadSchedule}
             schedule={schedule}
@@ -194,7 +181,6 @@ const ListItem: React.FC<ItemProps> = ({
             groupBy={groupBy}
             parents={[...parents, id]}
             open={open}
-            setOpen={setOpen}
             showOrg={showOrg}
             setParentTogg={setTogg}
           />

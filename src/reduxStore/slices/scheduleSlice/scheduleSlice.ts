@@ -223,7 +223,8 @@ const scheduleSlice = createSlice({
                     old_idx: 0,
                     type: 'new'
                   },
-                  org: person.person.orgStructure_id
+                  org: person.person.orgStructure_id,
+                  orgs: [...person.person.orgStructure_ids, person.person.orgStructure_id]
                 }
               })
             })

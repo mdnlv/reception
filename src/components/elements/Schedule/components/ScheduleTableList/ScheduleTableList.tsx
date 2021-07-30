@@ -31,7 +31,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
   showEmpty,
   groupBy,
   person_tree,
-  setSelected
+  setSelected,
+  searchCount
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -53,6 +54,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
   const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
   const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
+  const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
 
   useEffect(() => {
     if(ok && !postLoading) {
@@ -96,8 +98,43 @@ const ScheduleTableList: React.FC<ListProps> = ({
   },[errorStatus, errorMessage])
 
   useEffect(()=>{
-    storeActionData.data && (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') && showModal(storeActionData)
-  },[storeActionData])
+    if(storeActionData.data)
+      if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') 
+        showModal(storeActionData)
+      else {
+        let set = new Set(selected.concat(storeActionData.orgs)) 
+        setSelected(Array.from(set))
+      }
+  }, [storeActionData])
+/*
+  useEffect(()=>{
+    function calc(arr: any) {
+      let l = selected;
+      arr && arr.length > 0 && arr.map((item: any)=>{
+        let set = new Set(selected.concat(item.orgStructure_ids));
+        console.log(Array.from(set))
+        console.log(selected)
+        l = Array.from(new Set(l.concat(item.orgStructure_ids)));
+        item.child.length > 0 && calc(item.child)
+      })      
+      setSelected(l)
+    }
+
+    function calcS(arr: any) {
+      console.log(arr)
+      return Object.keys(arr).map((item: any)=>{
+        return Number(item)
+      })
+    }
+
+    if(isFiltered)
+      if (groupBy == 'orgStructure_id') {
+        calc(person_tree)
+      }
+      else 
+        setSelected(Array.from(calcS(person_tree)))
+  }, [person_tree])
+*/
 
   const showModal = (data: ActionData) => {
     setActionData(data)
@@ -117,13 +154,17 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const listContent = useMemo(()=>{
     if(groupBy == 'orgStructure_id' && Array.isArray(person_tree)) {
       return person_tree && person_tree.map((item: any) => {
-        const toggle = selected.find((sitem) => sitem === item.id);
+        const toggle = selected.find((sitem) => sitem === item.id) || storeActionData.orgs && storeActionData.orgs.find((sitem: number) => sitem === item.id);
+        if(isFiltered && searchCount && searchCount > 0 && searchCount < 6) {     
+          setSelected([...selected, item.id])
+        }
+        
         return (
           <ListItem
             isLoading={isLoading}
             rangeWeekNum={rangeWeekNum}
             mode={mode}
-            toggle={!!toggle}
+            toggle={isFiltered ? true: !!toggle}
             id={item.id}
             onToggle={onToggleRow}
             key={item.id}
@@ -131,7 +172,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
             child={item.child}
             person_list={item.person_list}  
             selected={selected}
-            selectedPerson={selectedPerson}
             level={0} 
             loadSchedule={loadSchedule}
             schedule={list}
@@ -149,8 +189,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
             groupBy={groupBy}
             parents={[]}
             showOrg={storeActionData.org}
-            setOpen={setOpen}
-            open={open}
+            open={storeActionData.orgs}
           />
         );
     })
@@ -170,7 +209,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
           child={[]}
           person_list={person_tree[item]}  
           selected={selected}
-          selectedPerson={selectedPerson}
           level={0} 
           loadSchedule={loadSchedule}
           schedule={list}
@@ -190,7 +228,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
         />
       );
     }); 
-  }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum, selectedPerson])
+  }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum , selectedPerson])
    
   return <>
     <div className={'schedule-list'}>

@@ -28,6 +28,7 @@ export interface ListProps {
   showEmpty: boolean;
   groupBy: 'speciality_id' | 'orgStructure_id';
   setSelected(arg: number[]): void;
+  searchCount?: number;
 }
 
 export interface PersonTree {

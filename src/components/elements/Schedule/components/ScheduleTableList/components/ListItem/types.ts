@@ -12,7 +12,6 @@ export interface ItemProps {
   person_list: any;
   child: PersonTree[];
   selected: any;
-  selectedPerson: any;
   level: number;
   loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   schedule: Schedule;

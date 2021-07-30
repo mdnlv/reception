@@ -62,6 +62,7 @@ export interface ActionData {
   type: string;
   data: ActionPost;
   org: number;
+  orgs: number[];
 }
   
 export interface ActionPost {

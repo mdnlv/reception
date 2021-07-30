@@ -82,7 +82,7 @@ const MainPage: FC = () => {
 
   return (
     <div className={'main-page'}>
-      <Row>
+      <Row style={{position: "relative"}}>
         <Col span={getInfoCard ? 17 : 24} className={'main-page__tables'}>
           <Row>
             <Col span={24}>
@@ -103,7 +103,7 @@ const MainPage: FC = () => {
           </Row>
         </Col>
         {getInfoCard && (
-          <Col span={7}>
+          <Col span={7} style={{position: "absolute", height: "100vh", overflowY: "auto", right: 0}}>
             <PatientInfoCard
               isLoading={loading.events || isLoadingKladrStreetsDocumented || isLoadingKladrStreetsRegistration}
               patient={currentPatientMemo}

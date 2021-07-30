@@ -74,6 +74,7 @@ export interface ScheduleTableProps {
   selectedPerson: number[];
   onToggleScheduleRow(id: number, person_ids: number[]): void;
   setSelected(arg: number[]): void;
+  searchCount?: number;
 }
 
 export interface Client {
