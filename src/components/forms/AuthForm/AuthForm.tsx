@@ -32,6 +32,7 @@ const AuthForm: React.FC = () => {
   });
 
   useEffect(() => {
+    console.log('token', token);
     token && navigation.replace('/');
   }, [token]);
 
