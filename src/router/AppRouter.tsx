@@ -16,7 +16,7 @@ const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
 const AppRouter: React.FC = () => {
   const token = localStorage.getItem('token');
-
+  //@ts-ignore
   const getRedirect = (page) => token ? page : <Redirect to="/auth"/>;
 
   return (

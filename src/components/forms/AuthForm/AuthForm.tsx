@@ -61,6 +61,7 @@ const AuthForm: React.FC = () => {
           </Checkbox>
         </FormField>
         <FormField>
+          {/*@ts-ignore*/}
           <Button onClick={formik.handleSubmit}>{Labels.Button}</Button>
         </FormField>
       </form>
