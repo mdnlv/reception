@@ -54,10 +54,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
     !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
   }, [formValues.snils]);
 
-  // useEffect(() => {
-  //   Object.keys(errors).length > 0 && onOpen();
-  // }, []);
-
   const snilsCheck = (value: string) => {
     const valueInt = value ? value.replace(/-/g, "").replace(/\s/g, "") : '';
     let sum = 0;
