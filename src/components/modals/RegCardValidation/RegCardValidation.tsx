@@ -34,7 +34,8 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
 
   const onModalClose = () => {
     const keyNames = Object.keys(errors);
-    setActiveTab(keyNames[0]);
+    const tab = keyNames[0] === 'personal' ? 'passportGeneral' : keyNames[0];
+    setActiveTab(tab);
     onClose && onClose();
   }
 

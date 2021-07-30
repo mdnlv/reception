@@ -125,6 +125,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         name: item.name,
         number: item.number,
         serial: item.serial,
+        insuranceArea: item.cmoArea,
         deleted: 0 as 0,
       })),
       ...policiesDeleted.map((item) => ({
@@ -138,6 +139,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         name: item.name,
         number: item.number,
         serial: item.serial,
+        insuranceArea: item.cmoArea,
         deleted: 1 as 1,
       }))
     ],
