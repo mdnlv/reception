@@ -1,14 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { setStoreActionData } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import ScheduleService from '../../../services/ScheduleService';
 import {PersonTree, Person} from "./types";
+import {RootState} from "../../store";
 
 export const fetchPersonTree = createAsyncThunk(
   'schedule/fetchPersonTree',
   async (payload: {group_by?: 'speciality_id' | 'orgStructure_id'}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchPersonTree(payload);
+      const response = await ScheduleService.fetchPersonTree(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -16,8 +19,8 @@ export const fetchPersonTree = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoading(false));
-      thunkAPI.dispatch(setIsFiltered(false)); 
-      thunkAPI.dispatch(setStoreActionData({})); 
+      thunkAPI.dispatch(setIsFiltered(false));
+      thunkAPI.dispatch(setStoreActionData({}));
     }
   },
 );
@@ -25,9 +28,10 @@ export const fetchPersonTree = createAsyncThunk(
 export const fetchPersonTreeFull = createAsyncThunk(
   'schedule/fetchPersonTreeFull',
   async (payload: {group_by?: 'speciality_id' | 'orgStructure_id'}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchPersonTree(payload);
+      const response = await ScheduleService.fetchPersonTree(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -35,17 +39,26 @@ export const fetchPersonTreeFull = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoading(false));
-      thunkAPI.dispatch(setIsFiltered(false)); 
+      thunkAPI.dispatch(setIsFiltered(false));
     }
   },
 );
 
 export const fetchFiltersDoctors = createAsyncThunk(
   'schedule/fetchFiltersDoctors',
-  async (payload: {limit: number,offset: number,orgStructure_id: number,post_id: number,speciality_id: number, value?: string}, thunkAPI) => {
+  async (
+    payload: {
+      limit: number,
+      offset: number,
+      orgStructure_id: number,
+      post_id: number,
+      speciality_id: number,
+      value?: string
+    }, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoadingFound(true));
     try {
-      const response = await ScheduleService.fetchDoctors(payload);
+      const response = await ScheduleService.fetchDoctors(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -53,17 +66,26 @@ export const fetchFiltersDoctors = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoadingFound(false));
-      thunkAPI.dispatch(setStoreActionData({})); 
+      thunkAPI.dispatch(setStoreActionData({}));
     }
   },
 );
 
 export const postFiltersDoctors = createAsyncThunk(
   'schedule/postFiltersDoctors',
-  async (payload: {person_id_list?: [number],orgStructure_id?: number, post_id?: number,speciality_id?: number, value?: string, group_by?: 'speciality_id' | 'orgStructure_id'}, thunkAPI) => {
+  async (
+    payload: {
+      person_id_list?: [number],
+      orgStructure_id?: number,
+      post_id?: number,
+      speciality_id?: number,
+      value?: string,
+      group_by?: 'speciality_id' | 'orgStructure_id'
+    }, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.postPersonTree(payload);
+      const response = await ScheduleService.postPersonTree(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -71,7 +93,7 @@ export const postFiltersDoctors = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoading(false));
-      thunkAPI.dispatch(setIsFiltered(true)); 
+      thunkAPI.dispatch(setIsFiltered(true));
     }
   },
 );

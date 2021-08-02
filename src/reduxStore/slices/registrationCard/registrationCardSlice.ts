@@ -18,9 +18,10 @@ import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
   async (id: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'idPatient', value: true }));
     try {
-      const response = await PatientsService.fetchIdPatient(id);
+      const response = await PatientsService.fetchIdPatient(state.auth.token, id);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -120,6 +121,7 @@ export const findPatientPolicy = createAsyncThunk(
     payload: FindPolicyParams,
     thunkAPI,
   ) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setFindPolicyLoading(true),
     );
@@ -128,10 +130,13 @@ export const findPatientPolicy = createAsyncThunk(
         ? format(parseISO(payload.birthDate), 'yyyy-MM-dd')
         //@ts-ignore
         : format(payload.birthDate, 'yyyy-MM-dd');
-      const response = await PatientsService.findPatientPolicy({
-        ...payload,
-        birthDate,
-      });
+      const response = await PatientsService.findPatientPolicy(
+        state.auth.token,
+        {
+          ...payload,
+          birthDate,
+        }
+      );
       thunkAPI.dispatch(
         setFindPolicyLoading(false),
       );
@@ -155,12 +160,13 @@ export const findPatientPolicy = createAsyncThunk(
 export const saveCardPatient = createAsyncThunk(
   'registrationCard/saveCardPatient',
   async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
     try {
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.savePatient(payload);
+      const response = await PatientsService.savePatient(state.auth.token, payload);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
@@ -180,7 +186,7 @@ export const editCardPatient = createAsyncThunk(
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.editPatient(payload);
+      const response = await PatientsService.editPatient(state.auth.token, payload);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));

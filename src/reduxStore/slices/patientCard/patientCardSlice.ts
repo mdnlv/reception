@@ -5,10 +5,12 @@ import PatientsService from '../../../services/PatientsService/PatientsService';
 import EventService from '../../../services/EventService';
 import {transformPatientResponse} from '../../utils/transform/transformPatientResponse';
 import StateType from "./types";
+import {RootState} from "../../store";
 
 export const fetchCurrentPatient = createAsyncThunk(
   'patientCard/fetchCurrentPatient',
   async (id: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setLoading({
         value: true,
@@ -16,7 +18,7 @@ export const fetchCurrentPatient = createAsyncThunk(
       }),
     );
     try {
-      const response = await PatientsService.fetchIdPatient(id);
+      const response = await PatientsService.fetchIdPatient(state.auth.token, id);
       if (response.data && response.data[0]) {
         return transformPatientResponse(response.data[0]);
       }
@@ -36,6 +38,7 @@ export const fetchCurrentPatient = createAsyncThunk(
 export const fetchPatientEvents = createAsyncThunk(
   'patientCard/fetchPatientEvents',
   async (id: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setLoading({
         value: true,
@@ -43,7 +46,7 @@ export const fetchPatientEvents = createAsyncThunk(
       }),
     );
     try {
-      const response = await EventService.fetchPersonEvents(id);
+      const response = await EventService.fetchPersonEvents(state.auth.token, id);
       if (response.data) {
         const formattedData = response.data.map((item) => ({
           id: item.id,

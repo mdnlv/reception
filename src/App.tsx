@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Col, Layout, Row } from 'antd/lib';
+import { Col, Layout, Row, Spin } from 'antd/lib';
 import { HashRouter as Router } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -35,9 +35,20 @@ const App = () => {
             )}
             <Col span={23}>
               {/*todo add smooth fallback*/}
-              <Suspense fallback={''}>
-                <AppRouter />
-              </Suspense>
+              {!token ? (
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}>
+                  <Spin />
+                </div>
+              ) : (
+                <Suspense fallback={''}>
+                  <AppRouter />
+                </Suspense>
+              )}
             </Col>
           </Row>
         </Layout.Content>

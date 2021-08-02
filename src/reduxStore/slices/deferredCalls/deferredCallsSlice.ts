@@ -3,6 +3,7 @@ import { notification } from "antd";
 import { format } from "date-fns";
 import DeferredCallsService from "../../../services/DeferredCallsService";
 import {DeferredCallsState} from "./types";
+import {RootState} from "../../store";
 
 const initialState: DeferredCallsState = {
     queue: [],
@@ -25,9 +26,10 @@ const initialState: DeferredCallsState = {
 export const fetchDeferredQueue = createAsyncThunk(
     'deferredQueue/fetchQueue',
     async (_, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
         thunkAPI.dispatch(setLoading(true));
         try {
-            const response = await DeferredCallsService.getDeferredCalls();
+            const response = await DeferredCallsService.getDeferredCalls(state.auth.token);
             if(response.data && response.status === 200){
                 return response.data;
             }
@@ -41,9 +43,10 @@ export const fetchDeferredQueue = createAsyncThunk(
 export const saveDeferredCall = createAsyncThunk(
     'deferredQueue/saveQueue',
     async (payload: { data:any }, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
         thunkAPI.dispatch(setLoading(true));
         try {
-            const response = await DeferredCallsService.saveDeferredCall(payload.data);
+            const response = await DeferredCallsService.saveDeferredCall(state.auth.token, payload.data);
             if(response.data && response.status === 200){
 
                 notification.success({
@@ -58,7 +61,7 @@ export const saveDeferredCall = createAsyncThunk(
                 message: `Ошибка`,
                 description: "не удалось сохранить форму",
               });
-      
+
         } finally {
             thunkAPI.dispatch(setLoading(false));
         }
@@ -71,25 +74,25 @@ export const getPersonList = createAsyncThunk(
         try {
 
            const { rb }:any = thunkAPI.getState()
-                    
+
                   let specialty:any = []
                   let post:any = []
                   payload.data.forEach((item:any) => {
                       const filteredSpeciality = rb.rbSpeciality.filter((s:any)=> item.speciality_id === s.id)
                       specialty =  [...specialty,...filteredSpeciality].filter((thing, index, self) =>
                       index === self.findIndex((t) => (
-                        t.code === thing.code 
+                        t.code === thing.code
                       ))
                     )
-                  });   
+                  });
                   payload.data.forEach((item:any) => {
                     const filteredPost = rb.rbPost.filter((s:any)=> item.post_id === s.id)
                     post =  [...post,...filteredPost].filter((thing, index, self) =>
                     index === self.findIndex((t) => (
-                      t.id === thing.id 
+                      t.id === thing.id
                     ))
                   )
-                }); 
+                });
           const doctors =  payload.data.map((item:any) => {
             return {
                 ...item,
@@ -113,7 +116,7 @@ export const getPersonList = createAsyncThunk(
 export const filterDoctors = createAsyncThunk(
     'deferredQueue/filterDoctors',
     async (payload: { id:number }, thunkAPI) => {
-        
+
         const { deferredCalls }:any = thunkAPI.getState()
 
 
@@ -121,7 +124,7 @@ export const filterDoctors = createAsyncThunk(
 
         try {
             return  {filteredDoctors:filteredDoctors}
-            
+
         } catch (e) {
             alert(e)
         } finally {
@@ -171,11 +174,11 @@ const deferredCallsSlice = createSlice({
             }
         });
         builder.addCase(getPersonList.fulfilled, (state, action) => {
-            state.doctors = action.payload?.doctors       
+            state.doctors = action.payload?.doctors
             state.specialty = action.payload?.specialty
         })
         builder.addCase(filterDoctors.fulfilled, (state, action) => {
-            state.filteredDoctors = action.payload?.filteredDoctors       
+            state.filteredDoctors = action.payload?.filteredDoctors
         })
     }
 })

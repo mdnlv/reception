@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
+
 import { ActionPost } from '../../../components/elements/Schedule/types';
 import ScheduleService from '../../../services/ScheduleService';
 import {Schedule, ScheduleOne, Ticket, ActionData} from "./types";
+import {RootState} from "../../store";
 
 export const fetchSchedules = createAsyncThunk(
   'schedule/fetchSchedules',
   async (payload: { id: number[]; beg_date: string, end_date: string, showEmpty?: boolean}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchSchedule(payload);
+      const response = await ScheduleService.fetchSchedule(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -18,15 +21,16 @@ export const fetchSchedules = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
-  },  
+  },
 );
 
 export const fetchItem = createAsyncThunk(
   'schedule/fetchItem',
   async (payload: { id: number; date: string}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchItem(payload);
+      const response = await ScheduleService.fetchItem(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -35,15 +39,16 @@ export const fetchItem = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
-  },  
+  },
 );
 
 export const fetchItems = createAsyncThunk(
   'schedule/fetchItems',
   async (payload: { ids: number[], beg_date: string, end_date: string, showEmpty?: boolean}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchItems(payload);
+      const response = await ScheduleService.fetchItems(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -52,15 +57,16 @@ export const fetchItems = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setLoading(false));
     }
-  },  
+  },
 );
 
 export const clientAppointment = createAsyncThunk(
   'schedule/clientAppointment',
   async (payload: { client_id: number; beg_date?: string, end_date?: string, is_past_records?: boolean }, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setTicketsLoading(true));
     try {
-      const response = await ScheduleService.clientAppointment(payload);
+      const response = await ScheduleService.clientAppointment(state.auth.token, payload);
       if (response.data) {
         return response.data;
       }
@@ -69,17 +75,18 @@ export const clientAppointment = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setTicketsLoading(false));
     }
-  },  
+  },
 );
 
 export const actionTicket = createAsyncThunk(
   'schedule/actionTicket',
   async (payload: {data: ActionPost, id: number[]; beg_date: string, end_date: string}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setPostLoading(true));
     thunkAPI.dispatch(setLoading(true));
     thunkAPI.dispatch(setErrorStatus(false));
     try {
-      const res = await ScheduleService.actionTicket(payload.data);
+      const res = await ScheduleService.actionTicket(state.auth.token, payload.data);
       if (res && res.status !== 200) {
         thunkAPI.dispatch(setErrorStatus(true));
         res && thunkAPI.dispatch(setErrorMessage(res.status + ': ' + res.statusText));
@@ -88,7 +95,13 @@ export const actionTicket = createAsyncThunk(
       thunkAPI.dispatch(setErrorMessage(e.message));
       thunkAPI.dispatch(setErrorStatus(true));
     } finally {
-      const response = await ScheduleService.fetchSchedule({id: payload.id, beg_date: payload.beg_date, end_date:payload.end_date});
+      const response = await ScheduleService.fetchSchedule(
+        state.auth.token,
+        {
+          id: payload.id,
+          beg_date: payload.beg_date,
+          end_date:payload.end_date
+        });
       thunkAPI.dispatch(setLoading(false));
       thunkAPI.dispatch(setPostLoading(false))
       if (response.data) {
@@ -213,11 +226,11 @@ const scheduleSlice = createSlice({
                   speciality:  person? person.person.speciality_id : '',
                   type: "1",
                   data: {
-                    action_id: person.schedule[date][0].action_id, 
-                    idx:  ticket.idx, 
-                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1, 
-                    person_id:  person? person.person.id : 0, 
-                    user_id: 614, 
+                    action_id: person.schedule[date][0].action_id,
+                    idx:  ticket.idx,
+                    client_id: (ticket.client && ticket.client.id)? ticket.client.id : -1,
+                    person_id:  person? person.person.id : 0,
+                    user_id: 614,
                     index: ticket? ticket.index: '',
                     old_action_id: 0,
                     old_idx: 0,

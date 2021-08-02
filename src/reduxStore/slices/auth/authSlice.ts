@@ -24,7 +24,7 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: '',
+    token: localStorage.getItem('token') || '',
     isLogining: false,
     isAuth: false,
     isLoginError: false,
