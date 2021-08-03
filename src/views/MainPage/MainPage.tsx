@@ -18,6 +18,7 @@ import PatientsSearchTable from '../../components/tables/PatientsSearchTable/Pat
 import {fetchDeferredQueue} from "../../reduxStore/slices/deferredCalls/deferredCallsSlice";
 import { ActionPost } from '../../components/elements/Schedule/types';
 import Schedule from '../../components/elements/Schedule/Schedule';
+import PatientTickets from '../../components/cards/PatientTickets/PatientTickets';
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
@@ -103,12 +104,17 @@ const MainPage: FC = () => {
           </Row>
         </Col>
         {getInfoCard && (
-          <Col span={7} style={{position: "absolute", height: "100vh", overflowY: "auto", right: 0}}>
-            <PatientInfoCard
-              isLoading={loading.events || isLoadingKladrStreetsDocumented || isLoadingKladrStreetsRegistration}
-              patient={currentPatientMemo}
-              appointments={currentPatientAppointments}
-            />
+          <Col span={7} style={{position: "absolute", right: 0}}>
+            <Row style={{height: "45vh", overflowY: "auto"}}>
+              <PatientInfoCard
+                isLoading={loading.events || isLoadingKladrStreetsDocumented || isLoadingKladrStreetsRegistration}
+                patient={currentPatientMemo}
+                appointments={currentPatientAppointments}
+              />
+            </Row>
+            <Row>
+              <PatientTickets client_id={Number(currentPatientMemo?.code)} />
+            </Row>
           </Col>
         )}
       </Row>

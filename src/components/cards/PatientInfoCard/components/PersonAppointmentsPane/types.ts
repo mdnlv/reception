@@ -1,4 +1,4 @@
-import PersonAppointment from "../../../../../../types/data/PersonAppointment";
+import PersonAppointment from "../../../../../types/data/PersonAppointment";
 
 export type PaneProps = {
   appointmentsList?: PersonAppointment[];

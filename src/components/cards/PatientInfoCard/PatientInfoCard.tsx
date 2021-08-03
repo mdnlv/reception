@@ -1,11 +1,10 @@
 import React from 'react';
-import {Card, Tabs} from 'antd/lib';
+import {Card} from 'antd/lib';
 
 import './styles.scss';
 import {CardProps} from "./types";
 
-import PersonInfoPane from './components/tabsPanes/PersonInfoPane/PersonInfoPane';
-import PersonAppointmentsPane from './components/tabsPanes/PersonAppointmentsPane/PersonAppointmentsPane';
+import PersonInfoPane from './components/PersonInfoPane/PersonInfoPane';
 
 const PatientInfoCard: React.FC<CardProps> = ({
   patient,
@@ -15,12 +14,8 @@ const PatientInfoCard: React.FC<CardProps> = ({
 }) => {
   return (
     <Card className={'patient-info-card'}>
-      <Tabs defaultActiveKey="info" size={'small'}>
+      {/*<Tabs defaultActiveKey="info" size={'small'}>
         <Tabs.TabPane tab="Инфо о пациенте" key="info">
-          <PersonInfoPane
-            policyTitle={policyTitle}
-            patient={patient}
-          />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Прошедшие приемы" key="appointments">
           <PersonAppointmentsPane
@@ -28,7 +23,12 @@ const PatientInfoCard: React.FC<CardProps> = ({
             appointmentsList={appointments}
           />
         </Tabs.TabPane>
-      </Tabs>
+      </Tabs>      
+      */}
+      <PersonInfoPane
+        policyTitle={policyTitle}
+        patient={patient}
+      />
     </Card>
   );
 };

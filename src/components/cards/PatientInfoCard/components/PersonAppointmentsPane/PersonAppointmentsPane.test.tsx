@@ -2,7 +2,7 @@ import React from 'react'
 import {mount, shallow} from "enzyme"
 import PersonAppointmentsPane from "./PersonAppointmentsPane";
 import moment from "moment";
-import PersonAppointment from "../../../../../../types/data/PersonAppointment";
+import PersonAppointment from "../../../../../types/data/PersonAppointment";
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -28,7 +28,7 @@ describe('PesronAppointmentsPane', () => {
 
     it("render correct list length", () => {
         const apArray: PersonAppointment[] = [{
-            id: '1',
+            id: 1,
             date: moment(0).toDate(),
             type: 'Осмотр',
             specialization: '',

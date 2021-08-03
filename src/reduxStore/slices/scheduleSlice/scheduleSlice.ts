@@ -214,10 +214,13 @@ const scheduleSlice = createSlice({
           Object.keys(person.schedule).map((date: any)=>{
             person.schedule[date][0].tickets.map((ticket: any) => {
               state.tickets.push({
-                person:person.person.lastName,
+                person: person.person.lastName + ' ' + person.person.firstName[0] + '.' + person.person.patrName[0] + '.',
                 office: person.schedule[date][0].office,
-                date: date,
-                time: ticket.begDateTime,
+                date: moment(date).format("DD.MM.YYYY"),
+                time: ticket.begDateTime.slice(0,-3),
+                visit: ticket.visit,
+                note: ticket.note,
+                set_person: ticket.set_person,
                 actionData: {
                   date: date? moment(date).format("DD.MM.YYYY") : '',
                   time: ticket && ticket.begDateTime ? ticket.begDateTime.slice(0,-3): '',

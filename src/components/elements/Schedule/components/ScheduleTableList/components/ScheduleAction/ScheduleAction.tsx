@@ -121,7 +121,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
       </Modal>
     ) : 
       <Modal 
-        title={'Перенисти приём'}
+        title={'Перенести приём'}
         visible={visible || (loading && postLoading)} 
         confirmLoading={postLoading}
         onCancel={()=>{

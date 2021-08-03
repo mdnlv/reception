@@ -1,26 +1,22 @@
 import React, {useState} from 'react';
-import { Descriptions, List, Radio, Row, Col, Dropdown, Menu } from 'antd/lib';
+import { Descriptions, List } from 'antd/lib';
 import { useSelector } from 'react-redux';
 import {format} from 'date-fns';
 
 import './styles.scss';
 import { PaneProps, PatientPolicyPane } from './types';
-import {kladrSelector} from '../../../../../../reduxStore/slices/registrationCard/selectors';
+import {kladrSelector} from '../../../../../reduxStore/slices/registrationCard/selectors';
 import {
   detailedDocumentTypesSelector,
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
   detailedOrgStructureSelector,
-} from "../../../../../../reduxStore/slices/rb/selectors";
-import {getAddress} from "../../../../../../utils/getAddress";
-import PatientAttach from "../../../../../../types/data/PatientAttach";
-import TicketsTable from './components/TicketsTable';
+} from "../../../../../reduxStore/slices/rb/selectors";
+import {getAddress} from "../../../../../utils/getAddress";
+import PatientAttach from "../../../../../types/data/PatientAttach";
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
-  const [type, setType] = useState<'pre' | 'post'>('post');
-  const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(
-    kladrSelector,
-  );
+  const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(kladrSelector);
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
@@ -34,7 +30,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
 
   const getMainPolicy = () => {
     let policyOms: PatientPolicyPane;
-    const omsFound = patient?.policy?.filter((item) => item.type !== 3);
+    const omsFound = patient?.policy?.filter((item: any) => item.type !== 3);
     if (omsFound  && omsFound.length > 0) {
       policyOms = omsFound[omsFound.length - 1];
       return policyOms;
@@ -68,11 +64,11 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
     return (
       <List
         size={'small'}
-        dataSource={patient?.contacts?.map((item) => ({
+        dataSource={patient?.contacts?.map((item: any) => ({
           contact: item.contact,
           type: item.contactTypeId,
         }))}
-        renderItem={(item) => (
+        renderItem={(item: any) => (
           <List.Item>{getContactTypeName(item.type, item.contact)}</List.Item>
         )}
       />
@@ -128,15 +124,6 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
         </Descriptions.Item>
         <Descriptions.Item label={'Примечания'}>
         {patient?.notes}
-        </Descriptions.Item>
-        <Descriptions.Item>
-        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'post'} onChange={(e)=>{setType(e.target.value)}}>
-          <Radio value={'post'}>Предварительная запись</Radio>
-          <Radio value={'pre'}>Выполнение записи</Radio>
-        </Radio.Group>
-        </Descriptions.Item>
-        <Descriptions.Item contentStyle={{margin: 0, padding: 0, border: 0}}>
-          <TicketsTable type={type} client_id={Number(patient?.code)} />          
         </Descriptions.Item>
       </Descriptions>
     </div>
