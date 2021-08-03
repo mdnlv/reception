@@ -59,7 +59,7 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id }) => {
     }))
   }
   
-  const columns = [
+  const columns: any = [
     {
       title: 'Выполнено',
       dataIndex: 'visit',
@@ -71,8 +71,12 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id }) => {
       dataIndex: 'date',
       width: 118,
       render: (value: any) => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div style={{padding:10}}>{value}</div></Dropdown>),
-    
-      sorter: (a: any, b: any) => Number(a.date.slice(0,2)) - Number(b.date.slice(0,2))
+      defaultSortOrder: "descend",
+      sorter: (a: any, b: any) => {
+        if(moment(a.date + ' ' + a.time, "DD.MM.YYY h:mm").unix() > moment(b.date + ' ' + b.time, "DD.MM.YYY h:mm").unix())
+          return 1
+        else return -1
+      }
     },
     {
       title: 'Каб',
