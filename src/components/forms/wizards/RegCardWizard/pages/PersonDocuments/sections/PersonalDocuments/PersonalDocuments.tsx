@@ -83,7 +83,7 @@ const PersonalDocuments: FC = () => {
           renderChild={(_, index) => (
             <div key={index}>
               <Row gutter={16}>
-                <Col span={3}>
+                <Col xl={4} xxl={3}>
                   <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'passportType')}>
                     <FastSearchSelect
                       filterOption
@@ -96,12 +96,12 @@ const PersonalDocuments: FC = () => {
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                   <FormField label={LABELS.SERIAL} name={getSelectionPath(index, 'serialFirst')} >
                     <FastInput name={getSelectionPath(index, 'serialFirst')} />
                   </FormField>
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                   <FormField label={LABELS.SERIAL} name={getSelectionPath(index, 'serialSecond')} >
                     <FastInput name={getSelectionPath(index, 'serialSecond')} />
                   </FormField>

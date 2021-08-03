@@ -34,7 +34,7 @@ const PersonalDocument: FC<SectionProps> = ({
     <div className="form-section personal-document">
       <h2>Документ</h2>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col xl={24} xxl={8}>
           <FormField label={LABELS.PASSPORT} name={`${selectionValuePath}.passportType`}>
             <FastSearchSelect
               filterOption
@@ -61,7 +61,7 @@ const PersonalDocument: FC<SectionProps> = ({
             <FastInput name={`${selectionValuePath}.number`} />
           </FormField>
         </Col>
-        <Col span={4}>
+        <Col xl={7} xxl={4}>
           <FormField label={LABELS.GIVEN_DATE} name={`${selectionValuePath}.fromDate`}>
             <FastDatePicker
               name={`${selectionValuePath}.fromDate`}

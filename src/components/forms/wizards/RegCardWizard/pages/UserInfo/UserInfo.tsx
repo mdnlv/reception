@@ -102,12 +102,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
       </FormField>
       <Divider />
       <Row gutter={16}>
-        <Col span={12}>
+        <Col xl={16} xxl={12}>
           <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
             <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
           </FormField>
         </Col>
-        <Col span={12}>
+        <Col xl={16} xxl={12}>
           <FormField label="Время рождения">
             {/*todo make birthTime correct binding*/}
             {/* todo make correct bindings */}

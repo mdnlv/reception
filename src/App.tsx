@@ -35,20 +35,9 @@ const App = () => {
             )}
             <Col span={23}>
               {/*todo add smooth fallback*/}
-              {!token ? (
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}>
-                  <Spin />
-                </div>
-              ) : (
-                <Suspense fallback={''}>
-                  <AppRouter />
-                </Suspense>
-              )}
+              <Suspense fallback={''}>
+                <AppRouter />
+              </Suspense>
             </Col>
           </Row>
         </Layout.Content>
