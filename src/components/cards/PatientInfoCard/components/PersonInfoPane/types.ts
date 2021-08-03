@@ -1,4 +1,4 @@
-import Patient from "../../../../../../types/data/Patient";
+import Patient from "../../../../../types/data/Patient";
 
 export type PaneProps = {
   patient?: Partial<Patient>;
