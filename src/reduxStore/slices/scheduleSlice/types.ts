@@ -51,7 +51,7 @@ export interface Ticket {
   time: number;
   person: string;
   actionData: ActionData;
-  set_person: number;
+  set_person: string;
   note: string;
   visit: boolean;
 }

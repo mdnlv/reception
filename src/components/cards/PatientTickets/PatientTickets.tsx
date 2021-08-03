@@ -70,9 +70,9 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id }) => {
       title: 'Дата и время',
       dataIndex: 'date',
       width: 118,
-      render: (value: any) => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div style={{padding:10}}>{value}</div></Dropdown>)
-      /*defaultSortOrder: 'descend',
-      sorter: (a: any, b: any) => Number(a.date.slice(2)) - Number(b.date.slice(2))*/
+      render: (value: any) => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div style={{padding:10}}>{value}</div></Dropdown>),
+    
+      sorter: (a: any, b: any) => Number(a.date.slice(0,2)) - Number(b.date.slice(0,2))
     },
     {
       title: 'Каб',
