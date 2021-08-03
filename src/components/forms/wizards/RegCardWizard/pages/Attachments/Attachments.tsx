@@ -93,7 +93,7 @@ const Attachments: React.FC = () => {
             showActions
             renderChild={(key, index) => (
               <Row gutter={16} key={index}>
-                <Col span={3}>
+                <Col xl={8} xxl={3}>
                   <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
                     <FastSearchSelect
                       showSearch
@@ -105,7 +105,7 @@ const Attachments: React.FC = () => {
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={6}>
+                <Col xl={8} xxl={6}>
                   <FormField label={LABELS.LPU} name={getSelectionPath(index, 'lpu')}>
                     <FastSearchSelect
                       showSearch
@@ -117,7 +117,7 @@ const Attachments: React.FC = () => {
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={4}>
+                <Col xl={8} xxl={4}>
                   <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
                     <TreeSelectField
                       defaultValue={parseInt(formValues[index].unit)}
@@ -128,19 +128,19 @@ const Attachments: React.FC = () => {
                     </TreeSelectField>
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col xl={8} xxl={3}>
                   <FormField label={LABELS.ATTACHMENT_DATE}>
                     <FastDatePicker
                       name={getSelectionPath(index, 'fromDate')}
                     />
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col xl={8} xxl={3}>
                   <FormField label={LABELS.DETACH_DATE}>
                     <FastDatePicker name={getSelectionPath(index, 'endDate')} />
                   </FormField>
                 </Col>
-                <Col span={4}>
+                <Col xl={6} xxl={4}>
                   <FormField label={LABELS.DETACH_REASON}>
                     <FastSearchSelect
                       showSearch

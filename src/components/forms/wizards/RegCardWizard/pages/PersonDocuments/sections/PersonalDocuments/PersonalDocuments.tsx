@@ -83,7 +83,7 @@ const PersonalDocuments: FC = () => {
           renderChild={(_, index) => (
             <div key={index}>
               <Row gutter={16}>
-                <Col xl={4} xxl={3}>
+                <Col xl={5} xxl={3}>
                   <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'passportType')}>
                     <FastSearchSelect
                       filterOption
@@ -124,7 +124,7 @@ const PersonalDocuments: FC = () => {
                 )}
               </Row>
               <Row gutter={16}>
-                <Col span={3}>
+                <Col xl={24} xxl={3}>
                   <FormField label={LABELS.DATE} name={getSelectionPath(index, 'fromDate')} >
                     <FastDatePicker name={getSelectionPath(index, 'fromDate')} />
                   </FormField>

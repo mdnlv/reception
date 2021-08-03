@@ -63,7 +63,7 @@ const OutsideIdent: React.FC = () => {
             name={'outsideIds'}
             renderChild={(_, index:number) => (
                 <Row key={index} align={'bottom'} gutter={16}>
-                <Col span={5}>
+                <Col span={7}>
                   <FormField label={LABELS.OUTSIDE_IDENTS} name={getSelectionPath(index, 'outsideSchema')}>
                     <FastSearchSelect
                       loading={false}
@@ -81,7 +81,7 @@ const OutsideIdent: React.FC = () => {
                     <FastInput name={getSelectionPath(index, 'idRef')} />
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col span={4}>
                   <FormField label={LABELS.DATE} name={getSelectionPath(index, 'date')}>
                     <FastDatePicker name={getSelectionPath(index, 'date')}/>
                   </FormField>

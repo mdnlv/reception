@@ -187,14 +187,14 @@ const PersonPolicy: FC = () => {
               </FastSearchSelect>
             </FormField>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <FormField label={LABELS.FROM} name={getSelectionPath(indexData, 'from')}>
               <FastDatePicker
                 name={getSelectionPath(indexData, 'from')}
               />
             </FormField>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <FormField label={LABELS.TO} name={getSelectionPath(indexData, 'to')}>
               <FastDatePicker
                 name={getSelectionPath(indexData, 'to')}
@@ -248,10 +248,10 @@ const PersonPolicy: FC = () => {
               </FastSearchSelect>
             </FormField>
           </Col>
-          <Col span={1}>
+          <Col span={2}>
             <Button onClick={() => setShowOrgChoice(true)}>...</Button>
           </Col>
-          <Col span={5}>
+          <Col span={6}>
             <FormField name={getSelectionPath(indexData, 'type')}>
               <FastSearchSelect
                 name={getSelectionPath(indexData, 'type')}

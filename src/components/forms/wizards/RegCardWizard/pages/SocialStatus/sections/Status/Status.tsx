@@ -112,7 +112,7 @@ const Status: React.FC<StatusProps> = ({
           return (
             <div key={indexData}>
               <Row gutter={16}>
-                <Col span={6}>
+                <Col xl={12} xxl={6}>
                   <FormField label={LABELS.CLASS} name={getSelectionPath(indexData, 'class')}>
                     <FastSearchSelect
                       loading={isLoadingClasses}
@@ -125,7 +125,7 @@ const Status: React.FC<StatusProps> = ({
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={6}>
+                <Col xl={12} xxl={6}>
                   <FormField label={LABELS.STATUS_TYPE} name={getSelectionPath(indexData, 'statusType')}>
                     <FastSearchSelect
                       loading={isLoadingTypes}
@@ -137,17 +137,17 @@ const Status: React.FC<StatusProps> = ({
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col xl={6} xxl={3}>
                   <FormField label={LABELS.START_DATE} name={getSelectionPath(indexData, 'fromDate')}>
                     <FastDatePicker name={getSelectionPath(indexData, 'fromDate')}/>
                   </FormField>
                 </Col>
-                <Col span={3}>
+                <Col xl={6} xxl={3}>
                   <FormField label={LABELS.END_DATE} name={getSelectionPath(indexData, 'endDate')}>
                     <FastDatePicker name={getSelectionPath(indexData, 'endDate')}/>
                   </FormField>
                 </Col>
-                <Col span={5}>
+                <Col xl={11} xxl={5}>
                   <FormField label={LABELS.NOTE}>
                     <FastInput name={getSelectionPath(indexData, 'note')}/>
                   </FormField>
@@ -164,7 +164,7 @@ const Status: React.FC<StatusProps> = ({
               </Row>
               <Divider/>
               <Row gutter={16} align={'bottom'}>
-                <Col span={3}>
+                <Col xl={5} xxl={3}>
                   <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'document.passportType')}>
                     <FastSearchSelect
                       filterOption
@@ -177,12 +177,12 @@ const Status: React.FC<StatusProps> = ({
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                   <FormField label={LABELS.SERIAL}>
                     <FastInput name={getSelectionPath(indexData, 'document.serialFirst')} />
                   </FormField>
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                   <FormField label={LABELS.SERIAL}>
                     <FastInput name={getSelectionPath(indexData, 'document.serialSecond')} />
                   </FormField>
@@ -194,7 +194,7 @@ const Status: React.FC<StatusProps> = ({
                 </Col>
               </Row>
               <Row>
-                <Col span={3}>
+                <Col xl={24} xxl={3}>
                   <FormField label={LABELS.DATE}>
                     <FastDatePicker name={getSelectionPath(indexData, 'document.fromDate')} />
                   </FormField>
