@@ -1,5 +1,5 @@
 export enum Labels {
-  Login = "Логин",
+  Login = "Имя пользователя",
   Password = 'Пароль',
   ShowPass = 'показать пароль',
   Button = 'Войти'
