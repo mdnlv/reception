@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Table,Dropdown, Menu, Checkbox, Descriptions, Radio } from 'antd/lib';
+import {Table,Dropdown, Menu, Checkbox, Descriptions, Radio, Spin } from 'antd/lib';
 import './styles.scss';
 import { PatientTicketsProps } from './types';
 import { clientAppointment, setStoreActionData } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
@@ -7,13 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../reduxStore/store';
 import moment from 'moment';
 
-const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id }) => {
+const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setType }) => {
   const [actionData, setActionData] = useState<any>({});
-  const [type, setType] = useState<'pre' | 'post'>('post');
   const dispatch = useDispatch();
-  const tickets = useSelector((state:RootState) => state.schedule.tickets);
+  const {tickets, ticketsLoading} = useSelector((state:RootState) => state.schedule);
   const data:any = [];
-
 
   useEffect(()=>{
     dispatch(clientAppointment({
@@ -118,29 +116,36 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id }) => {
     </Menu>
   );  
 
-  return <div style={{marginTop: 10, width: "100%"}}>
+  return <div style={{marginTop: 7, width: "100%"}}>
     <Descriptions.Item>
-      <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={'post'} onChange={(e)=>{setType(e.target.value)}}>
+      <Radio.Group style={{marginLeft: 5, marginBottom: 2}} defaultValue={'post'} onChange={(e)=>{setType(e.target.value)}}>
         <Radio value={'post'}>Предварительная запись</Radio>
         <Radio value={'pre'}>Выполнение записи</Radio>
       </Radio.Group>
       </Descriptions.Item>
       <Descriptions.Item contentStyle={{margin: 0, padding: 0, border: 0}}>
       <div className='tickets-table'>
-        <Table 
-          onRow={(record, rowIndex) => {
-            return {
-              onContextMenu: event => {
-                setActionData(data[Number(rowIndex)].actionData)
-              },
-            };
-          }}
-          columns={columns} 
-          dataSource={data} 
-          pagination={false} 
-          scroll={{ x: true, y: "37vh"}} 
-          style={{maxHeight: "40vh"}}
-        />    
+        { ticketsLoading ? 
+            <div style={{width: '100%', display: 'flex', justifyContent: 'center', background: "40%"}}>
+              <Spin style={{margin: "25% auto"}}/>
+            </div>
+            : 
+            <Table 
+              onRow={(record, rowIndex) => {
+                return {
+                  onContextMenu: event => {
+                    setActionData(data[Number(rowIndex)].actionData)
+                  },
+                };
+              }}
+              columns={columns} 
+              dataSource={data} 
+              pagination={false} 
+              scroll={{ x: true, y: "37vh"}} 
+              style={{maxHeight: "40vh"}}
+              showSorterTooltip={{title: 'Переключение сортировки списка: по убыванию даты, по фамилии врача, по возрастанию даты'}}
+            />   
+        } 
       </div>        
     </Descriptions.Item>
   </div>

@@ -17,16 +17,17 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   person_tree, 
   schedules, 
   loadSchedule, 
-  speciality, 
-  client, 
+  speciality,
   actionTicket, 
   showEmpty, 
   groupBy,
+  setGroupBy,
   selected,
   selectedPerson,
   onToggleScheduleRow,
   setSelected,
-  searchCount
+  searchCount,
+  clientTableType
 }) => {
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
@@ -57,6 +58,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
 
   useEffect(()=>{
     if(storeActionData.data && storeActionData.data.type == 'show') {
+      setCurrentDate(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate())
+      setRangeWeek(addDays(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate(), 13))
       setCurrentDay(moment(storeActionData.date, 'DD.MM.YYYY').toDate())
       setMode('day')
     }
@@ -144,13 +147,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               startHour={startHour}
               endHour={endHour}
               speciality={speciality}
-              client={client}
               actionTicket={actionTicket}
               currentDay={currentDay}
               setCurrentDay={setCurrentDay}
               showEmpty={showEmpty}
               groupBy={groupBy}
+              setGroupBy={setGroupBy}
               searchCount={searchCount}
+              clientTableType={clientTableType}
             />
           </Row>
         </>

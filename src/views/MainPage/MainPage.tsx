@@ -22,9 +22,9 @@ import PatientTickets from '../../components/cards/PatientTickets/PatientTickets
 
 const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
+  const [type, setType] = useState<'pre' | 'post'>('post');
   const schedules = useSelector(detailedSchedules);
   const person_tree = useSelector(detailedPersonTree);
-  const [client, setClient] = useState({fullName:'', id: 0})
   const currentPatientAppointments = useSelector(eventsAppointments);
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const specialities = useSelector(getSpeciality);
@@ -97,8 +97,8 @@ const MainPage: FC = () => {
                 schedules={schedules}
                 loadSchedule={loadSchedule}
                 speciality={specialities}
-                client={client}
                 actionTicket={postTicket}
+                clientTableType={type}
               />
             </Col>
           </Row>
@@ -113,7 +113,11 @@ const MainPage: FC = () => {
               />
             </Row>
             <Row>
-              <PatientTickets client_id={Number(currentPatientMemo?.code)} />
+              <PatientTickets 
+                client_id={Number(currentPatientMemo?.code)} 
+                type={type}
+                setType={setType}
+              />
             </Row>
           </Col>
         )}

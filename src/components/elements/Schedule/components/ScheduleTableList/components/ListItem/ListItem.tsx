@@ -31,7 +31,6 @@ const ListItem: React.FC<ItemProps> = ({
   endHour,
   speciality,
   showModal,
-  client,
   currentDay,
   setCurrentDay,
   person_list,
@@ -104,7 +103,6 @@ const ListItem: React.FC<ItemProps> = ({
                 endHour={endHour}
                 showModal={showModal}
                 speciality={speciality[item.person.speciality_id]}
-                client={client}
                 orgId={Number(org)}
                 currentDay={currentDay}
                 setCurrentDay={setCurrentDay}
@@ -138,7 +136,6 @@ const ListItem: React.FC<ItemProps> = ({
                 endHour={endHour}
                 showModal={showModal}
                 speciality={speciality[item.person.speciality_id]}
-                client={client}
                 orgId={id}
                 currentDay={currentDay}
                 setCurrentDay={setCurrentDay}
@@ -174,7 +171,6 @@ const ListItem: React.FC<ItemProps> = ({
             endHour={endHour}
             speciality={speciality}
             showModal={showModal}
-            client={client}
             currentDay={currentDay}
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}

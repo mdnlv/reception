@@ -16,7 +16,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
   endHour,
   showModal,
   speciality,
-  client,
   orgId,
   currentDay,
   setCurrentDay,
@@ -36,7 +35,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
               mode={mode} 
               onModeChange={onModeChange}    
               date={date}
-              client={client}
               setDay={setCurrentDay}
             />
           );
@@ -60,7 +58,6 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
                 onModeChange={onModeChange}
                 showModal={showModal}
                 person={{fullName: items.person.lastName + ' ' + items.person.firstName + ' ' + items.person.patrName, id: items.person.id, speciality: speciality, org: items.person.orgStructure_id}}
-                client={client}
                 orgId={orgId}
                 setDay={setCurrentDay}
               />

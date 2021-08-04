@@ -9,6 +9,7 @@ export const fetchPersonTree = createAsyncThunk(
   'schedule/fetchPersonTree',
   async (payload: {group_by?: 'speciality_id' | 'orgStructure_id'}, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
+    thunkAPI.dispatch(setStoreActionData({}));
     thunkAPI.dispatch(setLoading(true));
     try {
       const response = await ScheduleService.fetchPersonTree(state.auth.token, payload);
@@ -20,7 +21,6 @@ export const fetchPersonTree = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setLoading(false));
       thunkAPI.dispatch(setIsFiltered(false));
-      thunkAPI.dispatch(setStoreActionData({}));
     }
   },
 );

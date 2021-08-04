@@ -24,10 +24,6 @@ export interface ItemProps {
     [k: number]: string;
   };
   showModal?(data: ActionData): void;
-  client : {
-    fullName: string;
-    id: number;
-  };
   setCurrentDay(date?: Date): void;
   currentDay? : Date | undefined;
   showEmpty: boolean;

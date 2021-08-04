@@ -11,10 +11,6 @@ export interface RowProps {
   endHour: number;
   showModal?(data: ActionData): void;
   speciality: string;
-  client : {
-    fullName: string;
-    id: number;
-  };
   orgId: number;
   setCurrentDay(date?: Date): void;
   currentDay? : Date | undefined;

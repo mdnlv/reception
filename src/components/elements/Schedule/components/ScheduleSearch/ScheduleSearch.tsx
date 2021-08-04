@@ -147,7 +147,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
       <Row align={'stretch'}>
         {getHeaderByType}    
         {isFiltered && <Checkbox checked={showEmpty} onChange={()=>{setShowEmpty(!showEmpty)}}>показать врачей без расписания</Checkbox>}  
-        <Radio.Group name='Группировать:' style={{marginLeft: 5}} defaultValue={groupBy} onChange={onChangePersonTree}>
+        <Radio.Group name='Группировать:' style={{marginLeft: 5}} value={groupBy} onChange={onChangePersonTree}>
           <Radio value={'orgStructure_id'}>по отделениям</Radio>
           <Radio value={'speciality_id'}>по специальностям</Radio>
         </Radio.Group>

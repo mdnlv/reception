@@ -1,6 +1,6 @@
 import ScheduleSearch from './components/ScheduleSearch/ScheduleSearch';
 import ScheduleTable from './components/ScheduleTable/ScheduleTable';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../reduxStore/store';
 import './styles.scss';
@@ -56,6 +56,11 @@ const Schedule: React.FC<any> = (props) => {
     setSelectedPerson([]);
   }, [groupBy]);
 
+  useEffect(()=>{
+    setSelected([]);
+    setSelectedPerson([]);
+  }, [groupBy]);
+
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
     onOpenSearch();
@@ -107,15 +112,16 @@ const Schedule: React.FC<any> = (props) => {
         person_tree={props.person_tree} 
         schedules={props.schedules} 
         loadSchedule={props.loadSchedule} 
-        speciality={props.speciality} 
-        client={props.client} 
+        speciality={props.speciality}
         actionTicket={props.actionTicket} 
         showEmpty={showEmpty}
         groupBy={groupBy}
+        setGroupBy={setGroupBy}
         selected={selected}
         setSelected={setSelected}
         selectedPerson={selectedPerson}
         onToggleScheduleRow={onToggleScheduleRow}
+        clientTableType={props.clientTableType}
       />
     </ScheduleSearch>
   </>

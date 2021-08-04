@@ -1,12 +1,11 @@
-import React, {Suspense, useCallback} from 'react';
+import React, {Suspense} from 'react';
 import {Col, Row, Select, TreeSelect} from 'antd/lib';
 import {RootState} from "../../../../../reduxStore/store";
 import FormField from '../../../components/FormField/FormField';
 import FastSearchSelect from '../../../components/fields/FastSearchSelect/FastSearchSelect';
-import FastInput from '../../../components/fields/FastInput/FastInput';
 import TreeSelectField from '../../../components/fields/TreeSelect';
 import { useDispatch, useSelector } from 'react-redux';
-import { Person, PersonTree } from '../../../../elements/Schedule/types';
+import { PersonTree } from '../../../../elements/Schedule/types';
 import { useFormikContext } from 'formik';
 import { fetchFiltersDoctors } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
 
@@ -19,31 +18,31 @@ const Fields: React.FC<any> = (props) => {
   const { values }  = useFormikContext<{[u: string]: any}>();
 
   const renderTreeNodes = (data: any) =>
-  data.map((item: PersonTree) => {
-    return (
-      <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
-        {item.child.length && renderTreeNodes(item.child)}
-      </TreeSelect.TreeNode>
-    );
-  });
+    data.map((item: PersonTree) => {
+      return (
+        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
+          {item.child.length && renderTreeNodes(item.child)}
+        </TreeSelect.TreeNode>
+      );
+    });
 
   const getPropsOptions = (props: any) =>
-    props.map((item: any,index:number) => {
+    props && props.map((item: any,index:number) => {
       return (
         <Select.Option key={item.id} name={item.name} value={item.id}>
             {item.name}
         </Select.Option>
       )
-  });
+    });
 
   const getPropsOptionsPerson = (props: any) =>
-  props.map((item: any,index:number) => {
-    return (
-      <Select.Option key={item.id} name={item.name} value={item.id}>
-          {item.lastName}
-      </Select.Option>
-    )
-});
+    props && props.map((item: any,index:number) => {
+      return (
+        <Select.Option key={item.id} name={item.name} value={item.id}>
+            {item.lastName}
+        </Select.Option>
+      )
+    });
 
   const onSelectOrg = (v?: any) => {
     dispatch(

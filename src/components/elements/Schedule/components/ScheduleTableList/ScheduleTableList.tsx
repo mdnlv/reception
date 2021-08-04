@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './styles.scss';
 import {ListProps} from "./types";
 import moment from "moment";
 import ListItem from './components/ListItem/ListItem';
 import ScheduleAction from './components/ScheduleAction/ScheduleAction';
+import { clientAppointment } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { ActionData, ActionPost } from "./components/ScheduleAction/types"
 import {RootState} from "../../../../../reduxStore/store";
 import { Modal } from 'antd';
@@ -24,15 +25,16 @@ const ScheduleTableList: React.FC<ListProps> = ({
   startHour,
   endHour,
   speciality,
-  client,
   actionTicket,
   currentDay,
   setCurrentDay,
   showEmpty,
   groupBy,
+  setGroupBy,
   person_tree,
   setSelected,
-  searchCount
+  searchCount,
+  clientTableType
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -41,7 +43,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const [edit, setEdit] = useState(false);
   const [ok, setOk] = useState(false);
   const [del, setDel] = useState(false);
-  const [open, setOpen] = useState<any>([])
   const [result, setResult] = useState({
     pacient: '',
     date: '',
@@ -49,29 +50,41 @@ const ScheduleTableList: React.FC<ListProps> = ({
     person: '',
     speciality: ''
   });
+  const dispatch = useDispatch();
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
   const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
   const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
   const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
   const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
+  const currentPatient = useSelector((state: RootState) => state.patients.currentPatient);
+
+  const clientTableUpdate = () => {
+    dispatch(
+      clientAppointment({
+      client_id: currentPatient,
+      is_past_records: clientTableType == 'pre' ? true: undefined
+    }));
+  }
 
   useEffect(() => {
     if(ok && !postLoading) {
       Modal.success({
         title: 'Успешно добавлена запись на приём',
-        content: `Пациент ${result.pacient} записан на ${result?.date} в ${result?.time} к врачу ${result?.person} (${result?.speciality.toLowerCase()}).`,
+        content: `Пациент ${result.pacient} записан на ${result?.date} в ${result?.time} к врачу ${result?.person} (${result?.speciality && result?.speciality.toLowerCase()}).`,
         okText: 'ОК'
       });
       setOk(false);
+      clientTableUpdate();
     }
     if(del && !postLoading) {
       Modal.success({
         title: 'Приём отменён',
-        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality.toLowerCase()}) отменён.`,
+        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality && actionData?.speciality.toLowerCase()}) отменён.`,
         okText: 'ОК'
       });
       setDel(false)
+      clientTableUpdate();
     }
     if(edit && !postLoading) { 
       Modal.success({
@@ -81,6 +94,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       });
       setEdit(false)
       setOldData(undefined)
+      clientTableUpdate();
     }
   },[postLoading])
 
@@ -102,6 +116,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') 
         showModal(storeActionData)
       else {
+        setGroupBy('orgStructure_id')
         let set = new Set(selected.concat(storeActionData.orgs)) 
         setSelected(Array.from(set))
       }
@@ -182,7 +197,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
             endHour={endHour}
             speciality={speciality}
             showModal={showModal}
-            client={client}
             currentDay={currentDay}
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}
@@ -219,7 +233,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
           endHour={endHour}
           speciality={speciality}
           showModal={showModal}
-          client={client}
           currentDay={currentDay}
           setCurrentDay={setCurrentDay}
           showEmpty={showEmpty}

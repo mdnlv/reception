@@ -18,17 +18,15 @@ export interface ListProps {
   speciality: {
     [k: number]: string;
   };
-  client : {
-    fullName: string;
-    id: number;
-  },
   actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;
   setCurrentDay(date: Date): void;
   currentDay? : Date | undefined;
   showEmpty: boolean;
   groupBy: 'speciality_id' | 'orgStructure_id';
+  setGroupBy(arg: 'speciality_id' | 'orgStructure_id'): void;
   setSelected(arg: number[]): void;
   searchCount?: number;
+  clientTableType: 'pre' | 'post';
 }
 
 export interface PersonTree {

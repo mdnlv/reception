@@ -16,9 +16,5 @@ export interface ItemProps {
     speciality: string;
     org: number;
   };
-  client? : {
-    fullName: string;
-    id: number;
-  };
   orgId?: number;
 }
