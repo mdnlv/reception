@@ -14,6 +14,7 @@ import {
 } from "../../../../../reduxStore/slices/rb/selectors";
 import {getAddress} from "../../../../../utils/getAddress";
 import PatientAttach from "../../../../../types/data/PatientAttach";
+import {toRusFormat} from "../../../../../utils/date/toRusFormat";
 
 const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
   const { rbKladrRegistration, rbKladrStreetsRegistration } = useSelector(kladrSelector);
@@ -39,9 +40,10 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
 
   const getPolicyString = () => {
     const mainPolicy = getMainPolicy();
-    if (mainPolicy !== undefined) {
+    console.log('mainPolicy', mainPolicy);
+    if (mainPolicy) {
       return `
-        ${mainPolicy.serial} ${mainPolicy.number} выдан ${mainPolicy.from ? `с ${format(mainPolicy.from, "d.MM.yyyy")}` : ''} ${mainPolicy.to ? `до ${format(mainPolicy.to, "d.MM.yyyy")}` : ''}
+        ${mainPolicy.serial} ${mainPolicy.number} выдан ${mainPolicy.from ? `с ${toRusFormat(mainPolicy.from)}` : ''} ${mainPolicy.to ? `до ${toRusFormat(mainPolicy.to)}` : ''}
       `;
     } else {
       return '';
