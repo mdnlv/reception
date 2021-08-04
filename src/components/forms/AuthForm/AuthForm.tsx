@@ -48,12 +48,12 @@ const AuthForm: React.FC = () => {
         <img className='auth-form__logo' src={logo} alt='Виста' />
         <form className={'auth-form auth-form__custom-form'}>
           <div className="auth-form__item">
-            <FormField label={Labels.Login} labelPosition="left">
+            <FormField label={Labels.Login}>
               <FastInput name={"login"} value={formik.values.login}/>
             </FormField>
           </div>
           <div className="auth-form__item">
-            <FormField label={Labels.Password} labelPosition="left">
+            <FormField label={Labels.Password}>
               <FastInput
                 name={"password"}
                 type={formik.values.showPass ? "text" : "password"}
