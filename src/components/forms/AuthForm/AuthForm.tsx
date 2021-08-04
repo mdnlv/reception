@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {KeyboardEvent, useEffect} from "react";
 import {useFormik, FormikProvider} from "formik";
 import {Button, Checkbox, message} from "antd/lib";
 import {useDispatch, useSelector} from "react-redux";
@@ -34,7 +34,20 @@ const AuthForm: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log('token', token);
+    const handleEnter = (event: KeyboardEvent) => {
+      if (event.keyCode === 13) {
+        formik.handleSubmit();
+      }
+    };
+    //@ts-ignore
+    window.addEventListener('keydown', handleEnter);
+    return () => {
+      //@ts-ignore
+      window.removeEventListener('keydown', handleEnter);
+    };
+  }, []);
+
+  useEffect(() => {
     token && navigation.replace('/');
   }, [token]);
 
@@ -70,8 +83,11 @@ const AuthForm: React.FC = () => {
           </div>
           <div className="auth-form__item">
             <FormField>
-              {/*@ts-ignore*/}
-              <Button onClick={formik.handleSubmit} className='auth-form__btn'>{Labels.Button}</Button>
+              <Button
+                //@ts-ignore
+                onClick={formik.handleSubmit}
+                className='auth-form__btn'
+              >{Labels.Button}</Button>
             </FormField>
           </div>
         </form>
