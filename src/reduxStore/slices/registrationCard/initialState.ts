@@ -92,8 +92,8 @@ const initialState: RegistrationCardStateType = {
         addressRegistration: {
           id: undefined,
           isKLADR: true,
-          city: '',
-          area: '7800000000000',
+          city: '8600001400000',
+          area: '8600000000000',
           street: '',
           houseNumber: '',
           houseCharacter: '',
@@ -105,8 +105,8 @@ const initialState: RegistrationCardStateType = {
         documentedAddress: {
           id: undefined,
           isKLADR: true,
-          city: '',
-          area: '7800000000000',
+          city: '8600001400000',
+          area: '8600000000000',
           street: '',
           houseNumber: '',
           houseCharacter: '',
@@ -253,8 +253,8 @@ const initialState: RegistrationCardStateType = {
       passportInfo: {
         addressRegistration: {
           isKLADR: true,
-          city: '',
-          area: '',
+          city: '8600001400000',
+          area: '8600000000000',
           street: '',
           houseNumber: '',
           houseCharacter: '',
@@ -265,8 +265,8 @@ const initialState: RegistrationCardStateType = {
         },
         documentedAddress: {
           isKLADR: true,
-          city: '',
-          area: '',
+          city: '8600001400000',
+          area: '8600000000000',
           street: '',
           houseNumber: '',
           houseCharacter: '',

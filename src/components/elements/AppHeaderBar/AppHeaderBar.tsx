@@ -93,34 +93,34 @@ const AppHeaderBar: FC = () => {
           <Col className="header__logo" onClick={logoClickHandler}>
             <img src={Logo} alt={BarLogoAlt} className="app-logo" />
           </Col>
-          <Col>
-            <Space>
-              <Button size={'small'} className="header__button">
-                {Labels.Print}
-              </Button>
-              <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">
-                {Labels.Journal}
-              </Button>
-              <Button
-                size={'small'}
-                className="header__button"
-                onClick={showAppointment}>
-                {Labels.Appointment}
-              </Button>
-              <Button
-                onClick={onNewPatientClick}
-                size={'small'}
-                className="header__button">
-                {Labels.NewPatient}
-              </Button>
-              <Button
-                size={'small'}
-                className="header__button"
-                onClick={onInfoClick}>
-                {Labels.Info}
-              </Button>
-            </Space>
-          </Col>
+          {/*<Col>*/}
+          {/*  <Space>*/}
+          {/*    <Button size={'small'} className="header__button">*/}
+          {/*      {Labels.Print}*/}
+          {/*    </Button>*/}
+          {/*    <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">*/}
+          {/*      {Labels.Journal}*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      size={'small'}*/}
+          {/*      className="header__button"*/}
+          {/*      onClick={showAppointment}>*/}
+          {/*      {Labels.Appointment}*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      onClick={onNewPatientClick}*/}
+          {/*      size={'small'}*/}
+          {/*      className="header__button">*/}
+          {/*      {Labels.NewPatient}*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      size={'small'}*/}
+          {/*      className="header__button"*/}
+          {/*      onClick={onInfoClick}>*/}
+          {/*      {Labels.Info}*/}
+          {/*    </Button>*/}
+          {/*  </Space>*/}
+          {/*</Col>*/}
         </Row>
       </Col>
       <Col md={4} xs={24}>

@@ -72,10 +72,12 @@ const PassportGeneral: React.FC = () => {
 
   const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
+    console.log('rbKladrDocumented', rbKladrDocumented);
 
     switch (type) {
       case 'documented':
         rbKladrItem = rbKladrDocumented.find((item) => item.id === id);
+        console.log('rbKladrItem', rbKladrItem);
         break;
       case 'registration':
         rbKladrItem = rbKladrRegistration.find((item) => item.id === id);

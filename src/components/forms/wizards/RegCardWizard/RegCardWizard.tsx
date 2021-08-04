@@ -75,66 +75,66 @@ const RegCardWizard: React.FC<WizardProps> = () => {
         tab={'Паспортные данные'}>
         <PassportGeneral/>
       </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        key={'personDocs'}
-        tab={'Прикрепленные документы'}>
-        <PersonDocuments/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        key={'socialStatus'}
-        tab={'Социальный статус'}>
-        <SocialStatus/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        key={'employment'}
-        tab={'Занятость'}>
-        <PersonEmployment/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        key={'attachments'}
-        tab={'Прикрепление'}>
-        <Attachments/>
-      </Tabs.TabPane>
-      <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
-        <Links/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        tab={'Особенности'}
-        key={'features'}>
-        <Features/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        tab={'Льготы'}
-        key={'privileges'}>
-        <Privileges/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        tab={'Дополнительная диспансеризация'}
-        key={'additional-hospitalization'}>
-        <AdditionalHospitalization/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        tab={'Госпитализация в другие ЛПУ'}
-        key={'outside-hospitalization'}>
-        <AdditionalHospitalization/>
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        forceRender={false}
-        tab={'Идентификаторы во внешних учетных системах'}
-        key={'outside-idents'}>
-        <OutsideIdent/>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={'Прочее'} key={'etc'}>
-        <Etc/>
-      </Tabs.TabPane>
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  key={'personDocs'}*/}
+      {/*  tab={'Прикрепленные документы'}>*/}
+      {/*  <PersonDocuments/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  key={'socialStatus'}*/}
+      {/*  tab={'Социальный статус'}>*/}
+      {/*  <SocialStatus/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  key={'employment'}*/}
+      {/*  tab={'Занятость'}>*/}
+      {/*  <PersonEmployment/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  key={'attachments'}*/}
+      {/*  tab={'Прикрепление'}>*/}
+      {/*  <Attachments/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>*/}
+      {/*  <Links/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  tab={'Особенности'}*/}
+      {/*  key={'features'}>*/}
+      {/*  <Features/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  tab={'Льготы'}*/}
+      {/*  key={'privileges'}>*/}
+      {/*  <Privileges/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  tab={'Дополнительная диспансеризация'}*/}
+      {/*  key={'additional-hospitalization'}>*/}
+      {/*  <AdditionalHospitalization/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  tab={'Госпитализация в другие ЛПУ'}*/}
+      {/*  key={'outside-hospitalization'}>*/}
+      {/*  <AdditionalHospitalization/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  tab={'Идентификаторы во внешних учетных системах'}*/}
+      {/*  key={'outside-idents'}>*/}
+      {/*  <OutsideIdent/>*/}
+      {/*</Tabs.TabPane>*/}
+      {/*<Tabs.TabPane tab={'Прочее'} key={'etc'}>*/}
+      {/*  <Etc/>*/}
+      {/*</Tabs.TabPane>*/}
     </Tabs>
   ), [activeTab]);
 
