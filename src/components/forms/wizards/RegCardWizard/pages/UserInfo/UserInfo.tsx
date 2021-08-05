@@ -197,7 +197,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
               name={`${sectionValuePath}.isSedentary`}
               onChange={formProps.handleChange}
               checked={formProps.values.personal.isSedentary}>
-              малоподвижный
+              маломобильный
             </Checkbox>
           </Col>
         </Row>
