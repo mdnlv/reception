@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { Col, Row, Select, TreeSelect } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 
 import { PersonTree } from '../../../reduxStore/slices/personTree/types'
 import { RootState } from '../../../reduxStore/store';
@@ -18,7 +18,7 @@ import TicketSelect from '../components/fields/TicketSelect.tsx/TicketSelect';
 
 const FastSearchSelect = React.lazy(() => import('../components/fields/FastSearchSelect/FastSearchSelect'));
 
-const NewAppointmentForm: React.FC<FormState> = ({data}) => {
+const NewAppointmentForm: React.FC<FormState> = ({data, setButtonDisabled}) => {
     const dispatch = useDispatch()
     const patients = useSelector((state: RootState) => state.patients.foundPatients);
     const doctors = useSelector((state: RootState) => state.deferredCalls.filteredDoctors);
@@ -30,6 +30,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
     const [date, setDate] = useState(values.date);
     const [person_id, setDoctor] = useState(values.person_id);
     const [org, setOrg] = useState(values.organisation);
+    const [spec, setSpec] = useState(values.speciality);
     const { setFieldValue } = useFormikContext();
 
     const searchPatients = (query: string) => {
@@ -41,6 +42,8 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       setFieldValue('person_id','');
       setFieldValue('person','');
       dispatch(clearLists())
+      setDoctor(null)
+      setSpec(null)
     }
 
     const onSelectTreeNode = (value:number,tree:PersonTree) =>{
@@ -53,9 +56,13 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       setFieldValue('person_id','');
       setFieldValue('person','');
       dispatch(filterDoctors({id:id}))
+      setSpec(id)
     }
 
     const onSelectDoctor  = (id:number) =>{
+      setFieldValue('idx', undefined);
+      setFieldValue('action_id', -1);
+      setFieldValue('time', '');
       setDoctor(id)
       if(values.person_id != id) {
         setFieldValue('doctor',doctors[0].fullName);
@@ -74,8 +81,14 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
       setFieldValue('person_id','');
       setFieldValue('person','');
       dispatch(clearDoctors())
+      setDoctor(null)
+      dispatch(filterDoctors({id:spec}))
     })
-    const clearSpeciality = () => setFieldValue('speciality','')
+
+    const clearSpeciality = () => {
+      setFieldValue('speciality','')
+      setSpec(undefined)
+    }
 
     const renderTreeNodes = (data:PersonTree[]) =>
       data.map((item: PersonTree) => {
@@ -178,7 +191,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
                     name={'speciality'}
                     showSearch
                     allowClear
-                    onClear={clearDoctor}
+                    onClear={clearSpeciality}
                     onSelect={onSelectSpecialityId}
                     filterOption
                     optionFilterProp={'name'}
@@ -199,7 +212,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
                     name={'person'}
                     showSearch
                     allowClear
-                    onClear={clearSpeciality}
+                    onClear={clearDoctor}
                     filterOption
                     optionFilterProp={'name'}
                     onSelect={onSelectDoctor}
@@ -221,6 +234,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data}) => {
                     person_id={person_id}
                     org={org}
                     isLoading={isLoading}
+                    setButtonDisabled={setButtonDisabled}
                   />
                 </FormField>
               </Col>

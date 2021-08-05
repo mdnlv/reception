@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal } from "antd";
 import {Formik} from "formik";
 import validation from './validation'
@@ -10,16 +10,14 @@ import { RootState } from '../../../reduxStore/store';
 
 const NewAppointment: React.FC<AppointmentProps> = ({
     visible,
-    loading,
-    postLoading,
     setVisible,
     data,
     actionTicket,
     currentPatientMemo,
     setResult
   }) => {
-  //const patients = useSelector((state: RootState) => state.patients.patients);
   const foundPatients = useSelector((state: RootState) => state.patients.foundPatients);
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   return (
     <Formik
       validationSchema={validation}
@@ -70,11 +68,15 @@ const NewAppointment: React.FC<AppointmentProps> = ({
           onCancel={()=>{setVisible(false)}}
           okText={'Записать'}
           cancelText={'Отмена'}
-          okButtonProps={{style:{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}}
+          okButtonProps={{style:{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}, disabled:  buttonDisabled}}
           cancelButtonProps={{style:{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}}
           onOk={()=>{propsForm.handleSubmit()}}
         >
-          <NewAppointmentForm data={data} currentPatientMemo={currentPatientMemo}/>
+          <NewAppointmentForm 
+            data={data} 
+            currentPatientMemo={currentPatientMemo}
+            setButtonDisabled={setButtonDisabled}
+          />
         </Modal>
       )}
     </Formik>

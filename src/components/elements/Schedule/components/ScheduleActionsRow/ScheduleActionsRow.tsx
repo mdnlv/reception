@@ -41,7 +41,7 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
         });
       
       case 'day': 
-        if(items.schedule[moment(currentDay).format('YYYY-MM-DD')]) {
+        if(items.schedule && items.schedule[moment(currentDay).format('YYYY-MM-DD')]) {
           let tickets = items.schedule[moment(currentDay).format('YYYY-MM-DD')][0];
           let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
           let k = Math.floor(dur / tickets.planned);
