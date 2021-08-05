@@ -3,68 +3,100 @@ import {FormikErrors} from "formik";
 
 import {ValidationType} from "./types";
 
+Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
+  return this.test('test-compare-with-today', errorMessage, function (value: string) {
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    const todayParsed = Date.parse(new Date());
+    return valueParsed < todayParsed || createError({ path, message: errorMessage })
+  });
+});
+
+Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
+  return this.test('test-compare-policy-dates', errorMessage, function (value: string) {
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    const compareParsed = Date.parse(this.parent.from);
+    return compareParsed < valueParsed || createError({ path, message: errorMessage })
+  });
+});
+
+Yup.addMethod(Yup.string, 'compareStatusDates', function (errorMessage) {
+  return this.test('test-compare-status-dates', errorMessage, function (value: string) {
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    const compareParsed = Date.parse(this.parent.fromDate);
+    return compareParsed < valueParsed || createError({ path, message: errorMessage })
+  });
+});
+
 const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
-    lastName: Yup.string().required('Не введена фамилия пациента'),
-    firstName: Yup.string().required('Не введено имя пациента'),
-    birthDate: Yup.string().required('Не введена дата рождения'),
-    snils: Yup.string().required('Не введен СНИЛС')
+    lastName: Yup.string().required('фамилия пациента'),
+    firstName: Yup.string().required('имя пациента'),
+    birthDate: Yup.string().required('дата рождения').compareWithToday('введена ненаступившая дата'),
+    snils: Yup.string().required('СНИЛС')
       .transform(value => value.replace(/[^0-9]/g, ''))
-      .min(11, "Бла бла значение должно содержать 11 цифр"),
+      .min(11, "значение СНИЛС должно содержать 11 цифр"),
   }),
   passportGeneral: Yup.object({
     contacts: Yup.object({
       contacts: Yup.array().of(Yup.object({
-        type: Yup.string().required('Не выбран тип телефона'),
+        type: Yup.string().required('тип телефона'),
         number: Yup.string().when('type', {
           is: value => value === '4' || value === '11',
-          then: Yup.string().required('Не введен e-mail').email('Не введен e-mail')
+          then: Yup.string().required('e-mail').email('e-mail')
         })
       })),
     }),
   }),
   personDocs: Yup.object({
     documents: Yup.array().of(Yup.object({
-      passportType: Yup.string().required('Не выбран тип документа'),
-      serialFirst: Yup.string().required('Не введена серия документа'),
-      serialSecond: Yup.string().required('Не введена серия документа'),
-      number: Yup.string().required('Не введен номер документа'),
-      fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
-      givenBy: Yup.string().required('Не введено кем выдан документ'),
+      passportType: Yup.string().required('тип документа'),
+      serialFirst: Yup.string().required('серия документа'),
+      serialSecond: Yup.string().required('серия документа'),
+      number: Yup.string().required('номер документа'),
+      fromDate: Yup.string().required('дата выдачи')
+        .nullable().compareWithToday('введена ненаступившая дата'),
+      givenBy: Yup.string().required('кем выдан документ'),
     })),
     policies: Yup.array().of(Yup.object({
-      timeType: Yup.string().required('Не выбран вид полиса'),
-      from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
-      to: Yup.string().required('Не задана дата окончания действия полиса').nullable(),
-      serial: Yup.string().required('Не введена серия полиса'),
-      number: Yup.string().required('Не введен номер полиса'),
-      cmo: Yup.string().required('Не выбрана СМО'),
-      type: Yup.string().required('Не выбран тип полиса')
+      timeType: Yup.string().required('вид полиса'),
+      from: Yup.string().required('дата начала действия полиса')
+        .nullable()
+        .compareWithToday('введена ненаступившая дата'),
+      to: Yup.string().required('дата окончания действия полиса')
+        .nullable()
+        .comparePolicyDates('окончание действия полиса раньше начала'),
+      serial: Yup.string().required('серия полиса'),
+      number: Yup.string().required('номер полиса'),
+      cmo: Yup.string().required('СМО'),
+      type: Yup.string().required('тип полиса')
     })),
   }),
   socialStatus: Yup.object({
     socialStatus: Yup.array().of(Yup.object({
-      class: Yup.string().required('Не выбран класс'),
-      statusType: Yup.string().required('Не выбран тип статуса'),
-      fromDate: Yup.string().required('Не введена дата начала'),
-      endDate: Yup.string().required('Не введена дата окончания'),
+      class: Yup.string().required('класс'),
+      statusType: Yup.string().required('тип статуса'),
+      fromDate: Yup.string().required('дата начала').compareWithToday('введена ненаступившая дата'),
+      endDate: Yup.string().required('дата окончания').compareStatusDates('окончание действия статуса раньше начала'),
       document: Yup.object({
-        passportType: Yup.string().required('Не выбран тип документа'),
-        fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
+        passportType: Yup.string().required('тип документа'),
+        fromDate: Yup.string().required('дата выдачи').nullable(),
       }),
     })),
   }),
   employment: Yup.object({
     hazardHistory: Yup.array().of(Yup.object({
-      hazardDescription: Yup.string().required('Не выбран тип вредности'),
-      factor: Yup.string().required('Не выбран фактор')
+      hazardDescription: Yup.string().required('тип вредности'),
+      factor: Yup.string().required('фактор')
     }))
   }),
   attachments: Yup.object({
     attachments: Yup.array().of(Yup.object({
-      type: Yup.string().required('Не выбран тип прикрепления'),
-      lpu: Yup.string().required('Не выбрано ЛПУ'),
-      unit: Yup.string().required('Не выбрано подразделение')
+      type: Yup.string().required('тип прикрепления'),
+      lpu: Yup.string().required('ЛПУ'),
+      unit: Yup.string().required('подразделение')
     }))
   })
 });
