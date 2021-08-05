@@ -140,7 +140,7 @@ const DocumentedAddress: FC<SectionProps> = ({
                 </FastSearchSelect>
               </FormField>
             </Col>
-            <Col xl={16} xxl={8}>
+            <Col xl={16} xxl={12}>
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
