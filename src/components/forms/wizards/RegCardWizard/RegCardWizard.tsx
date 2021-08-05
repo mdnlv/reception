@@ -81,12 +81,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       {/*  tab={'Прикрепленные документы'}>*/}
       {/*  <PersonDocuments/>*/}
       {/*</Tabs.TabPane>*/}
-      {/*<Tabs.TabPane*/}
-      {/*  forceRender={false}*/}
-      {/*  key={'socialStatus'}*/}
-      {/*  tab={'Социальный статус'}>*/}
-      {/*  <SocialStatus/>*/}
-      {/*</Tabs.TabPane>*/}
+      <Tabs.TabPane
+        forceRender={false}
+        key={'socialStatus'}
+        tab={'Социальный статус'}>
+        <SocialStatus/>
+      </Tabs.TabPane>
       {/*<Tabs.TabPane*/}
       {/*  forceRender={false}*/}
       {/*  key={'employment'}*/}
@@ -99,9 +99,9 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       {/*  tab={'Прикрепление'}>*/}
       {/*  <Attachments/>*/}
       {/*</Tabs.TabPane>*/}
-      {/*<Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>*/}
-      {/*  <Links/>*/}
-      {/*</Tabs.TabPane>*/}
+      <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
+        <Links/>
+      </Tabs.TabPane>
       {/*<Tabs.TabPane*/}
       {/*  forceRender={false}*/}
       {/*  tab={'Особенности'}*/}
