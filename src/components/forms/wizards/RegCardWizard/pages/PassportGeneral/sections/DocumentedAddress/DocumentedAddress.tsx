@@ -113,8 +113,11 @@ const DocumentedAddress: FC<SectionProps> = ({
               КЛАДР
             </Checkbox>
           </FormField>
+        </Col>
+        <Col span={8}>
           <FormField>
             <Checkbox
+              disabled={formValues.isKLADR}
               checked={formValues.isVillager}
               name={`${sectionValuePath}.isVillager`}
               onChange={form.handleChange}>
