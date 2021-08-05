@@ -30,24 +30,25 @@ const DocumentedAddress: FC<SectionProps> = ({
   const formInitialValues = form.initialValues.passportGeneral.passportInfo.documentedAddress;
   const sectionValuePath = `passportGeneral.passportInfo.documentedAddress`;
 
-  useEffect(() => {
-    console.log('nestedKladr', nestedKladr);
-  }, [nestedKladr]);
+  // useEffect(() => {
+  //   console.log('kladr', kladr);
+  // }, [kladr]);
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues, type: 'setDocumentedBuffer'}))
   }, [formValues]);
 
   useEffect(() => {
-    const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
-    const area = formValues.area;
-    if (streetsAreas.includes(area)) {
-      getKladrStreets(area, 'documented');
-    } else {
-      console.log('area', area);
-      getKladrNested(area, 'documented');
+    if (kladr.length) {
+      const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
+      const area = formValues.area;
+      if (streetsAreas.includes(area)) {
+        getKladrStreets(area, 'documented');
+      } else {
+        getKladrNested(area, 'documented');
+      }
     }
-  },[formValues.area]);
+  },[formValues.area, kladr]);
 
   useEffect(() => {
     formValues.city && getKladrStreets(formValues.city, 'documented');

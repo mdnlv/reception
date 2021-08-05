@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 
@@ -66,18 +66,20 @@ const PassportGeneral: React.FC = () => {
     (state: RootState) => state.rb.loading,
   );
 
+  // useEffect(() => {
+  //   console.log('rbKladrDocumented', rbKladrDocumented);
+  // }, [rbKladrDocumented]);
+
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
   }, []);
 
   const fetchNestedKladr = (id: string, type: KladrDocType, value:string) => {
     let rbKladrItem: KladrItem | undefined;
-    console.log('rbKladrDocumented', rbKladrDocumented);
 
     switch (type) {
       case 'documented':
         rbKladrItem = rbKladrDocumented.find((item) => item.id === id);
-        console.log('rbKladrItem', rbKladrItem);
         break;
       case 'registration':
         rbKladrItem = rbKladrRegistration.find((item) => item.id === id);

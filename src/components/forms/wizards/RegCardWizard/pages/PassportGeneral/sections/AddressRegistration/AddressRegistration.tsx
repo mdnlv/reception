@@ -43,14 +43,16 @@ const AddressRegistration: FC<SectionProps> = ({
   }, [formValues.isDocumentedAddress, documentedBuffer]);
 
   useEffect(() => {
-    const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
-    const area = formValues.area;
-    if (streetsAreas.includes(area)) {
-      getKladrStreets(area, 'registration');
-    } else {
-      getKladrNested(area, 'registration');
+    if (kladr.length) {
+      const streetsAreas = ['7800000000000', '7700000000000', '9200000000000'];
+      const area = formValues.area;
+      if (streetsAreas.includes(area)) {
+        getKladrStreets(area, 'registration');
+      } else {
+        getKladrNested(area, 'registration');
+      }
     }
-  },[formValues.area]);
+  },[formValues.area, kladr]);
 
   useEffect(() => {
     formValues.city && getKladrStreets(formValues.city, 'registration');

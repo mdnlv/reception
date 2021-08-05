@@ -155,7 +155,7 @@ const initialState: RegistrationCardStateType = {
         {
           id: undefined,
           timeType: '',
-          cmoArea: '7800000000000',
+          cmoArea: '8600000000000',
           from: '',
           to: '',
           serial: '',
@@ -315,7 +315,7 @@ const initialState: RegistrationCardStateType = {
         {
           id: undefined,
           timeType: '',
-          cmoArea: '7800000000000',
+          cmoArea: '8600000000000',
           from: '',
           to: '',
           serial: '',
