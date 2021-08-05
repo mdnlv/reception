@@ -1,9 +1,10 @@
-import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Route, Switch, useLocation} from 'react-router-dom';
 import { Result } from 'antd';
 
 import DeferredCallsPage from "../views/DeferredCallsPage/DeferredCallsPage";
 import AuthPage from "../views/AuthPage/AuthPage";
+import {RouterProps} from "./types";
 
 const RegistrationCard = React.lazy(() =>
   import('../views/RegistrationCard/RegistrationCard'),
@@ -14,8 +15,14 @@ const PatientCard = React.lazy(() =>
 );
 const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
-const AppRouter: React.FC = () => {
-  //@ts-ignore
+const AppRouter: React.FC<RouterProps> = ({setShowPanel}) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    location.pathname !== '/regCard/new'
+      ? setShowPanel(true)
+      : setShowPanel(false);
+  }, [location.pathname]);
 
   return (
     <Switch>

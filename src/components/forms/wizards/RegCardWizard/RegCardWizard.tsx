@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Formik } from 'formik';
 import { Card, Col, Row, Spin, Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useParams} from 'react-router';
 import { useHistory } from 'react-router-dom';
 
 import './styles.scss';
