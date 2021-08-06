@@ -166,7 +166,7 @@ const PatientsTable: FC<TableProps> = ({
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
         route: <Link to={`/card/${item.code}`}>Мед. карта</Link>,
-        regCard: <Link to={`/regCard/${item.code}`} onClick={() => dispatch(setIsSearchingPatients(false))}>Рег. карта</Link>,
+        regCard: <Link to={`/regCard/${item.code}`}>Рег. карта</Link>,
       };
     });
   }, [patients, rbKladrStreetsRegistration]);

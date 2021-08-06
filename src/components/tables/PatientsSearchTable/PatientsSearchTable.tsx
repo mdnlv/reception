@@ -40,6 +40,7 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     if (patientRegId) {
       dispatch(fetchRegPatient(patientRegId));
     } else if (patients.length === 0 || !patients) {
+      console.log('biba');
       dispatch(fetchPatients({ limit: 5, offset: 0 }));
     }
   }, [patientRegId]);

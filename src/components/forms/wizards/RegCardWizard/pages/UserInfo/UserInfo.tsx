@@ -18,6 +18,7 @@ import {WizardStateType} from '../../types';
 import { detailedPersonsFindSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import UserInfoTypes from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
+import {setCurrentPatient} from '../../../../../../reduxStore/slices/patients/patientsSlice';
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -25,12 +26,14 @@ import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastM
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
+import {RootState} from "../../../../../../reduxStore/store";
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   const dispatch = useDispatch();
   const navigation = useHistory();
   const formProps = useFormikContext<WizardStateType>();
   const persons = useSelector(detailedPersonsFindSelector);
+  const {currentPatient} = useSelector((state: RootState) => state.patients);
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
   const [snilsWarning, setSnilsWarning] = useState('');
@@ -75,6 +78,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   };
 
   const onCancel = useCallback(() => {
+    dispatch(setCurrentPatient(currentPatient));
     navigation.push('/');
   }, []);
 
