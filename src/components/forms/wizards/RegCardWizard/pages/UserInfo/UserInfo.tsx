@@ -2,20 +2,16 @@ import React, {useState, useEffect, useCallback} from 'react';
 import { useFormikContext } from 'formik';
 import {
   Button,
-  Checkbox,
   Col,
   Divider,
   Radio,
   Row,
-  Select,
   TimePicker
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
-import {useSelector, useDispatch} from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 
 import {WizardStateType} from '../../types';
-import { detailedPersonsFindSelector } from '../../../../../../reduxStore/slices/rb/selectors';
 import UserInfoTypes from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
 
@@ -24,13 +20,10 @@ import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
-import FastSearchSelect from '../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
-const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
+const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const dispatch = useDispatch();
-  const navigation = useHistory();
   const formProps = useFormikContext<WizardStateType>();
-  const persons = useSelector(detailedPersonsFindSelector);
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
   const [snilsWarning, setSnilsWarning] = useState('');
@@ -75,7 +68,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   };
 
   const onCancel = useCallback(() => {
-    navigation.push('/');
+    window.top.postMessage('closeDialog','*');
   }, []);
 
   const snilsAlert = () => (
@@ -174,6 +167,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
           onClick={() => {
             Object.keys(errors).length > 0 && onOpen();
             formProps.handleSubmit();
+            window.top.postMessage('closeDialog','*');
           }}
           className="save-btn">
           Сохранить

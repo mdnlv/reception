@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {Button, Col, Row, Select, Space} from 'antd';
+import {Button, Col, Row, Select} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
 
@@ -172,12 +172,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
     [onFindPolicy, errorsData],
   );
 
-  const cleanFields = () => {
-    fieldNames.map((item) => {
-      form.setFieldValue(`${sectionValuePath}.${item}`, '')
-    })
-  };
-
   const onCloseModal = () => {
     setShowModal(false);
   };
@@ -338,22 +332,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
               name={`${sectionValuePath}.note`}
             />
           </FormField>
-        </Col>
-      </Row>
-      <Row className="form-row" justify={'end'}>
-        <Col>
-          <Space>
-            {id !== 'new' && (
-              <Button
-                onClick={() => {
-                  cleanFields()
-                }}
-                disabled={isLoading}
-                type={'primary'}>
-                Добавить полис
-              </Button>
-            )}
-          </Space>
         </Col>
       </Row>
       <PolSearchValidation isVisible={showModal} errors={errorsData} onClose={onCloseModal}/>

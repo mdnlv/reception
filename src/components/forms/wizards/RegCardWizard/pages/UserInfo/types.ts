@@ -4,5 +4,5 @@ import {FormikErrors} from "formik";
 export default interface UserInfoTypes {
   errors: FormikErrors<ValidationType>;
   onOpen(): void;
-  fetchDoctors: Function
+  fetchDoctors?: Function
 }
