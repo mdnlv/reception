@@ -138,25 +138,13 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <Row>
-        <Col span={12} className={'col--border-right'}>
+        <Col span={24} className={'col--border-right'}>
           <PolicyAddForm
             cmoType={cmoTypeList}
             isLoading={oms.isLoading}
             isCmoLoading={organisations}
             foundPolicy={oms.items[0]}
             policyKey={'policyOms'}
-            policyTimeType={policyKindsList}
-            policyType={policyTypesList}
-            onFindPolicy={onFindPatientPolicy}
-            kladr={rbKladrDocumented}
-          />
-        </Col>
-        <Col span={12}>
-          <PolicyAddForm
-            cmoType={cmoTypeList}
-            isLoading={dms.isLoading}
-            isCmoLoading={organisations}
-            policyKey={'policyDms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
