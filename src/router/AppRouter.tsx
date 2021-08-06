@@ -19,7 +19,7 @@ const AppRouter: React.FC<RouterProps> = ({setShowPanel}) => {
   const location = useLocation();
 
   useEffect(() => {
-    location.pathname !== '/regCard/new'
+    !location.pathname.includes('regCard')
       ? setShowPanel(true)
       : setShowPanel(false);
   }, [location.pathname]);
