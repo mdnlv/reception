@@ -53,6 +53,7 @@ interface InitialRegFormState {
     onlyTempRegistration: boolean;
     docPersonId: string;
     isSedentary: boolean;
+    isShiftWorker: boolean;
   };
 }
 

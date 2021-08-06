@@ -81,12 +81,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       {/*  tab={'Прикрепленные документы'}>*/}
       {/*  <PersonDocuments/>*/}
       {/*</Tabs.TabPane>*/}
-      <Tabs.TabPane
-        forceRender={false}
-        key={'socialStatus'}
-        tab={'Социальный статус'}>
-        <SocialStatus/>
-      </Tabs.TabPane>
+      {/*<Tabs.TabPane*/}
+      {/*  forceRender={false}*/}
+      {/*  key={'socialStatus'}*/}
+      {/*  tab={'Социальный статус'}>*/}
+      {/*  <SocialStatus/>*/}
+      {/*</Tabs.TabPane>*/}
       {/*<Tabs.TabPane*/}
       {/*  forceRender={false}*/}
       {/*  key={'employment'}*/}

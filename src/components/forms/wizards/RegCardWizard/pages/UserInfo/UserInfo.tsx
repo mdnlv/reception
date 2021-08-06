@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import { useFormikContext } from 'formik';
 import {
   Button,
+  Checkbox,
   Col,
   Divider,
   Radio,
@@ -151,6 +152,15 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           />
           {snilsWarning && snilsAlert()}
         </FormField>
+      </div>
+      <Divider />
+      <div>
+        <Checkbox
+          name={`${sectionValuePath}.isShiftWorker`}
+          onChange={formProps.handleChange}
+          checked={formProps.values.personal.isShiftWorker}>
+          вахтовик
+        </Checkbox>
       </div>
       <Divider />
       <div>
