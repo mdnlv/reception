@@ -160,6 +160,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
           navigation.push('/');
           dispatch(resetRegCard());
         }
+        window.top.postMessage('closeDialog','*');
       }}
     >
       {({errors}) => {

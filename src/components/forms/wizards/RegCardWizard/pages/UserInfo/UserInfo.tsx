@@ -177,7 +177,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           onClick={() => {
             Object.keys(errors).length > 0 && onOpen();
             formProps.handleSubmit();
-            window.top.postMessage('closeDialog','*');
           }}
           className="save-btn">
           Сохранить
