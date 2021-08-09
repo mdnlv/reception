@@ -170,6 +170,7 @@ export const saveCardPatient = createAsyncThunk(
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
+      window.top.postMessage(JSON.stringify({action:'closeDialog', clientId: patientId}),'*');
     } catch (e) {
       alert(JSON.stringify(e.response.data));
     } finally {
