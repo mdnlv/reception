@@ -394,6 +394,9 @@ const initialState: RegistrationCardStateType = {
       dms: { items: [] as PassportPolicyType[], isLoading: false },
       oms: { items: [] as PassportPolicyType[], isLoading: false },
     },
+    foundSnils: {
+      isLoading: false,
+    },
   },
 };
 

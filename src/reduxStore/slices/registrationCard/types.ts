@@ -83,6 +83,9 @@ interface FormState extends InitialRegFormState {
     dms: { items: PassportPolicyType[]; isLoading: boolean };
     oms: { items: PassportPolicyType[]; isLoading: boolean };
   };
+  foundSnils: {
+    isLoading: boolean;
+  };
 }
 
 export interface RegistrationCardStateType {

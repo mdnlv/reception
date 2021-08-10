@@ -240,8 +240,13 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<boolean>,
     ) => {
-      state.form.foundPolicies.oms.isLoading =
-        action.payload;
+      state.form.foundPolicies.oms.isLoading = action.payload;
+    },
+    setFindSnilsLoading: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.form.foundSnils.isLoading = action.payload;
     },
     setPoliciesFoundMessage: (
       state,

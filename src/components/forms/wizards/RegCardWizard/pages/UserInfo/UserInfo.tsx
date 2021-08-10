@@ -10,11 +10,12 @@ import {
   TimePicker
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {WizardStateType} from '../../types';
 import UserInfoTypes from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
+import {RootState} from "../../../../../../reduxStore/store";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -27,6 +28,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
+  const {isLoading} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
   const [snilsWarning, setSnilsWarning] = useState('');
 
   // useEffect(() => {
@@ -151,6 +153,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
             mask="111-111-111 11"
           />
           {snilsWarning && snilsAlert()}
+          <Button loading={isLoading}>
+            Искать
+          </Button>
         </FormField>
       </div>
       <Divider />
