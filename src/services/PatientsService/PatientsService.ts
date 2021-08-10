@@ -114,7 +114,7 @@ export default {
 
   findPatientPolicy(token: string, params: FindPolicyParams): Promise<AxiosResponse<PatientPolicyResponse>> {
     return apiInstance.post(
-      '/client/tfoms/getPolicy',
+      '/client/tfoms/getPolicyHmao',
       params,
       {
         headers: {
