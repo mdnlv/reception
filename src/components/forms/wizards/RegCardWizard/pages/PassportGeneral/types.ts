@@ -84,6 +84,14 @@ export interface PassportInfoTypeDeleted extends Modify<PassportInfoType, {
   deleted?: 1;
 }> {}
 
+export interface SnilsFound {
+  key: number;
+  lastName: string;
+  firstName: string;
+  patrName: string;
+  snils: string;
+}
+
 export default interface FormState {
   passportInfo: {
     addressRegistration: PassportAddressType;

@@ -4,6 +4,7 @@ import {format, parseISO} from "date-fns";
 import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
+import FindSnilsParams from "../../../interfaces/payloads/patients/findPatientSnils";
 import PatientsService from '../../../services/PatientsService/PatientsService';
 import transformPolicySearchResponse from "../../utils/transform/transformPolicySearchResponse";
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
@@ -14,6 +15,7 @@ import {PassportAddressType} from "../../../components/forms/wizards/RegCardWiza
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
+import PatientSnilsSearchResponse from "../../../interfaces/responses/patients/patientSnilsSearch";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -137,9 +139,6 @@ export const findPatientPolicy = createAsyncThunk(
           birthDate,
         }
       );
-      thunkAPI.dispatch(
-        setFindPolicyLoading(false),
-      );
       if (response.status === 200) {
         thunkAPI.dispatch(
           setPoliciesFoundMessage(true),
@@ -152,7 +151,57 @@ export const findPatientPolicy = createAsyncThunk(
         return {};
       }
     } catch (e) {
-      alert(e)
+      alert(e);
+      thunkAPI.dispatch(
+        setFindPolicyLoading(false),
+      );
+    } finally {
+      thunkAPI.dispatch(
+        setFindPolicyLoading(false),
+      );
+    }
+  },
+);
+
+export const findPatientSnils = createAsyncThunk(
+  'registrationCard/findPatientSnils',
+  async (
+    payload: FindSnilsParams,
+    thunkAPI,
+  ) => {
+    thunkAPI.dispatch(
+      setFindSnilsLoading(true),
+    );
+    try {
+      const birthDate = typeof payload.birthDate === 'string'
+        ? format(parseISO(payload.birthDate), 'yyyy-MM-dd')
+        //@ts-ignore
+        : format(payload.birthDate, 'yyyy-MM-dd');
+      const response = await PatientsService.findPatientSnils(
+        {
+          ...payload,
+          birthDate,
+        }
+      );
+      if (response.status === 200) {
+        thunkAPI.dispatch(
+          setSnilsFoundMessage(true),
+        );
+        if (response.data.patients) {
+          return response.data;
+        } else {
+          return null;
+        }
+      }
+    } catch (e) {
+      alert(e);
+      thunkAPI.dispatch(
+        setFindSnilsLoading(false),
+      );
+    } finally {
+      thunkAPI.dispatch(
+        setFindSnilsLoading(false),
+      );
     }
   },
 );
@@ -253,6 +302,12 @@ const registrationCardSlice = createSlice({
       action: PayloadAction<boolean>
     ) => {
       state.policiesFoundMessage = action.payload;
+    },
+    setSnilsFoundMessage: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.snilsFoundMessage = action.payload;
     },
     setKladrLoading: (
       state,
@@ -621,6 +676,17 @@ const registrationCardSlice = createSlice({
         ] : [];
       }
     });
+    builder.addCase(findPatientSnils.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.form.foundSnils.items = action.payload.patients.map((item, index) => ({
+          key: item.PatientId,
+          firstName: item.FirstName,
+          lastName: item.LastName,
+          patrName: item.MiddleName,
+          snils: item.snils || '',
+        }));
+      }
+    });
   },
 });
 
@@ -630,6 +696,7 @@ export const {
   setKladrNestedLoading,
   setKladrStreetsLoading,
   setFindPolicyLoading,
+  setFindSnilsLoading,
   setLoading,
   setDocumentedBuffer,
   fetchIdPatientError,
@@ -637,6 +704,7 @@ export const {
   resetRegCard,
   resetPoliciesFound,
   setPoliciesFoundMessage,
+  setSnilsFoundMessage,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;

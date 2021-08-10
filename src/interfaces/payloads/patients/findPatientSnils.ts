@@ -3,7 +3,7 @@ type FindSnilsParams = Partial<{
   firstName: string;
   lastName: string;
   patrName: string;
-  sex: string;
+  sex: 0 | 1;
   birthDate: string;
 }>;
 

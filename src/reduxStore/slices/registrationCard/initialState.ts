@@ -35,6 +35,7 @@ const initialState: RegistrationCardStateType = {
   },
   patientRegId: undefined,
   policiesFoundMessage: false,
+  snilsFoundMessage: false,
   initialFormState: {
     personal: {
       code: '',
@@ -395,6 +396,7 @@ const initialState: RegistrationCardStateType = {
       oms: { items: [] as PassportPolicyType[], isLoading: false },
     },
     foundSnils: {
+      items: [],
       isLoading: false,
     },
   },

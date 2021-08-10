@@ -16,19 +16,27 @@ import {WizardStateType} from '../../types';
 import UserInfoTypes from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
 import {RootState} from "../../../../../../reduxStore/store";
+import {
+  findPatientSnils,
+  setSnilsFoundMessage
+} from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
+import SnilsFound from "../../../../../modals/SnilsFound/SnilsFound";
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const dispatch = useDispatch();
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
-  const {isLoading} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
+  const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
+  const {snilsFoundMessage} = useSelector(
+    (state: RootState) => state.registrationCard,
+  );
   const [snilsWarning, setSnilsWarning] = useState('');
 
   // useEffect(() => {
@@ -74,6 +82,24 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
     window.top.postMessage('closeDialog','*');
   }, []);
 
+  const onSnilsSearch = () => {
+    if (typeof formValues.birthDate === 'string') {
+      dispatch(findPatientSnils({
+        birthDate: formValues.birthDate,
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        patrName: formValues.patrName,
+        sex: formValues.sex,
+      }));
+    }
+  }
+
+  const onSelectSnils = (value: string) => formProps.setFieldValue(`${sectionValuePath}.snils`, value);
+
+  const onCloseModal = () => {
+    dispatch(setSnilsFoundMessage(false));
+  };
+
   const snilsAlert = () => (
     <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
       {snilsWarning}
@@ -83,111 +109,119 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const dataCapitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
   return (
-    <form className="wizard-step registration-form">
-      <FormField label="Код">
-        <FastInput disabled name={'personal.code'} />
-      </FormField>
-      <FormField label="Фамилия" name={'personal.lastName'}>
-        <FastInput name={'personal.lastName'} />
-      </FormField>
-      <FormField label="Имя" name={'personal.firstName'}>
-        <FastInput name={'personal.firstName'} />
-      </FormField>
-      <FormField label="Отчество" name={'personal.patrName'}>
-        <FastInput name={'personal.patrName'} />
-      </FormField>
-      <Divider />
-      <Row gutter={16}>
-        <Col xl={16} xxl={12}>
-          <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
-            <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
-          </FormField>
-        </Col>
-        <Col xl={16} xxl={12}>
-          <FormField label="Время рождения">
-            {/*todo make birthTime correct binding*/}
-            {/* todo make correct bindings */}
-            <TimePicker
-              format={'HH:mm'}
-              name={'personal.birthTime'}
-              onChange={(_, timeString) => {
-                formProps.setFieldValue(
-                  `${sectionValuePath}.birthTime`,
-                  timeString,
-                );
-              }}
-            />
-          </FormField>
-        </Col>
-      </Row>
-      <div className="registration-form__general">
+    <>
+      <form className="wizard-step registration-form">
+        <FormField label="Код">
+          <FastInput disabled name={'personal.code'} />
+        </FormField>
+        <FormField label="Фамилия" name={'personal.lastName'}>
+          <FastInput name={'personal.lastName'} />
+        </FormField>
+        <FormField label="Имя" name={'personal.firstName'}>
+          <FastInput name={'personal.firstName'} />
+        </FormField>
+        <FormField label="Отчество" name={'personal.patrName'}>
+          <FastInput name={'personal.patrName'} />
+        </FormField>
+        <Divider />
         <Row gutter={16}>
-          <Col>
-            <FormField label="Рост" name={'personal.height'}>
-              <FastInputNumber min={0} name={'personal.height'} />
+          <Col xl={16} xxl={12}>
+            <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
+              <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
             </FormField>
           </Col>
-          <Col>
-            <FormField label="Вес" name={'personal.weight'}>
-              <FastInputNumber min={0} name={'personal.weight'} />
-            </FormField>
-          </Col>
-          <Col>
-            <FormField label="Пол">
-              <RadioGroup
-                name={`${sectionValuePath}.sex`}
-                value={formProps.values.personal.sex}
-                onChange={formProps.handleChange}>
-                <Radio value={0}>М</Radio>
-                <Radio value={1}>Ж</Radio>
-              </RadioGroup>
+          <Col xl={16} xxl={12}>
+            <FormField label="Время рождения">
+              {/*todo make birthTime correct binding*/}
+              {/* todo make correct bindings */}
+              <TimePicker
+                format={'HH:mm'}
+                name={'personal.birthTime'}
+                onChange={(_, timeString) => {
+                  formProps.setFieldValue(
+                    `${sectionValuePath}.birthTime`,
+                    timeString,
+                  );
+                }}
+              />
             </FormField>
           </Col>
         </Row>
-      </div>
-      <Divider />
-      <div>
-        <FormField label="СНИЛС" name={'personal.snils'}>
-          <FastMaskedInput
-            name={'personal.snils'}
-            mask="111-111-111 11"
-          />
-          {snilsWarning && snilsAlert()}
-          <Button loading={isLoading}>
-            Искать
+        <div className="registration-form__general">
+          <Row gutter={16}>
+            <Col>
+              <FormField label="Рост" name={'personal.height'}>
+                <FastInputNumber min={0} name={'personal.height'} />
+              </FormField>
+            </Col>
+            <Col>
+              <FormField label="Вес" name={'personal.weight'}>
+                <FastInputNumber min={0} name={'personal.weight'} />
+              </FormField>
+            </Col>
+            <Col>
+              <FormField label="Пол">
+                <RadioGroup
+                  name={`${sectionValuePath}.sex`}
+                  value={formProps.values.personal.sex}
+                  onChange={formProps.handleChange}>
+                  <Radio value={0}>М</Radio>
+                  <Radio value={1}>Ж</Radio>
+                </RadioGroup>
+              </FormField>
+            </Col>
+          </Row>
+        </div>
+        <Divider />
+        <div>
+          <FormField label="СНИЛС" name={'personal.snils'}>
+            <FastMaskedInput
+              name={'personal.snils'}
+              mask="111-111-111 11"
+            />
+            {snilsWarning && snilsAlert()}
+            <Button loading={isLoading} onClick={onSnilsSearch}>
+              Искать
+            </Button>
+          </FormField>
+        </div>
+        <Divider />
+        <div>
+          <Checkbox
+            name={`${sectionValuePath}.isShiftWorker`}
+            onChange={formProps.handleChange}
+            checked={formProps.values.personal.isShiftWorker}>
+            вахтовик
+          </Checkbox>
+        </div>
+        <Divider />
+        <div>
+          <FormField label="Место рождения">
+            <FastInput name={'personal.birthPlace'} />
+          </FormField>
+        </div>
+        <Divider />
+        <div className="registration-form__actions">
+          <Button type="link" danger onClick={onCancel}>
+            Отмена
           </Button>
-        </FormField>
-      </div>
-      <Divider />
-      <div>
-        <Checkbox
-          name={`${sectionValuePath}.isShiftWorker`}
-          onChange={formProps.handleChange}
-          checked={formProps.values.personal.isShiftWorker}>
-          вахтовик
-        </Checkbox>
-      </div>
-      <Divider />
-      <div>
-        <FormField label="Место рождения">
-          <FastInput name={'personal.birthPlace'} />
-        </FormField>
-      </div>
-      <Divider />
-      <div className="registration-form__actions">
-        <Button type="link" danger onClick={onCancel}>
-          Отмена
-        </Button>
-        <Button
-          onClick={() => {
-            Object.keys(errors).length > 0 && onOpen();
-            formProps.handleSubmit();
-          }}
-          className="save-btn">
-          Сохранить
-        </Button>
-      </div>
-    </form>
+          <Button
+            onClick={() => {
+              Object.keys(errors).length > 0 && onOpen();
+              formProps.handleSubmit();
+            }}
+            className="save-btn">
+            Сохранить
+          </Button>
+        </div>
+      </form>
+      <SnilsFound
+        isVisible={snilsFoundMessage && !isLoading}
+        onClose={onCloseModal}
+        data={items}
+        onOk={onSelectSnils}
+      />
+    </>
   );
 };
 

@@ -6,7 +6,9 @@ import PatientFiltersQueryPayload from '../../interfaces/payloads/patients/patie
 import FilterSearchPatientResponse from '../../interfaces/responses/patients/filterSearchPatient';
 import PatientPolicyResponse from '../../interfaces/responses/patients/patientPolicy';
 import FindPolicyParams from '../../interfaces/payloads/patients/findPatientPolicy';
+import FindSnilsParams from "../../interfaces/payloads/patients/findPatientSnils";
 import NewPatientPayload from '../../interfaces/payloads/patients/newPatient';
+import PatientSnilsSearchResponse from "../../interfaces/responses/patients/patientSnilsSearch";
 
 export default {
   fetchPatients: function (
@@ -121,5 +123,9 @@ export default {
           Authorization: `Bearer ${token}`
         }
       });
+  },
+
+  findPatientSnils(params: FindSnilsParams): Promise<AxiosResponse<PatientSnilsSearchResponse>> {
+    return apiInstance.post('/client/tfoms/getSnils', params);
   },
 };
