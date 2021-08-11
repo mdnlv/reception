@@ -88,8 +88,11 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
     if (!formValues.firstName && !formValues.lastName && !formValues.patrName) {
       setErrorSnilsMessage(true);
     } else {
+      //@ts-ignore
       dispatch(findPatientSnils({
-        ...(formValues.birthDate && {birthDate: format(formValues.birthDate as Date, 'yyyy-MM-dd')}),
+        ...(formValues.birthDate
+          // @ts-ignore
+          && {birthDate: typeof formValues.birthDate === Date ? format(formValues.birthDate as Date, 'yyyy-MM-dd') : formValues.birthDate}),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         patrName: formValues.patrName,
