@@ -1,5 +1,3 @@
-import {PolicyAttachesType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
-
 export default interface PatientPolicySearchResponse {
   smoId: {
     id: number;

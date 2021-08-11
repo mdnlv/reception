@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
-// @ts-ignore
-import { RootState } from '../store';
+import {RootState} from "../../reduxStore/store";
 
 export const detailedInvalidReasonsSelector = createSelector(
   (state: RootState) => state.rb.rbInvalidReasons,
@@ -29,6 +28,7 @@ export const detailedOrganisationsSelector = createSelector(
 export const detailedPersonsSelector = createSelector(
   (state: RootState) => state.rb.rbPersons,
   (persons) =>
+    //@ts-ignore
     persons.map((item:{
       id:string;
       lastName:string;
@@ -103,6 +103,7 @@ export const detailedContactTypes = createSelector(
 );
 
 export const detailedPatientDocumentsTypes = createSelector(
+  //@ts-ignore
   (state: RootState) => state.rb.rbPatientDocumentsTypes,
   (types) =>
     types.map((item:{id:number;

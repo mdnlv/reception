@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
 import {format} from "date-fns";
+import {useSelector} from "react-redux";
 
 import {ModalProps} from "./types";
+import {detailedOrgStructureSelector} from "../../../reduxStore/slices/rb/selectors";
 
 const PoliciesFound: React.FC<ModalProps> = ({
   isVisible,
@@ -11,6 +13,8 @@ const PoliciesFound: React.FC<ModalProps> = ({
   onOk,
   cmoType
 }) => {
+  const orgStructure = useSelector(detailedOrgStructureSelector);
+
   return (
     <Modal
       wrapClassName='app-modal'
@@ -55,23 +59,35 @@ const PoliciesFound: React.FC<ModalProps> = ({
           </Row>
           <Row>
             <Col span={13}>действителен:</Col>
-            {policy?.from && policy?.to ? (
-              //@ts-ignore
-              <Col span={11}>с {format(policy.from, 'd.MM.yyyy')} до {format(policy.to, 'd.MM.yyyy')}</Col>
-            ) : null}
+            <Col span={11}>
+              {/*@ts-ignore*/}
+              {policy.from && `с ${format(policy.from, 'd.MM.yyyy')} `}{policy.to && `до ${format(policy.to, 'd.MM.yyyy')}`}
+            </Col>
           </Row>
-          {/*{policy.attachList && policy.attachList.length > 0 ? (*/}
-          {/*  <>*/}
-          {/*    <Row justify={'start'}>*/}
-          {/*      <Typography.Text strong>Список прикреплений</Typography.Text>*/}
-          {/*    </Row>*/}
-          {/*    {policy?.attachList?.map((item, index) => (*/}
-          {/*      <Row justify={'start'} key={index}>*/}
-          {/*        <Typography.Text>({item.net.code}) {item.mo.shortName} {item.net.name}</Typography.Text>*/}
-          {/*      </Row>*/}
-          {/*    ))}*/}
-          {/*  </>*/}
-          {/*) : null}*/}
+          {policy.attach ? (
+            <>
+              <Row justify={'start'}>
+                <Typography.Text strong>Найдено прикрепление:</Typography.Text>
+              </Row>
+              <Row justify={'start'}>
+                <Typography.Text>
+                  {orgStructure.find((item) => item.id === parseInt(policy.attach || ''))?.name}
+                </Typography.Text>
+              </Row>
+            </>
+          ) : null}
+          {policy.attachList && policy.attachList.length > 0 ? (
+            <>
+              <Row justify={'start'}>
+                <Typography.Text strong>Список прикреплений:</Typography.Text>
+              </Row>
+              {policy?.attachList?.map((item, index) => (
+                <Row justify={'start'} key={index}>
+                  <Typography.Text>{item}</Typography.Text>
+                </Row>
+              ))}
+            </>
+          ) : null}
         </>
         ) : (
         <Row justify={'center'}>

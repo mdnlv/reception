@@ -14,18 +14,6 @@ export interface PassportContactTypeDeleted extends Modify<PassportContactType, 
   deleted?: 1;
 }> {}
 
-export interface PolicyAttachesType {
-  mo: {
-    id: number;
-    shortName: string;
-  };
-  net: {
-    id: number;
-    code: string;
-    name: string;
-  };
-}
-
 export interface PassportPolicyType {
   [key: string]: any;
   id?: number;
@@ -45,7 +33,8 @@ export interface PassportPolicyType {
   ogrn?: string;
   infisCode?: string;
   smoShort?: string;
-  attachList?: PolicyAttachesType[];
+  attach?: string;
+  attachList?: number[];
 }
 
 export interface PassportPolicyTypeDeleted extends Modify<PassportPolicyType, {

@@ -15,6 +15,7 @@ const transformPolicySearchResponse = (item: PatientPolicySearchResponse) => {
     name: '',
     note: '',
     enp: item.enp,
+    attach: item.attach,
     attachList: item.attachList,
   };
 };
