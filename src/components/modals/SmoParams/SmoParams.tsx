@@ -12,19 +12,14 @@ import FastInput from "../../forms/components/fields/FastInput/FastInput";
 const SmoParams: React.FC<ModalProps> = ({
   isVisible,
   onClose,
-  policyKey,
   getKladrDetailed,
   onCancel,
   onOk,
   index
 }) => {
   const form = useFormikContext<WizardStateType>();
-  const formValues = policyKey === 'policyOms' || index
-    ? form.values.personDocs.policies[index || 0]
-    : form.values.passportGeneral.policyDms;
-  const sectionValuePath = policyKey !== 'policyDms' || index
-    ? `personDocs.policies[${index}]`
-    : `passportGeneral.policyDms`;
+  const formValues = form.values.personDocs.policies[index || 0];
+  const sectionValuePath = `personDocs.policies[${index || 0}]`;
 
   useEffect(() => {
     const handleEnter = (event: KeyboardEvent) => {
