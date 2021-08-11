@@ -38,11 +38,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const patrName = form.values.personal.patrName;
   const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
-  // @ts-ignore
-  const docSerial = form.values.personDocs.documents[0]
-    ? form.values.personDocs.documents[0].serialFirst?.concat(form.values.personDocs.documents[0].serialSecond)
-    : '';
-  const docNumber = form.values.personDocs.documents[0] ? form.values.personDocs.documents[0].number : '';
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
@@ -153,17 +148,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
           name: 'birthDate',
           value: values.birthDate
         },
-        {
-          name: 'docNumber',
-          value: values.docNumber
-        }
       ];
       let data = [] as string[];
       fields.map((item) => {
         if (!item.value) {
           item.name === 'lastName' && data.push('Не заполнена фамилия!');
           item.name === 'birthDate' && data.push('Не заполнена дата рождения!');
-          item.name === 'docNumber' && data.push('Не заполнен номер паспорта!');
         }
       });
       setErrorsData(data);
@@ -217,8 +207,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
                 console.log('birthDate', birthDate);
                 onFindPolicyHandler({
                   birthDate,
-                  docNumber,
-                  docSerial,
                   firstName,
                   lastName,
                   patrName,

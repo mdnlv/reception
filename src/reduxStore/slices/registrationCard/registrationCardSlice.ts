@@ -173,16 +173,7 @@ export const findPatientSnils = createAsyncThunk(
       setFindSnilsLoading(true),
     );
     try {
-      const birthDate = typeof payload.birthDate === 'string'
-        ? format(parseISO(payload.birthDate), 'yyyy-MM-dd')
-        //@ts-ignore
-        : format(payload.birthDate, 'yyyy-MM-dd');
-      const response = await PatientsService.findPatientSnils(
-        {
-          ...payload,
-          birthDate,
-        }
-      );
+      const response = await PatientsService.findPatientSnils(payload);
       if (response.status === 200) {
         thunkAPI.dispatch(
           setSnilsFoundMessage(true),

@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 import apiInstance from '../api';
 import PatientResponse from '../../interfaces/responses/patients/patient';
@@ -126,6 +126,6 @@ export default {
   },
 
   findPatientSnils(params: FindSnilsParams): Promise<AxiosResponse<PatientSnilsSearchResponse>> {
-    return apiInstance.post('/client/tfoms/getSnils', params);
+    return axios.post('http://neftu1:8096/api/client/tfoms/getSnils', params);
   },
 };

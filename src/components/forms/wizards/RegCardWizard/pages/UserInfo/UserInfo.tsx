@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
 import {useDispatch, useSelector} from 'react-redux';
+import {format} from "date-fns";
 
 import {WizardStateType} from '../../types';
 import UserInfoTypes from "./types";
@@ -38,6 +39,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
     (state: RootState) => state.registrationCard,
   );
   const [snilsWarning, setSnilsWarning] = useState('');
+  const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
 
   // useEffect(() => {
   //   console.log('formValues', formValues);
@@ -83,21 +85,27 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   }, []);
 
   const onSnilsSearch = () => {
-    if (typeof formValues.birthDate === 'string') {
+    if (!formValues.firstName && !formValues.lastName && !formValues.patrName) {
+      setErrorSnilsMessage(true);
+    } else {
       dispatch(findPatientSnils({
-        birthDate: formValues.birthDate,
+        ...(formValues.birthDate && {birthDate: format(formValues.birthDate as Date, 'yyyy-MM-dd')}),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         patrName: formValues.patrName,
         sex: formValues.sex,
       }));
     }
-  }
+  };
 
-  const onSelectSnils = (value: string) => formProps.setFieldValue(`${sectionValuePath}.snils`, value);
+  const onSelectSnils = (value: string) => {
+    formProps.setFieldValue(`${sectionValuePath}.snils`, value);
+    dispatch(setSnilsFoundMessage(false));
+  }
 
   const onCloseModal = () => {
     dispatch(setSnilsFoundMessage(false));
+    setErrorSnilsMessage(false);
   };
 
   const snilsAlert = () => (
@@ -220,6 +228,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         onClose={onCloseModal}
         data={items}
         onOk={onSelectSnils}
+        errorMessage={errorSnilsMessage}
       />
     </>
   );
