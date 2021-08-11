@@ -92,7 +92,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       dispatch(findPatientSnils({
         ...(formValues.birthDate
           // @ts-ignore
-          && {birthDate: typeof formValues.birthDate === Date ? format(formValues.birthDate as Date, 'yyyy-MM-dd') : formValues.birthDate}),
+          && {birthDate: typeof formValues.birthDate === 'string' ? formValues.birthDate : format(formValues.birthDate as Date, 'yyyy-MM-dd')}),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         patrName: formValues.patrName,
