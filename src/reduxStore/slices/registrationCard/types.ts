@@ -83,8 +83,8 @@ interface FormState extends InitialRegFormState {
     };
   };
   foundPolicies: {
-    dms: { items: PassportPolicyType[]; isLoading: boolean };
-    oms: { items: PassportPolicyType[]; isLoading: boolean };
+    item: PassportPolicyType | null;
+    isLoading: boolean;
   };
   foundSnils: {
     items: SnilsFound[];

@@ -28,9 +28,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
-  const formValues = policyKey === 'policyOms' ? form.values.personDocs.policies[0] : form.values.passportGeneral.policyDms;
-  const sectionValuePath = policyKey === 'policyOms' ? `personDocs.policies[0]` : `passportGeneral.policyDms`;
-  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
+  const formValues = form.values.personDocs.policies[0];
+  const sectionValuePath = `personDocs.policies[0]`;
+  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name', 'enp'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
   const firstName = form.values.personal.firstName;
@@ -244,6 +244,14 @@ const PolicyAddForm: React.FC<FormProps> = ({
             <FastDatePicker
               disabled={isLoading}
               name={`${sectionValuePath}.to`}
+            />
+          </FormField>
+        </Col>
+        <Col xl={5} xxl={4}>
+          <FormField label={'ЕНП'} name={`${sectionValuePath}.enp`}>
+            <FastInput
+              disabled={isLoading}
+              name={`${sectionValuePath}.enp`}
             />
           </FormField>
         </Col>

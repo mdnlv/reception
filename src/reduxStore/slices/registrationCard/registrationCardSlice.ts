@@ -15,7 +15,6 @@ import {PassportAddressType} from "../../../components/forms/wizards/RegCardWiza
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
-import PatientSnilsSearchResponse from "../../../interfaces/responses/patients/patientSnilsSearch";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -280,7 +279,7 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<boolean>,
     ) => {
-      state.form.foundPolicies.oms.isLoading = action.payload;
+      state.form.foundPolicies.isLoading = action.payload;
     },
     setFindSnilsLoading: (
       state,
@@ -355,19 +354,12 @@ const registrationCardSlice = createSlice({
       if (action.payload && action.payload.length > 0) {
         const transformedPatient = transformPatientResponse(action.payload[0]);
         // console.log('transformedPatient', transformedPatient);
-        const dms = transformedPatient.policy.filter(
-          (item) => parseInt(item.type) === 3,
-        );
         const oms = transformedPatient.policy.filter(
           (item) => parseInt(item.type) !== 3,
         );
         const omsFound = oms[oms.length - 1];
-        const dmsFound = dms[dms.length - 1];
         const restOmsPolicies = oms.filter(
           (item) => item.id !== omsFound.id
-        );
-        const restDmsPolicies = dms.filter(
-          (item) => item.id !== dmsFound.id
         );
         const documentInitial = {
           id: undefined,
@@ -391,6 +383,7 @@ const registrationCardSlice = createSlice({
           to: '',
           type: '',
           deleted: 0,
+          enp: '',
           inn: '',
           ogrn: '',
           infisCode: '',
@@ -465,19 +458,13 @@ const registrationCardSlice = createSlice({
         // @ts-ignore
         state.initialFormState.personDocs.policies = [
           ...omsFound ? [omsFound] : [policyInitial],
-          ...dmsFound ? [dmsFound] : [],
           ...restOmsPolicies,
-          ...restDmsPolicies,
         ];
         state.initialFormState.personDocs.policiesDeleted = [];
         // @ts-ignore
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
         // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
-        state.initialFormState.passportGeneral.policyDms =
-          dmsFound
-            ? dmsFound
-            : state.initialFormState.passportGeneral.policyDms;
         // @ts-ignore
         state.initialFormState.socialStatus.socialStatus =
           transformedPatient.socialStatus.map((item) => ({
@@ -659,12 +646,12 @@ const registrationCardSlice = createSlice({
     });
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload) {
-        // @ts-ignore
-        state.form.foundPolicies.oms.items =
-          Object.keys(action.payload).length !== 0 && action.payload.constructor === Object ? [
-          // @ts-ignore
-          transformPolicySearchResponse(action.payload),
-        ] : [];
+        //@ts-ignore
+        state.form.foundPolicies.item =
+          Object.keys(action.payload).length !== 0 && action.payload.constructor === Object
+            //@ts-ignore
+            ? transformPolicySearchResponse(action.payload)
+            : null;
       }
     });
     builder.addCase(findPatientSnils.fulfilled, (state, action) => {

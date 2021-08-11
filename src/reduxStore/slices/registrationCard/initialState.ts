@@ -122,24 +122,6 @@ const initialState: RegistrationCardStateType = {
         contacts: [] as PassportContactType[],
         deleted: [] as PassportContactTypeDeleted[]
       },
-      policyDms: {
-        id: undefined,
-        cmoArea: '',
-        cmo: "",
-        from: '',
-        name: "",
-        note: "",
-        number: "",
-        serial: "",
-        timeType: "",
-        to: '',
-        type: '',
-        deleted: 0,
-        inn: '',
-        ogrn: '',
-        infisCode: '',
-        smoShort: '',
-      },
     },
     personDocs: {
       documents: [
@@ -168,6 +150,7 @@ const initialState: RegistrationCardStateType = {
           note: '',
           deleted: 0,
           inn: '',
+          enp: '',
           ogrn: '',
           infisCode: '',
           smoShort: '',
@@ -283,24 +266,6 @@ const initialState: RegistrationCardStateType = {
         contacts: [] as PassportContactType[],
         deleted: [] as PassportContactTypeDeleted[]
       },
-      policyDms: {
-        id: undefined,
-        cmoArea: '',
-        cmo: "",
-        from: '',
-        name: "",
-        note: "",
-        number: "",
-        serial: "",
-        timeType: "",
-        to: '',
-        type: '',
-        deleted: 0,
-        inn: '',
-        ogrn: '',
-        infisCode: '',
-        smoShort: '',
-      },
     },
     personDocs: {
       documents: [
@@ -329,6 +294,7 @@ const initialState: RegistrationCardStateType = {
           note: '',
           deleted: 0,
           inn: '',
+          enp: '',
           ogrn: '',
           infisCode: '',
           smoShort: '',
@@ -392,8 +358,8 @@ const initialState: RegistrationCardStateType = {
       },
     },
     foundPolicies: {
-      dms: { items: [] as PassportPolicyType[], isLoading: false },
-      oms: { items: [] as PassportPolicyType[], isLoading: false },
+      item: null,
+      isLoading: false
     },
     foundSnils: {
       items: [],

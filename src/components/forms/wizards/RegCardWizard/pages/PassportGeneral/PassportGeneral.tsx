@@ -35,7 +35,7 @@ import AddressRegistration from "./sections/AddressRegistration/AddressRegistrat
 
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
-  const { dms, oms } = useSelector(
+  const {item, isLoading} = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
   const {policiesFoundMessage} = useSelector(
@@ -141,9 +141,9 @@ const PassportGeneral: React.FC = () => {
         <Col span={24} className={'col--border-right'}>
           <PolicyAddForm
             cmoType={cmoTypeList}
-            isLoading={oms.isLoading}
+            isLoading={isLoading}
             isCmoLoading={organisations}
-            foundPolicy={oms.items[0]}
+            foundPolicy={item}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
@@ -166,8 +166,8 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <PoliciesFound
-        isVisible={policiesFoundMessage && !oms.isLoading}
-        policy={oms.items[0]}
+        isVisible={policiesFoundMessage && !isLoading}
+        policy={item}
         onClose={onCloseModal.bind(this)}
         onOk={onOkModal.bind(this)}
         cmoType={cmoTypeList}

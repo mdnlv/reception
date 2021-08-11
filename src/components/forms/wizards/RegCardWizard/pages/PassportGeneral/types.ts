@@ -39,6 +39,7 @@ export interface PassportPolicyType {
   type: string;
   name?: string;
   note?: string;
+  enp?: string;
   deleted?: 0;
   inn?: string;
   ogrn?: string;
@@ -101,5 +102,4 @@ export default interface FormState {
     contacts: PassportContactType[];
     deleted: PassportContactTypeDeleted[];
   };
-  policyDms: PassportPolicyType;
 }

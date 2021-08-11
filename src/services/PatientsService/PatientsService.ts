@@ -9,6 +9,7 @@ import FindPolicyParams from '../../interfaces/payloads/patients/findPatientPoli
 import FindSnilsParams from "../../interfaces/payloads/patients/findPatientSnils";
 import NewPatientPayload from '../../interfaces/payloads/patients/newPatient';
 import PatientSnilsSearchResponse from "../../interfaces/responses/patients/patientSnilsSearch";
+import PatientPolicySearchResponse from "../../interfaces/responses/patients/patientPolicySearch";
 
 export default {
   fetchPatients: function (
@@ -114,7 +115,7 @@ export default {
     );
   },
 
-  findPatientPolicy(token: string, params: FindPolicyParams): Promise<AxiosResponse<PatientPolicyResponse>> {
+  findPatientPolicy(token: string, params: FindPolicyParams): Promise<AxiosResponse<PatientPolicySearchResponse>> {
     return apiInstance.post(
       '/client/tfoms/getPolicyHmao',
       params,

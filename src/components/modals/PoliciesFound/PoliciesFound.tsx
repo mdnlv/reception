@@ -50,24 +50,28 @@ const PoliciesFound: React.FC<ModalProps> = ({
             <Col span={11}>{policy?.number}</Col>
           </Row>
           <Row>
+            <Col span={13}>ЕНП:</Col>
+            <Col span={11}>{policy?.enp}</Col>
+          </Row>
+          <Row>
             <Col span={13}>действителен:</Col>
             {policy?.from && policy?.to ? (
               //@ts-ignore
               <Col span={11}>с {format(policy.from, 'd.MM.yyyy')} до {format(policy.to, 'd.MM.yyyy')}</Col>
             ) : null}
           </Row>
-          {policy.attachList && policy.attachList.length > 0 ? (
-            <>
-              <Row justify={'start'}>
-                <Typography.Text strong>Список прикреплений</Typography.Text>
-              </Row>
-              {policy?.attachList?.map((item, index) => (
-                <Row justify={'start'} key={index}>
-                  <Typography.Text>({item.net.code}) {item.mo.shortName} {item.net.name}</Typography.Text>
-                </Row>
-              ))}
-            </>
-          ) : null}
+          {/*{policy.attachList && policy.attachList.length > 0 ? (*/}
+          {/*  <>*/}
+          {/*    <Row justify={'start'}>*/}
+          {/*      <Typography.Text strong>Список прикреплений</Typography.Text>*/}
+          {/*    </Row>*/}
+          {/*    {policy?.attachList?.map((item, index) => (*/}
+          {/*      <Row justify={'start'} key={index}>*/}
+          {/*        <Typography.Text>({item.net.code}) {item.mo.shortName} {item.net.name}</Typography.Text>*/}
+          {/*      </Row>*/}
+          {/*    ))}*/}
+          {/*  </>*/}
+          {/*) : null}*/}
         </>
         ) : (
         <Row justify={'center'}>

@@ -4,7 +4,7 @@ import {ListOptionItem} from "../../forms/PolicyAddForm/types";
 export interface ModalProps {
   isVisible: boolean;
   onClose?(): void;
-  policy?: PassportPolicyType;
+  policy?: PassportPolicyType | null;
   onOk?(): void;
   cmoType: ListOptionItem[];
 }
