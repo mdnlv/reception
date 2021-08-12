@@ -7,6 +7,7 @@ export default interface AddressResponse {
       modifyDatetime: string;
       modifyPerson_id: number | null;
       deleted: boolean;
+      KLADRRegionCode?: string;
       KLADRCode?: string;
       KLADRStreetCode?: string;
       number?: string;

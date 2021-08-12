@@ -410,8 +410,8 @@ const registrationCardSlice = createSlice({
               addressId: transformedPatient.address[0].addressId,
               addressHouseId: transformedPatient.address[0].address.addressHouseId,
               isKLADR: Boolean(!transformedPatient.address[0].freeInput),
-              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
-              area: transformedPatient.address[0].address.KLADRCode,
+              city: transformedPatient.address[0].address.KLADRCode,
+              area: transformedPatient.address[0].address.KLADRRegionCode,
               street: transformedPatient.address[0].address.KLADRStreetCode,
               houseId: transformedPatient.address[0].address.houseId,
               houseNumber: transformedPatient.address[0].address.house,
@@ -429,8 +429,8 @@ const registrationCardSlice = createSlice({
               addressId: transformedPatient.address[1].addressId,
               addressHouseId: transformedPatient.address[1].address.addressHouseId,
               isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
-              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
-              area: transformedPatient.address[1]?.address.KLADRCode,
+              city: transformedPatient.address[1].address.KLADRCode,
+              area: transformedPatient.address[1].address.KLADRRegionCode,
               street: transformedPatient.address[1]?.address.KLADRStreetCode,
               houseId: transformedPatient.address[1].address.houseId,
               houseNumber: transformedPatient.address[1]?.address.house,
@@ -544,11 +544,7 @@ const registrationCardSlice = createSlice({
             detachmentReason: item.detachmentReason?.toString() || '',
             deleted: 0,
           })
-        )
-        state.initialFormState.passportGeneral.passportInfo.documentedAddress.area =
-          transformedPatient.address[0]?.address.KLADRCode || '';
-        state.initialFormState.passportGeneral.passportInfo.addressRegistration.area =
-          transformedPatient.address[1]?.address.KLADRCode || '';
+        );
         state.initialFormState.outsideIdentification.outsideIds = transformedPatient.outsideIds.map(
           (item) => ({
             id: item.id,

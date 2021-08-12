@@ -129,6 +129,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
 
         address: {
           addressHouseId: item.address.address_house.id,
+          KLADRRegionCode: item.address.address_house.KLADRRegionCode,
           KLADRCode: item.address.address_house.KLADRCode,
           KLADRStreetCode: item.address.address_house.KLADRStreetCode,
           house: item.address.address_house.number,
