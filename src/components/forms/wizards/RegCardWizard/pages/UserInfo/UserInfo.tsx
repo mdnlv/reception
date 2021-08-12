@@ -185,7 +185,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         </div>
         <Divider />
         <div>
-          <Row gutter={16} align={'middle'}>
+          <Row gutter={16} align={'top'}>
             <Col span={16}>
               <FormField label="СНИЛС" name={'personal.snils'}>
                 <FastMaskedInput
@@ -196,7 +196,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
               </FormField>
             </Col>
             <Col span={8}>
-              <Button loading={isLoading} onClick={onSnilsSearch}>
+              <Button type="primary" loading={isLoading} onClick={onSnilsSearch}>
                 Искать
               </Button>
             </Col>
@@ -208,7 +208,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
             name={`${sectionValuePath}.isShiftWorker`}
             onChange={formProps.handleChange}
             checked={formProps.values.personal.isShiftWorker}>
-            вахтовик
+            Вахтовик
           </Checkbox>
         </div>
         <Divider />

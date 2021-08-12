@@ -202,6 +202,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         {policyKey === 'policyOms' && (
           <Col>
             <Button
+              type="primary"
               loading={isLoading}
               onClick={() => {
                 console.log('birthDate', birthDate);

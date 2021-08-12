@@ -58,7 +58,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     // ...hasCard && {hasCard},
     // ...onlyTempRegistration && {onlyTempRegistration},
     sex: sex === 0 ? 1 : 2,
-    SNILS: snils.replace(/-|\s+/g,""),
+    ...(snils && {SNILS: snils.replace(/-|\s+/g, "")}),
     weight: weight.toString(),
     growth: height.toString(),
 
