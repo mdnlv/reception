@@ -30,9 +30,9 @@ const DocumentedAddress: FC<SectionProps> = ({
   const formInitialValues = form.initialValues.passportGeneral.passportInfo.documentedAddress;
   const sectionValuePath = `passportGeneral.passportInfo.documentedAddress`;
 
-  // useEffect(() => {
-  //   console.log('kladr', kladr);
-  // }, [kladr]);
+  useEffect(() => {
+    console.log('kladrStreets', kladrStreets);
+  }, [kladrStreets]);
 
   useEffect(() => {
     dispatch(setDocumentedBuffer({value: formValues, type: 'setDocumentedBuffer'}))

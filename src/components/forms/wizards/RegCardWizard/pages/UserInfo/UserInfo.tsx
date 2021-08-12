@@ -112,7 +112,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   };
 
   const snilsAlert = () => (
-    <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
+    <p style={{color: '#ff4d4f', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
       {snilsWarning}
     </p>
   );
@@ -185,16 +185,22 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         </div>
         <Divider />
         <div>
-          <FormField label="СНИЛС" name={'personal.snils'}>
-            <FastMaskedInput
-              name={'personal.snils'}
-              mask="111-111-111 11"
-            />
-            {snilsWarning && snilsAlert()}
-            <Button loading={isLoading} onClick={onSnilsSearch}>
-              Искать
-            </Button>
-          </FormField>
+          <Row gutter={16} align={'middle'}>
+            <Col span={16}>
+              <FormField label="СНИЛС" name={'personal.snils'}>
+                <FastMaskedInput
+                  name={'personal.snils'}
+                  mask="111-111-111 11"
+                />
+                {snilsWarning && snilsAlert()}
+              </FormField>
+            </Col>
+            <Col span={8}>
+              <Button loading={isLoading} onClick={onSnilsSearch}>
+                Искать
+              </Button>
+            </Col>
+          </Row>
         </div>
         <Divider />
         <div>

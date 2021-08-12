@@ -48,7 +48,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
   const [showValidError, setShowValidError] = useState(false);
-  const [activeTab, setActiveTab] = useState('passportGeneral');
 
   useEffect(() => {
     if (params.id !== 'new') {
@@ -68,7 +67,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   }
 
   const getTabs = useCallback(() => (
-    <Tabs defaultActiveKey="passportGeneral" activeKey={activeTab} onChange={setActiveTab}>
+    <Tabs defaultActiveKey="passportGeneral">
       <Tabs.TabPane
         forceRender={false}
         key={'passportGeneral'}
@@ -136,7 +135,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       {/*  <Etc/>*/}
       {/*</Tabs.TabPane>*/}
     </Tabs>
-  ), [activeTab]);
+  ), []);
 
   return isLoading ? (
     <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
@@ -183,7 +182,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
               onClose={() => setShowValidError(false)}
               // @ts-ignore
               errors={errors}
-              setActiveTab={setActiveTab}
             />
           </Row>
         )

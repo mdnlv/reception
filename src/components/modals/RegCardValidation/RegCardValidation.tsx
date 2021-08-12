@@ -7,7 +7,6 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
   isVisible,
   onClose,
   errors,
-  setActiveTab,
 }) => {
   const getTabName = (name: string) => {
     switch (name) {
@@ -35,7 +34,6 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
   const onModalClose = () => {
     const keyNames = Object.keys(errors);
     const tab = keyNames[0] === 'personal' ? 'passportGeneral' : keyNames[0];
-    setActiveTab(tab);
     onClose && onClose();
   }
 
