@@ -630,7 +630,7 @@ const registrationCardSlice = createSlice({
         state.form.data.passportGeneral.documentedAddress = {
           ...state.form.data.passportGeneral.documentedAddress,
           kladrNested: action.payload.items,
-          kladrStreets: [],
+          // kladrStreets: [],
         };
       } else if (
         action.payload?.type === 'registration' &&
@@ -639,7 +639,7 @@ const registrationCardSlice = createSlice({
         state.form.data.passportGeneral.addressRegistration = {
           ...state.form.data.passportGeneral.addressRegistration,
           kladrNested: action.payload.items,
-          kladrStreets: [],
+          // kladrStreets: [],
         };
       }
     });
