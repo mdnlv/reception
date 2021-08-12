@@ -306,7 +306,7 @@ const AddressRegistration: FC<SectionProps> = ({
               checked={formValues.isDocumentedAddress}
               name={`${sectionValuePath}.isDocumentedAddress`}
               onChange={form.handleChange}>
-              Соответствует адресу прописки
+              Соответствует адресу регистрации
             </Checkbox>
           </FormField>
         </Col>
