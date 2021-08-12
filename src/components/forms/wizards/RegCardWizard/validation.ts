@@ -42,31 +42,6 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       type: Yup.string().required('Не выбран тип полиса')
     })),
   }),
-  socialStatus: Yup.object({
-    socialStatus: Yup.array().of(Yup.object({
-      class: Yup.string().required('Не выбран класс'),
-      statusType: Yup.string().required('Не выбран тип статуса'),
-      fromDate: Yup.string().required('Не введена дата начала'),
-      endDate: Yup.string().required('Не введена дата окончания'),
-      document: Yup.object({
-        passportType: Yup.string().required('Не выбран тип документа'),
-        fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
-      }),
-    })),
-  }),
-  employment: Yup.object({
-    hazardHistory: Yup.array().of(Yup.object({
-      hazardDescription: Yup.string().required('Не выбран тип вредности'),
-      factor: Yup.string().required('Не выбран фактор')
-    }))
-  }),
-  attachments: Yup.object({
-    attachments: Yup.array().of(Yup.object({
-      type: Yup.string().required('Не выбран тип прикрепления'),
-      lpu: Yup.string().required('Не выбрано ЛПУ'),
-      unit: Yup.string().required('Не выбрано подразделение')
-    }))
-  })
 });
 
 export default validation
