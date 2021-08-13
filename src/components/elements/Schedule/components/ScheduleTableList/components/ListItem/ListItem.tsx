@@ -36,15 +36,17 @@ const ListItem: React.FC<ItemProps> = ({
   person_list,
   showEmpty,
   groupBy,
-  parents,
   showOrg,
-  open,
-  setParentTogg
+  open
 }) => {
-  const [togg, setTogg] = useState(toggle ? true : undefined);
-  const [personIds, setPersonIds] = useState<number[]>([]);
+  const [togg, setTogg] = useState(toggle);
+  const [personIds, setPersonIds] = useState<number[]>(person_list.map((item: any) => item.id));
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
+  
+  useEffect(()=>{
+    setTogg(toggle)
+  },[toggle])
 
   useEffect(()=>{
     setPersonIds(person_list.map((item: any) => item.id))
@@ -60,10 +62,10 @@ const ListItem: React.FC<ItemProps> = ({
           end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
           showEmpty: showEmpty
       })); 
-      setParentTogg && setParentTogg(true)
+      onToggle(id, personIds);
     }
   },[togg]);
- 
+
   return (<>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
@@ -175,10 +177,8 @@ const ListItem: React.FC<ItemProps> = ({
             setCurrentDay={setCurrentDay}
             showEmpty={showEmpty}
             groupBy={groupBy}
-            parents={[...parents, id]}
             open={open}
             showOrg={showOrg}
-            setParentTogg={setTogg}
           />
         )
       })}

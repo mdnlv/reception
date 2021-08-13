@@ -41,14 +41,14 @@ const MainPage: FC = () => {
     dispatch(fetchKladr({}));
   }, []);
 
-  const loadSchedule = useCallback((id: number[], beg_date: string, end_date: string, showEmpty: boolean) => {
+  const loadSchedule = (id: number[], beg_date: string, end_date: string, showEmpty: boolean) => {
     dispatch(fetchSchedules({
       id: id,
       beg_date: beg_date,
       end_date: end_date,
       showEmpty: showEmpty
     }));
-  }, []);
+  }
 
   const postTicket = useCallback((data: ActionPost, id:number[], beg_date: string, end_date: string) => {
     dispatch(actionTicket({

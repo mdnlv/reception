@@ -16,9 +16,10 @@ const Schedule: React.FC<any> = (props) => {
   
   const dispatch = useDispatch();
   const personTree = useSelector((state:RootState) => state.person_tree.person_tree);
+  const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
 
-  const onToggleScheduleRow = useCallback(
-    (id: number, person_ids: number[]) => {
+  const onToggleScheduleRow = useCallback((id: number, person_ids: number[]) => {
+    if(!isFiltered) {    
       if (!!selected.find((item) => item === id)) {
         setSelected((prevState) => prevState.filter((item) => item !== id));
         person_ids.map((person_id: number) => {setSelectedPerson((prevState) => prevState.filter((item) => item !== person_id))});
@@ -26,10 +27,10 @@ const Schedule: React.FC<any> = (props) => {
         setSelected((prevState) => [...prevState, id]);
         setSelectedPerson((prevState) => [...prevState, ...person_ids]);
       }
-    },
-    [setSelected, selected],
-  );
-
+    } else {
+      setSelectedPerson((prevState) => [...prevState, ...person_ids]);
+    }
+  },[setSelected, selected]);
 
   const onSearchButtonClick = (query: string) => {
     dispatch(query == '' ? 
@@ -54,6 +55,7 @@ const Schedule: React.FC<any> = (props) => {
     setFilter({})
     setSelected([]);
     setSelectedPerson([]);
+    setShowEmpty(false)
   }, [groupBy]);
 
   useEffect(()=>{
@@ -66,6 +68,7 @@ const Schedule: React.FC<any> = (props) => {
     onOpenSearch();
   }, []);
 
+  // Число найденых врачей
   const tableDoctorsCount = useMemo(() => {
     let count = 0;
     function calc(arr: any) {
@@ -120,6 +123,7 @@ const Schedule: React.FC<any> = (props) => {
         selected={selected}
         setSelected={setSelected}
         selectedPerson={selectedPerson}
+        searchCount={tableDoctorsCount}
         onToggleScheduleRow={onToggleScheduleRow}
         clientTableType={props.clientTableType}
       />

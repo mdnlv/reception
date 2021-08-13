@@ -28,11 +28,9 @@ export interface ItemProps {
   currentDay? : Date | undefined;
   showEmpty: boolean;
   groupBy?: 'speciality_id' | 'orgStructure_id';
-  parents: number[];
   showOrg?: number;
   open?: number[];
   setOpen?(arg: number[]): void;
-  setParentTogg?(arg: boolean | undefined): void;
 }
 
 export interface PersonTree {

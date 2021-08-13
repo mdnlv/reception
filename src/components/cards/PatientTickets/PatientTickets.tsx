@@ -134,7 +134,7 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
               onRow={(record, rowIndex) => {
                 return {
                   onContextMenu: event => {
-                    setActionData(data[Number(rowIndex)].actionData)
+                    setActionData(data[record.key].actionData)
                   },
                 };
               }}

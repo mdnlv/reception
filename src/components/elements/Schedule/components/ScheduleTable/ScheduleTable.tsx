@@ -74,7 +74,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     );
   }, [rangeWeekDate]);
 
-
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
       setCurrentDate(date);
       setRangeWeek(endDate);
@@ -86,6 +85,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
           end_date: moment(endDate).format('YYYY-MM-DD'),
           showEmpty: showEmpty
         }));    
+      console.log(selectedPerson)
     };
 
   const onScheduleModeChange = useCallback(

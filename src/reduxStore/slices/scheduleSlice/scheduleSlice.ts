@@ -49,9 +49,7 @@ export const fetchItems = createAsyncThunk(
     thunkAPI.dispatch(setLoading(true));
     try {
       const response = await ScheduleService.fetchItems(state.auth.token, payload);
-      if (response.data) {
-        return response.data;
-      }
+      return response.data;
     } catch (e) {
       console.log(e)
     } finally {
@@ -180,7 +178,6 @@ const scheduleSlice = createSlice({
 
     builder.addCase(fetchItems.fulfilled, (state, action) => {
       if(action.payload) {
-
         let key =  Object.keys(action.payload)[0];
         let value: any = Object.values(action.payload)[0];
         if(state.schedules[Number(key)]) {
@@ -189,7 +186,7 @@ const scheduleSlice = createSlice({
           let obj = Object.assign(state.schedules, action.payload);
           state.schedules = obj;
         }
-      }
+      } else state.schedules = action.payload;
     });
 
     builder.addCase(actionTicket.fulfilled, (state, action) => {
