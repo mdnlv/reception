@@ -122,6 +122,15 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   return (
     <>
       <form className="wizard-step registration-form">
+        <div>
+          <Checkbox
+            name={`${sectionValuePath}.isUnknown`}
+            onChange={formProps.handleChange}
+            checked={formValues.isUnknown}>
+            Неизвестный
+          </Checkbox>
+        </div>
+        <Divider />
         <FormField label="Код">
           <FastInput disabled name={'personal.code'} />
         </FormField>

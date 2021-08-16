@@ -57,6 +57,7 @@ const initialState: RegistrationCardStateType = {
       birthPlace: '',
       isSedentary: false,
       isShiftWorker: false,
+      isUnknown: false,
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],

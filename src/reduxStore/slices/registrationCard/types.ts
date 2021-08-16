@@ -57,6 +57,7 @@ interface InitialRegFormState {
     docPersonId: string;
     isSedentary: boolean;
     isShiftWorker: boolean;
+    isUnknown: boolean;
   };
 }
 
