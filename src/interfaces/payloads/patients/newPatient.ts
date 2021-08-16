@@ -12,7 +12,7 @@ export default interface NewPatientPayload {
   patrName: string;
   birthDate: string;
   birthTime: string | null;
-  sex: 1 | 2;
+  sex: 1 | 2 | null;
   SNILS: string;
   growth: string;
   weight: string;

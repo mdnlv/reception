@@ -394,7 +394,9 @@ const registrationCardSlice = createSlice({
           firstName: action.payload[0].firstName,
           lastName: action.payload[0].lastName,
           patrName: action.payload[0].patrName,
-          sex: transformedPatient.sex === 2 ? 1 : 0,
+          sex: transformedPatient.sex === 2
+                ? 1
+                : transformedPatient.sex === 1 ? 0 : null,
           birthDate: transformedPatient.birthDate,
           birthPlace: transformedPatient.birthPlace,
           height: transformedPatient.growth,

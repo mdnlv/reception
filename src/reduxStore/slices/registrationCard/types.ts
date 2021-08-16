@@ -48,7 +48,7 @@ interface InitialRegFormState {
     weight: number;
     snils: string;
     startCardDate: Date | string;
-    sex: 0 | 1;
+    sex: 0 | 1 | null;
     hasImplants: boolean;
     hasProsthesis: boolean;
     birthPlace: string;

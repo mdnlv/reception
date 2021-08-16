@@ -46,7 +46,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   // }, [formValues]);
 
   useEffect(() => {
-    formValues.code && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
+    formValues.code
+      && formValues.sex
+      && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
   }, [formValues.code]);
 
   useEffect(() => {
@@ -180,7 +182,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
               </FormField>
             </Col>
             <Col>
-              <FormField label="Пол">
+              <FormField label="Пол" name={`${sectionValuePath}.sex`}>
                 <RadioGroup
                   name={`${sectionValuePath}.sex`}
                   value={formProps.values.personal.sex}
