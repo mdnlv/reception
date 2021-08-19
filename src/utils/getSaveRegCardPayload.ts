@@ -58,7 +58,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     // ...hasCard && {hasCard},
     // ...onlyTempRegistration && {onlyTempRegistration},
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
-    ...(snils && {SNILS: snils.replace(/-|\s+/g, "")}),
+    SNILS: snils.replace(/-|\s+/g, ""),
     weight: weight.toString(),
     growth: height.toString(),
 
@@ -119,8 +119,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         insurer_id: parseInt(item.cmo),
         policyType_id: item.type ? parseInt(item.type) : null,
         policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-        begDate: toServerFormat(item.from),
-        endDate: toServerFormat(item.to),
+        begDate: typeof item.from === 'string' ? item.from : toServerFormat(item.from),
+        endDate: typeof item.to === 'string' ? item.to : toServerFormat(item.to),
         note: item.note,
         name: item.name,
         number: item.number,
@@ -194,54 +194,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }] : []),
     ],
 
-    //@ts-ignore
-    client_soc_status_info: [
-      ...socialStatus.socialStatus.map((item) => ({
-        ...(item.id && {id: item.id}),
-        ...(item.document.id && {document_id: item.document.id}),
-        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
-        socStatusClass_id: item.class ? parseInt(item.class) : null,
-        begDate: toServerFormat(item.fromDate),
-        endDate: toServerFormat(item.endDate),
-        notes: item.note || '',
-        deleted: 0 as 0,
-        document: !(Object.keys(item.document).length === 0 && item.document.constructor === Object)
-          ? {
-            ...(item.document.id && {id: item.document.id}),
-            documentType_id: parseInt(item.document.passportType || ''),
-            serial: item.document.serialFirst?.concat(item.document.serialSecond || '') || '',
-            number: item.document.number || '',
-            origin: item.document.givenBy || '',
-            date: item.document.fromDate ? format(item.document.fromDate, 'yyyy-MM-dd') : '',
-          }
-          : {}
-      })),
-      ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
-        if (item.id) {
-          res.push({
-            id: item.id,
-            socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
-            socStatusClass_id: item.class ? parseInt(item.class) : null,
-            begDate: toServerFormat(item.fromDate),
-            endDate: toServerFormat(item.endDate),
-            notes: item.note || '',
-            deleted: 1 as 1,
-            document: item.docType
-              ? {
-                ...(item.docId && {id: item.docId}),
-                documentType_id: parseInt(item.docType || ''),
-                serial: item.serialFirst?.concat(item.serialSecond || '') || '',
-                number: item.number || '',
-                origin: item.givenBy || '',
-                date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
-              }
-              : {}
-          })
-        }
-        return res;
-      }, []),
-    ],
-
     client_relation_info: [
       ...directLinks.directLinks.map((item) => ({
         ...(item.id && {id: item.id}),
@@ -280,198 +232,5 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         return res;
       }, []),
     ],
-
-    client_work_info: [
-      ...state.registrationCard.form.employment.employment.map((item) => ({
-        ...(item.id && {id: item.id}),
-        ...(item.organization && {org_id: parseInt(item.organization)}),
-        post: item.position,
-        stage: item.experience,
-        freeInput: item.freeInput || "",
-        client_work_hurt_info: item.hazardHistory.map((a) => ({
-          ...(item.id && {master_id: item.id}),
-          ...(a.id && {id: a.id}),
-          hurtType_id: parseInt(a.hazardDescription),
-          stage: a.hazardExp
-        })),
-        client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
-          ...(b.id && {id: b.id}),
-          ...(item.id && {master_id: item.id}),
-          factorType_id: parseInt(b.factor)
-        })),
-        deleted: 0 as 0,
-      })),
-      ...state.registrationCard.form.employment.deleted.reduce((res: PatientWork[], item) => {
-        if (item.id) {
-          res.push({
-            id: item.id,
-            ...(item.organization && {org_id: parseInt(item.organization)}),
-            post: item.position,
-            stage: item.experience,
-            freeInput: item.freeInput || "",
-            //@ts-ignore
-            client_work_hurt_info: item.hazardHistory.map((a) => ({
-              ...(item.id && {master_id: item.id}),
-              ...(a.id && {id: a.id}),
-              hurtType_id: parseInt(a.hazardDescription),
-              stage: a.hazardExp
-            })),
-            //@ts-ignore
-            client_work_hurt_factor_info: item.hazardFactors.map((b) => ({
-              ...(b.id && {id: b.id}),
-              ...(item.id && {master_id: item.id}),
-              factorType_id: parseInt(b.factor)
-            })),
-            deleted: 1 as 1,
-          })
-        }
-        return res;
-      }, [])
-    ],
-
-    client_attach_info: [
-      ...state.registrationCard.form.attachments.attachments.map(
-        (item) => ({
-          ...(item.id && {id: item.id}),
-          LPU_id: parseInt(item.lpu),
-          attachType_id: parseInt(item.type),
-          //@ts-ignore
-          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
-          //@ts-ignore
-          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
-          orgStructure_id: parseInt(item.unit),
-          detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
-          deleted: 0 as 0,
-        }),
-      ),
-      ...state.registrationCard.form.attachments.deleted.reduce((res: PatientAttach[], item) => {
-        if (item.id) {
-          res.push({
-            id: item.id,
-            LPU_id: parseInt(item.lpu),
-            attachType_id: parseInt(item.type),
-            //@ts-ignore
-            begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
-            //@ts-ignore
-            endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
-            orgStructure_id: parseInt(item.unit),
-            detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
-            deleted: 1 as 1,
-          })
-        }
-        return res;
-      }, []),
-    ],
-
-    client_identification_info: [
-      ...state.registrationCard.form.outsideIdentification.outsideIds.map(
-        (item) => ({
-          ...(item.id && {id: item.id}),
-          accountingSystem_id: parseInt(item.outsideSchema),
-          identifier: 'Да',
-          checkDate: format(item.date, 'yyyy-MM-dd'),
-          deleted: 0 as 0,
-        })
-      ),
-      ...state.registrationCard.form.outsideIdentification.deleted.reduce((res: PatientIdInfo[], item) => {
-        if (item.id) {
-          res.push({
-            id: item.id,
-            accountingSystem_id: parseInt(item.outsideSchema),
-            identifier: 'Да',
-            checkDate: format(item.date, 'yyyy-MM-dd'),
-            deleted: 1 as 1,
-          })
-        }
-        return res;
-      }, [])
-    ],
-
-    // ...(state.registrationCard.form.outsideIdentification.outsideIds.length > 0) && {
-    //   client_outside_identification: state.registrationCard.form.outsideIdentification.outsideIds.map(
-    //     (item) => item,
-    //   ),
-    // },
-
-    // ...(state.registrationCard.form.viewTypes.viewTypes.length > 0) && {
-    //   client_view_types: state.registrationCard.form.viewTypes.viewTypes.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.features.features.length > 0) && {
-    //   client_features: state.registrationCard.form.features.features.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.features.allergy.length > 0) && {
-    //   client_allergy: state.registrationCard.form.features.allergy.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.features.medIntolerance.length > 0) && {
-    //   client_med_intolerance: state.registrationCard.form.features.medIntolerance.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.features.inspections.length > 0) && {
-    //   client_inspections: state.registrationCard.form.features.inspections.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.features.anthropometricDate.length > 0) && {
-    //   client_anthropometric: state.registrationCard.form.features.anthropometricDate.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.privileges.privileges.length > 0) && {
-    //   client_privileges: state.registrationCard.form.privileges.privileges.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.privileges.invalidity.length > 0) && {
-    //   client_invalidity: state.registrationCard.form.privileges.invalidity.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.offences.offences.length > 0) && {
-    //   client_offences: state.registrationCard.form.offences.offences.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.additionalHospitalization.hospitalizations.length > 0) && {
-    //   client_additional_hospitalization: state.registrationCard.form.additionalHospitalization.hospitalizations.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.outsideHospitalization.outsideHospitalization.length > 0) && {
-    //   client_outside_hospitalization: state.registrationCard.form.outsideHospitalization.outsideHospitalization.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.etc.items.length > 0) && {
-    //   client_etc: state.registrationCard.form.etc.items.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.personDocs.idDoc.length > 0) && {
-    //   client_id_doc: state.registrationCard.form.personDocs.idDoc.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.personDocs.policy.length > 0) && {
-    //   client_policy: state.registrationCard.form.personDocs.policy.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.personDocs.socialStatus.length > 0) && {
-    //   client_social_status: state.registrationCard.form.personDocs.socialStatus.map(
-    //     (item) => item,
-    //   ),
-    // },
-    // ...(state.registrationCard.form.personDocs.namedDoc.length > 0) && {
-    //   client_named_doc: state.registrationCard.form.personDocs.namedDoc.map(
-    //     (item) => item,
-    //   ),
-    // },
   };
 };

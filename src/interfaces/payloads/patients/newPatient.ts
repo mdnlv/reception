@@ -42,8 +42,6 @@ export default interface NewPatientPayload {
   // client_named_doc: NamedDoc[];
 
   client_contact_info: PatientContact[];
-  client_soc_status_info: PatientSocStatus[];
-  client_work_info: PatientWork[];
 
   client_policy_info: {
     insurer_id: number | null;
@@ -90,6 +88,4 @@ export default interface NewPatientPayload {
   }[];
 
   client_relation_info?: PatientRelation[];
-  client_attach_info?: PatientAttach[];
-  client_identification_info?: PatientIdInfo[];
 }
