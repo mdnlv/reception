@@ -33,6 +33,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const dispatch = useDispatch();
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
+  const formIsUnknown = formProps.values.isUnknown;
   const sectionValuePath = `personal`;
   const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
   const {snilsFoundMessage} = useSelector(
@@ -126,9 +127,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       <form className="wizard-step registration-form">
         <div>
           <Checkbox
-            name={`${sectionValuePath}.isUnknown`}
+            name={`isUnknown`}
             onChange={formProps.handleChange}
-            checked={formValues.isUnknown}>
+            checked={formIsUnknown}>
             Неизвестный
           </Checkbox>
         </div>

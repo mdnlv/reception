@@ -37,6 +37,7 @@ const initialState: RegistrationCardStateType = {
   policiesFoundMessage: false,
   snilsFoundMessage: false,
   initialFormState: {
+    isUnknown: false,
     personal: {
       code: '',
       firstName: '',
@@ -57,7 +58,6 @@ const initialState: RegistrationCardStateType = {
       birthPlace: '',
       isSedentary: false,
       isShiftWorker: false,
-      isUnknown: false,
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],
@@ -184,6 +184,7 @@ const initialState: RegistrationCardStateType = {
     },
   },
   form: {
+    isUnknown: false,
     personal: {
       firstName: '',
       lastName: '',
@@ -204,7 +205,6 @@ const initialState: RegistrationCardStateType = {
       docPersonId: '',
       isSedentary: false,
       isShiftWorker: false,
-      isUnknown: false,
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],

@@ -22,6 +22,7 @@ import KladrStreet from "../../../types/data/KladrStreet";
 export type KladrDocType = 'documented' | 'registration';
 
 interface InitialRegFormState {
+  isUnknown: boolean;
   additionalHospitalization: AdditionalHospitalizationFormState;
   attachments: AttachmentsFormState;
   employment: EmploymentFormState;
@@ -57,7 +58,6 @@ interface InitialRegFormState {
     docPersonId: string;
     isSedentary: boolean;
     isShiftWorker: boolean;
-    isUnknown: boolean;
   };
 }
 
