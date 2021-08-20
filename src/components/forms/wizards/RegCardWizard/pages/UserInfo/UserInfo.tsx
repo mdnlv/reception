@@ -47,6 +47,14 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   // }, [formValues]);
 
   useEffect(() => {
+    if (formIsUnknown && formValues.sex !== null) {
+      formValues.sex
+        ? formProps.setFieldValue(`${sectionValuePath}.lastName`, 'Неизвестная Женщина')
+        : formProps.setFieldValue(`${sectionValuePath}.lastName`, 'Неизвестный Мужчина')
+    }
+  }, [formIsUnknown, formValues.sex]);
+
+  useEffect(() => {
     formValues.code
       && formValues.sex
       && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
