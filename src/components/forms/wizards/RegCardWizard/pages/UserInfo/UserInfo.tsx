@@ -28,6 +28,7 @@ import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastM
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import SnilsFound from "../../../../../modals/SnilsFound/SnilsFound";
+import UnknownInfo from "../../../../../modals/UnknownInfo/UnknownInfo";
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   );
   const [snilsWarning, setSnilsWarning] = useState('');
   const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
+  const [showUnknownForm, setShowUnknownForm] = useState(false);
 
   // useEffect(() => {
   //   console.log('formValues', formValues);
@@ -115,11 +117,15 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const onSelectSnils = (value: string) => {
     formProps.setFieldValue(`${sectionValuePath}.snils`, value);
     dispatch(setSnilsFoundMessage(false));
-  }
+  };
 
-  const onCloseModal = () => {
+  const onCloseSnilsFoundModal = () => {
     dispatch(setSnilsFoundMessage(false));
     setErrorSnilsMessage(false);
+  };
+
+  const onCloseUnknownInfoModal = () => {
+    setShowUnknownForm(false);
   };
 
   const snilsAlert = () => (
@@ -254,10 +260,15 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       </form>
       <SnilsFound
         isVisible={snilsFoundMessage && !isLoading}
-        onClose={onCloseModal}
+        onClose={onCloseSnilsFoundModal}
         data={items}
         onOk={onSelectSnils}
         errorMessage={errorSnilsMessage}
+      />
+      <UnknownInfo
+        isVisible={showUnknownForm}
+        onCancel={onCloseUnknownInfoModal}
+        onOk={}
       />
     </>
   );

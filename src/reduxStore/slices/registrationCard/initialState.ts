@@ -59,6 +59,10 @@ const initialState: RegistrationCardStateType = {
       isSedentary: false,
       isShiftWorker: false,
     },
+    personalUnknown: {
+      addressUnknown: '',
+      ageUnknown: '',
+    },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],
     },
@@ -205,6 +209,10 @@ const initialState: RegistrationCardStateType = {
       docPersonId: '',
       isSedentary: false,
       isShiftWorker: false,
+    },
+    personalUnknown: {
+      addressUnknown: '',
+      ageUnknown: '',
     },
     additionalHospitalization: {
       hospitalizations: [] as PersonAddHospitalization[],

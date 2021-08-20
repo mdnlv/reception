@@ -59,6 +59,10 @@ interface InitialRegFormState {
     isSedentary: boolean;
     isShiftWorker: boolean;
   };
+  personalUnknown: {
+    addressUnknown: string;
+    ageUnknown: string;
+  };
 }
 
 interface FormState extends InitialRegFormState {
