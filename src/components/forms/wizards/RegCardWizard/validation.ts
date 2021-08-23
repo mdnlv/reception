@@ -3,6 +3,15 @@ import {FormikErrors} from "formik";
 
 import {ValidationType} from "./types";
 
+Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
+  return this.test('test-compare-with-today', errorMessage, function (value: string) {
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    const todayParsed = Date.parse(new Date());
+    return valueParsed < todayParsed || createError({ path, message: errorMessage })
+  });
+});
+
 const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   isUnknown: Yup.boolean(),
   personal: Yup.object().when('isUnknown', {
@@ -10,7 +19,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     then: Yup.object({
       lastName: Yup.string().required('Не введена фамилия пациента'),
       firstName: Yup.string().required('Не введено имя пациента'),
-      birthDate: Yup.string().required('Не введена дата рождения'),
+      birthDate: Yup.string().required('Не введена дата рождения').compareWithToday('бла бла введена ненаступившая дата'),
       snils: Yup.string().required('Не введен СНИЛС')
         .transform(value => value.replace(/[^0-9]/g, ''))
         .min(11, "Бла бла значение должно содержать 11 цифр"),
