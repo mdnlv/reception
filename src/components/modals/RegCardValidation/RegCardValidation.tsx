@@ -25,15 +25,8 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
     }
   };
 
-  const getNameItem = (item: string) => {
-    const itemArr = item.match(/[^ ]+/g);
-    itemArr?.splice(0, 2);
-    return itemArr?.join(' ');
-  };
-
   const onModalClose = () => {
     const keyNames = Object.keys(errors);
-    const tab = keyNames[0] === 'personal' ? 'passportGeneral' : keyNames[0];
     onClose && onClose();
   }
 
@@ -42,18 +35,18 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
     for (let key in obj) {
       const item = obj[key];
       if (typeof item === 'string') {
-        errNameArr.push(getNameItem(item) || '');
+        errNameArr.push(item || '');
       } else if (Array.isArray(item)) {
         for (let i = 0; i < item.length; i++) {
           for (let innerKey in item[i]) {
             const innerItem = item[i][innerKey];
             if (typeof innerItem === 'string') {
               !errNameArr.includes(innerItem)
-              && errNameArr.push(getNameItem(innerItem) || '');
+              && errNameArr.push(innerItem || '');
             } else if (typeof innerItem === 'object' && innerItem !== null) {
               for (let nestedKey in innerItem) {
                 const nestedItem = innerItem[nestedKey];
-                errNameArr.push(getNameItem(nestedItem) || '');
+                errNameArr.push(nestedItem || '');
               }
             }
           }
@@ -62,13 +55,13 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
         for (let innerKey in item) {
           const innerItem = item[innerKey];
           if (typeof innerItem === 'string') {
-            errNameArr.push(getNameItem(innerItem) || '');
+            errNameArr.push(innerItem || '');
           } else if (Array.isArray(innerItem)) {
             for (let i = 0; i < innerItem.length; i++) {
               for (let nestedKey in innerItem[i]) {
                 const nestedItem = innerItem[i][nestedKey];
                 !errNameArr.includes(nestedItem)
-                && errNameArr.push(getNameItem(nestedItem) || '');
+                && errNameArr.push(nestedItem || '');
               }
             }
           }

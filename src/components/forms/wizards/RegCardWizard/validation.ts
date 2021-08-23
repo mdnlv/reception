@@ -17,26 +17,26 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object().when('isUnknown', {
     is: false,
     then: Yup.object({
-      lastName: Yup.string().required('Не введена фамилия пациента'),
-      firstName: Yup.string().required('Не введено имя пациента'),
-      birthDate: Yup.string().required('Не введена дата рождения').compareWithToday('бла бла введена ненаступившая дата'),
-      sex: Yup.boolean().nullable().required('Не выбран пол'),
-      snils: Yup.string().required('Не введен СНИЛС')
+      lastName: Yup.string().required('фамилия пациента'),
+      firstName: Yup.string().required('имя пациента'),
+      birthDate: Yup.string().required('дата рождения').compareWithToday('введена ненаступившая дата рождения'),
+      sex: Yup.boolean().nullable().required('пол'),
+      snils: Yup.string().required('СНИЛС')
         .transform(value => value.replace(/[^0-9]/g, ''))
-        .min(11, "Бла бла значение должно содержать 11 цифр"),
+        .min(11, "значение СНИЛС должно содержать 11 цифр"),
     }),
     otherwise: Yup.object({
-      sex: Yup.boolean().nullable().required('Не выбран пол'),
+      sex: Yup.boolean().nullable().required('пол'),
     }),
   }),
   passportGeneral: Yup.object().when('isUnknown', {
     is: false,
     then: Yup.object({
       contacts: Yup.array().nullable().of(Yup.object({
-        type: Yup.string().required('Не выбран тип телефона'),
+        type: Yup.string().required('тип телефона'),
         number: Yup.string().when('type', {
           is: value => value === '4' || value === '11',
-          then: Yup.string().required('Не введен e-mail').email('Не введен e-mail')
+          then: Yup.string().required('e-mail').email('e-mail')
         })
       })),
     }),
@@ -45,21 +45,21 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     is: false,
     then: Yup.object({
       documents: Yup.array().of(Yup.object({
-        passportType: Yup.string().required('Не выбран тип документа'),
-        serialFirst: Yup.string().required('Не введена серия документа'),
-        serialSecond: Yup.string().required('Не введена серия документа'),
-        number: Yup.string().required('Не введен номер документа'),
-        fromDate: Yup.string().required('Не введена дата выдачи').nullable(),
-        givenBy: Yup.string().required('Не введено кем выдан документ'),
+        passportType: Yup.string().required('тип документа'),
+        serialFirst: Yup.string().required('серия документа'),
+        serialSecond: Yup.string().required('серия документа'),
+        number: Yup.string().required('номер документа'),
+        fromDate: Yup.string().required('дата выдачи').nullable(),
+        givenBy: Yup.string().required('кем выдан документ'),
       })),
       policies: Yup.array().of(Yup.object({
-        timeType: Yup.string().required('Не выбран вид полиса'),
-        from: Yup.string().required('Не задана дата начала действия полиса').nullable(),
-        to: Yup.string().required('Не задана дата окончания действия полиса').nullable(),
-        serial: Yup.string().required('Не введена серия полиса'),
-        number: Yup.string().required('Не введен номер полиса'),
-        cmo: Yup.string().required('Не выбрана СМО'),
-        type: Yup.string().required('Не выбран тип полиса')
+        timeType: Yup.string().required('вид полиса'),
+        from: Yup.string().required('дата начала действия полиса').nullable(),
+        to: Yup.string().required('дата окончания действия полиса').nullable(),
+        serial: Yup.string().required('серия полиса'),
+        number: Yup.string().required('номер полиса'),
+        cmo: Yup.string().required('СМО'),
+        type: Yup.string().required('тип полиса')
       })),
     }),
   }),
