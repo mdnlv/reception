@@ -20,6 +20,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       lastName: Yup.string().required('Не введена фамилия пациента'),
       firstName: Yup.string().required('Не введено имя пациента'),
       birthDate: Yup.string().required('Не введена дата рождения').compareWithToday('бла бла введена ненаступившая дата'),
+      sex: Yup.boolean().nullable().required('Не выбран пол'),
       snils: Yup.string().required('Не введен СНИЛС')
         .transform(value => value.replace(/[^0-9]/g, ''))
         .min(11, "Бла бла значение должно содержать 11 цифр"),
