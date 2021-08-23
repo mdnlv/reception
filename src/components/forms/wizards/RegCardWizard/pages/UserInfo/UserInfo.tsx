@@ -35,7 +35,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
   const formIsUnknown = formProps.values.isUnknown;
+  const formUnknownValues = formProps.values.personalUnknown;
   const sectionValuePath = `personal`;
+  const addressValuePath = 'passportGeneral.passportInfo.addressRegistration';
   const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
   const {snilsFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
@@ -122,6 +124,18 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   const onCloseSnilsFoundModal = () => {
     dispatch(setSnilsFoundMessage(false));
     setErrorSnilsMessage(false);
+  };
+
+  const onSubmitUnknown = () => {
+    const dateNow = new Date();
+    const dayNow = dateNow.getUTCDay();
+    const monthNow = dateNow.getUTCMonth() + 1;
+    const yearNow = dateNow.getUTCFullYear();
+    const yearUnknown = yearNow - parseInt(formUnknownValues.ageUnknown);
+    formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
+    formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
+    formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
+    setShowUnknownForm(false);
   };
 
   const onCloseUnknownInfoModal = () => {
@@ -250,8 +264,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           </Button>
           <Button
             onClick={() => {
-              Object.keys(errors).length > 0 && onOpen();
-              formProps.handleSubmit();
+              if (formIsUnknown && (!formUnknownValues.addressUnknown || !formUnknownValues.ageUnknown)) {
+                setShowUnknownForm(true);
+              } else {
+                Object.keys(errors).length > 0 && onOpen();
+                formProps.handleSubmit();
+              }
             }}
             className="save-btn">
             Сохранить
@@ -268,7 +286,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
       <UnknownInfo
         isVisible={showUnknownForm}
         onCancel={onCloseUnknownInfoModal}
-        onOk={}
+        onOk={onSubmitUnknown}
       />
     </>
   );
