@@ -108,10 +108,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         ...(formValues.birthDate
           // @ts-ignore
           && {birthDate: typeof formValues.birthDate === 'string' ? formValues.birthDate : format(formValues.birthDate as Date, 'yyyy-MM-dd')}),
+        ...(formValues.sex && {sex: formValues.sex}),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         patrName: formValues.patrName,
-        sex: formValues.sex,
       }));
     }
   };

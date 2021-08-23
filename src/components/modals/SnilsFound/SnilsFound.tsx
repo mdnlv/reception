@@ -40,6 +40,8 @@ const SnilsFound: React.FC<ModalProps> = ({
   return (
     <Modal
       wrapClassName='app-modal'
+      width={'auto'}
+      title="Поиск СНИЛС"
       onCancel={onClose}
       visible={isVisible || errorMessage}
       footer={
