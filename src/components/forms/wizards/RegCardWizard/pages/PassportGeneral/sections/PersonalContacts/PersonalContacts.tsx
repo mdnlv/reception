@@ -88,7 +88,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 </div>
               </FormField>
             </Col>
-            <Col xl={21} xxl={5}>
+            <Col xl={21} xxl={7}>
               <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
                 <FastSearchSelect
                   name={getSelectionItem(index, 'type')}
@@ -108,7 +108,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 )}
               </FormField>
             </Col>
-            <Col span={9}>
+            <Col span={7}>
               <FormField label={LABELS.NOTE}>
                 <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>

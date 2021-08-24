@@ -4,9 +4,12 @@ import {FormikErrors} from "formik";
 import {ValidationType} from "./types";
 
 Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
+  //@ts-ignore
   return this.test('test-compare-with-today', errorMessage, function (value: string) {
+    //@ts-ignore
     const {path, createError} = this;
     const valueParsed = Date.parse(value);
+    //@ts-ignore
     const todayParsed = Date.parse(new Date());
     return valueParsed < todayParsed || createError({ path, message: errorMessage })
   });
@@ -19,6 +22,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     then: Yup.object({
       lastName: Yup.string().required('фамилия пациента'),
       firstName: Yup.string().required('имя пациента'),
+      //@ts-ignore
       birthDate: Yup.string().required('дата рождения').compareWithToday('введена ненаступившая дата рождения'),
       sex: Yup.boolean().nullable().required('пол'),
       snils: Yup.string().required('СНИЛС')
