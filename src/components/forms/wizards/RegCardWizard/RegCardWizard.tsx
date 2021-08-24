@@ -39,6 +39,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
   const [showValidError, setShowValidError] = useState(false);
+  const [showUnknownModal, setShowUnknownModal] = useState(false);
 
   useEffect(() => {
     if (params.id !== 'new') {
@@ -81,17 +82,26 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       initialValues={store}
       validationSchema={validation}
       onSubmit={(values) => {
-        if (params.id === 'new') {
-          dispatch(setFormSection(values));
-          dispatch(saveCardPatient());
-          navigation.push('/');
-          dispatch(resetRegCard());
-        } else {
-          dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
-          dispatch(setFormSection(values));
-          dispatch(editCardPatient());
-          navigation.push('/');
-          dispatch(resetRegCard());
+        if (
+          values.isUnknown
+            && (values.personal.sex !== null)
+            && !values.personal.birthDate
+            && !values.passportGeneral.passportInfo.addressRegistration.freeInput
+        ) {
+          setShowUnknownModal(true);
+        } else if (!values.isUnknown) {
+          if (params.id === 'new') {
+            dispatch(setFormSection(values));
+            dispatch(saveCardPatient());
+            navigation.push('/');
+            dispatch(resetRegCard());
+          } else {
+            dispatch(setPatientReg({type: 'setPatientReg', value: parseInt(params.id)}));
+            dispatch(setFormSection(values));
+            dispatch(editCardPatient());
+            navigation.push('/');
+            dispatch(resetRegCard());
+          }
         }
       }}
     >
@@ -105,6 +115,8 @@ const RegCardWizard: React.FC<WizardProps> = () => {
                   errors={errors}
                   fetchDoctors={fetchDoctors}
                   onOpen={setShowValidError.bind(this, true)}
+                  showUnknown={showUnknownModal}
+                  setShowUnknown={setShowUnknownModal}
                 />
               </Card>
             </Col>

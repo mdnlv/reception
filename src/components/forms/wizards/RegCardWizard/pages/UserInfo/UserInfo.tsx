@@ -30,7 +30,7 @@ import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDat
 import SnilsFound from "../../../../../modals/SnilsFound/SnilsFound";
 import UnknownInfo from "../../../../../modals/UnknownInfo/UnknownInfo";
 
-const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
+const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShowUnknown}) => {
   const dispatch = useDispatch();
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
@@ -44,7 +44,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
   );
   const [snilsWarning, setSnilsWarning] = useState('');
   const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
-  const [showUnknownForm, setShowUnknownForm] = useState(false);
 
   // useEffect(() => {
   //   console.log('formValues', formValues);
@@ -135,11 +134,11 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
     formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
     formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
     formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
-    setShowUnknownForm(false);
+    setShowUnknown(false);
   };
 
   const onCloseUnknownInfoModal = () => {
-    setShowUnknownForm(false);
+    setShowUnknown(false);
   };
 
   const snilsAlert = () => (
@@ -264,12 +263,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
           </Button>
           <Button
             onClick={() => {
-              if (formIsUnknown && (!formUnknownValues.addressUnknown || !formUnknownValues.ageUnknown)) {
-                setShowUnknownForm(true);
-              } else {
-                Object.keys(errors).length > 0 && onOpen();
-                formProps.handleSubmit();
-              }
+              Object.keys(errors).length > 0 && onOpen();
+              formProps.handleSubmit();
             }}
             className="save-btn">
             Сохранить
@@ -284,7 +279,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen}) => {
         errorMessage={errorSnilsMessage}
       />
       <UnknownInfo
-        isVisible={showUnknownForm}
+        isVisible={showUnknown}
         onCancel={onCloseUnknownInfoModal}
         onOk={onSubmitUnknown}
       />
