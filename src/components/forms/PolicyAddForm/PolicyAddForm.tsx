@@ -31,12 +31,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const formValues = form.values.personDocs.policies[0];
   const sectionValuePath = `personDocs.policies[0]`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name', 'enp'];
-  const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
+  const filterNames = ['smoShort', 'inn', 'ogrn'];
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
-  const patrName = form.values.personal.patrName;
-  const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
 
   const [policyMask, setPolicyMask] = useState('' as string);
@@ -66,12 +64,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
     }
   }, [formValues, policyKey]);
 
-  useEffect(() => {
-    if (formValues && !formValues?.cmoArea && Object.keys(formValues).length > 2) {
-      const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
-      form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
-    }
-  }, [formValues?.cmo]);
+  // useEffect(() => {
+  //   if (formValues && !formValues?.cmoArea && Object.keys(formValues).length > 2) {
+  //     const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
+  //     form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
+  //   }
+  // }, [formValues?.cmo]);
 
   useEffect(() => {
     if (foundPolicy) {
@@ -165,11 +163,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const onCloseModal = () => {
     setShowModal(false);
   };
-
-  // const onShowOrgsChoice = () => {
-  //   !formValues.cmoArea && form.setFieldValue(`${sectionValuePath}.cmoArea`, '8600000000000');
-  //   setShowOrgChoice(true);
-  // };
 
   const onCloseOrgsChoice = () => {
     setShowOrgChoice(false);
