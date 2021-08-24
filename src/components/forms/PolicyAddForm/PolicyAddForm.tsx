@@ -166,6 +166,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
     setShowModal(false);
   };
 
+  // const onShowOrgsChoice = () => {
+  //   !formValues.cmoArea && form.setFieldValue(`${sectionValuePath}.cmoArea`, '8600000000000');
+  //   setShowOrgChoice(true);
+  // };
+
   const onCloseOrgsChoice = () => {
     setShowOrgChoice(false);
   };
@@ -210,8 +215,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   birthDate,
                   firstName,
                   lastName,
-                  patrName,
-                  sex: sex?.toString(),
                 });
               }}>
               Искать
@@ -290,6 +293,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               showSearch
               disabled={isLoading}
               name={`${sectionValuePath}.cmo`}
+              allowClear
             >
               {getPropsOptions(cmoFiltered)}
             </FastSearchSelect>

@@ -7,7 +7,7 @@ import './styles.css';
 
 const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
   const [field, meta, form] = useField(props.name);
-  const value = props.loading? '':field.value;
+  const value = props.loading ? '' : field.value;
 
   return (
     <Select
