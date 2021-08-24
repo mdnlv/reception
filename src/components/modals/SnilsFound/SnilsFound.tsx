@@ -34,8 +34,15 @@ const SnilsFound: React.FC<ModalProps> = ({
   onOk,
   errorMessage
 }) => {
-  const [currentKey, setCurrentKey] = useState(data[0]?.key || null as number | null);
-  const [currentItem, setCurrentItem] = useState(data[0] || null as SnilsFoundType | null);
+  const [currentKey, setCurrentKey] = useState(null as number | null);
+  const [currentItem, setCurrentItem] = useState(null as SnilsFoundType | null);
+
+  useEffect(() => {
+    if (data.length) {
+      setCurrentKey(data[0]?.key);
+      setCurrentItem(data[0]);
+    }
+  }, [data]);
 
   return (
     <Modal
@@ -46,13 +53,21 @@ const SnilsFound: React.FC<ModalProps> = ({
       visible={isVisible || errorMessage}
       footer={
         data.length ? (
-          <Row justify={'end'}>
-            <Button type="primary" onClick={() => onOk(currentItem.snils)} className={'save-btn'}>
-              Да
-            </Button>
-            <Button type="primary" onClick={onClose} danger>
-              Нет
-            </Button>
+          <Row justify={'space-between'}>
+            <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о СНИЛС?</Typography.Text>
+            <div>
+              <Button
+                type="primary"
+                disabled={!currentItem}
+                onClick={currentItem ? () => onOk(currentItem.snils) : undefined}
+                className={'save-btn'}
+              >
+                Да
+              </Button>
+              <Button type="primary" onClick={onClose} danger>
+                Нет
+              </Button>
+            </div>
           </Row>
         ) : null
       }

@@ -227,17 +227,21 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
           <Row gutter={16} align={'top'}>
             <Col span={16}>
               <FormField label="СНИЛС" name={'personal.snils'}>
-                <FastMaskedInput
-                  name={'personal.snils'}
-                  mask="111-111-111 11"
-                />
+                <Row>
+                  <Col span={16}>
+                    <FastMaskedInput
+                      name={'personal.snils'}
+                      mask="111-111-111 11"
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <Button type="primary" loading={isLoading} onClick={onSnilsSearch}>
+                      Искать
+                    </Button>
+                  </Col>
+                </Row>
                 {snilsWarning && snilsAlert()}
               </FormField>
-            </Col>
-            <Col span={8}>
-              <Button type="primary" loading={isLoading} onClick={onSnilsSearch}>
-                Искать
-              </Button>
             </Col>
           </Row>
         </div>
