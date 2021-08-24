@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { useFormikContext } from 'formik';
+import { useFormikContext, useField } from 'formik';
 import {
   Button,
   Checkbox,
@@ -38,6 +38,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const formUnknownValues = formProps.values.personalUnknown;
   const sectionValuePath = `personal`;
   const addressValuePath = 'passportGeneral.passportInfo.addressRegistration';
+  const [_, meta] = useField<string>(`${sectionValuePath}.sex`);
   const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
   const {snilsFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
@@ -209,7 +210,11 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
                 <FastInputNumber min={0} name={'personal.weight'} />
               </FormField>
             </Col>
-            <Col>
+            <Col style={
+              meta.error && meta.touched
+                ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.1)'}
+                : {}
+            }>
               <FormField label="Пол" name={`${sectionValuePath}.sex`}>
                 <RadioGroup
                   name={`${sectionValuePath}.sex`}
