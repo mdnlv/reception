@@ -85,6 +85,7 @@ const SnilsFound: React.FC<ModalProps> = ({
             onRow={(record) => {
               return {
                 onClick: () => {
+                  setCurrentKey(record.key);
                   setCurrentItem(record);
                 },
               };
