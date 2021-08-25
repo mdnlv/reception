@@ -95,7 +95,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   };
 
   const onCancel = useCallback(() => {
-    window.top.postMessage(JSON.stringify({action:'closeAction'}),'*');
+    window.top.postMessage(JSON.stringify({action:'closeDialog'}),'*');
   }, []);
 
   const onSnilsSearch = () => {
