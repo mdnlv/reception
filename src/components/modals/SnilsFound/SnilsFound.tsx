@@ -93,7 +93,7 @@ const SnilsFound: React.FC<ModalProps> = ({
           />
         ) : errorMessage ? (
           <Row justify={'center'}>
-            <Typography.Text strong style={{fontSize: 18}}>Запрос без параметров не поддерживается!</Typography.Text>
+            <Typography.Text strong style={{fontSize: 18}}>Запрос без параметров ФИО не поддерживается!</Typography.Text>
           </Row>
         ) : (
           <Row justify={'center'}>
