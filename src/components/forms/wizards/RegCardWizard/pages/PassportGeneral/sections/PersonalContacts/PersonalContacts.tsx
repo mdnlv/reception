@@ -17,6 +17,13 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
 
+  useEffect(() => {
+    const resIndex = formProps.findIndex((item) => item.type === '3');
+    resIndex > -1
+      && !formProps[resIndex].number
+      && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7');
+  }, [formProps]);
+
   const onAddContact = useCallback(() => {
     const item: PassportContactType = {
       isMain: false,
