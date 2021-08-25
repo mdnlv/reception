@@ -184,7 +184,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   };
 
   const onCancelCmoFilter = () => {
-    setCmoFiltered(cmoType);
+    // setCmoFiltered(cmoType);
     filterNames.map((item) => {
       form.setFieldValue(`${sectionValuePath}.${item}`, '')
     })
