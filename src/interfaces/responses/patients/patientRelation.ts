@@ -9,4 +9,5 @@ export default interface PatientRelationResponse {
   relativeType_id: number;
   relative_id: number;
   freeInput: string | null;
+  relativeName: string;
 }

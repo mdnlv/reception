@@ -165,6 +165,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
       relativeTypeId: item.relativeType_id,
       relativeId: item.relative_id,
       clientId: item.client_id,
+      relativeName: item.relativeName,
     })),
   };
 }

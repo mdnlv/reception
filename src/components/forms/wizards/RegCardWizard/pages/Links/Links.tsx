@@ -27,8 +27,9 @@ const Links: React.FC = () => {
   const patients = useSelector((state: RootState) => state.patients.foundPatients );
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
+  //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
+  // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {

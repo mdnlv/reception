@@ -59,10 +59,9 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   }, [formIsUnknown, formValues.sex]);
 
   useEffect(() => {
-    formValues.code
-      && formValues.sex
+    formValues.sex !== null
       && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
-  }, [formValues.code]);
+  }, [formValues.sex]);
 
   useEffect(() => {
     formValues.lastName && formProps.setFieldValue(`${sectionValuePath}.lastName`, dataCapitalize(formValues.lastName));

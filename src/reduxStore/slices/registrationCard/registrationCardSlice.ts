@@ -561,7 +561,7 @@ const registrationCardSlice = createSlice({
               res.push({
                 id: item.id,
                 forwardRef: item.relativeId,
-                refName: 'здесь будет ФИО',
+                refName: item.relativeName,
                 patientLink: item.relativeTypeId ? item.relativeTypeId.toString() : '',
                 deleted: 0
               });
@@ -573,7 +573,7 @@ const registrationCardSlice = createSlice({
             res.push({
               id: item.id,
               forwardRef: item.relativeId,
-              refName: 'здесь будет ФИО',
+              refName: item.relativeName,
               patientLink: item.relativeTypeId ? item.relativeTypeId.toString() : '',
               deleted: 0
             });
