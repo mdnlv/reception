@@ -127,10 +127,11 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
 
   const onSubmitUnknown = () => {
     const dateNow = new Date();
-    const dayNow = dateNow.getUTCDay();
+    const dayNow = dateNow.getUTCDate();
     const monthNow = dateNow.getUTCMonth() + 1;
     const yearNow = dateNow.getUTCFullYear();
     const yearUnknown = yearNow - parseInt(formUnknownValues.ageUnknown);
+    console.log('date', `${yearUnknown}-${monthNow}-${dayNow}`);
     formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
     formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
     formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);

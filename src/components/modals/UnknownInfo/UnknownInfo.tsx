@@ -1,4 +1,4 @@
-import React, {useEffect, KeyboardEvent} from 'react';
+import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {Modal, Row, Button} from "antd";
 import { useFormikContext } from 'formik';
 
@@ -16,6 +16,13 @@ const UnknownInfo: React.FC<ModalProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.personalUnknown;
   const sectionValuePath = `personalUnknown`;
+  const [isValidate, setValidate] = useState(false);
+
+  useEffect(() => {
+    formValues.addressUnknown
+      && formValues.ageUnknown
+      && setValidate(false);
+  }, [formValues]);
 
   useEffect(() => {
     const handleEnter = (event: KeyboardEvent) => {
@@ -31,6 +38,12 @@ const UnknownInfo: React.FC<ModalProps> = ({
     };
   }, [formValues]);
 
+  const onSubmitForm = () => {
+    formValues.addressUnknown || formValues.ageUnknown
+      ? onOk()
+      : setValidate(true);
+  };
+
   return (
     <Modal
       wrapClassName={'app-modal'}
@@ -42,7 +55,7 @@ const UnknownInfo: React.FC<ModalProps> = ({
           <Button
             type="primary"
             className={'save-btn'}
-            onClick={() => onOk()}
+            onClick={onSubmitForm}
           >
             ОК
           </Button>
@@ -57,10 +70,10 @@ const UnknownInfo: React.FC<ModalProps> = ({
       )}
     >
       <FormField label="Адрес, откуда привезли" name={`${sectionValuePath}.addressUnknown`} labelPosition="left">
-        <FastInput name={`${sectionValuePath}.addressUnknown`}/>
+        <FastInput name={`${sectionValuePath}.addressUnknown`} isError={isValidate && !formValues.addressUnknown}/>
       </FormField>
       <FormField label="Возраст визуального осмотра" name={`${sectionValuePath}.ageUnknown`} labelPosition="left">
-        <FastInput name={`${sectionValuePath}.ageUnknown`}/>
+        <FastInput name={`${sectionValuePath}.ageUnknown`} isError={isValidate && !formValues.ageUnknown}/>
       </FormField>
     </Modal>
   );

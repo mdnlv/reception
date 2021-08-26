@@ -17,7 +17,7 @@ const FastInput: React.FC<FastInputProps> = (props) => {
       onChange={(event) => {
         form.setValue(event.target.value);
       }}
-      error={meta.error && meta.touched || undefined}
+      error={meta.error && meta.touched || props.isError || undefined}
     />
   );
 };
