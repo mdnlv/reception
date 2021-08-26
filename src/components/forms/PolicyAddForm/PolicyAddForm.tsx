@@ -143,6 +143,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
           value: values.lastName
         },
         {
+          name: 'firstName',
+          value: values.firstName
+        },
+        {
           name: 'birthDate',
           value: values.birthDate
         },
@@ -151,6 +155,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
       fields.map((item) => {
         if (!item.value) {
           item.name === 'lastName' && data.push('Не заполнена фамилия!');
+          item.name === 'firstName' && data.push('Не заполнено имя!');
           item.name === 'birthDate' && data.push('Не заполнена дата рождения!');
         }
       });
