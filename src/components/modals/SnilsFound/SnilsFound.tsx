@@ -52,7 +52,7 @@ const SnilsFound: React.FC<ModalProps> = ({
       onCancel={onClose}
       visible={isVisible || errorMessage}
       footer={
-        data.length ? (
+        data.length && !errorMessage ? (
           <Row justify={'space-between'}>
             <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о СНИЛС?</Typography.Text>
             <div>
