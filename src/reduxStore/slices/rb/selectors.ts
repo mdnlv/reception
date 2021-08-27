@@ -112,3 +112,12 @@ export const detailedDetachmentReasonsSelector = createSelector(
       name: item.name,
     })),
 );
+
+export const detailedSNILSMissingReasonsSelector = createSelector(
+  (state: RootState) => state.rb.rbSNILSMissingReasons,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);

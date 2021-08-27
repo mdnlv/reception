@@ -1,25 +1,16 @@
 import {
-  FETCH_ACCOUNTING_SYSTEM,
-  FETCH_ACCOUNTING_SYSTEM_ERROR,
-  FETCH_ACCOUNTING_SYSTEM_SUCCESS,
   FETCH_ATTACH_TYPES,
   FETCH_ATTACH_TYPES_ERROR,
   FETCH_ATTACH_TYPES_SUCCESS,
   FETCH_DETACHMENT_REASONS,
   FETCH_DETACHMENT_REASONS_ERROR,
   FETCH_DETACHMENT_REASONS_SUCCESS,
+  FETCH_SNILS_MISSING_REASONS,
+  FETCH_SNILS_MISSING_REASONS_ERROR,
+  FETCH_SNILS_MISSING_REASONS_SUCCESS,
   FETCH_CONTACT_TYPES,
   FETCH_CONTACT_TYPES_ERROR,
   FETCH_CONTACT_TYPES_SUCCESS,
-  FETCH_EVENT_TYPES,
-  FETCH_EVENT_TYPES_ERROR,
-  FETCH_EVENT_TYPES_SUCCESS,
-  FETCH_INVALID_DOCUMENTS,
-  FETCH_INVALID_DOCUMENTS_ERROR,
-  FETCH_INVALID_DOCUMENTS_SUCCESS,
-  FETCH_INVALID_REASONS,
-  FETCH_INVALID_REASONS_ERROR,
-  FETCH_INVALID_REASONS_SUCCESS,
   FETCH_ORGANISATIONS,
   FETCH_ORGANISATIONS_ERROR,
   FETCH_ORGANISATIONS_SUCCESS,
@@ -36,9 +27,7 @@ import {
   FETCH_POLICY_TYPES_ERROR,
   FETCH_POLICY_TYPES_SUCCESS,
   SET_RB_DETACHMENT_REASONS,
-  SET_RB_EVENT_TYPES,
-  SET_RB_INVALID_DOCUMENTS,
-  SET_RB_INVALID_REASONS,
+  SET_SNILS_MISSING_REASONS,
   SET_RB_ORGANISATIONS,
   SET_RB_PERSONS,
 } from './types';
@@ -49,6 +38,7 @@ import PolicyKind from '../../types/data/PolicyKind';
 import PolicyType from '../../types/data/PolicyType';
 import PatientDocumentType from '../../types/data/PatientDocumentType';
 import DetachmentReason from "../../types/data/DetachmentReason";
+import SNILSMissingReason from "../../types/data/SNILSMissingReason";
 
 export function fetchPersons() {
   return {
@@ -65,24 +55,6 @@ export function fetchPersonsError(action: FETCH_PERSONS) {
 export function fetchPersonsSuccess() {
   return {
     type: FETCH_PERSONS_SUCCESS,
-  };
-}
-
-export function fetchEventTypes() {
-  return {
-    type: FETCH_EVENT_TYPES,
-  };
-}
-
-export function fetchEventTypesError() {
-  return {
-    type: FETCH_EVENT_TYPES_ERROR,
-  };
-}
-
-export function fetchEventTypesSuccess() {
-  return {
-    type: FETCH_EVENT_TYPES_SUCCESS,
   };
 }
 
@@ -115,60 +87,6 @@ export function setRbOrganisations(orgs: Organisation[]) {
   return {
     type: SET_RB_ORGANISATIONS,
     payload: orgs,
-  };
-}
-
-export function fetchInvalidReasons() {
-  return {
-    type: FETCH_INVALID_REASONS,
-  };
-}
-
-export function fetchInvalidReasonsError() {
-  return {
-    type: FETCH_INVALID_REASONS_ERROR,
-  };
-}
-
-export function fetchInvalidReasonsSuccess() {
-  return {
-    type: FETCH_INVALID_REASONS_SUCCESS,
-  };
-}
-
-export function fetchInvalidDocuments() {
-  return {
-    type: FETCH_INVALID_DOCUMENTS,
-  };
-}
-
-export function fetchInvalidDocumentsError() {
-  return {
-    type: FETCH_INVALID_DOCUMENTS_ERROR,
-  };
-}
-
-export function fetchInvalidDocumentsSuccess() {
-  return {
-    type: FETCH_INVALID_DOCUMENTS_SUCCESS,
-  };
-}
-
-export function fetchAccountingSystem() {
-  return {
-    type: FETCH_ACCOUNTING_SYSTEM,
-  };
-}
-
-export function fetchAccountingSystemError() {
-  return {
-    type: FETCH_ACCOUNTING_SYSTEM_ERROR,
-  };
-}
-
-export function fetchAccountingSystemSuccess() {
-  return {
-    type: FETCH_ACCOUNTING_SYSTEM_SUCCESS,
   };
 }
 
@@ -211,6 +129,31 @@ export function fetchDetachmentReasonsSuccess() {
 export function setRbDetachmentReasons(detachmentItems: DetachmentReason[]) {
   return {
     type: SET_RB_DETACHMENT_REASONS,
+    payload: detachmentItems,
+  };
+}
+
+export function fetchSNILSMissingReasons() {
+  return {
+    type: FETCH_SNILS_MISSING_REASONS,
+  };
+}
+
+export function fetchSNILSMissingReasonsError() {
+  return {
+    type: FETCH_SNILS_MISSING_REASONS_ERROR,
+  };
+}
+
+export function fetchSNILSMissingReasonsSuccess() {
+  return {
+    type: FETCH_SNILS_MISSING_REASONS_SUCCESS,
+  };
+}
+
+export function setSNILSMissingReasons(detachmentItems: SNILSMissingReason[]) {
+  return {
+    type: SET_SNILS_MISSING_REASONS,
     payload: detachmentItems,
   };
 }

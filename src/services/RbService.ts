@@ -13,25 +13,26 @@ import RbPolicyTypeResponse from '../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../interfaces/responses/rb/rbPolicyKind';
 import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbDetachmentReasonResponse from "../interfaces/responses/rb/rbDetachmentReason";
+import RbSNILSMissingReasonResponse from "../interfaces/responses/rb/rbSNILSMissingReason";
 
 export default {
   fetchPersons(limit = 10): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.get(`/person?deleted=0&limit=${limit}`);
   },
-
   fetchPersonsFind(query?:string): Promise<AxiosResponse<RbPersonResponse[]>> {
     return apiInstance.post(`/person/find`,{value:query,limit:10});
   },
-
   fetchGetCheckSum(name:string): Promise<AxiosResponse<any>> {
     return apiInstance.get(`/refBooks/${name}/checksum`);
   },
-
   fetchOrganisation(): Promise<AxiosResponse<RbOrganisationResponse[]>> {
     return apiInstance.get(`/refBooks/Organisation`);
   },
   fetchDocumentTypes(): Promise<AxiosResponse<RbDocumentTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbDocumentType');
+  },
+  fetchSNILSMissingReasons(): Promise<AxiosResponse<RbSNILSMissingReasonResponse[]>> {
+    return apiInstance.get('/refBooks/rbSNILSMissingReason');
   },
   fetchRelationTypes(): Promise<AxiosResponse<RbRelationTypeResponse[]>> {
     return apiInstance.get('/refBooks/rbRelationType');

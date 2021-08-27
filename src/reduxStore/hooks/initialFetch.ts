@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   fetchRbAttachTypes,
   fetchRbDetachmentReasons,
+  fetchSNILSMissingReasons,
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbOrganisations,
@@ -21,6 +22,7 @@ export default function useInitialFetch() {
     dispatch(fetchRbOrganisations());
     dispatch(fetchRbAttachTypes());
     dispatch(fetchRbDetachmentReasons());
+    dispatch(fetchSNILSMissingReasons());
     dispatch(fetchRbContactTypes());
     dispatch(fetchRbDocumentTypes());
     dispatch(fetchRbPolicyKind());

@@ -6,14 +6,13 @@ import {
   FETCH_PATIENT_DOCUMENT_TYPES,
   FETCH_PERSONS,
   FETCH_POLICY_KINDS,
-  FETCH_POLICY_TYPES,
+  FETCH_POLICY_TYPES, FETCH_SNILS_MISSING_REASONS,
 } from './types';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import RbService from '../../services/RbService';
 import { AxiosResponse } from 'axios';
 import RbPersonResponse from '../../interfaces/responses/rb/rbPerson';
 import {
-  fetchAttachTypesError,
   fetchDetachmentReasonsError,
   fetchContactTypesError,
   fetchContactTypesSuccess,
@@ -25,12 +24,12 @@ import {
   fetchPolicyTypesError,
   fetchPolicyTypesSuccess,
   setRbDetachmentReasons,
+  setSNILSMissingReasons,
   setRbOrganisations,
-  setRbPersons,
+  setRbPersons, fetchSNILSMissingReasonsError,
 } from './actions';
 import Person from '../../types/data/Person';
 import RbOrganisationResponse from '../../interfaces/responses/rb/rbOrganisation';
-import RbAttachTypeResponse from '../../interfaces/responses/rb/rbAttachType';
 import RbDetachmentReasonResponse from "../../interfaces/responses/rb/rbDetachmentReason";
 import RbPolicyTypeResponse from '../../interfaces/responses/rb/rbPolicyType';
 import RbPolicyKindResponse from '../../interfaces/responses/rb/rbPolicyKind';
@@ -97,6 +96,23 @@ function* asyncFetchDetachmentReasons() {
     }
   } catch (e) {
     yield put(fetchDetachmentReasonsError());
+  }
+}
+
+function* asyncFetchSNILSMissingReasons() {
+  try {
+    const SNILSMissingReasons: AxiosResponse<RbDetachmentReasonResponse[]> = yield call(
+      RbService.fetchSNILSMissingReasons,
+    );
+    if (SNILSMissingReasons.data) {
+      const formattedData = SNILSMissingReasons.data.map((item) => ({
+        id: item.id,
+        name: item.name,
+      }));
+      yield put(setSNILSMissingReasons(formattedData));
+    }
+  } catch (e) {
+    yield put(fetchSNILSMissingReasonsError());
   }
 }
 
@@ -170,6 +186,7 @@ function* watchAsync() {
   yield takeEvery(FETCH_PERSONS, asyncFetchPersons);
   yield takeEvery(FETCH_ORGANISATIONS, asyncFetchOrganisations);
   yield takeEvery(FETCH_DETACHMENT_REASONS, asyncFetchDetachmentReasons);
+  yield takeEvery(FETCH_SNILS_MISSING_REASONS, asyncFetchSNILSMissingReasons);
   yield takeEvery(FETCH_POLICY_KINDS, asyncFetchPolicyKinds);
   yield takeEvery(FETCH_POLICY_TYPES, asyncFetchPolicyTypes);
   yield takeEvery(FETCH_CONTACT_TYPES, asyncFetchContactTypes);
