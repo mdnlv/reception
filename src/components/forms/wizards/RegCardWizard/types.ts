@@ -27,25 +27,6 @@ export interface ValidationType {
       type?: string;
     }
   };
-  socialStatus?: {
-    socialStatus?: {
-      class?: string;
-      type?: string;
-    }[];
-    trustedDoc?: {
-      type?: string;
-    }[]
-  };
-  employment?: {
-    employment?: {
-      organization?: string;
-      freeInput?: string;
-    }[];
-    hazardHistory?: {
-      hazardDescription?: string;
-      factor?: string;
-    }[]
-  };
   attachments?: {
     attachments?: {
       type?: string;

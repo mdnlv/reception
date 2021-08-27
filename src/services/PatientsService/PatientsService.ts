@@ -2,9 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 
 import apiInstance from '../api';
 import PatientResponse from '../../interfaces/responses/patients/patient';
-import PatientFiltersQueryPayload from '../../interfaces/payloads/patients/patientFiltersQuery';
 import FilterSearchPatientResponse from '../../interfaces/responses/patients/filterSearchPatient';
-import PatientPolicyResponse from '../../interfaces/responses/patients/patientPolicy';
 import FindPolicyParams from '../../interfaces/payloads/patients/findPatientPolicy';
 import FindSnilsParams from "../../interfaces/payloads/patients/findPatientSnils";
 import NewPatientPayload from '../../interfaces/payloads/patients/newPatient';
@@ -12,90 +10,23 @@ import PatientSnilsSearchResponse from "../../interfaces/responses/patients/pati
 import PatientPolicySearchResponse from "../../interfaces/responses/patients/patientPolicySearch";
 
 export default {
-  fetchPatients: function (
-    token: string,
-    limit: number,
-    offset: number,
-  ): Promise<AxiosResponse<PatientResponse[]>> {
-    return apiInstance.get(
-      `/client/save?deleted=0&limit=${limit}&offset=${offset}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+  fetchPatients: function (limit: number,  offset: number): Promise<AxiosResponse<PatientResponse[]>> {
+    return apiInstance.get(`/client/save?deleted=0&limit=${limit}&offset=${offset}`);
   },
 
-  savePatient(token: string, patient: NewPatientPayload) {
-    return apiInstance.post(
-      `/client/save`,
-      patient,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+  savePatient(patient: NewPatientPayload) {
+    return apiInstance.post(`/client/save`, patient);
   },
 
-  editPatient(token: string, patient: NewPatientPayload) {
-    return apiInstance.put(
-      `/client/save`,
-      patient,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+  editPatient(patient: NewPatientPayload) {
+    return apiInstance.put(`/client/save`, patient);
   },
 
-  fetchIdPatient(token: string, id: number): Promise<AxiosResponse<PatientResponse[]>> {
-    return apiInstance.get(
-      `/client/save?id=${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
-  },
-
-  detailedQueryPatients(
-    token: string,
-    query: Partial<PatientFiltersQueryPayload> | string,
-  ): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
-    if (typeof query === 'string') {
-      return apiInstance.post(
-        `/client/find`,
-        query,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-    } else {
-      return apiInstance.post(`/client/extFind`, query);
-    }
-  },
-
-  fetchPatientById(
-    token: string,
-    id: number,
-  ): Promise<AxiosResponse<FilterSearchPatientResponse[]>> {
-    return apiInstance.get(
-      `/client?id=${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  )
+  fetchIdPatient(id: number): Promise<AxiosResponse<PatientResponse[]>> {
+    return apiInstance.get(`/client/save?id=${id}`);
   },
 
   queryPatients(
-    token: string,
     query: string,
     limit = 20,
     offset?: number,
@@ -107,23 +38,11 @@ export default {
         offset: offset || 0,
         limit,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
     );
   },
 
-  findPatientPolicy(token: string, params: FindPolicyParams): Promise<AxiosResponse<PatientPolicySearchResponse>> {
-    return apiInstance.post(
-      '/client/tfoms/getPolicyHmao',
-      params,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+  findPatientPolicy(params: FindPolicyParams): Promise<AxiosResponse<PatientPolicySearchResponse>> {
+    return apiInstance.post('/client/tfoms/getPolicyHmao', params);
   },
 
   findPatientSnils(params: FindSnilsParams): Promise<AxiosResponse<PatientSnilsSearchResponse>> {

@@ -8,35 +8,9 @@ import {
   RegCardActionsType,
   RegistrationCardState,
 } from './types';
-import {
-  SocialStatus,
-// @ts-ignore
-  TrustedDoc,
-} from '../../components/forms/SocialStatusForm/types';
 import { PassportContactType } from '../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import { PersonAttachment } from '../../components/forms/AttachmentsForm/types';
-import { PersonViewType } from '../../components/forms/PersonViewTypeForm/types';
 import { PersonLink } from '../../components/forms/PersonLinksForm/types';
-import { PersonOffence } from '../../components/forms/OffencesForm/types';
-import { PersonOutsideId } from '../../components/forms/OutsideIdentificationForm/types';
-import { PersonHospitalization } from '../../components/forms/OutsideHospitalizationForm/types';
-import { PersonAddHospitalization } from '../../components/forms/AdditionalHospitalizationForm/types';
-import { EtcItem } from '../../components/forms/EtcForm/types';
-import {
-  EmploymentHazardItem,
-  EmploymentItem,
-} from '../../components/forms/EmploymentForm/types';
-import {
-  PrivilegeInvalidity,
-  PrivilegeItem,
-} from '../../components/forms/PrivilegesForm/types';
-import {
-  AnthropometricDataItem,
-  InspectionItem,
-  MedIntoleranceItem,
-  PersonAllergyItem,
-  PersonFeatureItem,
-} from '../../components/forms/FeaturesForm/types';
 import KladrItem from '../../types/data/KladrItem';
 import KladrStreet from '../../types/data/KladrStreet';
 import {
@@ -66,37 +40,9 @@ export const initialState: RegistrationCardState = {
     onlyTempRegistration: false,
     docId: '',
   },
-  additionalHospitalization: {
-    hospitalizations: [] as PersonAddHospitalization[],
-  },
   // @ts-ignore
   attachments: {
     attachments: [] as PersonAttachment[],
-  },
-  employment: {
-    employment: [] as EmploymentItem[],
-    // @ts-ignore
-    hazardHistory: [] as EmploymentHazardItem[],
-  },
-  etc: {
-    items: [] as EtcItem[],
-  },
-  features: {
-    features: [] as PersonFeatureItem[],
-    allergy: [] as PersonAllergyItem[],
-    medIntolerance: [] as MedIntoleranceItem[],
-    inspections: [] as InspectionItem[],
-    anthropometricDate: [] as AnthropometricDataItem[],
-  },
-  offences: {
-    offences: [] as PersonOffence[],
-  },
-  outsideHospitalization: {
-    outsideHospitalization: [] as PersonHospitalization[],
-  },
-  // @ts-ignore
-  outsideIdentification: {
-    outsideIds: [] as PersonOutsideId[],
   },
   passportGeneral: {
     // @ts-ignore
@@ -157,19 +103,6 @@ export const initialState: RegistrationCardState = {
     directLinks: [] as PersonLink[],
     // @ts-ignore
     backLinks: [] as PersonLink[],
-  },
-  privileges: {
-    invalidity: [] as PrivilegeInvalidity[],
-    privileges: [] as PrivilegeItem[],
-  },
-  quotas: {},
-  socialStatus: {
-    socialStatus: [] as SocialStatus[],
-    // @ts-ignore
-    trustedDoc: [] as TrustedDoc[],
-  },
-  viewTypes: {
-    viewTypes: [] as PersonViewType[],
   },
   data: {
     passportGeneral: {

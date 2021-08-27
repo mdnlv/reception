@@ -11,14 +11,11 @@ import Patient from "../../../types/data/Patient";
 import {kladrSelector, kladrLoadingsSelector} from "../../../reduxStore/slices/registrationCard/selectors";
 import {fetchKladrStreets} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {isSearching} from "../../../reduxStore/slices/patients/selectors";
-import {resetCurrentPatient} from '../../../reduxStore/slices/patientCard/patientCardSlice';
 import {setIsSearchingPatients} from '../../../reduxStore/slices/patients/patientsSlice';
 
 const PatientsTable: FC<TableProps> = ({
   patients,
   isLoading,
-  onPatientClick,
-  currentPatient,
   onChangeOffset
 }) => {
   const dispatch = useDispatch();
@@ -67,10 +64,6 @@ const PatientsTable: FC<TableProps> = ({
   useEffect(() => {
     console.log('patients', patients)
   }, [patients]);
-
-  useEffect(() => {
-    dispatch(resetCurrentPatient())
-  }, []);
 
   useEffect(() => {
     const itemsArr = [] as string[];
@@ -165,7 +158,6 @@ const PatientsTable: FC<TableProps> = ({
         medExamination: item.medExamination
           ? moment(item.medExamination).format('DD-MM-YYYY')
           : '',
-        route: <Link to={`/card/${item.code}`}>Мед. карта</Link>,
         regCard: <Link to={`/regCard/${item.code}`} onClick={() => dispatch(setIsSearchingPatients(false))}>Рег. карта</Link>,
       };
     });
@@ -182,22 +174,6 @@ const PatientsTable: FC<TableProps> = ({
         loading={isLoading}
         dataSource={getFormattedProps}
         columns={columns}
-        rowSelection={{
-          type: 'radio',
-          selectedRowKeys: currentPatient ? [currentPatient] : [],
-          onChange: (selectedRowKeys) => {
-            if (typeof selectedRowKeys[0] === 'number') {
-              onPatientClick(selectedRowKeys[0]);
-            }
-          },
-        }}
-        onRow={(record) => {
-          return {
-            onClick: () => {
-              onPatientClick(record.key);
-            },
-          };
-        }}
         onChange={(page) => {
           if (page.current) {
             const offsetData = (page.current - 1) * 5;

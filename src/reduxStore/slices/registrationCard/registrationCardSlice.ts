@@ -19,10 +19,9 @@ import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
   async (id: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'idPatient', value: true }));
     try {
-      const response = await PatientsService.fetchIdPatient(state.auth.token, id);
+      const response = await PatientsService.fetchIdPatient(id);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -122,7 +121,6 @@ export const findPatientPolicy = createAsyncThunk(
     payload: FindPolicyParams,
     thunkAPI,
   ) => {
-    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setFindPolicyLoading(true),
     );
@@ -132,7 +130,6 @@ export const findPatientPolicy = createAsyncThunk(
         //@ts-ignore
         : format(payload.birthDate, 'yyyy-MM-dd');
       const response = await PatientsService.findPatientPolicy(
-        state.auth.token,
         {
           ...payload,
           birthDate,
@@ -199,13 +196,12 @@ export const findPatientSnils = createAsyncThunk(
 export const saveCardPatient = createAsyncThunk(
   'registrationCard/saveCardPatient',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
     try {
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.savePatient(state.auth.token, payload);
+      const response = await PatientsService.savePatient(payload);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
@@ -226,7 +222,7 @@ export const editCardPatient = createAsyncThunk(
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.editPatient(state.auth.token, payload);
+      const response = await PatientsService.editPatient(payload);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
@@ -466,65 +462,6 @@ const registrationCardSlice = createSlice({
         // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
         // @ts-ignore
         // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
-        // @ts-ignore
-        state.initialFormState.socialStatus.socialStatus =
-          transformedPatient.socialStatus.map((item) => ({
-            id: item.id,
-            note: item.note,
-            class: item.class,
-            statusType: item.type,
-            fromDate: item.fromDate,
-            endDate: item.endDate,
-            deleted: 0,
-            document: {
-              id: item.document.id,
-              passportType: item.document ? item.document.type?.toString() : '',
-              serialFirst: item.document && item.document.serial
-                ? item.document.serial?.substring(0, item.document.serial.length/2)
-                : '',
-              serialSecond: item.document && item.document.serial
-                ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
-                : '',
-              number: item.document ? item.document.number : '',
-              fromDate: item.document ? item.document.date : '',
-              givenBy: item.document ? item.document.origin : '',
-              deleted: 0,
-            },
-          }));
-          // @ts-ignore
-        state.initialFormState.socialStatus.trustedDoc =
-          transformedPatient.socialStatus.map((item) => (
-            item.document ? {
-              id: item.id,
-              docType: item.document.id && item.document.id.toString(),
-              serialFirst: item.document.serial && item.document.serial.substring(0, item.document.serial.length/2),
-              serialSecond: item.document.serial && item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
-              number: item.document.number,
-              date: item.document.date,
-              givenBy: item.document.origin,
-            } : {}
-          ));
-        state.initialFormState.employment.employment = transformedPatient.work.map(
-          (item) => ({
-            id: item.id,
-            organization: item.orgId ? item.orgId.toString() : '',
-            position: item.post,
-            experience: item.stage,
-            freeInput: item.freeInput,
-            deleted: 0,
-            hazardHistory: item.client_work_hurt_info ? item.client_work_hurt_info.map((a) => ({
-              master_id: a.master_id,
-              id: a.id,
-              hazardDescription: a.hurtTypeId.toString(),
-              hazardExp: a.stage
-            })) : [],
-            hazardFactors: item.client_work_hurt_factor_info ? item.client_work_hurt_factor_info.map((b) => ({
-              master_id: b.master_id,
-              id: b.id,
-              factor: b.factorTypeId.toString()
-            })) : [],
-          })
-        );
         state.initialFormState.passportGeneral.contacts.contacts = transformedPatient.contacts.map(
           (item) => ({
             id: item.id,
@@ -545,15 +482,6 @@ const registrationCardSlice = createSlice({
             endDate: item.endDate || '',
             detachmentReason: item.detachmentReason?.toString() || '',
             deleted: 0,
-          })
-        );
-        state.initialFormState.outsideIdentification.outsideIds = transformedPatient.outsideIds.map(
-          (item) => ({
-            id: item.id,
-            outsideSchema: item.outsideSchema.toString(),
-            idRef: item.idRef,
-            date: new Date(item.date),
-            deleted: item.deleted,
           })
         );
         state.initialFormState.links.directLinks.directLinks = transformedPatient.relations.reduce((res: PersonLink[], item) => {
@@ -653,7 +581,7 @@ const registrationCardSlice = createSlice({
     });
     builder.addCase(findPatientSnils.fulfilled, (state, action) => {
       if (action.payload) {
-        state.form.foundSnils.items = action.payload.patients.map((item, index) => ({
+        state.form.foundSnils.items = action.payload.patients.map((item) => ({
           key: item.PatientId,
           firstName: item.FirstName,
           lastName: item.LastName,

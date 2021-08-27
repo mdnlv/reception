@@ -1,17 +1,4 @@
-import {PersonAddHospitalization} from '../../../components/forms/AdditionalHospitalizationForm/types';
 import {PersonAttachment, PersonAttachmentDeleted} from '../../../components/forms/AttachmentsForm/types';
-import {EmploymentItem, EmploymentItemDeleted} from '../../../components/forms/EmploymentForm/types';
-import {EtcItem} from '../../../components/forms/EtcForm/types';
-import {
-  AnthropometricDataItem,
-  InspectionItem,
-  MedIntoleranceItem,
-  PersonAllergyItem,
-  PersonFeatureItem,
-} from '../../../components/forms/FeaturesForm/types';
-import {PersonOffence} from '../../../components/forms/OffencesForm/types';
-import {PersonHospitalization} from '../../../components/forms/OutsideHospitalizationForm/types';
-import {PersonOutsideId, PersonOutsideIdDeleted} from '../../../components/forms/OutsideIdentificationForm/types';
 import {
   PassportContactType,
   PassportPolicyType,
@@ -21,9 +8,6 @@ import {
   PassportInfoTypeDeleted
 } from '../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
 import {PersonLink, PersonLinkDeleted} from '../../../components/forms/PersonLinksForm/types';
-import {PrivilegeInvalidity, PrivilegeItem} from '../../../components/forms/PrivilegesForm/types';
-import {SocialStatus, SocialStatusDeleted} from '../../../components/forms/SocialStatusForm/types';
-import {PersonViewType} from '../../../components/forms/PersonViewTypeForm/types';
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
 import {RegistrationCardStateType} from "./types";
@@ -63,36 +47,9 @@ const initialState: RegistrationCardStateType = {
       addressUnknown: '',
       ageUnknown: '',
     },
-    additionalHospitalization: {
-      hospitalizations: [] as PersonAddHospitalization[],
-    },
     attachments: {
       attachments: [] as PersonAttachment[],
       deleted: [] as PersonAttachmentDeleted[],
-    },
-    employment: {
-      employment: [] as EmploymentItem[],
-      deleted: [] as EmploymentItemDeleted[],
-    },
-    etc: {
-      items: [] as EtcItem[],
-    },
-    features: {
-      features: [] as PersonFeatureItem[],
-      allergy: [] as PersonAllergyItem[],
-      medIntolerance: [] as MedIntoleranceItem[],
-      inspections: [] as InspectionItem[],
-      anthropometricDate: [] as AnthropometricDataItem[],
-    },
-    offences: {
-      offences: [] as PersonOffence[],
-    },
-    outsideHospitalization: {
-      outsideHospitalization: [] as PersonHospitalization[],
-    },
-    outsideIdentification: {
-      outsideIds: [] as PersonOutsideId[],
-      deleted: [] as PersonOutsideIdDeleted[],
     },
     passportGeneral: {
       passportInfo: {
@@ -173,18 +130,6 @@ const initialState: RegistrationCardStateType = {
         backLinks: [] as PersonLink[],
         deleted: [] as PersonLinkDeleted[],
       }
-    },
-    privileges: {
-      invalidity: [] as PrivilegeInvalidity[],
-      privileges: [] as PrivilegeItem[],
-    },
-    quotas: {},
-    socialStatus: {
-      socialStatus: [] as SocialStatus[],
-      deleted: [] as SocialStatusDeleted[],
-    },
-    viewTypes: {
-      viewTypes: [] as PersonViewType[],
     },
   },
   form: {
@@ -214,36 +159,9 @@ const initialState: RegistrationCardStateType = {
       addressUnknown: '',
       ageUnknown: '',
     },
-    additionalHospitalization: {
-      hospitalizations: [] as PersonAddHospitalization[],
-    },
     attachments: {
       attachments: [] as PersonAttachment[],
       deleted: [] as PersonAttachmentDeleted[],
-    },
-    employment: {
-      employment: [] as EmploymentItem[],
-      deleted: [] as EmploymentItemDeleted[],
-    },
-    etc: {
-      items: [] as EtcItem[],
-    },
-    features: {
-      features: [] as PersonFeatureItem[],
-      allergy: [] as PersonAllergyItem[],
-      medIntolerance: [] as MedIntoleranceItem[],
-      inspections: [] as InspectionItem[],
-      anthropometricDate: [] as AnthropometricDataItem[],
-    },
-    offences: {
-      offences: [] as PersonOffence[],
-    },
-    outsideHospitalization: {
-      outsideHospitalization: [] as PersonHospitalization[],
-    },
-    outsideIdentification: {
-      outsideIds: [] as PersonOutsideId[],
-      deleted: [] as PersonOutsideIdDeleted[],
     },
     passportGeneral: {
       passportInfo: {
@@ -322,18 +240,6 @@ const initialState: RegistrationCardStateType = {
         backLinks: [] as PersonLink[],
         deleted: [] as PersonLinkDeleted[],
       }
-    },
-    privileges: {
-      invalidity: [] as PrivilegeInvalidity[],
-      privileges: [] as PrivilegeItem[],
-    },
-    quotas: {},
-    socialStatus: {
-      socialStatus: [] as SocialStatus[],
-      deleted: [] as SocialStatusDeleted[],
-    },
-    viewTypes: {
-      viewTypes: [] as PersonViewType[],
     },
     data: {
       passportGeneral: {

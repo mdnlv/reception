@@ -1,11 +1,4 @@
-import AdditionalHospitalizationFormState from "../../../components/forms/AdditionalHospitalizationForm/types";
 import AttachmentsFormState from "../../../components/forms/AttachmentsForm/types";
-import EmploymentFormState from "../../../components/forms/EmploymentForm/types";
-import EtcFormState from "../../../components/forms/EtcForm/types";
-import FeaturesFormState from "../../../components/forms/FeaturesForm/types";
-import OffencesFormState from "../../../components/forms/OffencesForm/types";
-import OutsideHospitalizationFormState from "../../../components/forms/OutsideHospitalizationForm/types";
-import OutsideIdsFormState from "../../../components/forms/OutsideIdentificationForm/types";
 import PassportGeneralFormState, {
   PassportPolicyType,
   PassportAddressType,
@@ -13,9 +6,6 @@ import PassportGeneralFormState, {
 } from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import PersonDocsState from "../../../components/forms/PersonDocumentsForm/types";
 import LinksFormState from "../../../components/forms/PersonLinksForm/types";
-import PersonPrivilegesFormState from "../../../components/forms/PrivilegesForm/types";
-import {FormState as SocialStatusFormState} from "../../../components/forms/SocialStatusForm/types";
-import PersonViewTypeFormState from "../../../components/forms/PersonViewTypeForm/types";
 import KladrItem from "../../../types/data/KladrItem";
 import KladrStreet from "../../../types/data/KladrStreet";
 
@@ -23,21 +13,10 @@ export type KladrDocType = 'documented' | 'registration';
 
 interface InitialRegFormState {
   isUnknown: boolean;
-  additionalHospitalization: AdditionalHospitalizationFormState;
   attachments: AttachmentsFormState;
-  employment: EmploymentFormState;
-  etc: EtcFormState;
-  features: FeaturesFormState;
-  offences: OffencesFormState;
-  outsideHospitalization: OutsideHospitalizationFormState;
-  outsideIdentification: OutsideIdsFormState;
   passportGeneral: PassportGeneralFormState;
   personDocs: PersonDocsState;
   links: LinksFormState;
-  privileges: PersonPrivilegesFormState;
-  quotas: {};
-  socialStatus: SocialStatusFormState;
-  viewTypes: PersonViewTypeFormState;
   personal: {
     firstName: string;
     lastName: string;

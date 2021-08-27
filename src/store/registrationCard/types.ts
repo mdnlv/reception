@@ -1,17 +1,7 @@
-import FeaturesFormState from '../../components/forms/FeaturesForm/types';
 import PassportGeneralFormState from '../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types';
-import { FormState as SocialStatusFormState } from '../../components/forms/SocialStatusForm/types';
 import AttachmentsFormState from '../../components/forms/AttachmentsForm/types';
-import PersonViewTypeFormState from '../../components/forms/PersonViewTypeForm/types';
 import LinksFormState from '../../components/forms/PersonLinksForm/types';
-import OffencesFormState from '../../components/forms/OffencesForm/types';
 import PersonDocsState from '../../components/forms/PersonDocumentsForm/types';
-import OutsideIdsFormState from '../../components/forms/OutsideIdentificationForm/types';
-import OutsideHospitalizationFormState from '../../components/forms/OutsideHospitalizationForm/types';
-import AdditionalHospitalizationFormState from '../../components/forms/AdditionalHospitalizationForm/types';
-import EtcFormState from '../../components/forms/EtcForm/types';
-import EmploymentFormState from '../../components/forms/EmploymentForm/types';
-import PersonPrivilegesFormState from '../../components/forms/PrivilegesForm/types';
 import KladrItem from '../../types/data/KladrItem';
 import KladrStreet from '../../types/data/KladrStreet';
 
@@ -128,21 +118,11 @@ export interface KLADR_STREETS_LOADING {
 }
 
 export interface RegistrationCardState {
-  additionalHospitalization: AdditionalHospitalizationFormState;
   attachments: AttachmentsFormState;
-  employment: EmploymentFormState;
-  etc: EtcFormState;
-  features: FeaturesFormState;
-  offences: OffencesFormState;
-  outsideHospitalization: OutsideHospitalizationFormState;
-  outsideIdentification: OutsideIdsFormState;
   passportGeneral: PassportGeneralFormState;
   personDocs: PersonDocsState;
   links: LinksFormState;
-  privileges: PersonPrivilegesFormState;
   quotas: {};
-  socialStatus: SocialStatusFormState;
-  viewTypes: PersonViewTypeFormState;
   personal: {
     firstName: string;
     lastName: string;

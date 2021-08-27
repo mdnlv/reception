@@ -1,7 +1,6 @@
 import PatientAddress from './PatientAddress';
 import PatientPolicy from './PatientPolicy';
 import PatientContact from './PatientContact';
-import PatientWork from "./PatientWork";
 import PatientDocument from "./PatientDocument";
 import PatientAttach from "./PatientAttach";
 
@@ -29,7 +28,6 @@ export default interface Patient {
   address: PatientAddress[];
   policy: PatientPolicy[];
   contacts: PatientContact[];
-  work: PatientWork[];
   client_document_info: PatientDocument;
   attachments: PatientAttach[];
 }

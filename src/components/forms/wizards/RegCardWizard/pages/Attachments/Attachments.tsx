@@ -12,7 +12,7 @@ import {
   detailedDetachmentReasonsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import { RootState } from '../../../../../../reduxStore/store';
-import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
+// import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -28,7 +28,7 @@ const Attachments: React.FC = () => {
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const detachmentReasons = useSelector(detailedDetachmentReasonsSelector);
-  const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
+  // const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
   const {
     organisations: loadingOrgs,
     attachTypes: loadingAttachTypes,
@@ -51,14 +51,14 @@ const Attachments: React.FC = () => {
     ));
   };
 
-  const renderTreeNodes = (data:PersonTree[]) =>
-    data.map((item: PersonTree) => {
-      return (
-        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
-          {item.child.length && renderTreeNodes(item.child)}
-        </TreeSelect.TreeNode>
-      );
-    });
+  // const renderTreeNodes = (data:PersonTree[]) =>
+  //   data.map((item: PersonTree) => {
+  //     return (
+  //       <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
+  //         {item.child.length && renderTreeNodes(item.child)}
+  //       </TreeSelect.TreeNode>
+  //     );
+  //   });
 
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
@@ -124,7 +124,7 @@ const Attachments: React.FC = () => {
                       name={getSelectionPath(index, 'unit')}
                       onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
                     >
-                      {renderTreeNodes(personTree)}
+                      {/*{renderTreeNodes(personTree)}*/}
                     </TreeSelectField>
                   </FormField>
                 </Col>

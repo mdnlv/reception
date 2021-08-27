@@ -3,13 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {get, set, del } from  '../../../services/IndexDbService';
 
 import Person from '../../../types/data/Person';
-import EventType from '../../../types/data/EventType';
-import SpecialityType from '../../../types/data/SpecialityType';
-
 import Organisation from '../../../types/data/Organisation';
-import InvalidReason from '../../../types/data/InvalidReason';
-import InvalidDocument from '../../../types/data/InvalidDocument';
-import AccountingSystemItem from '../../../types/data/AccountinSystemItem';
 import AttachType from '../../../types/data/AttachType';
 import DetachmentReason from "../../../types/data/DetachmentReason";
 import RbService from '../../../services/RbService';
@@ -17,16 +11,9 @@ import PolicyType from '../../../types/data/PolicyType';
 import PolicyKind from '../../../types/data/PolicyKind';
 import PatientContactType from '../../../types/data/PatientContactType';
 import PatientDocumentType from '../../../types/data/PatientDocumentType';
-import SocialType from '../../../types/data/SocialType';
-import SocialClass from '../../../types/data/SocialClass';
-import HurtType from '../../../types/data/HurtType';
-import HurtFactorType from '../../../types/data/HurtFactorType';
 import OrgStructure from "../../../types/data/OrgStructure";
 import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbDocumentType'
-import RbInvalidDocumentTypeResponse from "../../../../src/interfaces/responses/rb/rbInvalidDocumentType";
 import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
-import Speciality from "../../../types/data/Speciality";
-import Post from "../../../types/data/Post";
 
 export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum',
 async (payload: { name:string }, thunkAPI) => {
@@ -89,50 +76,6 @@ async (payload: { query:string }, thunkAPI) => {
   }
 });
 
-export const fetchRbEventTypes = createAsyncThunk(
-  'rb/fetchEventTypes',
-  async () => {
-    try {
-      const response = await RbService.fetchEventTypes();
-      if (response.data) {
-        const formattedData: EventType[] = response.data.map((item) => ({
-          id: item.id,
-          createDatetime: item.createDatetime,
-          createPersonId: item.createPerson_id,
-          eventTypeId: item.eventType_id,
-          code: item.code,
-          name: item.name,
-        }));
-        return formattedData;
-      }
-    } catch (e) {
-    } finally {
-    }
-  },
-);
-
-
-export const fetchRbSpeciality = createAsyncThunk(
-  'rb/fetchSpeciality',
-  async () => {
-    try {
-      const response = await RbService.fetchSpeciality();
-      if (response.data) {
-        const formattedData: SpecialityType[] = response.data.map((item) => ({
-          id: item.id,
-          code: item.code,
-          name: item.name,
-        }));
-        return formattedData;
-      }
-    } catch (e) {
-    } finally {
-    }
-  },
-);
-
-
-
 export const fetchRbRelationTypes = createAsyncThunk(
   'rb/fetchRelationTypes',
   async (payload: { sex:number }, thunkAPI) => {
@@ -178,59 +121,6 @@ export const fetchRbOrganisations = createAsyncThunk(
   },
 );
 
-export const fetchRbSpecialities = createAsyncThunk(
-  'rb/fetchSpecialities',
-  async (arg, thunkAPI) => {
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSpeciality"}))
-    const currentCheckSum =  await get('SpecialitySum') || ''
-    const isCheckSum = currentCheckSum === checksum.payload
-    thunkAPI.dispatch(setLoading({ type: 'specialities', value: true }));
-    try {
-      const response = isCheckSum ? await get('Speciality'):  await RbService.fetchSpeciality()
-      if (response.data) {
-        if(!isCheckSum){
-         await del('SpecialitySum')
-         await del('Speciality')
-         await set('SpecialitySum',checksum.payload)
-         await set('Speciality',{data:response.data})
-        }
-        return response.data;
-      }
-    } catch (e) {
-      alert(e);
-      thunkAPI.rejectWithValue(e);
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'specialities', value: false }));
-    }
-  },
-);
-
-
-export const fetchRbInvalidReasons = createAsyncThunk(
-  'rb/fetchInvalidReasons',
-  async (arg, thunkAPI) => {
-    const checksum  = await thunkAPI.dispatch(fetchCheckSum({name:"rbTempInvalidReason"}))
-
-    const currentCheckSum =  await get('rbTempInvalidReasonSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-      const response = isCheckSum ? await get('rbTempInvalidReason'):  await RbService.fetchInvalidReasons();
-      if (response.data) {
-        if(!isCheckSum){
-          await del('rbTempInvalidReasonSum')
-          await del('rbTempInvalidReason')
-          await set('rbTempInvalidReasonSum',checksum.payload)
-          await set('rbTempInvalidReason',{data:response.data})
-         }
-        return response.data;
-      }
-    } catch (e) {
-      alert(e)
-    }
-  },
-);
-
 export const fetchRbDocumentTypes = createAsyncThunk(
   'rb/fetchDocumentTypes',
   async (arg, thunkAPI) => {
@@ -260,64 +150,6 @@ export const fetchRbDocumentTypes = createAsyncThunk(
       alert(e)
     } finally {
       thunkAPI.dispatch(setLoading({ type: 'documentTypes', value: false }));
-    }
-  },
-);
-
-export const fetchRbInvalidDocumentsTypes = createAsyncThunk(
-  'rb/fetchInvaludDocuments',
-  async (arg, thunkAPI) => {
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbTempInvalidDocument"}))
-
-    const currentCheckSum =  await get('rbTempInvalidDocumentSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-      const response = isCheckSum? await get('rbTempInvalidDocument'): await RbService.fetchInvalidDocumentTypes();;
-      if (response.data) {
-        if(!isCheckSum){
-          await del('rbTempInvalidDocumentSum')
-          await del('rbTempInvalidDocument')
-          await set('rbTempInvalidDocumentSum',checksum.payload)
-          await set('rbTempInvalidDocument',{data:response.data})
-        }
-        return response.data.map((item:RbInvalidDocumentTypeResponse) => ({
-          id: item.id,
-          name: item.name,
-          code: item.code,
-        }));
-      }
-    } catch (e) {
-      alert(e)
-    }
-  },
-);
-
-export const fetchRbAccountingSystem = createAsyncThunk(
-  'rb/fetchAccountingSystem',
-  async (arg, thunkAPI) => {
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbAccountingSystem"}))
-
-    const currentCheckSum =  await get('rbAccountingSystemSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-      const response = isCheckSum? await get('rbAccountingSystem'): await RbService.fetchAccountingSystem();
-      if (response.data) {
-        if(!isCheckSum){
-          await del('rbAccountingSystemSum')
-          await del('rbAccountingSystem')
-          await set('rbAccountingSystemSum',checksum.payload)
-          await set('rbAccountingSystem',{data:response.data})
-        }
-        return response.data.map((item:{id: number;
-          name: string;}) => ({
-          id: item.id,
-          name: item.name,
-        }));
-      }
-    } catch (e) {
-      alert(e)
     }
   },
 );
@@ -441,39 +273,6 @@ export const fetchRbOrgStructure = createAsyncThunk(
   },
 );
 
-export const fetchRbPost = createAsyncThunk(
-  'rb/fetchPost',
-  async (arg, thunkAPI) => {
-    // const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"Post"}))
-    //
-    // const currentCheckSum =  await get('OrgPost') || ''
-    //
-    // const isCheckSum = currentCheckSum === checksum.payload
-
-    thunkAPI.dispatch(setLoading({ type: 'post', value: true }));
-    try {
-      // const response = isCheckSum? await get('Post'): await RbService.fetchPost()
-      const response = await RbService.fetchPost();
-      if (response.data) {
-      // if(!isCheckSum){
-        await del('PostSum')
-        await del('Post')
-        // await set('PostSum',checksum.payload)
-        await set('Post',{data:response.data})
-      // }
-        return response.data.map((item:Post) => ({
-          id: item.id,
-          name: item.name
-        }));
-      }
-    } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'post', value: false }));
-    }
-  },
-);
-
 export const fetchRbPolicyKind = createAsyncThunk(
   'rb/fetchPolicyKind',
   async (arg, thunkAPI) => {
@@ -534,200 +333,33 @@ export const fetchRbContactTypes = createAsyncThunk(
   },
 );
 
-export const fetchRbSocialStatusType = createAsyncThunk(
-  'rb/fetchRbSocialStatusType',
-  async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: true }));
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusType"}))
-    const currentCheckSum =  await get('rbSocStatusTypeSum') || ''
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-      const response = isCheckSum? await get('rbSocStatusType'): await RbService.fetchSocialTypes();
-      if (response.data) {
-        if(!isCheckSum){
-          await del('rbSocStatusTypeSum')
-          await del('rbSocStatusType')
-          await set('rbSocStatusTypeSum',checksum.payload)
-          await set('rbSocStatusType',{data:response.data})
-        }
-        return response.data;
-      }
-  } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: false }));
-    }
-  },
-);
-
-export const fetchRbSocialStatusClass = createAsyncThunk(
-  'rb/fetchRbSocialStatusClass',
-  async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setLoading({ value: true, type: 'socialClasses' }));
-
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusClass"}));
-    const currentCheckSum =  await get('rbSocStatusClassSum') || ''
-    const isCheckSum = currentCheckSum === checksum.payload
-
-    try {
-      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialClasses();
-      if (response.data) {
-        if(!isCheckSum){
-          await del('rbSocStatusClassSum')
-          await del('rbSocStatusClass')
-          await set('rbSocStatusClassSum',checksum.payload)
-          await set('rbSocStatusClass',{data:response.data})
-        }
-        return response.data;
-      }
-    } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ value: false, type: 'socialClasses' }));
-    }
-  },
-);
-
-export const fetchDeferredQueueStatus = createAsyncThunk(
-  'rb/fetchDeferredQueueStatus',
-  async (arg, thunkAPI) => {
-    try {
-
-    const response = await  RbService.fetchDeferredQueueStatus();
-      if (response.data) {
-        console.log(response.data,'+++++__')
-        return response.data;
-      }
-    } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: false }));
-    }
-  },
-);
-
-
-
-
-
-export const fetchRbHurtType = createAsyncThunk(
-  'rb/fetchRbHurtType',
-  async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: true }));
-
-
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbHurtType"}))
-
-    const currentCheckSum =  await get('rbHurtTypeSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-
-      const response = isCheckSum? await get('rbHurtType'): await RbService.fetchHurtTypes();
-      if (response.data) {
-      if(!isCheckSum){
-        await del('rbHurtTypeSum')
-        await del('rbHurtType')
-        await set('rbHurtTypeSum',checksum.payload)
-        await set('rbHurtType',{data:response.data})
-      }
-
-        return response.data;
-      }
-    } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'hurtTypes', value: false }));
-    }
-  },
-);
-
-export const fetchRbHurtFactorTypes = createAsyncThunk(
-  'rb/fetchRbHurtFactorType',
-  async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: true }));
-
-    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbHurtFactorType"}))
-
-    const currentCheckSum =  await get('rbHurtFactorTypeSum') || ''
-
-    const isCheckSum = currentCheckSum === checksum.payload
-    try {
-
-      const response = isCheckSum? await get('rbHurtFactorType'): await RbService.fetchHurtFactorTypes()
-      if (response.data) {
-      if(!isCheckSum){
-        await del('rbHurtFactorTypeSum')
-        await del('rbHurtFactorType')
-        await set('rbHurtFactorTypeSum',checksum.payload)
-        await set('rbHurtFactorType',{data:response.data})
-      }
-
-        return response.data;
-      }
-    } catch (e) {
-      alert(e)
-    } finally {
-      thunkAPI.dispatch(setLoading({ type: 'hurtFactorTypes', value: false }));
-    }
-  },
-);
-
 const rbSlice = createSlice({
   name: 'rb',
   initialState: {
     checksum:{
-      rbEventTypes:'',
       rbOrganisations:'',
-      rbInvalidReasons:'',
-      rbInvalidDocuments:'',
-      rbAccountingSystem:'',
       rbAttachTypes: '',
       rbPolicyTypes: '',
       rbContactTypes: '',
       rbOrgStructure: '',
-      rbPost: '',
       rbDocumentTypes: '',
-      rbSocialTypes: '',
-      rbSocialClasses: '',
-      rbSpecialities: '',
-      rbHurtTypes: '',
-      rbHurtFactorTypes: ''
     },
     rbPersons: [] as Person[],
-    rbDeferredQueueStatus: [],
-    rbEventTypes: [] as EventType[],
     rbOrganisations: [] as Organisation[],
-    rbInvalidReasons: [] as InvalidReason[],
-    rbInvalidDocuments: [] as InvalidDocument[],
-    rbAccountingSystem: [] as AccountingSystemItem[],
     rbAttachTypes: [] as AttachType[],
     rbDetachmentReasons: [] as DetachmentReason[],
     rbPolicyTypes: [] as PolicyType[],
     rbPolicyKinds: [] as PolicyKind[],
-    rbSpeciality: [] as SpecialityType[],
     rbContactTypes: [] as PatientContactType[],
     rbOrgStructure: [] as OrgStructure[],
-    rbPost: [] as Post[],
     rbDocumentTypes: [] as PatientDocumentType[],
-    rbSocialTypes: [] as SocialType[],
-    rbSocialClasses: [] as SocialClass[],
-    rbSpecialities: [] as Speciality[],
-    rbHurtTypes: [] as HurtType[],
-    rbHurtFactorTypes: [] as HurtFactorType[],
     rbRelationTypesDirectLink: [] as RelatiionsTypes[],
     rbRelationTypesRelativeLink: [] as RelatiionsTypes[],
     loading: {
       attachTypes: false,
       organisations: false,
       orgStructure: false,
-      post: false,
       documentTypes: false,
-      socialTypes: false,
-      socialClasses: false,
-      specialities: false,
-      hurtTypes: false,
-      hurtFactorTypes: false,
       detachmentReasons: false,
     },
   },
@@ -739,14 +371,8 @@ const rbSlice = createSlice({
           | 'attachTypes'
           | 'detachmentReasons'
           | 'orgStructure'
-          | 'post'
           | 'organisations'
-          | 'documentTypes'
-          | 'socialTypes'
-          | 'socialClasses'
-          | 'specialities'
-          | 'hurtTypes'
-          | 'hurtFactorTypes';
+          | 'documentTypes';
         value: boolean;
       }>,
     ) => {
@@ -763,16 +389,6 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbPersonsSearch.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbPersons = action.payload;
-      }
-    });
-    builder.addCase(fetchRbEventTypes.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbEventTypes = action.payload;
-      }
-    });
-    builder.addCase(fetchRbSpeciality.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbSpeciality = action.payload;
       }
     });
 
@@ -796,40 +412,6 @@ const rbSlice = createSlice({
         }));
       }
     });
-    builder.addCase(fetchRbSpecialities.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbSpecialities = action.payload.map((item:{  id: number;
-          name: string;
-        }) => ({
-          id: item.id,
-          name: item.name,
-        }));
-      }
-    });
-
-    builder.addCase(fetchRbPost.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbPost = action.payload.map((item:{  id: number;
-          name: string;
-        }) => ({
-          id: item.id,
-          name: item.name,
-        }));
-      }
-    });
-
-    builder.addCase(fetchRbInvalidReasons.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbInvalidReasons = action.payload;
-      }
-    });
-
-    builder.addCase(fetchDeferredQueueStatus.fulfilled, (state, action) => {
-      if (action.payload) {
-        // @ts-ignore
-        state.rbDeferredQueueStatus = action.payload;
-      }
-    });
 
     builder.addCase(fetchRbRelationTypes.fulfilled, (state, action) => {
       if (action.payload) {
@@ -839,17 +421,6 @@ const rbSlice = createSlice({
 
       }
 
-    });
-
-    builder.addCase(fetchRbInvalidDocumentsTypes.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbInvalidDocuments = action.payload;
-      }
-    });
-    builder.addCase(fetchRbAccountingSystem.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbAccountingSystem = action.payload;
-      }
     });
     builder.addCase(fetchRbAttachTypes.fulfilled, (state, action) => {
       if (action.payload) {
@@ -884,26 +455,6 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbContactTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbContactTypes = action.payload;
-      }
-    });
-    builder.addCase(fetchRbSocialStatusType.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbSocialTypes = action.payload;
-      }
-    });
-    builder.addCase(fetchRbSocialStatusClass.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbSocialClasses = action.payload;
-      }
-    });
-    builder.addCase(fetchRbHurtType.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbHurtTypes = action.payload;
-      }
-    });
-    builder.addCase(fetchRbHurtFactorTypes.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.rbHurtFactorTypes = action.payload;
       }
     });
   },

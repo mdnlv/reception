@@ -1,9 +1,5 @@
-import EventType from '../../types/data/EventType';
 import Person from '../../types/data/Person';
 import Organisation from '../../types/data/Organisation';
-import InvalidReason from '../../types/data/InvalidReason';
-import InvalidDocument from '../../types/data/InvalidDocument';
-import AccountinSystemItem from '../../types/data/AccountinSystemItem';
 import AttachType from '../../types/data/AttachType';
 import PolicyType from '../../types/data/PolicyType';
 import PolicyKind from '../../types/data/PolicyKind';
@@ -100,11 +96,6 @@ export interface SET_RB_PERSONS {
   payload: Person[];
 }
 
-export interface SET_RB_EVENT_TYPES {
-  type: typeof SET_RB_EVENT_TYPES;
-  payload: EventType[];
-}
-
 export interface FETCH_INVALID_REASONS {
   type: typeof FETCH_INVALID_REASONS;
 }
@@ -115,11 +106,6 @@ export interface FETCH_INVALID_REASONS_ERROR {
 
 export interface FETCH_INVALID_REASONS_SUCCESS {
   type: typeof FETCH_INVALID_REASONS;
-}
-
-export interface SET_RB_INVALID_REASONS {
-  type: typeof SET_RB_INVALID_REASONS;
-  payload: InvalidReason[];
 }
 
 export interface FETCH_ORGANISATIONS {
@@ -151,11 +137,6 @@ export interface FETCH_INVALID_DOCUMENTS_SUCCESS {
   type: typeof FETCH_INVALID_DOCUMENTS_SUCCESS;
 }
 
-export interface SET_RB_INVALID_DOCUMENTS {
-  type: typeof SET_RB_INVALID_DOCUMENTS;
-  payload: InvalidDocument[];
-}
-
 export interface FETCH_ACCOUNTING_SYSTEM {
   type: typeof FETCH_ACCOUNTING_SYSTEM;
 }
@@ -166,11 +147,6 @@ export interface FETCH_ACCOUNTING_SYSTEM_ERROR {
 
 export interface FETCH_ACCOUNTING_SYSTEM_SUCCESS {
   type: typeof FETCH_ACCOUNTING_SYSTEM_SUCCESS;
-}
-
-export interface SET_RB_ACCOUNTING_SYSTEM {
-  type: typeof SET_RB_ACCOUNTING_SYSTEM;
-  payload: AccountinSystemItem[];
 }
 
 export interface FETCH_ATTACH_TYPES {
@@ -265,12 +241,10 @@ export type RbActionsType =
   | FETCH_EVENT_TYPES
   | FETCH_EVENT_TYPES_ERROR
   | SET_RB_PERSONS
-  | SET_RB_EVENT_TYPES
   | FETCH_EVENT_TYPES_SUCCESS
   | FETCH_INVALID_REASONS
   | FETCH_INVALID_REASONS_ERROR
   | FETCH_INVALID_REASONS_SUCCESS
-  | SET_RB_INVALID_REASONS
   | FETCH_ORGANISATIONS
   | FETCH_ORGANISATIONS_ERROR
   | FETCH_ORGANISATIONS_SUCCESS
@@ -278,11 +252,9 @@ export type RbActionsType =
   | FETCH_INVALID_DOCUMENTS
   | FETCH_INVALID_DOCUMENTS_ERROR
   | FETCH_INVALID_DOCUMENTS_SUCCESS
-  | SET_RB_INVALID_DOCUMENTS
   | FETCH_ACCOUNTING_SYSTEM
   | FETCH_ACCOUNTING_SYSTEM_ERROR
   | FETCH_ACCOUNTING_SYSTEM_SUCCESS
-  | SET_RB_ACCOUNTING_SYSTEM
   | FETCH_ATTACH_TYPES
   | FETCH_ATTACH_TYPES_ERROR
   | FETCH_ATTACH_TYPES_SUCCESS

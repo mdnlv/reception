@@ -1,9 +1,6 @@
 import AddressResponse from './patientAddress';
 import PatientContactResponse from './patientContact';
 import PatientPolicyResponse from './patientPolicy';
-import PatientSocialStatusResponse from './patientSocialStatus';
-import PatientWorkResponse from "./patientWork";
-import PatientOutsideIdsResponse from "./patientOutsideIds";
 import PatientDocumentResponse from './patientDocument';
 import PatientAttachResponse from "./patientAttach";
 import PatientRelationResponse from "./patientRelation";
@@ -44,12 +41,9 @@ export default interface PatientResponse {
   version: number;
 
   client_address_info: AddressResponse[];
-  client_soc_status_info: PatientSocialStatusResponse[];
   client_document_info: PatientDocumentResponse[];
   client_policy_info: PatientPolicyResponse[];
   client_contact_info: PatientContactResponse[];
-  client_work_info: PatientWorkResponse[];
-  client_identification_info: PatientOutsideIdsResponse[];
   client_attach_info: PatientAttachResponse[];
   client_relation_info: PatientRelationResponse[];
 }

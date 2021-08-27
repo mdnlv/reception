@@ -1,18 +1,6 @@
 import { createSelector } from 'reselect';
 import {RootState} from "../../reduxStore/store";
 
-export const detailedInvalidReasonsSelector = createSelector(
-  (state: RootState) => state.rb.rbInvalidReasons,
-  (reasons) =>
-    reasons.map((item:{
-      id:number;
-      name:string;
-    }) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
   (orgs) =>
@@ -37,30 +25,6 @@ export const detailedPersonsSelector = createSelector(
     }) => ({
       id: item.id,
       name: `${item.lastName} ${item.firstName} ${item.patrName}`,
-    })),
-);
-
-export const detailedInvalidDocuments = createSelector(
-  (state: RootState) => state.rb.rbInvalidDocuments,
-  (docs) =>
-    docs.map((item:{
-      id: number;
-      name: string
-    }) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
-export const detailedAccountingSystemSelector = createSelector(
-  (state: RootState) => state.rb.rbAccountingSystem,
-  (accounts) =>
-    accounts.map((item:{
-      id: number;
-      name: string
-    }) => ({
-      id: item.id,
-      name: item.name,
     })),
 );
 

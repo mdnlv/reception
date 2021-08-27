@@ -1,14 +1,8 @@
-import {format} from "date-fns";
-
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
 import {toServerFormat} from "./date/toServerFormat";
 import PatientRelation from "../interfaces/payloads/regCard/PatientRelation";
 import PatientContact from "../interfaces/payloads/regCard/PatientContact";
-import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
-import PatientWork from "../interfaces/payloads/regCard/PatientWork";
-import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
-import PatientIdInfo from "../interfaces/payloads/regCard/PatientIdInfo";
 import PatientDocument from "../interfaces/payloads/regCard/PatientDocument";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
@@ -35,13 +29,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     height,
     startCardDate,
     code,
-    // hasImplants,
-    // hasProsthesis,
-    // docPersonId,
-    // hasCard,
-    // onlyTempRegistration
   } = state.registrationCard.form.personal;
-  const {socialStatus} = state.registrationCard.form;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
     ...(code && {id: parseInt(code)}),
@@ -52,11 +40,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
     birthTime,
     chartBeginDate: startCardDate ? toServerFormat(startCardDate) : '',
-    // ...hasImplants && {hasImplants},
-    // ...hasProsthesis && {hasProsthesis},
-    // ...docPersonId && {docPersonId},
-    // ...hasCard && {hasCard},
-    // ...onlyTempRegistration && {onlyTempRegistration},
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
     SNILS: snils.replace(/-|\s+/g, ""),
     weight: weight.toString(),

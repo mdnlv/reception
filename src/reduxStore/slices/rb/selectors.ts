@@ -2,15 +2,6 @@ import { createSelector } from 'reselect';
 
 import { RootState } from '../../store';
 
-export const detailedInvalidReasonsSelector = createSelector(
-  (state: RootState) => state.rb.rbInvalidReasons,
-  (reasons) =>
-    reasons.map((item) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
   (orgs) =>
@@ -53,24 +44,6 @@ export const detailedPersonsFindSelector = createSelector(
     })),
 );
 
-export const detailedInvalidDocuments = createSelector(
-  (state: RootState) => state.rb.rbInvalidDocuments,
-  (docs) =>
-    docs.map((item) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
-export const detailedAccountingSystemSelector = createSelector(
-  (state: RootState) => state.rb.rbAccountingSystem,
-  (accounts) =>
-    accounts.map((item) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
 export const detailedDocumentTypesSelector = createSelector(
   (state: RootState) => state.rb.rbDocumentTypes,
   (types) => types,
@@ -95,25 +68,6 @@ export const detailedContactTypesSelector = createSelector(
   (types) => types,
 );
 
-export const detailedSocialTypesSelector = createSelector(
-  (state: RootState) => state.rb.rbSocialTypes,
-  (types) =>
-    types.map((item) => ({
-      id: item.id,
-      name: item.name,
-      classId: item.class_id,
-    })),
-);
-
-export const detailedSocialClassesSelector = createSelector(
-  (state: RootState) => state.rb.rbSocialClasses,
-  (types) =>
-    types.map((item) => ({
-      id: item.id,
-      name: item.name
-    })),
-);
-
 export const detailedOrgStructureSelector = createSelector(
   (state: RootState) => state.rb.rbOrgStructure,
   (orgs) =>
@@ -123,21 +77,10 @@ export const detailedOrgStructureSelector = createSelector(
     })),
 );
 
-export const detailedSpecialitySelector = createSelector(
-  (state: RootState) => state.rb.rbSpecialities,
-  (spec) =>
-    spec.map((item) => ({
-      id: item.id,
-      name: item.name
-    })),
-);
-
 export const socialLoadingsSelector = createSelector(
   (state: RootState) => state.rb.loading,
   (loadings) => {
     return {
-      types: loadings.socialTypes,
-      classes: loadings.socialClasses,
       documents: loadings.documentTypes
     };
   },
@@ -147,29 +90,9 @@ export const hazardLoadingsSelector = createSelector(
   (state: RootState) => state.rb.loading,
   (loadings) => {
     return {
-      types: loadings.socialTypes,
-      factorTypes: loadings.hurtFactorTypes,
       orgs: loadings.organisations,
     };
   },
-);
-
-export const detailedHurtTypesSelector = createSelector(
-  (state: RootState) => state.rb.rbHurtTypes,
-  (types) =>
-    types.map((item) => ({
-      id: item.id,
-      name: item.name,
-    })),
-);
-
-export const detailedHurtFactorTypesSelector = createSelector(
-  (state: RootState) => state.rb.rbHurtFactorTypes,
-  (types) =>
-    types.map((item) => ({
-      id: item.id,
-      name: item.name,
-    })),
 );
 
 export const detailedAttachTypesSelector = createSelector(

@@ -1,9 +1,5 @@
 import PatientRelation from "../regCard/PatientRelation";
 import PatientContact from "../regCard/PatientContact";
-import PatientSocStatus from "../regCard/PatientSocStatus";
-import PatientWork from "../regCard/PatientWork";
-import PatientAttach from "../regCard/PatientAttach";
-import PatientIdInfo from "../regCard/PatientIdInfo";
 
 export default interface NewPatientPayload {
   id?: number;
@@ -18,28 +14,6 @@ export default interface NewPatientPayload {
   weight: string;
   birthPlace: string;
   chartBeginDate: string | Date;
-  // hasImplants: boolean,
-  // hasProsthesis: boolean,
-  // docPersonId: string;
-  // hasCard: boolean;
-  // onlyTempRegistration: boolean;
-
-  // client_view_types?: PersonViewType[];
-  // client_features?: PersonFeatureItem[];
-  // client_allergy?: PersonAllergyItem[];
-  // client_med_intolerance?: MedIntoleranceItem[];
-  // client_inspections?: InspectionItem[];
-  // client_anthropometric?: AnthropometricDataItem[];
-  // client_privileges?: PrivilegeItem[];
-  // client_invalidity?: PrivilegeInvalidity[];
-  // client_offences?: PersonOffence[];
-  // client_relative_info?: PersonLink[];
-  // client_additional_hospitalization: PersonAddHospitalization[];
-  // client_outside_hospitalization: PersonHospitalization[];
-  // client_etc: EtcItem[];
-  // client_id_doc: PassportDoc[];
-  // client_policy: PolicyDoc[];
-  // client_named_doc: NamedDoc[];
 
   client_contact_info: PatientContact[];
 

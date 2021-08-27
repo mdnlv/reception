@@ -10,12 +10,11 @@ import {
   setIsSearchingPatients,
 } from '../../../reduxStore/slices/patients/patientsSlice';
 import { RootState } from '../../../reduxStore/store';
-import {TableProps} from "./types";
 
 import PatientsTable from '../PatientsTable/PatientsTable';
 import TableSearchHeader from '../wrappers/TableSearchHeader/TableSearchHeader';
 
-const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
+const PatientsSearchTable: React.FC = () => {
   const dispatch = useDispatch();
   //selectors
   const {
@@ -24,11 +23,9 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     patients,
     foundPatients,
     isSearching,
-    currentPatient,
   } = useSelector((state: RootState) => state.patients);
   const {saveNewPatient, idPatient} = useSelector((state: RootState) => state.registrationCard.loading);
   const {patientRegId} = useSelector((state: RootState) => state.registrationCard);
-  const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
   const [searchQuery, setSearchQuery] = useState('');
   const [offset, setOffset] = useState(0);
 
@@ -59,12 +56,6 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     dispatch(fetchQueryPatients({query:query,limit:5}))
   }
 
-  const onTableRowClick = (id: number) => {
-    if (id !== currentPatient && id) {
-      dispatch(setCurrentPatient(id));
-    }
-  }
-
   const getTypePatients = useMemo(() => {
     if (!isSearching) {
       return patients;
@@ -77,18 +68,9 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     dispatch(setIsSearchingPatients(true));
   }, []);
 
-  const onCloseForm = useCallback(() => {
-    setTableMode('default');
-  }, []);
-
   const onClearSearch = useCallback(() => {
     dispatch(setIsSearchingPatients(false));
     dispatch(clearFoundPatients({}));
-  }, []);
-
-  const onTableModeChange = useCallback((mode: 'default' | 'search') => {
-    setTableMode(mode);
-    onOpenSearch();
   }, []);
 
   const tablePatientsCount = useMemo(() => {
@@ -109,21 +91,15 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   return (
     <TableSearchHeader
       title={'Пациенты'}
-      onOpenSearch={onOpenSearch}
-      mode={tableMode}
       searchQuery={searchQuery}
       searchCount={tablePatientsCount}
       onSearchQuery={setSearchQuery}
       onSubmitForm={onSubmitForm}
-      onCloseClick={onCloseForm}
       onSearchButtonClick={onSearchButtonClick}
-      onTableModeChange={onTableModeChange}
       onClearSearch={onClearSearch}>
       <PatientsTable
-        onPatientClick={onTableRowClick}
         isLoading={tableLoading}
         patients={getTypePatients}
-        currentPatient={currentPatient}
         onChangeOffset={setOffset}
       />
     </TableSearchHeader>

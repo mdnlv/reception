@@ -35,8 +35,6 @@ import {
   FETCH_POLICY_TYPES,
   FETCH_POLICY_TYPES_ERROR,
   FETCH_POLICY_TYPES_SUCCESS,
-  SET_RB_ACCOUNTING_SYSTEM,
-  SET_RB_ATTACH_TYPES,
   SET_RB_DETACHMENT_REASONS,
   SET_RB_EVENT_TYPES,
   SET_RB_INVALID_DOCUMENTS,
@@ -45,11 +43,7 @@ import {
   SET_RB_PERSONS,
 } from './types';
 import Person from '../../types/data/Person';
-import EventType from '../../types/data/EventType';
 import Organisation from '../../types/data/Organisation';
-import InvalidReason from '../../types/data/InvalidReason';
-import InvalidDocument from '../../types/data/InvalidDocument';
-import AccountingSystemItem from '../../types/data/AccountinSystemItem';
 import PatientContactType from '../../types/data/PatientContactType';
 import PolicyKind from '../../types/data/PolicyKind';
 import PolicyType from '../../types/data/PolicyType';
@@ -99,13 +93,6 @@ export function setRbPersons(persons: Person[]) {
   };
 }
 
-export function setRbEventTypes(events: EventType[]) {
-  return {
-    type: SET_RB_EVENT_TYPES,
-    payload: events,
-  };
-}
-
 export function fetchOrganisations() {
   return {
     type: FETCH_ORGANISATIONS,
@@ -149,13 +136,6 @@ export function fetchInvalidReasonsSuccess() {
   };
 }
 
-export function setRbInvalidReasons(reasons: InvalidReason[]) {
-  return {
-    type: SET_RB_INVALID_REASONS,
-    payload: reasons,
-  };
-}
-
 export function fetchInvalidDocuments() {
   return {
     type: FETCH_INVALID_DOCUMENTS,
@@ -171,13 +151,6 @@ export function fetchInvalidDocumentsError() {
 export function fetchInvalidDocumentsSuccess() {
   return {
     type: FETCH_INVALID_DOCUMENTS_SUCCESS,
-  };
-}
-
-export function setRbInvalidDocuments(docs: InvalidDocument[]) {
-  return {
-    type: SET_RB_INVALID_DOCUMENTS,
-    payload: docs,
   };
 }
 
@@ -199,13 +172,6 @@ export function fetchAccountingSystemSuccess() {
   };
 }
 
-export function setRbAccountingSystem(accountItems: AccountingSystemItem[]) {
-  return {
-    type: SET_RB_ACCOUNTING_SYSTEM,
-    payload: accountItems,
-  };
-}
-
 export function fetchAttachTypes() {
   return {
     type: FETCH_ATTACH_TYPES,
@@ -221,13 +187,6 @@ export function fetchAttachTypesError() {
 export function fetchAttachTypesSuccess() {
   return {
     type: FETCH_ATTACH_TYPES_SUCCESS,
-  };
-}
-
-export function setRbAttachTypes(accountItems: AccountingSystemItem[]) {
-  return {
-    type: SET_RB_ATTACH_TYPES,
-    payload: accountItems,
   };
 }
 
