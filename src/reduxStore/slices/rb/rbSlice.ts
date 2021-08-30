@@ -80,12 +80,14 @@ async (payload: { query:string }, thunkAPI) => {
 export const fetchRbRelationTypes = createAsyncThunk(
   'rb/fetchRelationTypes',
   async (payload: { sex:number }, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'relationTypes', value: true }));
     try {
       const response = await RbService.fetchRelationTypes();
       if (response.data) {
-          return response.data
+        return response.data
       }
     } catch (e) {
+      alert(e);
     } finally {
     }
   },
@@ -394,6 +396,7 @@ const rbSlice = createSlice({
       documentTypes: false,
       detachmentReasons: false,
       SNILSMissingReasons: false,
+      relationTypes: false,
     },
   },
   reducers: {
@@ -406,7 +409,8 @@ const rbSlice = createSlice({
           | 'SNILSMissingReasons'
           | 'orgStructure'
           | 'organisations'
-          | 'documentTypes';
+          | 'documentTypes'
+          | 'relationTypes';
         value: boolean;
       }>,
     ) => {

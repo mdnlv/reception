@@ -77,7 +77,6 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       initialValues={store}
       validationSchema={validation}
       onSubmit={(values) => {
-        console.log('values', values);
         if (
           values.isUnknown
             && (values.personal.sex !== null)

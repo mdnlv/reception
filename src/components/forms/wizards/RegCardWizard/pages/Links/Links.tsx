@@ -8,7 +8,7 @@ import {CloseCircleOutlined} from "@ant-design/icons";
 import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
-import  RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType';
+import RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType';
 import Patient from "../../../../../../types/data/Patient";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
@@ -24,12 +24,12 @@ const Links: React.FC = () => {
   const sectionValuePath = `links`;
   const patientSex = form.values.personal.sex
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
-  const patients = useSelector((state: RootState) => state.patients.foundPatients );
+  const patients = useSelector((state: RootState) => state.patients.foundPatients);
 
-  // useEffect(() => {
-  //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
-  //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
-  // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
+  useEffect(() => {
+    console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
+    console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
+  }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
