@@ -10,10 +10,10 @@ export default interface NewPatientPayload {
   birthTime: string | null;
   sex: 1 | 2 | null;
   SNILS: string;
+  SNILSMissing_id: number | null;
   growth: string;
   weight: string;
   birthPlace: string;
-  chartBeginDate: string | Date;
 
   client_contact_info: PatientContact[];
 

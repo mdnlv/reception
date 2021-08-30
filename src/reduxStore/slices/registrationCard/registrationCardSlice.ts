@@ -398,7 +398,7 @@ const registrationCardSlice = createSlice({
           height: transformedPatient.growth,
           weight: transformedPatient.weight,
           snils: transformedPatient.snils,
-          startCardDate: transformedPatient.chartBeginDate
+          SNILSMissingReason: transformedPatient.SNILSMissingReason,
         };
         // @ts-ignore
         state.initialFormState.passportGeneral.passportInfo = {

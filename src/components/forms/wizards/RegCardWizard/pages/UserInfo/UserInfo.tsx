@@ -7,20 +7,22 @@ import {
   Divider,
   Radio,
   Row,
-  TimePicker
+  TimePicker,
+  Select,
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {format} from "date-fns";
 
 import {WizardStateType} from '../../types';
-import UserInfoTypes from "./types";
+import UserInfoTypes, {ListOptionItem} from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
 import {RootState} from "../../../../../../reduxStore/store";
 import {
   findPatientSnils,
   setSnilsFoundMessage
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {detailedSNILSMissingReasonsSelector} from "../../../../../../reduxStore/slices/rb/selectors";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -29,6 +31,7 @@ import FastInputNumber from '../../../../components/fields/FastInputNumber/FastI
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
 import SnilsFound from "../../../../../modals/SnilsFound/SnilsFound";
 import UnknownInfo from "../../../../../modals/UnknownInfo/UnknownInfo";
+import FastSearchSelect from "../../../../components/fields/FastSearchSelect/FastSearchSelect";
 
 const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShowUnknown}) => {
   const dispatch = useDispatch();
@@ -43,6 +46,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const {snilsFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
   );
+  const SNILSMissingReasons = useSelector(detailedSNILSMissingReasonsSelector);
+  const {SNILSMissingReasons: isSMRLoading} = useSelector((state: RootState) => state.rb.loading);
   const [snilsWarning, setSnilsWarning] = useState('');
   const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
 
@@ -73,6 +78,16 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     const checking = snilsCheck(formValues.snils)
     !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
   }, [formValues.snils]);
+
+  const getPropsOptions = useCallback(
+    (props: ListOptionItem[]) =>
+      props.map((item) => (
+        <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
+          {item.name}
+        </Select.Option>
+      )),
+    [SNILSMissingReasons],
+  );
 
   const snilsCheck = (value: string) => {
     const valueInt = value ? value.replace(/-/g, "").replace(/\s/g, "") : '';
@@ -131,7 +146,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     const monthNow = dateNow.getUTCMonth() + 1;
     const yearNow = dateNow.getUTCFullYear();
     const yearUnknown = yearNow - parseInt(formUnknownValues.ageUnknown);
-    console.log('date', `${yearUnknown}-${monthNow}-${dayNow}`);
     formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
     formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
     formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
@@ -246,6 +260,20 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
                   </Col>
                 </Row>
                 {snilsWarning && snilsAlert()}
+              </FormField>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <FormField label="Причина отсутствия СНИЛС" name={`${sectionValuePath}.SNILSMissingReason`}>
+                <FastSearchSelect
+                  name={`${sectionValuePath}.SNILSMissingReason`}
+                  allowClear
+                  loading={isSMRLoading}
+                  disabled={isSMRLoading}
+                >
+                  {getPropsOptions(SNILSMissingReasons)}
+                </FastSearchSelect>
               </FormField>
             </Col>
           </Row>

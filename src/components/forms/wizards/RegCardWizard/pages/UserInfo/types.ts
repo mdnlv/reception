@@ -8,3 +8,8 @@ export default interface UserInfoTypes {
   showUnknown: boolean;
   setShowUnknown: (_: boolean) => void;
 }
+
+export interface ListOptionItem {
+  id: number;
+  name: string;
+}

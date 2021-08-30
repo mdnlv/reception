@@ -18,25 +18,19 @@ interface InitialRegFormState {
   personDocs: PersonDocsState;
   links: LinksFormState;
   personal: {
+    code: string;
     firstName: string;
     lastName: string;
     patrName: string;
-    code: string;
     birthDate: Date | string;
     birthTime: string;
     height: number;
     weight: number;
-    snils: string;
-    startCardDate: Date | string;
     sex: 0 | 1 | null;
-    hasImplants: boolean;
-    hasProsthesis: boolean;
-    birthPlace: string;
-    hasCard: boolean;
-    onlyTempRegistration: boolean;
-    docPersonId: string;
-    isSedentary: boolean;
+    snils: string;
+    SNILSMissingReason: string;
     isShiftWorker: boolean;
+    birthPlace: string;
   };
   personalUnknown: {
     addressUnknown: string;

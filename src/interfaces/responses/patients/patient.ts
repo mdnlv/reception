@@ -39,6 +39,7 @@ export default interface PatientResponse {
   dataTransferConfirmationDate: Date | null;
   uuid_id: number;
   version: number;
+  SNILSMissing_id: number | null;
 
   client_address_info: AddressResponse[];
   client_document_info: PatientDocumentResponse[];

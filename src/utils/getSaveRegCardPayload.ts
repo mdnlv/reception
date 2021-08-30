@@ -17,18 +17,18 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     policiesDeleted
   } = state.registrationCard.form.personDocs;
   const {
+    code,
     firstName,
     lastName,
     patrName,
-    birthPlace,
     birthDate,
     birthTime,
-    sex,
-    snils,
     weight,
     height,
-    startCardDate,
-    code,
+    sex,
+    snils,
+    SNILSMissingReason,
+    birthPlace,
   } = state.registrationCard.form.personal;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
@@ -39,9 +39,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     birthPlace,
     birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
     birthTime,
-    chartBeginDate: startCardDate ? toServerFormat(startCardDate) : '',
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
     SNILS: snils.replace(/-|\s+/g, ""),
+    SNILSMissing_id: parseInt(SNILSMissingReason) || null,
     weight: weight.toString(),
     growth: height.toString(),
 

@@ -6,18 +6,15 @@ import transformPolicyResponse from './transformPolicyResponse';
 export const transformPatientResponse = (item: PatientResponse) => {
   // console.log('BIRTH DATE', item.birthDate);
   return {
-    fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
-    snils: item.SNILS,
-    sex: item.sex,
-    birthDate: item.birthDate || '',
-    birthPlace: item.birthPlace,
     code: item.id,
-    regAddress: '',
-    livingAddress: '',
+    fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
+    birthDate: item.birthDate || '',
     growth: parseInt(item.growth),
     weight: parseInt(item.weight),
-    notes: item.notes,
-    chartBeginDate: item.chartBeginDate ? parseISO(item.chartBeginDate) : '',
+    sex: item.sex,
+    snils: item.SNILS,
+    SNILSMissingReason: item.SNILSMissing_id ? item.SNILSMissing_id.toString() : '',
+    birthPlace: item.birthPlace,
 
     client_document_info: item.client_document_info[0] ? {
       id: item.client_document_info[0].id,
