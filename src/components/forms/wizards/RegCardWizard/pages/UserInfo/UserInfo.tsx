@@ -167,12 +167,18 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   return (
     <>
       <form className="wizard-step registration-form">
-        <div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <Checkbox
             name={`isUnknown`}
             onChange={formProps.handleChange}
             checked={formIsUnknown}>
             Неизвестный
+          </Checkbox>
+          <Checkbox
+            name={`${sectionValuePath}.isShiftWorker`}
+            onChange={formProps.handleChange}
+            checked={formProps.values.personal.isShiftWorker}>
+            Вахтовик
           </Checkbox>
         </div>
         <Divider />
@@ -277,15 +283,6 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
               </FormField>
             </Col>
           </Row>
-        </div>
-        <Divider />
-        <div>
-          <Checkbox
-            name={`${sectionValuePath}.isShiftWorker`}
-            onChange={formProps.handleChange}
-            checked={formProps.values.personal.isShiftWorker}>
-            Вахтовик
-          </Checkbox>
         </div>
         <Divider />
         <div>

@@ -77,11 +77,14 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       initialValues={store}
       validationSchema={validation}
       onSubmit={(values) => {
+        console.log('values', values);
         if (
           values.isUnknown
             && (values.personal.sex !== null)
-            && !values.personal.birthDate
-            && !values.passportGeneral.passportInfo.addressRegistration.freeInput
+            && (
+              !values.personal.birthDate
+                || !values.passportGeneral.passportInfo.addressRegistration.freeInput
+            )
         ) {
           setShowUnknownModal(true);
         } else if (!values.isUnknown) {

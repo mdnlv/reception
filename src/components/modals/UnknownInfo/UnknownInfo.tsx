@@ -39,7 +39,7 @@ const UnknownInfo: React.FC<ModalProps> = ({
   }, [formValues]);
 
   const onSubmitForm = () => {
-    formValues.addressUnknown || formValues.ageUnknown
+    formValues.addressUnknown && formValues.ageUnknown
       ? onOk()
       : setValidate(true);
   };
