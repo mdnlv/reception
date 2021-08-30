@@ -25,11 +25,12 @@ const Links: React.FC = () => {
   const patientSex = form.values.personal.sex
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const patients = useSelector((state: RootState) => state.patients.foundPatients);
+  const {relationTypes} = useSelector((state: RootState) => state.rb.loading);
 
-  useEffect(() => {
-    console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
-    console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
-  }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
+  // useEffect(() => {
+  //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
+  //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
+  // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
@@ -104,7 +105,8 @@ const Links: React.FC = () => {
                     <Col span={5}>
                       <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'directLinks', 'patientLink')}>
                         <FastSearchSelect
-                          loading={false}
+                          loading={relationTypes}
+                          disabled={relationTypes}
                           showSearch
                           filterOption
                           optionFilterProp={'directLinks'}
@@ -155,20 +157,22 @@ const Links: React.FC = () => {
                   <Row key={index} gutter={16}>
                     <Col span={5}>
                       <FormField label={LABELS.BACK_LINK}  name={getSelectionPath(index, 'backLinks', 'patientLink')}>
-                      <FastSearchSelect
-                      loading={false}
-                      showSearch
-                      filterOption
-                      optionFilterProp={'backLinks'}
-                    name={getSelectionPath(index, 'backLinks', 'patientLink')}
-                      >
-                        {getPropsOptions(rbRelationTypesRelativeLink)}
+                        <FastSearchSelect
+                          loading={relationTypes}
+                          disabled={relationTypes}
+                          showSearch
+                          filterOption
+                          optionFilterProp={'backLinks'}
+                          name={getSelectionPath(index, 'backLinks', 'patientLink')}
+                        >
+                          {getPropsOptions(rbRelationTypesRelativeLink)}
                         </FastSearchSelect>
                       </FormField>
                     </Col>
                     <Col span={7}>
                       <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'backLinks', 'refName')}>
                         <AutoCompleteInput
+                          allowClear
                           defaultValue={formValues.backLinks.backLinks[index].refName}
                           onSearch={searchPatients}
                           options={getSearchOptions(patients)}

@@ -88,7 +88,9 @@ export const fetchRbRelationTypes = createAsyncThunk(
       }
     } catch (e) {
       alert(e);
+      thunkAPI.rejectWithValue(e);
     } finally {
+      thunkAPI.dispatch(setLoading({ type: 'relationTypes', value: false }));
     }
   },
 );
