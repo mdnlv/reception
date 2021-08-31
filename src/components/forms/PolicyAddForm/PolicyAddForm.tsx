@@ -219,7 +219,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             </Button>
           </Col>
         )}
-        <Col xl={5} xxl={4}>
+        <Col lg={5} xl={5} xxl={4}>
           <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
               allowClear
@@ -231,7 +231,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             </FastSearchSelect>
           </FormField>
         </Col>
-        <Col xl={7} xxl={3}>
+        <Col lg={5} xl={7} xxl={3}>
           <FormField label={'С'} name={`${sectionValuePath}.from`}>
             <FastDatePicker
               disabled={isLoading}
@@ -239,7 +239,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             />
           </FormField>
         </Col>
-        <Col xl={7} xxl={3}>
+        <Col lg={5} xl={7} xxl={3}>
           <FormField label={'До'} name={`${sectionValuePath}.to`}>
             <FastDatePicker
               disabled={isLoading}
@@ -247,7 +247,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             />
           </FormField>
         </Col>
-        <Col xl={5} xxl={4}>
+        <Col lg={5} xl={5} xxl={4}>
           <FormField label={'ЕНП'} name={`${sectionValuePath}.enp`}>
             <FastInput
               disabled={isLoading}
@@ -282,7 +282,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
       </Row>
       <Row className="form-row" gutter={16} align={'bottom'}>
-        <Col xl={20} xxl={13}>
+        <Col lg={22} xl={24} xxl={13}>
           <FormField label="СМО" name={`${sectionValuePath}.cmo`}>
             <FastSearchSelect
               filterOption
@@ -300,7 +300,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         <Col>
           <Button onClick={() => setShowOrgChoice(true)}>...</Button>
         </Col>
-        <Col xl={24} xxl={9}>
+        <Col lg={24} xl={24} xxl={9}>
           <FormField name={`${sectionValuePath}.type`}>
             <FastSearchSelect
               disabled={isLoading}

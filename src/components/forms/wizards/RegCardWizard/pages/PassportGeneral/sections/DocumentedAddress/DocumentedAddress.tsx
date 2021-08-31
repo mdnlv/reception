@@ -129,7 +129,7 @@ const DocumentedAddress: FC<SectionProps> = ({
       {formValues.isKLADR ? (
         <>
           <Row gutter={16} className="form-row">
-            <Col xl={16} xxl={8}>
+            <Col lg={24} xl={16} xxl={8}>
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladr}
@@ -143,7 +143,7 @@ const DocumentedAddress: FC<SectionProps> = ({
                 </FastSearchSelect>
               </FormField>
             </Col>
-            <Col xl={16} xxl={12}>
+            <Col lg={24} xl={16} xxl={12}>
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
@@ -174,7 +174,7 @@ const DocumentedAddress: FC<SectionProps> = ({
             </Col>
           </Row>
           <Row gutter={16} className="form-row">
-            <Col xl={16} xxl={8}>
+            <Col lg={24} xl={16} xxl={8}>
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrStreets}

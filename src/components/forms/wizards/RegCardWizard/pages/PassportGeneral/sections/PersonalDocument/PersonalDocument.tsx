@@ -11,9 +11,9 @@ import FastDatePicker from '../../../../../../components/fields/FastDatePicker/F
 import FastSearchSelect from '../../../../../../components/fields/FastSearchSelect/FastSearchSelect';
 
 const PersonalDocument: FC<SectionProps> = ({
-                                              documentTypes,
-                                              isLoadingDocuments,
-                                            }) => {
+  documentTypes,
+  isLoadingDocuments,
+}) => {
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personDocs.documents[0];
   const selectionValuePath = 'personDocs.documents[0]';
@@ -48,17 +48,17 @@ const PersonalDocument: FC<SectionProps> = ({
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={2}>
+        <Col lg={12} xxl={2}>
           <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialFirst`}>
             <FastInput name={`${selectionValuePath}.serialFirst`} />
           </FormField>
         </Col>
-        <Col span={2}>
+        <Col lg={12} xxl={2}>
           <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialSecond`}>
             <FastInput name={`${selectionValuePath}.serialSecond`} />
           </FormField>
         </Col>
-        <Col span={7}>
+        <Col xxl={7}>
           <FormField label={LABELS.NUMBER} name={`${selectionValuePath}.number`}>
             <FastInput name={`${selectionValuePath}.number`} />
           </FormField>
