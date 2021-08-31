@@ -9,6 +9,7 @@ function ArrayFieldWrapper<T>({
   showActions,
   values,
   renderChild,
+  extraDeps
 }: WrapperProps<T>) {
   const onAddHandler = useCallback(() => {
     if (onAddItem) onAddItem();
@@ -18,7 +19,7 @@ function ArrayFieldWrapper<T>({
     if (Array.isArray(values)) {
       return values?.map((item, index) => renderChild(item, index));
     }
-  }, [values]);
+  }, [values, ...extraDeps ? [...extraDeps] : []]);
 
   return (
     <div>

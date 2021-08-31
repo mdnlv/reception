@@ -1,9 +1,10 @@
 import React,{useCallback, useEffect} from 'react';
-import { Col, Divider, Row, Select, Button } from 'antd';
+import { Col, Divider, Row, Select, Button, Spin } from 'antd';
 import { useFormikContext } from 'formik';
 import { RootState } from '../../../../../../reduxStore/store';
 import { useSelector, useDispatch } from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
+import {format, parseISO} from "date-fns";
 
 import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
@@ -26,11 +27,16 @@ const Links: React.FC = () => {
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const patients = useSelector((state: RootState) => state.patients.foundPatients);
   const {relationTypes} = useSelector((state: RootState) => state.rb.loading);
+  const {isLoadingFound} = useSelector((state: RootState) => state.patients);
 
   // useEffect(() => {
   //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
   //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
   // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
+  //
+  useEffect(() => {
+    console.log('isLoadingFound', isLoadingFound);
+  }, [isLoadingFound]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
@@ -44,7 +50,7 @@ const Links: React.FC = () => {
       : formValues.backLinks.backLinks;
     const newArr = [...valueArr, links];
     form.setFieldValue(`links.${type}.${type}`, newArr);
-  }, [formValues,patientSex]);
+  }, [formValues, patientSex, rbRelationTypesRelativeLink, rbRelationTypesDirectLink]);
 
   const onRemoveAttachment = useCallback((type:'backLinks' | 'directLinks', index: number ) => {
     const valueArr = type === 'directLinks'
@@ -55,11 +61,11 @@ const Links: React.FC = () => {
     const newArr = valueArr.filter((item, i) => i !== index);
     form.setFieldValue(`links.${type}.deleted`, newRemovedArr);
     form.setFieldValue(`links.${type}.${type}`, newArr);
-  }, [formValues,patientSex]);
+  }, [formValues, patientSex, rbRelationTypesRelativeLink, rbRelationTypesDirectLink]);
 
 
   //@ts-ignore
-  const getPropsOptions = (props, type?) => {
+  const getPropsOptions = useCallback((props, type?) => {
     return props.map((item:RbRelationTypeResponse) => {
       let name = ''
       if (type === 'directConnection' ) {
@@ -74,14 +80,19 @@ const Links: React.FC = () => {
         </Select.Option>
        )
     })
-  };
+  }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
 
-  const getSearchOptions = (props: Patient[]) => {
-    return props.map(({fullName}) => ({value:fullName}))
-  }
+  const getSearchOptions = useCallback((props: Patient[]) => {
+    return props.map(({code, fullName, birthDate}) => (
+      {
+        value: code.toString(),
+        label: `${fullName}, ${format(parseISO(birthDate), 'dd.MM.yyyy')}`
+      }
+    ))
+  }, [patients]);
 
   const searchPatients = async (query:string) =>{
-    await dispatch(fetchQueryPatients({query:query,limit:5}))
+    await dispatch(fetchQueryPatients({query: query || '', limit:5}))
   }
 
   const getSelectionPath = (index: number, linkType:string, fieldChain: string) => {
@@ -95,52 +106,55 @@ const Links: React.FC = () => {
           <Row>
             <Col span={24}>
                <ArrayFieldWrapper<any>
-               values={formValues.directLinks.directLinks}
-               onAddItem={()=>onAddAttachment('directLinks')}
-               showActions
-                name={'directLinks'}
-                renderChild={(_, index:number) => {
-                  return (
-                  <Row key={index} gutter={16}>
-                    <Col span={5}>
-                      <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'directLinks', 'patientLink')}>
-                        <FastSearchSelect
-                          loading={relationTypes}
-                          disabled={relationTypes}
-                          showSearch
-                          filterOption
-                          optionFilterProp={'directLinks'}
-                          name={getSelectionPath(index, 'directLinks', 'patientLink')}
-                        >
-                          {getPropsOptions(rbRelationTypesDirectLink, 'directConnection')}
-                        </FastSearchSelect>
-                      </FormField>
-                    </Col>
-                    <Col span={7}>
-                      <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'directLinks', 'refName')}>
-                        <AutoCompleteInput
-                          defaultValue={formValues.directLinks.directLinks[index].refName}
-                          onSearch={searchPatients}
-                          options={getSearchOptions(patients)}
-                          name={getSelectionPath(index, 'directLinks', 'refName')}
-                          onChangeValue={(value: string) => {
-                            const result = patients.find((item) => item.fullName === value);
-                            form.setFieldValue(`links.directLinks.directLinks[${index}].forwardRef`, result?.code);
-                          }}
-                        />
-                      </FormField>
-                    </Col>
-                    <Col span={1}>
-                      <Button
-                        type={'link'}
-                        size={'small'}
-                        shape="circle"
-                        icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                        onClick={onRemoveAttachment.bind(this, 'directLinks', index)}
-                      />
-                    </Col>
-                  </Row>
-                )}}
+                 values={formValues.directLinks.directLinks}
+                 onAddItem={()=>onAddAttachment('directLinks')}
+                 showActions
+                  name={'directLinks'}
+                  extraDeps={[patients, rbRelationTypesDirectLink, rbRelationTypesRelativeLink]}
+                  renderChild={(_, index:number) => {
+                    return (
+                      <Row key={index} gutter={16}>
+                        <Col span={5}>
+                          <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'directLinks', 'patientLink')}>
+                            <FastSearchSelect
+                              loading={relationTypes}
+                              disabled={relationTypes}
+                              showSearch
+                              filterOption
+                              optionFilterProp={'directLinks'}
+                              name={getSelectionPath(index, 'directLinks', 'patientLink')}
+                            >
+                              {getPropsOptions(rbRelationTypesDirectLink, 'directConnection')}
+                            </FastSearchSelect>
+                          </FormField>
+                        </Col>
+                        <Col span={7}>
+                          <FormField label={LABELS.WITH_PATIENT} name={getSelectionPath(index, 'directLinks', 'refName')}>
+                            <AutoCompleteInput
+                              allowClear
+                              defaultValue={formValues.directLinks.directLinks[index].refName}
+                              onSearch={searchPatients}
+                              options={getSearchOptions(patients)}
+                              name={getSelectionPath(index, 'directLinks', 'refName')}
+                              onChangeValue={(value: string) => {
+                                const result = patients.find((item) => item.fullName === value);
+                                form.setFieldValue(`links.directLinks.directLinks[${index}].forwardRef`, result?.code);
+                              }}
+                            />
+                          </FormField>
+                        </Col>
+                        <Col span={1}>
+                          <Button
+                            type={'link'}
+                            size={'small'}
+                            shape="circle"
+                            icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                            onClick={onRemoveAttachment.bind(this, 'directLinks', index)}
+                          />
+                        </Col>
+                      </Row>
+                    )
+                }}
               />
             </Col>
           </Row>
@@ -152,6 +166,7 @@ const Links: React.FC = () => {
                onAddItem={()=>onAddAttachment('backLinks')}
                showActions
                 name={'backLinks'}
+                extraDeps={[patients, rbRelationTypesDirectLink, rbRelationTypesRelativeLink]}
                 renderChild={(_, index:number) => {
                   return (
                   <Row key={index} gutter={16}>

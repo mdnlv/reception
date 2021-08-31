@@ -15,6 +15,7 @@ const AutoCompleteInput: React.FC<any> = (props) => {
 
   return (
     <AutoComplete
+      allowClear={props.allowClear}
       defaultValue={props.defaultValue}
       options={props.options}
       disabled={props.isDisabled}

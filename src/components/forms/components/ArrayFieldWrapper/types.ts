@@ -6,4 +6,5 @@ export interface WrapperProps<T> {
   renderChild: (item: T, index: number) => React.ReactNode;
   onAddItem?(type?:string): void;
   showActions?: boolean;
+  extraDeps?: any[];
 }
