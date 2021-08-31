@@ -25,6 +25,12 @@ const UnknownInfo: React.FC<ModalProps> = ({
   }, [formValues]);
 
   useEffect(() => {
+    formValues.ageUnknown
+      && isNaN(parseInt(formValues.ageUnknown))
+      && form.setFieldValue(`${sectionValuePath}.ageUnknown`, '');
+  }, [formValues.ageUnknown]);
+
+  useEffect(() => {
     const handleEnter = (event: KeyboardEvent) => {
       if (event.keyCode === 13) {
         onOk && onOk();
