@@ -27,16 +27,15 @@ const Links: React.FC = () => {
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const patients = useSelector((state: RootState) => state.patients.foundPatients);
   const {relationTypes} = useSelector((state: RootState) => state.rb.loading);
-  const {isLoadingFound} = useSelector((state: RootState) => state.patients);
 
   // useEffect(() => {
   //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
   //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
   // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
   //
-  useEffect(() => {
-    console.log('isLoadingFound', isLoadingFound);
-  }, [isLoadingFound]);
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
@@ -85,7 +84,7 @@ const Links: React.FC = () => {
   const getSearchOptions = useCallback((props: Patient[]) => {
     return props.map(({code, fullName, birthDate}) => (
       {
-        value: code.toString(),
+        value: `${fullName}, ${format(parseISO(birthDate), 'dd.MM.yyyy')}`,
         label: `${fullName}, ${format(parseISO(birthDate), 'dd.MM.yyyy')}`
       }
     ))
