@@ -25,9 +25,13 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       //@ts-ignore
       birthDate: Yup.string().nullable().required('дата рождения').compareWithToday('введена ненаступившая дата рождения'),
       sex: Yup.boolean().nullable().required('пол'),
-      snils: Yup.string().required('СНИЛС')
-        .transform(value => value.replace(/[^0-9]/g, ''))
-        .min(11, "значение СНИЛС должно содержать 11 цифр"),
+      snils: Yup.string().when('SNILSMissingReason', {
+        is: val => !val,
+        then: Yup.string().required('СНИЛС')
+          .transform(value => value.replace(/[^0-9]/g, ''))
+          .min(11, "значение СНИЛС должно содержать 11 цифр"),
+      }),
+      SNILSMissingReason: Yup.string(),
     }),
     otherwise: Yup.object({
       sex: Yup.boolean().nullable().required('пол'),
