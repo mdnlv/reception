@@ -1,6 +1,7 @@
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {Modal, Row, Button} from "antd";
 import { useFormikContext } from 'formik';
+import {differenceInYears} from "date-fns";
 
 import {ModalProps} from "./types";
 import {WizardStateType} from "../../forms/wizards/RegCardWizard/types";
@@ -15,8 +16,19 @@ const UnknownInfo: React.FC<ModalProps> = ({
 }) => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.personalUnknown;
+  const formAddressValue = form.values.passportGeneral.passportInfo.addressRegistration.freeInput;
+  const formBirthDateValue = form.values.personal.birthDate;
   const sectionValuePath = `personalUnknown`;
   const [isValidate, setValidate] = useState(false);
+
+  useEffect(() => {
+    formAddressValue
+      && form.setFieldValue(`${sectionValuePath}.addressUnknown`, formAddressValue);
+    formBirthDateValue
+      && form.setFieldValue(
+        `${sectionValuePath}.ageUnknown`, differenceInYears(new Date(), formBirthDateValue as Date)
+        );
+  }, [formAddressValue, formBirthDateValue]);
 
   useEffect(() => {
     formValues.addressUnknown
