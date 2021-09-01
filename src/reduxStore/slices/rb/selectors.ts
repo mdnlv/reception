@@ -73,7 +73,8 @@ export const detailedOrgStructureSelector = createSelector(
   (orgs) =>
     orgs.map((item) => ({
       id: item.id,
-      name: item.name
+      name: item.name,
+      attachCode: item.attachCode,
     })),
 );
 

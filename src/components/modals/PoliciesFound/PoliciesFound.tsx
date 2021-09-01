@@ -71,7 +71,9 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Row>
               <Row justify={'start'}>
                 <Typography.Text>
-                  {orgStructure.find((item) => item.id === parseInt(policy.attach || ''))?.name}
+                  {orgStructure.find(
+                    (item) => item.id === parseInt(policy.attach || '')
+                  )?.name}
                 </Typography.Text>
               </Row>
             </>
@@ -83,7 +85,11 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Row>
               {policy?.attachList?.map((item, index) => (
                 <Row justify={'start'} key={index}>
-                  <Typography.Text>{item}</Typography.Text>
+                  <Typography.Text>
+                    {orgStructure.find(
+                      (elem) => elem.attachCode === item
+                    )?.name || `Неизвестная мед.организация с кодом: ${item}`}
+                  </Typography.Text>
                 </Row>
               ))}
             </>

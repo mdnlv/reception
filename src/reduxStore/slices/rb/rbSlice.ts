@@ -296,7 +296,8 @@ export const fetchRbOrgStructure = createAsyncThunk(
       }
         return response.data.map((item:OrgStructure) => ({
           id: item.id,
-          name: item.name
+          name: item.name,
+          attachCode: item.attachCode,
         }));
       }
     } catch (e) {
