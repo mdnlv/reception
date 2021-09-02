@@ -83,7 +83,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
         onAddItem={onAddContact}
         showActions={true}
         renderChild={(key, index) => (
-          <Row gutter={16} key={index}>
+          <Row gutter={16} key={index} align="middle">
             <Col span={3}>
               <FormField label={LABELS.MAIN}>
                 <div className="center-wrapper">
@@ -95,7 +95,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 </div>
               </FormField>
             </Col>
-            <Col xl={21} xxl={7}>
+            <Col lg={21} xl={21} xxl={7} offset={1}>
               <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
                 <FastSearchSelect
                   name={getSelectionItem(index, 'type')}
@@ -115,7 +115,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 )}
               </FormField>
             </Col>
-            <Col span={7}>
+            <Col span={6}>
               <FormField label={LABELS.NOTE}>
                 <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>
