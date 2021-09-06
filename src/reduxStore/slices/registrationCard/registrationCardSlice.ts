@@ -11,7 +11,10 @@ import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard
 import { RootState } from '../../store';
 import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
-import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
+import {
+  PassportAddressType,
+  PassportPolicyType
+} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
@@ -253,6 +256,15 @@ const registrationCardSlice = createSlice({
       state.form.data.passportGeneral.documentedAddress.documentedBuffer =
         action.payload.value;
     },
+    setPolicyBuffer: (
+      state,
+      action: PayloadAction<{
+        value: PassportPolicyType;
+        type: 'setPolicyBuffer';
+      }>,
+    ) => {
+      state.form.policyBuffer = action.payload.value;
+    },
     setPatientReg: (
       state,
       action: PayloadAction<{
@@ -341,7 +353,7 @@ const registrationCardSlice = createSlice({
       state.initialFormState = { ...initialState.initialFormState };
     },
     resetPoliciesFound: (state) => {
-      state.form.foundPolicies.item = state.initialFormState.personDocs.policies[0];
+      state.form.foundPolicies.item = state.form.policyBuffer;
     },
   },
   extraReducers: (builder) => {
@@ -602,6 +614,7 @@ export const {
   setFindSnilsLoading,
   setLoading,
   setDocumentedBuffer,
+  setPolicyBuffer,
   fetchIdPatientError,
   setPatientReg,
   resetRegCard,

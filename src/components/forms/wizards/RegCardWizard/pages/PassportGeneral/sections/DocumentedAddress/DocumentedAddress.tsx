@@ -21,14 +21,13 @@ const DocumentedAddress: FC<SectionProps> = ({
   getKladrNested,
   getKladrStreets,
 }) => {
-  const [prevCity, setPrevCity] = useState('');
-
-  const [cleanable, setCleanable] = useState(false);
   const form = useFormikContext<WizardStateType>();
   const dispatch = useDispatch();
   const formValues = form.values.passportGeneral.passportInfo.documentedAddress;
   const formInitialValues = form.initialValues.passportGeneral.passportInfo.documentedAddress;
   const sectionValuePath = `passportGeneral.passportInfo.documentedAddress`;
+  const [prevCity, setPrevCity] = useState('');
+  const [cleanable, setCleanable] = useState(false);
 
   // useEffect(() => {
   //   console.log('formValues', formValues);

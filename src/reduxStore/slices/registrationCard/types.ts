@@ -60,6 +60,7 @@ interface FormState extends InitialRegFormState {
       };
     };
   };
+  policyBuffer: PassportPolicyType;
   foundPolicies: {
     item: PassportPolicyType | null;
     isLoading: boolean;

@@ -2,10 +2,13 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Button, Col, Row, Select} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
+import { useDispatch, useSelector} from 'react-redux';
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
+import {setDocumentedBuffer, setPolicyBuffer} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {RootState} from "../../../reduxStore/store";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -26,12 +29,17 @@ const PolicyAddForm: React.FC<FormProps> = ({
   cmoType,
   kladr
 }) => {
+  const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.personDocs.policies[0];
   const sectionValuePath = `personDocs.policies[0]`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name', 'enp'];
   const filterNames = ['smoShort', 'inn', 'ogrn'];
+  const {policyBuffer} = useSelector((state: RootState) => state.registrationCard.form);
+  const {policiesFoundMessage} = useSelector(
+    (state: RootState) => state.registrationCard,
+  );
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
@@ -44,8 +52,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('policyBuffer', policyBuffer);
+  // }, [policyBuffer]);
+
+  useEffect(() => {
+    !policiesFoundMessage && dispatch(setPolicyBuffer({value: formValues, type: 'setPolicyBuffer'}))
+  }, [formValues, policiesFoundMessage]);
 
   useEffect(() => {
     if (cmoType.length > 0) {
@@ -57,19 +69,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
       setCmoFiltered(result);
     }
   }, [cmoType, formValues?.cmoArea]);
-
-  useEffect(() => {
-    if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
-      fieldNames.map((item) => form.setFieldValue(`personDocs.policies[1].${item}`, formValues[item]))
-    }
-  }, [formValues, policyKey]);
-
-  // useEffect(() => {
-  //   if (formValues && !formValues?.cmoArea && Object.keys(formValues).length > 2) {
-  //     const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
-  //     form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
-  //   }
-  // }, [formValues?.cmo]);
 
   useEffect(() => {
     if (foundPolicy) {
@@ -189,9 +188,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   };
 
   const onCancelCmoFilter = () => {
-    // setCmoFiltered(cmoType);
+    console.log('policyBuffer cancel', policyBuffer);
     filterNames.map((item) => {
-      form.setFieldValue(`${sectionValuePath}.${item}`, '')
+      form.setFieldValue(`${sectionValuePath}.${item}`, policyBuffer[item])
     })
   };
 
