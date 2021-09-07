@@ -1,6 +1,7 @@
 import React, {useEffect, useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
+import {useFormikContext} from "formik";
 
 import {
   fetchKladr,
@@ -18,6 +19,7 @@ import {
   detailedCMOSelector,
   detailedContactTypesSelector,
   detailedDocumentTypesSelector,
+  detailedOrgStructureSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
@@ -25,6 +27,8 @@ import KladrItem from '../../../../../../types/data/KladrItem';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
 import { RootState } from '../../../../../../reduxStore/store';
 import { KladrDocType } from '../../../../../../reduxStore/slices/registrationCard/types';
+import {WizardStateType} from "../../types";
+import {PersonAttachment} from "../Attachments/types";
 
 import PersonalDocument from './sections/PersonalDocument/PersonalDocument';
 import PersonalContacts from './sections/PersonalContacts/PersonalContacts';
@@ -32,9 +36,11 @@ import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 import PoliciesFound from "../../../../../modals/PoliciesFound/PoliciesFound";
 import DocumentedAddress from "./sections/DocumentedAddress/DocumentedAddress";
 import AddressRegistration from "./sections/AddressRegistration/AddressRegistration";
+import {format} from "date-fns";
 
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
+  const form = useFormikContext<WizardStateType>();
   const {item, isLoading} = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
@@ -62,13 +68,14 @@ const PassportGeneral: React.FC = () => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
   const cmoTypeList = useSelector(detailedCMOSelector);
+  const orgStructure = useSelector(detailedOrgStructureSelector);
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
 
   // useEffect(() => {
-  //   console.log('rbKladrDocumented', rbKladrDocumented);
-  // }, [rbKladrDocumented]);
+  //   console.log('form.values.attachments.attachments', form.values.attachments.attachments);
+  // }, [form.values.attachments.attachments]);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
@@ -105,6 +112,24 @@ const PassportGeneral: React.FC = () => {
   };
 
   const onOkModal = () => {
+    item?.attachList?.map((item, index) => {
+      const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
+      const newArr: PersonAttachment[] =
+        orgStructureItem ? [{
+          lpu: orgStructureItem.orgId.toString(),
+          fromDate: format(new Date(), 'yyyy-MM-dd'),
+          type: '2',
+          unit: orgStructureItem.id,
+          deleted: 0,
+        }] : [{
+          lpu: '',
+          fromDate: format(new Date(), 'yyyy-MM-dd'),
+          type: '2',
+          unit: '',
+          deleted: 0,
+        }];
+      form.setFieldValue('attachments.attachments', newArr);
+    });
     dispatch(setPoliciesFoundMessage(false));
   };
 

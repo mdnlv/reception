@@ -491,8 +491,6 @@ const registrationCardSlice = createSlice({
             lpu: item.lpu.toString(),
             unit: item.unit.toString(),
             fromDate: item.fromDate || '',
-            endDate: item.endDate || '',
-            detachmentReason: item.detachmentReason?.toString() || '',
             deleted: 0,
           })
         );

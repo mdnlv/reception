@@ -18,16 +18,16 @@ import {
   setPatientReg,
   editCardPatient,
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
+import {fetchPersonTreeFull} from "../../../../reduxStore/slices/personTree/personTreeSlice";
 import validation from "./validation";
 
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import UserInfo from './pages/UserInfo/UserInfo';
 import Links from './pages/Links/Links';
 import RegCardValidation from "../../../modals/RegCardValidation/RegCardValidation";
+import Attachments from "./pages/Attachments/Attachments";
 
-interface WizardProps {}
-
-const RegCardWizard: React.FC<WizardProps> = () => {
+const RegCardWizard: React.FC = () => {
   const navigation = useHistory();
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
@@ -39,6 +39,10 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   );
   const [showValidError, setShowValidError] = useState(false);
   const [showUnknownModal, setShowUnknownModal] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
+  }, []);
 
   useEffect(() => {
     if (params.id !== 'new') {
@@ -63,6 +67,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
       </Tabs.TabPane>
       <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
         <Links/>
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        forceRender={false}
+        key={'attachments'}
+        tab={'Прикрепление'}>
+        <Attachments/>
       </Tabs.TabPane>
     </Tabs>
   ), []);

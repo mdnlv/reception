@@ -1,9 +1,12 @@
+import {format} from "date-fns";
+
 import {RootState} from "../reduxStore/store";
 import NewPatientPayload from "../interfaces/payloads/patients/newPatient";
 import {toServerFormat} from "./date/toServerFormat";
 import PatientRelation from "../interfaces/payloads/regCard/PatientRelation";
 import PatientContact from "../interfaces/payloads/regCard/PatientContact";
 import PatientDocument from "../interfaces/payloads/regCard/PatientDocument";
+import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -209,6 +212,34 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             relativeType_id: parseInt(item.patientLink),
             relative_id: item.forwardRef,
             client_id: item.forwardRef,
+            deleted: 1 as 1,
+          })
+        }
+        return res;
+      }, []),
+    ],
+
+    client_attach_info: [
+      ...state.registrationCard.form.attachments.attachments.map(
+        (item) => ({
+          ...(item.id && {id: item.id}),
+          LPU_id: parseInt(item.lpu),
+          attachType_id: parseInt(item.type),
+          //@ts-ignore
+          begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
+          orgStructure_id: parseInt(item.unit),
+          deleted: 0 as 0,
+        }),
+      ),
+      ...state.registrationCard.form.attachments.deleted.reduce((res: PatientAttach[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            LPU_id: parseInt(item.lpu),
+            attachType_id: parseInt(item.type),
+            //@ts-ignore
+            begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
+            orgStructure_id: parseInt(item.unit),
             deleted: 1 as 1,
           })
         }

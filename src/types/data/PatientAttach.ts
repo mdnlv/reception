@@ -6,5 +6,5 @@ export default interface PatientAttach {
   fromDate: string | null;
   endDate: string | null;
   detachmentReason: number | null;
-  deleted: 0;
+  deleted: 0 | 1;
 }

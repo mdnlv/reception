@@ -298,6 +298,7 @@ export const fetchRbOrgStructure = createAsyncThunk(
           id: item.id,
           name: item.name,
           attachCode: item.attachCode,
+          organisation_id: item.organisation_id,
         }));
       }
     } catch (e) {

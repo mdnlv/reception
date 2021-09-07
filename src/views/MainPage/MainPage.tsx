@@ -4,6 +4,7 @@ import {Row, Col} from "antd";
 
 import './styles.scss';
 import {fetchKladr} from "../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {fetchPersonTreeFull} from "../../reduxStore/slices/personTree/personTreeSlice";
 import PatientsSearchTable from '../../components/tables/PatientsSearchTable/PatientsSearchTable';
 
 const MainPage: React.FC = () => {
@@ -11,6 +12,10 @@ const MainPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchKladr({}));
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchPersonTreeFull({}))
   }, []);
 
   return (

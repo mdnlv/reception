@@ -6,8 +6,6 @@ export interface PersonAttachment {
   lpu: string;
   unit: string;
   fromDate: string;
-  endDate: string;
-  detachmentReason: string | null;
   deleted?: 0;
 }
 

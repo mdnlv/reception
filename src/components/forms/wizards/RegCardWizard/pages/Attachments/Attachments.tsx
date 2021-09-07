@@ -3,16 +3,16 @@ import { Col, Row, Select, Button, TreeSelect } from 'antd';
 import { useFormikContext } from 'formik';
 import { useSelector} from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
+import {format} from "date-fns";
 
 import { DROPDOWN_TITLE, LABELS, PersonAttachment } from './types';
 import { WizardStateType } from '../../types';
 import {
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
-  detailedDetachmentReasonsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import { RootState } from '../../../../../../reduxStore/store';
-// import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
+import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
 
 import DropDownContent from '../../../../../elements/DropDownContent/DropDownContent';
 import FormField from '../../../../components/FormField/FormField';
@@ -27,12 +27,10 @@ const Attachments: React.FC = () => {
   const formValuesRemoved = form.values.attachments.deleted;
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
-  const detachmentReasons = useSelector(detailedDetachmentReasonsSelector);
-  // const personTree = useSelector((state:RootState) => state.person_tree.person_tree_full);
+  const personTree = useSelector((state:RootState) => state.personTree.person_tree_full);
   const {
     organisations: loadingOrgs,
     attachTypes: loadingAttachTypes,
-    detachmentReasons: loadingDetachmentReasons,
   } = useSelector((state: RootState) => state.rb.loading);
 
   // useEffect(() => {
@@ -51,23 +49,21 @@ const Attachments: React.FC = () => {
     ));
   };
 
-  // const renderTreeNodes = (data:PersonTree[]) =>
-  //   data.map((item: PersonTree) => {
-  //     return (
-  //       <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
-  //         {item.child.length && renderTreeNodes(item.child)}
-  //       </TreeSelect.TreeNode>
-  //     );
-  //   });
+  const renderTreeNodes = (data:PersonTree[]) =>
+    data.map((item: PersonTree) => {
+      return (
+        <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
+          {item.child.length && renderTreeNodes(item.child)}
+        </TreeSelect.TreeNode>
+      );
+    });
 
   const onAddAttachment = useCallback(() => {
     const attachment: PersonAttachment = {
-      lpu: '3188',
-      fromDate: '',
-      endDate: '',
-      type: '',
-      unit: 68,
-      detachmentReason: '',
+      lpu: '',
+      fromDate: format(new Date(), 'yyyy-MM-dd'),
+      type: '2',
+      unit: '',
       deleted: 0,
     };
     const newArr = [...formValues, attachment];
@@ -124,7 +120,7 @@ const Attachments: React.FC = () => {
                       name={getSelectionPath(index, 'unit')}
                       onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
                     >
-                      {/*{renderTreeNodes(personTree)}*/}
+                      {renderTreeNodes(personTree)}
                     </TreeSelectField>
                   </FormField>
                 </Col>
@@ -133,23 +129,6 @@ const Attachments: React.FC = () => {
                     <FastDatePicker
                       name={getSelectionPath(index, 'fromDate')}
                     />
-                  </FormField>
-                </Col>
-                <Col xl={8} xxl={3}>
-                  <FormField label={LABELS.DETACH_DATE}>
-                    <FastDatePicker name={getSelectionPath(index, 'endDate')} />
-                  </FormField>
-                </Col>
-                <Col xl={6} xxl={4}>
-                  <FormField label={LABELS.DETACH_REASON}>
-                    <FastSearchSelect
-                      showSearch
-                      filterOption
-                      optionFilterProp={'name'}
-                      loading={loadingDetachmentReasons}
-                      name={getSelectionPath(index, 'detachmentReason')}>
-                      {getPropsList(detachmentReasons)}
-                    </FastSearchSelect>
                   </FormField>
                 </Col>
                 <Col span={1}>

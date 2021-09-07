@@ -5,7 +5,7 @@ import { RootState } from '../../store';
 export const detailedOrganisationsSelector = createSelector(
   (state: RootState) => state.rb.rbOrganisations,
   (orgs) =>
-    orgs.map((item) => ({
+    orgs.filter((item) => !item.isInsurer).map((item) => ({
       id: item.id,
       name: item.shortName,
       inn: item.INN,
@@ -75,6 +75,7 @@ export const detailedOrgStructureSelector = createSelector(
       id: item.id,
       name: item.name,
       attachCode: item.attachCode,
+      orgId: item.organisation_id,
     })),
 );
 
