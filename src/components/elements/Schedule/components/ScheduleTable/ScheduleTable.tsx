@@ -75,18 +75,17 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   }, [rangeWeekDate]);
 
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
-      setCurrentDate(date);
-      setRangeWeek(endDate);
-      if(selected.length > 0)
-        !isFiltered ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
-        : dispatch(fetchItems({
-          ids: selectedPerson,
-          beg_date: moment(date).format('YYYY-MM-DD'),
-          end_date: moment(endDate).format('YYYY-MM-DD'),
-          showEmpty: showEmpty
-        }));    
-      console.log(selectedPerson)
-    };
+    setCurrentDate(date);
+    setRangeWeek(endDate);
+    if(selected.length > 0)
+      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
+      : dispatch(fetchItems({
+        ids: selectedPerson,
+        beg_date: moment(date).format('YYYY-MM-DD'),
+        end_date: moment(endDate).format('YYYY-MM-DD'),
+        showEmpty: showEmpty
+      }));    
+  };
 
   const onScheduleModeChange = useCallback(
     (mode: ScheduleTableModeType) => {

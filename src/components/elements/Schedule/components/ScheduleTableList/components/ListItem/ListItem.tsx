@@ -44,9 +44,9 @@ const ListItem: React.FC<ItemProps> = ({
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
   
-  useEffect(()=>{
+  /*useEffect(()=>{
     setTogg(toggle)
-  },[toggle])
+  },[toggle])*/
 
   useEffect(()=>{
     setPersonIds(person_list.map((item: any) => item.id))
@@ -73,7 +73,7 @@ const ListItem: React.FC<ItemProps> = ({
           <div 
             onClick={() => {
               setTogg(!togg);
-              onToggle(id, personIds);
+              //onToggle(id, personIds);
             }} 
             className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
