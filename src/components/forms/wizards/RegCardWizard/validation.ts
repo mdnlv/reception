@@ -64,7 +64,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
         timeType: Yup.string().required('вид полиса'),
         from: Yup.string().required('дата начала действия полиса').nullable(),
         to: Yup.string().required('дата окончания действия полиса').nullable(),
-        serial: Yup.string().required('серия полиса'),
+        serial: Yup.string().nullable().required('серия полиса'),
         number: Yup.string().required('номер полиса'),
         cmo: Yup.string().required('СМО'),
         type: Yup.string().required('тип полиса')
