@@ -55,7 +55,16 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       documents: Yup.array().of(Yup.object({
         passportType: Yup.string().required('тип документа'),
         serialFirst: Yup.string().required('серия документа'),
-        serialSecond: Yup.string().required('серия документа'),
+        serialSecond: Yup.string()
+          .required('серия документа')
+          .test(
+            'max',
+            'длина серии документа должна быть максимум 8 символов',
+            function(value) {
+              const {serialFirst} = this.parent;
+              return serialFirst.concat(value).length < 9
+            }),
+        //todo проверить
         number: Yup.string().required('номер документа'),
         fromDate: Yup.string().required('дата выдачи').nullable(),
         givenBy: Yup.string().required('кем выдан документ'),
@@ -64,7 +73,10 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
         timeType: Yup.string().required('вид полиса'),
         from: Yup.string().required('дата начала действия полиса').nullable(),
         to: Yup.string().required('дата окончания действия полиса').nullable(),
-        serial: Yup.string().nullable().required('серия полиса'),
+        serial: Yup.string()
+          .nullable()
+          .required('серия полиса')
+          .min(16, "длина серии полиса должна быть максимум 16 символов"),
         number: Yup.string().required('номер полиса'),
         cmo: Yup.string().required('СМО'),
         type: Yup.string().required('тип полиса')
