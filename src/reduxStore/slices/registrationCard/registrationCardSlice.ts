@@ -365,9 +365,6 @@ const registrationCardSlice = createSlice({
           (item) => parseInt(item.type) !== 3,
         );
         const omsFound = oms[oms.length - 1];
-        const restOmsPolicies = oms.filter(
-          (item) => item.id !== omsFound.id
-        );
         const documentInitial = {
           id: undefined,
           passportType: '',
@@ -467,7 +464,6 @@ const registrationCardSlice = createSlice({
         // @ts-ignore
         state.initialFormState.personDocs.policies = [
           ...omsFound ? [omsFound] : [policyInitial],
-          ...restOmsPolicies,
         ];
         state.initialFormState.personDocs.policiesDeleted = [];
         // @ts-ignore
