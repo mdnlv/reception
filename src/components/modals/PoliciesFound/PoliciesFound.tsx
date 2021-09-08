@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 import {useSelector} from "react-redux";
 
 import {ModalProps} from "./types";
@@ -47,7 +47,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
           </Row>
           <Row>
             <Col span={13}>серия:</Col>
-            <Col span={11}>{policy?.serial}</Col>
+            <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
           </Row>
           <Row>
             <Col span={13}>номер:</Col>
@@ -60,8 +60,16 @@ const PoliciesFound: React.FC<ModalProps> = ({
           <Row>
             <Col span={13}>действителен:</Col>
             <Col span={11}>
-              {/*@ts-ignore*/}
-              {policy.from && `с ${format(policy.from, 'd.MM.yyyy')} `}{policy.to && `до ${format(policy.to, 'd.MM.yyyy')}`}
+              {policy.from && `с ${
+                //@ts-ignore
+                format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
+              }
+              {
+                //@ts-ignore
+                !policy?.enp ? policy.to && `до ${
+                  format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+                }` : 'до 01.01.2200'
+              }
             </Col>
           </Row>
           {policy.attach ? (

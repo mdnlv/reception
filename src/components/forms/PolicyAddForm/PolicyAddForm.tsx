@@ -90,6 +90,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [formValues?.timeType]);
 
   useEffect(() => {
+    if (formValues?.enp) {
+      form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
+      form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
+    }
+  }, [formValues?.enp]);
+
+  useEffect(() => {
     const timeType = formValues?.timeType;
     if (timeType === "1" || formValues?.serial === 'ВС') {
       setPolicyMask('111111111')

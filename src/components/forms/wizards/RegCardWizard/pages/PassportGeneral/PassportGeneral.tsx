@@ -74,9 +74,9 @@ const PassportGeneral: React.FC = () => {
     (state: RootState) => state.rb.loading,
   );
 
-  // useEffect(() => {
-  //   console.log('form.values.attachments.attachments', form.values.attachments.attachments);
-  // }, [form.values.attachments.attachments]);
+  useEffect(() => {
+    console.log('item', item);
+  }, [item]);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
