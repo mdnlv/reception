@@ -224,7 +224,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             </Button>
           </Col>
         )}
-        <Col lg={5} xl={5} xxl={4}>
+        <Col lg={5} xl={5} xxl={5}>
           <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
               allowClear
