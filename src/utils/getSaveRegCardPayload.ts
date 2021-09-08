@@ -219,6 +219,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }, []),
     ],
 
+    //@ts-ignore
     client_attach_info: [
       ...state.registrationCard.form.attachments.attachments.map(
         (item) => ({
@@ -227,7 +228,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           attachType_id: parseInt(item.type),
           //@ts-ignore
           begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
-          orgStructure_id: parseInt(item.unit),
+          //@ts-ignore
+          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
+          orgStructure_id: item.unit,
+          detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 0 as 0,
         }),
       ),
@@ -239,7 +243,11 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             attachType_id: parseInt(item.type),
             //@ts-ignore
             begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
-            orgStructure_id: parseInt(item.unit),
+            //@ts-ignore
+            endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
+            //@ts-ignore
+            orgStructure_id: item.unit,
+            detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
             deleted: 1 as 1,
           })
         }

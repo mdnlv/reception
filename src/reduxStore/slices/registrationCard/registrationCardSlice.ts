@@ -489,8 +489,10 @@ const registrationCardSlice = createSlice({
             id: item.id,
             type: item.type.toString(),
             lpu: item.lpu.toString(),
-            unit: item.unit.toString(),
+            unit: item.unit,
             fromDate: item.fromDate || '',
+            endDate: item.endDate || '',
+            detachmentReason: item.detachmentReason?.toString() || '',
             deleted: 0,
           })
         );

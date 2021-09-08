@@ -41,6 +41,7 @@ import {format} from "date-fns";
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
+  const formAttachValues = form.values.attachments.attachments;
   const {item, isLoading} = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
   );
@@ -114,18 +115,23 @@ const PassportGeneral: React.FC = () => {
   const onOkModal = () => {
     item?.attachList?.map((item, index) => {
       const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
+      const attachItem = formAttachValues.find((a) => a.unit === orgStructureItem?.id);
       const newArr: PersonAttachment[] =
-        orgStructureItem ? [{
+        orgStructureItem && !attachItem ? [{
           lpu: orgStructureItem.orgId.toString(),
           fromDate: format(new Date(), 'yyyy-MM-dd'),
           type: '2',
           unit: orgStructureItem.id,
+          endDate: '',
+          detachmentReason: '',
           deleted: 0,
         }] : [{
           lpu: '',
           fromDate: format(new Date(), 'yyyy-MM-dd'),
           type: '2',
           unit: '',
+          endDate: '',
+          detachmentReason: '',
           deleted: 0,
         }];
       form.setFieldValue('attachments.attachments', newArr);

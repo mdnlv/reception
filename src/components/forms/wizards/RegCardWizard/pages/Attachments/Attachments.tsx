@@ -10,6 +10,7 @@ import { WizardStateType } from '../../types';
 import {
   detailedAttachTypesSelector,
   detailedOrganisationsSelector,
+  detailedDetachmentReasonsSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import { RootState } from '../../../../../../reduxStore/store';
 import {PersonTree} from "../../../../../../reduxStore/slices/personTree/types";
@@ -28,9 +29,11 @@ const Attachments: React.FC = () => {
   const attachTypes = useSelector(detailedAttachTypesSelector);
   const orgs = useSelector(detailedOrganisationsSelector);
   const personTree = useSelector((state:RootState) => state.personTree.person_tree_full);
+  const detachmentReasons = useSelector(detailedDetachmentReasonsSelector);
   const {
     organisations: loadingOrgs,
     attachTypes: loadingAttachTypes,
+    detachmentReasons: loadingDetachmentReasons,
   } = useSelector((state: RootState) => state.rb.loading);
 
   // useEffect(() => {
@@ -62,8 +65,10 @@ const Attachments: React.FC = () => {
     const attachment: PersonAttachment = {
       lpu: '',
       fromDate: format(new Date(), 'yyyy-MM-dd'),
+      endDate: '',
       type: '2',
       unit: '',
+      detachmentReason: '',
       deleted: 0,
     };
     const newArr = [...formValues, attachment];
@@ -116,6 +121,7 @@ const Attachments: React.FC = () => {
                 <Col xl={8} xxl={4}>
                   <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
                     <TreeSelectField
+                      // @ts-ignore
                       defaultValue={parseInt(formValues[index].unit)}
                       name={getSelectionPath(index, 'unit')}
                       onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
@@ -129,6 +135,23 @@ const Attachments: React.FC = () => {
                     <FastDatePicker
                       name={getSelectionPath(index, 'fromDate')}
                     />
+                  </FormField>
+                </Col>
+                <Col xl={8} xxl={3}>
+                  <FormField label={LABELS.DETACH_DATE}>
+                    <FastDatePicker name={getSelectionPath(index, 'endDate')} />
+                  </FormField>
+                </Col>
+                <Col xl={6} xxl={4}>
+                  <FormField label={LABELS.DETACH_REASON}>
+                    <FastSearchSelect
+                      showSearch
+                      filterOption
+                      optionFilterProp={'name'}
+                      loading={loadingDetachmentReasons}
+                      name={getSelectionPath(index, 'detachmentReason')}>
+                      {getPropsList(detachmentReasons)}
+                    </FastSearchSelect>
                   </FormField>
                 </Col>
                 <Col span={1}>

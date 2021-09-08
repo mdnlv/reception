@@ -4,8 +4,10 @@ export interface PersonAttachment {
   id?: number;
   type: string;
   lpu: string;
-  unit: string;
+  unit: string | number;
   fromDate: string;
+  endDate: string;
+  detachmentReason: string | null;
   deleted?: 0;
 }
 
