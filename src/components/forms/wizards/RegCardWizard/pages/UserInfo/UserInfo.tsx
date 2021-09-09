@@ -76,8 +76,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
 
   useEffect(() => {
     const checking = snilsCheck(formValues.snils)
-    !checking ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС') : setSnilsWarning('')
-  }, [formValues.snils]);
+    !checking && !formValues.SNILSMissingReason
+      ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС')
+      : setSnilsWarning('')
+  }, [formValues.snils, formValues.SNILSMissingReason]);
 
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
