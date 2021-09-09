@@ -62,7 +62,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
             'длина серии документа должна быть максимум 8 символов',
             function(value) {
               const {serialFirst} = this.parent;
-              return serialFirst.concat(value).length < 9
+              return serialFirst?.concat(value).length < 9
             }),
         //todo проверить
         number: Yup.string().required('номер документа'),
@@ -76,7 +76,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
         serial: Yup.string()
           .nullable()
           .required('серия полиса')
-          .min(16, "длина серии полиса должна быть максимум 16 символов"),
+          .max(16, "длина серии полиса должна быть максимум 16 символов"),
         number: Yup.string().required('номер полиса'),
         cmo: Yup.string().required('СМО'),
         type: Yup.string().required('тип полиса')
