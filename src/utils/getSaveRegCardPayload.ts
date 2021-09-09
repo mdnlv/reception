@@ -32,6 +32,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     snils,
     SNILSMissingReason,
     birthPlace,
+    isShiftWorker
   } = state.registrationCard.form.personal;
   const {directLinks, backLinks} = state.registrationCard.form.links;
   return {
@@ -47,6 +48,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     SNILSMissing_id: parseInt(SNILSMissingReason) || null,
     weight: weight.toString(),
     growth: height.toString(),
+    client_is_vaht: isShiftWorker ? 1 : 0,
 
     client_document_info: [
       ...documents.map((item) => ({

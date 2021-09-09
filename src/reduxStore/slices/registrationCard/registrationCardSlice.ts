@@ -408,6 +408,7 @@ const registrationCardSlice = createSlice({
           weight: transformedPatient.weight,
           snils: transformedPatient.snils,
           SNILSMissingReason: transformedPatient.SNILSMissingReason,
+          isShiftWorker: Boolean(transformedPatient.isShiftWorker),
         };
         // @ts-ignore
         state.initialFormState.passportGeneral.passportInfo = {

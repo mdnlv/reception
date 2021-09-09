@@ -40,6 +40,7 @@ export default interface PatientResponse {
   uuid_id: number;
   version: number;
   SNILSMissing_id: number | null;
+  client_is_vaht: 0 | 1;
 
   client_address_info: AddressResponse[];
   client_document_info: PatientDocumentResponse[];

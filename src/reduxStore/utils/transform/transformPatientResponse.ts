@@ -15,6 +15,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     snils: item.SNILS,
     SNILSMissingReason: item.SNILSMissing_id ? item.SNILSMissing_id.toString() : '',
     birthPlace: item.birthPlace,
+    isShiftWorker: item.client_is_vaht,
 
     client_document_info: item.client_document_info[0] ? {
       id: item.client_document_info[0].id,

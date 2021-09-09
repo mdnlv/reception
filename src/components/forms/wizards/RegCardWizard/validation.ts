@@ -64,8 +64,9 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
               const {serialFirst} = this.parent;
               return serialFirst?.concat(value).length < 9
             }),
-        //todo проверить
-        number: Yup.string().required('номер документа'),
+        number: Yup.string()
+          .required('номер документа')
+          .max(16, "длина номера документа должна быть максимум 16 символов"),
         fromDate: Yup.string().required('дата выдачи').nullable(),
         givenBy: Yup.string().required('кем выдан документ'),
       })),
