@@ -66,9 +66,9 @@ const PoliciesFound: React.FC<ModalProps> = ({
               }
               {
                 //@ts-ignore
-                !policy?.enp ? policy.to && `до ${
+                policy.to && `до ${
                   format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
-                }` : 'до 01.01.2200'
+                }`
               }
             </Col>
           </Row>

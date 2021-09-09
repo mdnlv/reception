@@ -117,23 +117,31 @@ const PassportGeneral: React.FC = () => {
       const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
       const attachItem = formAttachValues.find((a) => a.unit === orgStructureItem?.id);
       const newArr: PersonAttachment[] =
-        orgStructureItem && !attachItem ? [{
-          lpu: orgStructureItem.orgId.toString(),
-          fromDate: format(new Date(), 'yyyy-MM-dd'),
-          type: '2',
-          unit: orgStructureItem.id,
-          endDate: '',
-          detachmentReason: '',
-          deleted: 0,
-        }] : [{
-          lpu: '',
-          fromDate: format(new Date(), 'yyyy-MM-dd'),
-          type: '2',
-          unit: '',
-          endDate: '',
-          detachmentReason: '',
-          deleted: 0,
-        }];
+        orgStructureItem && !attachItem
+          ? [
+              ...formAttachValues,
+              {
+                lpu: orgStructureItem.orgId.toString(),
+                fromDate: format(new Date(), 'yyyy-MM-dd'),
+                type: '2',
+                unit: orgStructureItem.id,
+                endDate: '',
+                detachmentReason: '',
+                deleted: 0,
+              }
+            ]
+          : [
+              ...formAttachValues,
+              {
+                lpu: '',
+                fromDate: format(new Date(), 'yyyy-MM-dd'),
+                type: '2',
+                unit: '',
+                endDate: '',
+                detachmentReason: '',
+                deleted: 0,
+              }
+            ];
       form.setFieldValue('attachments.attachments', newArr);
     });
     dispatch(setPoliciesFoundMessage(false));
