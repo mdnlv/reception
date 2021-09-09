@@ -116,33 +116,30 @@ const PassportGeneral: React.FC = () => {
     item?.attachList?.map((item, index) => {
       const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
       const attachItem = formAttachValues.find((a) => a.unit === orgStructureItem?.id);
-      const newArr: PersonAttachment[] =
-        orgStructureItem && !attachItem
-          ? [
-              ...formAttachValues,
-              {
-                lpu: orgStructureItem.orgId.toString(),
-                fromDate: format(new Date(), 'yyyy-MM-dd'),
-                type: '2',
-                unit: orgStructureItem.id,
-                endDate: '',
-                detachmentReason: '',
-                deleted: 0,
-              }
-            ]
-          : [
-              ...formAttachValues,
-              {
-                lpu: '',
-                fromDate: format(new Date(), 'yyyy-MM-dd'),
-                type: '2',
-                unit: '',
-                endDate: '',
-                detachmentReason: '',
-                deleted: 0,
-              }
-            ];
-      form.setFieldValue('attachments.attachments', newArr);
+      const lastAttach = formAttachValues[formAttachValues.length - 1];
+      const emptyAttach: PersonAttachment = {
+        lpu: '',
+        fromDate: format(new Date(), 'yyyy-MM-dd'),
+        type: '2',
+        unit: '',
+        endDate: '',
+        detachmentReason: '',
+        deleted: 0,
+      };
+      const newAttach = {
+        lpu: orgStructureItem?.orgId.toString(),
+        fromDate: format(new Date(), 'yyyy-MM-dd'),
+        type: '2',
+        unit: orgStructureItem?.id,
+        endDate: '',
+        detachmentReason: '',
+        deleted: 0,
+      };
+      if (lastAttach?.unit !== newAttach.unit || !formAttachValues.length) {
+        !attachItem
+          ? form.setFieldValue('attachments.attachments', [...formAttachValues, newAttach])
+          : form.setFieldValue('attachments.attachments', [...formAttachValues, emptyAttach]);
+      }
     });
     dispatch(setPoliciesFoundMessage(false));
   };
