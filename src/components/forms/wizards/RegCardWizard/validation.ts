@@ -16,9 +16,12 @@ Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
 });
 
 Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
+  //@ts-ignore
   return this.test('test-compare-policy-dates', errorMessage, function (value: string) {
+    //@ts-ignore
     const {path, createError} = this;
     const valueParsed = Date.parse(value);
+    //@ts-ignore
     const compareParsed = Date.parse(this.parent.from);
     return compareParsed < valueParsed || createError({ path, message: errorMessage })
   });
@@ -85,6 +88,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
         to: Yup.string()
           .required('дата окончания действия полиса')
           .nullable()
+          //@ts-ignore
           .comparePolicyDates('окончание действия полиса раньше начала'),
         serial: Yup.string()
           .nullable()
