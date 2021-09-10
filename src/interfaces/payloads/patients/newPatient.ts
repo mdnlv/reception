@@ -16,6 +16,7 @@ export default interface NewPatientPayload {
   weight: string;
   birthPlace: string;
   client_is_vaht: 0 | 1;
+  sanity_check?: 0 | 1;
 
   client_contact_info: PatientContact[];
 

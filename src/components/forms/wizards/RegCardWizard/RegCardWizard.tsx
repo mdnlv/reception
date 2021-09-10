@@ -96,7 +96,7 @@ const RegCardWizard: React.FC = () => {
             )
         ) {
           setShowUnknownModal(true);
-        } else if (!values.isUnknown) {
+        } else {
           if (params.id === 'new') {
             dispatch(setFormSection(values));
             dispatch(saveCardPatient());

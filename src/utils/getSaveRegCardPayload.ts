@@ -35,6 +35,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     isShiftWorker
   } = state.registrationCard.form.personal;
   const {directLinks, backLinks} = state.registrationCard.form.links;
+  const {isUnknown} = state.registrationCard.form;
   return {
     ...(code && {id: parseInt(code)}),
     firstName,
@@ -49,8 +50,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     weight: weight.toString(),
     growth: height.toString(),
     client_is_vaht: isShiftWorker ? 1 : 0,
+    sanity_check: isUnknown ? 1 : 0,
 
-    client_document_info: [
+    client_document_info: !isUnknown ? [
       ...documents.map((item) => ({
         ...(item.id && {id: item.id}),
         documentType_id: parseInt(item.passportType),
@@ -75,9 +77,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }
         return res;
       }, []),
-    ],
+    ] : [],
 
-    client_contact_info: [
+    client_contact_info: !isUnknown ? [
       ...state.registrationCard.form.passportGeneral.contacts.contacts.map((item) => ({
         ...(item.id && {id: item.id}),
         contactType_id: parseInt(item.type),
@@ -99,9 +101,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }
         return res;
       }, []),
-    ],
+    ] : [],
 
-    client_policy_info: [
+    client_policy_info: !isUnknown ? [
       ...policies.map((item) => ({
         ...(item.id && {id: item.id}),
         insurer_id: parseInt(item.cmo),
@@ -130,7 +132,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         insuranceArea: item.cmoArea,
         deleted: 1 as 1,
       }))
-    ],
+    ] : [],
 
     client_address_info: [
       {
@@ -182,7 +184,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }] : []),
     ],
 
-    client_relation_info: [
+    client_relation_info: !isUnknown ? [
       ...directLinks.directLinks.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.patientLink),
@@ -219,10 +221,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }
         return res;
       }, []),
-    ],
+    ] : [],
 
     //@ts-ignore
-    client_attach_info: [
+    client_attach_info: !isUnknown ? [
       ...state.registrationCard.form.attachments.attachments.map(
         (item) => ({
           ...(item.id && {id: item.id}),
@@ -255,6 +257,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }
         return res;
       }, []),
-    ],
+    ] : [],
   };
 };

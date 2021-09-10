@@ -432,7 +432,7 @@ const registrationCardSlice = createSlice({
               freeInput: transformedPatient.address[0].freeInput,
               isVillager: Boolean(transformedPatient.address[0].isVillager),
             },
-            documentedAddress: {
+            documentedAddress: transformedPatient.address[1] ? {
               id: transformedPatient.address[1].id,
               addressId: transformedPatient.address[1].addressId,
               addressHouseId: transformedPatient.address[1].address.addressHouseId,
@@ -450,6 +450,18 @@ const registrationCardSlice = createSlice({
               ),
               freeInput: transformedPatient.address[1]?.freeInput,
               isVillager: Boolean(transformedPatient.address[1].isVillager),
+            } : {
+              id: undefined,
+              isKLADR: true,
+              city: '8600001400000',
+              area: '8600000000000',
+              street: '',
+              houseNumber: '',
+              houseCharacter: '',
+              flatNumber: '',
+              isDocumentedAddress: false,
+              freeInput: '',
+              isVillager: false,
             }
           } : {
             addressRegistration: {
