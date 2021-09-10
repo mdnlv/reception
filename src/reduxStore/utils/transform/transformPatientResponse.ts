@@ -5,6 +5,7 @@ import transformPolicyResponse from './transformPolicyResponse';
 
 export const transformPatientResponse = (item: PatientResponse) => {
   // console.log('BIRTH DATE', item.birthDate);
+  const vahtStatus = item.client_soc_status_info.find((a) => a.socStatusClass_id === 51);
   return {
     code: item.id,
     fullName: `${item.lastName} ${item.firstName} ${item.patrName}`,
@@ -15,7 +16,7 @@ export const transformPatientResponse = (item: PatientResponse) => {
     snils: item.SNILS,
     SNILSMissingReason: item.SNILSMissing_id ? item.SNILSMissing_id.toString() : '',
     birthPlace: item.birthPlace,
-    isShiftWorker: item.client_is_vaht,
+    isShiftWorker: item.client_is_vaht || vahtStatus,
 
     client_document_info: item.client_document_info[0] ? {
       id: item.client_document_info[0].id,

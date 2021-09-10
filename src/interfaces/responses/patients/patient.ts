@@ -4,6 +4,7 @@ import PatientPolicyResponse from './patientPolicy';
 import PatientDocumentResponse from './patientDocument';
 import PatientAttachResponse from "./patientAttach";
 import PatientRelationResponse from "./patientRelation";
+import PatientSocialStatusResponse from "./patientSocialStatus";
 
 export default interface PatientResponse {
   id: number;
@@ -48,4 +49,5 @@ export default interface PatientResponse {
   client_contact_info: PatientContactResponse[];
   client_attach_info: PatientAttachResponse[];
   client_relation_info: PatientRelationResponse[];
+  client_soc_status_info: PatientSocialStatusResponse[];
 }
