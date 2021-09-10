@@ -15,6 +15,15 @@ Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
   });
 });
 
+Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
+  return this.test('test-compare-policy-dates', errorMessage, function (value: string) {
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    const compareParsed = Date.parse(this.parent.from);
+    return compareParsed < valueParsed || createError({ path, message: errorMessage })
+  });
+});
+
 const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   isUnknown: Yup.boolean(),
   personal: Yup.object().when('isUnknown', {
@@ -73,7 +82,10 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       policies: Yup.array().of(Yup.object({
         timeType: Yup.string().required('вид полиса'),
         from: Yup.string().required('дата начала действия полиса').nullable(),
-        to: Yup.string().required('дата окончания действия полиса').nullable(),
+        to: Yup.string()
+          .required('дата окончания действия полиса')
+          .nullable()
+          .comparePolicyDates('окончание действия полиса раньше начала'),
         serial: Yup.string()
           .nullable()
           .required('серия полиса')
