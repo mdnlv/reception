@@ -7,14 +7,14 @@ export default interface NewPatientPayload {
   lastName: string;
   firstName: string;
   patrName: string;
-  birthDate: string;
-  birthTime: string | null;
+  birthDate: string ;
+  birthTime: string | undefined;
   sex: 1 | 2 | null;
-  SNILS: string;
+  SNILS: string | undefined;
   SNILSMissing_id: number | null;
   growth: string;
   weight: string;
-  birthPlace: string;
+  birthPlace: string | undefined;
   client_is_vaht: 0 | 1;
   sanity_check?: 0 | 1;
 

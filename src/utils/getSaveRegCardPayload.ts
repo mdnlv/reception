@@ -43,9 +43,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     patrName,
     birthPlace,
     birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
-    birthTime,
+    birthTime: birthTime ? birthTime: undefined,
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
-    SNILS: snils.replace(/-|\s+/g, ""),
+    SNILS: snils.replace(/-|\s+/g, "") != "" ? snils.replace(/-|\s+/g, "") : undefined,
     SNILSMissing_id: parseInt(SNILSMissingReason) || null,
     weight: weight.toString(),
     growth: height.toString(),
@@ -233,7 +233,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           //@ts-ignore
           begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
           //@ts-ignore
-          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
+          endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : undefined,
           orgStructure_id: item.unit,
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 0 as 0,
@@ -248,7 +248,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             //@ts-ignore
             begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
             //@ts-ignore
-            endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
+            endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : undefined,
             //@ts-ignore
             orgStructure_id: item.unit,
             detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
