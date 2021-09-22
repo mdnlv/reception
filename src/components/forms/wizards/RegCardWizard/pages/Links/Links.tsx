@@ -84,7 +84,7 @@ const Links: React.FC = () => {
   const getSearchOptions = useCallback((props: Patient[]) => {
     return props.map(({code, fullName, birthDate}) => (
       {
-        value: `${fullName}, ${format(parseISO(birthDate), 'dd.MM.yyyy')}`,
+        value: `${fullName}`,
         label: `${fullName}, ${format(parseISO(birthDate), 'dd.MM.yyyy')}`
       }
     ))
