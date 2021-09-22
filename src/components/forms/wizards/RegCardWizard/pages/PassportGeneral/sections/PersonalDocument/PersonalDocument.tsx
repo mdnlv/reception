@@ -48,12 +48,12 @@ const PersonalDocument: FC<SectionProps> = ({
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col lg={12} xxl={2}>
+        <Col lg={12} xxl={4}>
           <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialFirst`}>
             <FastInput name={`${selectionValuePath}.serialFirst`} />
           </FormField>
         </Col>
-        <Col lg={12} xxl={2}>
+        <Col lg={12} xxl={4}>
           <FormField label={LABELS.SERIAL} name={`${selectionValuePath}.serialSecond`}>
             <FastInput name={`${selectionValuePath}.serialSecond`} />
           </FormField>

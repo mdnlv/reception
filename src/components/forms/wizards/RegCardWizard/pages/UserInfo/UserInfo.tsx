@@ -13,7 +13,7 @@ import {
 import RadioGroup from 'antd/es/radio/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {format} from "date-fns";
-
+import moment, {Moment} from 'moment';
 import {WizardStateType} from '../../types';
 import UserInfoTypes, {ListOptionItem} from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
@@ -50,6 +50,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const {SNILSMissingReasons: isSMRLoading} = useSelector((state: RootState) => state.rb.loading);
   const [snilsWarning, setSnilsWarning] = useState('');
   const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
+  const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
   //   console.log('formValues', formValues);
@@ -143,14 +144,17 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   };
 
   const onSubmitUnknown = () => {
+     
     const dateNow = new Date();
     const dayNow = dateNow.getUTCDate();
     const monthNow = dateNow.getUTCMonth() + 1;
     const yearNow = dateNow.getUTCFullYear();
     const yearUnknown = yearNow - parseInt(formUnknownValues.ageUnknown);
+    if(showUnknown) {
     formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
     formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
     formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
+    }
     setShowUnknown(false);
   };
 
@@ -208,9 +212,11 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
               {/*todo make birthTime correct binding*/}
               {/* todo make correct bindings */}
               <TimePicker
-                format={'HH:mm'}
-                name={'personal.birthTime'}
+                format='HH:mm'
+                name={`personal.birthTime`}
+                value={tbValue}
                 onChange={(_, timeString) => {
+                  _ ? setTbValue(moment(_, "HH:ss")) : setTbValue(undefined)
                   formProps.setFieldValue(
                     `${sectionValuePath}.birthTime`,
                     timeString,
