@@ -46,6 +46,6 @@ export default {
   },
 
   findPatientSnils(params: FindSnilsParams): Promise<AxiosResponse<PatientSnilsSearchResponse>> {
-    return axios.post('http://neftu1:8096/api/client/tfoms/getSnils', params);
+    return apiInstance.post('/client/tfoms/getSnils', params);
   },
 };
