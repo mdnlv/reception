@@ -1,5 +1,10 @@
 import {Modify} from "../../../../../../types/modify";
 
+export interface PGProps {
+  policyMask: string;
+  setPolicyMask: (policyMask: string) => void;
+}
+
 export interface PassportContactType {
   [key: string]: any;
   id?: number;

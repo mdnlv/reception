@@ -43,7 +43,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     patrName,
     birthPlace,
     birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
-    birthTime: birthTime ? birthTime: undefined,
+    birthTime: birthTime == '' ? undefined : birthTime,
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
     SNILS: snils.replace(/-|\s+/g, "") != "" ? snils.replace(/-|\s+/g, "") : undefined,
     SNILSMissing_id: parseInt(SNILSMissingReason) || null,

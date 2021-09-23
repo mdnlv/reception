@@ -25,4 +25,6 @@ export interface FormProps {
     type: string;
   }
   kladr: PrefixKladrItem[];
+  policyMask: string;
+  setPolicyMask: (policyMask: string) => void;
 }

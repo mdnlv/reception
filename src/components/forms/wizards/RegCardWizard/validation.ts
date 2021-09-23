@@ -27,7 +27,7 @@ Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
   });
 });
 
-const validation = Yup.object<FormikErrors<ValidationType>>().shape({
+const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape({
   isUnknown: Yup.boolean(),
   personal: Yup.object().when('isUnknown', {
     is: false,
@@ -90,11 +90,19 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
           .nullable()
           //@ts-ignore
           .comparePolicyDates('окончание действия полиса раньше начала'),
+        enp: Yup.string().test("len", "Неправильно введён номер ЕНП", (val) => {
+          const val_length_without_dashes = val?.replace(/-|_/g, "").length;
+          console.log(val_length_without_dashes)
+          return ((val_length_without_dashes === 16 || val_length_without_dashes === undefined) ? true : false);
+        }),
         serial: Yup.string()
           .nullable()
           .required('серия полиса')
           .max(16, "длина серии полиса должна быть максимум 16 символов"),
-        number: Yup.string().required('номер полиса'),
+        number: Yup.string().test("len", "Неправильно введён номер полиса", (val) => {
+          const val_length_without_dashes = val?.replace(/-|_/g, "").length;
+          return  ((val_length_without_dashes === mask || val_length_without_dashes === undefined || mask === 0) ? true : false);
+        }),
         cmo: Yup.string().required('СМО'),
         type: Yup.string().required('тип полиса')
       })),
@@ -109,4 +117,6 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   })
 });
 
-export default validation
+export default function validation(mask: number) {
+  return valid(mask);
+}

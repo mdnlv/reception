@@ -28,6 +28,10 @@ import RegCardValidation from "../../../modals/RegCardValidation/RegCardValidati
 import Attachments from "./pages/Attachments/Attachments";
 
 const RegCardWizard: React.FC = () => {
+  const [showValidError, setShowValidError] = useState(false);
+  const [showUnknownModal, setShowUnknownModal] = useState(false);
+  const [policyMask, setPolicyMask] = useState('');
+
   const navigation = useHistory();
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
@@ -37,8 +41,6 @@ const RegCardWizard: React.FC = () => {
   const isLoading = useSelector(
     (state: RootState) => state.registrationCard.loading.idPatient,
   );
-  const [showValidError, setShowValidError] = useState(false);
-  const [showUnknownModal, setShowUnknownModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
@@ -63,7 +65,7 @@ const RegCardWizard: React.FC = () => {
         forceRender={false}
         key={'passportGeneral'}
         tab={'Паспортные данные'}>
-        <PassportGeneral/>
+        <PassportGeneral policyMask={policyMask} setPolicyMask={setPolicyMask}/>
       </Tabs.TabPane>
       <Tabs.TabPane forceRender={false} tab={'Связи'} key={'links'}>
         <Links/>
@@ -75,7 +77,7 @@ const RegCardWizard: React.FC = () => {
         <Attachments/>
       </Tabs.TabPane>
     </Tabs>
-  ), []);
+  ), [policyMask]);
 
   return isLoading ? (
     <Row style={{ height: '100vh' }} justify={'center'} align={'middle'}>
@@ -85,7 +87,7 @@ const RegCardWizard: React.FC = () => {
     <Formik
       enableReinitialize
       initialValues={store}
-      validationSchema={validation}
+      validationSchema={validation(policyMask.length)}
       onSubmit={(values) => {
         if (
           values.isUnknown

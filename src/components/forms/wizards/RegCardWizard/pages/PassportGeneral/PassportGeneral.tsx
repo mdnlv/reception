@@ -37,8 +37,9 @@ import PoliciesFound from "../../../../../modals/PoliciesFound/PoliciesFound";
 import DocumentedAddress from "./sections/DocumentedAddress/DocumentedAddress";
 import AddressRegistration from "./sections/AddressRegistration/AddressRegistration";
 import {format} from "date-fns";
+import { PGProps } from './types';
 
-const PassportGeneral: React.FC = () => {
+const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
   const formAttachValues = form.values.attachments.attachments;
@@ -185,6 +186,8 @@ const PassportGeneral: React.FC = () => {
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
             kladr={rbKladrDocumented}
+            policyMask={policyMask}
+            setPolicyMask={setPolicyMask}
           />
         </Col>
       </Row>

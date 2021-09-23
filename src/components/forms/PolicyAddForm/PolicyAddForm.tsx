@@ -27,7 +27,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   isLoading,
   isCmoLoading,
   cmoType,
-  kladr
+  kladr,
+  policyMask,
+  setPolicyMask
 }) => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
@@ -45,7 +47,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const lastName = form.values.personal.lastName;
   const birthDate = form.values.personal.birthDate;
 
-  const [policyMask, setPolicyMask] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showOrgChoice, setShowOrgChoice] = useState(false);
   const [errorsData, setErrorsData] = useState([] as string[]);
@@ -91,10 +92,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     const timeType = formValues?.timeType;
-    if (timeType === "1" || formValues?.serial === 'ВС') {
+    if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
       setPolicyMask('111111111')
-    } else if (timeType === "3" || formValues?.serial === 'ЕП') {
-      setPolicyMask('1111111111111111')
+    } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
+      setPolicyMask('11111111111')
     } else {
       setPolicyMask('')
     }
@@ -247,7 +248,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
         <Col lg={5} xl={5} xxl={4}>
           <FormField label={'ЕНП'} name={`${sectionValuePath}.enp`}>
-            <FastInput
+            <FastMaskedInput
+              mask={'1111111111111111'}
               disabled={isLoading}
               name={`${sectionValuePath}.enp`}
             />
