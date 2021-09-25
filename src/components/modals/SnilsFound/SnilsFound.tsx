@@ -21,6 +21,11 @@ const columns = [
     key: 'patrName',
   },
   {
+    title: 'Дата Рождения',
+    dataIndex: 'birthDate',
+    key: 'birthDate',
+  },
+  {
     title: 'СНИЛС',
     dataIndex: 'snils',
     key: 'snils',

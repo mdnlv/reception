@@ -18,6 +18,7 @@ import {
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
+import moment from 'moment';
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -607,8 +608,11 @@ const registrationCardSlice = createSlice({
           firstName: item.FirstName,
           lastName: item.LastName,
           patrName: item.MiddleName,
+          birthDate: moment(item.BirthDate).format('DD.MM.YYYY'),
           snils: item.snils || '',
         }));
+      } else {
+        state.form.foundSnils.items = []
       }
     });
   },

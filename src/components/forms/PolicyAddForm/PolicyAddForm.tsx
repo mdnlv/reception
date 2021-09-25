@@ -268,15 +268,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
         <Col span={18}>
           <FormField label={'Номер'} name={`${sectionValuePath}.number`}>
             {policyMask
-              ? (<FastMaskedInput
+              ? <FastMaskedInput
                   mask={policyMask}
                   disabled={isLoading}
                   name={`${sectionValuePath}.number`}
-                />)
-              : (<FastInput
+                />
+              : <FastInput
                   disabled={isLoading}
                   name={`${sectionValuePath}.number`}
-                />)
+                />
             }
           </FormField>
         </Col>
