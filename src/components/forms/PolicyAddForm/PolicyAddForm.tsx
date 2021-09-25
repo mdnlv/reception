@@ -74,6 +74,18 @@ const PolicyAddForm: React.FC<FormProps> = ({
   useEffect(() => {
     if (foundPolicy) {
       fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, foundPolicy[item]))
+      
+      const timeType = foundPolicy?.timeType;
+      if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
+        setPolicyMask('')
+        setTimeout(()=>setPolicyMask('111111111'), 100);
+        
+      } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
+        setPolicyMask('')
+        setTimeout(()=>setPolicyMask('11111111111'), 100);
+      } else {
+        setPolicyMask('')
+      }
     }
   }, [foundPolicy]);
 
