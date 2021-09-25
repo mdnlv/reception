@@ -93,9 +93,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
   useEffect(() => {
     const timeType = formValues?.timeType;
     if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
-      setPolicyMask('111111111')
+      setPolicyMask('')
+      setTimeout(()=>setPolicyMask('111111111'), 100);
+      
     } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
-      setPolicyMask('11111111111')
+      setPolicyMask('')
+      setTimeout(()=>setPolicyMask('11111111111'), 100);
     } else {
       setPolicyMask('')
     }
