@@ -52,13 +52,15 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
   passportGeneral: Yup.object().when('isUnknown', {
     is: false,
     then: Yup.object({
-      contacts: Yup.array().nullable().of(Yup.object({
-        type: Yup.string().required('тип телефона'),
-        number: Yup.string().when('type', {
-          is: value => value === '4' || value === '11',
-          then: Yup.string().required('e-mail').email('e-mail')
-        })
-      })),
+      contacts: Yup.object({
+        contacts: Yup.array().nullable().of(Yup.object({
+          type: Yup.string().required('тип телефона'),
+          number: Yup.string().when('type', {
+            is: value => value === '4' || value === '11',
+            then: Yup.string().required('e-mail').email('e-mail')
+          })
+        })),
+      }),
     }),
   }),
   personDocs: Yup.object().when('isUnknown', {
