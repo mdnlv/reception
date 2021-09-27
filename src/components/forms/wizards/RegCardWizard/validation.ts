@@ -58,7 +58,7 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
           number: Yup.string().when('type', {
             is: value => value === '4' || value === '11',
             then: Yup.string().required('e-mail').email('e-mail')
-          })
+          }).max(32, "длина номера должна быть максимум 32 символа"),
         })),
       }),
     }),
