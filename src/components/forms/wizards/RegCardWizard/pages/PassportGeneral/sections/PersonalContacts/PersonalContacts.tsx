@@ -21,8 +21,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     const resIndex = formProps.findIndex((item) => item.type === '3');
     resIndex > -1
       && !formProps[resIndex].number
-        ? form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7')
-        : form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '');
+        && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7');
   }, [formProps]);
 
   const onAddContact = useCallback(() => {
