@@ -54,8 +54,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('formValues.birthTime', formValues.birthTime);
+  // }, [formValues.birthTime]);
 
   useEffect(() => {
     if (formIsUnknown && formValues.sex !== null) {
@@ -228,9 +228,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
                 value={formValues.birthTime}
                 onChange={(value) => formProps.setFieldValue(`${sectionValuePath}.birthTime`, value)}
                 clockIcon={null}
-                format="HH:mm"
+                format="H:mm"
                 disableClock
-                maxTime={new Date()}
               />
             </FormField>
           </Col>
