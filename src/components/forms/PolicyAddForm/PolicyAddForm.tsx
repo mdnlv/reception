@@ -7,7 +7,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
-import {setDocumentedBuffer, setPolicyBuffer} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
+import {setPolicyBuffer} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
 import {RootState} from "../../../reduxStore/store";
 
 import FormField from '../components/FormField/FormField';
@@ -53,8 +53,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('formValues.number', formValues.number);
+  // }, [formValues.number]);
 
   useEffect(() => {
     !policiesFoundMessage && dispatch(setPolicyBuffer({value: formValues, type: 'setPolicyBuffer'}))
@@ -74,12 +74,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
   useEffect(() => {
     if (foundPolicy) {
       fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, foundPolicy[item]))
-      
       const timeType = foundPolicy?.timeType;
       if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
         setPolicyMask('')
         setTimeout(()=>setPolicyMask('111111111'), 100);
-        
       } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
         setPolicyMask('')
         setTimeout(()=>setPolicyMask('11111111111'), 100);
@@ -107,7 +105,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
     if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
       setPolicyMask('')
       setTimeout(()=>setPolicyMask('111111111'), 100);
-      
+
     } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
       setPolicyMask('')
       setTimeout(()=>setPolicyMask('11111111111'), 100);

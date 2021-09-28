@@ -21,7 +21,8 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
     const resIndex = formProps.findIndex((item) => item.type === '3');
     resIndex > -1
       && !formProps[resIndex].number
-      && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7');
+        ? form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7')
+        : form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '');
   }, [formProps]);
 
   const onAddContact = useCallback(() => {
@@ -67,7 +68,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const findMaskByType = (typeId: number) => {
     if (typeId) {
       const type = contactTypes.find((item) => item.id === typeId);
-      if (type && type.name !== 'электронная почта') return type.mask;
+      if (type && type.name !== 'электронный адрес') return type.mask;
       return '';
     } else {
       return '';

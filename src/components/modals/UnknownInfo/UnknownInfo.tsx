@@ -25,9 +25,10 @@ const UnknownInfo: React.FC<ModalProps> = ({
     formAddressValue
       && form.setFieldValue(`${sectionValuePath}.addressUnknown`, formAddressValue);
     formBirthDateValue
-      && form.setFieldValue(
+      ? form.setFieldValue(
         `${sectionValuePath}.ageUnknown`, differenceInYears(new Date(), formBirthDateValue as Date)
-        );
+        )
+      : form.setFieldValue(`${sectionValuePath}.ageUnknown`, '');
   }, [formAddressValue, formBirthDateValue]);
 
   useEffect(() => {
