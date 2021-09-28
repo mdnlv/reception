@@ -49,6 +49,11 @@ const SnilsFound: React.FC<ModalProps> = ({
     }
   }, [data]);
 
+  useEffect(() => {
+    const res = data.find((item) => item.key === currentKey);
+    setCurrentItem(res || null);
+  }, [currentKey]);
+
   return (
     <Modal
       wrapClassName='app-modal'
