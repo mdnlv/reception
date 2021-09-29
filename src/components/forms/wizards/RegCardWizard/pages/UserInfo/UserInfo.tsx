@@ -150,10 +150,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     const monthNow = dateNow.getUTCMonth() + 1;
     const yearNow = dateNow.getUTCFullYear();
     const yearUnknown = yearNow - parseInt(formUnknownValues.ageUnknown);
-    if(showUnknown) {
-    formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
-    formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
-    formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
+    if (showUnknown) {
+      formProps.setFieldValue(`${addressValuePath}.isKLADR`, false);
+      formProps.setFieldValue(`${addressValuePath}.freeInput`, formUnknownValues.addressUnknown);
+      formProps.setFieldValue(`${addressValuePath}.area`, '');
+      formProps.setFieldValue(`${addressValuePath}.city`, '');
+      formProps.setFieldValue(`${sectionValuePath}.birthDate`, `${yearUnknown}-${monthNow}-${dayNow}`);
     }
     setShowUnknown(false);
   };

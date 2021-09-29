@@ -199,10 +199,10 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       ...directLinks.deleted.reduce((res: PatientRelation[], item) => {
         if (item.id) {
           res.push({
-              id: item.id,
-              relativeType_id: parseInt(item.patientLink),
-              relative_id: item.forwardRef,
-              deleted: 1 as 1,
+            id: item.id,
+            relativeType_id: parseInt(item.patientLink),
+            relative_id: item.forwardRef,
+            deleted: 1 as 1,
           })
         }
         return res;
