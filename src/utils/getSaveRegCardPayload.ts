@@ -145,18 +145,20 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         address: {
           address_house: {
             id: addressRegistration.addressHouseId,
-            KLADRCode: (addressRegistration.area === '7800000000000'
-              || addressRegistration.area === '7700000000000'
-              || addressRegistration.area === '9200000000000')
-              ? addressRegistration.area
-              : addressRegistration.city,
-            KLADRStreetCode: addressRegistration.street,
+            KLADRCode: !addressRegistration.freeInput
+              ? (addressRegistration.area === '7800000000000'
+                || addressRegistration.area === '7700000000000'
+                || addressRegistration.area === '9200000000000')
+                  ? addressRegistration.area
+                  : addressRegistration.city
+              : '',
+            KLADRStreetCode: !addressRegistration.freeInput ? addressRegistration.street : '',
             number: addressRegistration.houseNumber?.toString() || '',
             corpus: '',
             litera: addressRegistration.houseCharacter?.toString() || '',
           },
           id: addressRegistration.addressId,
-          house_id: addressRegistration.houseId,
+          ...(!addressRegistration.freeInput && {house_id: addressRegistration.houseId}),
           flat: addressRegistration.flatNumber?.toString() || '',
         },
         isVillager: addressRegistration.isVillager ? +addressRegistration.isVillager as 0 | 1 : 0 as 0,
@@ -169,18 +171,20 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         address: {
           address_house: {
             id: documentedAddress.addressHouseId,
-            KLADRCode: (documentedAddress.area === '7800000000000'
-              || documentedAddress.area === '7700000000000'
-              || documentedAddress.area === '9200000000000')
-              ? documentedAddress.area
-              : documentedAddress.city,
-            KLADRStreetCode: documentedAddress.street,
+            KLADRCode: !documentedAddress.freeInput
+              ? (documentedAddress.area === '7800000000000'
+                || documentedAddress.area === '7700000000000'
+                || documentedAddress.area === '9200000000000')
+                  ? documentedAddress.area
+                  : documentedAddress.city
+              : '',
+            KLADRStreetCode: !documentedAddress.freeInput ? documentedAddress.street : '',
             litera: documentedAddress.houseCharacter?.toString() || '',
             corpus: '',
             number: documentedAddress.houseNumber?.toString() || '',
           },
           id: documentedAddress.addressId,
-          house_id: documentedAddress.houseId,
+          ...(!documentedAddress.freeInput && {house_id: documentedAddress.houseId}),
           flat: documentedAddress.flatNumber?.toString() || '',
         },
         isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager as 0 | 1 : 0 as 0,
