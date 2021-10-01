@@ -7,7 +7,7 @@ import {
   Divider,
   Radio,
   Row,
-  // TimePicker,
+  TimePicker,
   Select,
 } from 'antd';
 import RadioGroup from 'antd/es/radio/group';
@@ -23,7 +23,7 @@ import {
   setSnilsFoundMessage
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {detailedSNILSMissingReasonsSelector} from "../../../../../../reduxStore/slices/rb/selectors";
-import TimePicker from 'react-time-picker';
+//import TimePicker from 'react-time-picker';
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -213,26 +213,26 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
             <FormField label="Время рождения">
               {/*todo make birthTime correct binding*/}
               {/* todo make correct bindings */}
-              {/*<TimePicker*/}
-              {/*  format='HH:mm'*/}
-              {/*  name={`personal.birthTime`}*/}
-              {/*  value={tbValue}*/}
-              {/*  onChange={(_, timeString) => {*/}
-              {/*    _ ? setTbValue(moment(_, "HH:ss")) : setTbValue(undefined)*/}
-              {/*    formProps.setFieldValue(*/}
-              {/*      `${sectionValuePath}.birthTime`,*/}
-              {/*      timeString,*/}
-              {/*    );*/}
-              {/*  }}*/}
-              {/*/>*/}
               <TimePicker
+                format='HH:mm'
+                name={`personal.birthTime`}
+                value={tbValue}
+                onChange={(_, timeString) => {
+                  _ ? setTbValue(moment(_, "HH:ss")) : setTbValue(undefined);
+                  formProps.setFieldValue(
+                    `${sectionValuePath}.birthTime`,
+                   timeString,
+                 );
+                }}
+              />
+              {/*<TimePicker
                 name={`personal.birthTime`}
                 value={formValues.birthTime}
                 onChange={(value) => formProps.setFieldValue(`${sectionValuePath}.birthTime`, value)}
                 clockIcon={null}
                 format="H:mm"
                 disableClock
-              />
+              />*/}
             </FormField>
           </Col>
         </Row>
