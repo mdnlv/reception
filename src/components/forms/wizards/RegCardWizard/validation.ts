@@ -90,8 +90,11 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
         to: Yup.string()
           .required('дата окончания действия полиса')
           .nullable()
-          //@ts-ignore
-          .comparePolicyDates('окончание действия полиса раньше начала'),
+          .when('from', {
+            is: value => value,
+            //@ts-ignore
+            then: Yup.string().comparePolicyDates('окончание действия полиса раньше начала')
+          }),
         enp: Yup.string().test("len", "Неправильно введён номер ЕНП", (val) => {
           const val_length_without_dashes = val?.replace(/-|_/g, "").length;
           console.log(val_length_without_dashes)
