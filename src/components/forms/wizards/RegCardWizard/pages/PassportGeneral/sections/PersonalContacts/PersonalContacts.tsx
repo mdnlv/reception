@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState} from 'react';
+import React, { FC, useCallback, useEffect} from 'react';
 import { Checkbox, Col, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
 import {CloseCircleOutlined} from "@ant-design/icons";
@@ -16,7 +16,6 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
-  const [indexData, setIndexData] = useState(-1);
 
   useEffect(() => {
     const resIndex = formProps.findIndex((item) => item.type === '3');
@@ -24,10 +23,6 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
       && !formProps[resIndex].number.includes('+7')
         && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '+7');
   }, [formProps]);
-
-  useEffect(() => {
-    form.setFieldValue(`passportGeneral.contacts.contacts[${indexData}].number`, '');
-  }, [formProps[indexData]?.type]);
 
   const onAddContact = useCallback(() => {
     const item: PassportContactType = {
@@ -87,9 +82,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
         name={'contacts'}
         onAddItem={onAddContact}
         showActions={true}
-        renderChild={(key, index) => {
-          setIndexData(index);
-          return (
+        renderChild={(key, index) => (
             <Row gutter={16} key={index} align="middle">
               <Col span={3}>
                 <FormField label={LABELS.MAIN}>
@@ -109,6 +102,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                     value={formProps[index]?.type}
                     onChange={(val) => {
                       form.setFieldValue(getSelectionItem(index, 'type'), val);
+                      form.setFieldValue(`passportGeneral.contacts.contacts[${index}].number`, '');
                     }}>
                     {typesOptions}
                   </FastSearchSelect>
@@ -138,7 +132,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
               </Col>
             </Row>
           )
-        }}
+        }
       />
     </div>
   );
