@@ -29,6 +29,7 @@ const AddressRegistration: FC<SectionProps> = ({
   const {documentedBuffer} = useSelector(kladrSelector);
   const formValues = form.values.passportGeneral.passportInfo.addressRegistration;
   const formInitialValues = form.initialValues.passportGeneral.passportInfo.addressRegistration;
+  const formUnknownValues = form.values.isUnknown;
   const sectionValuePath = `passportGeneral.passportInfo.addressRegistration`;
   const fieldNames = ['isKLADR', 'area', 'city', 'street', 'houseNumber', 'houseCharacter', 'flatNumber', 'freeInput', 'isVillager'];
 
@@ -145,7 +146,7 @@ const AddressRegistration: FC<SectionProps> = ({
         <Col span={8}>
           <FormField>
             <Checkbox
-              disabled={isDocumentedAddress}
+              disabled={isDocumentedAddress || formUnknownValues}
               checked={formValues.isKLADR}
               name={`${sectionValuePath}.isKLADR`}
               onChange={form.handleChange}>
