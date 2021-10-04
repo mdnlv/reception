@@ -17,6 +17,10 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
 
+  // useEffect(() => {
+  //   console.log('formProps', formProps);
+  // }, [formProps]);
+
   useEffect(() => {
     const resIndex = formProps.findIndex((item) => item.type === '3');
     resIndex > -1
@@ -100,9 +104,8 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                   <FastSearchSelect
                     name={getSelectionItem(index, 'type')}
                     value={formProps[index]?.type}
-                    onChange={(val) => {
-                      form.setFieldValue(getSelectionItem(index, 'type'), val);
-                      form.setFieldValue(`passportGeneral.contacts.contacts[${index}].number`, '');
+                    onChangeExtra={() => {
+                      form.setFieldValue(getSelectionItem(index, 'number'), '');
                     }}>
                     {typesOptions}
                   </FastSearchSelect>
