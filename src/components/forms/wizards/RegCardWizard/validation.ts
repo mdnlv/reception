@@ -23,7 +23,7 @@ Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
     const valueParsed = Date.parse(value);
     //@ts-ignore
     const compareParsed = Date.parse(this.parent.from);
-    return compareParsed < valueParsed || createError({ path, message: errorMessage })
+    return compareParsed <= valueParsed || createError({ path, message: errorMessage })
   });
 });
 
