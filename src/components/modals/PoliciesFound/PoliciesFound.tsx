@@ -43,45 +43,42 @@ const PoliciesFound: React.FC<ModalProps> = ({
     >
       {policy && isVisible ? (
         <>
-          {!isPast(new Date(policy?.to))
-            ? (
-              <>
-                <Row>
-                  <Col span={13}>СМО:</Col>
-                  <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
-                </Row>
-                <Row>
-                  <Col span={13}>серия:</Col>
-                  <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
-                </Row>
-                <Row>
-                  <Col span={13}>номер:</Col>
-                  <Col span={11}>{policy?.number}</Col>
-                </Row>
-                <Row>
-                  <Col span={13}>ЕНП:</Col>
-                  <Col span={11}>{policy?.enp}</Col>
-                </Row>
-                <Row>
-                  <Col span={13}>действителен:</Col>
-                  <Col span={11}>
-                    {policy.from && `с ${
-                      //@ts-ignore
-                      format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
-                    }
-                    {
-                      //@ts-ignore
-                      policy.to && `до ${
-                        format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
-                      }`
-                    }
-                  </Col>
-                </Row>
-              </>
-            ) : (
-              <Typography.Text>По данным ТФОМС полис не действителен.</Typography.Text>
-            )
-          }
+          <Row>
+            <Col span={13}>СМО:</Col>
+            <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
+          </Row>
+          <Row>
+            <Col span={13}>серия:</Col>
+            <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
+          </Row>
+          <Row>
+            <Col span={13}>номер:</Col>
+            <Col span={11}>{policy?.number}</Col>
+          </Row>
+          <Row>
+            <Col span={13}>ЕНП:</Col>
+            <Col span={11}>{policy?.enp}</Col>
+          </Row>
+          <Row>
+            <Col span={13}>действителен:</Col>
+            <Col span={11}>
+              {policy.from && `с ${
+                //@ts-ignore
+                format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
+              }
+              {
+                //@ts-ignore
+                policy.to && `до ${
+                  format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+                }`
+              }
+            </Col>
+          </Row>
+          {isPast(new Date(policy?.to)) && (
+            <Row>
+              <Typography.Text strong>По данным ТФОМС полис не действителен.</Typography.Text>
+            </Row>
+          )}
           {policy.attach ? (
             <>
               <Row justify={'start'}>
