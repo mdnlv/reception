@@ -52,9 +52,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [errorsData, setErrorsData] = useState([] as string[]);
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
-  // useEffect(() => {
-  //   console.log('formValues.number', formValues.number);
-  // }, [formValues.number]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   useEffect(() => {
     !policiesFoundMessage && dispatch(setPolicyBuffer({value: formValues, type: 'setPolicyBuffer'}))
@@ -93,12 +93,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
         form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
       } else if (formValues?.timeType === '3') {
         form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
-        form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
+        !foundPolicy?.timeType && form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
       } else {
         !formValues?.timeType && form.setFieldValue(`${sectionValuePath}.serial`, '');
       }
     }
-  }, [formValues?.timeType]);
+  }, [formValues?.timeType, foundPolicy]);
 
   useEffect(() => {
     const timeType = formValues?.timeType;
