@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 import {useFormikContext} from "formik";
@@ -74,6 +74,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
+  const [isPolicyTyping, setPolicyTyping] = useState(true);
 
   useEffect(() => {
     console.log('item', item);
@@ -111,6 +112,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const onCloseModal = () => {
     dispatch(resetPoliciesFound());
     dispatch(setPoliciesFoundMessage(false));
+    setPolicyTyping(true);
   };
 
   const onOkModal = () => {
@@ -188,6 +190,8 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
             kladr={rbKladrDocumented}
             policyMask={policyMask}
             setPolicyMask={setPolicyMask}
+            isTyping={isPolicyTyping}
+            setTyping={setPolicyTyping}
           />
         </Col>
       </Row>

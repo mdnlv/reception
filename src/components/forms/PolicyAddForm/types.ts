@@ -27,4 +27,6 @@ export interface FormProps {
   kladr: PrefixKladrItem[];
   policyMask: string;
   setPolicyMask: (policyMask: string) => void;
+  isTyping: boolean;
+  setTyping: (value: boolean) => void;
 }

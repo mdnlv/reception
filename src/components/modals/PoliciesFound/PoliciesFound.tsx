@@ -24,10 +24,13 @@ const PoliciesFound: React.FC<ModalProps> = ({
       footer={
         policy ? (
           <>
+            {isPast(new Date(policy?.to)) && (
+              <Row justify={'start'}>
+                <Typography.Text strong style={{fontSize: 18}}>Показать таблицу с выбором данных для обновления?</Typography.Text>
+              </Row>
+            )}
             <Row justify={'start'}>
-              <Typography.Text strong style={{fontSize: 18}}>
-                {!isPast(new Date(policy?.to)) ? 'Обновить сведения о полисе?' : 'Показать таблицу с выбором данных для обновления?'}
-              </Typography.Text>
+              <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о полисе?</Typography.Text>
             </Row>
             <Row justify={'end'}>
               <Button type="primary" onClick={onOk} className={'save-btn'}>

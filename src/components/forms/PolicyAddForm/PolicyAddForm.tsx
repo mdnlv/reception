@@ -29,7 +29,9 @@ const PolicyAddForm: React.FC<FormProps> = ({
   cmoType,
   kladr,
   policyMask,
-  setPolicyMask
+  setPolicyMask,
+  isTyping,
+  setTyping
 }) => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
@@ -93,12 +95,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
         form.setFieldValue(`${sectionValuePath}.serial`, 'ВС');
       } else if (formValues?.timeType === '3') {
         form.setFieldValue(`${sectionValuePath}.serial`, 'ЕП');
-        !foundPolicy?.timeType && form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
+        isTyping && form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
       } else {
         !formValues?.timeType && form.setFieldValue(`${sectionValuePath}.serial`, '');
       }
     }
-  }, [formValues?.timeType, foundPolicy]);
+  }, [formValues?.timeType, foundPolicy, isTyping]);
 
   useEffect(() => {
     const timeType = formValues?.timeType;
@@ -226,6 +228,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   firstName,
                   lastName,
                 });
+                setTyping(false);
               }}>
               Искать
             </Button>
@@ -238,6 +241,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               loading={isLoading}
               placeholder={"Вид"}
               name={`${sectionValuePath}.timeType`}
+              onChangeExtra={() => setTyping(true)}
             >
               {getPropsOptions(policyTimeType)}
             </FastSearchSelect>
