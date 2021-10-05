@@ -116,8 +116,6 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
   attachments: Yup.object({
     attachments: Yup.array().of(Yup.object({
       type: Yup.string().required('тип прикрепления'),
-      lpu: Yup.string().required('ЛПУ'),
-      unit: Yup.string().required('подразделение')
     }))
   })
 });
