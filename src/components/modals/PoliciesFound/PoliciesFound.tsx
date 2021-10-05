@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
-import {format, parseISO} from "date-fns";
+import {format, parseISO, isPast} from "date-fns";
 import {useSelector} from "react-redux";
 
 import {ModalProps} from "./types";
@@ -25,7 +25,9 @@ const PoliciesFound: React.FC<ModalProps> = ({
         policy ? (
           <>
             <Row justify={'start'}>
-              <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о полисе?</Typography.Text>
+              <Typography.Text strong style={{fontSize: 18}}>
+                {!isPast(new Date(policy?.to)) ? 'Обновить сведения о полисе?' : 'Показать таблицу с выбором данных для обновления?'}
+              </Typography.Text>
             </Row>
             <Row justify={'end'}>
               <Button type="primary" onClick={onOk} className={'save-btn'}>
@@ -41,37 +43,45 @@ const PoliciesFound: React.FC<ModalProps> = ({
     >
       {policy && isVisible ? (
         <>
-          <Row>
-            <Col span={13}>СМО:</Col>
-            <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>серия:</Col>
-            <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>номер:</Col>
-            <Col span={11}>{policy?.number}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>ЕНП:</Col>
-            <Col span={11}>{policy?.enp}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>действителен:</Col>
-            <Col span={11}>
-              {policy.from && `с ${
-                //@ts-ignore
-                format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
-              }
-              {
-                //@ts-ignore
-                policy.to && `до ${
-                  format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
-                }`
-              }
-            </Col>
-          </Row>
+          {!isPast(new Date(policy?.to))
+            ? (
+              <>
+                <Row>
+                  <Col span={13}>СМО:</Col>
+                  <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>серия:</Col>
+                  <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>номер:</Col>
+                  <Col span={11}>{policy?.number}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>ЕНП:</Col>
+                  <Col span={11}>{policy?.enp}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>действителен:</Col>
+                  <Col span={11}>
+                    {policy.from && `с ${
+                      //@ts-ignore
+                      format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
+                    }
+                    {
+                      //@ts-ignore
+                      policy.to && `до ${
+                        format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+                      }`
+                    }
+                  </Col>
+                </Row>
+              </>
+            ) : (
+              <Typography.Text>По данным ТФОМС полис не действителен.</Typography.Text>
+            )
+          }
           {policy.attach ? (
             <>
               <Row justify={'start'}>
@@ -91,15 +101,20 @@ const PoliciesFound: React.FC<ModalProps> = ({
               <Row justify={'start'}>
                 <Typography.Text strong>Список прикреплений:</Typography.Text>
               </Row>
-              {policy?.attachList?.map((item, index) => (
-                <Row justify={'start'} key={index}>
-                  <Typography.Text>
-                    {orgStructure.find(
-                      (elem) => elem.attachCode === item
-                    )?.name || `Неизвестная мед.организация с кодом: ${item}`}
-                  </Typography.Text>
-                </Row>
-              ))}
+              {!isPast(new Date(policy?.to))
+                ? policy?.attachList?.map((item, index) => (
+                    <Row justify={'start'} key={index}>
+                      <Typography.Text>
+                        {orgStructure.find(
+                          (elem) => elem.attachCode === item
+                        )?.name || `Неизвестная мед.организация с кодом: ${item}`}
+                      </Typography.Text>
+                    </Row>
+                  ))
+                : (
+                  <Typography.Text>нет прикреплений</Typography.Text>
+                )
+              }
             </>
           ) : null}
         </>
