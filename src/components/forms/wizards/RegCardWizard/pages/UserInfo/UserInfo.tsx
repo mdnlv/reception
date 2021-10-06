@@ -54,8 +54,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
-  //   console.log('formValues.birthTime', formValues.birthTime);
-  // }, [formValues.birthTime]);
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     if (formIsUnknown && formValues.sex !== null) {
@@ -82,6 +82,10 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
       ? setSnilsWarning('Неправильная контрольная сумма, возможно неправильный СНИЛС')
       : setSnilsWarning('')
   }, [formValues.snils, formValues.SNILSMissingReason]);
+
+  useEffect(() => {
+    formValues.birthTime && setTbValue(moment(formValues.birthTime, "HH:ss"));
+  }, [formValues.birthTime]);
 
   const getPropsOptions = useCallback(
     (props: ListOptionItem[]) =>
@@ -215,7 +219,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
               {/* todo make correct bindings */}
               <TimePicker
                 format='HH:mm'
-                name={`personal.birthTime`}
+                name={`${sectionValuePath}.birthTime`}
                 value={tbValue}
                 onChange={(_, timeString) => {
                   _ ? setTbValue(moment(_, "HH:ss")) : setTbValue(undefined);

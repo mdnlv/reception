@@ -18,7 +18,7 @@ export default interface PatientResponse {
   firstName: string;
   patrName: string;
   birthDate: string;
-  birthTime: Date | null;
+  birthTime: string | null;
   sex: 1 | 2 | null;
   SNILS: string;
   bloodType_id: number | null;
