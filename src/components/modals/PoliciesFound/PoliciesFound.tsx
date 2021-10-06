@@ -24,19 +24,16 @@ const PoliciesFound: React.FC<ModalProps> = ({
       footer={
         policy ? (
           <>
-            {isPast(new Date(policy?.to)) && (
-              <Row justify={'start'}>
-                <Typography.Text strong style={{fontSize: 18}}>Показать таблицу с выбором данных для обновления?</Typography.Text>
-              </Row>
-            )}
             <Row justify={'start'}>
-              <Typography.Text strong style={{fontSize: 18}}>Обновить сведения о полисе?</Typography.Text>
+              <Typography.Text strong style={{fontSize: 18}}>
+                {!isPast(new Date(policy?.to)) ? 'Обновить сведения о полисе?' : 'Показать таблицу с выбором данных для обновления?'}
+              </Typography.Text>
             </Row>
             <Row justify={'end'}>
-              <Button type="primary" onClick={onOk} className={'save-btn'}>
+              <Button type="primary" onClick={!isPast(new Date(policy?.to)) ? onOk : () => {}} className={'save-btn'}>
                 Да
               </Button>
-              <Button type="primary" onClick={onClose} danger>
+              <Button type="primary" onClick={!isPast(new Date(policy?.to)) ? onClose : () => {}} danger>
                 Нет
               </Button>
             </Row>
@@ -96,27 +93,30 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Row>
             </>
           ) : null}
-          {policy.attachList && policy.attachList.length > 0 ? (
+          {policy.attachList && policy.attachList.length > 0 && (
             <>
               <Row justify={'start'}>
                 <Typography.Text strong>Список прикреплений:</Typography.Text>
               </Row>
-              {!isPast(new Date(policy?.to))
-                ? policy?.attachList?.map((item, index) => (
-                    <Row justify={'start'} key={index}>
-                      <Typography.Text>
-                        {orgStructure.find(
-                          (elem) => elem.attachCode === item
-                        )?.name || `Неизвестная мед.организация с кодом: ${item}`}
-                      </Typography.Text>
-                    </Row>
-                  ))
-                : (
-                  <Typography.Text>нет прикреплений</Typography.Text>
-                )
-              }
+              {policy?.attachList?.map((item, index) => (
+                <Row justify={'start'} key={index}>
+                  <Typography.Text>
+                    {orgStructure.find(
+                      (elem) => elem.attachCode === item
+                    )?.name || `Неизвестная мед.организация с кодом: ${item}`}
+                  </Typography.Text>
+                </Row>
+              ))}
             </>
-          ) : null}
+          )}
+          {isPast(new Date(policy?.to)) && (
+            <>
+              <Row justify={'start'}>
+                <Typography.Text strong>Список прикреплений:</Typography.Text>
+              </Row>
+              <Typography.Text>нет прикреплений</Typography.Text>
+            </>
+          )}
         </>
         ) : (
         <Row justify={'center'}>
