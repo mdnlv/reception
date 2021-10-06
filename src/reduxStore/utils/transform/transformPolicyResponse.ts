@@ -20,7 +20,7 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     ogrn: '',
     infisCode: '',
     smoShort: '',
-    enp: '',
+    enp: item.enp,
   };
 };
 

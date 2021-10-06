@@ -9,7 +9,8 @@ export default interface  PatientPolicy {
   policyKindId: number;
   insurerId: number;
   clientId: number;
-  from: number | Date,
-  to: number | Date,
-  type: number | undefined,
+  from: number | Date;
+  to: number | Date;
+  type: number | undefined;
+  enp: string | null;
 }
