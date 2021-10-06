@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal, Row, Button, Typography, Col} from "antd";
 import {format, parseISO, isPast} from "date-fns";
 import {useSelector} from "react-redux";
@@ -14,6 +14,18 @@ const PoliciesFound: React.FC<ModalProps> = ({
   cmoType
 }) => {
   const orgStructure = useSelector(detailedOrgStructureSelector);
+  const [isOutside, setOutside] = useState(false);
+
+  useEffect(() => {
+    policy?.attachList?.map((item, index) => {
+      const res = orgStructure.find((elem) => elem.attachCode === item);
+      !res ? setOutside(true) : setOutside(false);
+    });
+  }, [policy]);
+
+  useEffect(() => {
+    console.log('isOutside', isOutside);
+  }, [isOutside]);
 
   return (
     <Modal
@@ -26,7 +38,11 @@ const PoliciesFound: React.FC<ModalProps> = ({
           <>
             <Row justify={'start'}>
               <Typography.Text strong style={{fontSize: 18}}>
-                {!isPast(new Date(policy?.to)) ? 'Обновить сведения о полисе?' : 'Показать таблицу с выбором данных для обновления?'}
+                {
+                  isOutside || isPast(new Date(policy?.to))
+                    ? 'Показать таблицу с выбором данных для обновления?'
+                    : 'Обновить сведения о полисе?'
+                }
               </Typography.Text>
             </Row>
             <Row justify={'end'}>
@@ -103,7 +119,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
                   <Typography.Text>
                     {orgStructure.find(
                       (elem) => elem.attachCode === item
-                    )?.name || `Неизвестная мед.организация с кодом: ${item}`}
+                    )?.name || `Прикреплен к сторонней МО: ${item}`}
                   </Typography.Text>
                 </Row>
               ))}

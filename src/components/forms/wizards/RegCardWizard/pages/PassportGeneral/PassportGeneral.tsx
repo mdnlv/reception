@@ -76,9 +76,9 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   );
   const [isPolicyTyping, setPolicyTyping] = useState(true);
 
-  useEffect(() => {
-    console.log('item', item);
-  }, [item]);
+  // useEffect(() => {
+  //   console.log('item', item);
+  // }, [item]);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
