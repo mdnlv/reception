@@ -427,10 +427,13 @@ const registrationCardSlice = createSlice({
               houseNumber: transformedPatient.address[0].address.house,
               houseCharacter: transformedPatient.address[0].address.litera,
               flatNumber: transformedPatient.address[0].address.flat,
-              isDocumentedAddress: Boolean(
-                transformedPatient.address[0]?.addressId ===
-                transformedPatient.address[1]?.addressId,
-              ),
+              isDocumentedAddress:
+                transformedPatient.address[0]?.addressId
+                  && transformedPatient.address[1]?.addressId
+                  && Boolean(
+                    transformedPatient.address[0]?.addressId ===
+                    transformedPatient.address[1]?.addressId,
+                  ),
               freeInput: transformedPatient.address[0].freeInput,
               isVillager: Boolean(transformedPatient.address[0].isVillager),
             },
@@ -446,10 +449,13 @@ const registrationCardSlice = createSlice({
               houseNumber: transformedPatient.address[1]?.address.house,
               houseCharacter: transformedPatient.address[1]?.address.litera,
               flatNumber: transformedPatient.address[1]?.address.flat,
-              isDocumentedAddress: Boolean(
-                transformedPatient.address[0]?.addressId ===
-                transformedPatient.address[1]?.addressId,
-              ),
+              isDocumentedAddress:
+                transformedPatient.address[0]?.addressId
+                  && transformedPatient.address[1]?.addressId
+                  && Boolean(
+                      transformedPatient.address[0]?.addressId ===
+                      transformedPatient.address[1]?.addressId,
+                    ),
               freeInput: transformedPatient.address[1]?.freeInput,
               isVillager: Boolean(transformedPatient.address[1].isVillager),
             } : {
