@@ -84,7 +84,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   }, [formValues.snils, formValues.SNILSMissingReason]);
 
   useEffect(() => {
-    formValues.birthTime && setTbValue(moment(formValues.birthTime, "HH:ss"));
+    formValues.birthTime && setTbValue(moment(formValues.birthTime, "HH:mm"));
   }, [formValues.birthTime]);
 
   const getPropsOptions = useCallback(

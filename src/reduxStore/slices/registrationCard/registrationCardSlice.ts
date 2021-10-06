@@ -394,6 +394,7 @@ const registrationCardSlice = createSlice({
           infisCode: '',
           smoShort: '',
         };
+        console.log('transformedPatient.birthTime', transformedPatient.birthTime);
         state.initialFormState.personal = {
           ...state.form.personal,
           code: transformedPatient.code.toString(),
