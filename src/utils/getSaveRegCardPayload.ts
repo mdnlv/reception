@@ -216,7 +216,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       ...backLinks.backLinks.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.patientLink),
-        relative_id: code ? parseInt(code): null,
+        ...(code && {relative_id: parseInt(code)}),
         client_id: item.forwardRef,
         deleted: 0 as 0,
       })),
@@ -225,7 +225,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           res.push({
             id: item.id,
             relativeType_id: parseInt(item.patientLink),
-            relative_id: code ? parseInt(code) : null,
+            ...(code && {relative_id: parseInt(code)}),
             client_id: item.forwardRef,
             deleted: 1 as 1,
           })

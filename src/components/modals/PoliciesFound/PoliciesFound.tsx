@@ -46,10 +46,10 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Typography.Text>
             </Row>
             <Row justify={'end'}>
-              <Button type="primary" onClick={!isPast(new Date(policy?.to)) ? onOk : () => {}} className={'save-btn'}>
+              <Button type="primary" onClick={onOk} className={'save-btn'}>
                 Да
               </Button>
-              <Button type="primary" onClick={!isPast(new Date(policy?.to)) ? onClose : () => {}} danger>
+              <Button type="primary" onClick={onClose} danger>
                 Нет
               </Button>
             </Row>
