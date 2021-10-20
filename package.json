@@ -67,10 +67,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -99,21 +97,8 @@
     "prettier": "^2.0.5"
   },
   "jest": {
-    "verbose": true,
-    "clearMocks": true,
-    "collectCoverage": true,
-    "setupFilesAfterEnv": [
-      "./config/setupTest.js"
-    ],
-    "snapshotSerializers": [
-      "./node_modules/enzyme-to-json/serializer"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js",
-      "\\.(css|scss)$": "identity-obj-proxy"
-    }
+    "transformIgnorePatterns": [
+      "/node_modules/(?!antd|@ant-design|rc-.+?|@babel/runtime).+(js|jsx|ts|tsx)$"
+    ]
   }
 }

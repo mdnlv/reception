@@ -30,7 +30,7 @@ const Links: React.FC = () => {
 
   // useEffect(() => {
   //   console.log('rbRelationTypesDirectLink', rbRelationTypesDirectLink);
-  //   console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
+  //   // console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
   // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
   //
   // useEffect(() => {
@@ -71,7 +71,7 @@ const Links: React.FC = () => {
          name = `${item.leftName} => ${item.rightName}`
       }
       else {
-         name = `${item.leftName} <= ${item.rightName}`
+         name = `${item.rightName} <= ${item.leftName}`
       }
        return  (
         <Select.Option key={item.id} name={name} value={item.id.toString()}>

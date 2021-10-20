@@ -12,7 +12,6 @@ const FormField: React.FC<FieldProps> = (props) => {
       if (props.labelPosition === 'left') {
         className = 'form-field__label--left';
       }
-
       return (
         <label className={`form-field__label ${className}`}>
           {props.label}
