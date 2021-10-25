@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Modal, Row, Button, Typography, Col} from "antd";
+import {Modal, Row, Button, Typography, Col, Divider, Table} from "antd";
 import {format, parseISO, isPast} from "date-fns";
 import {useSelector} from "react-redux";
 
-import {ModalProps} from "./types";
+import {ModalProps, TableItem} from "./types";
 import {detailedOrgStructureSelector} from "../../../reduxStore/slices/rb/selectors";
 
 const PoliciesFound: React.FC<ModalProps> = ({
@@ -15,6 +15,25 @@ const PoliciesFound: React.FC<ModalProps> = ({
 }) => {
   const orgStructure = useSelector(detailedOrgStructureSelector);
   const [isOutside, setOutside] = useState(false);
+  const [showTable, setShowTable] = useState(false);
+  const [tableData, setTableData] = useState([] as TableItem[]);
+
+  const columns = [
+    {
+      title: 'Поле',
+      dataIndex: 'field',
+      key: 'field',
+    },
+    {
+      title: 'Новое значение',
+      dataIndex: 'newValue',
+      key: 'newValue',
+    }
+  ];
+
+  // useEffect(() => {
+  //   console.log('policy', policy);
+  // }, [policy]);
 
   useEffect(() => {
     policy?.attachList?.map((item, index) => {
@@ -24,33 +43,110 @@ const PoliciesFound: React.FC<ModalProps> = ({
   }, [policy]);
 
   useEffect(() => {
-    console.log('isOutside', isOutside);
-  }, [isOutside]);
+    if (policy && (isOutside || isPast(new Date(policy?.to)))) {
+      setTableData([
+        {
+          key: '1',
+          field: 'Дата окончания:',
+          newValue: format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+        },
+        {
+          key: '2',
+          field: 'Дата начала:',
+          newValue: format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')
+        },
+        {
+          key: '3',
+          field: 'СМО:',
+          newValue: cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''
+        },
+        {
+          key: '4',
+          field: 'Серия:',
+          newValue: policy.serial
+        },
+        {
+          key: '5',
+          field: 'Номер:',
+          newValue: policy.number
+        },
+        {
+          key: '6',
+          field: 'ЕНП:',
+          newValue: policy.enp || ''
+        },
+        {
+          key: '7',
+          field: 'Причина аннулирования:',
+          newValue: policy.cancelReason
+        },
+        {
+          key: '8',
+          field: 'ЛПУ прикрепл.:',
+          newValue: orgStructure.find(
+            (item) => item.id === parseInt(policy.attach || '')
+          )?.name || ''
+        },
+        {
+          key: '9',
+          field: 'Дата прикрепл. к ЛПУ:',
+          newValue: ''
+        },
+        {
+          key: '10',
+          field: 'Доктор ЛПУ амб:',
+          newValue: ''
+        }
+      ]);
+    }
+  }, [policy, isOutside]);
 
   return (
     <Modal
       wrapClassName='app-modal'
+      width={showTable ? '50%' : undefined}
       onCancel={onClose}
       visible={isVisible}
-      title={policy ? 'Найден полис' : undefined}
+      title={policy ? !showTable ? 'Найден полис' : 'Укажите данные для обновления' : undefined}
       footer={
         policy ? (
           <>
-            <Row justify={'start'}>
-              <Typography.Text strong style={{fontSize: 18}}>
-                {
-                  isOutside || isPast(new Date(policy?.to))
-                    ? 'Показать таблицу с выбором данных для обновления?'
-                    : 'Обновить сведения о полисе?'
-                }
-              </Typography.Text>
-            </Row>
+            {!showTable && (
+                <Row justify={'start'}>
+                  <Typography.Text strong style={{fontSize: 18}}>
+                    {
+                      isOutside || isPast(new Date(policy?.to))
+                        ? 'Показать таблицу с выбором данных для обновления?'
+                        : 'Обновить сведения о полисе?'
+                    }
+                  </Typography.Text>
+                </Row>
+              )
+            }
+            <Divider/>
             <Row justify={'end'}>
-              <Button type="primary" onClick={onOk} className={'save-btn'}>
-                Да
+              <Button
+                type="primary"
+                onClick={
+                  (isOutside || isPast(new Date(policy?.to)))
+                    ? !showTable ? () => setShowTable(true) : onOk
+                    : onOk
+                }
+                className={'save-btn'}
+              >
+                ОК
               </Button>
-              <Button type="primary" onClick={onClose} danger>
-                Нет
+              <Button
+                type="primary"
+                onClick={
+                  () => {
+                    onClose && onClose();
+                    setShowTable(false);
+                  }
+                }
+                danger
+              >
+                Отмена
               </Button>
             </Row>
           </>
@@ -59,43 +155,48 @@ const PoliciesFound: React.FC<ModalProps> = ({
     >
       {policy && isVisible ? (
         <>
-          <Row>
-            <Col span={13}>СМО:</Col>
-            <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>серия:</Col>
-            <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>номер:</Col>
-            <Col span={11}>{policy?.number}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>ЕНП:</Col>
-            <Col span={11}>{policy?.enp}</Col>
-          </Row>
-          <Row>
-            <Col span={13}>действителен:</Col>
-            <Col span={11}>
-              {policy.from && `с ${
-                //@ts-ignore
-                format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
-              }
-              {
-                //@ts-ignore
-                policy.to && `до ${
-                  format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
-                }`
-              }
-            </Col>
-          </Row>
-          {isPast(new Date(policy?.to)) && (
+          {!showTable && (
+              <>
+                <Row>
+                  <Col span={13}>СМО:</Col>
+                  <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>серия:</Col>
+                  <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>номер:</Col>
+                  <Col span={11}>{policy?.number}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>ЕНП:</Col>
+                  <Col span={11}>{policy?.enp}</Col>
+                </Row>
+                <Row>
+                  <Col span={13}>действителен:</Col>
+                  <Col span={11}>
+                    {policy.from && `с ${
+                      //@ts-ignore
+                      format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
+                    }
+                    {
+                      //@ts-ignore
+                      policy.to && `до ${
+                        format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+                      }`
+                    }
+                  </Col>
+                </Row>
+              </>
+            )
+          }
+          {isPast(new Date(policy?.to)) && !showTable && (
             <Row>
               <Typography.Text strong>По данным ТФОМС полис не действителен.</Typography.Text>
             </Row>
           )}
-          {policy.attach ? (
+          {policy.attach  && !showTable ? (
             <>
               <Row justify={'start'}>
                 <Typography.Text strong>Найдено прикрепление:</Typography.Text>
@@ -109,7 +210,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Row>
             </>
           ) : null}
-          {policy.attachList && policy.attachList.length > 0 && (
+          {policy.attachList && policy.attachList.length > 0 && !showTable && (
             <>
               <Row justify={'start'}>
                 <Typography.Text strong>Список прикреплений:</Typography.Text>
@@ -125,7 +226,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               ))}
             </>
           )}
-          {isPast(new Date(policy?.to)) && (
+          {isPast(new Date(policy?.to)) && !showTable && (
             <>
               <Row justify={'start'}>
                 <Typography.Text strong>Список прикреплений:</Typography.Text>
@@ -133,6 +234,20 @@ const PoliciesFound: React.FC<ModalProps> = ({
               <Typography.Text>нет прикреплений</Typography.Text>
             </>
           )}
+          {
+            showTable && (
+              <Table
+                dataSource={tableData}
+                columns={columns}
+                rowSelection={{
+                  type: 'checkbox',
+                  selectedRowKeys: tableData.map((item) => item.key)
+                }}
+                pagination={false}
+                bordered
+              />
+            )
+          }
         </>
         ) : (
         <Row justify={'center'}>

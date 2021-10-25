@@ -8,3 +8,9 @@ export interface ModalProps {
   onOk?(): void;
   cmoType: ListOptionItem[];
 }
+
+export interface TableItem {
+  key: string;
+  field: string;
+  newValue: string | Date;
+}
