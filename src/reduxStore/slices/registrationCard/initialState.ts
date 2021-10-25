@@ -110,6 +110,7 @@ const initialState: RegistrationCardStateType = {
           ogrn: '',
           infisCode: '',
           smoShort: '',
+          cancelReason: ''
         }
       ] as PassportPolicyType[],
       documentsDeleted: [] as PassportInfoTypeDeleted[],
@@ -214,6 +215,7 @@ const initialState: RegistrationCardStateType = {
           ogrn: '',
           infisCode: '',
           smoShort: '',
+          cancelReason: ''
         }
       ] as PassportPolicyType[],
       documentsDeleted: [] as PassportInfoTypeDeleted[],
@@ -279,6 +281,7 @@ const initialState: RegistrationCardStateType = {
       ogrn: '',
       infisCode: '',
       smoShort: '',
+      cancelReason: ''
     },
     foundPolicies: {
       item: null,

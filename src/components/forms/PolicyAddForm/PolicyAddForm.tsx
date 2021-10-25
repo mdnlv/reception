@@ -38,7 +38,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.personDocs.policies[0];
   const sectionValuePath = `personDocs.policies[0]`;
-  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name', 'enp'];
+  const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name', 'enp', 'cancelReason'];
   const filterNames = ['smoShort', 'inn', 'ogrn'];
   const {policyBuffer} = useSelector((state: RootState) => state.registrationCard.form);
   const {policiesFoundMessage} = useSelector(
@@ -282,7 +282,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
             />
           </FormField>
         </Col>
-        <Col span={18}>
+        <Col span={6}>
           <FormField label={'Номер'} name={`${sectionValuePath}.number`}>
             {policyMask
               ? <FastMaskedInput
@@ -295,6 +295,14 @@ const PolicyAddForm: React.FC<FormProps> = ({
                   name={`${sectionValuePath}.number`}
                 />
             }
+          </FormField>
+        </Col>
+        <Col span={6}>
+          <FormField label={'Причина аннулирования'} name={`${sectionValuePath}.cancelReason`}>
+            <FastInput
+              disabled={isLoading}
+              name={`${sectionValuePath}.cancelReason`}
+            />
           </FormField>
         </Col>
       </Row>
@@ -329,7 +337,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
       </Row>
       <Row className="form-row">
-        <Col span={24}>
+        <Col span={12}>
           <FormField labelPosition="left" label="Название">
             <FastInput
               disabled={isLoading}
@@ -339,7 +347,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
       </Row>
       <Row className="form-row">
-        <Col span={24}>
+        <Col span={12}>
           <FormField labelPosition="left" label="Примечание">
             <FastInput
               disabled={isLoading}

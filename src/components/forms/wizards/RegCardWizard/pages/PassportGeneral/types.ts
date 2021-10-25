@@ -40,6 +40,7 @@ export interface PassportPolicyType {
   smoShort?: string;
   attach?: string;
   attachList?: number[];
+  cancelReason: string;
 }
 
 export interface PassportPolicyTypeDeleted extends Modify<PassportPolicyType, {

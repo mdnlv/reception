@@ -68,10 +68,10 @@ const Links: React.FC = () => {
     return props.map((item:RbRelationTypeResponse) => {
       let name = ''
       if (type === 'directConnection' ) {
-         name = `${item.leftName} => ${item.rightName}`
+         name = `${item.leftName} -> ${item.rightName}`
       }
       else {
-         name = `${item.rightName} <= ${item.leftName}`
+         name = `${item.rightName} -> ${item.leftName}`
       }
        return  (
         <Select.Option key={item.id} name={name} value={item.id.toString()}>

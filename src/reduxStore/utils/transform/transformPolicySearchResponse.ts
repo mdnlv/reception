@@ -18,6 +18,7 @@ const transformPolicySearchResponse = (item: PatientPolicySearchResponse) => {
     enp: item.enp,
     attach: item.attach,
     attachList: item.attachList,
+    cancelReason: '',
   };
 };
 

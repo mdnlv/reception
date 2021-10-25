@@ -393,6 +393,7 @@ const registrationCardSlice = createSlice({
           ogrn: '',
           infisCode: '',
           smoShort: '',
+          cancelReason: '',
         };
         state.initialFormState.personal = {
           ...state.form.personal,
