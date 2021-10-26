@@ -22,4 +22,5 @@ export enum LABELS {
   ATTACHMENT_DATE = 'Дата начала',
   DETACH_DATE = 'Дата окончания',
   DETACH_REASON = 'Причина открепления',
+  DOCTOR_LPU = 'Доктор ЛПУ амб'
 }

@@ -94,77 +94,92 @@ const Attachments: React.FC = () => {
             onAddItem={onAddAttachment}
             showActions
             renderChild={(key, index) => (
-              <Row gutter={16} key={index}>
-                <Col xl={8} xxl={3}>
-                  <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
-                    <FastSearchSelect
-                      showSearch
-                      filterOption
-                      optionFilterProp={'name'}
-                      loading={loadingAttachTypes}
-                      name={getSelectionPath(index, 'type')}>
-                      {getPropsList(attachTypes)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col xl={8} xxl={6}>
-                  <FormField label={LABELS.LPU} name={getSelectionPath(index, 'lpu')}>
-                    <FastSearchSelect
-                      showSearch
-                      filterOption
-                      optionFilterProp={'name'}
-                      loading={loadingOrgs}
-                      name={getSelectionPath(index, 'lpu')}>
-                      {getPropsList(orgs)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col xl={8} xxl={4}>
-                  <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
-                    <TreeSelectField
-                      // @ts-ignore
-                      defaultValue={parseInt(formValues[index].unit)}
-                      name={getSelectionPath(index, 'unit')}
-                      onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
-                    >
-                      {renderTreeNodes(personTree)}
-                    </TreeSelectField>
-                  </FormField>
-                </Col>
-                <Col xl={8} xxl={3}>
-                  <FormField label={LABELS.ATTACHMENT_DATE}>
-                    <FastDatePicker
-                      name={getSelectionPath(index, 'fromDate')}
+              <div key={index}>
+                <Row gutter={16}>
+                  <Col xl={8} xxl={3}>
+                    <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
+                      <FastSearchSelect
+                        showSearch
+                        filterOption
+                        optionFilterProp={'name'}
+                        loading={loadingAttachTypes}
+                        name={getSelectionPath(index, 'type')}>
+                        {getPropsList(attachTypes)}
+                      </FastSearchSelect>
+                    </FormField>
+                  </Col>
+                  <Col xl={8} xxl={12}>
+                    <FormField label={LABELS.LPU} name={getSelectionPath(index, 'lpu')}>
+                      <FastSearchSelect
+                        showSearch
+                        filterOption
+                        optionFilterProp={'name'}
+                        loading={loadingOrgs}
+                        name={getSelectionPath(index, 'lpu')}>
+                        {getPropsList(orgs)}
+                      </FastSearchSelect>
+                    </FormField>
+                  </Col>
+                  <Col xl={8} xxl={5}>
+                    <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
+                      <TreeSelectField
+                        // @ts-ignore
+                        defaultValue={parseInt(formValues[index].unit)}
+                        name={getSelectionPath(index, 'unit')}
+                        onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
+                      >
+                        {renderTreeNodes(personTree)}
+                      </TreeSelectField>
+                    </FormField>
+                  </Col>
+                  <Col span={1}>
+                    <Button
+                      type={'link'}
+                      size={'small'}
+                      shape="circle"
+                      icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                      onClick={onRemoveAttachment.bind(this, index)}
                     />
-                  </FormField>
-                </Col>
-                <Col xl={8} xxl={3}>
-                  <FormField label={LABELS.DETACH_DATE}>
-                    <FastDatePicker name={getSelectionPath(index, 'endDate')} />
-                  </FormField>
-                </Col>
-                <Col xl={6} xxl={4}>
-                  <FormField label={LABELS.DETACH_REASON}>
-                    <FastSearchSelect
-                      showSearch
-                      filterOption
-                      optionFilterProp={'name'}
-                      loading={loadingDetachmentReasons}
-                      name={getSelectionPath(index, 'detachmentReason')}>
-                      {getPropsList(detachmentReasons)}
-                    </FastSearchSelect>
-                  </FormField>
-                </Col>
-                <Col span={1}>
-                  <Button
-                    type={'link'}
-                    size={'small'}
-                    shape="circle"
-                    icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                    onClick={onRemoveAttachment.bind(this, index)}
-                  />
-                </Col>
-              </Row>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col xl={8} xxl={3}>
+                    <FormField label={LABELS.ATTACHMENT_DATE}>
+                      <FastDatePicker
+                        name={getSelectionPath(index, 'fromDate')}
+                      />
+                    </FormField>
+                  </Col>
+                  <Col xl={8} xxl={3}>
+                    <FormField label={LABELS.DETACH_DATE}>
+                      <FastDatePicker name={getSelectionPath(index, 'endDate')} />
+                    </FormField>
+                  </Col>
+                  <Col xl={6} xxl={4}>
+                    <FormField label={LABELS.DETACH_REASON}>
+                      <FastSearchSelect
+                        showSearch
+                        filterOption
+                        optionFilterProp={'name'}
+                        loading={loadingDetachmentReasons}
+                        name={getSelectionPath(index, 'detachmentReason')}>
+                        {getPropsList(detachmentReasons)}
+                      </FastSearchSelect>
+                    </FormField>
+                  </Col>
+                  <Col xl={6} xxl={4}>
+                    <FormField label={LABELS.DOCTOR_LPU}>
+                      <FastSearchSelect
+                        showSearch
+                        filterOption
+                        optionFilterProp={'name'}
+                        // loading={loadingDetachmentReasons}
+                        name={getSelectionPath(index, 'doctorLPU')}>
+                      </FastSearchSelect>
+                    </FormField>
+                  </Col>
+                </Row>
+              </div>
             )}
           />
         </DropDownContent>
