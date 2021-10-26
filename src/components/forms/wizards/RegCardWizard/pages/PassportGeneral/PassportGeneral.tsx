@@ -116,17 +116,18 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
     dispatch(resetPoliciesFound());
     dispatch(setPoliciesFoundMessage(false));
     setPolicyTyping(true);
+    setPolicyBufferValues(policyFoundValues);
   };
 
   const onOkModal = () => {
-    policyFoundValues.map((item) => {
-      if (!policyBufferValues.includes(item)) {
-        form.setFieldValue(`personDocs.policies[0].${item}`, '');
+    policyFoundValues.map((a) => {
+      if (!policyBufferValues.includes(a)) {
+        form.setFieldValue(`personDocs.policies[0].${a}`, '');
       }
     });
-    item?.attachList?.map((item, index) => {
-      const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
-      const attachItem = formAttachValues.find((a) => a.unit === orgStructureItem?.id);
+    item?.attachList?.map((a) => {
+      const orgStructureItem = orgStructure.find((b) => b.attachCode = a);
+      const attachItem = formAttachValues.find((b) => b.unit === orgStructureItem?.id);
       const lastAttach = formAttachValues[formAttachValues.length - 1];
       const emptyAttach: PersonAttachment = {
         lpu: '',
@@ -155,6 +156,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
       }
     });
     dispatch(setPoliciesFoundMessage(false));
+    setPolicyBufferValues(policyFoundValues);
   };
 
   return (

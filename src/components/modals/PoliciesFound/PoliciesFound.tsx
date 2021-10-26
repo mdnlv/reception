@@ -50,12 +50,12 @@ const PoliciesFound: React.FC<ModalProps> = ({
         {
           key: 'to',
           field: 'Дата окончания:',
-          newValue: format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
+          newValue: policy.to ? format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy') : ''
         },
         {
           key: 'from',
           field: 'Дата начала:',
-          newValue: format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')
+          newValue: policy.from ? format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy') : ''
         },
         {
           key: 'cmo',
@@ -103,11 +103,21 @@ const PoliciesFound: React.FC<ModalProps> = ({
     }
   }, [policy, isOutside]);
 
+  const onSubmitModal = () => {
+    setShowTable(false);
+    onOk && onOk();
+  }
+
+  const onCloseModal = () => {
+    onClose && onClose();
+    setShowTable(false);
+  }
+
   return (
     <Modal
       wrapClassName='app-modal'
       width={showTable ? '50%' : undefined}
-      onCancel={onClose}
+      onCancel={onCloseModal}
       visible={isVisible}
       title={policy ? !showTable ? 'Найден полис' : 'Укажите данные для обновления' : undefined}
       footer={
@@ -131,8 +141,8 @@ const PoliciesFound: React.FC<ModalProps> = ({
                 type="primary"
                 onClick={
                   (isOutside || isPast(new Date(policy?.to)))
-                    ? !showTable ? () => setShowTable(true) : onOk
-                    : onOk
+                    ? !showTable ? () => setShowTable(true) : onSubmitModal
+                    : onSubmitModal
                 }
                 className={'save-btn'}
               >
@@ -140,12 +150,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Button>
               <Button
                 type="primary"
-                onClick={
-                  () => {
-                    onClose && onClose();
-                    setShowTable(false);
-                  }
-                }
+                onClick={onCloseModal}
                 danger
               >
                 Отмена
