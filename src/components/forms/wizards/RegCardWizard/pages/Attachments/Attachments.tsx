@@ -69,6 +69,7 @@ const Attachments: React.FC = () => {
       type: '2',
       unit: '',
       detachmentReason: '',
+      doctorLPU: '',
       deleted: 0,
     };
     const newArr = [...formValues, attachment];

@@ -511,6 +511,7 @@ const registrationCardSlice = createSlice({
             fromDate: item.fromDate || '',
             endDate: item.endDate || '',
             detachmentReason: item.detachmentReason?.toString() || '',
+            doctorLPU: '',
             deleted: 0,
           })
         );

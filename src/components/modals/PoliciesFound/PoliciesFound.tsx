@@ -11,7 +11,9 @@ const PoliciesFound: React.FC<ModalProps> = ({
   onClose,
   policy,
   onOk,
-  cmoType
+  cmoType,
+  policyFoundValues,
+  setPolicyFoundValues
 }) => {
   const orgStructure = useSelector(detailedOrgStructureSelector);
   const [isOutside, setOutside] = useState(false);
@@ -46,54 +48,54 @@ const PoliciesFound: React.FC<ModalProps> = ({
     if (policy && (isOutside || isPast(new Date(policy?.to)))) {
       setTableData([
         {
-          key: '1',
+          key: 'to',
           field: 'Дата окончания:',
           newValue: format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
         },
         {
-          key: '2',
+          key: 'from',
           field: 'Дата начала:',
           newValue: format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')
         },
         {
-          key: '3',
+          key: 'cmo',
           field: 'СМО:',
           newValue: cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''
         },
         {
-          key: '4',
+          key: 'serial',
           field: 'Серия:',
           newValue: policy.serial
         },
         {
-          key: '5',
+          key: 'number',
           field: 'Номер:',
           newValue: policy.number
         },
         {
-          key: '6',
+          key: 'enp',
           field: 'ЕНП:',
           newValue: policy.enp || ''
         },
         {
-          key: '7',
+          key: 'cancelReason',
           field: 'Причина аннулирования:',
           newValue: policy.cancelReason
         },
         {
-          key: '8',
+          key: 'lpu',
           field: 'ЛПУ прикрепл.:',
           newValue: orgStructure.find(
             (item) => item.id === parseInt(policy.attach || '')
           )?.name || ''
         },
         {
-          key: '9',
+          key: 'lpuDate',
           field: 'Дата прикрепл. к ЛПУ:',
           newValue: ''
         },
         {
-          key: '10',
+          key: 'doctorLPU',
           field: 'Доктор ЛПУ амб:',
           newValue: ''
         }
@@ -241,7 +243,8 @@ const PoliciesFound: React.FC<ModalProps> = ({
                 columns={columns}
                 rowSelection={{
                   type: 'checkbox',
-                  selectedRowKeys: tableData.map((item) => item.key)
+                  selectedRowKeys: policyFoundValues,
+                  onChange: (selectedRowKeys) => setPolicyFoundValues(selectedRowKeys as string[])
                 }}
                 pagination={false}
                 bordered

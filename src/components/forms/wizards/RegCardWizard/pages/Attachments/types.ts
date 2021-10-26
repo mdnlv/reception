@@ -6,6 +6,7 @@ export interface PersonAttachment {
   fromDate: string;
   endDate: string;
   detachmentReason: string | null;
+  doctorLPU: string;
   deleted?: 0 | 1;
 }
 

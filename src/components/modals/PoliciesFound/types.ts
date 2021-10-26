@@ -7,6 +7,8 @@ export interface ModalProps {
   policy?: PassportPolicyType | null;
   onOk?(): void;
   cmoType: ListOptionItem[];
+  policyFoundValues: string[];
+  setPolicyFoundValues: (values: string[]) => void;
 }
 
 export interface TableItem {

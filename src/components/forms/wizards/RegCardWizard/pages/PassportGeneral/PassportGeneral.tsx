@@ -42,6 +42,7 @@ import { PGProps } from './types';
 const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
+  const formPolicyValues = form.values.personDocs.policies[0];
   const formAttachValues = form.values.attachments.attachments;
   const {item, isLoading} = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
@@ -75,6 +76,8 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
     (state: RootState) => state.rb.loading,
   );
   const [isPolicyTyping, setPolicyTyping] = useState(true);
+  const policyFoundValues = ['to', 'from', 'cmo', 'serial', 'number', 'enp', 'cancelReason', 'lpu', 'lpuDate', 'doctorLPU'];
+  const [policyBufferValues, setPolicyBufferValues] = useState(policyFoundValues);
 
   // useEffect(() => {
   //   console.log('item', item);
@@ -116,6 +119,11 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   };
 
   const onOkModal = () => {
+    policyFoundValues.map((item) => {
+      if (!policyBufferValues.includes(item)) {
+        form.setFieldValue(`personDocs.policies[0].${item}`, '');
+      }
+    });
     item?.attachList?.map((item, index) => {
       const orgStructureItem = orgStructure.find((a) => a.attachCode = item);
       const attachItem = formAttachValues.find((a) => a.unit === orgStructureItem?.id);
@@ -127,15 +135,17 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
         unit: '',
         endDate: '',
         detachmentReason: '',
+        doctorLPU: '',
         deleted: 0,
       };
-      const newAttach = {
-        lpu: orgStructureItem?.orgId.toString(),
+      const newAttach: PersonAttachment = {
+        lpu: orgStructureItem?.orgId.toString() || '',
         fromDate: format(new Date(), 'yyyy-MM-dd'),
         type: '2',
-        unit: orgStructureItem?.id,
+        unit: orgStructureItem?.id || '',
         endDate: '',
         detachmentReason: '',
+        doctorLPU: '',
         deleted: 0,
       };
       if (lastAttach?.unit !== newAttach.unit || !formAttachValues.length) {
@@ -214,6 +224,8 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
         onClose={onCloseModal.bind(this)}
         onOk={onOkModal.bind(this)}
         cmoType={cmoTypeList}
+        policyFoundValues={policyBufferValues}
+        setPolicyFoundValues={setPolicyBufferValues}
       />
     </form>
   );
