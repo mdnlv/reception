@@ -126,11 +126,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
             {!showTable && (
                 <Row justify={'start'}>
                   <Typography.Text strong style={{fontSize: 18}}>
-                    {
-                      isOutside || isPast(new Date(policy?.to))
-                        ? 'Показать таблицу с выбором данных для обновления?'
-                        : 'Обновить сведения о полисе?'
-                    }
+                    {isOutside || isPast(new Date(policy?.to)) ? 'Показать таблицу с выбором данных?' : 'Обновить сведения о полисе?'}
                   </Typography.Text>
                 </Row>
               )
