@@ -78,6 +78,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const [isPolicyTyping, setPolicyTyping] = useState(true);
   const policyFoundValues = ['to', 'from', 'cmo', 'serial', 'number', 'enp', 'cancelReason', 'lpu', 'lpuDate', 'doctorLPU'];
   const [policyBufferValues, setPolicyBufferValues] = useState(policyFoundValues);
+  const [isPolicyInsert, setPolicyInsert] = useState(false);
 
   // useEffect(() => {
   //   console.log('item', item);
@@ -120,6 +121,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   };
 
   const onOkModal = () => {
+    setPolicyInsert(true);
     policyFoundValues.map((a) => {
       if (!policyBufferValues.includes(a)) {
         form.setFieldValue(`personDocs.policies[0].${a}`, '');
@@ -194,7 +196,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
             cmoType={cmoTypeList}
             isLoading={isLoading}
             isCmoLoading={organisations}
-            foundPolicy={item}
+            foundPolicy={isPolicyInsert ? item : null}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
