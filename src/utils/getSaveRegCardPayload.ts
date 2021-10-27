@@ -61,7 +61,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       ...documents.map((item) => ({
         ...(item.id && {id: item.id}),
         documentType_id: parseInt(item.passportType),
-        serial: item.serialFirst?.concat(item.serialSecond) || '',
+        serial: `${item.serialFirst} ${item.serialSecond}`,
         number: item.number || '',
         date: toServerFormat(item.fromDate),
         origin: item.givenBy || '',
