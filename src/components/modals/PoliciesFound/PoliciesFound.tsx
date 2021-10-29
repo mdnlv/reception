@@ -4,7 +4,7 @@ import {format, parseISO, isPast} from "date-fns";
 import {useSelector} from "react-redux";
 
 import {ModalProps, TableItem} from "./types";
-import {detailedOrgStructureSelector} from "../../../reduxStore/slices/rb/selectors";
+import {detailedOrgStructureSelector, detailedPolicyKindsSelector} from "../../../reduxStore/slices/rb/selectors";
 
 const PoliciesFound: React.FC<ModalProps> = ({
   isVisible,
@@ -16,7 +16,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
   setPolicyFoundValues
 }) => {
   const orgStructure = useSelector(detailedOrgStructureSelector);
-  const [isOutside, setOutside] = useState(false);
+  const policyKindsList = useSelector(detailedPolicyKindsSelector);
   const [showTable, setShowTable] = useState(false);
   const [tableData, setTableData] = useState([] as TableItem[]);
 
@@ -34,19 +34,17 @@ const PoliciesFound: React.FC<ModalProps> = ({
   ];
 
   // useEffect(() => {
-  //   console.log('policy', policy);
-  // }, [policy]);
-
-  useEffect(() => {
-    policy?.attachList?.map((item, index) => {
-      const res = orgStructure.find((elem) => elem.attachCode === item);
-      !res ? setOutside(true) : setOutside(false);
-    });
-  }, [policy]);
+  //   console.log('policyFoundValues', policyFoundValues);
+  // }, [policyFoundValues]);
 
   useEffect(() => {
     if (policy) {
       setTableData([
+        {
+          key: 'timeType',
+          field: 'Вид:',
+          newValue: policyKindsList.find((item) => item.id === parseInt(policy.timeType || ''))?.name || ''
+        },
         {
           key: 'to',
           field: 'Дата окончания:',
@@ -152,37 +150,32 @@ const PoliciesFound: React.FC<ModalProps> = ({
     >
       {policy && isVisible ? (
         <>
-          {!showTable && (
+          {!showTable && tableData.length && (
               <>
                 <Row>
+                  <Col span={13}>Вид:</Col>
+                  <Col span={11}>{tableData[0].newValue}</Col>
+                </Row>
+                <Row>
                   <Col span={13}>СМО:</Col>
-                  <Col span={11}>{cmoType.find((item) => item.id === parseInt(policy?.cmo))?.name || ''}</Col>
+                  <Col span={11}>{tableData[3].newValue}</Col>
                 </Row>
                 <Row>
                   <Col span={13}>серия:</Col>
-                  <Col span={11}>{!policy?.enp ? policy?.serial : 'ЕП'}</Col>
+                  <Col span={11}>{tableData[4].newValue}</Col>
                 </Row>
                 <Row>
                   <Col span={13}>номер:</Col>
-                  <Col span={11}>{policy?.number}</Col>
+                  <Col span={11}>{tableData[5].newValue}</Col>
                 </Row>
                 <Row>
                   <Col span={13}>ЕНП:</Col>
-                  <Col span={11}>{policy?.enp}</Col>
+                  <Col span={11}>{tableData[6].newValue}</Col>
                 </Row>
                 <Row>
                   <Col span={13}>действителен:</Col>
                   <Col span={11}>
-                    {policy.from && `с ${
-                      //@ts-ignore
-                      format(policy.from instanceof Date ? policy.from : parseISO(policy.from), 'd.MM.yyyy')} `
-                    }
-                    {
-                      //@ts-ignore
-                      policy.to && `до ${
-                        format(policy.to instanceof Date ? policy.to : parseISO(policy.to), 'd.MM.yyyy')
-                      }`
-                    }
+                    {policy.from && `с ${tableData[2].newValue} до ${tableData[1].newValue}`}
                   </Col>
                 </Row>
               </>

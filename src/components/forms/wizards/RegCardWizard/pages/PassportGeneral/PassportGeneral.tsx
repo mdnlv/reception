@@ -19,7 +19,6 @@ import {
   detailedCMOSelector,
   detailedContactTypesSelector,
   detailedDocumentTypesSelector,
-  detailedOrgStructureSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
@@ -36,13 +35,11 @@ import PolicyAddForm from '../../../../PolicyAddForm/PolicyAddForm';
 import PoliciesFound from "../../../../../modals/PoliciesFound/PoliciesFound";
 import DocumentedAddress from "./sections/DocumentedAddress/DocumentedAddress";
 import AddressRegistration from "./sections/AddressRegistration/AddressRegistration";
-import {format} from "date-fns";
 import { PGProps } from './types';
 
 const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const dispatch = useDispatch();
   const form = useFormikContext<WizardStateType>();
-  const formPolicyValues = form.values.personDocs.policies[0];
   const formAttachValues = form.values.attachments.attachments;
   const {item, isLoading} = useSelector(
     (state: RootState) => state.registrationCard.form.foundPolicies,
@@ -71,14 +68,12 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
   const cmoTypeList = useSelector(detailedCMOSelector);
-  const orgStructure = useSelector(detailedOrgStructureSelector);
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
   const [isPolicyTyping, setPolicyTyping] = useState(true);
-  const policyFoundValues = ['to', 'from', 'cmo', 'serial', 'number', 'enp', 'cancelReason', 'lpu', 'lpuDate', 'doctorLPU'];
+  const policyFoundValues = ['timeType', 'to', 'from', 'cmo', 'serial', 'number', 'enp', 'cancelReason', 'lpu', 'lpuDate', 'doctorLPU'];
   const [policyBufferValues, setPolicyBufferValues] = useState(policyFoundValues);
-  const [isPolicyInsert, setPolicyInsert] = useState(false);
 
   // useEffect(() => {
   //   console.log('item', item);
@@ -121,7 +116,6 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   };
 
   const onOkModal = () => {
-    setPolicyInsert(true);
     policyFoundValues.map((a) => {
       if (!policyBufferValues.includes(a)) {
         form.setFieldValue(`personDocs.policies[0].${a}`, '');
@@ -182,7 +176,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
             cmoType={cmoTypeList}
             isLoading={isLoading}
             isCmoLoading={organisations}
-            foundPolicy={isPolicyInsert ? item : null}
+            foundPolicy={item}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
