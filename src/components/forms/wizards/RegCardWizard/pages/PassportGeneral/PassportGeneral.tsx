@@ -128,12 +128,10 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
       }
     });
     item?.attachList?.map((a) => {
-      const orgStructureItem = orgStructure.find((b) => b.attachCode = a);
-      const attachItem = formAttachValues.find((b) => b.unit === orgStructureItem?.id);
       const lastAttach = formAttachValues[formAttachValues.length - 1];
-      const emptyAttach: PersonAttachment = {
+      const newAttach: PersonAttachment = {
         lpu: '',
-        fromDate: format(new Date(), 'yyyy-MM-dd'),
+        fromDate: '',
         type: '2',
         unit: '',
         endDate: '',
@@ -141,20 +139,8 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
         doctorLPU: '',
         deleted: 0,
       };
-      const newAttach: PersonAttachment = {
-        lpu: orgStructureItem?.orgId.toString() || '',
-        fromDate: format(new Date(), 'yyyy-MM-dd'),
-        type: '2',
-        unit: orgStructureItem?.id || '',
-        endDate: '',
-        detachmentReason: '',
-        doctorLPU: '',
-        deleted: 0,
-      };
       if (lastAttach?.unit !== newAttach.unit || !formAttachValues.length) {
-        !attachItem
-          ? form.setFieldValue('attachments.attachments', [...formAttachValues, newAttach])
-          : form.setFieldValue('attachments.attachments', [...formAttachValues, emptyAttach]);
+        form.setFieldValue('attachments.attachments', [...formAttachValues, newAttach])
       }
     });
     dispatch(setPoliciesFoundMessage(false));

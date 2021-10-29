@@ -3,8 +3,9 @@ import {useField} from 'formik';
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
 import { MaskedInput } from 'antd-mask-input';
 import ru from "date-fns/locale/ru";
-import {PickerProps} from "./types";
 import "react-datepicker/dist/react-datepicker.css";
+
+import {PickerProps} from "./types";
 
 registerLocale("ru", ru);
 
