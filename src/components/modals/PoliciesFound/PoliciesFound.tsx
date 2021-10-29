@@ -45,7 +45,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
   }, [policy]);
 
   useEffect(() => {
-    if (policy && (isOutside || isPast(new Date(policy?.to)))) {
+    if (policy) {
       setTableData([
         {
           key: 'to',
@@ -101,7 +101,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
         }
       ]);
     }
-  }, [policy, isOutside]);
+  }, [policy]);
 
   const onSubmitModal = () => {
     setShowTable(false);
@@ -125,9 +125,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
           <>
             {!showTable && (
                 <Row justify={'start'}>
-                  <Typography.Text strong style={{fontSize: 18}}>
-                    {isOutside || isPast(new Date(policy?.to)) ? 'Показать таблицу с выбором данных?' : 'Обновить сведения о полисе?'}
-                  </Typography.Text>
+                  <Typography.Text strong style={{fontSize: 18}}>Показать таблицу с выбором данных?</Typography.Text>
                 </Row>
               )
             }
@@ -135,11 +133,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
             <Row justify={'end'}>
               <Button
                 type="primary"
-                onClick={
-                  (isOutside || isPast(new Date(policy?.to)))
-                    ? !showTable ? () => setShowTable(true) : onSubmitModal
-                    : onSubmitModal
-                }
+                onClick={!showTable ? () => setShowTable(true) : onSubmitModal}
                 className={'save-btn'}
               >
                 ОК
