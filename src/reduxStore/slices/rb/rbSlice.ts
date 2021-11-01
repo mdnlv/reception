@@ -15,6 +15,7 @@ import OrgStructure from "../../../types/data/OrgStructure";
 import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbDocumentType'
 import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
 import SNILSMissingReason from "../../../types/data/SNILSMissingReason";
+import PolicyDischargeReason from "../../../types/data/PolicyDischargeReason";
 
 export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum',
 async (payload: { name:string }, thunkAPI) => {
@@ -217,6 +218,35 @@ export const fetchRbDetachmentReasons = createAsyncThunk(
   },
 );
 
+export const fetchRbPolicyDischargeReasons = createAsyncThunk(
+  'rb/fetchPolicyDischargeReasons',
+  async (arg, thunkAPI) => {
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbPolicyDischargeReason"}))
+
+    const currentCheckSum =  await get('rbPolicyDischargeReasonSum') || ''
+
+    const isCheckSum = currentCheckSum === checksum.payload
+    try {
+      const response = isCheckSum? await get('rbPolicyDischargeReason'): await RbService.fetchPolicyDischargeReason()
+      if(!isCheckSum){
+        await del('rbPolicyDischargeReasonSum')
+        await del('rbPolicyDischargeReason')
+        await set('rbPolicyDischargeReasonSum',checksum.payload)
+        await set('rbPolicyDischargeReason',{data:response.data})
+      }
+      if (response.data) {
+        return response.data.map((item:{ id: number;
+          name: string;}) => ({
+          id: item.id,
+          name: item.name,
+        }));
+      }
+    } catch (e) {
+      alert(e)
+    }
+  },
+);
+
 export const fetchSNILSMissingReasons = createAsyncThunk(
   'rb/fetchSNILSMissingReasons',
   async (arg, thunkAPI) => {
@@ -380,6 +410,7 @@ const rbSlice = createSlice({
       rbOrgStructure: '',
       rbDocumentTypes: '',
       rbSNILSMissingReasons: '',
+      rbPolicyDischargeReasons: ''
     },
     rbPersons: [] as Person[],
     rbOrganisations: [] as Organisation[],
@@ -393,6 +424,7 @@ const rbSlice = createSlice({
     rbDocumentTypes: [] as PatientDocumentType[],
     rbRelationTypesDirectLink: [] as RelatiionsTypes[],
     rbRelationTypesRelativeLink: [] as RelatiionsTypes[],
+    rbPolicyDischargeReasons: [] as PolicyDischargeReason[],
     loading: {
       attachTypes: false,
       organisations: false,
@@ -401,6 +433,7 @@ const rbSlice = createSlice({
       detachmentReasons: false,
       SNILSMissingReasons: false,
       relationTypes: false,
+      policyDischargeReasons: false,
     },
   },
   reducers: {
@@ -414,7 +447,8 @@ const rbSlice = createSlice({
           | 'orgStructure'
           | 'organisations'
           | 'documentTypes'
-          | 'relationTypes';
+          | 'relationTypes'
+          | 'policyDischargeReasons';
         value: boolean;
       }>,
     ) => {
@@ -477,6 +511,11 @@ const rbSlice = createSlice({
     builder.addCase(fetchSNILSMissingReasons.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbSNILSMissingReasons = action.payload;
+      }
+    });
+    builder.addCase(fetchRbPolicyDischargeReasons.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbPolicyDischargeReasons = action.payload;
       }
     });
     builder.addCase(fetchRbPolicyTypes.fulfilled, (state, action) => {

@@ -7,6 +7,7 @@ import PatientContactType from '../../types/data/PatientContactType';
 import PatientDocumentType from '../../types/data/PatientDocumentType';
 import DetachmentReason from "../../types/data/DetachmentReason";
 import SNILSMissingReason from "../../types/data/SNILSMissingReason";
+import PolicyDischargeReason from "../../types/data/PolicyDischargeReason";
 
 export const FETCH_PERSONS = 'FETCH_PERSONS';
 export const FETCH_PERSONS_ERROR = 'FETCH_PERSONS_ERROR';
@@ -32,6 +33,11 @@ export const FETCH_SNILS_MISSING_REASONS = 'FETCH_SNILS_MISSING_REASONS';
 export const FETCH_SNILS_MISSING_REASONS_ERROR = 'FETCH_SNILS_MISSING_REASONS_ERROR';
 export const FETCH_SNILS_MISSING_REASONS_SUCCESS = 'FETCH_SNILS_MISSING_REASONS_SUCCESS';
 export const SET_SNILS_MISSING_REASONS = 'SET_SNILS_MISSING_REASONS_REASONS';
+
+export const FETCH_POLICY_DISCHARGE_REASONS = 'FETCH_POLICY_DISCHARGE_REASONS';
+export const FETCH_POLICY_DISCHARGE_REASONS_ERROR = 'FETCH_POLICY_DISCHARGE_REASONS_ERROR';
+export const FETCH_POLICY_DISCHARGE_REASONS_SUCCESS = 'FETCH_POLICY_DISCHARGE_REASONS_SUCCESS';
+export const SET_POLICY_DISCHARGE_REASONS = 'SET_POLICY_DISCHARGE_REASONS';
 
 export const FETCH_POLICY_TYPES = 'FETCH_POLICY_TYPES';
 export const FETCH_POLICY_TYPES_ERROR = 'FETCH_POLICY_TYPES_ERROR';
@@ -116,6 +122,23 @@ export interface FETCH_DETACHMENT_REASONS_SUCCESS {
 export interface SET_RB_DETACHMENT_REASONS {
   type: typeof SET_RB_DETACHMENT_REASONS;
   payload: DetachmentReason[];
+}
+
+export interface FETCH_POLICY_DISCHARGE_REASONS {
+  type: typeof FETCH_POLICY_DISCHARGE_REASONS;
+}
+
+export interface FETCH_POLICY_DISCHARGE_REASONS_ERROR {
+  type: typeof FETCH_POLICY_DISCHARGE_REASONS_ERROR;
+}
+
+export interface FETCH_POLICY_DISCHARGE_REASONS_SUCCESS {
+  type: typeof FETCH_POLICY_DISCHARGE_REASONS_SUCCESS;
+}
+
+export interface SET_POLICY_DISCHARGE_REASONS {
+  type: typeof SET_POLICY_DISCHARGE_REASONS;
+  payload: PolicyDischargeReason[];
 }
 
 export interface FETCH_SNILS_MISSING_REASONS {

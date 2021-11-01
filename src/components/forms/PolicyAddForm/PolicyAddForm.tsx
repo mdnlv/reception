@@ -22,6 +22,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   policyKey,
   policyType,
   policyTimeType,
+  cancelType,
   onFindPolicy,
   foundPolicy,
   isLoading,
@@ -299,10 +300,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
         </Col>
         <Col span={6}>
           <FormField label={'Причина аннулирования'} name={`${sectionValuePath}.cancelReason`}>
-            <FastInput
-              disabled={isLoading}
+            <FastSearchSelect
               name={`${sectionValuePath}.cancelReason`}
-            />
+              loading={isLoading}
+              disabled={isLoading}
+            >
+              {getPropsOptions(cancelType)}
+            </FastSearchSelect>
           </FormField>
         </Col>
       </Row>

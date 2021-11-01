@@ -13,4 +13,5 @@ export default interface PatientPolicyResponse {
   note: string;
   deleted: 0 | 1;
   enp: string | null;
+  discharge_id: number | null;
 }

@@ -4,6 +4,7 @@ import {
   fetchRbAttachTypes,
   fetchRbDetachmentReasons,
   fetchSNILSMissingReasons,
+  fetchRbPolicyDischargeReasons,
   fetchRbContactTypes,
   fetchRbDocumentTypes,
   fetchRbOrganisations,
@@ -23,6 +24,7 @@ export default function useInitialFetch() {
     dispatch(fetchRbAttachTypes());
     dispatch(fetchRbDetachmentReasons());
     dispatch(fetchSNILSMissingReasons());
+    dispatch(fetchRbPolicyDischargeReasons());
     dispatch(fetchRbContactTypes());
     dispatch(fetchRbDocumentTypes());
     dispatch(fetchRbPolicyKind());

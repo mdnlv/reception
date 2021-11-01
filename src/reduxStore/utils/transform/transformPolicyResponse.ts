@@ -1,5 +1,3 @@
-import {parseISO} from "date-fns";
-
 import PatientPolicyResponse from '../../../interfaces/responses/patients/patientPolicy';
 
 const transformPolicyResponse = (item: PatientPolicyResponse) => {
@@ -21,6 +19,7 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     infisCode: '',
     smoShort: '',
     enp: item.enp,
+    cancelReason: item.discharge_id,
   };
 };
 

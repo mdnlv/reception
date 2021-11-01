@@ -30,6 +30,7 @@ export default interface NewPatientPayload {
     note?: string;
     number: string;
     serial: string;
+    discharge_id: number | null;
     deleted?: 0 | 1;
   }[];
 

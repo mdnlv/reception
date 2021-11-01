@@ -88,15 +88,6 @@ export const socialLoadingsSelector = createSelector(
   },
 );
 
-export const hazardLoadingsSelector = createSelector(
-  (state: RootState) => state.rb.loading,
-  (loadings) => {
-    return {
-      orgs: loadings.organisations,
-    };
-  },
-);
-
 export const detailedAttachTypesSelector = createSelector(
   (state: RootState) => state.rb.rbAttachTypes,
   (types) =>
@@ -117,6 +108,15 @@ export const detailedDetachmentReasonsSelector = createSelector(
 
 export const detailedSNILSMissingReasonsSelector = createSelector(
   (state: RootState) => state.rb.rbSNILSMissingReasons,
+  (types) =>
+    types.map((item) => ({
+      id: item.id,
+      name: item.name,
+    })),
+);
+
+export const detailedPolicyDischargeReason = createSelector(
+  (state: RootState) => state.rb.rbPolicyDischargeReasons,
   (types) =>
     types.map((item) => ({
       id: item.id,

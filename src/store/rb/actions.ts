@@ -8,6 +8,9 @@ import {
   FETCH_SNILS_MISSING_REASONS,
   FETCH_SNILS_MISSING_REASONS_ERROR,
   FETCH_SNILS_MISSING_REASONS_SUCCESS,
+  FETCH_POLICY_DISCHARGE_REASONS,
+  FETCH_POLICY_DISCHARGE_REASONS_ERROR,
+  FETCH_POLICY_DISCHARGE_REASONS_SUCCESS,
   FETCH_CONTACT_TYPES,
   FETCH_CONTACT_TYPES_ERROR,
   FETCH_CONTACT_TYPES_SUCCESS,
@@ -30,6 +33,7 @@ import {
   SET_SNILS_MISSING_REASONS,
   SET_RB_ORGANISATIONS,
   SET_RB_PERSONS,
+  SET_POLICY_DISCHARGE_REASONS,
 } from './types';
 import Person from '../../types/data/Person';
 import Organisation from '../../types/data/Organisation';
@@ -39,6 +43,7 @@ import PolicyType from '../../types/data/PolicyType';
 import PatientDocumentType from '../../types/data/PatientDocumentType';
 import DetachmentReason from "../../types/data/DetachmentReason";
 import SNILSMissingReason from "../../types/data/SNILSMissingReason";
+import PolicyDischargeReason from "../../types/data/PolicyDischargeReason";
 
 export function fetchPersons() {
   return {
@@ -152,6 +157,31 @@ export function fetchSNILSMissingReasonsSuccess() {
 }
 
 export function setSNILSMissingReasons(detachmentItems: SNILSMissingReason[]) {
+  return {
+    type: SET_SNILS_MISSING_REASONS,
+    payload: detachmentItems,
+  };
+}
+
+export function fetchPolicyDischargeReasons() {
+  return {
+    type: FETCH_POLICY_DISCHARGE_REASONS,
+  };
+}
+
+export function fetchPolicyDischargeReasonsError() {
+  return {
+    type: FETCH_POLICY_DISCHARGE_REASONS_ERROR,
+  };
+}
+
+export function fetchPolicyDischargeReasonsSuccess() {
+  return {
+    type: FETCH_POLICY_DISCHARGE_REASONS_SUCCESS,
+  };
+}
+
+export function setPolicyDischargeReasons(detachmentItems: PolicyDischargeReason[]) {
   return {
     type: SET_SNILS_MISSING_REASONS,
     payload: detachmentItems,

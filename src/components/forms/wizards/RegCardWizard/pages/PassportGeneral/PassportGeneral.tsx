@@ -21,6 +21,7 @@ import {
   detailedDocumentTypesSelector,
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
+  detailedPolicyDischargeReason,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import KladrItem from '../../../../../../types/data/KladrItem';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
@@ -68,7 +69,8 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
   const contactTypesList = useSelector(detailedContactTypesSelector);
   const cmoTypeList = useSelector(detailedCMOSelector);
-  const { organisations, documentTypes } = useSelector(
+  const cancelTypeList = useSelector(detailedPolicyDischargeReason);
+  const { organisations, documentTypes, policyDischargeReasons } = useSelector(
     (state: RootState) => state.rb.loading,
   );
   const [isPolicyTyping, setPolicyTyping] = useState(true);
@@ -186,6 +188,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
             setPolicyMask={setPolicyMask}
             isTyping={isPolicyTyping}
             setTyping={setPolicyTyping}
+            cancelType={cancelTypeList}
           />
         </Col>
       </Row>

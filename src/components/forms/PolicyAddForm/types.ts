@@ -15,6 +15,7 @@ export interface FormProps {
   policyTimeType: ListOptionItem[];
   policyType: ListOptionItem[];
   cmoType: ListOptionItem[];
+  cancelType: ListOptionItem[];
   onFindPolicy?: (policy: FindPolicyParams, type: 'oms' | 'dms') => void;
   isLoading: boolean;
   isCmoLoading: boolean;
