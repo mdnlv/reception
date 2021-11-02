@@ -4,27 +4,35 @@ import {FormikErrors} from "formik";
 import {ValidationType} from "./types";
 
 Yup.addMethod(Yup.string, 'compareWithToday', function (errorMessage) {
+  // @ts-ignore
   return this.test('test-compare-with-today', errorMessage, function (value: string) {
+    // @ts-ignore
     const {path, createError} = this;
     const valueParsed = Date.parse(value);
-    const todayParsed = Date.parse(new Date());
+    const todayParsed = Date.parse((new Date()).toString());
     return valueParsed < todayParsed || createError({ path, message: errorMessage })
   });
 });
 
 Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
+  // @ts-ignore
   return this.test('test-compare-policy-dates', errorMessage, function (value: string) {
+    // @ts-ignore
     const {path, createError} = this;
     const valueParsed = Date.parse(value);
+    // @ts-ignore
     const compareParsed = Date.parse(this.parent.from);
     return compareParsed < valueParsed || createError({ path, message: errorMessage })
   });
 });
 
 Yup.addMethod(Yup.string, 'compareStatusDates', function (errorMessage) {
+  // @ts-ignore
   return this.test('test-compare-status-dates', errorMessage, function (value: string) {
+    // @ts-ignore
     const {path, createError} = this;
     const valueParsed = Date.parse(value);
+    // @ts-ignore
     const compareParsed = Date.parse(this.parent.fromDate);
     return compareParsed < valueParsed || createError({ path, message: errorMessage })
   });
@@ -34,6 +42,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
     lastName: Yup.string().required('фамилия пациента'),
     firstName: Yup.string().required('имя пациента'),
+    // @ts-ignore
     birthDate: Yup.string().required('дата рождения').compareWithToday('введена ненаступившая дата'),
     snils: Yup.string().required('СНИЛС')
       .transform(value => value.replace(/[^0-9]/g, ''))
@@ -57,6 +66,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       serialSecond: Yup.string().required('серия документа'),
       number: Yup.string().required('номер документа'),
       fromDate: Yup.string().required('дата выдачи')
+        // @ts-ignore
         .nullable().compareWithToday('введена ненаступившая дата'),
       givenBy: Yup.string().required('кем выдан документ'),
     })),
@@ -64,9 +74,11 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
       timeType: Yup.string().required('вид полиса'),
       from: Yup.string().required('дата начала действия полиса')
         .nullable()
+        // @ts-ignore
         .compareWithToday('введена ненаступившая дата'),
       to: Yup.string().required('дата окончания действия полиса')
         .nullable()
+        // @ts-ignore
         .comparePolicyDates('окончание действия полиса раньше начала'),
       serial: Yup.string().required('серия полиса'),
       number: Yup.string().required('номер полиса'),
@@ -78,7 +90,9 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('класс'),
       statusType: Yup.string().required('тип статуса'),
+      // @ts-ignore
       fromDate: Yup.string().required('дата начала').compareWithToday('введена ненаступившая дата'),
+      // @ts-ignore
       endDate: Yup.string().required('дата окончания').compareStatusDates('окончание действия статуса раньше начала'),
       document: Yup.object({
         passportType: Yup.string().required('тип документа'),
