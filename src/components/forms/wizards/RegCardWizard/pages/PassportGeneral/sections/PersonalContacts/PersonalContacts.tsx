@@ -17,6 +17,17 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
 
+  useEffect(() => {
+    console.log('contactTypes', contactTypes);
+  }, [contactTypes]);
+
+  useEffect(() => {
+    const resIndex = formProps.findIndex((item) => item.type === '3');
+    resIndex > -1
+    && !formProps[resIndex].number.includes('+7')
+    && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '8');
+  }, [formProps]);
+
   const onAddContact = useCallback(() => {
     const item: PassportContactType = {
       isMain: false,
@@ -88,7 +99,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 </div>
               </FormField>
             </Col>
-            <Col xl={21} xxl={5}>
+            <Col xl={21} xxl={7}>
               <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
                 <FastSearchSelect
                   name={getSelectionItem(index, 'type')}
@@ -108,7 +119,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                 )}
               </FormField>
             </Col>
-            <Col span={9}>
+            <Col span={7}>
               <FormField label={LABELS.NOTE}>
                 <FastInput name={getSelectionItem(index, 'note')} />
               </FormField>
