@@ -2,10 +2,12 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
+import {useSelector} from "react-redux";
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
+import {RootState} from "../../../reduxStore/store";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -32,17 +34,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const sectionValuePath = policyKey === 'policyOms' ? `personDocs.policies[0]` : `passportGeneral.policyDms`;
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
+  const {policyBuffer} = useSelector((state: RootState) => state.registrationCard.form);
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
-  const patrName = form.values.personal.patrName;
-  const sex = form.values.personal.sex;
   const birthDate = form.values.personal.birthDate;
-  // @ts-ignore
-  const docSerial = form.values.personDocs.documents[0]
-    ? form.values.personDocs.documents[0].serialFirst?.concat(form.values.personDocs.documents[0].serialSecond)
-    : '';
-  const docNumber = form.values.personDocs.documents[0] ? form.values.personDocs.documents[0].number : '';
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
@@ -80,7 +76,17 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (foundPolicy) {
-      fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, foundPolicy[item]))
+      fieldNames.map((item) => form.setFieldValue(`${sectionValuePath}.${item}`, foundPolicy[item]));
+      const timeType = foundPolicy?.timeType;
+      if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
+        setPolicyMask('')
+        setTimeout(()=>setPolicyMask('111111111'), 100);
+      } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
+        setPolicyMask('')
+        setTimeout(()=>setPolicyMask('11111111111'), 100);
+      } else {
+        setPolicyMask('')
+      }
     }
   }, [foundPolicy]);
 
@@ -99,14 +105,20 @@ const PolicyAddForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     const timeType = formValues?.timeType;
-    if (timeType === "1" || formValues?.serial === 'ВС') {
-      setPolicyMask('111111111')
-    } else if (timeType === "3" || formValues?.serial === 'ЕП') {
-      setPolicyMask('1111111111111111')
+    if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
+      setPolicyMask('')
+      setTimeout(()=>setPolicyMask('111111111'), 100);
+    } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
+      setPolicyMask('')
+      setTimeout(()=>setPolicyMask('11111111111'), 100);
     } else {
       setPolicyMask('')
     }
   }, [formValues?.timeType, formValues?.serial]);
+
+  useEffect(() => {
+    formValues?.serial === 'ЕП' && form.setFieldValue(`${sectionValuePath}.to`, '2200-01-01');
+  }, [formValues?.serial]);
 
   useEffect(() => {
     errorsData.length > 0 && setShowModal(true);
@@ -150,20 +162,20 @@ const PolicyAddForm: React.FC<FormProps> = ({
           value: values.lastName
         },
         {
+          name: 'firstName',
+          value: values.firstName
+        },
+        {
           name: 'birthDate',
           value: values.birthDate
         },
-        {
-          name: 'docNumber',
-          value: values.docNumber
-        }
       ];
       let data = [] as string[];
       fields.map((item) => {
         if (!item.value) {
           item.name === 'lastName' && data.push('Не заполнена фамилия!');
+          item.name === 'firstName' && data.push('Не заполнено имя!');
           item.name === 'birthDate' && data.push('Не заполнена дата рождения!');
-          item.name === 'docNumber' && data.push('Не заполнен номер паспорта!');
         }
       });
       setErrorsData(data);
@@ -202,9 +214,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   };
 
   const onCancelCmoFilter = () => {
-    setCmoFiltered(cmoType);
     filterNames.map((item) => {
-      form.setFieldValue(`${sectionValuePath}.${item}`, '')
+      form.setFieldValue(`${sectionValuePath}.${item}`, policyBuffer[item])
     })
   };
 
@@ -223,14 +234,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
                 console.log('birthDate', birthDate);
                 onFindPolicyHandler({
                   birthDate,
-                  docNumber,
-                  docSerial,
                   firstName,
                   lastName,
-                  patrName,
-                  policyNumber: formValues.number,
-                  policySerial: formValues.serial,
-                  sex: sex.toString(),
                 });
               }}>
               Искать
@@ -302,6 +307,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
               showSearch
               disabled={isLoading}
               name={`${sectionValuePath}.cmo`}
+              allowClear
             >
               {getPropsOptions(cmoFiltered)}
             </FastSearchSelect>

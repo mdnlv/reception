@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiInstance = axios.create({
-  baseURL: "https://reg.vistamed.ru/api",
+  baseURL: "http://p17:8096/api",
 });
 
 export default apiInstance;
