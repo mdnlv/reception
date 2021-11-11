@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { useFormikContext } from 'formik';
+import {useField, useFormikContext} from 'formik';
 import {
   Button,
   Checkbox,
@@ -36,6 +36,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   const {currentPatient} = useSelector((state: RootState) => state.patients);
   const formValues = formProps.values.personal;
   const sectionValuePath = `personal`;
+  const [_, meta] = useField<string>(`${sectionValuePath}.sex`);
   const [snilsWarning, setSnilsWarning] = useState('');
 
   // useEffect(() => {
@@ -43,7 +44,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   // }, [formValues]);
 
   useEffect(() => {
-    formValues.code && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
+    formValues.code && (formValues.sex !== null) && dispatch(fetchRbRelationTypes({sex: formValues.sex}));
   }, [formValues.code]);
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
       <Row gutter={16}>
         <Col xl={16} xxl={12}>
           <FormField label="Дата рождения" name={`${sectionValuePath}.birthDate`}>
-            <FastDatePicker name={`${sectionValuePath}.birthDate`}/>
+            <FastDatePicker name={`${sectionValuePath}.birthDate`} beforeToday/>
           </FormField>
         </Col>
         <Col xl={16} xxl={12}>
@@ -140,8 +141,12 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
               <FastInputNumber min={0} name={'personal.weight'} />
             </FormField>
           </Col>
-          <Col>
-            <FormField label="Пол">
+          <Col style={
+            meta.error && meta.touched
+              ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.1)'}
+              : {}
+          }>
+            <FormField label="Пол" name={`${sectionValuePath}.sex`}>
               <RadioGroup
                 name={`${sectionValuePath}.sex`}
                 value={formProps.values.personal.sex}

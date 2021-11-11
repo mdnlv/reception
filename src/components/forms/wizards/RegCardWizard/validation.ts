@@ -42,6 +42,7 @@ const validation = Yup.object<FormikErrors<ValidationType>>().shape({
   personal: Yup.object({
     lastName: Yup.string().required('фамилия пациента'),
     firstName: Yup.string().required('имя пациента'),
+    sex: Yup.boolean().nullable().required('пол'),
     // @ts-ignore
     birthDate: Yup.string().required('дата рождения').compareWithToday('введена ненаступившая дата'),
     snils: Yup.string().required('СНИЛС')
