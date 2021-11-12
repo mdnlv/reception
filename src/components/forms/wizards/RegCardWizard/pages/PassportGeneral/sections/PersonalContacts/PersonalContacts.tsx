@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Checkbox, Col, Row, Select, Button } from 'antd';
 import { useFormikContext } from 'formik';
 import {CloseCircleOutlined} from "@ant-design/icons";
@@ -16,17 +16,23 @@ import FastSearchSelect from '../../../../../../components/fields/FastSearchSele
 const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const form = useFormikContext<WizardStateType>();
   const formProps = form.values.passportGeneral.contacts.contacts;
+  const [itemIndex, setItemIndex] = useState(-1);
 
-  useEffect(() => {
-    console.log('contactTypes', contactTypes);
-  }, [contactTypes]);
+  // useEffect(() => {
+  //   console.log('contactTypes', contactTypes);
+  // }, [contactTypes]);
 
   useEffect(() => {
     const resIndex = formProps.findIndex((item) => item.type === '3');
     resIndex > -1
-    && !formProps[resIndex].number.includes('+7')
-    && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '8');
+      && !formProps[resIndex].number.includes('8')
+      && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '8');
   }, [formProps]);
+
+  useEffect(() => {
+    formProps[itemIndex]?.type !== '3'
+      && form.setFieldValue(`passportGeneral.contacts.contacts[${itemIndex}].number`, '');
+  }, [formProps[itemIndex]?.type]);
 
   const onAddContact = useCallback(() => {
     const item: PassportContactType = {
@@ -86,55 +92,58 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
         name={'contacts'}
         onAddItem={onAddContact}
         showActions={true}
-        renderChild={(key, index) => (
-          <Row gutter={16} key={index}>
-            <Col span={3}>
-              <FormField label={LABELS.MAIN}>
-                <div className="center-wrapper">
-                  <Checkbox
-                    name={getSelectionItem(index, 'isMain')}
-                    checked={formProps[index]?.isMain || false}
-                    onChange={form.handleChange}
-                  />
-                </div>
-              </FormField>
-            </Col>
-            <Col xl={21} xxl={7}>
-              <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
-                <FastSearchSelect
-                  name={getSelectionItem(index, 'type')}
-                  value={formProps[index]?.type}
-                  onChange={(val) => {
-                    form.setFieldValue(getSelectionItem(index, 'type'), val);
-                  }}>
-                  {typesOptions}
-                </FastSearchSelect>
-              </FormField>
-            </Col>
-            <Col span={6}>
-              <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
-                {getTypeInput(
-                  index,
-                  findMaskByType(parseInt(formProps[index]?.type)),
-                )}
-              </FormField>
-            </Col>
-            <Col span={7}>
-              <FormField label={LABELS.NOTE}>
-                <FastInput name={getSelectionItem(index, 'note')} />
-              </FormField>
-            </Col>
-            <Col span={1}>
-              <Button
-                type={'link'}
-                size={'small'}
-                shape="circle"
-                icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
-                onClick={onRemoveContact.bind(this, index)}
-              />
-            </Col>
-          </Row>
-        )}
+        renderChild={(key, index) => {
+          setItemIndex(index);
+          return (
+            <Row gutter={16} key={index}>
+              <Col span={3}>
+                <FormField label={LABELS.MAIN}>
+                  <div className="center-wrapper">
+                    <Checkbox
+                      name={getSelectionItem(index, 'isMain')}
+                      checked={formProps[index]?.isMain || false}
+                      onChange={form.handleChange}
+                    />
+                  </div>
+                </FormField>
+              </Col>
+              <Col xl={21} xxl={7}>
+                <FormField label={LABELS.TYPE} name={getSelectionItem(index, 'type')}>
+                  <FastSearchSelect
+                    name={getSelectionItem(index, 'type')}
+                    value={formProps[index]?.type}
+                    onChange={(val) => {
+                      form.setFieldValue(getSelectionItem(index, 'type'), val);
+                    }}>
+                    {typesOptions}
+                  </FastSearchSelect>
+                </FormField>
+              </Col>
+              <Col span={6}>
+                <FormField label={LABELS.NUMBER} name={getSelectionItem(index, 'number')}>
+                  {getTypeInput(
+                    index,
+                    findMaskByType(parseInt(formProps[index]?.type)),
+                  )}
+                </FormField>
+              </Col>
+              <Col span={7}>
+                <FormField label={LABELS.NOTE}>
+                  <FastInput name={getSelectionItem(index, 'note')}/>
+                </FormField>
+              </Col>
+              <Col span={1}>
+                <Button
+                  type={'link'}
+                  size={'small'}
+                  shape="circle"
+                  icon={<CloseCircleOutlined className={'fields-btn__icon fields-btn__icon-remove'}/>}
+                  onClick={onRemoveContact.bind(this, index)}
+                />
+              </Col>
+            </Row>
+          )
+        }}
       />
     </div>
   );
