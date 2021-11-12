@@ -84,7 +84,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
   }, []);
 
   const snilsAlert = () => (
-    <p style={{color: '#c2bd60', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
+    <p style={{color: '#ff2b2b', fontSize: '12px', fontWeight: 600, marginBottom: 0}}>
       {snilsWarning}
     </p>
   );

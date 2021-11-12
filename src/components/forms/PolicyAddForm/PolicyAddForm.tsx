@@ -121,6 +121,13 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [formValues?.serial]);
 
   useEffect(() => {
+    if (policyKey === 'policyDms') {
+      const res = policyTimeType.find((item) => item.name === 'ДМС');
+      form.setFieldValue(`${sectionValuePath}.timeType`, res?.id || 1);
+    }
+  }, [policyKey]);
+
+  useEffect(() => {
     errorsData.length > 0 && setShowModal(true);
   }, [errorsData]);
 
@@ -229,6 +236,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         {policyKey === 'policyOms' && (
           <Col>
             <Button
+              type="primary"
               loading={isLoading}
               onClick={() => {
                 console.log('birthDate', birthDate);
@@ -242,18 +250,23 @@ const PolicyAddForm: React.FC<FormProps> = ({
             </Button>
           </Col>
         )}
-        <Col xl={5} xxl={4}>
-          <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
-            <FastSearchSelect
-              allowClear
-              loading={isLoading}
-              placeholder={"Вид"}
-              name={`${sectionValuePath}.timeType`}
-            >
-              {getPropsOptions(policyTimeType)}
-            </FastSearchSelect>
-          </FormField>
-        </Col>
+        {
+          policyKey !== 'policyDms'
+            && (
+            <Col xl={5} xxl={4}>
+              <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
+                <FastSearchSelect
+                  allowClear
+                  loading={isLoading}
+                  placeholder={"Вид"}
+                  name={`${sectionValuePath}.timeType`}
+                >
+                  {getPropsOptions(policyTimeType)}
+                </FastSearchSelect>
+              </FormField>
+            </Col>
+          )
+        }
         <Col xl={7} xxl={5}>
           <FormField label={'С'} name={`${sectionValuePath}.from`}>
             <FastDatePicker
