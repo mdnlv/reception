@@ -145,7 +145,7 @@ const DocumentedAddress: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
-                  disabled={
+                  isDisabled={
                     !formValues.area ||
                     formValues.area === '7800000000000' ||
                     formValues.area === '7700000000000' ||
@@ -176,7 +176,7 @@ const DocumentedAddress: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrStreets}
-                  disabled={
+                  isDisabled={
                     formValues.area !== '7800000000000' &&
                       formValues.area !== '7700000000000' &&
                       formValues.area !== '9200000000000' &&

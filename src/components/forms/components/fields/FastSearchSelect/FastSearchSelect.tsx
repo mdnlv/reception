@@ -13,7 +13,7 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
     <Select
       {...props}
       value={value}
-      disabled={props.isDisabled? props.isDisabled: false}
+      disabled={props.isDisabled}
       onSearch={(val) => {
         props.onSearch && props?.onSearch(val)
       }}

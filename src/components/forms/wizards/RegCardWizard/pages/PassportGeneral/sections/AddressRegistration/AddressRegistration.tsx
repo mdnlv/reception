@@ -175,7 +175,7 @@ const AddressRegistration: FC<SectionProps> = ({
                   onFocus={() => setCleanable(true)}
                   showSearch
                   filterOption
-                  disabled={isDocumentedAddress}
+                  isDisabled={isDocumentedAddress}
                   optionFilterProp={'name'}>
                   {getKladrDetailed(kladr)}
                 </FastSearchSelect>
@@ -185,7 +185,7 @@ const AddressRegistration: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrNested}
-                  disabled={
+                  isDisabled={
                     isDocumentedAddress ||
                     !formValues.area ||
                     formValues.area === '7800000000000' ||
@@ -221,7 +221,7 @@ const AddressRegistration: FC<SectionProps> = ({
               <FormField>
                 <FastSearchSelect
                   loading={isLoadingKladrStreets}
-                  disabled={
+                  isDisabled={
                     isDocumentedAddress ||
                     (formValues.area !== '7800000000000' &&
                       formValues.area !== '7700000000000' &&
