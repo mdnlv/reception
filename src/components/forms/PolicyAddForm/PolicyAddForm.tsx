@@ -47,8 +47,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('number', formValues?.number);
+  // }, [formValues?.number]);
 
   useEffect(() => {
     if (cmoType.length > 0) {
@@ -108,9 +108,11 @@ const PolicyAddForm: React.FC<FormProps> = ({
     if (timeType === "1" /*|| formValues?.serial === 'ВС'*/) {
       setPolicyMask('')
       setTimeout(()=>setPolicyMask('111111111'), 100);
+      form.setFieldValue(`${sectionValuePath}.number`, formValues?.number.substr(0, 9));
     } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
       setPolicyMask('')
       setTimeout(()=>setPolicyMask('11111111111'), 100);
+      form.setFieldValue(`${sectionValuePath}.number`, formValues?.number.substr(0, 11));
     } else {
       setPolicyMask('')
     }
@@ -234,25 +236,22 @@ const PolicyAddForm: React.FC<FormProps> = ({
       <h2>{sectionTitle()}</h2>
       <Row className="form-row" align={'bottom'} gutter={16}>
         {policyKey === 'policyOms' && (
-          <Col>
-            <Button
-              type="primary"
-              loading={isLoading}
-              onClick={() => {
-                console.log('birthDate', birthDate);
-                onFindPolicyHandler({
-                  birthDate,
-                  firstName,
-                  lastName,
-                });
-              }}>
-              Искать
-            </Button>
-          </Col>
-        )}
-        {
-          policyKey !== 'policyDms'
-            && (
+          <>
+            <Col>
+              <Button
+                type="primary"
+                loading={isLoading}
+                onClick={() => {
+                  console.log('birthDate', birthDate);
+                  onFindPolicyHandler({
+                    birthDate,
+                    firstName,
+                    lastName,
+                  });
+                }}>
+                Искать
+              </Button>
+            </Col>
             <Col xl={5} xxl={4}>
               <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
                 <FastSearchSelect
@@ -265,8 +264,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
                 </FastSearchSelect>
               </FormField>
             </Col>
-          )
-        }
+          </>
+        )}
         <Col xl={7} xxl={5}>
           <FormField label={'С'} name={`${sectionValuePath}.from`}>
             <FastDatePicker
