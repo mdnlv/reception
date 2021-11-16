@@ -63,7 +63,7 @@ const PoliciesFound: React.FC<ModalProps> = ({
               </Row>
               {policy?.attachList?.map((item, index) => (
                 <Row justify={'start'} key={index}>
-                  <Typography.Text>({item.net.code}) {item.mo.shortName} {item.net.name}</Typography.Text>
+                  <Typography.Text>{item.net ? `(${item.net.code})` : '' } {item.mo?.shortName || ''} {item.net?.name || ''}</Typography.Text>
                 </Row>
               ))}
             </>

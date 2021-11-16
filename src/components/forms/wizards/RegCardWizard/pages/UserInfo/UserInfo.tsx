@@ -169,19 +169,19 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen,fetchDoctors}) => {
         </FormField>
         <FormField label="Лечащий врач">
           <FastSearchSelect
-          showSearch
-          filterOption
-          optionFilterProp={'name'}
-          name={'name'}
-               onInput={(e) => {
-                fetchDoctors(e.target.value)
-              }}
+            showSearch
+            filterOption
+            optionFilterProp={'name'}
+            name={'name'}
+            onInput={(e) => {
+              fetchDoctors(e.target.value)
+            }}
           >
             {persons.map((item) => (
-        <Select.Option key={item.id} name={item.name} value={item.id}>
-         {item.name}
-        </Select.Option>
-       ))}
+              <Select.Option key={item.id} name={item.name} value={item.id}>
+               {item.name}
+              </Select.Option>
+            ))}
           </FastSearchSelect>
         </FormField>
         <Row>

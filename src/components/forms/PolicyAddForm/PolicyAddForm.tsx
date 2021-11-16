@@ -39,6 +39,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
   const birthDate = form.values.personal.birthDate;
+  const docNumber = form.values.personDocs.documents[0].number;
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);
@@ -178,6 +179,10 @@ const PolicyAddForm: React.FC<FormProps> = ({
           name: 'birthDate',
           value: values.birthDate
         },
+        {
+          name: 'docNumber',
+          value: values.docNumber,
+        },
       ];
       let data = [] as string[];
       fields.map((item) => {
@@ -185,6 +190,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
           item.name === 'lastName' && data.push('Не заполнена фамилия!');
           item.name === 'firstName' && data.push('Не заполнено имя!');
           item.name === 'birthDate' && data.push('Не заполнена дата рождения!');
+          item.name === 'docNumber' && data.push('Не заполнен номер документа!');
         }
       });
       setErrorsData(data);
@@ -247,6 +253,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
                     birthDate,
                     firstName,
                     lastName,
+                    docNumber,
                   });
                 }}>
                 Искать
