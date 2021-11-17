@@ -8,6 +8,7 @@ import {
   fetchQueryPatients,
   setCurrentPatient,
   setIsSearchingPatients,
+  setQuery,
 } from '../../../reduxStore/slices/patients/patientsSlice';
 import { RootState } from '../../../reduxStore/store';
 import {TableProps} from "./types";
@@ -25,11 +26,11 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     foundPatients,
     isSearching,
     currentPatient,
+    query
   } = useSelector((state: RootState) => state.patients);
   const {saveNewPatient, idPatient} = useSelector((state: RootState) => state.registrationCard.loading);
   const {patientRegId} = useSelector((state: RootState) => state.registrationCard);
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
-  const [searchQuery, setSearchQuery] = useState('');
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   }, [patientRegId]);
 
   useEffect(() => {
-    !isSearching && dispatch(fetchQueryPatients({query: searchQuery.trim(), limit: 5, offset}))
+    !isSearching && dispatch(fetchQueryPatients({query: query.trim(), limit: 5, offset}))
   }, [offset, isSearching]);
 
   const onSearchButtonClick = (query: string) => {
@@ -84,6 +85,7 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   const onClearSearch = useCallback(() => {
     dispatch(setIsSearchingPatients(false));
     dispatch(clearFoundPatients({}));
+    dispatch(setQuery(''));
   }, []);
 
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
@@ -111,9 +113,9 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
       title={'Пациенты'}
       onOpenSearch={onOpenSearch}
       mode={tableMode}
-      searchQuery={searchQuery}
+      searchQuery={query}
       searchCount={tablePatientsCount}
-      onSearchQuery={setSearchQuery}
+      onSearchQuery={setQuery}
       onSubmitForm={onSubmitForm}
       onCloseClick={onCloseForm}
       onSearchButtonClick={onSearchButtonClick}

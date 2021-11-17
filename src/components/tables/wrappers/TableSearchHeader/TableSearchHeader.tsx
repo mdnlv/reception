@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import { Button, Card, Input, Row } from 'antd/lib';
+import {useDispatch} from "react-redux";
 
 import './style.scss';
 import {SearchHeaderProps} from "./types";
@@ -21,6 +22,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
   searchQuery,
   onSearchQuery
 }) => {
+  const dispatch = useDispatch();
   const [showSearchForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -90,7 +92,7 @@ const TableSearchHeader: React.FC<SearchHeaderProps> = ({
                 type={'small'}
                 value={searchQuery}
                 onChange={(e) => {
-                  onSearchQuery && onSearchQuery(e.target.value);
+                  onSearchQuery && dispatch(onSearchQuery(e.target.value));
                 }}
                 onKeyPress={submitQueryOnPress}
               />

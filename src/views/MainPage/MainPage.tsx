@@ -21,8 +21,7 @@ import Schedule from '../../components/elements/Schedule/Schedule';
 import PatientTickets from '../../components/cards/PatientTickets/PatientTickets';
 
 const MainPage: FC = () => {
-  const [showUserInfo, setShowInfo] = useState(false);
-  const [type, setType] = useState<'pre' | 'post'>('post');
+  const dispatch = useDispatch();
   const schedules = useSelector(detailedSchedules);
   const person_tree = useSelector(detailedPersonTree);
   const currentPatientAppointments = useSelector(eventsAppointments);
@@ -31,7 +30,8 @@ const MainPage: FC = () => {
   const { loading } = useSelector((state: RootState) => state.patientCard);
   const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
   const {isLoadingKladrStreetsDocumented, isLoadingKladrStreetsRegistration} = useSelector(kladrLoadingsSelector);
-  const dispatch = useDispatch();
+  const [showUserInfo, setShowInfo] = useState(false);
+  const [type, setType] = useState<'pre' | 'post'>('post');
 
   useEffect(() => {
     dispatch(fetchDeferredQueue())
@@ -40,6 +40,14 @@ const MainPage: FC = () => {
   useEffect(() => {
     dispatch(fetchKladr({}));
   }, []);
+
+  useEffect(() => {
+    !person_tree.length && dispatch(fetchPersonTreeFull({}))
+  }, []);
+
+  useEffect(()=>{
+    storeActionData.data && storeActionData.data.type == 'show' && dispatch(fetchPersonTreeFull({}))
+  },[storeActionData]);
 
   const loadSchedule = (id: number[], beg_date: string, end_date: string, showEmpty: boolean) => {
     dispatch(fetchSchedules({
@@ -58,14 +66,6 @@ const MainPage: FC = () => {
       end_date: end_date
     }));
   }, []);
-
-  useEffect(() => {
-    dispatch(fetchPersonTreeFull({}))
-  }, [])
-
-  useEffect(()=>{
-    storeActionData.data && storeActionData.data.type == 'show' && dispatch(fetchPersonTreeFull({}))
-  },[storeActionData])
 
   const getInfoCard = useMemo(() => {
     if (showUserInfo) {
@@ -113,8 +113,8 @@ const MainPage: FC = () => {
               />
             </Row>
             <Row>
-              <PatientTickets 
-                client_id={Number(currentPatientMemo?.code)} 
+              <PatientTickets
+                client_id={Number(currentPatientMemo?.code)}
                 type={type}
                 setType={setType}
               />

@@ -114,6 +114,7 @@ export const fetchPatientById = createAsyncThunk(
 const patientSlice = createSlice({
   name: 'patients',
   initialState: {
+    query: '' as string,
     patients: [] as Patient[],
     currentPatient: 0,
     isSearching: false,
@@ -124,6 +125,9 @@ const patientSlice = createSlice({
   reducers: {
     setCurrentPatient: (state, action: PayloadAction<number>) => {
       state.currentPatient = action.payload;
+    },
+    setQuery: (state, action: PayloadAction<string>) => {
+      state.query = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
@@ -184,6 +188,7 @@ export const {
   setCurrentPatient,
   clearFoundPatients,
   setIsSearchingPatients,
-  setIsSearchingWithCurrent
+  setIsSearchingWithCurrent,
+  setQuery
 } = patientSlice.actions;
 export default patientSlice;

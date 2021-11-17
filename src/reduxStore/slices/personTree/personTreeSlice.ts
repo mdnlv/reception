@@ -101,6 +101,7 @@ export const postFiltersDoctors = createAsyncThunk(
 const personTreeSlice = createSlice({
   name: 'personTree',
   initialState: {
+    query: '' as string,
     person_tree: [] as PersonTree[] | [Person[]],
     person_tree_full: [] as PersonTree[],
     isLoading: false,
@@ -113,6 +114,10 @@ const personTreeSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setQuery: (state, action: PayloadAction<string>) => {
+      console.log('action.payload', action.payload);
+      state.query = action.payload;
     },
     setIsSearchingDoctors: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload;
@@ -143,5 +148,5 @@ const personTreeSlice = createSlice({
   }
 });
 
-export const { setLoading, setLoadingFound, setIsFiltered } = personTreeSlice.actions;
+export const { setLoading, setLoadingFound, setIsFiltered, setQuery } = personTreeSlice.actions;
 export default personTreeSlice;

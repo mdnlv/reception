@@ -1,14 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import Radio from 'antd/lib/radio';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import { Button, Card, Input, Row, Checkbox } from 'antd/lib';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './style.scss';
 import {SearchHeaderProps} from "./types";
-import DoctorSearchFilterForm from '../../../../forms/DoctorSearchFilterForm/DoctorSearchFilterForm';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../reduxStore/store';
-import { fetchPersonTree, postFiltersDoctors } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
+import { fetchPersonTree, postFiltersDoctors, setQuery } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
+
+import DoctorSearchFilterForm from '../../../../forms/DoctorSearchFilterForm/DoctorSearchFilterForm';
 
 const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   title,
@@ -30,21 +31,24 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   setSelected
 }) => {
   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState('');
-  const { isFiltered } = useSelector((state: RootState) => state.person_tree);
+  const { isFiltered, query } = useSelector((state: RootState) => state.person_tree);
+
+  // useEffect(() => {
+  //   console.log('isFiltered', isFiltered);
+  // }, [isFiltered]);
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
-      onSearchButtonClick(searchQuery.trim());
+      onSearchButtonClick(query.trim());
     }
   }
 
   const submitQueryOnPress = (event: React.KeyboardEvent) => {
-    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery.trim());
+    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(query.trim());
   }
 
   const onChangePersonTree = (e: any) => {
-    if(isFiltered) {
+    if (isFiltered) {
       dispatch(postFiltersDoctors(Object.assign(filter, {group_by: e.target.value})))
     } else {
       dispatch(fetchPersonTree({group_by: e.target.value}))
@@ -104,9 +108,9 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
               <Input
                 placeholder="Поиск"
                 type={'small'}
-                value={searchQuery}
+                value={query}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                  dispatch(setQuery(e.target.value));
                 }}
                 onKeyPress={submitQueryOnPress}
               />
@@ -138,15 +142,15 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
     searchCount,
     onClearSearch,
     onTableModeChange,
-    searchQuery,
+    query,
     person_tree
   ]);
 
   return (
     <div>
       <Row align={'stretch'}>
-        {getHeaderByType}    
-        {isFiltered && <Checkbox checked={showEmpty} onChange={()=>{setShowEmpty(!showEmpty)}}>показать врачей без расписания</Checkbox>}  
+        {getHeaderByType}
+        {isFiltered && <Checkbox checked={showEmpty} onChange={()=>{setShowEmpty(!showEmpty)}}>показать врачей без расписания</Checkbox>}
         <Radio.Group name='Группировать:' style={{marginLeft: 5}} value={groupBy} onChange={onChangePersonTree}>
           <Radio value={'orgStructure_id'}>по отделениям</Radio>
           <Radio value={'speciality_id'}>по специальностям</Radio>
