@@ -336,7 +336,7 @@ const registrationCardSlice = createSlice({
           serial: "",
           timeType: "",
           to: '',
-          type: '',
+          type: '1',
           deleted: 0,
           inn: '',
           ogrn: '',

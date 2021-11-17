@@ -84,7 +84,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         setTimeout(()=>setPolicyMask('111111111'), 100);
       } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
         setPolicyMask('')
-        setTimeout(()=>setPolicyMask('11111111111'), 100);
+        setTimeout(()=>setPolicyMask('1111111111111111'), 100);
       } else {
         setPolicyMask('')
       }
@@ -112,8 +112,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
       form.setFieldValue(`${sectionValuePath}.number`, formValues?.number.substr(0, 9));
     } else if (timeType === "3" /* || formValues?.serial === 'ЕП'*/) {
       setPolicyMask('')
-      setTimeout(()=>setPolicyMask('11111111111'), 100);
-      form.setFieldValue(`${sectionValuePath}.number`, formValues?.number.substr(0, 11));
+      setTimeout(()=>setPolicyMask('1111111111111111'), 100);
+      form.setFieldValue(`${sectionValuePath}.number`, formValues?.number.substr(0, 16));
     } else {
       setPolicyMask('')
     }

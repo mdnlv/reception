@@ -11,7 +11,7 @@ const transformPolicySearchResponse = (item: PatientPolicySearchResponse) => {
     timeType: item.policySerial === 'ЕП' ? '3' : item.policySerial === 'ВС' ? '1' : '',
     from: item.begDate ? parseISO(item.begDate) : '',
     to: item.endDate ? parseISO(item.endDate) : '',
-    type: '',
+    type: '1',
     name: '',
     note: '',
     attachList: item.attachList,
