@@ -33,6 +33,7 @@ const AppHeaderBar: FC = () => {
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const cd = useSelector((state: RootState) => state.schedule.currentDate);
   const ed = useSelector((state: RootState) => state.schedule.rangeWeekDate);
+  const username = useSelector((state: RootState) => state.auth.username);
   const [showNewAppointment, setShowAppointment] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [result, setResult] = useState({
@@ -127,8 +128,8 @@ const AppHeaderBar: FC = () => {
         <Row>
           <Col span={20} md={20} xs={24}>
             <div className="header__user-block">
-              <Avatar>Б</Avatar>
-              <span className="block-name">Б.А. Куприянов</span>
+              <Avatar>{username.charAt(0).toUpperCase()}</Avatar>
+              <span className="block-name">{username}</span>
             </div>
           </Col>
           <Col span={4} md={4} xs={24}>

@@ -10,6 +10,7 @@ export const login = createAsyncThunk(
     try {
       const response = await AuthService.login(payload);
       if (response.data) {
+        thunkAPI.dispatch(setUsername(payload.username));
         return response.data;
       }
     } catch (e) {
@@ -28,6 +29,7 @@ const authSlice = createSlice({
     isLogining: false,
     isAuth: false,
     isLoginError: false,
+    username: '' as string,
   },
   reducers: {
     setIsLogining: (state, action: PayloadAction<boolean>) => {
@@ -40,6 +42,9 @@ const authSlice = createSlice({
       state.token = '';
       localStorage.removeItem('token');
       state.isAuth = false;
+    },
+    setUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -55,7 +60,8 @@ const authSlice = createSlice({
 export const {
   setIsLogining,
   setIsLoginError,
-  logout
+  logout,
+  setUsername
 } = authSlice.actions;
 
 export default authSlice
