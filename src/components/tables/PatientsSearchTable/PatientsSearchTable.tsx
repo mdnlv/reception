@@ -40,7 +40,6 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
     if (patientRegId) {
       dispatch(fetchRegPatient(patientRegId));
     } else if (patients.length === 0 || !patients) {
-      console.log('biba');
       dispatch(fetchPatients({ limit: 5, offset: 0 }));
     }
   }, [patientRegId]);
@@ -52,8 +51,8 @@ const PatientsSearchTable: React.FC<TableProps> = ({onOpenSearch}) => {
   }, [patientRegId]);
 
   useEffect(() => {
-    dispatch(fetchQueryPatients({query: searchQuery.trim(), limit: 5, offset}))
-  }, [offset]);
+    !isSearching && dispatch(fetchQueryPatients({query: searchQuery.trim(), limit: 5, offset}))
+  }, [offset, isSearching]);
 
   const onSearchButtonClick = (query: string) => {
     dispatch(setIsSearchingPatients(true));
