@@ -96,11 +96,11 @@ const AppHeaderBar: FC = () => {
           </Col>
           <Col>
             <Space>
-              <Button size={'small'} className="header__button">
-                {Labels.Print}
-              </Button>
-              <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">
-                {Labels.Journal}
+              <Button
+                onClick={onNewPatientClick}
+                size={'small'}
+                className="header__button">
+                {Labels.NewPatient}
               </Button>
               <Button
                 size={'small'}
@@ -108,11 +108,11 @@ const AppHeaderBar: FC = () => {
                 onClick={showAppointment}>
                 {Labels.Appointment}
               </Button>
-              <Button
-                onClick={onNewPatientClick}
-                size={'small'}
-                className="header__button">
-                {Labels.NewPatient}
+              <Button size={'small'} onClick={() => goPath('deferred-calls')} className="header__button">
+                {Labels.Journal}
+              </Button>
+              <Button size={'small'} className="header__button">
+                {Labels.Print}
               </Button>
               <Button
                 size={'small'}
