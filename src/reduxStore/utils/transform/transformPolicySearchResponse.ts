@@ -5,7 +5,7 @@ import PatientPolicySearchResponse from "../../../interfaces/responses/patients/
 const transformPolicySearchResponse = (item: PatientPolicySearchResponse) => {
   return {
     id: 0,
-    cmo: item.smo.id?.toString() ?? '',
+    cmo: item.smo ? item.smo.id?.toString() : '',
     serial: item.policySerial,
     number: item.policyNumber,
     timeType: item.policySerial === 'ЕП' ? '3' : item.policySerial === 'ВС' ? '1' : '',
