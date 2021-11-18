@@ -1,10 +1,11 @@
-
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button, Input, Select } from 'antd';
+
 import { ActionProps } from './types';
 import { currentPatientInfoSelector } from '../../../../../../../reduxStore/slices/patients/selectors';
 import {RootState} from "../../../../../../../reduxStore/store";
+
 import NewAppointment from '../../../../../../modals/NewAppointment/NewAppointment';
 
 const ScheduleAction: React.FC<ActionProps> = ({
@@ -17,10 +18,12 @@ const ScheduleAction: React.FC<ActionProps> = ({
   oldData,
   setResult,
   speciality
-}) => { 
+}) => {
+  const { Option } = Select;
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
-  const { Option } = Select;
+  // @ts-ignore
+  const [specialityValue] = useState(speciality[data?.speciality || 1]);
 
   useEffect(() => {
     if(oldData && data && data.data.client_id > -1) {
@@ -43,7 +46,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
       content: `Информация о приёме будет удалена без возможности восстановления`,
       okText: 'Ок',
       cancelText: 'Не отменять',
-      onOk: ()=>{  
+      onOk: ()=>{
         if(data)
         actionTicket({
           action_id: data.data.action_id,
@@ -72,8 +75,9 @@ const ScheduleAction: React.FC<ActionProps> = ({
       }
     });
   }
-  
- return <>{
+
+
+  return <>{
     oldData === undefined ? (
       (data && data.data.client_id == - 1) ?
         <NewAppointment
@@ -86,28 +90,34 @@ const ScheduleAction: React.FC<ActionProps> = ({
           currentPatientMemo={currentPatientMemo}
           setResult={setResult}
         />
-      : 
-      <Modal 
+      :
+      <Modal
         title={data?.date}
-        visible={visible || (loading && postLoading)} 
+        visible={visible || (loading && postLoading)}
         confirmLoading={postLoading}
         onCancel={()=>{setVisible(false)}}
         footer={[
           <Button
             onClick={delRecord}
             style={{backgroundColor: '#ff4d4f', borderColor: '#00000000', color: '#fff'}}
-          >Отменить приём</Button>,
+            key={1}
+          >
+            Отменить приём
+          </Button>,
           <Button
             onClick={chgRecord}
             style={{backgroundColor: '#52c41a', borderColor: '#00000000', color: '#fff'}}
-          >Перенести приём</Button>
+            key={2}
+          >
+            Перенести приём
+          </Button>
         ]}
       >
         <div className='date-time'>
           <div>Дата приёма: {data?.date}</div>
           <div>Время приёма: {data?.time}</div>
         </div>
-        ФИО пациента 
+        ФИО пациента
         <Input value={data?.data.client_id == - 1? (currentPatientMemo ? currentPatientMemo.fullName : ''): data?.client}/>
         <div>Врач:</div>
         <Select defaultValue="1" style={{ width: 200 }}>
@@ -115,14 +125,14 @@ const ScheduleAction: React.FC<ActionProps> = ({
         </Select>
 
         <div>Специальность врача:</div>
-        <Select defaultValue="1" style={{ width: 200 }}>
-            <Option value="1">{data?.speciality}</Option>
+        <Select defaultValue={specialityValue} style={{ width: 200 }}>
+          <Option value={specialityValue}>{specialityValue}</Option>
         </Select>
       </Modal>
-    ) : 
-      <Modal 
+    ) :
+      <Modal
         title={'Перенести приём'}
-        visible={visible || (loading && postLoading)} 
+        visible={visible || (loading && postLoading)}
         confirmLoading={postLoading}
         onCancel={()=>{
           setVisible(false)
@@ -162,7 +172,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
             <div>{data?.time}</div>
           </div>
         </div>
-      </Modal>   
+      </Modal>
     }
     </>
 };

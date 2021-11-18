@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {Table,Dropdown, Menu, Checkbox, Descriptions, Radio, Spin } from 'antd/lib';
+import moment from 'moment';
+
 import './styles.scss';
 import { PatientTicketsProps } from './types';
 import { clientAppointment, setStoreActionData } from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../reduxStore/store';
-import moment from 'moment';
 
 const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setType }) => {
   const [actionData, setActionData] = useState<any>({});
@@ -42,11 +43,11 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
       speciality:  actionData.speciality,
       type: a,
       data: {
-        action_id: actionData.data.action_id, 
-        idx:  actionData.data.idx, 
-        client_id: actionData.data.client_id, 
-        person_id:  actionData.data.person_id, 
-        user_id: 614, 
+        action_id: actionData.data.action_id,
+        idx:  actionData.data.idx,
+        client_id: actionData.data.client_id,
+        person_id:  actionData.data.person_id,
+        user_id: 614,
         index: actionData.data.index,
         old_action_id: 0,
         old_idx: 0,
@@ -56,13 +57,19 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
       orgs: actionData.orgs
     }))
   }
-  
+
   const columns: any = [
     {
       title: 'Выполнено',
       dataIndex: 'visit',
-      width: 104,
-      render: (value: any) => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div style={{padding:10}}><Checkbox checked={value}/></div></Dropdown>)
+      width: 110,
+      render: (value: any) => (
+        <Dropdown overlay={menu}  trigger={['contextMenu']}>
+          <div style={{padding:10}}>
+            <Checkbox checked={value}/>
+          </div>
+        </Dropdown>
+      )
     },
     {
       title: 'Дата и время',
@@ -97,15 +104,15 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
     {
       title: 'Примечание',
       dataIndex: 'note',
-      width: 170,
+      width: 162,
       render: (value: any) => (<Dropdown overlay={menu}  trigger={['contextMenu']}><div style={{padding:10}}>{value}</div></Dropdown>)
     }
   ];
- 
+
   const menu = (
     <Menu>
       {type == 'post' && <>
-        <Menu.Item key="1" onClick={()=>{showModal('delete')}}>Удалить запись</Menu.Item>
+        <Menu.Item key="1" onClick={()=>{showModal('delete')}}>Отменить запись</Menu.Item>
         <Menu.Item key="2" onClick={()=>{showModal('edit')}}>Перенести запись</Menu.Item>
       </>}
       <Menu.Item key="3" onClick={()=>{showModal('show')}}>Перейти в расписание</Menu.Item>
@@ -114,7 +121,7 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
       <Menu.Item key="6">Печать предварительной записи - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
       <Menu.Item key="7">Свойства записи - тут будет переход на шаблон печати ( как только модуль печати будет доделан)</Menu.Item>
     </Menu>
-  );  
+  );
 
   return <div style={{marginTop: 7, width: "100%"}}>
     <Descriptions.Item>
@@ -125,12 +132,12 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
       </Descriptions.Item>
       <Descriptions.Item contentStyle={{margin: 0, padding: 0, border: 0}}>
       <div className='tickets-table'>
-        { ticketsLoading ? 
+        { ticketsLoading ?
             <div style={{width: '100%', display: 'flex', justifyContent: 'center', background: "40%"}}>
               <Spin style={{margin: "25% auto"}}/>
             </div>
-            : 
-            <Table 
+            :
+            <Table
               onRow={(record, rowIndex) => {
                 return {
                   onContextMenu: event => {
@@ -138,15 +145,15 @@ const PatientTickets: React.FC<PatientTicketsProps> = ({ client_id, type, setTyp
                   },
                 };
               }}
-              columns={columns} 
-              dataSource={data} 
-              pagination={false} 
-              scroll={{ x: true, y: "37vh"}} 
+              columns={columns}
+              dataSource={data}
+              pagination={false}
+              scroll={{ x: true, y: "37vh"}}
               style={{maxHeight: "40vh"}}
               showSorterTooltip={{title: 'Переключение сортировки списка: по убыванию даты, по фамилии врача, по возрастанию даты'}}
-            />   
-        } 
-      </div>        
+            />
+        }
+      </div>
     </Descriptions.Item>
   </div>
 };

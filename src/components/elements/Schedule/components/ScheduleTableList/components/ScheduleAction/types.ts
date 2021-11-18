@@ -52,4 +52,3 @@ export interface ActionPost {
   old_idx: number;
   type: 'edit' | 'new' | 'delete' | 'show';
 }
-  

@@ -214,7 +214,7 @@ const scheduleSlice = createSlice({
                 person: person.person.lastName + ' ' + person.person.firstName[0] + '.' + person.person.patrName[0] + '.',
                 office: person.schedule[date][0].office,
                 date: moment(date).format("DD.MM.YYYY"),
-                time: ticket.begDateTime.slice(0,-3),
+                time: ticket.begDateTime ? ticket.begDateTime.slice(0,-3) : '',
                 visit: ticket.visit,
                 note: ticket.note,
                 set_person: ticket.set_person ? ticket.set_person.lastName + ' ' + ticket.set_person.firstName[0] + '.' + ticket.set_person.patrName[0] + '.' : '',
