@@ -3,7 +3,7 @@ import { ActionPost } from '../components/elements/Schedule/types';
 
 export default {
   fetchSchedule(token: string, payload: { id: number[]; beg_date: string, end_date: string, showEmpty?: boolean }) {
-    let s =  `/schedule?beg_date=${payload.beg_date}&end_date=${payload.end_date}`
+    let s =  `/schedule?beg_date=${payload.beg_date}&end_date=${payload.end_date}`;
     for(let v of payload.id) {
       s += `&orgStructure_id=${v}`
     }

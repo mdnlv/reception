@@ -18,7 +18,7 @@ const ScheduleTimeline: React.FC<TimeLineProps> = ({
   const content = () => {
     switch (mode) {
       case 'day':
-        
+
         const timeItems = [];
 
         for (let i = startHour * 60; i <= 60 * endHour; i += 60) {

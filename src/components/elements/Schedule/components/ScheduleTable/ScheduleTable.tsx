@@ -14,12 +14,12 @@ import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
 import { fetchItems, setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 const ScheduleTable: React.FC<ScheduleTableProps> = ({
-  person_tree, 
-  schedules, 
-  loadSchedule, 
+  person_tree,
+  schedules,
+  loadSchedule,
   speciality,
-  actionTicket, 
-  showEmpty, 
+  actionTicket,
+  showEmpty,
   groupBy,
   setGroupBy,
   selected,
@@ -32,7 +32,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const isLoading = useSelector((state: RootState) => state.person_tree.isLoading);
   const isScheduleLoading = useSelector((state: RootState) => state.schedule.isLoading);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
-  const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
   const [currentDay, setCurrentDay] = useState(new Date());
   const [length, setLength] = useState('week');
@@ -53,7 +53,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         beg_date: moment(currentDate).format('YYYY-MM-DD'),
         end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
         showEmpty: showEmpty
-      })); 
+      }));
   },[showEmpty])
 
   useEffect(()=>{
@@ -70,7 +70,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
       eachDayOfInterval({
         start: currentDate,
         end: rangeWeekDate,
-      }).length   
+      }).length
     );
   }, [rangeWeekDate]);
 
@@ -84,7 +84,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         beg_date: moment(date).format('YYYY-MM-DD'),
         end_date: moment(endDate).format('YYYY-MM-DD'),
         showEmpty: showEmpty
-      }));    
+      }));
   };
 
   const onScheduleModeChange = useCallback(
@@ -139,8 +139,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               list={schedules}
               mode={mode}
               person_tree={person_tree}
-              loadSchedule={loadSchedule} 
-              currentDate={currentDate}   
+              loadSchedule={loadSchedule}
+              currentDate={currentDate}
               rangeWeekDate={rangeWeekDate}
               onModeChange={onScheduleModeChange}
               startHour={startHour}
