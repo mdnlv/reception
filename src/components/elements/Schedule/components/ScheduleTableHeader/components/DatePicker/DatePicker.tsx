@@ -5,11 +5,13 @@ import {
   format,
   getWeekOfMonth,
   isSameMonth,
-  subDays
+  subDays,
+  isToday
 } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import Row from 'antd/lib/row';
 import moment from "moment";
+
 import './styles.scss';
 import {PickerProps} from "./types";
 
@@ -60,22 +62,26 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
   };
 
   return (
-    <Row justify={'center'} align={'middle'}>   
+    <Row justify={'center'} align={'middle'}>
       {mode === 'week' && <>
       <div
-        onClick={() => {
-          if(length == 'week') {
-            onDateChange(subDays(current, 14), subDays(current,1), selected);
-          } else {
-            onDateChange(moment(subDays(current,1)).clone().startOf('month').toDate(), moment(subDays(current,1)).clone().endOf('month').toDate(), selected);
-          }
-        }}
+        onClick={
+          !isToday(current)
+            ? () => {
+                if(length == 'week') {
+                  onDateChange(subDays(current, 14), subDays(current,1), selected);
+                } else {
+                  onDateChange(moment(subDays(current,1)).clone().startOf('month').toDate(), moment(subDays(current,1)).clone().endOf('month').toDate(), selected);
+                }
+              }
+            : undefined
+        }
         className={'picker-action__wrapper'}>
         <LeftOutlined style={{ fontSize: '12px'}}/>
       </div>
 
       <div className={'schedule-date-picker__picker'}>
-         <div>{dateContent()}</div> 
+         <div>{dateContent()}</div>
       </div>
 
       <div
@@ -92,9 +98,9 @@ const ScheduleDatePicker: React.FC<PickerProps> = ({
       </>}
 
       {mode === 'day' && <>
-        <div className='back' onClick={()=>{onModeChange('week');}} > 
-        <LeftOutlined style={{ fontSize: '12px'}}/> 
-        Назад 
+        <div className='back' onClick={()=>{onModeChange('week');}} >
+        <LeftOutlined style={{ fontSize: '12px'}}/>
+        Назад
         </div>
         <div>{dateContent()}</div>
       </>}

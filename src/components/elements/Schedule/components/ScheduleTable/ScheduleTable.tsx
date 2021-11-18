@@ -74,7 +74,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     );
   }, [rangeWeekDate]);
 
-  const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
+  const onScheduleDateChange = (date: Date, endDate: Date) => {
+    console.log('date', date);
     setCurrentDate(date);
     setRangeWeek(endDate);
     if(selected.length > 0)
