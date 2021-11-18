@@ -19,6 +19,7 @@ import NewAppointment from '../../modals/NewAppointment/NewAppointment';
 const BarLogoAlt = 'Logo';
 
 enum Labels {
+  File = 'Картотека',
   Print = 'Печать',
   Journal = 'ЖОС',
   Appointment = 'Записать на прием',
@@ -91,12 +92,17 @@ const AppHeaderBar: FC = () => {
     <Row align="stretch">
       <Col md={20} xs={24}>
         <Row>
-          <Col className="header__logo" onClick={logoClickHandler}>
+          <Col className="header__logo">
             <img src={Logo} alt={BarLogoAlt} className="app-logo" />
-            <span className="header__logo-title">КАРТОТЕКА</span>
           </Col>
           <Col>
             <Space>
+              <Button
+                onClick={logoClickHandler}
+                size={'small'}
+                className="header__button">
+                {Labels.File}
+              </Button>
               <Button
                 onClick={onNewPatientClick}
                 size={'small'}

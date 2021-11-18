@@ -43,8 +43,7 @@ const Schedule: React.FC<any> = (props) => {
     );
     setSelected([]);
     setSelectedPerson([]);
-    if(query == '') setFilter({})
-    else setFilter({value: query})
+    !query ? setFilter({}) : setFilter({value: query});
   }
 
   const onCloseForm = useCallback(() => {

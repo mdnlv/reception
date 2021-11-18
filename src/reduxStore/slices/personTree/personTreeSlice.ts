@@ -116,7 +116,6 @@ const personTreeSlice = createSlice({
       state.isLoading = action.payload;
     },
     setQuery: (state, action: PayloadAction<string>) => {
-      console.log('action.payload', action.payload);
       state.query = action.payload;
     },
     setIsSearchingDoctors: (state, action: PayloadAction<boolean>) => {

@@ -1,14 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from "moment";
+import { Modal } from 'antd';
+
 import './styles.scss';
 import {ListProps} from "./types";
-import moment from "moment";
-import ListItem from './components/ListItem/ListItem';
-import ScheduleAction from './components/ScheduleAction/ScheduleAction';
 import { clientAppointment } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { ActionData, ActionPost } from "./components/ScheduleAction/types"
 import {RootState} from "../../../../../reduxStore/store";
-import { Modal } from 'antd';
+
+import ListItem from './components/ListItem/ListItem';
+import ScheduleAction from './components/ScheduleAction/ScheduleAction';
 
 const ScheduleTableList: React.FC<ListProps> = ({
   isLoading,
@@ -19,7 +21,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   mode,
   rangeWeekNum,
   loadSchedule,
-  currentDate, 
+  currentDate,
   rangeWeekDate,
   onModeChange,
   startHour,
@@ -36,6 +38,14 @@ const ScheduleTableList: React.FC<ListProps> = ({
   searchCount,
   clientTableType
 }) => {
+  const dispatch = useDispatch();
+  const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
+  const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
+  const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
+  const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
+  const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
+  const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
+  const currentPatient = useSelector((state: RootState) => state.patients.currentPatient);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [actionData, setActionData] = useState<ActionData | undefined>(undefined);
@@ -50,14 +60,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
     person: '',
     speciality: ''
   });
-  const dispatch = useDispatch();
-  const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
-  const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
-  const errorMessage = useSelector((state: RootState) => state.schedule.errorMessage);
-  const errorStatus = useSelector((state: RootState) => state.schedule.errorStatus);
-  const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
-  const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
-  const currentPatient = useSelector((state: RootState) => state.patients.currentPatient);
 
   const clientTableUpdate = () => {
     dispatch(
@@ -86,7 +88,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       setDel(false)
       clientTableUpdate();
     }
-    if(edit && !postLoading) { 
+    if(edit && !postLoading) {
       Modal.success({
         title: 'Приём перенесен',
         content: `Приём ${oldData?.client} ${oldData?.date} в ${oldData?.time} к врачу ${oldData?.person} (${actionData?.speciality && actionData?.speciality.toLowerCase()}) перенесён на ${actionData?.date}, ${actionData?.time}.`,
@@ -113,11 +115,11 @@ const ScheduleTableList: React.FC<ListProps> = ({
 
   useEffect(()=>{
     if(storeActionData.data){
-      if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') 
+      if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete')
         showModal(storeActionData)
       else {
         setGroupBy('orgStructure_id')
-        let set = new Set(selected.concat(storeActionData.orgs)) 
+        let set = new Set(selected.concat(storeActionData.orgs))
         setSelected(Array.from(set))
       }
     }
@@ -131,10 +133,10 @@ const ScheduleTableList: React.FC<ListProps> = ({
       let set: any;
       arr && arr.length > 0 && arr.map((item: any)=>{
         set = new Set(a.concat(item.orgStructure_ids).concat(item.person_list[0] ?[ item.person_list[0].orgStructure_id] : []));
-        console.log(Array.from(set)) 
+        console.log(Array.from(set))
         setSelected(selected.concat(Array.from(set)))
         item.child.length > 0 && calc(item.child)
-      })      
+      })
     }
 
     function calcS(arr: any) {
@@ -147,10 +149,10 @@ const ScheduleTableList: React.FC<ListProps> = ({
       if (groupBy == 'orgStructure_id') {
         calc(person_tree)
       }
-      else 
+      else
         setSelected(Array.from(calcS(person_tree)))
   }, [person_tree])
- 
+
   const showModal = (data: ActionData) => {
     setActionData(data)
     setIsModalVisible(true)
@@ -163,7 +165,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(data.type == 'delete') setDel(true);
     actionTicket(data, [id], moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'));
     setIsModalLoading(true);
-    setIsModalVisible(false);   
+    setIsModalVisible(false);
   };
 
   const listContent = useMemo(()=>{
@@ -181,9 +183,9 @@ const ScheduleTableList: React.FC<ListProps> = ({
             key={item.id}
             name={item.name}
             child={item.child}
-            person_list={item.person_list}  
+            person_list={item.person_list}
             selected={selected}
-            level={0} 
+            level={0}
             loadSchedule={loadSchedule}
             schedule={list}
             currentDate={currentDate}
@@ -216,9 +218,9 @@ const ScheduleTableList: React.FC<ListProps> = ({
           key={Number(item)}
           name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
           child={[]}
-          person_list={person_tree[item]}  
+          person_list={person_tree[item]}
           selected={selected}
-          level={0} 
+          level={0}
           loadSchedule={loadSchedule}
           schedule={list}
           currentDate={currentDate}
@@ -234,9 +236,9 @@ const ScheduleTableList: React.FC<ListProps> = ({
           groupBy={groupBy}
         />
       );
-    }); 
+    });
   }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum, selected, selectedPerson])
-   
+
   return <>
     <div className={'schedule-list'}>
       {listContent}
