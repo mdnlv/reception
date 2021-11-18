@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState, useEffect } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd/lib';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'antd';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import {RootState} from "../../../reduxStore/store";
 import Logo from '../../../assets/icons/app-logo.svg';
 import ExitIcon from '../../../assets/icons/exit.svg';
 import './styles.scss';
-import {actionTicket, fetchItem} from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
+import {actionTicket} from "../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { ActionPost } from '../Schedule/types';
 import {logout} from "../../../reduxStore/slices/auth/authSlice";
 
@@ -33,7 +33,7 @@ const AppHeaderBar: FC = () => {
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   const cd = useSelector((state: RootState) => state.schedule.currentDate);
   const ed = useSelector((state: RootState) => state.schedule.rangeWeekDate);
-  const username = useSelector((state: RootState) => state.auth.username);
+  const username = localStorage.getItem('usernameReception');
   const [showNewAppointment, setShowAppointment] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [result, setResult] = useState({
@@ -93,6 +93,7 @@ const AppHeaderBar: FC = () => {
         <Row>
           <Col className="header__logo" onClick={logoClickHandler}>
             <img src={Logo} alt={BarLogoAlt} className="app-logo" />
+            <span className="header__logo-title">КАРТОТЕКА</span>
           </Col>
           <Col>
             <Space>
@@ -128,7 +129,7 @@ const AppHeaderBar: FC = () => {
         <Row>
           <Col span={20} md={20} xs={24}>
             <div className="header__user-block">
-              <Avatar>{username.charAt(0).toUpperCase()}</Avatar>
+              <Avatar>{username?.charAt(0).toUpperCase()}</Avatar>
               <span className="block-name">{username}</span>
             </div>
           </Col>
