@@ -48,8 +48,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('number', formValues?.number);
-  // }, [formValues?.number]);
+  //   console.log('cmoFiltered', cmoFiltered);
+  // }, [cmoFiltered]);
 
   useEffect(() => {
     if (cmoType.length > 0) {

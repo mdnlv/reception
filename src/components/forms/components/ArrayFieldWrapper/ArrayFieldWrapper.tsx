@@ -3,6 +3,7 @@ import { Button, Space, Tooltip } from 'antd';
 import { PlusCircleTwoTone } from '@ant-design/icons';
 
 import {WrapperProps} from "./types";
+import './styles.scss';
 
 function ArrayFieldWrapper<T>({
   onAddItem,
@@ -21,7 +22,7 @@ function ArrayFieldWrapper<T>({
   }, [values]);
 
   return (
-    <div>
+    <div className="array-field-wrapper">
       {showActions && (
         <Space>
           <Tooltip title={'Добавить'}>

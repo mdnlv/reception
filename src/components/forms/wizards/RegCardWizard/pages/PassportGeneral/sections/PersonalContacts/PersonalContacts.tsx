@@ -6,6 +6,7 @@ import {CloseCircleOutlined} from "@ant-design/icons";
 import { PassportContactType } from '../../types';
 import { WizardStateType } from '../../../../types';
 import {SectionProps, LABELS} from "./types";
+import './styles.scss';
 
 import FormField from '../../../../../../components/FormField/FormField';
 import ArrayFieldWrapper from '../../../../../../components/ArrayFieldWrapper/ArrayFieldWrapper';
@@ -19,18 +20,19 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
   const [itemIndex, setItemIndex] = useState(-1);
 
   // useEffect(() => {
-  //   console.log('contactTypes', contactTypes);
-  // }, [contactTypes]);
+  //   console.log('itemIndex', itemIndex);
+  // }, [itemIndex]);
 
   useEffect(() => {
-    const resIndex = formProps.findIndex((item) => item.type === '3');
+    const resIndex = formProps.findIndex((item) => item.type && item.type === '3');
     resIndex > -1
       && !formProps[resIndex].number.includes('8')
       && form.setFieldValue(`passportGeneral.contacts.contacts[${resIndex}].number`, '8');
   }, [formProps]);
 
   useEffect(() => {
-    formProps[itemIndex]?.type !== '3'
+    formProps[itemIndex]?.type
+      && formProps[itemIndex]?.type !== '3'
       && form.setFieldValue(`passportGeneral.contacts.contacts[${itemIndex}].number`, '');
   }, [formProps[itemIndex]?.type]);
 

@@ -35,9 +35,9 @@ const Attachments: React.FC = () => {
     detachmentReasons: loadingDetachmentReasons,
   } = useSelector((state: RootState) => state.rb.loading);
 
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    console.log('formValues', formValues);
+  }, [formValues]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
@@ -54,6 +54,7 @@ const Attachments: React.FC = () => {
   const renderTreeNodes = (data:PersonTree[]) =>
     data.map((item: PersonTree) => {
       return (
+        //@ts-ignore
         <TreeSelect.TreeNode  value={item.id} key={item.id}  title={item.name}  {...item}>
           {item.child.length && renderTreeNodes(item.child)}
         </TreeSelect.TreeNode>

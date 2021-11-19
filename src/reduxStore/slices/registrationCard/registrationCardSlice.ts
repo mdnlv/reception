@@ -152,7 +152,14 @@ export const findPatientPolicy = createAsyncThunk(
         return {};
       }
     } catch (e) {
-      alert(e)
+      alert(e);
+      thunkAPI.dispatch(
+        setFindPolicyLoading(false),
+      );
+    } finally {
+      thunkAPI.dispatch(
+        setFindPolicyLoading(false),
+      );
     }
   },
 );
@@ -361,42 +368,42 @@ const registrationCardSlice = createSlice({
         state.initialFormState.passportGeneral.passportInfo = {
           ...(transformedPatient.address.length > 0) ? {
             addressRegistration: {
-              id: transformedPatient.address[0].id,
-              addressId: transformedPatient.address[0].addressId,
-              addressHouseId: transformedPatient.address[0].address.addressHouseId,
-              isKLADR: Boolean(!transformedPatient.address[0].freeInput),
-              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
-              area: transformedPatient.address[0].address.KLADRCode,
-              street: transformedPatient.address[0].address.KLADRStreetCode,
-              houseId: transformedPatient.address[0].address.houseId,
-              houseNumber: transformedPatient.address[0].address.house,
-              houseCharacter: transformedPatient.address[0].address.litera,
-              flatNumber: transformedPatient.address[0].address.flat,
-              isDocumentedAddress: Boolean(
-                transformedPatient.address[0]?.addressId ===
-                transformedPatient.address[1]?.addressId,
-              ),
-              freeInput: transformedPatient.address[0].freeInput,
-              isVillager: Boolean(transformedPatient.address[0].isVillager),
-            },
-            documentedAddress: {
               id: transformedPatient.address[1].id,
               addressId: transformedPatient.address[1].addressId,
               addressHouseId: transformedPatient.address[1].address.addressHouseId,
-              isKLADR: Boolean(!transformedPatient.address[1]?.freeInput),
+              isKLADR: Boolean(!transformedPatient.address[1].freeInput),
               city: state.form.passportGeneral.passportInfo.addressRegistration.city,
-              area: transformedPatient.address[1]?.address.KLADRCode,
-              street: transformedPatient.address[1]?.address.KLADRStreetCode,
+              area: transformedPatient.address[1].address.KLADRCode,
+              street: transformedPatient.address[1].address.KLADRStreetCode,
               houseId: transformedPatient.address[1].address.houseId,
-              houseNumber: transformedPatient.address[1]?.address.house,
-              houseCharacter: transformedPatient.address[1]?.address.litera,
-              flatNumber: transformedPatient.address[1]?.address.flat,
+              houseNumber: transformedPatient.address[1].address.house,
+              houseCharacter: transformedPatient.address[1].address.litera,
+              flatNumber: transformedPatient.address[1].address.flat,
               isDocumentedAddress: Boolean(
                 transformedPatient.address[0]?.addressId ===
                 transformedPatient.address[1]?.addressId,
               ),
-              freeInput: transformedPatient.address[1]?.freeInput,
+              freeInput: transformedPatient.address[1].freeInput,
               isVillager: Boolean(transformedPatient.address[1].isVillager),
+            },
+            documentedAddress: {
+              id: transformedPatient.address[0].id,
+              addressId: transformedPatient.address[0].addressId,
+              addressHouseId: transformedPatient.address[0].address.addressHouseId,
+              isKLADR: Boolean(!transformedPatient.address[0]?.freeInput),
+              city: state.form.passportGeneral.passportInfo.addressRegistration.city,
+              area: transformedPatient.address[0]?.address.KLADRCode,
+              street: transformedPatient.address[0]?.address.KLADRStreetCode,
+              houseId: transformedPatient.address[0].address.houseId,
+              houseNumber: transformedPatient.address[0]?.address.house,
+              houseCharacter: transformedPatient.address[0]?.address.litera,
+              flatNumber: transformedPatient.address[0]?.address.flat,
+              isDocumentedAddress: Boolean(
+                transformedPatient.address[0]?.addressId ===
+                transformedPatient.address[1]?.addressId,
+              ),
+              freeInput: transformedPatient.address[0]?.freeInput,
+              isVillager: Boolean(transformedPatient.address[0].isVillager),
             }
           } : {
             addressRegistration: {

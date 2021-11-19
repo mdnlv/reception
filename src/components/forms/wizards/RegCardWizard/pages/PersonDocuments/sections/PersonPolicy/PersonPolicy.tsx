@@ -292,7 +292,7 @@ const PersonPolicy: FC = () => {
         renderChild={renderFormItem}
       />
     </DropDownContent>
-  ), [cmoFiltered]);
+  ), [cmoFiltered, formValues.length]);
 
   return (
     <div className={'form-section person-policy'}>
