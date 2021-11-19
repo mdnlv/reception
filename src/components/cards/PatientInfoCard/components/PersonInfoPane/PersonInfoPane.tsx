@@ -94,7 +94,7 @@ const PersonInfoPane: React.FC<PaneProps> = ({ patient }) => {
           {patient?.fullName}
         </Descriptions.Item>
         <Descriptions.Item label={'Дата рождения'}>
-          {patient?.birthDate}
+          {patient?.birthDate ? format(new Date(patient?.birthDate), 'd.MM.yyyy') : ''}
         </Descriptions.Item>
         <Descriptions.Item label={'Код'}>
           {patient?.code}

@@ -36,7 +36,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   person_tree,
   setSelected,
   searchCount,
-  clientTableType
+  clientTableType,
 }) => {
   const dispatch = useDispatch();
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
@@ -82,7 +82,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
     if(del && !postLoading) {
       Modal.success({
         title: 'Приём отменён',
-        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality && actionData?.speciality.toLowerCase()}) отменён.`,
+        // @ts-ignore
+        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality && speciality[actionData?.speciality].toLowerCase()}) отменён.`,
         okText: 'ОК'
       });
       setDel(false)
