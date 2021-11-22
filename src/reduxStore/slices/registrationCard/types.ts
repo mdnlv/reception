@@ -79,9 +79,9 @@ interface FormState extends InitialRegFormState {
     };
   };
   policyBuffer: PassportPolicyType;
-  foundPolicies: {
-    dms: { items: PassportPolicyType[]; isLoading: boolean };
-    oms: { items: PassportPolicyType[]; isLoading: boolean };
+  foundPolicy: {
+    item: PassportPolicyType | null;
+    isLoading: boolean;
   };
 }
 

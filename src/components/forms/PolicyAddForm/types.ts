@@ -25,4 +25,6 @@ export interface FormProps {
     type: string;
   }
   kladr: PrefixKladrItem[];
+  setTyping: (value: boolean) => void;
+  isTyping: boolean;
 }

@@ -22,6 +22,7 @@ const FastSearchSelect: React.FC<SearchSelectProps> = (props) => {
         if(!val){
           props.onClear &&  props.onClear()
         }
+        props.onChangeExtra && props.onChangeExtra();
       }}
       className={Boolean(meta.error && meta.touched) ? 'customSelect' : undefined}
     >

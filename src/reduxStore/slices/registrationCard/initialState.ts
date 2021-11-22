@@ -408,9 +408,9 @@ const initialState: RegistrationCardStateType = {
       smoShort: '',
       cancelReason: ''
     },
-    foundPolicies: {
-      dms: { items: [] as PassportPolicyType[], isLoading: false },
-      oms: { items: [] as PassportPolicyType[], isLoading: false },
+    foundPolicy:  {
+      item: null,
+      isLoading: false
     },
   },
 };

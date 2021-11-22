@@ -10,7 +10,10 @@ import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard
 import { RootState } from '../../store';
 import { KladrDocType } from './types';
 import { transformPatientResponse } from '../../utils/transform/transformPatientResponse';
-import {PassportAddressType} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
+import {
+  PassportAddressType,
+  PassportPolicyType
+} from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
@@ -223,6 +226,15 @@ const registrationCardSlice = createSlice({
       state.form.data.passportGeneral.documentedAddress.documentedBuffer =
         action.payload.value;
     },
+    setPolicyBuffer: (
+      state,
+      action: PayloadAction<{
+        value: PassportPolicyType;
+        type: 'setPolicyBuffer';
+      }>,
+    ) => {
+      state.form.policyBuffer = action.payload.value;
+    },
     setPatientReg: (
       state,
       action: PayloadAction<{
@@ -245,7 +257,7 @@ const registrationCardSlice = createSlice({
       state,
       action: PayloadAction<boolean>,
     ) => {
-      state.form.foundPolicies.oms.isLoading =
+      state.form.foundPolicy.isLoading =
         action.payload;
     },
     setPoliciesFoundMessage: (
@@ -506,7 +518,7 @@ const registrationCardSlice = createSlice({
             id: item.id,
             type: item.type.toString(),
             lpu: item.lpu.toString(),
-            unit: item.unit.toString(),
+            unit: item.unit,
             fromDate: item.fromDate || '',
             endDate: item.endDate || '',
             detachmentReason: item.detachmentReason?.toString() || '',
@@ -613,12 +625,11 @@ const registrationCardSlice = createSlice({
     });
     builder.addCase(findPatientPolicy.fulfilled, (state, action) => {
       if (action.payload) {
-        // @ts-ignore
-        state.form.foundPolicies.oms.items =
-          Object.keys(action.payload).length !== 0 && action.payload.constructor === Object ? [
-          // @ts-ignore
-          transformPolicySearchResponse(action.payload),
-        ] : [];
+        state.form.foundPolicy.item =
+          Object.keys(action.payload).length !== 0 && action.payload.constructor === Object
+            // @ts-ignore
+            ? transformPolicySearchResponse(action.payload)
+            : null;
       }
     });
   },
@@ -632,6 +643,7 @@ export const {
   setFindPolicyLoading,
   setLoading,
   setDocumentedBuffer,
+  setPolicyBuffer,
   fetchIdPatientError,
   setPatientReg,
   resetRegCard,

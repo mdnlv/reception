@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 
@@ -35,9 +35,7 @@ import AddressRegistration from "./sections/AddressRegistration/AddressRegistrat
 
 const PassportGeneral: React.FC = () => {
   const dispatch = useDispatch();
-  const { dms, oms } = useSelector(
-    (state: RootState) => state.registrationCard.form.foundPolicies,
-  );
+  const {item, isLoading} = useSelector((state: RootState) => state.registrationCard.form.foundPolicy);
   const {policiesFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
   );
@@ -65,6 +63,9 @@ const PassportGeneral: React.FC = () => {
   const { organisations, documentTypes } = useSelector(
     (state: RootState) => state.rb.loading,
   );
+  const policyFoundValues = ['timeType', 'to', 'from', 'cmo', 'serial', 'number', 'enp', 'lpu', 'lpuDate', 'doctorLPU'];
+  const [isPolicyTyping, setPolicyTyping] = useState(true);
+  const [policyBufferValues, setPolicyBufferValues] = useState(policyFoundValues);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
@@ -98,10 +99,13 @@ const PassportGeneral: React.FC = () => {
   const onCloseModal = () => {
     dispatch(resetPoliciesFound());
     dispatch(setPoliciesFoundMessage(false));
+    setPolicyTyping(true);
+    setPolicyBufferValues(policyFoundValues);
   };
 
   const onOkModal = () => {
     dispatch(setPoliciesFoundMessage(false));
+    setPolicyBufferValues(policyFoundValues);
   };
 
   return (
@@ -137,26 +141,30 @@ const PassportGeneral: React.FC = () => {
         <Col span={12} className={'col--border-right'}>
           <PolicyAddForm
             cmoType={cmoTypeList}
-            isLoading={oms.isLoading}
+            isLoading={isLoading}
             isCmoLoading={organisations}
-            foundPolicy={oms.items[0]}
+            foundPolicy={item}
             policyKey={'policyOms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
             kladr={rbKladrDocumented}
+            isTyping={isPolicyTyping}
+            setTyping={setPolicyTyping}
           />
         </Col>
         <Col span={12}>
           <PolicyAddForm
             cmoType={cmoTypeList}
-            isLoading={dms.isLoading}
+            isLoading={isLoading}
             isCmoLoading={organisations}
             policyKey={'policyDms'}
             policyTimeType={policyKindsList}
             policyType={policyTypesList}
             onFindPolicy={onFindPatientPolicy}
             kladr={rbKladrDocumented}
+            isTyping={isPolicyTyping}
+            setTyping={setPolicyTyping}
           />
         </Col>
       </Row>
@@ -174,8 +182,8 @@ const PassportGeneral: React.FC = () => {
       </Row>
       <Divider />
       <PoliciesFound
-        isVisible={policiesFoundMessage && !oms.isLoading}
-        policy={oms.items[0]}
+        isVisible={policiesFoundMessage && !isLoading}
+        policy={item}
         onClose={onCloseModal.bind(this)}
         onOk={onOkModal.bind(this)}
         cmoType={cmoTypeList}

@@ -76,7 +76,7 @@ const OutsideIdent: React.FC = () => {
                     </FastSearchSelect>
                   </FormField>
                 </Col>
-                <Col span={4}>
+                <Col span={6}>
                   <FormField label={LABELS.IDENTS} name={getSelectionPath(index, 'idRef')}>
                     <FastInput name={getSelectionPath(index, 'idRef')} />
                   </FormField>

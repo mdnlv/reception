@@ -7,4 +7,5 @@ export interface SearchSelectProps extends SelectProps<SelectValue> {
   onSelect?:(val:any) => void;
   onSearch?: (val:string) => void;
   onInput?(event: React.ChangeEvent<HTMLInputElement>): unknown;
+  onChangeExtra?: () => void;
 }
