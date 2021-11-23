@@ -2,13 +2,12 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Button, Col, Row, Select, Space} from 'antd';
 import { useFormikContext } from 'formik';
 import { useParams } from 'react-router';
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
 import {FormProps, ListOptionItem} from './types';
 import {WizardStateType} from "../wizards/RegCardWizard/types";
 import {RootState} from "../../../reduxStore/store";
-import {setPolicyBuffer} from "../../../reduxStore/slices/registrationCard/registrationCardSlice";
 
 import FormField from '../components/FormField/FormField';
 import FastInput from '../components/fields/FastInput/FastInput';
@@ -31,7 +30,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   setTyping,
   isTyping
 }) => {
-  const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
   const form = useFormikContext<WizardStateType>();
   const formValues = policyKey === 'policyOms' ? form.values.personDocs.policies[0] : form.values.passportGeneral.policyDms;
@@ -39,9 +37,6 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
   const {policyBuffer} = useSelector((state: RootState) => state.registrationCard.form);
-  const {policiesFoundMessage} = useSelector(
-    (state: RootState) => state.registrationCard,
-  );
 
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
@@ -55,12 +50,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('cmoFiltered', cmoFiltered);
-  // }, [cmoFiltered]);
-
-  useEffect(() => {
-    !policiesFoundMessage && dispatch(setPolicyBuffer({value: formValues, type: 'setPolicyBuffer'}))
-  }, [formValues, policiesFoundMessage]);
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     if (cmoType.length > 0) {

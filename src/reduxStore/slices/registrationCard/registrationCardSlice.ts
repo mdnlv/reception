@@ -312,8 +312,7 @@ const registrationCardSlice = createSlice({
       state.initialFormState = { ...initialState.initialFormState };
     },
     resetPoliciesFound: (state) => {
-      //@ts-ignore
-      state.form.foundPolicies.oms.items[0] = state.initialFormState.passportGeneral.policyOms;
+      state.form.foundPolicy.item = state.form.policyBuffer;
     },
   },
   extraReducers: (builder) => {
