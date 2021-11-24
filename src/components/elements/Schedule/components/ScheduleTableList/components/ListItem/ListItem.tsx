@@ -96,11 +96,10 @@ const ListItem: React.FC<ItemProps> = ({
       <Col span={20}></Col>
 
       {togg && groupBy != 'orgStructure_id' && Object.keys(schedule).map((org: any) => Object.values(schedule[org]).filter((s: any)=> id == s.person.speciality_id).map((item: any)=> {
-        console.log('item.person', item.person);
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
             <div className={'item-title__name-person'}>
-               {item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}
+              {item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}
             </div>
           </Col>
           <Col span={20}>
@@ -133,7 +132,7 @@ const ListItem: React.FC<ItemProps> = ({
       {togg && groupBy == 'orgStructure_id' && schedule[id] && Object.values(schedule[id]).map((item)=> {
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
-            <div className={'item-title__name-person'}>{item.person.lastName + ' ' + item.person.firstName[0] + '.' + item.person.patrName[0] + '.'}</div>
+            <div className={'item-title__name-person'}>{item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}</div>
             <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
           </Col>
           <Col span={20}>

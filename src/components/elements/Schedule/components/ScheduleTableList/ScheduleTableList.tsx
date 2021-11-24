@@ -83,7 +83,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       Modal.success({
         title: 'Приём отменён',
         // @ts-ignore
-        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} (${actionData?.speciality && speciality[actionData?.speciality].toLowerCase()}) отменён.`,
+        content: `Приём ${actionData?.client} ${actionData?.date} в ${actionData?.time} к врачу ${actionData?.person} ${actionData?.speciality && speciality[actionData?.speciality] ? (speciality[actionData?.speciality].toLowerCase()) : ''} отменён.`,
         okText: 'ОК'
       });
       setDel(false)

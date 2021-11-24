@@ -339,7 +339,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
           begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
           //@ts-ignore
           endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
-          orgStructure_id: parseInt(item.unit),
+          orgStructure_id: parseInt(item.unit as string),
           detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
           deleted: 0 as 0,
         }),
@@ -354,7 +354,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             begDate: item.fromDate ? item.fromDate instanceof Date ? format(item.fromDate, 'yyyy-MM-dd') : item.fromDate : '',
             //@ts-ignore
             endDate: item.endDate ? item.endDate instanceof Date ? format(item.endDate, 'yyyy-MM-dd') : item.endDate : '',
-            orgStructure_id: parseInt(item.unit),
+            orgStructure_id: parseInt(item.unit as string),
             detachment_id: item.detachmentReason ? parseInt(item.detachmentReason || '0') : null,
             deleted: 1 as 1,
           })

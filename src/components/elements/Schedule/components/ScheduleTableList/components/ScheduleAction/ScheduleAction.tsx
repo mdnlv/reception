@@ -22,8 +22,12 @@ const ScheduleAction: React.FC<ActionProps> = ({
   const { Option } = Select;
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
-  // @ts-ignore
-  const [specialityValue] = useState(speciality[data?.speciality || 1]);
+  const [specialityValue, setSpecialityValue] = useState('');
+
+  useEffect(() => {
+    // @ts-ignore
+    setSpecialityValue(speciality[data?.speciality || 1]);
+  }, [data]);
 
   useEffect(() => {
     if(oldData && data && data.data.client_id > -1) {
