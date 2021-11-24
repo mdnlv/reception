@@ -27,6 +27,18 @@ Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
   });
 });
 
+Yup.addMethod(Yup.string, 'compareStatusDates', function (errorMessage) {
+  // @ts-ignore
+  return this.test('test-compare-status-dates', errorMessage, function (value: string) {
+    // @ts-ignore
+    const {path, createError} = this;
+    const valueParsed = Date.parse(value);
+    // @ts-ignore
+    const compareParsed = Date.parse(this.parent.fromDate);
+    return compareParsed < valueParsed || createError({ path, message: errorMessage })
+  });
+});
+
 const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape({
   isUnknown: Yup.boolean(),
   personal: Yup.object().when('isUnknown', {
@@ -117,7 +129,21 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
     attachments: Yup.array().of(Yup.object({
       type: Yup.string().required('тип прикрепления'),
     }))
-  })
+  }),
+  socialStatus: Yup.object({
+    socialStatus: Yup.array().of(Yup.object({
+      class: Yup.string().required('класс'),
+      statusType: Yup.string().required('тип статуса'),
+      // @ts-ignore
+      fromDate: Yup.string().required('дата начала').compareWithToday('введена ненаступившая дата'),
+      // @ts-ignore
+      endDate: Yup.string().required('дата окончания').compareStatusDates('окончание действия статуса раньше начала'),
+      document: Yup.object({
+        passportType: Yup.string().required('тип документа'),
+        fromDate: Yup.string().required('дата выдачи').nullable(),
+      }),
+    })),
+  }),
 });
 
 export default function validation(mask: number) {

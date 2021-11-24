@@ -45,7 +45,9 @@ export const detailedPersonsFindSelector = createSelector(
 );
 
 export const detailedDocumentTypesSelector = createSelector(
-  (state: RootState) => state.rb.rbDocumentTypes,
+  (state: RootState) => {
+    return state.rb.rbDocumentTypes
+  },
   (types) => types,
 );
 

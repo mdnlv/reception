@@ -437,7 +437,7 @@ export const fetchRbSocialStatusClass = createAsyncThunk(
     const isCheckSum = currentCheckSum === checksum.payload
 
     try {
-      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialClasses();
+      const response = isCheckSum ? await get('rbSocStatusClass') : await RbService.fetchSocialClasses();
       if (response.data) {
         if(!isCheckSum){
           await del('rbSocStatusClassSum')
@@ -605,6 +605,16 @@ const rbSlice = createSlice({
     builder.addCase(fetchRbContactTypes.fulfilled, (state, action) => {
       if (action.payload) {
         state.rbContactTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbSocialStatusType.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSocialTypes = action.payload;
+      }
+    });
+    builder.addCase(fetchRbSocialStatusClass.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.rbSocialClasses = action.payload;
       }
     });
   },
