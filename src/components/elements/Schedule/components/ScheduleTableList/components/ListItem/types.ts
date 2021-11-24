@@ -31,6 +31,7 @@ export interface ItemProps {
   showOrg?: number;
   open?: number[];
   setOpen?(arg: number[]): void;
+  key?: number | string;
 }
 
 export interface PersonTree {

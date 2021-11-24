@@ -171,7 +171,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
 
   const listContent = useMemo(()=>{
     if(groupBy == 'orgStructure_id' && Array.isArray(person_tree)) {
-      return person_tree && person_tree.map((item: any) => {
+      return person_tree && person_tree.map((item: any, index) => {
         const toggle = selected.find((sitem) => sitem === item.id) || storeActionData.orgs && storeActionData.orgs.find((sitem: number) => sitem === item.id);
         return (
           <ListItem
@@ -181,7 +181,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
             toggle={!!toggle}
             id={item.id}
             onToggle={onToggleRow}
-            key={item.id}
+            key={item.id + index}
             name={item.name}
             child={item.child}
             person_list={item.person_list}
@@ -206,7 +206,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
         );
     })
   }  else if(groupBy != 'orgStructure_id' && !Array.isArray(person_tree)) {
-    return person_tree && Object.keys(person_tree).map((item: any) => {
+    return person_tree && Object.keys(person_tree).map((item: any, index) => {
       const toggle = selected.find((sitem) => sitem === Number(item));
       return (
         <ListItem
@@ -216,7 +216,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
           toggle={!!toggle}
           id={Number(item)}
           onToggle={onToggleRow}
-          key={Number(item)}
+          key={Number(item) + index}
           name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
           child={[]}
           person_list={person_tree[item]}

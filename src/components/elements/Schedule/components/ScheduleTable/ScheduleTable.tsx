@@ -7,11 +7,11 @@ import moment from "moment";
 import './styles.scss';
 import { ScheduleTableModeType, ScheduleTableProps } from './types';
 import {RootState} from "../../../../../reduxStore/store";
+import { fetchItems, setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 import ScheduleTableList from '../ScheduleTableList/ScheduleTableList';
 import ScheduleTableHeader from '../ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
-import { fetchItems, setDates } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 const ScheduleTable: React.FC<ScheduleTableProps> = ({
   person_tree,

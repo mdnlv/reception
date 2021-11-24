@@ -24,7 +24,7 @@ const ListItem: React.FC<ItemProps> = ({
   level,
   loadSchedule,
   schedule,
-  currentDate, 
+  currentDate,
   rangeWeekDate,
   onModeChange,
   startHour,
@@ -37,13 +37,14 @@ const ListItem: React.FC<ItemProps> = ({
   showEmpty,
   groupBy,
   showOrg,
-  open
+  open,
+  key
 }) => {
   const [togg, setTogg] = useState(toggle);
   const [personIds, setPersonIds] = useState<number[]>(person_list.map((item: any) => item.id));
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
-  
+
   /*useEffect(()=>{
     setTogg(toggle)
   },[toggle])*/
@@ -55,32 +56,39 @@ const ListItem: React.FC<ItemProps> = ({
   useEffect(()=>{
     if(togg) {
       let ids = [id];
-      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty) 
+      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty)
       : personIds.length > 0 && dispatch(fetchItems({
           ids: personIds,
           beg_date: moment(currentDate).format('YYYY-MM-DD'),
           end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
           showEmpty: showEmpty
-      })); 
+      }));
       onToggle(id, personIds);
     }
   },[togg]);
 
-  return (<>
+  return togg && isLoading
+    ? (
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '30px'}}>
+          <Spin/>
+        </div>
+      )
+    :
+  (<div key={key}>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
         <div className="item-title" style={{paddingLeft: `${level * 14}px`}}>
-          <div 
+          <div
             onClick={() => {
               setTogg(!togg);
               //onToggle(id, personIds);
-            }} 
+            }}
             className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
-          </div>  
+          </div>
           <div className={'item-title__name'}>{name}</div>
-        </div>  
-      </Col>  
+        </div>
+      </Col>
       <Col span={20}></Col>
 
       {togg && groupBy != 'orgStructure_id' && Object.keys(schedule).map((org: any) => Object.values(schedule[org]).filter((s: any)=> id == s.person.speciality_id).map((item: any)=> {
@@ -88,7 +96,7 @@ const ListItem: React.FC<ItemProps> = ({
           <Col span={4} style={{padding: '4px'}}>
             <div className={'item-title__name-person'}>{item.person.lastName + ' ' + item.person.firstName[0] + '.' + item.person.patrName[0] + '.'}</div>
           </Col>
-          <Col span={20}>   
+          <Col span={20}>
             {isLoading ? (
               <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                 <Spin/>
@@ -98,8 +106,8 @@ const ListItem: React.FC<ItemProps> = ({
                 mode={mode}
                 rangeWeekNum={rangeWeekNum}
                 items={item}
-                currentDate={currentDate}   
-                rangeWeekDate={rangeWeekDate} 
+                currentDate={currentDate}
+                rangeWeekDate={rangeWeekDate}
                 onModeChange={onModeChange}
                 startHour={startHour}
                 endHour={endHour}
@@ -121,7 +129,7 @@ const ListItem: React.FC<ItemProps> = ({
             <div className={'item-title__name-person'}>{item.person.lastName + ' ' + item.person.firstName[0] + '.' + item.person.patrName[0] + '.'}</div>
             <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
           </Col>
-          <Col span={20}>   
+          <Col span={20}>
             {isLoading ? (
               <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                 <Spin/>
@@ -131,8 +139,8 @@ const ListItem: React.FC<ItemProps> = ({
                 mode={mode}
                 rangeWeekNum={rangeWeekNum}
                 items={item}
-                currentDate={currentDate}   
-                rangeWeekDate={rangeWeekDate} 
+                currentDate={currentDate}
+                rangeWeekDate={rangeWeekDate}
                 onModeChange={onModeChange}
                 startHour={startHour}
                 endHour={endHour}
@@ -148,7 +156,7 @@ const ListItem: React.FC<ItemProps> = ({
         </div>)
       })}
 
-      {togg && child.length > 0 && child.map((item) => {
+      {togg && child.length > 0 && child.map((item, index) => {
         const t = selected.find((sitem: number) => sitem === item.id) || open?.find((sitem: number) => sitem === item.id);
         return (
           <ListItem
@@ -158,11 +166,11 @@ const ListItem: React.FC<ItemProps> = ({
             toggle={t}
             id={item.id}
             onToggle={onToggle}
-            key={item.id}
+            key={item.id + index}
             name={item.name}
             child={item.child}
-            person_list={item.person_list}  
-            selected={selected} 
+            person_list={item.person_list}
+            selected={selected}
             level={level+1}
             loadSchedule={loadSchedule}
             schedule={schedule}
@@ -183,7 +191,7 @@ const ListItem: React.FC<ItemProps> = ({
         )
       })}
     </Row>
-  </>);
+  </div>);
 };
 
 export default ListItem;
