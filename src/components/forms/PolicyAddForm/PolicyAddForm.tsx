@@ -65,7 +65,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   }, [cmoType, formValues?.cmoArea]);
 
   useEffect(() => {
-    if (formValues && !Object.keys(formValues).every((k) => !formValues[k]) && policyKey === "policyDms") {
+    if (formValues && policyKey === "policyDms" && formValues.from && formValues.to && formValues.serial && formValues.number && formValues.cmo && formValues.type) {
       fieldNames.map((item) => form.setFieldValue(`personDocs.policies[1].${item}`, formValues[item]))
     }
   }, [formValues, policyKey]);
