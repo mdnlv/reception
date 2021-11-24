@@ -121,7 +121,7 @@ const Attachments: React.FC = () => {
                 <Col xl={8} xxl={4}>
                   <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
                     <TreeSelectField
-                      defaultValue={parseInt(formValues[index].unit)}
+                      defaultValue={parseInt(formValues[index].unit as string)}
                       name={getSelectionPath(index, 'unit')}
                       onClear={() => form.setFieldValue(`attachments.attachments[${index}].unit`, '')}
                     >
