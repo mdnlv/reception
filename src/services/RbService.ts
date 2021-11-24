@@ -15,6 +15,8 @@ import RbOrgStructureResponse from "../interfaces/responses/rb/rbOrgStructure";
 import RbDetachmentReasonResponse from "../interfaces/responses/rb/rbDetachmentReason";
 import RbSNILSMissingReasonResponse from "../interfaces/responses/rb/rbSNILSMissingReason";
 import RbPolicyDischargeReason from "../interfaces/responses/rb/rbPolicyDischargeReason";
+import RbSocialTypeResponse from "../interfaces/responses/rb/rbSocialType";
+import RbSocialClassResponse from "../interfaces/responses/rb/rbSocialClass";
 
 export default {
   fetchPersons(limit = 10): Promise<AxiosResponse<RbPersonResponse[]>> {
@@ -74,6 +76,12 @@ export default {
   },
   fetchPolicyDischargeReason(): Promise<AxiosResponse<RbPolicyDischargeReason[]>> {
     return apiInstance.get('/refBooks/rbPolicyDischargeReason');
+  },
+  fetchSocialTypes(): Promise<AxiosResponse<RbSocialTypeResponse[]>> {
+    return apiInstance.get(`/refBooks/vrbSocStatusType`);
+  },
+  fetchSocialClasses(): Promise<AxiosResponse<RbSocialClassResponse[]>> {
+    return apiInstance.get(`/refBooks/rbSocStatusClass`);
   },
 }
 

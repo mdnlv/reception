@@ -7,6 +7,7 @@ import PatientRelation from "../interfaces/payloads/regCard/PatientRelation";
 import PatientContact from "../interfaces/payloads/regCard/PatientContact";
 import PatientDocument from "../interfaces/payloads/regCard/PatientDocument";
 import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
+import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {
@@ -35,6 +36,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     isShiftWorker
   } = state.registrationCard.form.personal;
   const {directLinks, backLinks} = state.registrationCard.form.links;
+  const {socialStatus} = state.registrationCard.form;
   const {isUnknown} = state.registrationCard.form;
   return {
     ...(code && {id: parseInt(code)}),
@@ -271,5 +273,53 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         return res;
       }, []),
     ] : [],
+
+    //@ts-ignore
+    client_soc_status_info: [
+      ...socialStatus.socialStatus.map((item) => ({
+        ...(item.id && {id: item.id}),
+        ...(item.document.id && {document_id: item.document.id}),
+        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
+        socStatusClass_id: item.class ? parseInt(item.class) : null,
+        begDate: toServerFormat(item.fromDate),
+        endDate: toServerFormat(item.endDate),
+        notes: item.note || '',
+        deleted: 0 as 0,
+        document: !(Object.keys(item.document).length === 0 && item.document.constructor === Object)
+          ? {
+            ...(item.document.id && {id: item.document.id}),
+            documentType_id: parseInt(item.document.passportType || ''),
+            serial: item.document.serialFirst?.concat(item.document.serialSecond || '') || '',
+            number: item.document.number || '',
+            origin: item.document.givenBy || '',
+            date: item.document.fromDate ? format(item.document.fromDate, 'yyyy-MM-dd') : '',
+          }
+          : {}
+      })),
+      ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
+        if (item.id) {
+          res.push({
+            id: item.id,
+            socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
+            socStatusClass_id: item.class ? parseInt(item.class) : null,
+            begDate: toServerFormat(item.fromDate),
+            endDate: toServerFormat(item.endDate),
+            notes: item.note || '',
+            deleted: 1 as 1,
+            document: item.docType
+              ? {
+                ...(item.docId && {id: item.docId}),
+                documentType_id: parseInt(item.docType || ''),
+                serial: item.serialFirst?.concat(item.serialSecond || '') || '',
+                number: item.number || '',
+                origin: item.givenBy || '',
+                date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
+              }
+              : {}
+          })
+        }
+        return res;
+      }, []),
+    ],
   };
 };

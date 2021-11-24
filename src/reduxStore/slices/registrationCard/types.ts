@@ -8,6 +8,7 @@ import PersonDocsState from "../../../components/forms/PersonDocumentsForm/types
 import LinksFormState from "../../../components/forms/PersonLinksForm/types";
 import KladrItem from "../../../types/data/KladrItem";
 import KladrStreet from "../../../types/data/KladrStreet";
+import {FormState as SocialStatusFormState} from "../../../components/forms/SocialStatusForm/types";
 
 export type KladrDocType = 'documented' | 'registration';
 
@@ -17,6 +18,7 @@ interface InitialRegFormState {
   passportGeneral: PassportGeneralFormState;
   personDocs: PersonDocsState;
   links: LinksFormState;
+  socialStatus: SocialStatusFormState;
   personal: {
     code: string;
     firstName: string;

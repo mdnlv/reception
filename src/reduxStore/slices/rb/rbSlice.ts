@@ -16,6 +16,8 @@ import RbDocumentTypeResponse  from '../../../../src/interfaces/responses/rb/rbD
 import RelatiionsTypes from '../../../interfaces/responses/rb/rbRelationType'
 import SNILSMissingReason from "../../../types/data/SNILSMissingReason";
 import PolicyDischargeReason from "../../../types/data/PolicyDischargeReason";
+import SocialType from '../../../types/data/SocialType';
+import SocialClass from '../../../types/data/SocialClass';
 
 export const fetchCheckSum = createAsyncThunk('rb/fetchCheckSum',
 async (payload: { name:string }, thunkAPI) => {
@@ -399,6 +401,60 @@ export const fetchRbContactTypes = createAsyncThunk(
   },
 );
 
+export const fetchRbSocialStatusType = createAsyncThunk(
+  'rb/fetchRbSocialStatusType',
+  async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: true }));
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusType"}))
+    const currentCheckSum =  await get('rbSocStatusTypeSum') || ''
+    const isCheckSum = currentCheckSum === checksum.payload
+    try {
+      const response = isCheckSum? await get('rbSocStatusType'): await RbService.fetchSocialTypes();
+      if (response.data) {
+        if(!isCheckSum){
+          await del('rbSocStatusTypeSum')
+          await del('rbSocStatusType')
+          await set('rbSocStatusTypeSum',checksum.payload)
+          await set('rbSocStatusType',{data:response.data})
+        }
+        return response.data;
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading({ type: 'socialTypes', value: false }));
+    }
+  },
+);
+
+export const fetchRbSocialStatusClass = createAsyncThunk(
+  'rb/fetchRbSocialStatusClass',
+  async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setLoading({ value: true, type: 'socialClasses' }));
+
+    const checksum  = await  thunkAPI.dispatch(fetchCheckSum({name:"rbSocStatusClass"}));
+    const currentCheckSum =  await get('rbSocStatusClassSum') || ''
+    const isCheckSum = currentCheckSum === checksum.payload
+
+    try {
+      const response = isCheckSum? await get('rbSocStatusClass'): await RbService.fetchSocialClasses();
+      if (response.data) {
+        if(!isCheckSum){
+          await del('rbSocStatusClassSum')
+          await del('rbSocStatusClass')
+          await set('rbSocStatusClassSum',checksum.payload)
+          await set('rbSocStatusClass',{data:response.data})
+        }
+        return response.data;
+      }
+    } catch (e) {
+      alert(e)
+    } finally {
+      thunkAPI.dispatch(setLoading({ value: false, type: 'socialClasses' }));
+    }
+  },
+);
+
 const rbSlice = createSlice({
   name: 'rb',
   initialState: {
@@ -410,7 +466,9 @@ const rbSlice = createSlice({
       rbOrgStructure: '',
       rbDocumentTypes: '',
       rbSNILSMissingReasons: '',
-      rbPolicyDischargeReasons: ''
+      rbPolicyDischargeReasons: '',
+      rbSocialTypes: '',
+      rbSocialClasses: '',
     },
     rbPersons: [] as Person[],
     rbOrganisations: [] as Organisation[],
@@ -425,6 +483,8 @@ const rbSlice = createSlice({
     rbRelationTypesDirectLink: [] as RelatiionsTypes[],
     rbRelationTypesRelativeLink: [] as RelatiionsTypes[],
     rbPolicyDischargeReasons: [] as PolicyDischargeReason[],
+    rbSocialTypes: [] as SocialType[],
+    rbSocialClasses: [] as SocialClass[],
     loading: {
       attachTypes: false,
       organisations: false,
@@ -434,6 +494,8 @@ const rbSlice = createSlice({
       SNILSMissingReasons: false,
       relationTypes: false,
       policyDischargeReasons: false,
+      socialTypes: false,
+      socialClasses: false,
     },
   },
   reducers: {
@@ -448,7 +510,9 @@ const rbSlice = createSlice({
           | 'organisations'
           | 'documentTypes'
           | 'relationTypes'
-          | 'policyDischargeReasons';
+          | 'policyDischargeReasons'
+          | 'socialTypes'
+          | 'socialClasses';
         value: boolean;
       }>,
     ) => {

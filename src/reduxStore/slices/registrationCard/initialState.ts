@@ -11,6 +11,7 @@ import {PersonLink, PersonLinkDeleted} from '../../../components/forms/PersonLin
 import KladrItem from '../../../types/data/KladrItem';
 import KladrStreet from '../../../types/data/KladrStreet';
 import {RegistrationCardStateType} from "./types";
+import {SocialStatus, SocialStatusDeleted} from "../../../components/forms/SocialStatusForm/types";
 
 const initialState: RegistrationCardStateType = {
   loading: {
@@ -126,6 +127,10 @@ const initialState: RegistrationCardStateType = {
         deleted: [] as PersonLinkDeleted[],
       }
     },
+    socialStatus: {
+      socialStatus: [] as SocialStatus[],
+      deleted: [] as SocialStatusDeleted[],
+    },
   },
   form: {
     isUnknown: false,
@@ -230,6 +235,10 @@ const initialState: RegistrationCardStateType = {
         backLinks: [] as PersonLink[],
         deleted: [] as PersonLinkDeleted[],
       }
+    },
+    socialStatus: {
+      socialStatus: [] as SocialStatus[],
+      deleted: [] as SocialStatusDeleted[],
     },
     data: {
       passportGeneral: {

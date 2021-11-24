@@ -6,7 +6,7 @@ export default interface PatientSocialStatusResponse {
     number?: string;
     date?: string;
     origin?: string;
-  } | {};
+  };
   id: number;
   deleted: 0;
   socStatusType_id: number;

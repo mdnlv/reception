@@ -1,6 +1,7 @@
 import PatientRelation from "../regCard/PatientRelation";
 import PatientContact from "../regCard/PatientContact";
 import PatientAttach from "../regCard/PatientAttach";
+import PatientSocStatus from "../regCard/PatientSocStatus";
 
 export default interface NewPatientPayload {
   id?: number;
@@ -67,4 +68,5 @@ export default interface NewPatientPayload {
 
   client_relation_info?: PatientRelation[];
   client_attach_info?: PatientAttach[];
+  client_soc_status_info?: PatientSocStatus[];
 }

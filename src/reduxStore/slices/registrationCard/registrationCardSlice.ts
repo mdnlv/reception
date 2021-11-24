@@ -489,9 +489,43 @@ const registrationCardSlice = createSlice({
         ];
         state.initialFormState.personDocs.policiesDeleted = [];
         // @ts-ignore
-        // state.form.foundPolicies.dms.items = [dmsFound[dmsFound.length - 1]];
+        state.initialFormState.socialStatus.socialStatus =
+          transformedPatient.socialStatus.map((item) => ({
+            id: item.id,
+            note: item.note,
+            class: item.class,
+            statusType: item.type,
+            fromDate: item.fromDate,
+            endDate: item.endDate,
+            deleted: 0,
+            document: {
+              id: item.document.id,
+              passportType: item.document ? item.document.type?.toString() : '',
+              serialFirst: item.document && item.document.serial
+                ? item.document.serial?.substring(0, item.document.serial.length/2)
+                : '',
+              serialSecond: item.document && item.document.serial
+                ? item.document.serial.substring(item.document.serial.length/2, item.document.serial.length)
+                : '',
+              number: item.document ? item.document.number : '',
+              fromDate: item.document ? item.document.date : '',
+              givenBy: item.document ? item.document.origin : '',
+              deleted: 0,
+            },
+          }));
         // @ts-ignore
-        // state.form.foundPolicies.oms.items = [omsFound[omsFound.length - 1]];
+        state.initialFormState.socialStatus.trustedDoc =
+          transformedPatient.socialStatus.map((item) => (
+            item.document ? {
+              id: item.id,
+              docType: item.document.id && item.document.id.toString(),
+              serialFirst: item.document.serial && item.document.serial.substring(0, item.document.serial.length/2),
+              serialSecond: item.document.serial && item.document.serial.substring(item.document.serial.length/2, item.document.serial.length),
+              number: item.document.number,
+              date: item.document.date,
+              givenBy: item.document.origin,
+            } : {}
+          ));
         state.initialFormState.passportGeneral.contacts.contacts = transformedPatient.contacts.map(
           (item) => ({
             id: item.id,

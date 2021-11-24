@@ -106,5 +106,32 @@ export const transformPatientResponse = (item: PatientResponse) => {
       clientId: item.client_id,
       relativeName: item.relativeName,
     })),
+
+    socialStatus:
+      item.client_soc_status_info.map((i) => ({
+        id: i.id,
+        note: i.notes ?? '',
+        class: i.socStatusClass_id?.toString(),
+        type: i.socStatusType_id?.toString(),
+        fromDate: i.begDate ? parseISO(i.begDate) : '',
+        endDate: i.endDate ? parseISO(i.endDate) : '',
+        document: Object.keys(i.document).length
+          ? {
+            id: i.document?.id,
+            type: i.document?.documentType_id,
+            serial: i.document?.serial,
+            number: i.document?.number,
+            date: i.document?.date ? parseISO(i.document?.date) : '',
+            origin: i.document?.origin
+          } : {
+            id: null,
+            type: '',
+            serial: '',
+            number: '',
+            date: '',
+            origin: ''
+          },
+        deleted: 0,
+      })) || [],
   };
 }

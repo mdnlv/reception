@@ -26,6 +26,7 @@ import UserInfo from './pages/UserInfo/UserInfo';
 import Links from './pages/Links/Links';
 import RegCardValidation from "../../../modals/RegCardValidation/RegCardValidation";
 import Attachments from "./pages/Attachments/Attachments";
+import SocialStatus from './pages/SocialStatus/SocialStatus';
 
 const RegCardWizard: React.FC = () => {
   const [showValidError, setShowValidError] = useState(false);
@@ -75,6 +76,12 @@ const RegCardWizard: React.FC = () => {
         key={'attachments'}
         tab={'Прикрепление'}>
         <Attachments/>
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        forceRender={false}
+        key={'socialStatus'}
+        tab={'Социальный статус'}>
+        <SocialStatus/>
       </Tabs.TabPane>
     </Tabs>
   ), [policyMask]);
