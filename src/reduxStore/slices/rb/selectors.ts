@@ -83,7 +83,9 @@ export const socialLoadingsSelector = createSelector(
   (state: RootState) => state.rb.loading,
   (loadings) => {
     return {
-      documents: loadings.documentTypes
+      documents: loadings.documentTypes,
+      classes: loadings.socialClasses,
+      types: loadings.socialTypes,
     };
   },
 );
