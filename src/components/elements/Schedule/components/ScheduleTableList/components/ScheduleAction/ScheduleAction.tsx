@@ -22,12 +22,12 @@ const ScheduleAction: React.FC<ActionProps> = ({
   const { Option } = Select;
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
-  const [specialityValue, setSpecialityValue] = useState('');
+  // @ts-ignore
+  const [specialityValue] = useState(speciality[data?.speciality || 1]);
 
-  useEffect(() => {
-    // @ts-ignore
-    setSpecialityValue(speciality[data?.speciality || 1]);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data', data);
+  // }, [data]);
 
   useEffect(() => {
     if(oldData && data && data.data.client_id > -1) {
@@ -129,8 +129,10 @@ const ScheduleAction: React.FC<ActionProps> = ({
         </Select>
 
         <div>Специальность врача:</div>
-        <Select defaultValue={specialityValue} style={{ width: 200 }}>
-          <Option value={specialityValue}>{specialityValue}</Option>
+        <Select defaultValue={typeof data?.speciality === 'number' ? specialityValue : data?.speciality} style={{ width: 200 }}>
+          <Option value={typeof data?.speciality === 'number' ? specialityValue : data?.speciality}>
+            {typeof data?.speciality === 'number' ? specialityValue : data?.speciality}
+          </Option>
         </Select>
       </Modal>
     ) :
