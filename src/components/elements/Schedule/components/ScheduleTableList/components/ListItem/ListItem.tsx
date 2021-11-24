@@ -45,9 +45,13 @@ const ListItem: React.FC<ItemProps> = ({
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
 
-  /*useEffect(()=>{
-    setTogg(toggle)
-  },[toggle])*/
+  // useEffect(() => {
+  //   setTogg(toggle)
+  // },[toggle]);
+
+  // useEffect(() => {
+  //   console.log('speciality', speciality);
+  // }, [speciality]);
 
   useEffect(()=>{
     setPersonIds(person_list.map((item: any) => item.id))
@@ -92,9 +96,12 @@ const ListItem: React.FC<ItemProps> = ({
       <Col span={20}></Col>
 
       {togg && groupBy != 'orgStructure_id' && Object.keys(schedule).map((org: any) => Object.values(schedule[org]).filter((s: any)=> id == s.person.speciality_id).map((item: any)=> {
+        console.log('item.person', item.person);
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
-            <div className={'item-title__name-person'}>{item.person.lastName + ' ' + item.person.firstName[0] + '.' + item.person.patrName[0] + '.'}</div>
+            <div className={'item-title__name-person'}>
+               {item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}
+            </div>
           </Col>
           <Col span={20}>
             {isLoading ? (
