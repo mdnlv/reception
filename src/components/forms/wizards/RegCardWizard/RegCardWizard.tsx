@@ -60,6 +60,12 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   }, [params]);
 
   useEffect(() => {
+    activeTab === 'passportGeneral'
+      ? document.body.style.overflow='hidden'
+      : document.body.style.overflow='auto'
+  }, [activeTab]);
+
+  useEffect(() => {
     dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
   }, []);
 
