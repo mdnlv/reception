@@ -114,14 +114,14 @@ const ScheduleTableList: React.FC<ListProps> = ({
     }
   },[errorStatus, errorMessage])
 
-  useEffect(()=>{
-    if(storeActionData.data){
-      if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete')
-        showModal(storeActionData)
-      else {
-        setGroupBy('orgStructure_id')
-        let set = new Set(selected.concat(storeActionData.orgs))
-        setSelected(Array.from(set))
+  useEffect(() => {
+    if (storeActionData.data) {
+      if (storeActionData.data.type == 'edit' || storeActionData.data.type == 'delete') {
+        showModal(storeActionData);
+      } else {
+        setGroupBy('orgStructure_id');
+        let set = new Set(selected.concat(storeActionData.orgs));
+        setSelected(Array.from(set));
       }
     }
   }, [storeActionData])

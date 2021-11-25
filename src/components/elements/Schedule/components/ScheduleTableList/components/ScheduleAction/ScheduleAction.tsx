@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Input, Select } from 'antd';
 
 import { ActionProps } from './types';
 import { currentPatientInfoSelector } from '../../../../../../../reduxStore/slices/patients/selectors';
 import {RootState} from "../../../../../../../reduxStore/store";
+import {setStoreActionData} from "../../../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 
 import NewAppointment from '../../../../../../modals/NewAppointment/NewAppointment';
 
@@ -20,6 +21,7 @@ const ScheduleAction: React.FC<ActionProps> = ({
   speciality
 }) => {
   const { Option } = Select;
+  const dispatch = useDispatch();
   const currentPatientMemo = useSelector(currentPatientInfoSelector);
   const postLoading = useSelector((state: RootState) => state.schedule.postLoading);
   // @ts-ignore
@@ -99,7 +101,10 @@ const ScheduleAction: React.FC<ActionProps> = ({
         title={data?.date}
         visible={visible || (loading && postLoading)}
         confirmLoading={postLoading}
-        onCancel={()=>{setVisible(false)}}
+        onCancel={() => {
+          dispatch(setStoreActionData({}));
+          setVisible(false);
+        }}
         footer={[
           <Button
             onClick={delRecord}
