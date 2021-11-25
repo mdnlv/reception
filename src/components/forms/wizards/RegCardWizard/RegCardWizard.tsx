@@ -20,6 +20,7 @@ import {
 } from '../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {fetchPersonTreeFull} from "../../../../reduxStore/slices/personTree/personTreeSlice";
 import validation from "./validation";
+import {useWindowDimensions} from "../../../../hooks/windowDimensions";
 
 import PassportGeneral from './pages/PassportGeneral/PassportGeneral';
 import UserInfo from './pages/UserInfo/UserInfo';
@@ -41,6 +42,7 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   const navigation = useHistory();
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
+  const {width} = useWindowDimensions();
   const store = useSelector(
     (state: RootState) => state.registrationCard.initialFormState,
   );
@@ -60,10 +62,10 @@ const RegCardWizard: React.FC<WizardProps> = () => {
   }, [params]);
 
   useEffect(() => {
-    activeTab === 'passportGeneral'
+    activeTab === 'passportGeneral' && width >= 1600
       ? document.body.style.overflow='hidden'
       : document.body.style.overflow='auto'
-  }, [activeTab]);
+  }, [activeTab, width]);
 
   useEffect(() => {
     dispatch(fetchPersonTreeFull({group_by: 'orgStructure_id'}));
