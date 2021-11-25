@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect, useLocation} from 'react-router-dom';
 import { Result } from 'antd';
 import {useSelector} from "react-redux";
 
@@ -17,8 +17,15 @@ const PatientCard = React.lazy(() =>
 const InfoPage = React.lazy(() => import('../views/InfoPage/InfoPage'));
 
 const AppRouter: React.FC = () => {
+  const location = useLocation();
   const token = useSelector((state: RootState) => state.auth.token);
   const getRedirect = (page: JSX.Element) => token ? page : <Redirect to="/auth"/>;
+
+  useEffect(() => {
+    if (!location.pathname.includes('regCard')) {
+      document.body.style.overflow = 'auto';
+    }
+  }, [location]);
 
   return (
     <Switch>
