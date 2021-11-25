@@ -43,9 +43,9 @@ const PersonPolicy: FC = () => {
   const fieldNames = ['cmo', 'type', 'timeType', 'from', 'to', 'serial', 'number', 'note', 'name'];
   const filterNames = ['smoShort', 'inn', 'ogrn', 'cmoArea'];
 
-  useEffect(() => {
-    console.log('formValues', formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   console.log('formValues', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     if (cmoTypeList.length > 0) {
@@ -280,7 +280,7 @@ const PersonPolicy: FC = () => {
         <Divider/>
       </div>
     )
-  }, [cmoFiltered]);
+  }, [cmoFiltered, formValues.length]);
 
   const renderForm = useMemo(() => (
     <DropDownContent title={DROPDOWN_TITLE}>
