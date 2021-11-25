@@ -26,6 +26,7 @@ const FastDatePicker: React.FC<PickerProps> = (props) => {
       isClearable={Boolean(field.value)}
       todayButton={"Сегодня"}
       maxDate={!props.beforeToday ? null : new Date()}
+      minDate={!props.afterToday ? null : new Date()}
       dateFormat="dd.MM.yyyy"
       peekNextMonth
       showMonthDropdown

@@ -6,4 +6,5 @@ export type PickerProps = DatePickerProps & {
   setDate?(arg: Date): void;
   onSelectDate?(): void;
   beforeToday?: boolean;
+  afterToday?: boolean;
 };

@@ -171,6 +171,7 @@ const NewAppointmentForm: React.FC<FormState> = ({data, setButtonDisabled}) => {
                   name={'date'}
                   setDate={setDate}
                   onSelectDate={onSelectDate}
+                  afterToday
                 />
               </FormField>
             </Col>
