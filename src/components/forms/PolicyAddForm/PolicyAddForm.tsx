@@ -74,8 +74,12 @@ const PolicyAddForm: React.FC<FormProps> = ({
     if (formValues && !formValues?.cmoArea && Object.keys(formValues).length > 2) {
       const result = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
       form.setFieldValue(`${sectionValuePath}.cmoArea`, result?.extraData || '');
+    } else if (formValues && formValues?.cmoArea && id) {
+      const res = cmoType.find((item) => item.id === parseInt(formValues?.cmo));
+      form.setFieldValue(`${sectionValuePath}.cmoArea`, '');
+      !res && setCmoFiltered(cmoType);
     }
-  }, [formValues?.cmo]);
+  }, [formValues?.cmo, id]);
 
   useEffect(() => {
     if (foundPolicy) {
