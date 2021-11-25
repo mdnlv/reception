@@ -280,7 +280,7 @@ const PersonPolicy: FC = () => {
         <Divider/>
       </div>
     )
-  }, [cmoFiltered, formValues.length]);
+  }, [cmoFiltered, formValues]);
 
   const renderForm = useMemo(() => (
     <DropDownContent title={DROPDOWN_TITLE}>
@@ -292,7 +292,7 @@ const PersonPolicy: FC = () => {
         renderChild={renderFormItem}
       />
     </DropDownContent>
-  ), [cmoFiltered, formValues.length]);
+  ), [cmoFiltered, formValues]);
 
   return (
     <div className={'form-section person-policy'}>
