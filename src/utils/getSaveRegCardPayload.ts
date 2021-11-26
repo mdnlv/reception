@@ -285,8 +285,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         endDate: toServerFormat(item.endDate),
         notes: item.note || '',
         deleted: 0 as 0,
-        document: !(Object.keys(item.document).length === 0 && item.document.constructor === Object)
-          ? {
+        ...(Object.values(item.document).every((a) => a) && {
+          document: {
             ...(item.document.id && {id: item.document.id}),
             documentType_id: parseInt(item.document.passportType || ''),
             serial: item.document.serialFirst?.concat(item.document.serialSecond || '') || '',
@@ -294,7 +294,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             origin: item.document.givenBy || '',
             date: item.document.fromDate ? format(item.document.fromDate, 'yyyy-MM-dd') : '',
           }
-          : {}
+        }),
       })),
       ...socialStatus.deleted.reduce((res: PatientSocStatus[], item) => {
         if (item.id) {
@@ -306,16 +306,14 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             endDate: toServerFormat(item.endDate),
             notes: item.note || '',
             deleted: 1 as 1,
-            document: item.docType
-              ? {
-                ...(item.docId && {id: item.docId}),
-                documentType_id: parseInt(item.docType || ''),
-                serial: item.serialFirst?.concat(item.serialSecond || '') || '',
-                number: item.number || '',
-                origin: item.givenBy || '',
-                date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
-              }
-              : {}
+            ...(item.docType && {
+              ...(item.docId && {id: item.docId}),
+              documentType_id: parseInt(item.docType || ''),
+              serial: item.serialFirst?.concat(item.serialSecond || '') || '',
+              number: item.number || '',
+              origin: item.givenBy || '',
+              date: item.date ? format(item.date, 'yyyy-MM-dd') : '',
+            }),
           })
         }
         return res;
