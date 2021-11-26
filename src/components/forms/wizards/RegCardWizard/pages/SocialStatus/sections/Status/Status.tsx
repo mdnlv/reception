@@ -164,7 +164,7 @@ const Status: React.FC<StatusProps> = ({
               </Row>
               <Divider/>
               <Row gutter={16} align={'bottom'}>
-                <Col xl={5} xxl={3}>
+                <Col xl={11} xxl={9}>
                   <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'document.passportType')}>
                     <FastSearchSelect
                       filterOption

@@ -282,7 +282,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         begDate: toServerFormat(item.fromDate),
-        endDate: toServerFormat(item.endDate),
+        ...(item.endDate && {endDate: toServerFormat(item.endDate)}),
         notes: item.note || '',
         deleted: 0 as 0,
         ...(Object.values(item.document).every((a) => a) && {
@@ -303,7 +303,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
             socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
             socStatusClass_id: item.class ? parseInt(item.class) : null,
             begDate: toServerFormat(item.fromDate),
-            endDate: toServerFormat(item.endDate),
+            ...(item.endDate && {endDate: toServerFormat(item.endDate)}),
             notes: item.note || '',
             deleted: 1 as 1,
             ...(item.docType && {
