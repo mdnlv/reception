@@ -4,6 +4,7 @@ import patientSlice from './slices/patients/patientsSlice';
 import rbSlice from './slices/rb/rbSlice';
 import registrationCardSlice from './slices/registrationCard/registrationCardSlice';
 import personTreeSlice from "./slices/personTree/personTreeSlice";
+import authSlice from "./slices/auth/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     rb: rbSlice.reducer,
     registrationCard: registrationCardSlice.reducer,
     personTree: personTreeSlice.reducer,
+    auth: authSlice.reducer
   },
   middleware: [
     ...getDefaultMiddleware({

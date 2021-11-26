@@ -1,6 +1,11 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import { Result } from 'antd';
+import {useSelector} from "react-redux";
+
+import {RootState} from "../reduxStore/store";
+
+import AuthPage from "../views/AuthPage/AuthPage";
 
 const RegistrationCard = React.lazy(() =>
   import('../views/RegistrationCard/RegistrationCard'),
@@ -8,13 +13,19 @@ const RegistrationCard = React.lazy(() =>
 const MainPage = React.lazy(() => import('../views/MainPage/MainPage'));
 
 const AppRouter: React.FC = () => {
+  const token = useSelector((state: RootState) => state.auth.token);
+  const getRedirect = (page: JSX.Element) => token ? page : <Redirect to="/auth"/>;
+
   return (
     <Switch>
       <Route
         exact
         path="/"
-        render={() => <MainPage/>}
+        render={() => getRedirect(<MainPage/>)}
       />
+      <Route path={"/auth"}>
+        <AuthPage/>
+      </Route>
       <Route
         path="/regCard/:id"
         render={() => <RegistrationCard />}

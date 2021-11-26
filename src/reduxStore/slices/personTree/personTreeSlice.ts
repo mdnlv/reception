@@ -2,13 +2,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import ScheduleService from '../../../services/ScheduleService';
 import {PersonTree, Person} from "./types";
+import {RootState} from "../../store";
 
 export const fetchPersonTreeFull = createAsyncThunk(
   'schedule/fetchPersonTreeFull',
   async (payload: {group_by?: 'speciality_id' | 'orgStructure_id'}, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading(true));
     try {
-      const response = await ScheduleService.fetchPersonTree(payload);
+      const response = await ScheduleService.fetchPersonTree(payload, state.auth.token);
       if (response.data) {
         return response.data;
       }

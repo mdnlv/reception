@@ -24,8 +24,9 @@ export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
   async (id: number, thunkAPI) => {
     thunkAPI.dispatch(setLoading({ type: 'idPatient', value: true }));
+    const state = thunkAPI.getState() as RootState;
     try {
-      const response = await PatientsService.fetchIdPatient(id);
+      const response = await PatientsService.fetchIdPatient(id, state.auth.token);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -125,6 +126,7 @@ export const findPatientPolicy = createAsyncThunk(
     payload: FindPolicyParams,
     thunkAPI,
   ) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setFindPolicyLoading(true),
     );
@@ -136,8 +138,9 @@ export const findPatientPolicy = createAsyncThunk(
       const response = await PatientsService.findPatientPolicy(
         {
           ...payload,
-          birthDate,
-        }
+          birthDate
+        },
+        state.auth.token,
       );
       if (response.status === 200) {
         thunkAPI.dispatch(
@@ -169,11 +172,12 @@ export const findPatientSnils = createAsyncThunk(
     payload: FindSnilsParams,
     thunkAPI,
   ) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
       setFindSnilsLoading(true),
     );
     try {
-      const response = await PatientsService.findPatientSnils(payload);
+      const response = await PatientsService.findPatientSnils(payload, state.auth.token);
       if (response.status === 200) {
         thunkAPI.dispatch(
           setSnilsFoundMessage(true),
@@ -200,12 +204,13 @@ export const findPatientSnils = createAsyncThunk(
 export const saveCardPatient = createAsyncThunk(
   'registrationCard/saveCardPatient',
   async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
     try {
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.savePatient(payload);
+      const response = await PatientsService.savePatient(payload, state.auth.token);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
@@ -221,12 +226,13 @@ export const saveCardPatient = createAsyncThunk(
 export const editCardPatient = createAsyncThunk(
   'registrationCard/saveCardPatient',
   async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(setLoading({ type: 'saveNewPatient', value: true }));
     try {
       const state = thunkAPI.getState() as RootState;
       const payload = getSaveRegCardPayload(state);
       console.log('payload', payload);
-      const response = await PatientsService.editPatient(payload);
+      const response = await PatientsService.editPatient(payload, state.auth.token);
       const responceData: PatientAddedResponse = response.data;
       const patientId = responceData.last_insert_id;
       thunkAPI.dispatch(setPatientReg({ type: 'setPatientReg', value: patientId }));
