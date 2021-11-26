@@ -137,6 +137,7 @@ const DocumentedAddress: FC<SectionProps> = ({
                   onFocus={() => setCleanable(true)}
                   showSearch
                   filterOption
+                  allowClear
                   optionFilterProp={'name'}>
                   {getKladrDetailed(kladr)}
                 </FastSearchSelect>
@@ -160,6 +161,7 @@ const DocumentedAddress: FC<SectionProps> = ({
                   placeholder={'Город'}
                   name={`${sectionValuePath}.city`}
                   showSearch
+                  allowClear
                   filterOption
                   optionFilterProp={'name'}>
                   {getKladrDetailed(
@@ -200,6 +202,7 @@ const DocumentedAddress: FC<SectionProps> = ({
                   name={`${sectionValuePath}.street`}
                   showSearch
                   filterOption
+                  allowClear
                   optionFilterProp={'name'}>
                   {getKladrDetailed(kladrStreets)}
                 </FastSearchSelect>

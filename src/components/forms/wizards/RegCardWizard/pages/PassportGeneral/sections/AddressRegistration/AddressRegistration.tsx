@@ -177,6 +177,7 @@ const AddressRegistration: FC<SectionProps> = ({
                   placeholder={'Область'}
                   onFocus={() => setCleanable(true)}
                   showSearch
+                  allowClear
                   filterOption
                   disabled={isDocumentedAddress}
                   optionFilterProp={'name'}>
@@ -208,6 +209,7 @@ const AddressRegistration: FC<SectionProps> = ({
                   name={`${sectionValuePath}.city`}
                   showSearch
                   filterOption
+                  allowClear
                   optionFilterProp={'name'}>
                   {getKladrDetailed(
                     formValues.area === '7800000000000' ||
@@ -244,6 +246,7 @@ const AddressRegistration: FC<SectionProps> = ({
                   //     value
                   //   );
                   // }}
+                  allowClear
                   placeholder={'Улица'}
                   name={`${sectionValuePath}.street`}
                   showSearch

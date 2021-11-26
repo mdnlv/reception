@@ -301,6 +301,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         <Col span={6}>
           <FormField label={'Причина аннулирования'} name={`${sectionValuePath}.cancelReason`}>
             <FastSearchSelect
+              allowClear
               name={`${sectionValuePath}.cancelReason`}
               loading={isLoading}
               disabled={isLoading}
@@ -332,6 +333,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
         <Col lg={24} xl={24} xxl={9}>
           <FormField name={`${sectionValuePath}.type`}>
             <FastSearchSelect
+              allowClear
               disabled={isLoading}
               name={`${sectionValuePath}.type`}
             >

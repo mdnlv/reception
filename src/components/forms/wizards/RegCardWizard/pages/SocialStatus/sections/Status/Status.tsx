@@ -116,6 +116,7 @@ const Status: React.FC<StatusProps> = ({
                   <FormField label={LABELS.CLASS} name={getSelectionPath(indexData, 'class')}>
                     <FastSearchSelect
                       loading={isLoadingClasses}
+                      allowClear
                       showSearch
                       filterOption
                       optionFilterProp={'name'}
@@ -129,6 +130,7 @@ const Status: React.FC<StatusProps> = ({
                   <FormField label={LABELS.STATUS_TYPE} name={getSelectionPath(indexData, 'statusType')}>
                     <FastSearchSelect
                       loading={isLoadingTypes}
+                      allowClear
                       showSearch
                       filterOption
                       optionFilterProp={'name'}
@@ -167,6 +169,7 @@ const Status: React.FC<StatusProps> = ({
                 <Col xl={11} xxl={9}>
                   <FormField label={LABELS.DOC_TYPE} name={getSelectionPath(indexData, 'document.passportType')}>
                     <FastSearchSelect
+                      allowClear
                       filterOption
                       loading={isLoadingDocuments}
                       optionFilterProp={'name'}

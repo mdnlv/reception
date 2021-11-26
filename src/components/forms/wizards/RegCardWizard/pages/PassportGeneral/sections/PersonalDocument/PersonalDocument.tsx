@@ -38,6 +38,7 @@ const PersonalDocument: FC<SectionProps> = ({
           <FormField label={LABELS.PASSPORT} name={`${selectionValuePath}.passportType`}>
             <FastSearchSelect
               filterOption
+              allowClear
               loading={isLoadingDocuments}
               optionFilterProp={'name'}
               showSearch

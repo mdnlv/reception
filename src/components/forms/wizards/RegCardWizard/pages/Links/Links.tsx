@@ -116,6 +116,7 @@ const Links: React.FC = () => {
                         <Col span={5}>
                           <FormField label={LABELS.DIRECT_LINK}  name={getSelectionPath(index, 'directLinks', 'patientLink')}>
                             <FastSearchSelect
+                              allowClear
                               loading={relationTypes}
                               disabled={relationTypes}
                               showSearch
@@ -172,6 +173,7 @@ const Links: React.FC = () => {
                     <Col span={5}>
                       <FormField label={LABELS.BACK_LINK}  name={getSelectionPath(index, 'backLinks', 'patientLink')}>
                         <FastSearchSelect
+                          allowClear
                           loading={relationTypes}
                           disabled={relationTypes}
                           showSearch

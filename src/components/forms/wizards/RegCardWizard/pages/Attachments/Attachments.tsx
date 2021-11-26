@@ -99,6 +99,7 @@ const Attachments: React.FC = () => {
                   <Col xl={8} xxl={3}>
                     <FormField label={LABELS.TYPE} name={getSelectionPath(index, 'type')}>
                       <FastSearchSelect
+                        allowClear
                         showSearch
                         filterOption
                         optionFilterProp={'name'}
@@ -111,6 +112,7 @@ const Attachments: React.FC = () => {
                   <Col xl={8} xxl={12}>
                     <FormField label={LABELS.LPU} name={getSelectionPath(index, 'lpu')}>
                       <FastSearchSelect
+                        allowClear
                         showSearch
                         filterOption
                         optionFilterProp={'name'}
@@ -158,6 +160,7 @@ const Attachments: React.FC = () => {
                   <Col xl={6} xxl={4}>
                     <FormField label={LABELS.DETACH_REASON}>
                       <FastSearchSelect
+                        allowClear
                         showSearch
                         filterOption
                         optionFilterProp={'name'}
@@ -170,6 +173,7 @@ const Attachments: React.FC = () => {
                   <Col xl={6} xxl={4}>
                     <FormField label={LABELS.DOCTOR_LPU}>
                       <FastSearchSelect
+                        allowClear
                         showSearch
                         filterOption
                         optionFilterProp={'name'}

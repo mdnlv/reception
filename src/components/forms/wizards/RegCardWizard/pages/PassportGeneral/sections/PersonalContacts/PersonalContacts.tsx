@@ -104,6 +104,7 @@ const PersonalContacts: FC<SectionProps> = ({contactTypes}) => {
                   <FastSearchSelect
                     name={getSelectionItem(index, 'type')}
                     value={formProps[index]?.type}
+                    allowClear
                     onChangeExtra={() => {
                       form.setFieldValue(getSelectionItem(index, 'number'), '');
                     }}>
