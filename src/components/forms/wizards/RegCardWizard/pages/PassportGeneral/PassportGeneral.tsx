@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Divider, Row } from 'antd';
 import {useFormikContext} from "formik";
+import {format} from "date-fns";
 
 import {
   fetchKladr,
@@ -22,6 +23,7 @@ import {
   detailedPolicyKindsSelector,
   detailedPolicyTypesSelector,
   detailedPolicyDischargeReason,
+  detailedOrgStructureSelector,
 } from '../../../../../../reduxStore/slices/rb/selectors';
 import KladrItem from '../../../../../../types/data/KladrItem';
 import FindPolicyParams from '../../../../../../interfaces/payloads/patients/findPatientPolicy';
@@ -70,6 +72,7 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const contactTypesList = useSelector(detailedContactTypesSelector);
   const cmoTypeList = useSelector(detailedCMOSelector);
   const cancelTypeList = useSelector(detailedPolicyDischargeReason);
+  const orgStructure = useSelector(detailedOrgStructureSelector);
   const { organisations, documentTypes, policyDischargeReasons } = useSelector(
     (state: RootState) => state.rb.loading,
   );
@@ -78,8 +81,12 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
   const [policyBufferValues, setPolicyBufferValues] = useState(policyFoundValues);
 
   // useEffect(() => {
-  //   console.log('item', item);
-  // }, [item]);
+  //   console.log('formAttachValues', formAttachValues);
+  // }, [formAttachValues]);
+  //
+  // useEffect(() => {
+  //   console.log('orgStructure', orgStructure);
+  // }, [orgStructure]);
 
   useEffect(() => {
     rbKladrDocumented.length === 0 && rbKladrRegistration.length === 0 && dispatch(fetchKladr({}));
@@ -124,19 +131,20 @@ const PassportGeneral: React.FC<PGProps> = ({policyMask, setPolicyMask}) => {
       }
     });
     item?.attachList?.map((a) => {
-      const lastAttach = formAttachValues[formAttachValues.length - 1];
-      const newAttach: PersonAttachment = {
-        lpu: '',
-        fromDate: '',
-        type: '2',
-        unit: '',
-        endDate: '',
-        detachmentReason: '',
-        doctorLPU: '',
-        deleted: 0,
-      };
-      if (lastAttach?.unit !== newAttach.unit || !formAttachValues.length) {
-        form.setFieldValue('attachments.attachments', [...formAttachValues, newAttach])
+      const orgRes = orgStructure.find((a) => a.attachCode === 13094);
+      const attachRes = formAttachValues.find((a) => a.unit === orgRes?.id);
+      if (!attachRes) {
+        const newAttach: PersonAttachment = {
+          lpu: orgRes?.orgId.toString() || '',
+          fromDate: format(new Date(), 'yyyy-MM-dd'),
+          type: '2',
+          unit: orgRes?.id || '',
+          endDate: '',
+          detachmentReason: '',
+          doctorLPU: '',
+          deleted: 0,
+        };
+        form.setFieldValue('attachments.attachments', [...formAttachValues, newAttach]);
       }
     });
     dispatch(setPoliciesFoundMessage(false));

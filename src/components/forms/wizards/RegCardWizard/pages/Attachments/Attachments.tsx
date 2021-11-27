@@ -37,8 +37,8 @@ const Attachments: React.FC = () => {
   } = useSelector((state: RootState) => state.rb.loading);
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('personTree', personTree);
+  // }, [personTree]);
 
   const getSelectionPath = (index: number, fieldChain: string) => {
     return `attachments.attachments[${index}].${fieldChain}`;
