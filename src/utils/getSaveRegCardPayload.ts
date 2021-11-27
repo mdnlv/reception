@@ -10,7 +10,7 @@ import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
 import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
-  // console.log('window.location.href', window.location.href);
+  const location = window.location.href;
   const {
     addressRegistration,
     documentedAddress,
@@ -58,7 +58,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     weight: weight.toString(),
     growth: height.toString(),
     client_is_vaht: isShiftWorker ? 1 : 0,
-    sanity_check: isUnknown ? 1 : 0,
+    sanity_check: isUnknown || location.includes('user_profile=operator') ? 1 : 0,
 
     client_document_info: !isUnknown ? [
       ...documents.map((item) => ({
