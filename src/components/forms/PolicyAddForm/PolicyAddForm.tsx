@@ -18,6 +18,27 @@ import FastMaskedInput from "../components/fields/FastMaskedInput/FastMaskedInpu
 import PolSearchValidation from "../../modals/PolSearchValidation/PolSearchValidation";
 import SmoParams from "../../modals/SmoParams/SmoParams";
 
+const policyInit = {
+  id: undefined,
+  timeType: '',
+  cmoArea: '8600000000000',
+  from: '',
+  to: '',
+  serial: '',
+  number: '',
+  cmo: '',
+  type: '1',
+  name: '',
+  note: '',
+  deleted: 0,
+  inn: '',
+  enp: '',
+  ogrn: '',
+  infisCode: '',
+  smoShort: '',
+  cancelReason: ''
+};
+
 const PolicyAddForm: React.FC<FormProps> = ({
   policyKey,
   policyType,
@@ -218,23 +239,21 @@ const PolicyAddForm: React.FC<FormProps> = ({
       }`}>
       <h2>{sectionTitle()}</h2>
       <Row className="form-row" align={'bottom'} gutter={16}>
-        {policyKey === 'policyOms' && (
-          <Col>
-            <Button
-              type="primary"
-              loading={isLoading}
-              onClick={() => {
-                onFindPolicyHandler({
-                  birthDate,
-                  firstName,
-                  lastName,
-                });
-                setTyping(false);
-              }}>
-              Искать
-            </Button>
-          </Col>
-        )}
+        <Col>
+          <Button
+            type="primary"
+            loading={isLoading}
+            onClick={() => {
+              onFindPolicyHandler({
+                birthDate,
+                firstName,
+                lastName,
+              });
+              setTyping(false);
+            }}>
+            Искать
+          </Button>
+        </Col>
         <Col lg={5} xl={5} xxl={5}>
           <FormField label={'Вид'} name={`${sectionValuePath}.timeType`}>
             <FastSearchSelect
@@ -272,6 +291,15 @@ const PolicyAddForm: React.FC<FormProps> = ({
               name={`${sectionValuePath}.enp`}
             />
           </FormField>
+        </Col>
+        <Col offset={4}>
+          <Button
+            type="primary"
+            danger
+            disabled={isLoading}
+            onClick={() => form.setFieldValue(sectionValuePath, policyInit)}>
+            Очистить
+          </Button>
         </Col>
       </Row>
       <Row className="form-row" gutter={16}>
