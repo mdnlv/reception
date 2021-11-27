@@ -84,7 +84,7 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
         enp: Yup.string().nullable().test("len", "Неправильно введён номер ЕНП", (val) => {
           const val_length_without_dashes = val?.replace(/-|_/g, "").length;
           console.log(val_length_without_dashes)
-          return ((val_length_without_dashes === 16 || val_length_without_dashes === undefined) ? true : false);
+          return ((val_length_without_dashes === 16 || val_length_without_dashes === undefined));
         }),
         serial: Yup.string()
           .nullable()
@@ -108,13 +108,11 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
   socialStatus: Yup.object({
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('класс'),
-      document: Yup.object().when('statusType', {
-        is: value => value,
-        then: Yup.object({
-          passportType: Yup.string().required('тип документа'),
-          fromDate: Yup.string().required('дата выдачи').nullable(),
-        }),
-      })
+      document: Yup.object({
+        passportType: Yup.string(),
+        fromDate: Yup.string().nullable(),
+      }).test('passport_type', 'тип документа', val => !val?.fromDate)
+        .test('from_date', 'дата выдачи', val => !val?.passportType)
     })),
   }),
 });
