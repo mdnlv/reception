@@ -11,9 +11,13 @@ const App = () => {
   const initialFetch = useInitialFetch();
   const token = useSelector((state: RootState) => state.auth.token);
 
+  // useEffect(() => {
+  //   token && initialFetch();
+  // }, [token]);
+
   useEffect(() => {
-    token && initialFetch();
-  }, [token]);
+    initialFetch();
+  }, []);
 
   return (
     <Router>
