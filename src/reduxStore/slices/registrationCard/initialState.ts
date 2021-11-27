@@ -23,6 +23,7 @@ const initialState: RegistrationCardStateType = {
   snilsFoundMessage: false,
   initialFormState: {
     isUnknown: false,
+    isOperator: window.location.href.includes('user_profile=operator'),
     personal: {
       code: '',
       firstName: '',
@@ -134,6 +135,7 @@ const initialState: RegistrationCardStateType = {
   },
   form: {
     isUnknown: false,
+    isOperator: window.location.href.includes('user_profile=operator'),
     personal: {
       code: '',
       firstName: '',

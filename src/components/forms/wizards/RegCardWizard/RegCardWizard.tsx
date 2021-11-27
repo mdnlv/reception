@@ -98,6 +98,7 @@ const RegCardWizard: React.FC = () => {
       onSubmit={(values) => {
         if (
           values.isUnknown
+            && !values.isOperator
             && (values.personal.sex !== null)
             && (
               !values.personal.birthDate

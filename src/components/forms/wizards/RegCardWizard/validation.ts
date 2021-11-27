@@ -29,7 +29,8 @@ Yup.addMethod(Yup.string, 'comparePolicyDates', function (errorMessage) {
 
 const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape({
   isUnknown: Yup.boolean(),
-  personal: Yup.object().when('isUnknown', {
+  isOperator: Yup.boolean(),
+  personal: Yup.object().when(['isUnknown', 'isOperator'], {
     is: false,
     then: Yup.object({
       lastName: Yup.string().required('фамилия пациента'),
@@ -49,7 +50,7 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
       sex: Yup.boolean().nullable().required('пол'),
     }),
   }),
-  passportGeneral: Yup.object().when('isUnknown', {
+  passportGeneral: Yup.object().when(['isUnknown', 'isOperator'], {
     is: false,
     then: Yup.object({
       contacts: Yup.object({
@@ -63,7 +64,7 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
       }),
     }),
   }),
-  personDocs: Yup.object().when('isUnknown', {
+  personDocs: Yup.object().when(['isUnknown', 'isOperator'], {
     is: false,
     then: Yup.object({
       documents: Yup.array().of(Yup.object({

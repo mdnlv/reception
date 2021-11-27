@@ -39,6 +39,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const formProps = useFormikContext<WizardStateType>();
   const formValues = formProps.values.personal;
   const formIsUnknown = formProps.values.isUnknown;
+  const formIsOperator = formProps.values.isOperator;
   const formUnknownValues = formProps.values.personalUnknown;
   const sectionValuePath = `personal`;
   const addressValuePath = 'passportGeneral.passportInfo.addressRegistration';
@@ -54,8 +55,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('formIsOperator', formIsOperator);
+  // }, [formIsOperator]);
 
   useEffect(() => {
     if (formIsUnknown && formValues.sex !== null) {

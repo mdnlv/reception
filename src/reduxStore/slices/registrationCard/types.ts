@@ -14,6 +14,7 @@ export type KladrDocType = 'documented' | 'registration';
 
 interface InitialRegFormState {
   isUnknown: boolean;
+  isOperator: boolean;
   attachments: AttachmentsFormState;
   passportGeneral: PassportGeneralFormState;
   personDocs: PersonDocsState;
