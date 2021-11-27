@@ -15,7 +15,7 @@ const RegCardValidation: React.FC<ValidationModalProps> = ({
       case 'passportGeneral':
         return 'Паспортные данные';
       case 'personDocs':
-        return 'Прикрепленные документы';
+        return 'Паспортные данные';
       case 'socialStatus':
         return 'Социальный статус';
       case 'employment':
