@@ -32,9 +32,9 @@ const Status: React.FC<StatusProps> = ({
   const [index, setIndex] = useState(0);
   const [cleanable, setCleanable] = useState(false);
 
-  useEffect(() => {
-    console.log('formValues status', formValues);
-  }, [formValues]);
+  // useEffect(() => {
+  //   console.log('formValues status', formValues);
+  // }, [formValues]);
 
   useEffect(() => {
     cleanable && form.setFieldValue(`${sectionValuePath}.[${index}].statusType`, '');
