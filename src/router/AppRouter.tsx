@@ -14,14 +14,15 @@ const MainPage = React.lazy(() => import('../views/MainPage/MainPage'));
 
 const AppRouter: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
-  const getRedirect = (page: JSX.Element) => token ? page : <Redirect to="/auth"/>;
+  // const getRedirect = (page: JSX.Element) => token ? page : <Redirect to="/auth"/>;
 
   return (
     <Switch>
       <Route
         exact
         path="/"
-        render={() => getRedirect(<MainPage/>)}
+        // render={() => getRedirect(<MainPage/>)}
+        render={() => <MainPage/>}
       />
       <Route path={"/auth"}>
         <AuthPage/>
