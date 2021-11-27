@@ -90,10 +90,11 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
           .nullable()
           .required('серия полиса')
           .max(16, "длина серии полиса должна быть максимум 16 символов"),
-        number: Yup.string().test("len", "Неправильно введён номер полиса", (val) => {
-          const val_length_without_dashes = val?.replace(/-|_/g, "").length;
-          return  ((val_length_without_dashes === mask || val_length_without_dashes === undefined || mask === 0) ? true : false);
-        }),
+        // number: Yup.string().test("len", "Неправильно введён номер полиса", (val) => {
+        //   const val_length_without_dashes = val?.replace(/-|_/g, "").length;
+        //   return  ((val_length_without_dashes === mask || val_length_without_dashes === undefined || mask === 0) ? true : false);
+        // }),
+        number: Yup.string().required('номер полиса'),
         cmo: Yup.string().required('СМО'),
         type: Yup.string().required('тип полиса')
       })),
@@ -107,7 +108,6 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
   socialStatus: Yup.object({
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('класс'),
-      statusType: Yup.string().required('тип статуса'),
       document: Yup.object().when('statusType', {
         is: value => value,
         then: Yup.object({

@@ -5,7 +5,7 @@ const transformPolicyResponse = (item: PatientPolicyResponse) => {
     id: item.id,
     cmoArea: item.insuranceArea,
     cmo: item.insurer_id?.toString() ?? '',
-    serial: item.serial,
+    serial: item.policyType_id === 1 ? 'ВС' : item.policyType_id === 3 ? 'ЕП' : item.serial,
     number: item.number,
     timeType: item.policyKind_id?.toString() ?? '',
     from: item.begDate ? item.begDate : '',

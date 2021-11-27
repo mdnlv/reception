@@ -10,6 +10,7 @@ import PatientAttach from "../interfaces/payloads/regCard/PatientAttach";
 import PatientSocStatus from "../interfaces/payloads/regCard/PatientSocStatus";
 
 export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
+  // console.log('window.location.href', window.location.href);
   const {
     addressRegistration,
     documentedAddress,
@@ -118,8 +119,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         policyKind_id: item.timeType ? parseInt(item.timeType) : null,
         begDate: typeof item.from === 'string' ? item.from : toServerFormat(item.from),
         endDate: typeof item.to === 'string' ? item.to : toServerFormat(item.to),
-        note: item.note,
-        name: item.name,
+        note: item.note ? item.note : '',
+        name: item.name ? item.name : '',
         number: item.number,
         serial: item.serial,
         insuranceArea: item.cmoArea,
@@ -134,8 +135,8 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         policyKind_id: item.timeType ? parseInt(item.timeType) : null,
         begDate: toServerFormat(item.from),
         endDate: toServerFormat(item.to),
-        note: item.note,
-        name: item.name,
+        note: item.note ? item.note : '',
+        name: item.name ? item.name : '',
         number: item.number,
         serial: item.serial,
         insuranceArea: item.cmoArea,
@@ -279,7 +280,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       ...socialStatus.socialStatus.map((item) => ({
         ...(item.id && {id: item.id}),
         ...(item.document.id && {document_id: item.document.id}),
-        socStatusType_id: item.statusType ? parseInt(item.statusType) : null,
+        ...(item.statusType && {socStatusType_id: parseInt(item.statusType)}),
         socStatusClass_id: item.class ? parseInt(item.class) : null,
         ...(item.fromDate && {begDate: toServerFormat(item.fromDate)}),
         ...(item.endDate && {endDate: toServerFormat(item.endDate)}),
