@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 
 import {ModalProps, TableItem} from "./types";
 import {detailedOrgStructureSelector, detailedPolicyKindsSelector} from "../../../reduxStore/slices/rb/selectors";
+import './styles.scss';
 
 const PoliciesFound: React.FC<ModalProps> = ({
   isVisible,
@@ -226,17 +227,19 @@ const PoliciesFound: React.FC<ModalProps> = ({
           )}
           {
             showTable && (
-              <Table
-                dataSource={tableData}
-                columns={columns}
-                rowSelection={{
-                  type: 'checkbox',
-                  selectedRowKeys: policyFoundValues,
-                  onChange: (selectedRowKeys) => setPolicyFoundValues(selectedRowKeys as string[])
-                }}
-                pagination={false}
-                bordered
-              />
+              <div className="policies-found__table">
+                <Table
+                  dataSource={tableData}
+                  columns={columns}
+                  rowSelection={{
+                    type: 'checkbox',
+                    selectedRowKeys: policyFoundValues,
+                    onChange: (selectedRowKeys) => setPolicyFoundValues(selectedRowKeys as string[])
+                  }}
+                  pagination={false}
+                  bordered
+                />
+              </div>
             )
           }
         </>
