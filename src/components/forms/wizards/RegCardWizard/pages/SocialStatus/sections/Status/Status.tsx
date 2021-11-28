@@ -79,7 +79,7 @@ const Status: React.FC<StatusProps> = ({
   }, [form.setFieldValue, formValues]);
 
   const propsList = useCallback(
-    (items: ListOptionProps[], listName?: string) => {
+    (items: ListOptionProps[], listName?: string, classId?: string) => {
       if (listName !== 'types') {
         return items.map((item) => (
           <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
@@ -88,7 +88,7 @@ const Status: React.FC<StatusProps> = ({
         ));
       } else {
         const types = items.filter(
-          (item) => item.classId === parseInt(formValues[index]?.class || '0')
+          (item) => item.classId === parseInt(classId || '0')
         );
         return types.map((item) => (
           <Select.Option key={item.id} name={item.name} value={item.id.toString()}>
@@ -135,7 +135,7 @@ const Status: React.FC<StatusProps> = ({
                       filterOption
                       optionFilterProp={'name'}
                       name={getSelectionPath(indexData, 'statusType')}>
-                      {propsList(socialTypesList, 'types')}
+                      {propsList(socialTypesList, 'types', formValues[indexData]?.class)}
                     </FastSearchSelect>
                   </FormField>
                 </Col>
