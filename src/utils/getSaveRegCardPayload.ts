@@ -257,7 +257,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         ...(item.endDate && {endDate: toServerFormat(item.endDate)}),
         notes: item.note || '',
         deleted: 0 as 0,
-        ...(Object.values(item.document).some((a) => a) && {
+        ...(item.document.passportType && {
           document: {
             ...(item.document.id && {id: item.document.id}),
             documentType_id: parseInt(item.document.passportType || ''),

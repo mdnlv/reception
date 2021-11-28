@@ -110,11 +110,17 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
     socialStatus: Yup.array().of(Yup.object({
       class: Yup.string().required('класс'),
       statusType: Yup.string().required('тип статуса'),
-      // document: Yup.object({
-      //   passportType: Yup.string(),
-      //   fromDate: Yup.string().nullable(),
-      // }).test('passport_type', 'тип документа', val => !val?.fromDate)
-      //   .test('from_date', 'дата выдачи', val => !val?.passportType)
+      document: Yup.object({
+        passportType: Yup.string(),
+        fromDate: Yup.string().nullable().when('passportType', {
+          is: value => value,
+          then: Yup.string().required('дата начала')
+        }),
+        number: Yup.string().nullable().when('passportType', {
+          is: value => value,
+          then: Yup.string().required('номер документа')
+        }),
+      })
     })),
   }),
 });
