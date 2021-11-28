@@ -59,31 +59,18 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     client_is_vaht: isShiftWorker ? 1 : 0,
     sanity_check: isUnknown || isOperator ? 1 : 0,
 
+    //@ts-ignore
     client_document_info: !isUnknown ? [
       ...documents.map((item) => ({
         ...(item.id && {id: item.id}),
         documentType_id: parseInt(item.passportType),
-        serial: `${item.serialFirst} ${item.serialSecond}`,
+        ...((item.serialFirst?.trim() || item.serialSecond?.trim())
+              && {serial: `${item.serialFirst} ${item.serialSecond}`}),
         number: item.number || '',
         date: toServerFormat(item.fromDate),
         origin: item.givenBy || '',
         endDate: '2200-12-12',
-      })),
-      ...documentsDeleted.reduce((res: PatientDocument[], item) => {
-        if (item.id) {
-          res.push({
-            id: item.id,
-            documentType_id: parseInt(item.passportType),
-            serial: item.serialFirst?.concat(item.serialSecond) || '',
-            number: item.number || '',
-            date: toServerFormat(item.fromDate),
-            origin: item.givenBy || '',
-            endDate: '2200-12-12',
-            deleted: 1 as 1,
-          });
-        }
-        return res;
-      }, []),
+      }))
     ] : [],
 
     client_contact_info: !isUnknown ? [
@@ -110,6 +97,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }, []),
     ] : [],
 
+    //@ts-ignore
     client_policy_info: !isUnknown ? [
       ...policies.map((item) => ({
         ...(item.id && {id: item.id}),
@@ -126,22 +114,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         deleted: 0 as 0,
         enp: item.enp,
         ...(item.cancelReason && {discharge_id: parseInt(item.cancelReason)}),
-      })),
-      ...policiesDeleted.map((item) => ({
-        ...(item.id && {id: item.id}),
-        insurer_id: parseInt(item.cmo),
-        policyType_id: item.type ? parseInt(item.type) : null,
-        policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-        begDate: toServerFormat(item.from),
-        endDate: toServerFormat(item.to),
-        note: item.note ? item.note : '',
-        name: item.name ? item.name : '',
-        number: item.number,
-        serial: item.serial,
-        insuranceArea: item.cmoArea,
-        deleted: 1 as 1,
-        enp: item.enp,
-        discharge_id: item.cancelReason ? parseInt(item.cancelReason) : null,
       }))
     ] : [],
 

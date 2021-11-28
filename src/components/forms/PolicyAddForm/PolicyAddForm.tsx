@@ -77,8 +77,8 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const [cmoFiltered, setCmoFiltered] = useState([] as ListOptionItem[]);
 
   // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  //   console.log('cmoType', cmoType);
+  // }, [cmoType]);
 
   useEffect(() => {
     !policiesFoundMessage && dispatch(setPolicyBuffer({value: formValues, type: 'setPolicyBuffer'}))
