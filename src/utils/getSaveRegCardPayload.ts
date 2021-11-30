@@ -16,9 +16,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   } = state.registrationCard.form.passportGeneral.passportInfo;
   const {
     documents,
-    documentsDeleted,
     policies,
-    policiesDeleted
   } = state.registrationCard.form.personDocs;
   const {
     code,
@@ -60,7 +58,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     sanity_check: isUnknown || isOperator ? 1 : 0,
 
     //@ts-ignore
-    client_document_info: !isUnknown ? [
+    client_document_info: !isUnknown && !isOperator ? [
       ...documents.map((item) => ({
         ...(item.id && {id: item.id}),
         documentType_id: parseInt(item.passportType),
@@ -73,7 +71,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }))
     ] : [],
 
-    client_contact_info: !isUnknown ? [
+    client_contact_info: !isUnknown && !isOperator ? [
       ...state.registrationCard.form.passportGeneral.contacts.contacts.map((item) => ({
         ...(item.id && {id: item.id}),
         contactType_id: parseInt(item.type),
@@ -98,7 +96,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ] : [],
 
     //@ts-ignore
-    client_policy_info: !isUnknown ? [
+    client_policy_info: !isUnknown && !isOperator ? [
       ...policies.map((item) => ({
         ...(item.id && {id: item.id}),
         insurer_id: parseInt(item.cmo),
@@ -171,7 +169,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
       }] : []),
     ],
 
-    client_relation_info: !isUnknown ? [
+    client_relation_info: !isUnknown && !isOperator ? [
       ...directLinks.directLinks.map((item) => ({
         ...(item.id && {id: item.id}),
         relativeType_id: parseInt(item.patientLink),
@@ -211,7 +209,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ] : [],
 
     //@ts-ignore
-    client_attach_info: !isUnknown ? [
+    client_attach_info: !isUnknown && !isOperator ? [
       ...state.registrationCard.form.attachments.attachments.map(
         (item) => ({
           ...(item.id && {id: item.id}),
@@ -247,7 +245,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ] : [],
 
     //@ts-ignore
-    client_soc_status_info: [
+    client_soc_status_info: !isUnknown && !isOperator ? [
       ...socialStatus.socialStatus.map((item) => ({
         ...(item.id && {id: item.id}),
         ...(item.document.id && {document_id: item.document.id}),
@@ -290,6 +288,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }
         return res;
       }, []),
-    ],
+    ] : [],
   };
 };
