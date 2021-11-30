@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addDays, eachDayOfInterval, isBefore } from 'date-fns';
+import { addDays, eachDayOfInterval} from 'date-fns';
 import {Row, Col, Spin} from "antd";
 import moment from "moment";
 
@@ -35,7 +35,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const { isFiltered } = useSelector((state: RootState) => state.person_tree);
   const storeActionData = useSelector((state: RootState) => state.schedule.actionData);
   const [mode, setMode] = useState<ScheduleTableModeType>('week');
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(moment().clone().startOf('week').toDate());
   const [rangeWeekDate, setRangeWeek] = useState(addDays(currentDate, 13));
   const [currentDay, setCurrentDay] = useState(new Date());
   const [length, setLength] = useState('week');
@@ -78,8 +78,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     );
   }, [rangeWeekDate]);
 
-  const onScheduleDateChange = (date: Date, endDate: Date) => {
-    setCurrentDate(isBefore(date, new Date()) ? new Date() : date);
+  const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
+    setCurrentDate(date);
     setRangeWeek(endDate);
     if(selected.length > 0)
       (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)

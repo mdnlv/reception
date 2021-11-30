@@ -21,8 +21,8 @@ const ScheduleTableHeader: React.FC<HeaderProps> = ({
 }) => {
   const modeChangeHandler =
     (e: RadioChangeEvent) => {
-      e.target.value == 'month' ? onDateChange(currentDate, moment().clone().endOf(e.target.value).toDate())
-      : onDateChange(currentDate, addDays(currentDate, 14));
+      e.target.value == 'month' ? onDateChange(moment().clone().startOf(e.target.value).toDate(), moment().clone().endOf(e.target.value).toDate(), selected)
+      : onDateChange(moment().clone().startOf(e.target.value).toDate(), addDays(moment().clone().endOf(e.target.value).toDate(), 7), selected);
       setLength(e.target.value)
     };
 
