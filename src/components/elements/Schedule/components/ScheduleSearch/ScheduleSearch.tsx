@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, {useMemo, useEffect, useState} from 'react';
 import Radio from 'antd/lib/radio';
 import { CloseOutlined, SlidersOutlined } from '@ant-design/icons/lib';
 import { Button, Card, Input, Row, Checkbox } from 'antd/lib';
@@ -32,6 +32,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
 }) => {
   const dispatch = useDispatch();
   const { isFiltered, query } = useSelector((state: RootState) => state.person_tree);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // useEffect(() => {
   //   console.log('isFiltered', isFiltered);
@@ -39,12 +40,13 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
 
   const submitQuery = () => {
     if (onSearchButtonClick) {
-      onSearchButtonClick(query.trim());
+      onSearchButtonClick(searchQuery.trim());
+      dispatch(setQuery(searchQuery));
     }
   }
 
   const submitQueryOnPress = (event: React.KeyboardEvent) => {
-    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(query.trim());
+    event.key === 'Enter' && onSearchButtonClick && onSearchButtonClick(searchQuery.trim());
   }
 
   const onChangePersonTree = (e: any) => {
@@ -108,9 +110,9 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
               <Input
                 placeholder="Поиск"
                 type={'small'}
-                value={query}
+                value={searchQuery}
                 onChange={(e) => {
-                  dispatch(setQuery(e.target.value));
+                  setSearchQuery(e.target.value);
                 }}
                 onKeyPress={submitQueryOnPress}
               />
@@ -128,6 +130,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
                   onClick={() => {
                     if (onClearSearch) {
                       onClearSearch();
+                      setSearchQuery('');
                     }
                   }}
                   size={'small'}
@@ -142,7 +145,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
     searchCount,
     onClearSearch,
     onTableModeChange,
-    query,
+    searchQuery,
     person_tree
   ]);
 

@@ -42,12 +42,13 @@ const ListItem: React.FC<ItemProps> = ({
 }) => {
   const [togg, setTogg] = useState(toggle);
   const [personIds, setPersonIds] = useState<number[]>(person_list.map((item: any) => item.id));
-  const { isFiltered } = useSelector((state: RootState) => state.person_tree);
+  const { isFiltered, query} = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
 
   // useEffect(() => {
-  //   setTogg(toggle)
-  // },[toggle]);
+  //   console.log('query', query);
+  //   query ? setTogg(true) : setTogg(false);
+  // },[query]);
 
   // useEffect(() => {
   //   console.log('speciality', speciality);
@@ -60,13 +61,17 @@ const ListItem: React.FC<ItemProps> = ({
   useEffect(()=>{
     if(togg) {
       let ids = [id];
-      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty)
-      : personIds.length > 0 && dispatch(fetchItems({
+      if (!isFiltered && groupBy == 'orgStructure_id') {
+        loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty)
+      } else {
+        console.log('personIds', personIds);
+        personIds.length > 0 && dispatch(fetchItems({
           ids: personIds,
           beg_date: moment(currentDate).format('YYYY-MM-DD'),
           end_date: moment(rangeWeekDate).format('YYYY-MM-DD'),
           showEmpty: showEmpty
-      }));
+        }));
+      }
       onToggle(id, personIds);
     }
   },[togg]);
@@ -96,6 +101,7 @@ const ListItem: React.FC<ItemProps> = ({
       <Col span={20}></Col>
 
       {togg && groupBy != 'orgStructure_id' && Object.keys(schedule).map((org: any) => Object.values(schedule[org]).filter((s: any)=> id == s.person.speciality_id).map((item: any)=> {
+        console.log('biba');
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
             <div className={'item-title__name-person'}>
@@ -130,39 +136,43 @@ const ListItem: React.FC<ItemProps> = ({
       }))}
 
       {togg && groupBy == 'orgStructure_id' && schedule[id] && Object.values(schedule[id]).map((item)=> {
-        return(<div className="schedule-list__person">
-          <Col span={4} style={{padding: '4px'}}>
-            <div className={'item-title__name-person'}>{item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}</div>
-            <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
-          </Col>
-          <Col span={20}>
-            {isLoading ? (
-              <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                <Spin/>
-              </div>
-              ) : (
-              <ScheduleActionsRow
-                mode={mode}
-                rangeWeekNum={rangeWeekNum}
-                items={item}
-                currentDate={currentDate}
-                rangeWeekDate={rangeWeekDate}
-                onModeChange={onModeChange}
-                startHour={startHour}
-                endHour={endHour}
-                showModal={showModal}
-                speciality={speciality[item.person.speciality_id]}
-                orgId={id}
-                currentDay={currentDay}
-                setCurrentDay={setCurrentDay}
-                isLoading={isLoading}
-              />
-            )}
-          </Col>
-        </div>)
+        console.log('boba');
+        return(
+          <div className="schedule-list__person">
+            <Col span={4} style={{padding: '4px'}}>
+              <div className={'item-title__name-person'}>{item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}</div>
+              <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
+            </Col>
+            <Col span={20}>
+              {isLoading ? (
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                  <Spin/>
+                </div>
+                ) : (
+                <ScheduleActionsRow
+                  mode={mode}
+                  rangeWeekNum={rangeWeekNum}
+                  items={item}
+                  currentDate={currentDate}
+                  rangeWeekDate={rangeWeekDate}
+                  onModeChange={onModeChange}
+                  startHour={startHour}
+                  endHour={endHour}
+                  showModal={showModal}
+                  speciality={speciality[item.person.speciality_id]}
+                  orgId={id}
+                  currentDay={currentDay}
+                  setCurrentDay={setCurrentDay}
+                  isLoading={isLoading}
+                />
+              )}
+            </Col>
+          </div>
+        )
       })}
 
       {togg && child.length > 0 && child.map((item, index) => {
+        console.log('2 dolboyoba');
         const t = selected.find((sitem: number) => sitem === item.id) || open?.find((sitem: number) => sitem === item.id);
         return (
           <ListItem

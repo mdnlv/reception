@@ -41,7 +41,7 @@ const PolicyAddForm: React.FC<FormProps> = ({
   const firstName = form.values.personal.firstName;
   const lastName = form.values.personal.lastName;
   const birthDate = form.values.personal.birthDate;
-  const docNumber = form.values.personDocs.documents[0].number;
+  const docNumber = form.values.personDocs.documents[0]?.number;
 
   const [policyMask, setPolicyMask] = useState('' as string);
   const [showModal, setShowModal] = useState(false);

@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import { addDays } from 'date-fns';
 import moment from 'moment';
+
 import './styles.scss';
 import {RowProps} from "./types";
+
 import ScheduleActionItem from '../ScheduleActionItem/ScheduleActionItem';
-import {Spin} from "antd";
 
 const ScheduleActionsRow: React.FC<RowProps> = ({
   items,
@@ -24,24 +25,24 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
   const rowContent = useMemo(() => {
     switch (mode) {
       case 'week':
-        return new Array(rangeWeekNum).fill(0).map((_, index) => {   
-          let date = addDays(currentDate, index);  
+        return new Array(rangeWeekNum).fill(0).map((_, index) => {
+          let date = addDays(currentDate, index);
           let sdate = moment(date).format('YYYY-MM-DD');
           return (
             <ScheduleActionItem
               key={sdate}
               width={1}
               info={items.schedule && items.schedule[sdate] ? items.schedule[sdate][0]: null}
-              mode={mode} 
-              onModeChange={onModeChange}    
+              mode={mode}
+              onModeChange={onModeChange}
               date={date}
               setDay={setCurrentDay}
             />
           );
         });
-      
-      case 'day': 
-        if(items.schedule && items.schedule[moment(currentDay).format('YYYY-MM-DD')]) {
+
+      case 'day':
+        if (items.schedule && items.schedule[moment(currentDay).format('YYYY-MM-DD')]) {
           let tickets = items.schedule[moment(currentDay).format('YYYY-MM-DD')][0];
           let dur = moment.duration(tickets.endTime).subtract(moment.duration(tickets.begTime)).asMinutes();
           let k = Math.floor(dur / tickets.planned);
@@ -79,17 +80,17 @@ const ScheduleActionsRow: React.FC<RowProps> = ({
               width={ke}
               mode={mode}
               setDay={setCurrentDay}
-              onModeChange={onModeChange} 
+              onModeChange={onModeChange}
               showModal={showModal}
               orgId={orgId}
             />
           </>
-      } else return <>       
+      } else return <>
         <ScheduleActionItem
           width={1}
           mode={mode}
           setDay={setCurrentDay}
-          onModeChange={onModeChange} 
+          onModeChange={onModeChange}
           showModal={showModal}
           orgId={orgId}
         /></>
