@@ -36,6 +36,9 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const {directLinks, backLinks} = state.registrationCard.form.links;
   const {socialStatus} = state.registrationCard.form;
   const {isUnknown, isOperator} = state.registrationCard.form;
+  const isShiftWorkerStatus = state.registrationCard.form.socialStatus.socialStatus.find(
+    (item) => item.class === '51' && item.statusType === '925'
+  );
   return {
     ...(code && {id: parseInt(code)}),
     firstName,
@@ -54,7 +57,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     SNILSMissing_id: parseInt(SNILSMissingReason) || null,
     weight: weight.toString(),
     growth: height.toString(),
-    client_is_vaht: isShiftWorker ? 1 : 0,
+    client_is_vaht: isShiftWorker || isShiftWorkerStatus ? 1 : 0,
     sanity_check: isUnknown || isOperator ? 1 : 0,
 
     //@ts-ignore
