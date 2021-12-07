@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../reduxStore/store';
 import './styles.scss';
 import { fetchPersonTree, postFiltersDoctors, setQuery } from '../../../reduxStore/slices/personTree/personTreeSlice';
+import {detailedPersonTree} from "../../../reduxStore/slices/personTree/selectors";
 
 import ScheduleSearch from './components/ScheduleSearch/ScheduleSearch';
 import ScheduleTable from './components/ScheduleTable/ScheduleTable';
 
 const Schedule: React.FC<any> = (props) => {
   const dispatch = useDispatch();
-  const personTree = useSelector((state:RootState) => state.person_tree.person_tree);
+  const personTree = useSelector(detailedPersonTree);
   const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
   const [tableMode, setTableMode] = useState<'default' | 'search'>('default');
   const [showEmpty, setShowEmpty] = useState<boolean>(false);
@@ -19,11 +20,18 @@ const Schedule: React.FC<any> = (props) => {
   const [selected, setSelected] = useState<number[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<number[]>([]);
 
+  useEffect(()=>{
+    setSelected([]);
+    setSelectedPerson([]);
+  }, [groupBy]);
+
   const onToggleScheduleRow = useCallback((id: number, person_ids: number[]) => {
     if(!isFiltered) {
       if (!!selected.find((item) => item === id)) {
         setSelected((prevState) => prevState.filter((item) => item !== id));
-        person_ids.map((person_id: number) => {setSelectedPerson((prevState) => prevState.filter((item) => item !== person_id))});
+        person_ids.map((person_id: number) => {
+          setSelectedPerson((prevState) => prevState.filter((item) => item !== person_id))
+        });
       } else {
         setSelected((prevState) => [...prevState, id]);
         setSelectedPerson((prevState) => [...prevState, ...person_ids]);
@@ -34,12 +42,13 @@ const Schedule: React.FC<any> = (props) => {
   },[setSelected, selected]);
 
   const onSearchButtonClick = (query: string) => {
-    dispatch(query == '' ?
-      fetchPersonTree({group_by: groupBy})
-      : postFiltersDoctors({
-        value: query,
-        group_by: groupBy
-      }),
+    dispatch(
+      query == ''
+        ? fetchPersonTree({group_by: groupBy})
+        : postFiltersDoctors({
+            value: query,
+            group_by: groupBy
+          }),
     );
     setSelected([]);
     setSelectedPerson([]);
@@ -59,26 +68,20 @@ const Schedule: React.FC<any> = (props) => {
     setShowEmpty(false)
   }, [groupBy]);
 
-  useEffect(()=>{
-    setSelected([]);
-    setSelectedPerson([]);
-  }, [groupBy]);
-
   const onTableModeChange = useCallback((mode: 'default' | 'search') => {
     setTableMode(mode);
-    onOpenSearch();
   }, []);
 
   // Число найденых врачей
   const tableDoctorsCount = useMemo(() => {
     let count = 0;
-    function calc(arr: any) {
+    const calc = (arr: any) => {
       arr && arr.length > 0 && arr.map((item: any)=>{
         count += item.person_list.length;
         item.child.length > 0 && calc(item.child)
       })
     }
-    function calcS(arr: any) {
+    const calcS = (arr: any) => {
       Object.values(arr).map((item: any)=>{
         count += item.length;
       })
@@ -89,20 +92,15 @@ const Schedule: React.FC<any> = (props) => {
     return count;
   }, [personTree]);
 
-  const onOpenSearch = useCallback(() => {
-  }, []);
-
   return <>
     <ScheduleSearch
       title={'Врачи'}
       mode={tableMode}
-      onOpenSearch={onOpenSearch}
       searchCount={tableDoctorsCount}
       onCloseClick={onCloseForm}
       onSearchButtonClick={onSearchButtonClick}
       onTableModeChange={onTableModeChange}
       onClearSearch={onClearSearch}
-      person_tree={props.person_tree}
       setShowEmpty={setShowEmpty}
       showEmpty={showEmpty}
       groupBy={groupBy}
@@ -113,7 +111,6 @@ const Schedule: React.FC<any> = (props) => {
       setSelected={setSelected}
     >
       <ScheduleTable
-        person_tree={props.person_tree}
         schedules={props.schedules}
         loadSchedule={props.loadSchedule}
         speciality={props.speciality}

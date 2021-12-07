@@ -1,7 +1,6 @@
 import { PersonTree } from "../../types";
 
 export type SearchHeaderProps = {
-  onOpenSearch?(): void;
   title?: string;
   onCloseClick?(): void;
   onSearchButtonClick?(query: string): void;
@@ -11,7 +10,6 @@ export type SearchHeaderProps = {
   onClearSearch?(): void;
   searchCount?: number;
   className?: string;
-  person_tree: PersonTree;
   setShowEmpty(arg:boolean): void;
   showEmpty: boolean;
   groupBy: 'speciality_id' | 'orgStructure_id';

@@ -8,6 +8,7 @@ import {ListProps} from "./types";
 import { clientAppointment } from "../../../../../reduxStore/slices/scheduleSlice/scheduleSlice";
 import { ActionData, ActionPost } from "./components/ScheduleAction/types"
 import {RootState} from "../../../../../reduxStore/store";
+import {detailedPersonTree} from "../../../../../reduxStore/slices/personTree/selectors";
 
 import ListItem from './components/ListItem/ListItem';
 import ScheduleAction from './components/ScheduleAction/ScheduleAction';
@@ -33,7 +34,6 @@ const ScheduleTableList: React.FC<ListProps> = ({
   showEmpty,
   groupBy,
   setGroupBy,
-  person_tree,
   setSelected,
   searchCount,
   clientTableType,
@@ -46,6 +46,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
   const spec = useSelector((state: RootState) => state.rb.rbSpeciality);
   const isFiltered = useSelector((state: RootState) => state.person_tree.isFiltered);
   const currentPatient = useSelector((state: RootState) => state.patients.currentPatient);
+  const personTree = useSelector(detailedPersonTree);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [actionData, setActionData] = useState<ActionData | undefined>(undefined);
@@ -112,7 +113,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
       setEdit(false);
       setDel(false);
     }
-  },[errorStatus, errorMessage])
+  },[errorStatus, errorMessage]);
 
   useEffect(() => {
     if (storeActionData.data) {
@@ -124,35 +125,44 @@ const ScheduleTableList: React.FC<ListProps> = ({
         setSelected(Array.from(set));
       }
     }
-  }, [storeActionData])
+  }, [storeActionData]);
+
+  // useEffect(() => {
+  //   console.log('searchCount', searchCount);
+  // }, [searchCount]);
 
   // Открытие дерева одного врача при поиске
-  useEffect(()=>{
-    setSelected([])
+  useEffect(() => {
+    setSelected([]);
     let a: any = [];
-    function calc(arr: any) {
+    const calc = (arr: any) => {
       let set: any;
-      arr && arr.length > 0 && arr.map((item: any)=>{
-        set = new Set(a.concat(item.orgStructure_ids).concat(item.person_list[0] ?[ item.person_list[0].orgStructure_id] : []));
-        console.log(Array.from(set))
-        setSelected(selected.concat(Array.from(set)))
-        item.child.length > 0 && calc(item.child)
+      arr && arr.length && arr.map((item: any) => {
+        set = new Set(a.concat(item.orgStructure_ids).concat(
+          item.person_list[0]
+            ? [item.person_list[0].orgStructure_id]
+            : []
+        ));
+        console.log(Array.from(set));
+        setSelected(selected.concat(Array.from(set)));
+        item.child.length > 0 && calc(item.child);
       })
-    }
+    };
 
-    function calcS(arr: any) {
+    const calcS = (arr: any) => {
       return Object.keys(arr).map((item: any)=>{
-        return Number(item)
-      })
-    }
+        return Number(item);
+      });
+    };
 
-    if(isFiltered && searchCount && searchCount > 0 && searchCount < 2)
+    if (isFiltered && searchCount === 1) {
       if (groupBy == 'orgStructure_id') {
-        calc(person_tree)
+        calc(personTree);
+      } else {
+        setSelected(Array.from(calcS(personTree)));
       }
-      else
-        setSelected(Array.from(calcS(person_tree)))
-  }, [person_tree])
+    }
+  }, [personTree]);
 
   const showModal = (data: ActionData) => {
     setActionData(data)
@@ -170,8 +180,9 @@ const ScheduleTableList: React.FC<ListProps> = ({
   };
 
   const listContent = useMemo(()=>{
-    if(groupBy == 'orgStructure_id' && Array.isArray(person_tree)) {
-      return person_tree && person_tree.map((item: any, index) => {
+    if(groupBy == 'orgStructure_id' && Array.isArray(personTree)) {
+      // @ts-ignore
+      return personTree && personTree.map((item: any, index) => {
         const toggle = selected.find((sitem) => sitem === item.id) || storeActionData.orgs && storeActionData.orgs.find((sitem: number) => sitem === item.id);
         return (
           <ListItem
@@ -181,7 +192,7 @@ const ScheduleTableList: React.FC<ListProps> = ({
             toggle={!!toggle}
             id={item.id}
             onToggle={onToggleRow}
-            key={item.id + index}
+            key={item.id}
             name={item.name}
             child={item.child}
             person_list={item.person_list}
@@ -205,8 +216,8 @@ const ScheduleTableList: React.FC<ListProps> = ({
           />
         );
     })
-  }  else if(groupBy != 'orgStructure_id' && !Array.isArray(person_tree)) {
-    return person_tree && Object.keys(person_tree).map((item: any, index) => {
+  }  else if(groupBy != 'orgStructure_id' && !Array.isArray(personTree)) {
+    return personTree && Object.keys(personTree).map((item: any, index) => {
       const toggle = selected.find((sitem) => sitem === Number(item));
       return (
         <ListItem
@@ -216,10 +227,10 @@ const ScheduleTableList: React.FC<ListProps> = ({
           toggle={!!toggle}
           id={Number(item)}
           onToggle={onToggleRow}
-          key={Number(item) + index}
+          key={Number(item)}
           name={spec.filter((s:any)=> Number(item) == s.id)[0]? spec.filter((s:any)=> Number(item) == s.id)[0].name : ''}
           child={[]}
-          person_list={person_tree[item]}
+          person_list={personTree[item]}
           selected={selected}
           level={0}
           loadSchedule={loadSchedule}
@@ -238,25 +249,31 @@ const ScheduleTableList: React.FC<ListProps> = ({
         />
       );
     });
-  }},[person_tree, list, mode, isLoading, currentDate, rangeWeekNum, selected, selectedPerson])
+  }},[personTree, list, mode, isLoading, currentDate, rangeWeekNum, selected, selectedPerson])
 
   return <>
     <div className={'schedule-list'}>
       {listContent}
     </div>
-    {isModalVisible ? <ScheduleAction
-      data={actionData}
-      loading={isModalLoading}
-      visible={isModalVisible}
-      setVisible={setIsModalVisible}
-      actionTicket={actTicket}
-      setOldData={setOldData}
-      oldData={oldData}
-      postLoading={postLoading}
-      edit={edit}
-      setResult={setResult}
-      speciality={speciality}
-    /> : null}
+    {
+      isModalVisible
+        ? (
+            <ScheduleAction
+              data={actionData}
+              loading={isModalLoading}
+              visible={isModalVisible}
+              setVisible={setIsModalVisible}
+              actionTicket={actTicket}
+              setOldData={setOldData}
+              oldData={oldData}
+              postLoading={postLoading}
+              edit={edit}
+              setResult={setResult}
+              speciality={speciality}
+            />
+          )
+        : null
+    }
   </>;
 };
 

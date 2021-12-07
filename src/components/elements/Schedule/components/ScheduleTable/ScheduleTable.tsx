@@ -14,7 +14,6 @@ import ScheduleTableHeader from '../ScheduleTableHeader/ScheduleTableHeader';
 import ScheduleTimeline from '../ScheduleTimeline/ScheduleTimeline';
 
 const ScheduleTable: React.FC<ScheduleTableProps> = ({
-  person_tree,
   schedules,
   loadSchedule,
   speciality,
@@ -62,10 +61,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
 
   useEffect(()=>{
     if(storeActionData.data && storeActionData.data.type == 'show') {
-      setCurrentDate(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate())
-      setRangeWeek(addDays(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate(), 13))
-      setCurrentDay(moment(storeActionData.date, 'DD.MM.YYYY').toDate())
-      setMode('day')
+      setCurrentDate(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate());
+      setRangeWeek(addDays(moment(storeActionData.date, 'DD.MM.YYYY').clone().startOf('week').toDate(), 13));
+      setCurrentDay(moment(storeActionData.date, 'DD.MM.YYYY').toDate());
+      setMode('day');
     }
   },[storeActionData]);
 
@@ -81,14 +80,15 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const onScheduleDateChange = (date: Date, endDate: Date, s: number[]) => {
     setCurrentDate(date);
     setRangeWeek(endDate);
-    if(selected.length > 0)
-      (!isFiltered && groupBy == 'orgStructure_id') ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
-      : dispatch(fetchItems({
-        ids: selectedPerson,
-        beg_date: moment(date).format('YYYY-MM-DD'),
-        end_date: moment(endDate).format('YYYY-MM-DD'),
-        showEmpty: showEmpty
-      }));
+    if(selected.length && selectedPerson.length)
+      (!isFiltered && groupBy == 'orgStructure_id')
+        ? loadSchedule(selected, moment(date).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'), showEmpty)
+        : dispatch(fetchItems({
+          ids: selectedPerson,
+          beg_date: moment(date).format('YYYY-MM-DD'),
+          end_date: moment(endDate).format('YYYY-MM-DD'),
+          showEmpty: showEmpty
+        }));
   };
 
   const onScheduleModeChange = useCallback(
@@ -122,14 +122,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
           </Row>
           <Row>
             <Col span={20} offset={4}>
-            <ScheduleTimeline
-              rangeWeekNum={rangeWeekNum}
-              currentDate={currentDate}
-              mode={mode}
-              startHour={startHour}
-              endHour={endHour}
-              length={length}
-            />
+              <ScheduleTimeline
+                rangeWeekNum={rangeWeekNum}
+                currentDate={currentDate}
+                mode={mode}
+                startHour={startHour}
+                endHour={endHour}
+                length={length}
+              />
             </Col>
           </Row>
           <Row>
@@ -142,7 +142,6 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               onToggleRow={onToggleScheduleRow}
               list={schedules}
               mode={mode}
-              person_tree={person_tree}
               loadSchedule={loadSchedule}
               currentDate={currentDate}
               rangeWeekDate={rangeWeekDate}

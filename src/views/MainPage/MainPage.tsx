@@ -33,6 +33,10 @@ const MainPage: FC = () => {
   const [showUserInfo, setShowInfo] = useState(false);
   const [type, setType] = useState<'pre' | 'post'>('post');
 
+  // useEffect(() => {
+  //   console.log('person_tree', person_tree);
+  // }, [person_tree]);
+
   useEffect(() => {
     dispatch(fetchDeferredQueue())
   }, [])

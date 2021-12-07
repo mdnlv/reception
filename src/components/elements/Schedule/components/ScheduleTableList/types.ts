@@ -8,7 +8,6 @@ export interface ListProps {
   selectedPerson: number[];
   mode: ScheduleTableModeType;
   rangeWeekNum: number;
-  person_tree: PersonTree[];
   loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   currentDate: Date;
   rangeWeekDate: Date;

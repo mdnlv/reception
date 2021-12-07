@@ -20,7 +20,7 @@ export interface ScheduleListTicket {
   status: string;
 }
 
-export interface ScheduleTableDate {  
+export interface ScheduleTableDate {
   action_id: number;
   begTime: string;
   busy: boolean;
@@ -63,7 +63,6 @@ export interface Person {
 
 export interface ScheduleTableProps {
   schedules: Schedule;
-  person_tree: PersonTree[];
   loadSchedule(id: number[], beg_date: string, end_date: string, showEmpty: boolean): void;
   speciality: any,
   actionTicket(data: ActionPost, id: number[], beg_date: string, end_date: string): void;

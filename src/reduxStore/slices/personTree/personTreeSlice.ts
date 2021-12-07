@@ -90,7 +90,8 @@ export const postFiltersDoctors = createAsyncThunk(
         return response.data;
       }
     } catch (e) {
-      alert(e)
+      alert(e);
+      thunkAPI.dispatch(setIsFiltered(false));
     } finally {
       thunkAPI.dispatch(setLoading(false));
       thunkAPI.dispatch(setIsFiltered(true));
@@ -140,6 +141,7 @@ const personTreeSlice = createSlice({
     });
     builder.addCase(postFiltersDoctors.fulfilled, (state, action) => {
       state.person_tree = action.payload;
+      state.isFiltered = true;
     });
     builder.addCase(fetchFiltersDoctors.fulfilled, (state, action) => {
       state.foundDoctors = action.payload;

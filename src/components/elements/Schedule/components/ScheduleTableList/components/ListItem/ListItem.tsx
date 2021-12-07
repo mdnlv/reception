@@ -37,29 +37,24 @@ const ListItem: React.FC<ItemProps> = ({
   showEmpty,
   groupBy,
   showOrg,
-  open,
-  key
+  open
 }) => {
-  const [togg, setTogg] = useState(toggle);
-  const [personIds, setPersonIds] = useState<number[]>(person_list.map((item: any) => item.id));
-  const { isFiltered, query} = useSelector((state: RootState) => state.person_tree);
   const dispatch = useDispatch();
+  const {isFiltered} = useSelector((state: RootState) => state.person_tree);
+  const [togg, setTogg] = useState(toggle);
+  const [isToggled, setToggled] = useState(false);
+  const [personIds, setPersonIds] = useState<number[]>(person_list.map((item: any) => item.id));
 
-  // useEffect(() => {
-  //   console.log('query', query);
-  //   query ? setTogg(true) : setTogg(false);
-  // },[query]);
-
-  // useEffect(() => {
-  //   console.log('speciality', speciality);
-  // }, [speciality]);
+  useEffect(() => {
+    console.log('togg', togg);
+  }, [togg]);
 
   useEffect(()=>{
     setPersonIds(person_list.map((item: any) => item.id))
   },[person_list])
 
-  useEffect(()=>{
-    if(togg) {
+  useEffect(() => {
+    if (togg) {
       let ids = [id];
       if (!isFiltered && groupBy == 'orgStructure_id') {
         loadSchedule(ids, moment(currentDate).format('YYYY-MM-DD'), moment(rangeWeekDate).format('YYYY-MM-DD'), showEmpty)
@@ -73,8 +68,10 @@ const ListItem: React.FC<ItemProps> = ({
         }));
       }
       onToggle(id, personIds);
+    } else if (!togg && isFiltered && personIds.length === 1 && !isToggled) {
+      setTogg(true);
     }
-  },[togg]);
+  },[togg, isFiltered, personIds, isToggled]);
 
   return togg && isLoading
     ? (
@@ -83,7 +80,7 @@ const ListItem: React.FC<ItemProps> = ({
         </div>
       )
     :
-  (<div key={key}>
+  (<div>
     <Row className={'schedule-list__item'}>
       <Col span={4} style={{padding: '4px'}}>
         <div className="item-title" style={{paddingLeft: `${level * 14}px`}}>
@@ -91,6 +88,7 @@ const ListItem: React.FC<ItemProps> = ({
             onClick={() => {
               setTogg(!togg);
               //onToggle(id, personIds);
+              setToggled(true);
             }}
             className="item-title__toggle">
             {!togg ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
@@ -101,7 +99,6 @@ const ListItem: React.FC<ItemProps> = ({
       <Col span={20}></Col>
 
       {togg && groupBy != 'orgStructure_id' && Object.keys(schedule).map((org: any) => Object.values(schedule[org]).filter((s: any)=> id == s.person.speciality_id).map((item: any)=> {
-        console.log('biba');
         return(<div className="schedule-list__person">
           <Col span={4} style={{padding: '4px'}}>
             <div className={'item-title__name-person'}>
@@ -135,10 +132,9 @@ const ListItem: React.FC<ItemProps> = ({
         </div>)
       }))}
 
-      {togg && groupBy == 'orgStructure_id' && schedule[id] && Object.values(schedule[id]).map((item)=> {
-        console.log('boba');
+      {togg && groupBy == 'orgStructure_id' && schedule[id] && Object.values(schedule[id]).map((item, index)=> {
         return(
-          <div className="schedule-list__person">
+          <div className="schedule-list__person" key={index}>
             <Col span={4} style={{padding: '4px'}}>
               <div className={'item-title__name-person'}>{item.person.lastName}{item.person.firstName ? ` ${item.person.firstName[0]}.` : ''}{item.person.patrName ? ` ${item.person.patrName[0]}.` : ''}</div>
               <div className={'item-title__spec-person'}>{speciality[item.person.speciality_id]}</div>
@@ -172,7 +168,6 @@ const ListItem: React.FC<ItemProps> = ({
       })}
 
       {togg && child.length > 0 && child.map((item, index) => {
-        console.log('2 dolboyoba');
         const t = selected.find((sitem: number) => sitem === item.id) || open?.find((sitem: number) => sitem === item.id);
         return (
           <ListItem
@@ -182,7 +177,7 @@ const ListItem: React.FC<ItemProps> = ({
             toggle={t}
             id={item.id}
             onToggle={onToggle}
-            key={item.id + index}
+            key={item.id}
             name={item.name}
             child={item.child}
             person_list={item.person_list}

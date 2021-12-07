@@ -198,7 +198,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
               style={{ backgroundColor: '#FFBC7D', cursor: 'pointer', ...widthStyle }}
               className={'schedule-action-item'}
               onClick={onWeekClick}
-            ></div>
+            />
           );
         } else if(!info.busy) {
           return (
@@ -206,7 +206,7 @@ const ScheduleActionItem: React.FC<ItemProps> = ({
               style={{ backgroundColor: '#7fd3fd', cursor: 'pointer', ...widthStyle }}
               className={'schedule-action-item'}
               onClick={onWeekClick}
-            ></div>
+            />
           );
         }
     }

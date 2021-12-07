@@ -8,6 +8,7 @@ import './style.scss';
 import {SearchHeaderProps} from "./types";
 import { RootState } from '../../../../../reduxStore/store';
 import { fetchPersonTree, postFiltersDoctors, setQuery } from '../../../../../reduxStore/slices/personTree/personTreeSlice';
+import {detailedPersonTree} from "../../../../../reduxStore/slices/personTree/selectors";
 
 import DoctorSearchFilterForm from '../../../../forms/DoctorSearchFilterForm/DoctorSearchFilterForm';
 
@@ -20,7 +21,6 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   onClearSearch,
   searchCount,
   children,
-  person_tree,
   setShowEmpty,
   showEmpty,
   groupBy,
@@ -31,7 +31,8 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
   setSelected
 }) => {
   const dispatch = useDispatch();
-  const { isFiltered, query } = useSelector((state: RootState) => state.person_tree);
+  const { isFiltered } = useSelector((state: RootState) => state.person_tree);
+  const personTree = useSelector(detailedPersonTree);
   const [searchQuery, setSearchQuery] = useState('');
 
   // useEffect(() => {
@@ -120,7 +121,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
                 Поиск
               </Button>
             </div>
-            {searchCount !== undefined && isFiltered? (
+            {searchCount !== undefined && isFiltered ? (
               <div className={'table__top-search-results'}>
                 {`Найдено: (${searchCount})`}
                 <Button
@@ -146,7 +147,7 @@ const ScheduleSearch: React.FC<SearchHeaderProps> = ({
     onClearSearch,
     onTableModeChange,
     searchQuery,
-    person_tree
+    personTree
   ]);
 
   return (
