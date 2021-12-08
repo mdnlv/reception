@@ -8,7 +8,7 @@ export default interface NewPatientPayload {
   lastName: string;
   firstName: string;
   patrName: string;
-  birthDate: string ;
+  birthDate: string | null;
   birthTime: string | undefined;
   sex: 1 | 2 | null;
   SNILS: string | undefined;

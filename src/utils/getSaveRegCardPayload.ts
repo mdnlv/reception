@@ -39,13 +39,16 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
   const isShiftWorkerStatus = state.registrationCard.form.socialStatus.socialStatus.find(
     (item) => item.class === '51' && item.statusType === '925'
   );
+  const birthDateServer = typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate;
   return {
     ...(code && {id: parseInt(code)}),
     firstName,
     lastName,
     patrName,
     birthPlace,
-    birthDate: typeof birthDate !== 'string' ? toServerFormat(birthDate) : birthDate,
+    birthDate: !isOperator
+      ? birthDateServer
+      : birthDate ? birthDateServer : null,
     ...(birthTime && {birthTime}),
     sex: sex === 0 ? 1 : sex !== null ? 2 : null,
     ...(!parseInt(SNILSMissingReason)
@@ -61,18 +64,27 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     sanity_check: isUnknown || isOperator ? 1 : 0,
 
     //@ts-ignore
-    client_document_info: [
-      ...documents.map((item) => ({
-        ...(item.id && {id: item.id}),
-        documentType_id: parseInt(item.passportType),
-        ...((item.serialFirst?.trim() || item.serialSecond?.trim())
-              && {serial: `${item.serialFirst?.trim()} ${item.serialSecond.trim()}`}),
-        number: item.number || '',
-        date: toServerFormat(item.fromDate),
-        origin: item.givenBy || '',
-        endDate: '2200-12-12',
-      }))
-    ],
+    client_document_info:
+      isOperator
+        && !documents[0].passportType
+        && !documents[0].serialFirst
+        && !documents[0].serialSecond
+        && !documents[0].number
+        && !documents[0].fromDate
+        && !documents[0].givenBy
+          ? []
+          : [
+              ...documents.map((item) => ({
+                ...(item.id && {id: item.id}),
+                documentType_id: parseInt(item.passportType),
+                ...((item.serialFirst?.trim() || item.serialSecond?.trim())
+                      && {serial: `${item.serialFirst?.trim()} ${item.serialSecond.trim()}`}),
+                number: item.number || '',
+                date: toServerFormat(item.fromDate),
+                origin: item.givenBy || '',
+                endDate: '2200-12-12',
+              }))
+            ],
 
     client_contact_info: [
       ...state.registrationCard.form.passportGeneral.contacts.contacts.map((item) => ({
@@ -99,24 +111,39 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     ],
 
     //@ts-ignore
-    client_policy_info: [
-      ...policies.map((item) => ({
-        ...(item.id && {id: item.id}),
-        insurer_id: parseInt(item.cmo),
-        policyType_id: item.type ? parseInt(item.type) : null,
-        policyKind_id: item.timeType ? parseInt(item.timeType) : null,
-        begDate: typeof item.from === 'string' ? item.from : toServerFormat(item.from),
-        endDate: typeof item.to === 'string' ? item.to : toServerFormat(item.to),
-        note: item.note ? item.note : '',
-        name: item.name ? item.name : '',
-        number: item.number,
-        serial: item.serial,
-        insuranceArea: item.cmoArea,
-        deleted: 0 as 0,
-        enp: item.enp,
-        ...(item.cancelReason && {discharge_id: parseInt(item.cancelReason)}),
-      }))
-    ],
+    client_policy_info:
+      isOperator
+        && !policies[0].cmo
+        && !policies[0].type
+        && !policies[0].timeType
+        && !policies[0].from
+        && !policies[0].to
+        && !policies[0].note
+        && !policies[0].name
+        && !policies[0].number
+        && !policies[0].serial
+        && !policies[0].cmoArea
+        && !policies[0].enp
+        && !policies[0].cancelReason
+          ? []
+          : [
+              ...policies.map((item) => ({
+                ...(item.id && {id: item.id}),
+                insurer_id: parseInt(item.cmo),
+                policyType_id: item.type ? parseInt(item.type) : null,
+                policyKind_id: item.timeType ? parseInt(item.timeType) : null,
+                begDate: typeof item.from === 'string' ? item.from : toServerFormat(item.from),
+                endDate: typeof item.to === 'string' ? item.to : toServerFormat(item.to),
+                note: item.note ? item.note : '',
+                name: item.name ? item.name : '',
+                number: item.number,
+                serial: item.serial,
+                insuranceArea: item.cmoArea,
+                deleted: 0 as 0,
+                enp: item.enp,
+                ...(item.cancelReason && {discharge_id: parseInt(item.cancelReason)}),
+              }))
+            ],
 
     client_address_info: [
       {
