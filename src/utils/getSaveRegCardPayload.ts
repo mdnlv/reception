@@ -114,7 +114,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
     client_policy_info:
       isOperator
         && !policies[0].cmo
-        && !policies[0].type
         && !policies[0].timeType
         && !policies[0].from
         && !policies[0].to
@@ -122,7 +121,6 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         && !policies[0].name
         && !policies[0].number
         && !policies[0].serial
-        && !policies[0].cmoArea
         && !policies[0].enp
         && !policies[0].cancelReason
           ? []
