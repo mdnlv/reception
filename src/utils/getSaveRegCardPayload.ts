@@ -57,7 +57,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
                   ? snils.replace(/-|\s+/g, "")
                   : undefined
              }),
-    SNILSMissing_id: parseInt(SNILSMissingReason) || null,
+    ...(SNILSMissingReason && {SNILSMissing_id: parseInt(SNILSMissingReason)}),
     weight: weight.toString(),
     growth: height.toString(),
     client_is_vaht: isShiftWorker || isShiftWorkerStatus ? 1 : 0,
