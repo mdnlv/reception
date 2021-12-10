@@ -1,12 +1,12 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 
 import apiInstance from '../api';
 import PatientResponse from '../../interfaces/responses/patients/patient';
 import FilterSearchPatientResponse from '../../interfaces/responses/patients/filterSearchPatient';
 import FindPolicyParams from '../../interfaces/payloads/patients/findPatientPolicy';
-import FindSnilsParams from "../../interfaces/payloads/patients/findPatientSnils";
+import FindDocParams from "../../interfaces/payloads/patients/findPatientDoc";
 import NewPatientPayload from '../../interfaces/payloads/patients/newPatient';
-import PatientSnilsSearchResponse from "../../interfaces/responses/patients/patientSnilsSearch";
+import PatientDocSearchResponse from "../../interfaces/responses/patients/patientDocSearch";
 import PatientPolicySearchResponse from "../../interfaces/responses/patients/patientPolicySearch";
 
 export default {
@@ -77,8 +77,8 @@ export default {
     );
   },
 
-  findPatientSnils(params: FindSnilsParams, token: string): Promise<AxiosResponse<PatientSnilsSearchResponse>> {
-    return apiInstance.post('/client/tfoms/getSnils', params, {
+  findPatientDoc(params: FindDocParams, token: string): Promise<AxiosResponse<PatientDocSearchResponse>> {
+    return apiInstance.post('/client/tfoms/getDocumentsHmao', params, {
         headers: {
           Authorization: `Bearer ${token}`
         }

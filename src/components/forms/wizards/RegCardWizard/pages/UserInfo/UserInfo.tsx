@@ -14,23 +14,24 @@ import RadioGroup from 'antd/es/radio/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {format} from "date-fns";
 import moment, {Moment} from 'moment';
+
 import {WizardStateType} from '../../types';
 import UserInfoTypes, {ListOptionItem} from "./types";
 import {fetchRbRelationTypes} from "../../../../../../reduxStore/slices/rb/rbSlice";
 import {RootState} from "../../../../../../reduxStore/store";
 import {
-  findPatientSnils,
-  setSnilsFoundMessage
+  findPatientDoc,
+  setDocFoundMessage
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {detailedSNILSMissingReasonsSelector} from "../../../../../../reduxStore/slices/rb/selectors";
-//import TimePicker from 'react-time-picker';
+import {DocFound as DocFoundType} from "../../../../../../interfaces/responses/patients/patientDocSearch";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
 import FastMaskedInput from '../../../../components/fields/FastMaskedInput/FastMaskedInput';
 import FastInputNumber from '../../../../components/fields/FastInputNumber/FastInpuNumber';
 import FastDatePicker from '../../../../components/fields/FastDatePicker/FastDatePicker';
-import SnilsFound from "../../../../../modals/SnilsFound/SnilsFound";
+import DocFound from "../../../../../modals/DocFound/DocFound";
 import UnknownInfo from "../../../../../modals/UnknownInfo/UnknownInfo";
 import FastSearchSelect from "../../../../components/fields/FastSearchSelect/FastSearchSelect";
 
@@ -43,15 +44,16 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const formUnknownValues = formProps.values.personalUnknown;
   const sectionValuePath = `personal`;
   const addressValuePath = 'passportGeneral.passportInfo.addressRegistration';
+  const docValuePath = 'personDocs.documents[0]';
   const [_, meta] = useField<string>(`${sectionValuePath}.sex`);
-  const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundSnils);
-  const {snilsFoundMessage} = useSelector(
+  const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundDocs);
+  const {docFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
   );
   const SNILSMissingReasons = useSelector(detailedSNILSMissingReasonsSelector);
   const {SNILSMissingReasons: isSMRLoading} = useSelector((state: RootState) => state.rb.loading);
   const [snilsWarning, setSnilsWarning] = useState('');
-  const [errorSnilsMessage, setErrorSnilsMessage] = useState(false);
+  const [errorDocMessage, setErrorDocMessage] = useState(false);
   const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
@@ -122,16 +124,17 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     window.top.postMessage(JSON.stringify({action:'closeDialog'}),'*');
   }, []);
 
-  const onSnilsSearch = () => {
+  const onDocSearch = () => {
     if (!formValues.firstName && !formValues.lastName && !formValues.patrName) {
-      setErrorSnilsMessage(true);
+      setErrorDocMessage(true);
     } else {
-      //@ts-ignore
-      dispatch(findPatientSnils({
+      dispatch(findPatientDoc({
         ...(formValues.birthDate
-          // @ts-ignore
-          && {birthDate: typeof formValues.birthDate === 'string' ? formValues.birthDate : format(formValues.birthDate as Date, 'yyyy-MM-dd')}),
-        ...(formValues.sex && {sex: formValues.sex}),
+              && {
+                    birthDate: typeof formValues.birthDate === 'string'
+                      ? formValues.birthDate
+                      : format(formValues.birthDate as Date, 'yyyy-MM-dd')
+                 }),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         patrName: formValues.patrName,
@@ -139,14 +142,21 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     }
   };
 
-  const onSelectSnils = (value: string) => {
-    formProps.setFieldValue(`${sectionValuePath}.snils`, value);
-    dispatch(setSnilsFoundMessage(false));
+  const onSelectDoc = (item: DocFoundType) => {
+    formProps.setFieldValue(`${docValuePath}.passportType`, item.documentType_id.toString());
+    formProps.setFieldValue(`${docValuePath}.serialFirst`, item.serial.split(' ').shift());
+    formProps.setFieldValue(`${docValuePath}.serialSecond`, item.serial.substring(item.serial.indexOf(' ') + 1));
+    formProps.setFieldValue(`${docValuePath}.number`, item.number);
+    formProps.setFieldValue(
+      `${docValuePath}.fromDate`, item.date ? format(new Date(item.date), 'dd.MM.yyyy') : ''
+    );
+    formProps.setFieldValue(`${docValuePath}.givenBy`, item.origin);
+    dispatch(setDocFoundMessage(false));
   };
 
-  const onCloseSnilsFoundModal = () => {
-    dispatch(setSnilsFoundMessage(false));
-    setErrorSnilsMessage(false);
+  const onCloseDocFoundModal = () => {
+    dispatch(setDocFoundMessage(false));
+    setErrorDocMessage(false);
   };
 
   const onSubmitUnknown = () => {
@@ -230,110 +240,94 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
                  );
                 }}
               />
-              {/*<TimePicker
-                name={`personal.birthTime`}
-                value={formValues.birthTime}
-                onChange={(value) => formProps.setFieldValue(`${sectionValuePath}.birthTime`, value)}
-                clockIcon={null}
-                format="H:mm"
-                disableClock
-              />*/}
             </FormField>
           </Col>
         </Row>
-        <div className="registration-form__general">
-          <Row gutter={16}>
-            <Col>
-              <FormField label="Рост" name={'personal.height'}>
-                <FastInputNumber min={0} name={'personal.height'} />
-              </FormField>
-            </Col>
-            <Col>
-              <FormField label="Вес" name={'personal.weight'}>
-                <FastInputNumber min={0} name={'personal.weight'} />
-              </FormField>
-            </Col>
-            <Col style={
-              meta.error && meta.touched
-                ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.1)'}
-                : {}
-            }>
-              <FormField label="Пол" name={`${sectionValuePath}.sex`}>
-                <RadioGroup
-                  name={`${sectionValuePath}.sex`}
-                  value={formProps.values.personal.sex}
-                  onChange={formProps.handleChange}>
-                  <Radio value={0}>М</Radio>
-                  <Radio value={1}>Ж</Radio>
-                </RadioGroup>
-              </FormField>
-            </Col>
-          </Row>
-        </div>
+        <Divider/>
+        <Button type="primary" loading={isLoading} onClick={onDocSearch}>
+          Искать документы
+        </Button>
+        <Divider/>
+        <Row gutter={16}>
+          <Col>
+            <FormField label="Рост" name={'personal.height'}>
+              <FastInputNumber min={0} name={'personal.height'} />
+            </FormField>
+          </Col>
+          <Col>
+            <FormField label="Вес" name={'personal.weight'}>
+              <FastInputNumber min={0} name={'personal.weight'} />
+            </FormField>
+          </Col>
+          <Col style={
+            meta.error && meta.touched
+              ? {border: '1px solid red', backgroundColor: 'rgba(255, 0, 0, 0.1)'}
+              : {}
+          }>
+            <FormField label="Пол" name={`${sectionValuePath}.sex`}>
+              <RadioGroup
+                name={`${sectionValuePath}.sex`}
+                value={formProps.values.personal.sex}
+                onChange={formProps.handleChange}>
+                <Radio value={0}>М</Radio>
+                <Radio value={1}>Ж</Radio>
+              </RadioGroup>
+            </FormField>
+          </Col>
+        </Row>
         <Divider />
-        <div>
-          <Row gutter={16} align={'top'}>
-            <Col span={16}>
-              <FormField label="СНИЛС" name={'personal.snils'}>
-                <Row>
-                  <Col span={16}>
-                    <FastMaskedInput
-                      name={'personal.snils'}
-                      mask="111-111-111 11"
-                    />
-                  </Col>
-                  <Col span={8}>
-                    <Button type="primary" loading={isLoading} onClick={onSnilsSearch}>
-                      Искать
-                    </Button>
-                  </Col>
-                </Row>
-                {snilsWarning && snilsAlert()}
-              </FormField>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={24}>
-              <FormField label="Причина отсутствия СНИЛС" name={`${sectionValuePath}.SNILSMissingReason`}>
-                <FastSearchSelect
-                  name={`${sectionValuePath}.SNILSMissingReason`}
-                  allowClear
-                  loading={isSMRLoading}
-                  disabled={isSMRLoading}
-                >
-                  {getPropsOptions(SNILSMissingReasons)}
-                </FastSearchSelect>
-              </FormField>
-            </Col>
-          </Row>
-        </div>
+        <Row gutter={16} align={'top'}>
+          <Col span={16}>
+            <FormField label="СНИЛС" name={'personal.snils'}>
+              <Row>
+                <Col span={16}>
+                  <FastMaskedInput
+                    name={'personal.snils'}
+                    mask="111-111-111 11"
+                  />
+                </Col>
+              </Row>
+              {snilsWarning && snilsAlert()}
+            </FormField>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={24}>
+            <FormField label="Причина отсутствия СНИЛС" name={`${sectionValuePath}.SNILSMissingReason`}>
+              <FastSearchSelect
+                name={`${sectionValuePath}.SNILSMissingReason`}
+                allowClear
+                loading={isSMRLoading}
+                disabled={isSMRLoading}
+              >
+                {getPropsOptions(SNILSMissingReasons)}
+              </FastSearchSelect>
+            </FormField>
+          </Col>
+        </Row>
         <Divider />
-        <div>
-          <FormField label="Место рождения">
-            <FastInput name={'personal.birthPlace'} />
-          </FormField>
-        </div>
+        <FormField label="Место рождения">
+          <FastInput name={'personal.birthPlace'} />
+        </FormField>
         <Divider />
-        <div className="registration-form__actions">
-          <Button type="link" danger onClick={onCancel}>
-            Отмена
-          </Button>
-          <Button
-            onClick={() => {
-              Object.keys(errors).length > 0 && onOpen();
-              formProps.handleSubmit();
-            }}
-            className="save-btn">
-            Сохранить
-          </Button>
-        </div>
+        <Button type="link" danger onClick={onCancel}>
+          Отмена
+        </Button>
+        <Button
+          onClick={() => {
+            Object.keys(errors).length > 0 && onOpen();
+            formProps.handleSubmit();
+          }}
+          className="save-btn">
+          Сохранить
+        </Button>
       </form>
-      <SnilsFound
-        isVisible={snilsFoundMessage && !isLoading}
-        onClose={onCloseSnilsFoundModal}
+      <DocFound
+        isVisible={docFoundMessage && !isLoading}
+        onClose={onCloseDocFoundModal}
         data={items}
-        onOk={onSelectSnils}
-        errorMessage={errorSnilsMessage}
+        onOk={onSelectDoc}
+        errorMessage={errorDocMessage}
       />
       <UnknownInfo
         isVisible={showUnknown}

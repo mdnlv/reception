@@ -20,7 +20,7 @@ const initialState: RegistrationCardStateType = {
   },
   patientRegId: undefined,
   policiesFoundMessage: false,
-  snilsFoundMessage: false,
+  docFoundMessage: false,
   initialFormState: {
     isUnknown: false,
     isOperator: window.location.href.includes('user_profile=operator'),
@@ -298,7 +298,7 @@ const initialState: RegistrationCardStateType = {
       item: null,
       isLoading: false
     },
-    foundSnils: {
+    foundDocs: {
       items: [],
       isLoading: false,
     },

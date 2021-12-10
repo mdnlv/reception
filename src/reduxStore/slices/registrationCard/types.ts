@@ -1,14 +1,14 @@
 import AttachmentsFormState from "../../../components/forms/AttachmentsForm/types";
 import PassportGeneralFormState, {
   PassportPolicyType,
-  PassportAddressType,
-  SnilsFound
+  PassportAddressType
 } from "../../../components/forms/wizards/RegCardWizard/pages/PassportGeneral/types";
 import PersonDocsState from "../../../components/forms/PersonDocumentsForm/types";
 import LinksFormState from "../../../components/forms/PersonLinksForm/types";
 import KladrItem from "../../../types/data/KladrItem";
 import KladrStreet from "../../../types/data/KladrStreet";
 import {FormState as SocialStatusFormState} from "../../../components/forms/SocialStatusForm/types";
+import {DocFound} from "../../../interfaces/responses/patients/patientDocSearch";
 
 export type KladrDocType = 'documented' | 'registration';
 
@@ -68,8 +68,8 @@ interface FormState extends InitialRegFormState {
     item: PassportPolicyType | null;
     isLoading: boolean;
   };
-  foundSnils: {
-    items: SnilsFound[];
+  foundDocs: {
+    items: DocFound[];
     isLoading: boolean;
   };
 }
@@ -81,7 +81,7 @@ export interface RegistrationCardStateType {
   };
   patientRegId?: number;
   policiesFoundMessage: boolean;
-  snilsFoundMessage: boolean;
+  docFoundMessage: boolean;
   initialFormState: InitialRegFormState;
   form: FormState;
 }

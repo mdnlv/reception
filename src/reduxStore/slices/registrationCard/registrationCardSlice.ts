@@ -4,7 +4,7 @@ import {format, parseISO} from "date-fns";
 import initialState from './initialState';
 import RbService from '../../../services/RbService';
 import FindPolicyParams from '../../../interfaces/payloads/patients/findPatientPolicy';
-import FindSnilsParams from "../../../interfaces/payloads/patients/findPatientSnils";
+import FindDocParams from "../../../interfaces/payloads/patients/findPatientDoc";
 import PatientsService from '../../../services/PatientsService/PatientsService';
 import transformPolicySearchResponse from "../../utils/transform/transformPolicySearchResponse";
 import { WizardStateType } from '../../../components/forms/wizards/RegCardWizard/types';
@@ -18,7 +18,7 @@ import {
 import {getSaveRegCardPayload} from "../../../utils/getSaveRegCardPayload";
 import PatientAddedResponse from "../../../interfaces/responses/patients/patientAdded";
 import {PersonLink} from "../../../components/forms/PersonLinksForm/types";
-import moment from 'moment';
+import {getRandomNumberId} from "../../../utils/getRandomNumberId";
 
 export const fetchIdPatient = createAsyncThunk(
   `patients/fetchIdPatient`,
@@ -166,23 +166,23 @@ export const findPatientPolicy = createAsyncThunk(
   },
 );
 
-export const findPatientSnils = createAsyncThunk(
-  'registrationCard/findPatientSnils',
+export const findPatientDoc = createAsyncThunk(
+  'registrationCard/findPatientDoc',
   async (
-    payload: FindSnilsParams,
+    payload: FindDocParams,
     thunkAPI,
   ) => {
     const state = thunkAPI.getState() as RootState;
     thunkAPI.dispatch(
-      setFindSnilsLoading(true),
+      setFindDocLoading(true),
     );
     try {
-      const response = await PatientsService.findPatientSnils(payload, state.auth.token);
+      const response = await PatientsService.findPatientDoc(payload, state.auth.token);
       if (response.status === 200) {
         thunkAPI.dispatch(
-          setSnilsFoundMessage(true),
+          setDocFoundMessage(true),
         );
-        if (response.data.patients) {
+        if (response.data.documents) {
           return response.data;
         } else {
           return null;
@@ -191,11 +191,11 @@ export const findPatientSnils = createAsyncThunk(
     } catch (e) {
       alert(e);
       thunkAPI.dispatch(
-        setFindSnilsLoading(false),
+        setFindDocLoading(false),
       );
     } finally {
       thunkAPI.dispatch(
-        setFindSnilsLoading(false),
+        setFindDocLoading(false),
       );
     }
   },
@@ -296,11 +296,11 @@ const registrationCardSlice = createSlice({
     ) => {
       state.form.foundPolicies.isLoading = action.payload;
     },
-    setFindSnilsLoading: (
+    setFindDocLoading: (
       state,
       action: PayloadAction<boolean>,
     ) => {
-      state.form.foundSnils.isLoading = action.payload;
+      state.form.foundDocs.isLoading = action.payload;
     },
     setPoliciesFoundMessage: (
       state,
@@ -308,11 +308,11 @@ const registrationCardSlice = createSlice({
     ) => {
       state.policiesFoundMessage = action.payload;
     },
-    setSnilsFoundMessage: (
+    setDocFoundMessage: (
       state,
       action: PayloadAction<boolean>
     ) => {
-      state.snilsFoundMessage = action.payload;
+      state.docFoundMessage = action.payload;
     },
     setKladrLoading: (
       state,
@@ -650,18 +650,14 @@ const registrationCardSlice = createSlice({
             : null;
       }
     });
-    builder.addCase(findPatientSnils.fulfilled, (state, action) => {
+    builder.addCase(findPatientDoc.fulfilled, (state, action) => {
       if (action.payload) {
-        state.form.foundSnils.items = action.payload.patients.map((item) => ({
-          key: item.PatientId,
-          firstName: item.FirstName,
-          lastName: item.LastName,
-          patrName: item.MiddleName,
-          birthDate: moment(item.BirthDate).format('DD.MM.YYYY'),
-          snils: item.snils || '',
+        state.form.foundDocs.items = action.payload.documents.map((item) => ({
+          key: getRandomNumberId(8),
+          ...item
         }));
       } else {
-        state.form.foundSnils.items = []
+        state.form.foundDocs.items = []
       }
     });
   },
@@ -673,7 +669,7 @@ export const {
   setKladrNestedLoading,
   setKladrStreetsLoading,
   setFindPolicyLoading,
-  setFindSnilsLoading,
+  setFindDocLoading,
   setLoading,
   setDocumentedBuffer,
   setPolicyBuffer,
@@ -682,7 +678,7 @@ export const {
   resetRegCard,
   resetPoliciesFound,
   setPoliciesFoundMessage,
-  setSnilsFoundMessage,
+  setDocFoundMessage,
 } = registrationCardSlice.actions;
 
 export default registrationCardSlice;
