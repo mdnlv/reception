@@ -122,7 +122,7 @@ const Attachments: React.FC = () => {
                       </FastSearchSelect>
                     </FormField>
                   </Col>
-                  <Col xl={8} xxl={5}>
+                  <Col xl={8} xxl={8}>
                     <FormField label={LABELS.UNIT} name={getSelectionPath(index, 'unit')}>
                       <TreeSelectField
                         // @ts-ignore
