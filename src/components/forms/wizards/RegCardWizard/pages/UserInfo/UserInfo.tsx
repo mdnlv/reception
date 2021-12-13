@@ -57,8 +57,8 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const [tbValue, setTbValue] = useState<Moment | undefined>();
 
   // useEffect(() => {
-  //   console.log('formIsOperator', formIsOperator);
-  // }, [formIsOperator]);
+  //   console.log('items', items);
+  // }, [items]);
 
   useEffect(() => {
     if (formIsUnknown && formValues.sex !== null) {
@@ -125,7 +125,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   }, []);
 
   const onDocSearch = () => {
-    if (!formValues.firstName && !formValues.lastName && !formValues.patrName) {
+    if (!formValues.lastName) {
       setErrorDocMessage(true);
     } else {
       dispatch(findPatientDoc({

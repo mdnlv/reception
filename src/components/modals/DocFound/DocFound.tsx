@@ -39,7 +39,7 @@ const DocFound: React.FC<ModalProps> = ({
       title: 'Дата выдачи',
       dataIndex: 'date',
       key: 'date',
-      render: (text: string) => format(new Date(text), 'dd.MM.yyyy'),
+      render: (text: string) => text ? format(new Date(text), 'dd.MM.yyyy') : '',
     },
     {
       title: 'Кем выдан',
@@ -113,7 +113,7 @@ const DocFound: React.FC<ModalProps> = ({
           />
         ) : errorMessage ? (
           <Row justify={'center'}>
-            <Typography.Text strong style={{fontSize: 18}}>Запрос без параметров ФИО не поддерживается!</Typography.Text>
+            <Typography.Text strong style={{fontSize: 18}}>Запрос без фамилии пациента не поддерживается!</Typography.Text>
           </Row>
         ) : (
           <Row justify={'center'}>
