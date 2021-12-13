@@ -300,6 +300,7 @@ const initialState: RegistrationCardStateType = {
     },
     foundDocs: {
       items: [],
+      snils: [],
       isLoading: false,
     },
   },

@@ -1,24 +1,65 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, Row, Button, Typography, Table} from "antd";
+import {Modal, Row, Button, Typography, Table, Divider} from "antd";
 import {useSelector} from "react-redux";
 import {format} from "date-fns";
+import {useFormikContext} from "formik";
 
-import {ModalProps} from "./types";
+import {ModalProps, SnilsType} from "./types";
 import {DocFound as DocFoundType} from "../../../interfaces/responses/patients/patientDocSearch";
 import {detailedDocumentTypesSelector} from "../../../reduxStore/slices/rb/selectors";
+import {WizardStateType} from "../../forms/wizards/RegCardWizard/types";
+import {getRandomNumberId} from "../../../utils/getRandomNumberId";
+import './styles.scss';
 
 const DocFound: React.FC<ModalProps> = ({
   isVisible,
   onClose,
   data,
   onOk,
-  errorMessage
+  errorMessage,
+  snils
 }) => {
+  const formProps = useFormikContext<WizardStateType>();
   const documentTypesList = useSelector(detailedDocumentTypesSelector);
-  const [currentKey, setCurrentKey] = useState(null as number | null);
-  const [currentItem, setCurrentItem] = useState(null as DocFoundType | null);
+  const firstName = formProps.values.personal.firstName;
+  const lastName = formProps.values.personal.lastName;
+  const patrName = formProps.values.personal.patrName;
+  const birthDate = formProps.values.personal.birthDate;
+  const [snilsData, setSnilsData] = useState([] as SnilsType[]);
+  const [currentDocKey, setCurrentDocKey] = useState(null as number | null);
+  const [currentDocItem, setCurrentDocItem] = useState(null as DocFoundType | null);
+  const [currentSnilsKey, setCurrentSnilsKey] = useState(null as number | null);
+  const [currentSnilsItem, setCurrentSnilsItem] = useState(null as SnilsType | null);
 
-  const columns = [
+  const snilsColumns = [
+    {
+      title: 'Фамилия',
+      dataIndex: 'lastName',
+      key: 'lastName',
+    },
+    {
+      title: 'Имя',
+      dataIndex: 'firstName',
+      key: 'firstName',
+    },
+    {
+      title: 'Отчество',
+      dataIndex: 'patrName',
+      key: 'patrName',
+    },
+    {
+      title: 'Дата рождения',
+      dataIndex: 'birthDate',
+      key: 'birthDate',
+    },
+    {
+      title: 'СНИЛС',
+      dataIndex: 'snils',
+      key: 'snils',
+    }
+  ];
+
+  const docColumns = [
     {
       title: 'Тип документа',
       dataIndex: 'documentType_id',
@@ -53,22 +94,48 @@ const DocFound: React.FC<ModalProps> = ({
   // }, [documentTypesList]);
 
   useEffect(() => {
+    if (snils.length) {
+      const res = snils.map((item) => ({
+        key: getRandomNumberId(8),
+        lastName,
+        firstName,
+        patrName,
+        birthDate: birthDate as string,
+        snils: item
+      }));
+      setSnilsData(res);
+    }
+  }, [snils]);
+
+  useEffect(() => {
     if (data.length) {
-      setCurrentKey(data[0]?.key as number);
-      setCurrentItem(data[0]);
+      setCurrentDocKey(data[0]?.key as number);
+      setCurrentDocItem(data[0]);
     }
   }, [data]);
 
   useEffect(() => {
-    const res = data.find((item) => item.key === currentKey);
-    setCurrentItem(res || null);
-  }, [currentKey]);
+    if (snilsData.length) {
+      setCurrentSnilsKey(snilsData[0]?.key as number);
+      setCurrentSnilsItem(snilsData[0]);
+    }
+  }, [snilsData]);
+
+  useEffect(() => {
+    const res = data.find((item) => item.key === currentDocKey);
+    setCurrentDocItem(res || null);
+  }, [currentDocKey]);
+
+  useEffect(() => {
+    const res = snilsData.find((item) => item.key === currentSnilsKey);
+    setCurrentSnilsItem(res || null);
+  }, [currentSnilsKey]);
 
   return (
     <Modal
       wrapClassName='app-modal'
-      width={'50%'}
-      title="Поиск документа"
+      width={'66%'}
+      title="Поиск документов"
       onCancel={onClose}
       visible={isVisible || errorMessage}
       footer={
@@ -78,8 +145,12 @@ const DocFound: React.FC<ModalProps> = ({
             <div>
               <Button
                 type="primary"
-                disabled={!currentItem}
-                onClick={currentItem ? () => onOk(currentItem) : undefined}
+                disabled={!currentDocItem && !currentSnilsItem}
+                onClick={
+                  currentDocItem
+                    ? () => onOk({doc: currentDocItem, snils: currentSnilsItem?.snils || ''})
+                    : undefined
+                }
                 className={'save-btn'}
               >
                 Да
@@ -92,28 +163,54 @@ const DocFound: React.FC<ModalProps> = ({
         ) : null
       }
     >
-      {data.length && isVisible ? (
-          <Table
-            dataSource={data}
-            columns={columns}
-            pagination={false}
-            rowSelection={{
-              type: 'radio',
-              selectedRowKeys: currentKey ? [currentKey] : [],
-              onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentKey(selectedKey[0]),
-            }}
-            onRow={(record) => {
-              return {
-                onClick: () => {
-                  setCurrentKey(record.key as number);
-                  setCurrentItem(record);
-                },
-              };
-            }}
-          />
+      {(data.length || snils.length) && isVisible ? (
+          <div className="doc-found__modal">
+            <Typography.Text style={{fontSize: 16}}>СНИЛС</Typography.Text>
+            <Table
+              dataSource={snilsData}
+              columns={snilsColumns}
+              pagination={false}
+              rowSelection={{
+                type: 'radio',
+                selectedRowKeys: currentSnilsKey ? [currentSnilsKey] : [],
+                onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentSnilsKey(selectedKey[0]),
+              }}
+              onRow={(record) => {
+                return {
+                  onClick: () => {
+                    setCurrentSnilsKey(record.key as number);
+                    setCurrentSnilsItem(record);
+                  },
+                };
+              }}
+            />
+            <Divider />
+            <Divider />
+            <Typography.Text style={{fontSize: 16}}>Паспорт гражданина РФ</Typography.Text>
+            <Table
+              dataSource={data}
+              columns={docColumns}
+              pagination={false}
+              rowSelection={{
+                type: 'radio',
+                selectedRowKeys: currentDocKey ? [currentDocKey] : [],
+                onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentDocKey(selectedKey[0]),
+              }}
+              onRow={(record) => {
+                return {
+                  onClick: () => {
+                    setCurrentDocKey(record.key as number);
+                    setCurrentDocItem(record);
+                  },
+                };
+              }}
+            />
+          </div>
         ) : errorMessage ? (
           <Row justify={'center'}>
-            <Typography.Text strong style={{fontSize: 18}}>Запрос без фамилии пациента не поддерживается!</Typography.Text>
+            <Typography.Text strong style={{fontSize: 18}}>
+              Запрос без фамилии, имени и даты рождения не поддерживается!
+            </Typography.Text>
           </Row>
         ) : (
           <Row justify={'center'}>

@@ -182,7 +182,7 @@ export const findPatientDoc = createAsyncThunk(
         thunkAPI.dispatch(
           setDocFoundMessage(true),
         );
-        if (response.data.documents) {
+        if (response.data) {
           return response.data;
         } else {
           return null;
@@ -650,6 +650,7 @@ const registrationCardSlice = createSlice({
           key: getRandomNumberId(8),
           ...item
         }));
+        state.form.foundDocs.snils = action.payload.snils;
       } else {
         state.form.foundDocs.items = []
       }

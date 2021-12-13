@@ -6,4 +6,5 @@ export interface DocFound extends PatientDocumentResponse {
 
 export default interface PatientDocSearchResponse {
   documents: DocFound[];
+  snils: string[];
 }

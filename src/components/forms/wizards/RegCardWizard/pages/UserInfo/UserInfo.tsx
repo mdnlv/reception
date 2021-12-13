@@ -24,7 +24,7 @@ import {
   setDocFoundMessage
 } from '../../../../../../reduxStore/slices/registrationCard/registrationCardSlice';
 import {detailedSNILSMissingReasonsSelector} from "../../../../../../reduxStore/slices/rb/selectors";
-import {DocFound as DocFoundType} from "../../../../../../interfaces/responses/patients/patientDocSearch";
+import {ModalResult} from "../../../../../modals/DocFound/types";
 
 import FormField from '../../../../components/FormField/FormField';
 import FastInput from '../../../../components/fields/FastInput/FastInput';
@@ -46,7 +46,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   const addressValuePath = 'passportGeneral.passportInfo.addressRegistration';
   const docValuePath = 'personDocs.documents[0]';
   const [_, meta] = useField<string>(`${sectionValuePath}.sex`);
-  const {isLoading, items} = useSelector((state: RootState) => state.registrationCard.form.foundDocs);
+  const {isLoading, items, snils} = useSelector((state: RootState) => state.registrationCard.form.foundDocs);
   const {docFoundMessage} = useSelector(
     (state: RootState) => state.registrationCard,
   );
@@ -125,7 +125,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   }, []);
 
   const onDocSearch = () => {
-    if (!formValues.lastName) {
+    if (!formValues.lastName && !formValues.firstName && !formValues.birthDate) {
       setErrorDocMessage(true);
     } else {
       dispatch(findPatientDoc({
@@ -142,13 +142,18 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     }
   };
 
-  const onSelectDoc = (item: DocFoundType) => {
-    formProps.setFieldValue(`${docValuePath}.passportType`, item.documentType_id.toString());
-    formProps.setFieldValue(`${docValuePath}.serialFirst`, item.serial.split(' ').shift());
-    formProps.setFieldValue(`${docValuePath}.serialSecond`, item.serial.substring(item.serial.indexOf(' ') + 1));
-    formProps.setFieldValue(`${docValuePath}.number`, item.number);
-    formProps.setFieldValue(`${docValuePath}.fromDate`, item.date);
-    formProps.setFieldValue(`${docValuePath}.givenBy`, item.origin);
+  const onSelectDoc = (res: ModalResult) => {
+    if (res.doc) {
+      formProps.setFieldValue(`${docValuePath}.passportType`, res.doc.documentType_id.toString());
+      formProps.setFieldValue(`${docValuePath}.serialFirst`, res.doc.serial.split(' ').shift());
+      formProps.setFieldValue(`${docValuePath}.serialSecond`, res.doc.serial.substring(res.doc.serial.indexOf(' ') + 1));
+      formProps.setFieldValue(`${docValuePath}.number`, res.doc.number);
+      formProps.setFieldValue(`${docValuePath}.fromDate`, res.doc.date);
+      formProps.setFieldValue(`${docValuePath}.givenBy`, res.doc.origin);
+    }
+    if (res.snils) {
+      formProps.setFieldValue(`${sectionValuePath}.snils`, res.snils);
+    }
     dispatch(setDocFoundMessage(false));
   };
 
@@ -324,6 +329,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
         isVisible={docFoundMessage && !isLoading}
         onClose={onCloseDocFoundModal}
         data={items}
+        snils={snils}
         onOk={onSelectDoc}
         errorMessage={errorDocMessage}
       />

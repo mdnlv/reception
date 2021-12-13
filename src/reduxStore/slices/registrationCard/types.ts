@@ -70,6 +70,7 @@ interface FormState extends InitialRegFormState {
   };
   foundDocs: {
     items: DocFound[];
+    snils: string[];
     isLoading: boolean;
   };
 }
