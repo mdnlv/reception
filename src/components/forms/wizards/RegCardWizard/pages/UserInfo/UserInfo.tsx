@@ -147,9 +147,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
     formProps.setFieldValue(`${docValuePath}.serialFirst`, item.serial.split(' ').shift());
     formProps.setFieldValue(`${docValuePath}.serialSecond`, item.serial.substring(item.serial.indexOf(' ') + 1));
     formProps.setFieldValue(`${docValuePath}.number`, item.number);
-    formProps.setFieldValue(
-      `${docValuePath}.fromDate`, item.date ? format(new Date(item.date), 'dd.MM.yyyy') : ''
-    );
+    formProps.setFieldValue(`${docValuePath}.fromDate`, item.date);
     formProps.setFieldValue(`${docValuePath}.givenBy`, item.origin);
     dispatch(setDocFoundMessage(false));
   };
