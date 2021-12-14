@@ -51,6 +51,7 @@ const DocFound: React.FC<ModalProps> = ({
       title: 'Дата рождения',
       dataIndex: 'birthDate',
       key: 'birthDate',
+      render: (text: string) => text ? format(new Date(text), 'dd.MM.yyyy') : '',
     },
     {
       title: 'СНИЛС',
