@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {CloseCircleOutlined} from "@ant-design/icons";
 import {format, parseISO} from "date-fns";
 
-import {fetchQueryPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
+import {fetchQueryPatients, resetFoundPatients} from '../../../../../../reduxStore/slices/patients/patientsSlice'
 import {DROPDOWN_TITLE, LABELS} from "./types";
 import {WizardStateType} from "../../types";
 import RbRelationTypeResponse from '../../../../../../interfaces/responses/rb/rbRelationType';
@@ -23,7 +23,7 @@ const Links: React.FC = () => {
   const form = useFormikContext<WizardStateType>();
   const formValues = form.values.links;
   const sectionValuePath = `links`;
-  const patientSex = form.values.personal.sex
+  const patientSex = form.values.personal.sex;
   const  {rbRelationTypesDirectLink, rbRelationTypesRelativeLink} = useSelector((state: RootState) => state.rb);
   const patients = useSelector((state: RootState) => state.patients.foundPatients);
   const {relationTypes} = useSelector((state: RootState) => state.rb.loading);
@@ -33,9 +33,9 @@ const Links: React.FC = () => {
   //   // console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
   // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
   //
-  // useEffect(() => {
-  //   console.log('formValues', formValues);
-  // }, [formValues]);
+  useEffect(() => {
+    dispatch(resetFoundPatients());
+  }, [formValues.directLinks.directLinks.length, formValues.backLinks.backLinks.length]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {

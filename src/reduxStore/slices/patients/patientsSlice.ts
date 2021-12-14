@@ -86,13 +86,16 @@ const patientSlice = createSlice({
     setLoadingFound: (state, action: PayloadAction<boolean>) => {
       state.isLoadingFound = action.payload;
     },
-    clearFoundPatients: (state, _) => {
+    clearFoundPatients: (state) => {
       state.foundPatients = [];
     },
     setIsSearchingPatients: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload;
       state.currentPatient = 0;
     },
+    resetFoundPatients: (state) => {
+      state.foundPatients = [];
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPatients.fulfilled, (state, action) => {
@@ -123,5 +126,6 @@ export const {
   setCurrentPatient,
   clearFoundPatients,
   setIsSearchingPatients,
+  resetFoundPatients,
 } = patientSlice.actions;
 export default patientSlice;
