@@ -125,7 +125,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
   }, []);
 
   const onDocSearch = () => {
-    if (!formValues.lastName && !formValues.firstName && !formValues.birthDate) {
+    if (!formValues.lastName || !formValues.firstName || !formValues.birthDate) {
       setErrorDocMessage(true);
     } else {
       dispatch(findPatientDoc({
