@@ -33,9 +33,9 @@ const Links: React.FC = () => {
   //   // console.log('rbRelationTypesRelativeLink', rbRelationTypesRelativeLink);
   // }, [rbRelationTypesDirectLink, rbRelationTypesRelativeLink]);
   //
-  useEffect(() => {
-    dispatch(resetFoundPatients());
-  }, [formValues.directLinks.directLinks.length, formValues.backLinks.backLinks.length]);
+  // useEffect(() => {
+  //   dispatch(resetFoundPatients());
+  // }, [formValues.directLinks.directLinks.length, formValues.backLinks.backLinks.length]);
 
   const onAddAttachment = useCallback((type:'backLinks' | 'directLinks' ) => {
     const links  = {
@@ -140,6 +140,7 @@ const Links: React.FC = () => {
                                 const result = patients.find((item) => item.fullName === value);
                                 form.setFieldValue(`links.directLinks.directLinks[${index}].forwardRef`, result?.code);
                               }}
+                              onFocus={() => dispatch(resetFoundPatients())}
                             />
                           </FormField>
                         </Col>
@@ -197,6 +198,7 @@ const Links: React.FC = () => {
                             const result = patients.find((item) => item.fullName === value);
                             form.setFieldValue(`links.backLinks.backLinks[${index}].forwardRef`, result?.code);
                           }}
+                          onFocus={() => dispatch(resetFoundPatients())}
                         />
                       </FormField>
                     </Col>

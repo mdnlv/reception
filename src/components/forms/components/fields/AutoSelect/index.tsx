@@ -23,6 +23,7 @@ const AutoCompleteInput: React.FC<any> = (props) => {
         debounced.callback(val)
         props.onChangeValue(val)
       }}
+      onFocus={props.onFocus}
     />
   );
 };
