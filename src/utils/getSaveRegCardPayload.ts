@@ -168,7 +168,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         isVillager: addressRegistration.isVillager ? +addressRegistration.isVillager as 0 | 1 : 0 as 0,
         isIdenticalAddresses: addressRegistration.isDocumentedAddress ? 1 : 0,
         freeInput: !addressRegistration.isKLADR ? addressRegistration.freeInput : '',
-        type: 0,
+        type: 1,
       },
       ...(!state.registrationCard.form.passportGeneral.passportInfo.addressRegistration.isDocumentedAddress ? [{
         ...(documentedAddress.id && {id: documentedAddress.id}),
@@ -193,7 +193,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
         }),
         isVillager: documentedAddress.isVillager ? +documentedAddress.isVillager as 0 | 1 : 0 as 0,
         freeInput: !documentedAddress.isKLADR ? documentedAddress.freeInput : '',
-        type: 1,
+        type: 0,
       }] : []),
     ],
 

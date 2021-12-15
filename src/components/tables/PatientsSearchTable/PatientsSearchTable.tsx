@@ -70,7 +70,7 @@ const PatientsSearchTable: React.FC = () => {
 
   const onClearSearch = useCallback(() => {
     dispatch(setIsSearchingPatients(false));
-    dispatch(clearFoundPatients({}));
+    dispatch(clearFoundPatients());
   }, []);
 
   const tablePatientsCount = useMemo(() => {
