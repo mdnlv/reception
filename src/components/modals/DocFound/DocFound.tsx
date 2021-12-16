@@ -148,7 +148,7 @@ const DocFound: React.FC<ModalProps> = ({
                 type="primary"
                 disabled={!currentDocItem && !currentSnilsItem}
                 onClick={
-                  currentDocItem
+                  currentDocItem || currentSnilsItem
                     ? () => onOk({doc: currentDocItem, snils: currentSnilsItem?.snils || ''})
                     : undefined
                 }
