@@ -108,19 +108,19 @@ const DocFound: React.FC<ModalProps> = ({
     }
   }, [snils]);
 
-  useEffect(() => {
-    if (data.length) {
-      setCurrentDocKey(data[0]?.key as number);
-      setCurrentDocItem(data[0]);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (snilsData.length) {
-      setCurrentSnilsKey(snilsData[0]?.key as number);
-      setCurrentSnilsItem(snilsData[0]);
-    }
-  }, [snilsData]);
+  // useEffect(() => {
+  //   if (data.length) {
+  //     setCurrentDocKey(data[0]?.key as number);
+  //     setCurrentDocItem(data[0]);
+  //   }
+  // }, [data]);
+  //
+  // useEffect(() => {
+  //   if (snilsData.length) {
+  //     setCurrentSnilsKey(snilsData[0]?.key as number);
+  //     setCurrentSnilsItem(snilsData[0]);
+  //   }
+  // }, [snilsData]);
 
   useEffect(() => {
     const res = data.find((item) => item.key === currentDocKey);
