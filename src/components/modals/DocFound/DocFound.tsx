@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, Row, Button, Typography, Table, Divider} from "antd";
+import {Modal, Row, Button, Typography, Table, Checkbox} from "antd";
 import {useSelector} from "react-redux";
 import {format} from "date-fns";
 import {useFormikContext} from "formik";
@@ -30,6 +30,8 @@ const DocFound: React.FC<ModalProps> = ({
   const [currentDocItem, setCurrentDocItem] = useState(null as DocFoundType | null);
   const [currentSnilsKey, setCurrentSnilsKey] = useState(null as number | null);
   const [currentSnilsItem, setCurrentSnilsItem] = useState(null as SnilsType | null);
+  const [snilsChoice, setSnilsChoice] = useState(false);
+  const [docChoice, setDocChoice] = useState(false);
 
   const snilsColumns = [
     {
@@ -91,8 +93,8 @@ const DocFound: React.FC<ModalProps> = ({
   ];
 
   // useEffect(() => {
-  //   console.log('documentTypesList', documentTypesList);
-  // }, [documentTypesList]);
+  //   console.log('snilsData', snilsData);
+  // }, [snilsData]);
 
   useEffect(() => {
     if (snils.length) {
@@ -102,25 +104,11 @@ const DocFound: React.FC<ModalProps> = ({
         firstName,
         patrName,
         birthDate: birthDate as string,
-        snils: item
+        snils: item,
       }));
       setSnilsData(res);
     }
   }, [snils]);
-
-  // useEffect(() => {
-  //   if (data.length) {
-  //     setCurrentDocKey(data[0]?.key as number);
-  //     setCurrentDocItem(data[0]);
-  //   }
-  // }, [data]);
-  //
-  // useEffect(() => {
-  //   if (snilsData.length) {
-  //     setCurrentSnilsKey(snilsData[0]?.key as number);
-  //     setCurrentSnilsItem(snilsData[0]);
-  //   }
-  // }, [snilsData]);
 
   useEffect(() => {
     const res = data.find((item) => item.key === currentDocKey);
@@ -131,6 +119,37 @@ const DocFound: React.FC<ModalProps> = ({
     const res = snilsData.find((item) => item.key === currentSnilsKey);
     setCurrentSnilsItem(res || null);
   }, [currentSnilsKey]);
+
+  const onChangeSnilsChoice = (e: any) => {
+    setSnilsChoice(e.target.checked);
+    if (!e.target.checked) {
+      setCurrentSnilsKey(null);
+      setCurrentSnilsItem(null);
+    }
+  };
+
+  const onChangeDocChoice = (e: any) => {
+    setDocChoice(e.target.checked);
+    if (!e.target.checked) {
+      setCurrentDocKey(null);
+      setCurrentDocItem(null);
+    }
+  };
+
+  const onSubmitModal = () => {
+    setSnilsChoice(false);
+    setDocChoice(false);
+    onOk({
+      doc: docChoice ? currentDocItem : null,
+      snils: snilsChoice && currentSnilsItem?.snils ? currentSnilsItem?.snils : ''
+    });
+  };
+
+  const onCloseModal = () => {
+    setSnilsChoice(false);
+    setDocChoice(false);
+    onClose();
+  };
 
   return (
     <Modal
@@ -147,16 +166,12 @@ const DocFound: React.FC<ModalProps> = ({
               <Button
                 type="primary"
                 disabled={!currentDocItem && !currentSnilsItem}
-                onClick={
-                  currentDocItem || currentSnilsItem
-                    ? () => onOk({doc: currentDocItem, snils: currentSnilsItem?.snils || ''})
-                    : undefined
-                }
+                onClick={currentDocItem || currentSnilsItem ? onSubmitModal : undefined}
                 className={'save-btn'}
               >
                 Да
               </Button>
-              <Button type="primary" onClick={onClose} danger>
+              <Button type="primary" onClick={onCloseModal} danger>
                 Нет
               </Button>
             </div>
@@ -166,46 +181,60 @@ const DocFound: React.FC<ModalProps> = ({
     >
       {(data.length || snils.length) && isVisible ? (
           <div className="doc-found__modal">
-            <Typography.Text style={{fontSize: 16}}>СНИЛС</Typography.Text>
-            <Table
-              dataSource={snilsData}
-              columns={snilsColumns}
-              pagination={false}
-              rowSelection={{
-                type: 'radio',
-                selectedRowKeys: currentSnilsKey ? [currentSnilsKey] : [],
-                onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentSnilsKey(selectedKey[0]),
-              }}
-              onRow={(record) => {
-                return {
-                  onClick: () => {
-                    setCurrentSnilsKey(record.key as number);
-                    setCurrentSnilsItem(record);
-                  },
-                };
-              }}
-            />
-            <Divider />
-            <Divider />
-            <Typography.Text style={{fontSize: 16}}>Паспорт гражданина РФ</Typography.Text>
-            <Table
-              dataSource={data}
-              columns={docColumns}
-              pagination={false}
-              rowSelection={{
-                type: 'radio',
-                selectedRowKeys: currentDocKey ? [currentDocKey] : [],
-                onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentDocKey(selectedKey[0]),
-              }}
-              onRow={(record) => {
-                return {
-                  onClick: () => {
-                    setCurrentDocKey(record.key as number);
-                    setCurrentDocItem(record);
-                  },
-                };
-              }}
-            />
+            <Checkbox checked={snilsChoice} onChange={onChangeSnilsChoice}>
+              <Typography.Text style={{fontSize: 15}}>СНИЛС</Typography.Text>
+            </Checkbox>
+            <div className={!snilsChoice ? 'doc-found__table--disabled' : ''}>
+              <Table
+                dataSource={snilsData}
+                columns={snilsColumns}
+                pagination={false}
+                rowSelection={{
+                  type: 'radio',
+                  selectedRowKeys: currentSnilsKey ? [currentSnilsKey] : [],
+                  onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentSnilsKey(selectedKey[0]),
+                  getCheckboxProps: () => ({
+                    disabled: !snilsChoice
+                  })
+                }}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      setCurrentSnilsKey(record.key as number);
+                      setCurrentSnilsItem(record);
+                    },
+                  };
+                }}
+              />
+            </div>
+            <br/>
+            <br/>
+            <Checkbox checked={docChoice} onChange={onChangeDocChoice}>
+              <Typography.Text style={{fontSize: 15}}>Паспорт гражданина РФ</Typography.Text>
+            </Checkbox>
+            <div className={!docChoice ? 'doc-found__table--disabled' : ''}>
+              <Table
+                dataSource={data}
+                columns={docColumns}
+                pagination={false}
+                rowSelection={{
+                  type: 'radio',
+                  selectedRowKeys: currentDocKey ? [currentDocKey] : [],
+                  onChange: (selectedKey) => typeof selectedKey[0] === 'number' && setCurrentDocKey(selectedKey[0]),
+                  getCheckboxProps: () => ({
+                    disabled: !docChoice
+                  })
+                }}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      setCurrentDocKey(record.key as number);
+                      setCurrentDocItem(record);
+                    },
+                  };
+                }}
+              />
+            </div>
           </div>
         ) : errorMessage ? (
           <Row justify={'center'}>
