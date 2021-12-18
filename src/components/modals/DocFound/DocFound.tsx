@@ -207,7 +207,7 @@ const DocFound: React.FC<ModalProps> = ({
             <br/>
             <br/>
             <Checkbox checked={docChoice} onChange={onChangeDocChoice}>
-              <Typography.Text style={{fontSize: 15}}>Паспорт гражданина РФ</Typography.Text>
+              <Typography.Text style={{fontSize: 15}}>Документ</Typography.Text>
             </Checkbox>
             <div className={!docChoice ? 'doc-found__table--disabled' : ''}>
               <Table
