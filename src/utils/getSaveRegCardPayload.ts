@@ -138,7 +138,7 @@ export const getSaveRegCardPayload = (state: RootState): NewPatientPayload => {
                 serial: item.serial,
                 insuranceArea: item.cmoArea,
                 deleted: 0 as 0,
-                enp: item.enp,
+                ...(item.enp && {enp: item.enp}),
                 ...(item.cancelReason && {discharge_id: parseInt(item.cancelReason)}),
               }))
             ],
