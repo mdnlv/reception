@@ -30,8 +30,8 @@ const DocFound: React.FC<ModalProps> = ({
   const [currentDocItem, setCurrentDocItem] = useState(null as DocFoundType | null);
   const [currentSnilsKey, setCurrentSnilsKey] = useState(null as number | null);
   const [currentSnilsItem, setCurrentSnilsItem] = useState(null as SnilsType | null);
-  const [snilsChoice, setSnilsChoice] = useState(false);
-  const [docChoice, setDocChoice] = useState(false);
+  const [snilsChoice, setSnilsChoice] = useState(true);
+  const [docChoice, setDocChoice] = useState(true);
 
   const snilsColumns = [
     {
@@ -111,6 +111,20 @@ const DocFound: React.FC<ModalProps> = ({
   }, [snils]);
 
   useEffect(() => {
+    if (data.length === 1) {
+      setCurrentDocKey(data[0]?.key as number);
+      setCurrentDocItem(data[0]);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (snilsData.length === 1) {
+      setCurrentSnilsKey(snilsData[0]?.key as number);
+      setCurrentSnilsItem(snilsData[0]);
+    }
+  }, [snilsData]);
+
+  useEffect(() => {
     const res = data.find((item) => item.key === currentDocKey);
     setCurrentDocItem(res || null);
   }, [currentDocKey]);
@@ -120,25 +134,10 @@ const DocFound: React.FC<ModalProps> = ({
     setCurrentSnilsItem(res || null);
   }, [currentSnilsKey]);
 
-  const onChangeSnilsChoice = (e: any) => {
-    setSnilsChoice(e.target.checked);
-    if (!e.target.checked) {
-      setCurrentSnilsKey(null);
-      setCurrentSnilsItem(null);
-    }
-  };
-
-  const onChangeDocChoice = (e: any) => {
-    setDocChoice(e.target.checked);
-    if (!e.target.checked) {
-      setCurrentDocKey(null);
-      setCurrentDocItem(null);
-    }
-  };
+  const onChangeSnilsChoice = (e: any) => setSnilsChoice(e.target.checked);
+  const onChangeDocChoice = (e: any) => setDocChoice(e.target.checked);
 
   const onSubmitModal = () => {
-    setSnilsChoice(false);
-    setDocChoice(false);
     onOk({
       doc: docChoice ? currentDocItem : null,
       snils: snilsChoice && currentSnilsItem?.snils ? currentSnilsItem?.snils : ''
@@ -146,8 +145,6 @@ const DocFound: React.FC<ModalProps> = ({
   };
 
   const onCloseModal = () => {
-    setSnilsChoice(false);
-    setDocChoice(false);
     onClose();
   };
 
@@ -165,7 +162,7 @@ const DocFound: React.FC<ModalProps> = ({
             <div>
               <Button
                 type="primary"
-                disabled={!currentDocItem && !currentSnilsItem}
+                disabled={(!currentDocItem || !docChoice) && (!currentSnilsItem || !snilsChoice)}
                 onClick={currentDocItem || currentSnilsItem ? onSubmitModal : undefined}
                 className={'save-btn'}
               >

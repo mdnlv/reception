@@ -137,7 +137,7 @@ const UserInfo: React.FC<UserInfoTypes> = ({errors, onOpen, showUnknown, setShow
                  }),
         firstName: formValues.firstName,
         lastName: formValues.lastName,
-        patrName: formValues.patrName,
+        ...(formValues.patrName && {patrName: formValues.patrName}),
       }));
     }
   };
