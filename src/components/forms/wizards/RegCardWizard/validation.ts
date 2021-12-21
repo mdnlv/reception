@@ -69,6 +69,10 @@ const valid = (mask: number) => Yup.object<FormikErrors<ValidationType>>().shape
     then: Yup.object({
       documents: Yup.array().of(Yup.object({
         passportType: Yup.string().required('тип документа'),
+        serialFirst: Yup.string().required('серия документа'),
+        number: Yup.string()
+          .required('номер документа')
+          .max(16, "длина номера документа должна быть максимум 16 символов"),
         fromDate: Yup.string().required('дата выдачи').nullable(),
       })),
       policies: Yup.array().of(Yup.object({
