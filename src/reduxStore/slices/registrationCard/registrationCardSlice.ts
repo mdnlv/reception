@@ -647,8 +647,9 @@ const registrationCardSlice = createSlice({
     builder.addCase(findPatientDoc.fulfilled, (state, action) => {
       if (action.payload) {
         state.form.foundDocs.items = action.payload.documents.map((item) => ({
+          ...item,
           key: getRandomNumberId(8),
-          ...item
+          serial: item.serial.includes(' ') ? item.serial : item.serial.substr(0,2) + ' ' + item.serial.substr(2,4),
         }));
         state.form.foundDocs.snils = action.payload.snils;
       } else {
